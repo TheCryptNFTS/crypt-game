@@ -68,19 +68,19 @@ export function createFixedTestMatch(): MatchState {
       P1: {
         id: "P1",
         health: 30,
-        energy: 1,
-        maxEnergy: 1,
+        energy: 2,
+        maxEnergy: 2,
         commanderId: "cmd_stone_warden",
         deck: [
           "unit_stone_brute",
-          "eq_heavy_plate",
-          "unit_shield_bearer",
-          "eq_riot_shield"
+          "eq_riot_shield",
+          "unit_stone_guard",
+          "eq_heavy_plate"
         ],
         hand: [
+          "unit_shield_bearer",
           "unit_stone_guard",
-          "eq_heavy_plate",
-          "unit_stone_brute"
+          "eq_heavy_plate"
         ],
         discard: [],
         board: {

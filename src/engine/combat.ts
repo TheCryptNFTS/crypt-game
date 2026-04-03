@@ -15,6 +15,18 @@ function applyDamage(unit: UnitInPlay, rawDamage: number): UnitInPlay {
   };
 }
 
+function defenderHasFrontTaunt(match: MatchState, defenderId: PlayerId): boolean {
+  return match.players[defenderId].board.front.some((unit) =>
+    unit.keywords.includes("TAUNT")
+  );
+}
+
+function defenderFrontTauntIds(match: MatchState, defenderId: PlayerId): string[] {
+  return match.players[defenderId].board.front
+    .filter((unit) => unit.keywords.includes("TAUNT"))
+    .map((unit) => unit.instanceId);
+}
+
 export function attackHero(
   match: MatchState,
   playerId: PlayerId,
@@ -23,6 +35,10 @@ export function attackHero(
   const player = match.players[playerId];
   const opponentId = getOpponentId(playerId);
   const opponent = match.players[opponentId];
+
+  if (defenderHasFrontTaunt(match, opponentId)) {
+    throw new Error("Cannot attack hero while enemy TAUNT unit is in front lane");
+  }
 
   const frontUnitIndex = player.board.front.findIndex(
     (unit) => unit.instanceId === attackerInstanceId
@@ -98,6 +114,11 @@ export function attackUnit(
 
   if (defenderIndex === -1) {
     throw new Error("Defender not found in enemy front lane");
+  }
+
+  const tauntIds = defenderFrontTauntIds(match, opponentId);
+  if (tauntIds.length > 0 && !tauntIds.includes(defenderInstanceId)) {
+    throw new Error("Must attack enemy TAUNT unit first");
   }
 
   const attacker = player.board.front[attackerIndex];
