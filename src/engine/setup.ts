@@ -1,7 +1,7 @@
 import decks from "../data/decks.json";
 import units from "../data/units.json";
 import equipment from "../data/equipment.json";
-import { applyEndOfTurnCommanderEffects, applyStartOfTurnCommanderEffects } from "./commander";
+import { emitEvent } from "./events";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
 
 function shuffle<T>(array: T[]): T[] {
@@ -27,7 +27,10 @@ function drawCards(deck: string[], count: number) {
   return { newDeck, drawn };
 }
 
-function createPlayer(playerId: PlayerId, deckKey: "deck_stone_test" | "deck_bronze_test"): PlayerState {
+function createPlayer(
+  playerId: PlayerId,
+  deckKey: "deck_stone_test" | "deck_bronze_test"
+): PlayerState {
   const deckDef = decks[deckKey];
   const shuffledDeck = shuffle(deckDef.cardIds);
   const { newDeck, drawn } = drawCards(shuffledDeck, 3);
@@ -322,7 +325,10 @@ export function endTurn(match: MatchState): MatchState {
   const currentPlayerId = match.activePlayer;
   const nextPlayerId: PlayerId = currentPlayerId === "P1" ? "P2" : "P1";
 
-  let updatedMatch = applyEndOfTurnCommanderEffects(match, currentPlayerId);
+  let updatedMatch = emitEvent(match, {
+    type: "TURN_END",
+    playerId: currentPlayerId
+  });
 
   const nextPlayer = updatedMatch.players[nextPlayerId];
 
@@ -368,7 +374,10 @@ export function endTurn(match: MatchState): MatchState {
     }
   };
 
-  updatedMatch = applyStartOfTurnCommanderEffects(updatedMatch, nextPlayerId);
+  updatedMatch = emitEvent(updatedMatch, {
+    type: "TURN_START",
+    playerId: nextPlayerId
+  });
 
   return updatedMatch;
 }
