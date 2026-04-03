@@ -1,74 +1,98 @@
-import { loadAllCommanders, loadCommanderById } from "./data/loadCommanders";
+import { loadCommanders } from "./data/loadCommanders";
+import { loadUnits } from "./data/loadUnits";
+import { loadSpells } from "./data/loadSpells";
+import { loadEquipment } from "./data/loadEquipment";
 import {
   getCommanderPassiveSummary,
   getCommanderStartOfGameBonus
 } from "./engine/commanderAbilities";
 
-function printSection(title: string, value: unknown) {
-  console.log(`\n=== ${title} ===`);
-  console.log(JSON.stringify(value, null, 2));
-}
+const commanders = loadCommanders();
+const units = loadUnits();
+const spells = loadSpells();
+const equipment = loadEquipment();
 
-const allCommanders = loadAllCommanders();
+console.log("\n=== ALL LOADED COMMANDERS ===");
+console.log(JSON.stringify(commanders, null, 2));
 
-printSection(
-  "ALL LOADED COMMANDERS",
-  allCommanders.map((commander) => ({
-    id: commander.id,
-    name: commander.name,
-    class: commander.profile.cardClass,
-    passive: commander.profile.passive,
-    subtype: commander.profile.subtype,
-    combatStyle: commander.profile.combatStyle,
-    attack: commander.attack,
-    health: commander.health,
-    armor: commander.armor,
-    rarityScore: commander.rarityScore,
-    powerBand: commander.powerBand,
-    tags: commander.tags
-  }))
+console.log("\n=== TOP COMMANDERS BY RARITY SCORE ===");
+console.log(
+  JSON.stringify(
+    [...commanders]
+      .sort((a, b) => b.rarityScore - a.rarityScore)
+      .map((c) => ({
+        id: c.id,
+        name: c.name,
+        rarityScore: c.rarityScore,
+        powerBand: c.powerBand
+      })),
+    null,
+    2
+  )
 );
 
-const stoneWarden = loadCommanderById("cmd_stone_warden");
-const bronzeRaider = loadCommanderById("cmd_bronze_raider");
-const hellJudge = loadCommanderById("cmd_hell_judge");
-const skullEmperor = loadCommanderById("cmd_skull_emperor");
-const lucifer = loadCommanderById("cmd_lucifer_one");
-const satoshi = loadCommanderById("cmd_satoshi_one");
+console.log("\n=== COMMANDER PASSIVE SUMMARIES ===");
+console.log(
+  JSON.stringify(
+    {
+      stone_warden: getCommanderPassiveSummary("cmd_stone_warden"),
+      bronze_raider: getCommanderPassiveSummary("cmd_bronze_raider"),
+      hell_judge: getCommanderPassiveSummary("cmd_hell_judge"),
+      skull_emperor: getCommanderPassiveSummary("cmd_skull_emperor"),
+      lucifer_one: getCommanderPassiveSummary("cmd_lucifer_one"),
+      satoshi_one: getCommanderPassiveSummary("cmd_satoshi_one")
+    },
+    null,
+    2
+  )
+);
 
-printSection("STONE WARDEN", stoneWarden);
-printSection("BRONZE RAIDER", bronzeRaider);
-printSection("HELL JUDGE", hellJudge);
-printSection("SKULL EMPEROR", skullEmperor);
-printSection("LUCIFER ONE OF ONE", lucifer);
-printSection("SATOSHI ONE OF ONE", satoshi);
+console.log("\n=== COMMANDER START OF GAME BONUSES ===");
+console.log(
+  JSON.stringify(
+    {
+      stone_warden: getCommanderStartOfGameBonus(
+        commanders.find((c) => c.id === "cmd_stone_warden")!
+      ),
+      bronze_raider: getCommanderStartOfGameBonus(
+        commanders.find((c) => c.id === "cmd_bronze_raider")!
+      ),
+      hell_judge: getCommanderStartOfGameBonus(
+        commanders.find((c) => c.id === "cmd_hell_judge")!
+      ),
+      skull_emperor: getCommanderStartOfGameBonus(
+        commanders.find((c) => c.id === "cmd_skull_emperor")!
+      ),
+      lucifer_one: getCommanderStartOfGameBonus(
+        commanders.find((c) => c.id === "cmd_lucifer_one")!
+      ),
+      satoshi_one: getCommanderStartOfGameBonus(
+        commanders.find((c) => c.id === "cmd_satoshi_one")!
+      )
+    },
+    null,
+    2
+  )
+);
 
-printSection("COMMANDER PASSIVE SUMMARIES", {
-  stone_warden: getCommanderPassiveSummary("cmd_stone_warden"),
-  bronze_raider: getCommanderPassiveSummary("cmd_bronze_raider"),
-  hell_judge: getCommanderPassiveSummary("cmd_hell_judge"),
-  skull_emperor: getCommanderPassiveSummary("cmd_skull_emperor"),
-  lucifer_one: getCommanderPassiveSummary("cmd_lucifer_one"),
-  satoshi_one: getCommanderPassiveSummary("cmd_satoshi_one")
-});
+console.log("\n=== ALL GENERATED UNITS ===");
+console.log(JSON.stringify(units, null, 2));
 
-printSection("COMMANDER START OF GAME BONUSES", {
-  stone_warden: getCommanderStartOfGameBonus("cmd_stone_warden"),
-  bronze_raider: getCommanderStartOfGameBonus("cmd_bronze_raider"),
-  hell_judge: getCommanderStartOfGameBonus("cmd_hell_judge"),
-  skull_emperor: getCommanderStartOfGameBonus("cmd_skull_emperor"),
-  lucifer_one: getCommanderStartOfGameBonus("cmd_lucifer_one"),
-  satoshi_one: getCommanderStartOfGameBonus("cmd_satoshi_one")
-});
+console.log("\n=== ALL GENERATED SPELLS ===");
+console.log(JSON.stringify(spells, null, 2));
 
-printSection(
-  "TOP COMMANDERS BY RARITY SCORE",
-  [...allCommanders]
-    .sort((a, b) => b.rarityScore - a.rarityScore)
-    .map((commander) => ({
-      id: commander.id,
-      name: commander.name,
-      rarityScore: commander.rarityScore,
-      powerBand: commander.powerBand
-    }))
+console.log("\n=== ALL GENERATED EQUIPMENT ===");
+console.log(JSON.stringify(equipment, null, 2));
+
+console.log("\n=== SAMPLE UNIT CHECKS ===");
+console.log(
+  JSON.stringify(
+    {
+      stone_guard: units.find((u) => u.id === "unit_stone_guard"),
+      bronze_scout: units.find((u) => u.id === "unit_bronze_scout"),
+      bomb_skull: units.find((u) => u.id === "unit_bomb_skull")
+    },
+    null,
+    2
+  )
 );
