@@ -121,3 +121,45 @@ export function playUnitFromHand(
     }
   };
 }
+
+export function endTurn(match: MatchState): MatchState {
+  const nextPlayerId: PlayerId = match.activePlayer === "P1" ? "P2" : "P1";
+  const nextPlayer = match.players[nextPlayerId];
+
+  const newMaxEnergy = Math.min(nextPlayer.maxEnergy + 1, 7);
+  const drawnCard = nextPlayer.deck[0];
+  const newDeck = drawnCard ? nextPlayer.deck.slice(1) : nextPlayer.deck;
+  const newHand = drawnCard ? [...nextPlayer.hand, drawnCard] : nextPlayer.hand;
+
+  const refreshedFront = nextPlayer.board.front.map((unit) => ({
+    ...unit,
+    exhausted: false,
+    summoningSick: false
+  }));
+
+  const refreshedBack = nextPlayer.board.back.map((unit) => ({
+    ...unit,
+    exhausted: false,
+    summoningSick: false
+  }));
+
+  return {
+    ...match,
+    turn: match.turn + 1,
+    activePlayer: nextPlayerId,
+    players: {
+      ...match.players,
+      [nextPlayerId]: {
+        ...nextPlayer,
+        maxEnergy: newMaxEnergy,
+        energy: newMaxEnergy,
+        deck: newDeck,
+        hand: newHand,
+        board: {
+          front: refreshedFront,
+          back: refreshedBack
+        }
+      }
+    }
+  };
+}
