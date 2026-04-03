@@ -1,5 +1,6 @@
 export type PlayerId = "P1" | "P2";
 export type Lane = "front" | "back";
+export type Phase = "draw" | "main" | "combat" | "end";
 
 export type UnitInPlay = {
   instanceId: string;
@@ -32,6 +33,7 @@ export type PlayerState = {
 export type MatchState = {
   turn: number;
   activePlayer: PlayerId;
+  phase: Phase;
   winner: PlayerId | null;
   players: Record<PlayerId, PlayerState>;
 };

@@ -51,6 +51,7 @@ export function createMatch(): MatchState {
   return {
     turn: 1,
     activePlayer: "P1",
+    phase: "main",
     winner: null,
     players: {
       P1: createPlayer("P1", "deck_stone_test"),
@@ -63,6 +64,7 @@ export function createFixedTestMatch(): MatchState {
   return {
     turn: 1,
     activePlayer: "P1",
+    phase: "main",
     winner: null,
     players: {
       P1: {
@@ -119,12 +121,42 @@ function makeInstanceId() {
   return `unit_${Math.random().toString(36).slice(2, 10)}`;
 }
 
+export function goToCombatPhase(match: MatchState): MatchState {
+  if (match.phase !== "main") {
+    throw new Error("Can only move to combat from main phase");
+  }
+
+  return {
+    ...match,
+    phase: "combat"
+  };
+}
+
+export function goToEndPhase(match: MatchState): MatchState {
+  if (match.phase !== "combat") {
+    throw new Error("Can only move to end from combat phase");
+  }
+
+  return {
+    ...match,
+    phase: "end"
+  };
+}
+
 export function playUnitFromHand(
   match: MatchState,
   playerId: PlayerId,
   handIndex: number,
   lane: Lane
 ): MatchState {
+  if (match.activePlayer !== playerId) {
+    throw new Error("Not this player's turn");
+  }
+
+  if (match.phase !== "main") {
+    throw new Error("Units can only be played during main phase");
+  }
+
   const player = match.players[playerId];
   const cardId = player.hand[handIndex];
 
@@ -185,6 +217,14 @@ export function playEquipmentFromHand(
   handIndex: number,
   targetInstanceId: string
 ): MatchState {
+  if (match.activePlayer !== playerId) {
+    throw new Error("Not this player's turn");
+  }
+
+  if (match.phase !== "main") {
+    throw new Error("Equipment can only be played during main phase");
+  }
+
   const player = match.players[playerId];
   const cardId = player.hand[handIndex];
 
@@ -253,6 +293,10 @@ export function playEquipmentFromHand(
 }
 
 export function endTurn(match: MatchState): MatchState {
+  if (match.phase !== "end") {
+    throw new Error("Turn can only end from end phase");
+  }
+
   const nextPlayerId: PlayerId = match.activePlayer === "P1" ? "P2" : "P1";
   const nextPlayer = match.players[nextPlayerId];
 
@@ -277,6 +321,7 @@ export function endTurn(match: MatchState): MatchState {
     ...match,
     turn: match.turn + 1,
     activePlayer: nextPlayerId,
+    phase: "main",
     players: {
       ...match.players,
       [nextPlayerId]: {

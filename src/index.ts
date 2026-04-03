@@ -1,31 +1,46 @@
 import { attackHero, attackUnit } from "./engine/combat";
-import { createFixedTestMatch, endTurn, playUnitFromHand } from "./engine/setup";
+import {
+  createFixedTestMatch,
+  endTurn,
+  goToCombatPhase,
+  goToEndPhase,
+  playUnitFromHand
+} from "./engine/setup";
 
 let match = createFixedTestMatch();
 
 console.log("=== START ===");
 console.log(JSON.stringify(match, null, 2));
 
-// Go to P2 turn
+// Move to end and pass to P2 main phase
+match = goToCombatPhase(match);
+match = goToEndPhase(match);
 match = endTurn(match);
 
-// P2 plays scout from hand index 0
+// P2 main: play scout
 match = playUnitFromHand(match, "P2", 0, "front");
 
 console.log("\n=== AFTER P2 PLAYS SCOUT ===");
 console.log(JSON.stringify(match, null, 2));
 
-// Go to P1 turn
+// End P2 turn properly
+match = goToCombatPhase(match);
+match = goToEndPhase(match);
 match = endTurn(match);
 
-// P1 now has 3 energy, so Shield Bearer is playable from hand index 0
+// P1 main: play Shield Bearer
 match = playUnitFromHand(match, "P1", 0, "front");
 
 console.log("\n=== AFTER P1 PLAYS SHIELD BEARER (TAUNT) ===");
 console.log(JSON.stringify(match, null, 2));
 
-// Back to P2 turn
+// End P1 turn properly
+match = goToCombatPhase(match);
+match = goToEndPhase(match);
 match = endTurn(match);
+
+// P2 combat
+match = goToCombatPhase(match);
 
 const scoutId = match.players.P2.board.front[0].instanceId;
 const tauntId = match.players.P1.board.front[0].instanceId;

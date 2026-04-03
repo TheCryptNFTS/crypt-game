@@ -32,6 +32,14 @@ export function attackHero(
   playerId: PlayerId,
   attackerInstanceId: string
 ): MatchState {
+  if (match.activePlayer !== playerId) {
+    throw new Error("Not this player's turn");
+  }
+
+  if (match.phase !== "combat") {
+    throw new Error("Hero attacks can only happen during combat phase");
+  }
+
   const player = match.players[playerId];
   const opponentId = getOpponentId(playerId);
   const opponent = match.players[opponentId];
@@ -95,6 +103,14 @@ export function attackUnit(
   attackerInstanceId: string,
   defenderInstanceId: string
 ): MatchState {
+  if (match.activePlayer !== playerId) {
+    throw new Error("Not this player's turn");
+  }
+
+  if (match.phase !== "combat") {
+    throw new Error("Unit attacks can only happen during combat phase");
+  }
+
   const opponentId = getOpponentId(playerId);
 
   const player = match.players[playerId];
