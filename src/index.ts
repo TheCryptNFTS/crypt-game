@@ -16,7 +16,20 @@ const match: any = {
       hand: [],
       discard: [],
       board: {
-        front: [],
+        front: [
+          {
+            instanceId: "unit_test_guard",
+            cardId: "unit_stone_guard",
+            lane: "front",
+            attack: 3,
+            health: 12,
+            speed: 2,
+            armor: 0,
+            keywords: [],
+            exhausted: false,
+            summoningSick: false
+          }
+        ],
         back: []
       },
       turnFlags: {
@@ -45,7 +58,16 @@ const match: any = {
   }
 };
 
-console.log("=== BEFORE PLAYER DAMAGE ===");
+console.log("=== START ===");
+console.log(JSON.stringify(match, null, 2));
+
+applyEffect(match, {
+  type: "DAMAGE_UNIT",
+  targetId: "unit_test_guard",
+  amount: 4
+});
+
+console.log("=== AFTER UNIT DAMAGE ===");
 console.log(JSON.stringify(match, null, 2));
 
 applyEffect(match, {
