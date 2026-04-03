@@ -1,148 +1,86 @@
-import { MatchState, PlayerId, UnitInstance } from "../types";
-
-type Effect =
-  | { type: "DAMAGE_UNIT"; targetId: string; amount: number }
-  | { type: "HEAL_UNIT"; targetId: string; amount: number }
-  | { type: "DAMAGE_PLAYER"; playerId: PlayerId; amount: number }
-  | { type: "HEAL_PLAYER"; playerId: PlayerId; amount: number }
-  | { type: "BUFF_UNIT"; targetId: string; attack: number; health: number }
-  | { type: "DRAW"; playerId: PlayerId; amount: number };
-
-export function applyEffect(match: MatchState, effect: Effect): MatchState {
-  switch (effect.type) {
-    case "DAMAGE_UNIT":
-      return damageUnit(match, effect.targetId, effect.amount);
-
-    case "HEAL_UNIT":
-      return healUnit(match, effect.targetId, effect.amount);
-
-    case "DAMAGE_PLAYER":
-      return damagePlayer(match, effect.playerId, effect.amount);
-
-    case "HEAL_PLAYER":
-      return healPlayer(match, effect.playerId, effect.amount);
-
-    case "BUFF_UNIT":
-      return buffUnit(match, effect.targetId, effect.attack, effect.health);
-
-    case "DRAW":
-      return drawCards(match, effect.playerId, effect.amount);
-
-    default:
-      return match;
+export function applyEffect(match: any, effect: any) {
+    const activePlayer = match.players[match.activePlayer];
+  
+    switch (effect.type) {
+      case "DAMAGE_UNIT": {
+        const unit = findUnit(match, effect.targetId);
+        if (!unit) return match;
+  
+        unit.health -= effect.amount;
+  
+        if (unit.health <= 0) {
+          removeUnit(match, unit.instanceId);
+        }
+  
+        return match;
+      }
+  
+      case "HEAL_UNIT": {
+        const unit = findUnit(match, effect.targetId);
+        if (!unit) return match;
+  
+        unit.health += effect.amount;
+        return match;
+      }
+  
+      case "BUFF_UNIT": {
+        const unit = findUnit(match, effect.targetId);
+        if (!unit) return match;
+  
+        unit.attack += effect.attack || 0;
+        unit.health += effect.health || 0;
+  
+        return match;
+      }
+  
+      case "DRAW": {
+        for (let i = 0; i < effect.amount; i++) {
+          const card = activePlayer.deck.shift();
+          if (card) {
+            activePlayer.hand.push(card);
+          }
+        }
+        return match;
+      }
+  
+      case "DAMAGE_PLAYER": {
+        const targetPlayer = match.players[effect.targetPlayerId];
+        if (!targetPlayer) return match;
+  
+        targetPlayer.health -= effect.amount;
+  
+        if (targetPlayer.health <= 0) {
+          targetPlayer.health = 0;
+          match.winner = effect.targetPlayerId === "P1" ? "P2" : "P1";
+        }
+  
+        return match;
+      }
+  
+      default:
+        return match;
+    }
   }
-}function findUnit(match: MatchState, instanceId: string) {
-    for (const player of Object.values(match.players)) {
-      for (const lane of ["front", "back"] as const) {
-        const unit = player.board[lane].find(u => u.instanceId === instanceId);
-        if (unit) return { playerId: player.id, unit, lane };
+  
+  function findUnit(match: any, instanceId: string) {
+    for (const player of Object.values(match.players) as any[]) {
+      for (const lane of ["front", "back"]) {
+        const unit = player.board[lane].find((u: any) => u.instanceId === instanceId);
+        if (unit) return unit;
       }
     }
     return null;
-  }function damageUnit(match: MatchState, id: string, amount: number): MatchState {
-    const found = findUnit(match, id);
-    if (!found) return match;
+  }
   
-    const { playerId, unit, lane } = found;
-  
-    const newHealth = unit.health - amount;
-  
-    return {
-      ...match,
-      players: {
-        ...match.players,
-        [playerId]: {
-          ...match.players[playerId],
-          board: {
-            ...match.players[playerId].board,
-            [lane]: match.players[playerId].board[lane].map(u =>
-              u.instanceId === id ? { ...u, health: newHealth } : u
-            )
-          }
+  function removeUnit(match: any, instanceId: string) {
+    for (const player of Object.values(match.players) as any[]) {
+      for (const lane of ["front", "back"]) {
+        const index = player.board[lane].findIndex((u: any) => u.instanceId === instanceId);
+        if (index !== -1) {
+          const [deadUnit] = player.board[lane].splice(index, 1);
+          player.discard.push(deadUnit.cardId);
+          return;
         }
       }
-    };
-  }function healUnit(match: MatchState, id: string, amount: number): MatchState {
-    const found = findUnit(match, id);
-    if (!found) return match;
-  
-    const { playerId, unit, lane } = found;
-  
-    return {
-      ...match,
-      players: {
-        ...match.players,
-        [playerId]: {
-          ...match.players[playerId],
-          board: {
-            ...match.players[playerId].board,
-            [lane]: match.players[playerId].board[lane].map(u =>
-              u.instanceId === id ? { ...u, health: u.health + amount } : u
-            )
-          }
-        }
-      }
-    };
-  }function damagePlayer(match: MatchState, playerId: PlayerId, amount: number): MatchState {
-    return {
-      ...match,
-      players: {
-        ...match.players,
-        [playerId]: {
-          ...match.players[playerId],
-          health: match.players[playerId].health - amount
-        }
-      }
-    };
-  }function healPlayer(match: MatchState, playerId: PlayerId, amount: number): MatchState {
-    return {
-      ...match,
-      players: {
-        ...match.players,
-        [playerId]: {
-          ...match.players[playerId],
-          health: match.players[playerId].health + amount
-        }
-      }
-    };
-  }function buffUnit(match: MatchState, id: string, atk: number, hp: number): MatchState {
-    const found = findUnit(match, id);
-    if (!found) return match;
-  
-    const { playerId, unit, lane } = found;
-  
-    return {
-      ...match,
-      players: {
-        ...match.players,
-        [playerId]: {
-          ...match.players[playerId],
-          board: {
-            ...match.players[playerId].board,
-            [lane]: match.players[playerId].board[lane].map(u =>
-              u.instanceId === id
-                ? { ...u, attack: u.attack + atk, health: u.health + hp }
-                : u
-            )
-          }
-        }
-      }
-    };
-  }function drawCards(match: MatchState, playerId: PlayerId, amount: number): MatchState {
-    const player = match.players[playerId];
-  
-    const drawn = player.deck.slice(0, amount);
-    const newDeck = player.deck.slice(amount);
-  
-    return {
-      ...match,
-      players: {
-        ...match.players,
-        [playerId]: {
-          ...player,
-          deck: newDeck,
-          hand: [...player.hand, ...drawn]
-        }
-      }
-    };
+    }
   }
