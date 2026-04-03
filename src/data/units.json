@@ -1,0 +1,92 @@
+[
+    {
+      "id": "unit_stone_guard",
+      "name": "Stone Guard",
+      "type": "unit",
+      "faction": "stone",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 3,
+        "health": 12,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": []
+    },
+    {
+      "id": "unit_shield_bearer",
+      "name": "Shield Bearer",
+      "type": "unit",
+      "faction": "stone",
+      "rarity": "common",
+      "cost": 3,
+      "stats": {
+        "attack": 2,
+        "health": 15,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": ["TAUNT"]
+    },
+    {
+      "id": "unit_stone_brute",
+      "name": "Stone Brute",
+      "type": "unit",
+      "faction": "stone",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 5,
+        "health": 20,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": []
+    },
+    {
+      "id": "unit_bronze_scout",
+      "name": "Bronze Scout",
+      "type": "unit",
+      "faction": "bronze",
+      "rarity": "common",
+      "cost": 1,
+      "stats": {
+        "attack": 3,
+        "health": 8,
+        "speed": 4,
+        "armor": 0
+      },
+      "keywords": ["RUSH"]
+    },
+    {
+      "id": "unit_blade_striker",
+      "name": "Blade Striker",
+      "type": "unit",
+      "faction": "bronze",
+      "rarity": "common",
+      "cost": 3,
+      "stats": {
+        "attack": 5,
+        "health": 10,
+        "speed": 3,
+        "armor": 0
+      },
+      "keywords": []
+    },
+    {
+      "id": "unit_berserker",
+      "name": "Berserker",
+      "type": "unit",
+      "faction": "bronze",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 12,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": []
+    }
+  ]

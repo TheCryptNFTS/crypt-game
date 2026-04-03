@@ -1,0 +1,36 @@
+{
+    "deck_stone_test": {
+      "commanderId": "cmd_stone_warden",
+      "cardIds": [
+        "unit_stone_guard",
+        "unit_stone_guard",
+        "unit_shield_bearer",
+        "unit_shield_bearer",
+        "unit_stone_brute",
+        "unit_stone_brute",
+        "eq_riot_shield",
+        "eq_riot_shield",
+        "eq_heavy_plate",
+        "eq_heavy_plate",
+        "unit_stone_guard",
+        "unit_shield_bearer"
+      ]
+    },
+    "deck_bronze_test": {
+      "commanderId": "cmd_bronze_raider",
+      "cardIds": [
+        "unit_bronze_scout",
+        "unit_bronze_scout",
+        "unit_blade_striker",
+        "unit_blade_striker",
+        "unit_berserker",
+        "unit_berserker",
+        "eq_axe",
+        "eq_axe",
+        "eq_speed_boots",
+        "eq_speed_boots",
+        "unit_bronze_scout",
+        "unit_blade_striker"
+      ]
+    }
+  }

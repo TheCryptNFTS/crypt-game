@@ -1,0 +1,49 @@
+[
+    {
+      "id": "cmd_stone_warden",
+      "name": "Stone Warden",
+      "type": "commander",
+      "faction": "stone",
+      "rarity": "legendary",
+      "cost": 0,
+      "stats": {
+        "attack": 0,
+        "health": 30,
+        "speed": 0,
+        "armor": 0
+      },
+      "abilities": [
+        {
+          "id": "stone_fortify_passive",
+          "trigger": "TURN_END_FRIENDLY",
+          "effectType": "ARMOR_GAIN_END_TURN",
+          "value": 1,
+          "target": "ALL_FRIENDLY_UNITS"
+        }
+      ]
+    },
+    {
+      "id": "cmd_bronze_raider",
+      "name": "Bronze Raider",
+      "type": "commander",
+      "faction": "bronze",
+      "rarity": "legendary",
+      "cost": 0,
+      "stats": {
+        "attack": 0,
+        "health": 30,
+        "speed": 0,
+        "armor": 0
+      },
+      "abilities": [
+        {
+          "id": "bronze_first_unit_discount",
+          "trigger": "TURN_START_FRIENDLY",
+          "effectType": "SET_TURN_FLAG",
+          "flag": "FIRST_UNIT_COST_REDUCED_BY_1",
+          "value": 1,
+          "target": "PLAYER"
+        }
+      ]
+    }
+  ]
