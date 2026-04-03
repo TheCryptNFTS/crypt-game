@@ -1,6 +1,7 @@
 import decks from "../data/decks.json";
 import units from "../data/units.json";
 import equipment from "../data/equipment.json";
+import { applyEndOfTurnCommanderEffects, applyStartOfTurnCommanderEffects } from "./commander";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
 
 function shuffle<T>(array: T[]): T[] {
@@ -43,6 +44,10 @@ function createPlayer(playerId: PlayerId, deckKey: "deck_stone_test" | "deck_bro
     board: {
       front: [],
       back: []
+    },
+    turnFlags: {
+      firstUnitCostReduction: 0,
+      firstUnitPlayed: false
     }
   };
 }
@@ -88,6 +93,10 @@ export function createFixedTestMatch(): MatchState {
         board: {
           front: [],
           back: []
+        },
+        turnFlags: {
+          firstUnitCostReduction: 0,
+          firstUnitPlayed: false
         }
       },
       P2: {
@@ -111,6 +120,10 @@ export function createFixedTestMatch(): MatchState {
         board: {
           front: [],
           back: []
+        },
+        turnFlags: {
+          firstUnitCostReduction: 0,
+          firstUnitPlayed: false
         }
       }
     }
@@ -170,7 +183,12 @@ export function playUnitFromHand(
     throw new Error("Selected card is not a unit");
   }
 
-  if (player.energy < unitCard.cost) {
+  const reduction =
+    !player.turnFlags.firstUnitPlayed ? player.turnFlags.firstUnitCostReduction : 0;
+
+  const finalCost = Math.max(0, unitCard.cost - reduction);
+
+  if (player.energy < finalCost) {
     throw new Error("Not enough energy");
   }
 
@@ -200,11 +218,15 @@ export function playUnitFromHand(
       ...match.players,
       [playerId]: {
         ...player,
-        energy: player.energy - unitCard.cost,
+        energy: player.energy - finalCost,
         hand: newHand,
         board: {
           ...player.board,
           [lane]: [...player.board[lane], instance]
+        },
+        turnFlags: {
+          firstUnitCostReduction: 0,
+          firstUnitPlayed: true
         }
       }
     }
@@ -297,8 +319,12 @@ export function endTurn(match: MatchState): MatchState {
     throw new Error("Turn can only end from end phase");
   }
 
-  const nextPlayerId: PlayerId = match.activePlayer === "P1" ? "P2" : "P1";
-  const nextPlayer = match.players[nextPlayerId];
+  const currentPlayerId = match.activePlayer;
+  const nextPlayerId: PlayerId = currentPlayerId === "P1" ? "P2" : "P1";
+
+  let updatedMatch = applyEndOfTurnCommanderEffects(match, currentPlayerId);
+
+  const nextPlayer = updatedMatch.players[nextPlayerId];
 
   const newMaxEnergy = Math.min(nextPlayer.maxEnergy + 1, 7);
   const drawnCard = nextPlayer.deck[0];
@@ -317,13 +343,13 @@ export function endTurn(match: MatchState): MatchState {
     summoningSick: false
   }));
 
-  return {
-    ...match,
-    turn: match.turn + 1,
+  updatedMatch = {
+    ...updatedMatch,
+    turn: updatedMatch.turn + 1,
     activePlayer: nextPlayerId,
     phase: "main",
     players: {
-      ...match.players,
+      ...updatedMatch.players,
       [nextPlayerId]: {
         ...nextPlayer,
         maxEnergy: newMaxEnergy,
@@ -333,8 +359,16 @@ export function endTurn(match: MatchState): MatchState {
         board: {
           front: refreshedFront,
           back: refreshedBack
+        },
+        turnFlags: {
+          firstUnitCostReduction: 0,
+          firstUnitPlayed: false
         }
       }
     }
   };
+
+  updatedMatch = applyStartOfTurnCommanderEffects(updatedMatch, nextPlayerId);
+
+  return updatedMatch;
 }

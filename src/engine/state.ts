@@ -1,6 +1,6 @@
 export type PlayerId = "P1" | "P2";
 export type Lane = "front" | "back";
-export type Phase = "draw" | "main" | "combat" | "end";
+export type Phase = "main" | "combat" | "end";
 
 export type UnitInPlay = {
   instanceId: string;
@@ -27,6 +27,10 @@ export type PlayerState = {
   board: {
     front: UnitInPlay[];
     back: UnitInPlay[];
+  };
+  turnFlags: {
+    firstUnitCostReduction: number;
+    firstUnitPlayed: boolean;
   };
 };
 
