@@ -1,3 +1,4 @@
+import { emitEvent } from "./events";
 import { MatchState, PlayerId } from "./state";
 
 function cleanupPlayerDeadUnits(match: MatchState, playerId: PlayerId): MatchState {
@@ -9,12 +10,10 @@ function cleanupPlayerDeadUnits(match: MatchState, playerId: PlayerId): MatchSta
   const survivingFront = player.board.front.filter((unit) => unit.health > 0);
   const survivingBack = player.board.back.filter((unit) => unit.health > 0);
 
-  const deadCardIds = [
-    ...deadFront.map((unit) => unit.cardId),
-    ...deadBack.map((unit) => unit.cardId)
-  ];
+  const deadUnits = [...deadFront, ...deadBack];
+  const deadCardIds = deadUnits.map((unit) => unit.cardId);
 
-  return {
+  let updatedMatch: MatchState = {
     ...match,
     players: {
       ...match.players,
@@ -28,6 +27,17 @@ function cleanupPlayerDeadUnits(match: MatchState, playerId: PlayerId): MatchSta
       }
     }
   };
+
+  for (const deadUnit of deadUnits) {
+    updatedMatch = emitEvent(updatedMatch, {
+      type: "UNIT_DIED",
+      playerId,
+      cardId: deadUnit.cardId,
+      instanceId: deadUnit.instanceId
+    });
+  }
+
+  return updatedMatch;
 }
 
 export function cleanupDeadUnits(match: MatchState): MatchState {

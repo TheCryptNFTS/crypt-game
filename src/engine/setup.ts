@@ -215,7 +215,7 @@ export function playUnitFromHand(
   const newHand = [...player.hand];
   newHand.splice(handIndex, 1);
 
-  return {
+  let updatedMatch: MatchState = {
     ...match,
     players: {
       ...match.players,
@@ -234,6 +234,15 @@ export function playUnitFromHand(
       }
     }
   };
+
+  updatedMatch = emitEvent(updatedMatch, {
+    type: "UNIT_PLAYED",
+    playerId,
+    cardId: unitCard.id,
+    instanceId: instance.instanceId
+  });
+
+  return updatedMatch;
 }
 
 export function playEquipmentFromHand(

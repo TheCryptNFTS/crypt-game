@@ -8,6 +8,18 @@ export type GameEvent =
   | {
       type: "TURN_END";
       playerId: PlayerId;
+    }
+  | {
+      type: "UNIT_PLAYED";
+      playerId: PlayerId;
+      cardId: string;
+      instanceId: string;
+    }
+  | {
+      type: "UNIT_DIED";
+      playerId: PlayerId;
+      cardId: string;
+      instanceId: string;
     };
 
 function applyArmorToAllFriendly(
@@ -74,6 +86,12 @@ export function emitEvent(match: MatchState, event: GameEvent): MatchState {
       if (player.commanderId === "cmd_stone_warden") {
         return applyArmorToAllFriendly(match, event.playerId, 1);
       }
+      return match;
+
+    case "UNIT_PLAYED":
+      return match;
+
+    case "UNIT_DIED":
       return match;
 
     default:
