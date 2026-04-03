@@ -1,6 +1,20 @@
-import { MatchState } from "./state";
+import { MatchState, PlayerId } from "./state";
 
 export type GameEvent =
+  | {
+      type: "UNIT_PLAYED";
+      playerId: PlayerId;
+      cardId: string;
+      instanceId: string;
+    }
+  | {
+      type: "TURN_START";
+      playerId: PlayerId;
+    }
+  | {
+      type: "TURN_END";
+      playerId: PlayerId;
+    }
   | {
       type: "UNIT_ATTACKED";
       attackerId: string;
@@ -9,14 +23,14 @@ export type GameEvent =
   | {
       type: "HERO_ATTACKED";
       attackerId: string;
-      defenderPlayerId: "P1" | "P2";
+      defenderPlayerId: PlayerId;
       damage: number;
     }
   | {
       type: "UNIT_DIED";
       unitId: string;
       cardId: string;
-      ownerId: "P1" | "P2";
+      ownerId: PlayerId;
     };
 
 export function emitEvent(match: MatchState, event: GameEvent): MatchState {
