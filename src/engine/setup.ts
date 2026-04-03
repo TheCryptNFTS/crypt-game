@@ -1,7 +1,9 @@
 import decks from "../data/decks.json";
 import units from "../data/units.json";
 import equipment from "../data/equipment.json";
+import spells from "../data/spells.json";
 import { emitEvent } from "./events";
+import { cleanupDeadUnits } from "./cleanup";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
 
 function shuffle<T>(array: T[]): T[] {
@@ -84,11 +86,10 @@ export function createFixedTestMatch(): MatchState {
         deck: [
           "unit_stone_brute",
           "eq_riot_shield",
-          "unit_stone_guard",
-          "eq_heavy_plate"
+          "unit_stone_guard"
         ],
         hand: [
-          "unit_shield_bearer",
+          "spell_firebolt",
           "unit_stone_guard",
           "eq_heavy_plate"
         ],
@@ -111,11 +112,10 @@ export function createFixedTestMatch(): MatchState {
         deck: [
           "unit_blade_striker",
           "eq_speed_boots",
-          "unit_berserker",
-          "unit_bronze_scout"
+          "unit_berserker"
         ],
         hand: [
-          "unit_shock_raider",
+          "unit_bronze_scout",
           "eq_axe",
           "unit_blade_striker"
         ],
@@ -324,6 +324,104 @@ export function playEquipmentFromHand(
       }
     }
   };
+}
+
+export function playSpellFromHand(
+  match: MatchState,
+  playerId: PlayerId,
+  handIndex: number,
+  targetInstanceId: string
+): MatchState {
+  if (match.activePlayer !== playerId) {
+    throw new Error("Not this player's turn");
+  }
+
+  if (match.phase !== "main") {
+    throw new Error("Spells can only be played during main phase");
+  }
+
+  const player = match.players[playerId];
+  const enemyId: PlayerId = playerId === "P1" ? "P2" : "P1";
+  const enemy = match.players[enemyId];
+  const cardId = player.hand[handIndex];
+
+  if (!cardId) {
+    throw new Error("No card in that hand slot");
+  }
+
+  const spellCard = spells.find((s) => s.id === cardId);
+
+  if (!spellCard) {
+    throw new Error("Selected card is not a spell");
+  }
+
+  if (player.energy < spellCard.cost) {
+    throw new Error("Not enough energy");
+  }
+
+  const enemyFrontIndex = enemy.board.front.findIndex((u) => u.instanceId === targetInstanceId);
+  const enemyBackIndex = enemy.board.back.findIndex((u) => u.instanceId === targetInstanceId);
+
+  let lane: Lane;
+  let unitIndex: number;
+
+  if (enemyFrontIndex !== -1) {
+    lane = "front";
+    unitIndex = enemyFrontIndex;
+  } else if (enemyBackIndex !== -1) {
+    lane = "back";
+    unitIndex = enemyBackIndex;
+  } else {
+    throw new Error("Target enemy unit not found");
+  }
+
+  const targetUnit = enemy.board[lane][unitIndex];
+  const damage = spellCard.effect.value;
+
+  let remainingDamage = damage;
+  let nextArmor = targetUnit.armor;
+
+  if (nextArmor > 0) {
+    const blocked = Math.min(nextArmor, remainingDamage);
+    nextArmor -= blocked;
+    remainingDamage -= blocked;
+  }
+
+  const updatedUnit: UnitInPlay = {
+    ...targetUnit,
+    armor: nextArmor,
+    health: targetUnit.health - remainingDamage
+  };
+
+  const updatedEnemyLane = [...enemy.board[lane]];
+  updatedEnemyLane[unitIndex] = updatedUnit;
+
+  const newHand = [...player.hand];
+  newHand.splice(handIndex, 1);
+
+  let updatedMatch: MatchState = {
+    ...match,
+    players: {
+      ...match.players,
+      [playerId]: {
+        ...player,
+        energy: player.energy - spellCard.cost,
+        hand: newHand,
+        discard: [...player.discard, spellCard.id]
+      },
+      [enemyId]: {
+        ...enemy,
+        board: {
+          ...enemy.board,
+          [lane]: updatedEnemyLane
+        }
+      }
+    }
+  };
+
+  updatedMatch = cleanupDeadUnits(updatedMatch);
+
+  return updatedMatch;
 }
 
 export function endTurn(match: MatchState): MatchState {

@@ -1,0 +1,14 @@
+[
+    {
+      "id": "spell_firebolt",
+      "name": "Firebolt",
+      "type": "spell",
+      "faction": "stone",
+      "rarity": "common",
+      "cost": 2,
+      "effect": {
+        "type": "DAMAGE_UNIT",
+        "value": 3
+      }
+    }
+  ]

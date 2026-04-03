@@ -2,7 +2,7 @@ export type PlayerId = "P1" | "P2";
 export type Lane = "front" | "back";
 export type Phase = "main" | "combat" | "end";
 
-export type UnitInPlay = {
+export interface UnitInPlay {
   instanceId: string;
   cardId: string;
   lane: Lane;
@@ -13,9 +13,9 @@ export type UnitInPlay = {
   keywords: string[];
   exhausted: boolean;
   summoningSick: boolean;
-};
+}
 
-export type PlayerState = {
+export interface PlayerState {
   id: PlayerId;
   health: number;
   energy: number;
@@ -32,12 +32,15 @@ export type PlayerState = {
     firstUnitCostReduction: number;
     firstUnitPlayed: boolean;
   };
-};
+}
 
-export type MatchState = {
+export interface MatchState {
   turn: number;
   activePlayer: PlayerId;
   phase: Phase;
   winner: PlayerId | null;
-  players: Record<PlayerId, PlayerState>;
-};
+  players: {
+    P1: PlayerState;
+    P2: PlayerState;
+  };
+}
