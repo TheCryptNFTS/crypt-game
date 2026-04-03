@@ -1,5 +1,6 @@
 import decks from "../data/decks.json";
 import units from "../data/units.json";
+import equipment from "../data/equipment.json";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
 
 function shuffle<T>(array: T[]): T[] {
@@ -54,6 +55,62 @@ export function createMatch(): MatchState {
     players: {
       P1: createPlayer("P1", "deck_stone_test"),
       P2: createPlayer("P2", "deck_bronze_test")
+    }
+  };
+}
+
+export function createFixedTestMatch(): MatchState {
+  return {
+    turn: 1,
+    activePlayer: "P1",
+    winner: null,
+    players: {
+      P1: {
+        id: "P1",
+        health: 30,
+        energy: 1,
+        maxEnergy: 1,
+        commanderId: "cmd_stone_warden",
+        deck: [
+          "unit_stone_brute",
+          "eq_heavy_plate",
+          "unit_shield_bearer",
+          "eq_riot_shield"
+        ],
+        hand: [
+          "unit_stone_guard",
+          "eq_heavy_plate",
+          "unit_stone_brute"
+        ],
+        discard: [],
+        board: {
+          front: [],
+          back: []
+        }
+      },
+      P2: {
+        id: "P2",
+        health: 30,
+        energy: 1,
+        maxEnergy: 1,
+        commanderId: "cmd_bronze_raider",
+        deck: [
+          "unit_blade_striker",
+          "eq_speed_boots",
+          "unit_berserker",
+          "unit_bronze_scout"
+        ],
+        hand: [
+          "unit_bronze_scout",
+          "eq_axe",
+          "unit_blade_striker"
+        ],
+        discard: [],
+        board: {
+          front: [],
+          back: []
+        }
+      }
     }
   };
 }
@@ -116,6 +173,79 @@ export function playUnitFromHand(
         board: {
           ...player.board,
           [lane]: [...player.board[lane], instance]
+        }
+      }
+    }
+  };
+}
+
+export function playEquipmentFromHand(
+  match: MatchState,
+  playerId: PlayerId,
+  handIndex: number,
+  targetInstanceId: string
+): MatchState {
+  const player = match.players[playerId];
+  const cardId = player.hand[handIndex];
+
+  if (!cardId) {
+    throw new Error("No card in that hand slot");
+  }
+
+  const equipCard = equipment.find((e) => e.id === cardId);
+
+  if (!equipCard) {
+    throw new Error("Selected card is not equipment");
+  }
+
+  if (player.energy < equipCard.cost) {
+    throw new Error("Not enough energy");
+  }
+
+  const frontIndex = player.board.front.findIndex((u) => u.instanceId === targetInstanceId);
+  const backIndex = player.board.back.findIndex((u) => u.instanceId === targetInstanceId);
+
+  let lane: Lane;
+  let unitIndex: number;
+
+  if (frontIndex !== -1) {
+    lane = "front";
+    unitIndex = frontIndex;
+  } else if (backIndex !== -1) {
+    lane = "back";
+    unitIndex = backIndex;
+  } else {
+    throw new Error("Target unit not found");
+  }
+
+  const targetUnit = player.board[lane][unitIndex];
+
+  const updatedUnit: UnitInPlay = {
+    ...targetUnit,
+    attack: targetUnit.attack + equipCard.effect.attack,
+    health: targetUnit.health + equipCard.effect.health,
+    speed: targetUnit.speed + equipCard.effect.speed,
+    armor: targetUnit.armor + equipCard.effect.armor
+  };
+
+  const updatedLaneUnits = [...player.board[lane]];
+  updatedLaneUnits[unitIndex] = updatedUnit;
+
+  const newHand = [...player.hand];
+  newHand.splice(handIndex, 1);
+
+  return {
+    ...match,
+    players: {
+      ...match.players,
+      [playerId]: {
+        ...player,
+        energy: player.energy - equipCard.cost,
+        hand: newHand,
+        discard: [...player.discard, equipCard.id],
+        board: {
+          ...player.board,
+          [lane]: updatedLaneUnits
         }
       }
     }

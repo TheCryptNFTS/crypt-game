@@ -1,7 +1,7 @@
-import { attackHero } from "./engine/combat";
-import { createMatch, endTurn, playUnitFromHand } from "./engine/setup";
+import { attackUnit } from "./engine/combat";
+import { createFixedTestMatch, endTurn, playEquipmentFromHand, playUnitFromHand } from "./engine/setup";
 
-let match = createMatch();
+let match = createFixedTestMatch();
 
 console.log("=== START ===");
 console.log(JSON.stringify(match, null, 2));
@@ -9,21 +9,43 @@ console.log(JSON.stringify(match, null, 2));
 // P2 turn
 match = endTurn(match);
 
-// Play Bronze Scout from hand index 0 to front
+// P2 plays scout from hand index 0
 match = playUnitFromHand(match, "P2", 0, "front");
 
 console.log("\n=== AFTER P2 PLAYS SCOUT ===");
 console.log(JSON.stringify(match, null, 2));
 
-// End P2 turn, go back to P1
+// P1 turn
 match = endTurn(match);
 
-// End P1 turn, go back to P2 so scout loses summoning sickness
+// P1 plays stone guard from hand index 0
+match = playUnitFromHand(match, "P1", 0, "front");
+
+console.log("\n=== AFTER P1 PLAYS STONE GUARD ===");
+console.log(JSON.stringify(match, null, 2));
+
+// Back to P2 turn
 match = endTurn(match);
 
+// NOW P2 has 3 energy, so Axe can be equipped
 const scoutId = match.players.P2.board.front[0].instanceId;
 
-match = attackHero(match, "P2", scoutId);
+// After previous turns, Axe should still be in hand.
+// Find it properly instead of guessing index.
+const axeIndex = match.players.P2.hand.findIndex((cardId) => cardId === "eq_axe");
 
-console.log("\n=== AFTER SCOUT ATTACKS P1 HERO ===");
+if (axeIndex === -1) {
+  throw new Error("P2 does not have eq_axe in hand");
+}
+
+match = playEquipmentFromHand(match, "P2", axeIndex, scoutId);
+
+console.log("\n=== AFTER P2 EQUIPS AXE TO SCOUT ===");
+console.log(JSON.stringify(match, null, 2));
+
+const defenderId = match.players.P1.board.front[0].instanceId;
+
+match = attackUnit(match, "P2", scoutId, defenderId);
+
+console.log("\n=== AFTER AXE SCOUT ATTACKS STONE GUARD ===");
 console.log(JSON.stringify(match, null, 2));
