@@ -73,24 +73,9 @@ function markAttackerSpent(
   });
 }
 
-function applyDamageToUnit(unit: UnitInPlay, damage: number): UnitInPlay {
-  let remainingDamage = damage;
-  let nextArmor = unit.armor;
-
-  if (nextArmor > 0) {
-    const blocked = Math.min(nextArmor, remainingDamage);
-    nextArmor -= blocked;
-    remainingDamage -= blocked;
-  }
-
-  return {
-    ...unit,
-    armor: nextArmor,
-    health: unit.health - remainingDamage
-  };
-}
-
 function healHero(match: MatchState, playerId: PlayerId, amount: number): MatchState {
+  if (amount <= 0) return match;
+
   const player = match.players[playerId];
 
   return {
@@ -106,6 +91,8 @@ function healHero(match: MatchState, playerId: PlayerId, amount: number): MatchS
 }
 
 function damageHero(match: MatchState, playerId: PlayerId, amount: number): MatchState {
+  if (amount <= 0) return match;
+
   const player = match.players[playerId];
   const nextHealth = player.health - amount;
 
@@ -125,11 +112,71 @@ function damageHero(match: MatchState, playerId: PlayerId, amount: number): Matc
 function hasTauntUnit(match: MatchState, playerId: PlayerId): boolean {
   const player = match.players[playerId];
   const allUnits = [...player.board.front, ...player.board.back];
-  return allUnits.some((unit) => unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT");
+  return allUnits.some(
+    (unit) => unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT"
+  );
 }
 
 function isTauntUnit(unit: UnitInPlay): boolean {
   return unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT";
+}
+
+function applyDamageToUnit(
+  unit: UnitInPlay,
+  damage: number,
+  ignoresArmor: boolean
+): UnitInPlay {
+  if (damage <= 0) return unit;
+
+  if (ignoresArmor) {
+    return {
+      ...unit,
+      health: unit.health - damage
+    };
+  }
+
+  let remainingDamage = damage;
+  let nextArmor = unit.armor;
+
+  if (nextArmor > 0) {
+    const blocked = Math.min(nextArmor, remainingDamage);
+    nextArmor -= blocked;
+    remainingDamage -= blocked;
+  }
+
+  return {
+    ...unit,
+    armor: nextArmor,
+    health: unit.health - remainingDamage
+  };
+}
+
+function getModifiedAttackAgainstUnit(attacker: UnitInPlay, defender: UnitInPlay): number {
+  const passive = getUnitPassive(attacker.cardId);
+  let attack = attacker.attack;
+
+  if (passive === "EXECUTE_PRESSURE" && defender.health <= 5) {
+    attack += 2;
+  }
+
+  return attack;
+}
+
+function doesUnitIgnoreArmor(unit: UnitInPlay): boolean {
+  return getUnitPassive(unit.cardId) === "IGNORE_ARMOR";
+}
+
+function applyLifestealIfNeeded(
+  match: MatchState,
+  attackerPlayerId: PlayerId,
+  attacker: UnitInPlay,
+  damageDealt: number
+): MatchState {
+  if (getUnitPassive(attacker.cardId) !== "LIFESTEAL") {
+    return match;
+  }
+
+  return healHero(match, attackerPlayerId, damageDealt);
 }
 
 export function attackUnit(
@@ -163,19 +210,25 @@ export function attackUnit(
     throw new Error("Must attack a TAUNT unit first");
   }
 
-  const attackerDamage = attacker.attack;
-  const defenderDamage = defender.attack;
+  const attackerDamage = getModifiedAttackAgainstUnit(attacker, defender);
+  const defenderDamage = getModifiedAttackAgainstUnit(defender, attacker);
 
-  attacker = applyDamageToUnit(attacker, defenderDamage);
-  defender = applyDamageToUnit(defender, attackerDamage);
+  const attackerIgnoresArmor = doesUnitIgnoreArmor(attacker);
+  const defenderIgnoresArmor = doesUnitIgnoreArmor(defender);
+
+  attacker = applyDamageToUnit(attacker, defenderDamage, defenderIgnoresArmor);
+  defender = applyDamageToUnit(defender, attackerDamage, attackerIgnoresArmor);
 
   let updatedMatch = updateUnitInBoard(match, attackerPlayerId, attacker);
   updatedMatch = updateUnitInBoard(updatedMatch, defenderPlayerId, defender);
   updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
 
-  if (getUnitPassive(attacker.cardId) === "LIFESTEAL" && attackerDamage > 0) {
-    updatedMatch = healHero(updatedMatch, attackerPlayerId, attackerDamage);
-  }
+  updatedMatch = applyLifestealIfNeeded(
+    updatedMatch,
+    attackerPlayerId,
+    getUnitByInstanceId(updatedMatch, attackerPlayerId, attackerInstanceId),
+    attackerDamage
+  );
 
   updatedMatch = cleanupDeadUnits(updatedMatch);
 
@@ -210,12 +263,15 @@ export function attackHero(
     throw new Error("Cannot attack hero while enemy TAUNT unit exists");
   }
 
-  let updatedMatch = damageHero(match, defenderPlayerId, attacker.attack);
-  updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
+  let heroDamage = attacker.attack;
 
-  if (getUnitPassive(attacker.cardId) === "LIFESTEAL" && attacker.attack > 0) {
-    updatedMatch = healHero(updatedMatch, attackerPlayerId, attacker.attack);
+  if (getUnitPassive(attacker.cardId) === "EXECUTE_PRESSURE") {
+    heroDamage += 1;
   }
+
+  let updatedMatch = damageHero(match, defenderPlayerId, heroDamage);
+  updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
+  updatedMatch = applyLifestealIfNeeded(updatedMatch, attackerPlayerId, attacker, heroDamage);
 
   return updatedMatch;
 }
