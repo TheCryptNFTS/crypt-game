@@ -14,15 +14,12 @@ match = performAction(match, {
   lane: "front"
 });
 
-console.log("\n=== AFTER P1 PLAYS STONE GUARD (UNIT_PLAYED EVENT FIRED) ===");
-console.log(JSON.stringify(match, null, 2));
-
 // End P1 turn
 match = performAction(match, { type: "GO_TO_COMBAT" });
 match = performAction(match, { type: "GO_TO_END" });
 match = performAction(match, { type: "END_TURN" });
 
-// P2 plays Bronze Scout
+// P2 plays Bomb Skull
 match = performAction(match, {
   type: "PLAY_UNIT",
   playerId: "P2",
@@ -30,34 +27,29 @@ match = performAction(match, {
   lane: "front"
 });
 
-// Make scout lethal
-match.players.P2.board.front[0].attack = 20;
-
-console.log("\n=== AFTER P2 PLAYS SUPER SCOUT (UNIT_PLAYED EVENT FIRED) ===");
+console.log("\n=== AFTER P2 PLAYS BOMB SKULL ===");
 console.log(JSON.stringify(match, null, 2));
+
+// Make Stone Guard kill Bomb Skull
+match.players.P1.board.front[0].attack = 10;
 
 // End P2 turn
 match = performAction(match, { type: "GO_TO_COMBAT" });
 match = performAction(match, { type: "GO_TO_END" });
 match = performAction(match, { type: "END_TURN" });
 
-// P1 immediately passes
-match = performAction(match, { type: "GO_TO_COMBAT" });
-match = performAction(match, { type: "GO_TO_END" });
-match = performAction(match, { type: "END_TURN" });
-
-// P2 kills Stone Guard
+// P1 combat
 match = performAction(match, { type: "GO_TO_COMBAT" });
 
-const scoutId = match.players.P2.board.front[0].instanceId;
 const guardId = match.players.P1.board.front[0].instanceId;
+const bombId = match.players.P2.board.front[0].instanceId;
 
 match = performAction(match, {
   type: "ATTACK_UNIT",
-  playerId: "P2",
-  attackerInstanceId: scoutId,
-  defenderInstanceId: guardId
+  playerId: "P1",
+  attackerInstanceId: guardId,
+  defenderInstanceId: bombId
 });
 
-console.log("\n=== AFTER STONE GUARD DIES (UNIT_DIED EVENT FIRED) ===");
+console.log("\n=== AFTER BOMB SKULL DIES ===");
 console.log(JSON.stringify(match, null, 2));

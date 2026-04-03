@@ -105,8 +105,8 @@ export function createFixedTestMatch(): MatchState {
       P2: {
         id: "P2",
         health: 30,
-        energy: 1,
-        maxEnergy: 1,
+        energy: 2,
+        maxEnergy: 2,
         commanderId: "cmd_bronze_raider",
         deck: [
           "unit_blade_striker",
@@ -115,7 +115,7 @@ export function createFixedTestMatch(): MatchState {
           "unit_bronze_scout"
         ],
         hand: [
-          "unit_bronze_scout",
+          "unit_bomb_skull",
           "eq_axe",
           "unit_blade_striker"
         ],

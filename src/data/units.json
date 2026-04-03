@@ -88,5 +88,20 @@
         "armor": 0
       },
       "keywords": []
+    },
+    {
+      "id": "unit_bomb_skull",
+      "name": "Bomb Skull",
+      "type": "unit",
+      "faction": "bronze",
+      "rarity": "rare",
+      "cost": 2,
+      "stats": {
+        "attack": 2,
+        "health": 4,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": ["DEATH_BLAST_2"]
     }
   ]

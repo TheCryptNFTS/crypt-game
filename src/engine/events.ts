@@ -72,6 +72,28 @@ function applyBronzeStartTurnDiscount(
   };
 }
 
+function dealDamageToHero(
+  match: MatchState,
+  playerId: PlayerId,
+  damage: number
+): MatchState {
+  const enemyId: PlayerId = playerId === "P1" ? "P2" : "P1";
+  const enemy = match.players[enemyId];
+  const nextHealth = Math.max(0, enemy.health - damage);
+
+  return {
+    ...match,
+    winner: nextHealth <= 0 ? playerId : match.winner,
+    players: {
+      ...match.players,
+      [enemyId]: {
+        ...enemy,
+        health: nextHealth
+      }
+    }
+  };
+}
+
 export function emitEvent(match: MatchState, event: GameEvent): MatchState {
   const player = match.players[event.playerId];
 
@@ -92,6 +114,9 @@ export function emitEvent(match: MatchState, event: GameEvent): MatchState {
       return match;
 
     case "UNIT_DIED":
+      if (event.cardId === "unit_bomb_skull") {
+        return dealDamageToHero(match, event.playerId, 2);
+      }
       return match;
 
     default:
