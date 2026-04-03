@@ -6,12 +6,12 @@ let match = createFixedTestMatch();
 console.log("=== START ===");
 console.log(JSON.stringify(match, null, 2));
 
-// P1 -> combat -> end -> pass turn
+// P1 -> pass to P2
 match = performAction(match, { type: "GO_TO_COMBAT" });
 match = performAction(match, { type: "GO_TO_END" });
 match = performAction(match, { type: "END_TURN" });
 
-// P2 main: play scout
+// P2 plays scout
 match = performAction(match, {
   type: "PLAY_UNIT",
   playerId: "P2",
@@ -19,15 +19,18 @@ match = performAction(match, {
   lane: "front"
 });
 
-console.log("\n=== AFTER P2 PLAYS SCOUT ===");
+// Buff scout manually for a lethal test
+match.players.P2.board.front[0].attack = 20;
+
+console.log("\n=== AFTER P2 PLAYS SUPER SCOUT ===");
 console.log(JSON.stringify(match, null, 2));
 
-// P2 -> combat -> end -> pass turn
+// P2 pass to P1
 match = performAction(match, { type: "GO_TO_COMBAT" });
 match = performAction(match, { type: "GO_TO_END" });
 match = performAction(match, { type: "END_TURN" });
 
-// P1 main: play shield bearer
+// P1 plays shield bearer
 match = performAction(match, {
   type: "PLAY_UNIT",
   playerId: "P1",
@@ -38,7 +41,7 @@ match = performAction(match, {
 console.log("\n=== AFTER P1 PLAYS SHIELD BEARER ===");
 console.log(JSON.stringify(match, null, 2));
 
-// P1 -> combat -> end -> pass turn
+// P1 pass to P2
 match = performAction(match, { type: "GO_TO_COMBAT" });
 match = performAction(match, { type: "GO_TO_END" });
 match = performAction(match, { type: "END_TURN" });
@@ -47,27 +50,14 @@ match = performAction(match, { type: "END_TURN" });
 match = performAction(match, { type: "GO_TO_COMBAT" });
 
 const scoutId = match.players.P2.board.front[0].instanceId;
-const tauntId = match.players.P1.board.front[0].instanceId;
+const defenderId = match.players.P1.board.front[0].instanceId;
 
-// Hero attack should fail
-try {
-  match = performAction(match, {
-    type: "ATTACK_HERO",
-    playerId: "P2",
-    attackerInstanceId: scoutId
-  });
-} catch (error) {
-  console.log("\n=== HERO ATTACK BLOCKED ===");
-  console.log(error instanceof Error ? error.message : error);
-}
-
-// Unit attack should work
 match = performAction(match, {
   type: "ATTACK_UNIT",
   playerId: "P2",
   attackerInstanceId: scoutId,
-  defenderInstanceId: tauntId
+  defenderInstanceId: defenderId
 });
 
-console.log("\n=== AFTER SCOUT ATTACKS TAUNT UNIT ===");
+console.log("\n=== AFTER SUPER SCOUT KILLS SHIELD BEARER ===");
 console.log(JSON.stringify(match, null, 2));

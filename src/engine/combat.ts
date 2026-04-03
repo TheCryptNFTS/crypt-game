@@ -1,3 +1,4 @@
+import { cleanupDeadUnits } from "./cleanup";
 import { MatchState, PlayerId, UnitInPlay } from "./state";
 
 function getOpponentId(playerId: PlayerId): PlayerId {
@@ -154,22 +155,13 @@ export function attackUnit(
     defender.attack
   );
 
-  let newPlayerFront = [...player.board.front];
-  let newOpponentFront = [...opponent.board.front];
+  const newPlayerFront = [...player.board.front];
+  newPlayerFront[attackerIndex] = damagedAttacker;
 
-  if (damagedAttacker.health <= 0) {
-    newPlayerFront = newPlayerFront.filter((unit) => unit.instanceId !== attackerInstanceId);
-  } else {
-    newPlayerFront[attackerIndex] = damagedAttacker;
-  }
+  const newOpponentFront = [...opponent.board.front];
+  newOpponentFront[defenderIndex] = damagedDefender;
 
-  if (damagedDefender.health <= 0) {
-    newOpponentFront = newOpponentFront.filter((unit) => unit.instanceId !== defenderInstanceId);
-  } else {
-    newOpponentFront[defenderIndex] = damagedDefender;
-  }
-
-  return {
+  const updatedMatch: MatchState = {
     ...match,
     players: {
       ...match.players,
@@ -189,4 +181,6 @@ export function attackUnit(
       }
     }
   };
+
+  return cleanupDeadUnits(updatedMatch);
 }
