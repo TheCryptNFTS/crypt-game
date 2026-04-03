@@ -166,35 +166,6 @@ function applyLifestealIfNeeded(
   return healHero(match, attackerPlayerId, damageDealt);
 }
 
-function emitUnitDeathEvents(beforeCleanup: MatchState, afterCleanup: MatchState): MatchState {
-  let updatedMatch = afterCleanup;
-
-  for (const playerId of ["P1", "P2"] as PlayerId[]) {
-    const beforePlayer = beforeCleanup.players[playerId];
-    const afterPlayer = afterCleanup.players[playerId];
-
-    const beforeUnits = [...beforePlayer.board.front, ...beforePlayer.board.back];
-    const afterUnitIds = new Set(
-      [...afterPlayer.board.front, ...afterPlayer.board.back].map((unit) => unit.instanceId)
-    );
-
-    const deadUnits = beforeUnits.filter(
-      (unit) => unit.health <= 0 || !afterUnitIds.has(unit.instanceId)
-    );
-
-    for (const deadUnit of deadUnits) {
-      updatedMatch = emitEvent(updatedMatch, {
-        type: "UNIT_DIED",
-        unitId: deadUnit.instanceId,
-        cardId: deadUnit.cardId,
-        ownerId: playerId
-      });
-    }
-  }
-
-  return updatedMatch;
-}
-
 export function attackUnit(
   match: MatchState,
   attackerPlayerId: PlayerId,
@@ -249,9 +220,7 @@ export function attackUnit(
     attackerDamage
   );
 
-  const beforeCleanup = updatedMatch;
   updatedMatch = cleanupDeadUnits(updatedMatch);
-  updatedMatch = emitUnitDeathEvents(beforeCleanup, updatedMatch);
 
   return updatedMatch;
 }
