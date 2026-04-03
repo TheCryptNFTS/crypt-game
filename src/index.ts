@@ -1,7 +1,17 @@
-import { LOADED_COMMANDERS, getLoadedCommanderById } from "./data/loadCommanders";
+import { createMatch, createFixedTestMatch } from "./engine/setup";
+import { getLoadedCommanderById } from "./data/loadCommanders";
 
-console.log("=== ALL LOADED COMMANDERS ===");
-console.log(JSON.stringify(LOADED_COMMANDERS, null, 2));
+const liveMatch = createMatch();
+const fixedMatch = createFixedTestMatch();
 
-console.log("\n=== SINGLE COMMANDER TEST ===");
-console.log(JSON.stringify(getLoadedCommanderById("cmd_stone_warden"), null, 2));;
+console.log("=== LIVE MATCH ===");
+console.log(JSON.stringify(liveMatch, null, 2));
+
+console.log("\n=== FIXED MATCH ===");
+console.log(JSON.stringify(fixedMatch, null, 2));
+
+console.log("\n=== P1 LIVE COMMANDER ===");
+console.log(JSON.stringify(getLoadedCommanderById(liveMatch.players.P1.commanderId), null, 2));
+
+console.log("\n=== P2 LIVE COMMANDER ===");
+console.log(JSON.stringify(getLoadedCommanderById(liveMatch.players.P2.commanderId), null, 2));
