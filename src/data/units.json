@@ -103,5 +103,20 @@
         "armor": 0
       },
       "keywords": ["DEATH_BLAST_2"]
+    },
+    {
+      "id": "unit_shock_raider",
+      "name": "Shock Raider",
+      "type": "unit",
+      "faction": "bronze",
+      "rarity": "rare",
+      "cost": 2,
+      "stats": {
+        "attack": 3,
+        "health": 5,
+        "speed": 3,
+        "armor": 0
+      },
+      "keywords": ["BATTLECRY_HERO_2"]
     }
   ]

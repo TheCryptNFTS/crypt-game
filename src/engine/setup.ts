@@ -115,7 +115,7 @@ export function createFixedTestMatch(): MatchState {
           "unit_bronze_scout"
         ],
         hand: [
-          "unit_bomb_skull",
+          "unit_shock_raider",
           "eq_axe",
           "unit_blade_striker"
         ],
