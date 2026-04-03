@@ -2,6 +2,7 @@ import decks from "../data/decks.json";
 import units from "../data/units.json";
 import equipment from "../data/equipment.json";
 import spells from "../data/spells.json";
+import { getLoadedCommanderById } from "../data/loadCommanders";
 import { emitEvent } from "./events";
 import { cleanupDeadUnits } from "./cleanup";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
@@ -44,11 +45,18 @@ function drawCards(deck: string[], count: number) {
   return { newDeck, drawn };
 }
 
+function assertCommanderExists(commanderId: string): void {
+  getLoadedCommanderById(commanderId);
+}
+
 function createPlayer(
   playerId: PlayerId,
   deckKey: "deck_stone_test" | "deck_bronze_test"
 ): PlayerState {
   const deckDef = decks[deckKey];
+
+  assertCommanderExists(deckDef.commanderId);
+
   const shuffledDeck = shuffle(deckDef.cardIds);
   const { newDeck, drawn } = drawCards(shuffledDeck, 3);
 
@@ -86,6 +94,9 @@ export function createMatch(): MatchState {
 }
 
 export function createFixedTestMatch(): MatchState {
+  assertCommanderExists("cmd_stone_warden");
+  assertCommanderExists("cmd_bronze_raider");
+
   return {
     turn: 1,
     activePlayer: "P1",
@@ -178,7 +189,7 @@ function spendSpell(
   player: PlayerState,
   spellCard: SpellCard,
   handIndex: number
-) {
+): MatchState {
   const newHand = [...player.hand];
   newHand.splice(handIndex, 1);
 

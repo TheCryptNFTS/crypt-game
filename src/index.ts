@@ -1,4 +1,7 @@
-console.log("Crypt Game engine is set up.");
-console.log("Run specific test files instead of using src/index.ts as a scratchpad.");
-console.log("Example:");
-console.log("npx ts-node src/tests/effectsSmoke.ts");
+import { LOADED_COMMANDERS, getLoadedCommanderById } from "./data/loadCommanders";
+
+console.log("=== ALL LOADED COMMANDERS ===");
+console.log(JSON.stringify(LOADED_COMMANDERS, null, 2));
+
+console.log("\n=== SINGLE COMMANDER TEST ===");
+console.log(JSON.stringify(getLoadedCommanderById("cmd_stone_warden"), null, 2));;
