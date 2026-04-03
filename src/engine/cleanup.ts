@@ -1,34 +1,28 @@
 import { emitEvent } from "./events";
-import { MatchState, PlayerId } from "./state";
+import { MatchState, PlayerId, UnitInPlay } from "./state";
 
-function cleanupPlayerDeadUnits(match: MatchState, playerId: PlayerId): MatchState {
+function getAllDeadUnits(units: UnitInPlay[]): UnitInPlay[] {
+  return units.filter((unit) => unit.health <= 0);
+}
+
+function getAllLivingUnits(units: UnitInPlay[]): UnitInPlay[] {
+  return units.filter((unit) => unit.health > 0);
+}
+
+function processPlayerDeadUnits(match: MatchState, playerId: PlayerId): MatchState {
   const player = match.players[playerId];
 
-  const deadFront = player.board.front.filter((unit) => unit.health <= 0);
-  const deadBack = player.board.back.filter((unit) => unit.health <= 0);
+  const deadFront = getAllDeadUnits(player.board.front);
+  const deadBack = getAllDeadUnits(player.board.back);
+  const allDeadUnits = [...deadFront, ...deadBack];
 
-  const survivingFront = player.board.front.filter((unit) => unit.health > 0);
-  const survivingBack = player.board.back.filter((unit) => unit.health > 0);
+  if (allDeadUnits.length === 0) {
+    return match;
+  }
 
-  const deadUnits = [...deadFront, ...deadBack];
-  const deadCardIds = deadUnits.map((unit) => unit.cardId);
+  let updatedMatch = match;
 
-  let updatedMatch: MatchState = {
-    ...match,
-    players: {
-      ...match.players,
-      [playerId]: {
-        ...player,
-        discard: [...player.discard, ...deadCardIds],
-        board: {
-          front: survivingFront,
-          back: survivingBack
-        }
-      }
-    }
-  };
-
-  for (const deadUnit of deadUnits) {
+  for (const deadUnit of allDeadUnits) {
     updatedMatch = emitEvent(updatedMatch, {
       type: "UNIT_DIED",
       playerId,
@@ -37,11 +31,33 @@ function cleanupPlayerDeadUnits(match: MatchState, playerId: PlayerId): MatchSta
     });
   }
 
+  const latestPlayer = updatedMatch.players[playerId];
+  const stillLivingFront = getAllLivingUnits(latestPlayer.board.front);
+  const stillLivingBack = getAllLivingUnits(latestPlayer.board.back);
+
+  updatedMatch = {
+    ...updatedMatch,
+    players: {
+      ...updatedMatch.players,
+      [playerId]: {
+        ...latestPlayer,
+        discard: [...latestPlayer.discard, ...allDeadUnits.map((unit) => unit.cardId)],
+        board: {
+          front: stillLivingFront,
+          back: stillLivingBack
+        }
+      }
+    }
+  };
+
   return updatedMatch;
 }
 
 export function cleanupDeadUnits(match: MatchState): MatchState {
-  let updated = cleanupPlayerDeadUnits(match, "P1");
-  updated = cleanupPlayerDeadUnits(updated, "P2");
-  return updated;
+  let updatedMatch = match;
+
+  updatedMatch = processPlayerDeadUnits(updatedMatch, "P1");
+  updatedMatch = processPlayerDeadUnits(updatedMatch, "P2");
+
+  return updatedMatch;
 }
