@@ -112,6 +112,7 @@ function damageHero(match: MatchState, playerId: PlayerId, amount: number): Matc
 function hasTauntUnit(match: MatchState, playerId: PlayerId): boolean {
   const player = match.players[playerId];
   const allUnits = [...player.board.front, ...player.board.back];
+
   return allUnits.some(
     (unit) => unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT"
   );
@@ -121,19 +122,8 @@ function isTauntUnit(unit: UnitInPlay): boolean {
   return unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT";
 }
 
-function applyDamageToUnit(
-  unit: UnitInPlay,
-  damage: number,
-  ignoresArmor: boolean
-): UnitInPlay {
+function applyDamageToUnit(unit: UnitInPlay, damage: number): UnitInPlay {
   if (damage <= 0) return unit;
-
-  if (ignoresArmor) {
-    return {
-      ...unit,
-      health: unit.health - damage
-    };
-  }
 
   let remainingDamage = damage;
   let nextArmor = unit.armor;
@@ -160,10 +150,6 @@ function getModifiedAttackAgainstUnit(attacker: UnitInPlay, defender: UnitInPlay
   }
 
   return attack;
-}
-
-function doesUnitIgnoreArmor(unit: UnitInPlay): boolean {
-  return getUnitPassive(unit.cardId) === "IGNORE_ARMOR";
 }
 
 function applyLifestealIfNeeded(
@@ -213,11 +199,8 @@ export function attackUnit(
   const attackerDamage = getModifiedAttackAgainstUnit(attacker, defender);
   const defenderDamage = getModifiedAttackAgainstUnit(defender, attacker);
 
-  const attackerIgnoresArmor = doesUnitIgnoreArmor(attacker);
-  const defenderIgnoresArmor = doesUnitIgnoreArmor(defender);
-
-  attacker = applyDamageToUnit(attacker, defenderDamage, defenderIgnoresArmor);
-  defender = applyDamageToUnit(defender, attackerDamage, attackerIgnoresArmor);
+  attacker = applyDamageToUnit(attacker, defenderDamage);
+  defender = applyDamageToUnit(defender, attackerDamage);
 
   let updatedMatch = updateUnitInBoard(match, attackerPlayerId, attacker);
   updatedMatch = updateUnitInBoard(updatedMatch, defenderPlayerId, defender);
