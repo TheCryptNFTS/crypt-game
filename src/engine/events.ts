@@ -1,4 +1,5 @@
-import { MatchState, PlayerId } from "./state";
+import { MatchState, PlayerId, UnitInPlay } from "./state";
+import { applyBattlecryEffects, applyDeathPassiveEffects } from "./unitAbilities";
 
 export type GameEvent =
   | {
@@ -22,11 +23,7 @@ export type GameEvent =
       instanceId: string;
     };
 
-function applyArmorToAllFriendly(
-  match: MatchState,
-  playerId: PlayerId,
-  amount: number
-): MatchState {
+function applyArmorToAllFriendly(match: MatchState, playerId: PlayerId, amount: number): MatchState {
   const player = match.players[playerId];
 
   return {
@@ -50,10 +47,7 @@ function applyArmorToAllFriendly(
   };
 }
 
-function applyBronzeStartTurnDiscount(
-  match: MatchState,
-  playerId: PlayerId
-): MatchState {
+function applyBronzeStartTurnDiscount(match: MatchState, playerId: PlayerId): MatchState {
   const player = match.players[playerId];
 
   return {
@@ -72,25 +66,36 @@ function applyBronzeStartTurnDiscount(
   };
 }
 
-function dealDamageToEnemyHero(
+function findUnitInBoard(
   match: MatchState,
-  sourcePlayerId: PlayerId,
-  damage: number
-): MatchState {
-  const enemyId: PlayerId = sourcePlayerId === "P1" ? "P2" : "P1";
-  const enemy = match.players[enemyId];
-  const nextHealth = Math.max(0, enemy.health - damage);
+  playerId: PlayerId,
+  instanceId: string
+): UnitInPlay | null {
+  const player = match.players[playerId];
 
+  for (const unit of player.board.front) {
+    if (unit.instanceId === instanceId) return unit;
+  }
+
+  for (const unit of player.board.back) {
+    if (unit.instanceId === instanceId) return unit;
+  }
+
+  return null;
+}
+
+function makeDeadUnitSnapshot(event: Extract<GameEvent, { type: "UNIT_DIED" }>): UnitInPlay {
   return {
-    ...match,
-    winner: nextHealth <= 0 ? sourcePlayerId : match.winner,
-    players: {
-      ...match.players,
-      [enemyId]: {
-        ...enemy,
-        health: nextHealth
-      }
-    }
+    instanceId: event.instanceId,
+    cardId: event.cardId,
+    lane: "front",
+    attack: 0,
+    health: 0,
+    speed: 0,
+    armor: 0,
+    keywords: [],
+    exhausted: true,
+    summoningSick: false
   };
 }
 
@@ -98,29 +103,36 @@ export function emitEvent(match: MatchState, event: GameEvent): MatchState {
   const player = match.players[event.playerId];
 
   switch (event.type) {
-    case "TURN_START":
+    case "TURN_START": {
       if (player.commanderId === "cmd_bronze_raider") {
         return applyBronzeStartTurnDiscount(match, event.playerId);
       }
-      return match;
 
-    case "TURN_END":
+      return match;
+    }
+
+    case "TURN_END": {
       if (player.commanderId === "cmd_stone_warden") {
         return applyArmorToAllFriendly(match, event.playerId, 1);
       }
-      return match;
 
-    case "UNIT_PLAYED":
-      if (event.cardId === "unit_shock_raider") {
-        return dealDamageToEnemyHero(match, event.playerId, 2);
-      }
       return match;
+    }
 
-    case "UNIT_DIED":
-      if (event.cardId === "unit_bomb_skull") {
-        return dealDamageToEnemyHero(match, event.playerId, 2);
+    case "UNIT_PLAYED": {
+      const playedUnit = findUnitInBoard(match, event.playerId, event.instanceId);
+
+      if (!playedUnit) {
+        return match;
       }
-      return match;
+
+      return applyBattlecryEffects(match, event.playerId, playedUnit);
+    }
+
+    case "UNIT_DIED": {
+      const deadUnit = makeDeadUnitSnapshot(event);
+      return applyDeathPassiveEffects(match, event.playerId, deadUnit);
+    }
 
     default:
       return match;
