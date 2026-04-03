@@ -30,7 +30,7 @@ export type GameAction =
       type: "PLAY_SPELL";
       playerId: PlayerId;
       handIndex: number;
-      targetInstanceId: string;
+      targetInstanceId?: string;
     }
   | {
       type: "ATTACK_HERO";

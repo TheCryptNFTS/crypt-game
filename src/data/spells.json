@@ -10,5 +10,17 @@
         "type": "DAMAGE_UNIT",
         "value": 3
       }
+    },
+    {
+      "id": "spell_insight",
+      "name": "Insight",
+      "type": "spell",
+      "faction": "stone",
+      "rarity": "common",
+      "cost": 2,
+      "effect": {
+        "type": "DRAW_CARDS",
+        "value": 2
+      }
     }
   ]

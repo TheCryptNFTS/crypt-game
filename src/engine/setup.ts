@@ -86,10 +86,11 @@ export function createFixedTestMatch(): MatchState {
         deck: [
           "unit_stone_brute",
           "eq_riot_shield",
-          "unit_stone_guard"
+          "unit_stone_guard",
+          "eq_heavy_plate"
         ],
         hand: [
-          "spell_firebolt",
+          "spell_insight",
           "unit_stone_guard",
           "eq_heavy_plate"
         ],
@@ -330,7 +331,7 @@ export function playSpellFromHand(
   match: MatchState,
   playerId: PlayerId,
   handIndex: number,
-  targetInstanceId: string
+  targetInstanceId?: string
 ): MatchState {
   if (match.activePlayer !== playerId) {
     throw new Error("Not this player's turn");
@@ -359,69 +360,94 @@ export function playSpellFromHand(
     throw new Error("Not enough energy");
   }
 
-  const enemyFrontIndex = enemy.board.front.findIndex((u) => u.instanceId === targetInstanceId);
-  const enemyBackIndex = enemy.board.back.findIndex((u) => u.instanceId === targetInstanceId);
-
-  let lane: Lane;
-  let unitIndex: number;
-
-  if (enemyFrontIndex !== -1) {
-    lane = "front";
-    unitIndex = enemyFrontIndex;
-  } else if (enemyBackIndex !== -1) {
-    lane = "back";
-    unitIndex = enemyBackIndex;
-  } else {
-    throw new Error("Target enemy unit not found");
-  }
-
-  const targetUnit = enemy.board[lane][unitIndex];
-  const damage = spellCard.effect.value;
-
-  let remainingDamage = damage;
-  let nextArmor = targetUnit.armor;
-
-  if (nextArmor > 0) {
-    const blocked = Math.min(nextArmor, remainingDamage);
-    nextArmor -= blocked;
-    remainingDamage -= blocked;
-  }
-
-  const updatedUnit: UnitInPlay = {
-    ...targetUnit,
-    armor: nextArmor,
-    health: targetUnit.health - remainingDamage
-  };
-
-  const updatedEnemyLane = [...enemy.board[lane]];
-  updatedEnemyLane[unitIndex] = updatedUnit;
-
   const newHand = [...player.hand];
   newHand.splice(handIndex, 1);
 
-  let updatedMatch: MatchState = {
-    ...match,
-    players: {
-      ...match.players,
-      [playerId]: {
-        ...player,
-        energy: player.energy - spellCard.cost,
-        hand: newHand,
-        discard: [...player.discard, spellCard.id]
-      },
-      [enemyId]: {
-        ...enemy,
-        board: {
-          ...enemy.board,
-          [lane]: updatedEnemyLane
+  if (spellCard.effect.type === "DRAW_CARDS") {
+    const { newDeck, drawn } = drawCards(player.deck, spellCard.effect.value);
+
+    return {
+      ...match,
+      players: {
+        ...match.players,
+        [playerId]: {
+          ...player,
+          energy: player.energy - spellCard.cost,
+          deck: newDeck,
+          hand: [...newHand, ...drawn],
+          discard: [...player.discard, spellCard.id]
         }
       }
+    };
+  }
+
+  if (spellCard.effect.type === "DAMAGE_UNIT") {
+    if (!targetInstanceId) {
+      throw new Error("This spell requires a target");
     }
-  };
 
-  updatedMatch = cleanupDeadUnits(updatedMatch);
+    const enemyFrontIndex = enemy.board.front.findIndex((u) => u.instanceId === targetInstanceId);
+    const enemyBackIndex = enemy.board.back.findIndex((u) => u.instanceId === targetInstanceId);
 
-  return updatedMatch;
+    let lane: Lane;
+    let unitIndex: number;
+
+    if (enemyFrontIndex !== -1) {
+      lane = "front";
+      unitIndex = enemyFrontIndex;
+    } else if (enemyBackIndex !== -1) {
+      lane = "back";
+      unitIndex = enemyBackIndex;
+    } else {
+      throw new Error("Target enemy unit not found");
+    }
+
+    const targetUnit = enemy.board[lane][unitIndex];
+    const damage = spellCard.effect.value;
+
+    let remainingDamage = damage;
+    let nextArmor = targetUnit.armor;
+
+    if (nextArmor > 0) {
+      const blocked = Math.min(nextArmor, remainingDamage);
+      nextArmor -= blocked;
+      remainingDamage -= blocked;
+    }
+
+    const updatedUnit: UnitInPlay = {
+      ...targetUnit,
+      armor: nextArmor,
+      health: targetUnit.health - remainingDamage
+    };
+
+    const updatedEnemyLane = [...enemy.board[lane]];
+    updatedEnemyLane[unitIndex] = updatedUnit;
+
+    let updatedMatch: MatchState = {
+      ...match,
+      players: {
+        ...match.players,
+        [playerId]: {
+          ...player,
+          energy: player.energy - spellCard.cost,
+          hand: newHand,
+          discard: [...player.discard, spellCard.id]
+        },
+        [enemyId]: {
+          ...enemy,
+          board: {
+            ...enemy.board,
+            [lane]: updatedEnemyLane
+          }
+        }
+      }
+    };
+
+    updatedMatch = cleanupDeadUnits(updatedMatch);
+    return updatedMatch;
+  }
+
+  throw new Error("Unknown spell effect type");
 }
 
 export function endTurn(match: MatchState): MatchState {
