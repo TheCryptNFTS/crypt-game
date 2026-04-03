@@ -1,4 +1,5 @@
 import { cleanupDeadUnits } from "./cleanup";
+import { emitEvent } from "./events";
 import { MatchState, PlayerId, UnitInPlay } from "./state";
 import { getUnitPassive } from "./unitMetadata";
 
@@ -165,6 +166,35 @@ function applyLifestealIfNeeded(
   return healHero(match, attackerPlayerId, damageDealt);
 }
 
+function emitUnitDeathEvents(beforeCleanup: MatchState, afterCleanup: MatchState): MatchState {
+  let updatedMatch = afterCleanup;
+
+  for (const playerId of ["P1", "P2"] as PlayerId[]) {
+    const beforePlayer = beforeCleanup.players[playerId];
+    const afterPlayer = afterCleanup.players[playerId];
+
+    const beforeUnits = [...beforePlayer.board.front, ...beforePlayer.board.back];
+    const afterUnitIds = new Set(
+      [...afterPlayer.board.front, ...afterPlayer.board.back].map((unit) => unit.instanceId)
+    );
+
+    const deadUnits = beforeUnits.filter(
+      (unit) => unit.health <= 0 || !afterUnitIds.has(unit.instanceId)
+    );
+
+    for (const deadUnit of deadUnits) {
+      updatedMatch = emitEvent(updatedMatch, {
+        type: "UNIT_DIED",
+        unitId: deadUnit.instanceId,
+        cardId: deadUnit.cardId,
+        ownerId: playerId
+      });
+    }
+  }
+
+  return updatedMatch;
+}
+
 export function attackUnit(
   match: MatchState,
   attackerPlayerId: PlayerId,
@@ -196,13 +226,19 @@ export function attackUnit(
     throw new Error("Must attack a TAUNT unit first");
   }
 
+  let updatedMatch = emitEvent(match, {
+    type: "UNIT_ATTACKED",
+    attackerId: attackerInstanceId,
+    defenderId: defenderInstanceId
+  });
+
   const attackerDamage = getModifiedAttackAgainstUnit(attacker, defender);
   const defenderDamage = getModifiedAttackAgainstUnit(defender, attacker);
 
   attacker = applyDamageToUnit(attacker, defenderDamage);
   defender = applyDamageToUnit(defender, attackerDamage);
 
-  let updatedMatch = updateUnitInBoard(match, attackerPlayerId, attacker);
+  updatedMatch = updateUnitInBoard(updatedMatch, attackerPlayerId, attacker);
   updatedMatch = updateUnitInBoard(updatedMatch, defenderPlayerId, defender);
   updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
 
@@ -213,7 +249,9 @@ export function attackUnit(
     attackerDamage
   );
 
+  const beforeCleanup = updatedMatch;
   updatedMatch = cleanupDeadUnits(updatedMatch);
+  updatedMatch = emitUnitDeathEvents(beforeCleanup, updatedMatch);
 
   return updatedMatch;
 }
@@ -252,7 +290,14 @@ export function attackHero(
     heroDamage += 1;
   }
 
-  let updatedMatch = damageHero(match, defenderPlayerId, heroDamage);
+  let updatedMatch = emitEvent(match, {
+    type: "HERO_ATTACKED",
+    attackerId: attackerInstanceId,
+    defenderPlayerId,
+    damage: heroDamage
+  });
+
+  updatedMatch = damageHero(updatedMatch, defenderPlayerId, heroDamage);
   updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
   updatedMatch = applyLifestealIfNeeded(updatedMatch, attackerPlayerId, attacker, heroDamage);
 

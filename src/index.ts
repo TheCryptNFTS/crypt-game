@@ -1,6 +1,5 @@
 import { attackHero, attackUnit } from "./engine/combat";
-import { goToCombatPhase, playUnitFromHand } from "./engine/setup";
-import { createFixedTestMatch } from "./engine/setup";
+import { createFixedTestMatch, goToCombatPhase, playUnitFromHand } from "./engine/setup";
 
 let match = createFixedTestMatch();
 
@@ -220,3 +219,39 @@ executePressureTest = attackUnit(executePressureTest, "P1", strikerId, scoutId);
 
 console.log("\n=== AFTER EXECUTE PRESSURE COMBAT ===");
 console.log(JSON.stringify(executePressureTest, null, 2));
+
+let winTest = createFixedTestMatch();
+
+winTest = playUnitFromHand(winTest, "P1", 0, "front");
+winTest = {
+  ...winTest,
+  players: {
+    ...winTest.players,
+    P1: {
+      ...winTest.players.P1,
+      board: {
+        ...winTest.players.P1.board,
+        front: winTest.players.P1.board.front.map((unit) => ({
+          ...unit,
+          summoningSick: false
+        }))
+      }
+    },
+    P2: {
+      ...winTest.players.P2,
+      health: 2,
+      board: {
+        front: [],
+        back: []
+      }
+    }
+  }
+};
+
+winTest = goToCombatPhase(winTest);
+
+const winAttackerId = winTest.players.P1.board.front[0].instanceId;
+winTest = attackHero(winTest, "P1", winAttackerId);
+
+console.log("\n=== TEST 5: WIN CONDITION ===");
+console.log(JSON.stringify(winTest, null, 2));
