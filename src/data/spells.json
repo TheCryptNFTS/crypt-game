@@ -22,5 +22,41 @@
         "type": "DRAW_CARDS",
         "value": 2
       }
+    },
+    {
+      "id": "spell_battle_blessing",
+      "name": "Battle Blessing",
+      "type": "spell",
+      "faction": "stone",
+      "rarity": "common",
+      "cost": 2,
+      "effect": {
+        "type": "BUFF_UNIT",
+        "attack": 2,
+        "health": 2
+      }
+    },
+    {
+      "id": "spell_mend",
+      "name": "Mend",
+      "type": "spell",
+      "faction": "stone",
+      "rarity": "common",
+      "cost": 2,
+      "effect": {
+        "type": "HEAL_UNIT",
+        "value": 4
+      }
+    },
+    {
+      "id": "spell_execute",
+      "name": "Execute",
+      "type": "spell",
+      "faction": "bronze",
+      "rarity": "common",
+      "cost": 2,
+      "effect": {
+        "type": "DESTROY_DAMAGED_UNIT"
+      }
     }
   ]

@@ -64,11 +64,21 @@ export function performAction(match: MatchState | null, action: GameAction): Mat
 
     case "PLAY_EQUIPMENT":
       if (!match) throw new Error("No match exists");
-      return playEquipmentFromHand(match, action.playerId, action.handIndex, action.targetInstanceId);
+      return playEquipmentFromHand(
+        match,
+        action.playerId,
+        action.handIndex,
+        action.targetInstanceId
+      );
 
     case "PLAY_SPELL":
       if (!match) throw new Error("No match exists");
-      return playSpellFromHand(match, action.playerId, action.handIndex, action.targetInstanceId);
+      return playSpellFromHand(
+        match,
+        action.playerId,
+        action.handIndex,
+        action.targetInstanceId
+      );
 
     case "ATTACK_HERO":
       if (!match) throw new Error("No match exists");
@@ -76,7 +86,12 @@ export function performAction(match: MatchState | null, action: GameAction): Mat
 
     case "ATTACK_UNIT":
       if (!match) throw new Error("No match exists");
-      return attackUnit(match, action.playerId, action.attackerInstanceId, action.defenderInstanceId);
+      return attackUnit(
+        match,
+        action.playerId,
+        action.attackerInstanceId,
+        action.defenderInstanceId
+      );
 
     case "GO_TO_COMBAT":
       if (!match) throw new Error("No match exists");

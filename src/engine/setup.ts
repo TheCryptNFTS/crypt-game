@@ -6,6 +6,21 @@ import { emitEvent } from "./events";
 import { cleanupDeadUnits } from "./cleanup";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
 
+type SpellCard = {
+  id: string;
+  name: string;
+  type: "spell";
+  faction: string;
+  rarity: string;
+  cost: number;
+  effect:
+    | { type: "DAMAGE_UNIT"; value: number }
+    | { type: "DRAW_CARDS"; value: number }
+    | { type: "BUFF_UNIT"; attack: number; health: number }
+    | { type: "HEAL_UNIT"; value: number }
+    | { type: "DESTROY_DAMAGED_UNIT" };
+};
+
 function shuffle<T>(array: T[]): T[] {
   const copy = [...array];
 
@@ -80,8 +95,8 @@ export function createFixedTestMatch(): MatchState {
       P1: {
         id: "P1",
         health: 30,
-        energy: 2,
-        maxEnergy: 2,
+        energy: 10,
+        maxEnergy: 10,
         commanderId: "cmd_stone_warden",
         deck: [
           "unit_stone_brute",
@@ -90,9 +105,11 @@ export function createFixedTestMatch(): MatchState {
           "eq_heavy_plate"
         ],
         hand: [
-          "spell_insight",
           "unit_stone_guard",
-          "eq_heavy_plate"
+          "spell_firebolt",
+          "spell_insight",
+          "spell_battle_blessing",
+          "spell_mend"
         ],
         discard: [],
         board: {
@@ -107,8 +124,8 @@ export function createFixedTestMatch(): MatchState {
       P2: {
         id: "P2",
         health: 30,
-        energy: 2,
-        maxEnergy: 2,
+        energy: 10,
+        maxEnergy: 10,
         commanderId: "cmd_bronze_raider",
         deck: [
           "unit_blade_striker",
@@ -117,8 +134,8 @@ export function createFixedTestMatch(): MatchState {
         ],
         hand: [
           "unit_bronze_scout",
-          "eq_axe",
-          "unit_blade_striker"
+          "spell_execute",
+          "eq_axe"
         ],
         discard: [],
         board: {
@@ -136,6 +153,47 @@ export function createFixedTestMatch(): MatchState {
 
 function makeInstanceId() {
   return `unit_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function findUnit(
+  player: PlayerState,
+  targetInstanceId: string
+): { lane: Lane; unitIndex: number } {
+  const frontIndex = player.board.front.findIndex((u) => u.instanceId === targetInstanceId);
+  if (frontIndex !== -1) {
+    return { lane: "front", unitIndex: frontIndex };
+  }
+
+  const backIndex = player.board.back.findIndex((u) => u.instanceId === targetInstanceId);
+  if (backIndex !== -1) {
+    return { lane: "back", unitIndex: backIndex };
+  }
+
+  throw new Error("Target unit not found");
+}
+
+function spendSpell(
+  match: MatchState,
+  playerId: PlayerId,
+  player: PlayerState,
+  spellCard: SpellCard,
+  handIndex: number
+) {
+  const newHand = [...player.hand];
+  newHand.splice(handIndex, 1);
+
+  return {
+    ...match,
+    players: {
+      ...match.players,
+      [playerId]: {
+        ...player,
+        energy: player.energy - spellCard.cost,
+        hand: newHand,
+        discard: [...player.discard, spellCard.id]
+      }
+    }
+  };
 }
 
 export function goToCombatPhase(match: MatchState): MatchState {
@@ -277,22 +335,7 @@ export function playEquipmentFromHand(
     throw new Error("Not enough energy");
   }
 
-  const frontIndex = player.board.front.findIndex((u) => u.instanceId === targetInstanceId);
-  const backIndex = player.board.back.findIndex((u) => u.instanceId === targetInstanceId);
-
-  let lane: Lane;
-  let unitIndex: number;
-
-  if (frontIndex !== -1) {
-    lane = "front";
-    unitIndex = frontIndex;
-  } else if (backIndex !== -1) {
-    lane = "back";
-    unitIndex = backIndex;
-  } else {
-    throw new Error("Target unit not found");
-  }
-
+  const { lane, unitIndex } = findUnit(player, targetInstanceId);
   const targetUnit = player.board[lane][unitIndex];
 
   const updatedUnit: UnitInPlay = {
@@ -350,7 +393,7 @@ export function playSpellFromHand(
     throw new Error("No card in that hand slot");
   }
 
-  const spellCard = spells.find((s) => s.id === cardId);
+  const spellCard = spells.find((s) => s.id === cardId) as SpellCard | undefined;
 
   if (!spellCard) {
     throw new Error("Selected card is not a spell");
@@ -360,10 +403,10 @@ export function playSpellFromHand(
     throw new Error("Not enough energy");
   }
 
-  const newHand = [...player.hand];
-  newHand.splice(handIndex, 1);
-
   if (spellCard.effect.type === "DRAW_CARDS") {
+    const newHandBase = [...player.hand];
+    newHandBase.splice(handIndex, 1);
+
     const { newDeck, drawn } = drawCards(player.deck, spellCard.effect.value);
 
     return {
@@ -374,38 +417,22 @@ export function playSpellFromHand(
           ...player,
           energy: player.energy - spellCard.cost,
           deck: newDeck,
-          hand: [...newHand, ...drawn],
+          hand: [...newHandBase, ...drawn],
           discard: [...player.discard, spellCard.id]
         }
       }
     };
   }
 
+  if (!targetInstanceId) {
+    throw new Error("This spell requires a target");
+  }
+
   if (spellCard.effect.type === "DAMAGE_UNIT") {
-    if (!targetInstanceId) {
-      throw new Error("This spell requires a target");
-    }
-
-    const enemyFrontIndex = enemy.board.front.findIndex((u) => u.instanceId === targetInstanceId);
-    const enemyBackIndex = enemy.board.back.findIndex((u) => u.instanceId === targetInstanceId);
-
-    let lane: Lane;
-    let unitIndex: number;
-
-    if (enemyFrontIndex !== -1) {
-      lane = "front";
-      unitIndex = enemyFrontIndex;
-    } else if (enemyBackIndex !== -1) {
-      lane = "back";
-      unitIndex = enemyBackIndex;
-    } else {
-      throw new Error("Target enemy unit not found");
-    }
-
+    const { lane, unitIndex } = findUnit(enemy, targetInstanceId);
     const targetUnit = enemy.board[lane][unitIndex];
-    const damage = spellCard.effect.value;
 
-    let remainingDamage = damage;
+    let remainingDamage = spellCard.effect.value;
     let nextArmor = targetUnit.armor;
 
     if (nextArmor > 0) {
@@ -423,28 +450,126 @@ export function playSpellFromHand(
     const updatedEnemyLane = [...enemy.board[lane]];
     updatedEnemyLane[unitIndex] = updatedUnit;
 
-    let updatedMatch: MatchState = {
-      ...match,
+    let updatedMatch: MatchState = spendSpell(match, playerId, player, spellCard, handIndex);
+
+    updatedMatch = {
+      ...updatedMatch,
       players: {
-        ...match.players,
-        [playerId]: {
-          ...player,
-          energy: player.energy - spellCard.cost,
-          hand: newHand,
-          discard: [...player.discard, spellCard.id]
-        },
+        ...updatedMatch.players,
         [enemyId]: {
-          ...enemy,
+          ...updatedMatch.players[enemyId],
           board: {
-            ...enemy.board,
+            ...updatedMatch.players[enemyId].board,
             [lane]: updatedEnemyLane
           }
         }
       }
     };
 
-    updatedMatch = cleanupDeadUnits(updatedMatch);
+    return cleanupDeadUnits(updatedMatch);
+  }
+
+  if (spellCard.effect.type === "BUFF_UNIT") {
+    const { lane, unitIndex } = findUnit(player, targetInstanceId);
+    const targetUnit = player.board[lane][unitIndex];
+
+    const updatedUnit: UnitInPlay = {
+      ...targetUnit,
+      attack: targetUnit.attack + spellCard.effect.attack,
+      health: targetUnit.health + spellCard.effect.health
+    };
+
+    const updatedLane = [...player.board[lane]];
+    updatedLane[unitIndex] = updatedUnit;
+
+    let updatedMatch: MatchState = spendSpell(match, playerId, player, spellCard, handIndex);
+
+    updatedMatch = {
+      ...updatedMatch,
+      players: {
+        ...updatedMatch.players,
+        [playerId]: {
+          ...updatedMatch.players[playerId],
+          board: {
+            ...updatedMatch.players[playerId].board,
+            [lane]: updatedLane
+          }
+        }
+      }
+    };
+
     return updatedMatch;
+  }
+
+  if (spellCard.effect.type === "HEAL_UNIT") {
+    const { lane, unitIndex } = findUnit(player, targetInstanceId);
+    const targetUnit = player.board[lane][unitIndex];
+
+    const updatedUnit: UnitInPlay = {
+      ...targetUnit,
+      health: targetUnit.health + spellCard.effect.value
+    };
+
+    const updatedLane = [...player.board[lane]];
+    updatedLane[unitIndex] = updatedUnit;
+
+    let updatedMatch: MatchState = spendSpell(match, playerId, player, spellCard, handIndex);
+
+    updatedMatch = {
+      ...updatedMatch,
+      players: {
+        ...updatedMatch.players,
+        [playerId]: {
+          ...updatedMatch.players[playerId],
+          board: {
+            ...updatedMatch.players[playerId].board,
+            [lane]: updatedLane
+          }
+        }
+      }
+    };
+
+    return updatedMatch;
+  }
+
+  if (spellCard.effect.type === "DESTROY_DAMAGED_UNIT") {
+    const { lane, unitIndex } = findUnit(enemy, targetInstanceId);
+    const targetUnit = enemy.board[lane][unitIndex];
+
+    const baseUnit = units.find((u) => u.id === targetUnit.cardId);
+    if (!baseUnit) {
+      throw new Error("Base unit definition not found");
+    }
+
+    if (targetUnit.health >= baseUnit.stats.health) {
+      throw new Error("Execute requires a damaged unit");
+    }
+
+    const updatedUnit: UnitInPlay = {
+      ...targetUnit,
+      health: 0
+    };
+
+    const updatedEnemyLane = [...enemy.board[lane]];
+    updatedEnemyLane[unitIndex] = updatedUnit;
+
+    let updatedMatch: MatchState = spendSpell(match, playerId, player, spellCard, handIndex);
+
+    updatedMatch = {
+      ...updatedMatch,
+      players: {
+        ...updatedMatch.players,
+        [enemyId]: {
+          ...updatedMatch.players[enemyId],
+          board: {
+            ...updatedMatch.players[enemyId].board,
+            [lane]: updatedEnemyLane
+          }
+        }
+      }
+    };
+
+    return cleanupDeadUnits(updatedMatch);
   }
 
   throw new Error("Unknown spell effect type");
