@@ -64,13 +64,29 @@ export const DEFAULT_UNIT_PROFILE: UnitTraitProfile = {
   tags: []
 };
 
-export const FACTION_TO_SUBTYPE: Record<string, UnitSubtype> = {
-  "Stone Keepers": "STONE",
-  "Bronze Guardians": "BRONZE",
-  "Iron Defenders": "IRON",
-  "Silver Sentinels": "SILVER",
-  "Golden Sovereigns": "GOLD",
-  Gods: "DIVINE"
+const NORMALIZED_FACTION_TO_SUBTYPE: Record<string, UnitSubtype> = {
+  stone: "STONE",
+  "stone keepers": "STONE",
+
+  bronze: "BRONZE",
+  "bronze guardians": "BRONZE",
+
+  iron: "IRON",
+  "iron defenders": "IRON",
+
+  silver: "SILVER",
+  "silver sentinels": "SILVER",
+
+  gold: "GOLD",
+  golden: "GOLD",
+  "golden sovereigns": "GOLD",
+
+  gods: "DIVINE",
+  divine: "DIVINE",
+
+  occult: "OCCULT",
+  wild: "WILD",
+  tech: "TECH"
 };
 
 export const NAME_TO_CLASS: Record<string, UnitClass> = {
@@ -106,9 +122,14 @@ export const NAME_TO_COMBAT_STYLE: Record<string, UnitCombatStyle> = {
   "Shock Raider": "FAST"
 };
 
+function normalizeText(value?: string): string {
+  return (value ?? "").trim().toLowerCase();
+}
+
 export function getUnitSubtypeFromFaction(faction?: string): UnitSubtype {
-  if (!faction) return DEFAULT_UNIT_PROFILE.subtype;
-  return FACTION_TO_SUBTYPE[faction] ?? DEFAULT_UNIT_PROFILE.subtype;
+  const normalized = normalizeText(faction);
+  if (!normalized) return DEFAULT_UNIT_PROFILE.subtype;
+  return NORMALIZED_FACTION_TO_SUBTYPE[normalized] ?? DEFAULT_UNIT_PROFILE.subtype;
 }
 
 export function getUnitClassFromName(name?: string): UnitClass {
@@ -175,9 +196,9 @@ export function estimateUnitBaseStats(profile: UnitTraitProfile): {
 
   switch (profile.cardClass) {
     case "TANK":
+      attack -= 1;
       health += 4;
       armor += 1;
-      attack -= 1;
       break;
     case "BRUISER":
       attack += 1;
