@@ -1,245 +1,109 @@
-import { attackHero, attackUnit } from "./engine/combat";
-import { createFixedTestMatch, goToCombatPhase, playUnitFromHand } from "./engine/setup";
+import { attackHero } from "./engine/combat";
+import { getCommanderPassiveSummary } from "./engine/commanderAbilities";
+import {
+  createFixedTestMatch,
+  endTurn,
+  goToCombatPhase,
+  goToEndPhase,
+  playUnitFromHand
+} from "./engine/setup";
 
-let match = createFixedTestMatch();
+function print(title: string, data: unknown) {
+  console.log(`\n=== ${title} ===`);
+  console.log(JSON.stringify(data, null, 2));
+}
 
-console.log("=== TEST 1: UNIT VS UNIT ===");
-console.log(JSON.stringify(match, null, 2));
+/**
+ * TEST 1
+ * TAUNT should block hero attacks
+ */
+let tauntTest = createFixedTestMatch();
 
-match = playUnitFromHand(match, "P1", 0, "front");
-match = {
-  ...match,
-  activePlayer: "P2"
-};
-match = playUnitFromHand(match, "P2", 0, "front");
-
-match = {
-  ...match,
-  activePlayer: "P1",
-  players: {
-    ...match.players,
-    P1: {
-      ...match.players.P1,
-      board: {
-        ...match.players.P1.board,
-        front: match.players.P1.board.front.map((unit) => ({
-          ...unit,
-          summoningSick: false
-        }))
-      }
-    },
-    P2: {
-      ...match.players.P2,
-      board: {
-        ...match.players.P2.board,
-        front: match.players.P2.board.front.map((unit) => ({
-          ...unit,
-          summoningSick: false
-        }))
-      }
-    }
-  }
-};
-
-match = goToCombatPhase(match);
-
-const p1UnitId = match.players.P1.board.front[0].instanceId;
-const p2UnitId = match.players.P2.board.front[0].instanceId;
-
-match = attackUnit(match, "P1", p1UnitId, p2UnitId);
-
-console.log("\n=== AFTER UNIT VS UNIT COMBAT ===");
-console.log(JSON.stringify(match, null, 2));
-
-let heroTest = createFixedTestMatch();
-
-console.log("\n=== TEST 2: HERO ATTACK ===");
-console.log(JSON.stringify(heroTest, null, 2));
-
-heroTest = playUnitFromHand(heroTest, "P1", 0, "front");
-heroTest = {
-  ...heroTest,
-  players: {
-    ...heroTest.players,
-    P1: {
-      ...heroTest.players.P1,
-      board: {
-        ...heroTest.players.P1.board,
-        front: heroTest.players.P1.board.front.map((unit) => ({
-          ...unit,
-          summoningSick: false
-        }))
-      }
-    },
-    P2: {
-      ...heroTest.players.P2,
-      board: {
-        front: [],
-        back: []
-      }
-    }
-  }
-};
-
-heroTest = goToCombatPhase(heroTest);
-
-const heroAttackerId = heroTest.players.P1.board.front[0].instanceId;
-heroTest = attackHero(heroTest, "P1", heroAttackerId);
-
-console.log("\n=== AFTER HERO ATTACK ===");
-console.log(JSON.stringify(heroTest, null, 2));
-
-let lifestealTest = createFixedTestMatch();
-
-lifestealTest = {
-  ...lifestealTest,
+tauntTest = {
+  ...tauntTest,
   activePlayer: "P2",
   players: {
-    ...lifestealTest.players,
+    ...tauntTest.players,
     P2: {
-      ...lifestealTest.players.P2,
-      health: 20,
-      hand: ["unit_berserker"]
-    }
-  }
-};
-
-console.log("\n=== TEST 3: LIFESTEAL ===");
-console.log(JSON.stringify(lifestealTest, null, 2));
-
-lifestealTest = playUnitFromHand(lifestealTest, "P2", 0, "front");
-
-lifestealTest = {
-  ...lifestealTest,
-  players: {
-    ...lifestealTest.players,
-    P1: {
-      ...lifestealTest.players.P1,
-      board: {
-        front: [],
-        back: []
-      }
+      ...tauntTest.players.P2,
+      hand: ["unit_bronze_scout"]
     },
-    P2: {
-      ...lifestealTest.players.P2,
-      board: {
-        ...lifestealTest.players.P2.board,
-        front: lifestealTest.players.P2.board.front.map((unit) => ({
-          ...unit,
-          summoningSick: false
-        }))
-      }
-    }
-  }
-};
-
-lifestealTest = goToCombatPhase(lifestealTest);
-
-const berserkerId = lifestealTest.players.P2.board.front[0].instanceId;
-lifestealTest = attackHero(lifestealTest, "P2", berserkerId);
-
-console.log("\n=== AFTER LIFESTEAL HERO ATTACK ===");
-console.log(JSON.stringify(lifestealTest, null, 2));
-
-let executePressureTest = createFixedTestMatch();
-
-executePressureTest = {
-  ...executePressureTest,
-  players: {
-    ...executePressureTest.players,
     P1: {
-      ...executePressureTest.players.P1,
-      hand: ["unit_blade_striker"],
-      board: {
-        front: [],
-        back: []
-      }
-    },
-    P2: {
-      ...executePressureTest.players.P2,
-      hand: ["unit_bronze_scout"],
-      board: {
-        front: [],
-        back: []
-      }
+      ...tauntTest.players.P1,
+      hand: ["unit_shield_bearer"]
     }
   }
 };
 
-console.log("\n=== TEST 4: EXECUTE PRESSURE ===");
-console.log(JSON.stringify(executePressureTest, null, 2));
+print("TEST 1 START: TAUNT SETUP", tauntTest);
 
-executePressureTest = {
-  ...executePressureTest,
+tauntTest = {
+  ...tauntTest,
   activePlayer: "P1"
 };
-executePressureTest = playUnitFromHand(executePressureTest, "P1", 0, "front");
+tauntTest = playUnitFromHand(tauntTest, "P1", 0, "front");
 
-executePressureTest = {
-  ...executePressureTest,
+tauntTest = {
+  ...tauntTest,
   activePlayer: "P2"
 };
-executePressureTest = playUnitFromHand(executePressureTest, "P2", 0, "front");
+tauntTest = playUnitFromHand(tauntTest, "P2", 0, "front");
 
-executePressureTest = {
-  ...executePressureTest,
-  activePlayer: "P1",
+tauntTest = {
+  ...tauntTest,
   players: {
-    ...executePressureTest.players,
-    P1: {
-      ...executePressureTest.players.P1,
+    ...tauntTest.players,
+    P2: {
+      ...tauntTest.players.P2,
       board: {
-        ...executePressureTest.players.P1.board,
-        front: executePressureTest.players.P1.board.front.map((unit) => ({
+        ...tauntTest.players.P2.board,
+        front: tauntTest.players.P2.board.front.map((unit) => ({
           ...unit,
           summoningSick: false
-        }))
-      }
-    },
-    P2: {
-      ...executePressureTest.players.P2,
-      board: {
-        ...executePressureTest.players.P2.board,
-        front: executePressureTest.players.P2.board.front.map((unit) => ({
-          ...unit,
-          summoningSick: false,
-          health: 5
         }))
       }
     }
   }
 };
 
-executePressureTest = goToCombatPhase(executePressureTest);
+tauntTest = goToCombatPhase(tauntTest);
 
-const strikerId = executePressureTest.players.P1.board.front[0].instanceId;
-const scoutId = executePressureTest.players.P2.board.front[0].instanceId;
+print("TEST 1 BEFORE HERO ATTACK WITH ENEMY TAUNT", tauntTest);
 
-executePressureTest = attackUnit(executePressureTest, "P1", strikerId, scoutId);
+try {
+  const scoutId = tauntTest.players.P2.board.front.find(
+    (unit) => unit.cardId === "unit_bronze_scout"
+  )?.instanceId;
 
-console.log("\n=== AFTER EXECUTE PRESSURE COMBAT ===");
-console.log(JSON.stringify(executePressureTest, null, 2));
+  if (!scoutId) {
+    throw new Error("Bronze Scout not found");
+  }
 
-let winTest = createFixedTestMatch();
+  tauntTest = attackHero(tauntTest, "P2", scoutId);
+  print("TEST 1 FAILED - HERO ATTACK SHOULD HAVE BEEN BLOCKED", tauntTest);
+} catch (error) {
+  console.log("\n=== TEST 1 RESULT ===");
+  console.log("TAUNT correctly blocked hero attack");
+  console.log(String(error));
+}
 
-winTest = playUnitFromHand(winTest, "P1", 0, "front");
-winTest = {
-  ...winTest,
+/**
+ * TEST 2
+ * RUSH unit can attack hero on same turn if no TAUNT exists
+ */
+let rushTest = createFixedTestMatch();
+
+rushTest = {
+  ...rushTest,
+  activePlayer: "P2",
   players: {
-    ...winTest.players,
-    P1: {
-      ...winTest.players.P1,
-      board: {
-        ...winTest.players.P1.board,
-        front: winTest.players.P1.board.front.map((unit) => ({
-          ...unit,
-          summoningSick: false
-        }))
-      }
-    },
+    ...rushTest.players,
     P2: {
-      ...winTest.players.P2,
-      health: 2,
+      ...rushTest.players.P2,
+      hand: ["unit_bronze_scout"]
+    },
+    P1: {
+      ...rushTest.players.P1,
       board: {
         front: [],
         back: []
@@ -248,10 +112,130 @@ winTest = {
   }
 };
 
-winTest = goToCombatPhase(winTest);
+print("TEST 2 START: RUSH SETUP", rushTest);
 
-const winAttackerId = winTest.players.P1.board.front[0].instanceId;
-winTest = attackHero(winTest, "P1", winAttackerId);
+rushTest = playUnitFromHand(rushTest, "P2", 0, "front");
+rushTest = goToCombatPhase(rushTest);
 
-console.log("\n=== TEST 5: WIN CONDITION ===");
-console.log(JSON.stringify(winTest, null, 2));
+const rushScoutId = rushTest.players.P2.board.front[0].instanceId;
+rushTest = attackHero(rushTest, "P2", rushScoutId);
+
+print("TEST 2 AFTER RUSH HERO ATTACK", rushTest);
+
+/**
+ * TEST 3
+ * Non-RUSH unit should NOT attack on same turn
+ */
+let nonRushTest = createFixedTestMatch();
+
+nonRushTest = {
+  ...nonRushTest,
+  activePlayer: "P1",
+  players: {
+    ...nonRushTest.players,
+    P1: {
+      ...nonRushTest.players.P1,
+      hand: ["unit_stone_guard"]
+    },
+    P2: {
+      ...nonRushTest.players.P2,
+      board: {
+        front: [],
+        back: []
+      }
+    }
+  }
+};
+
+print("TEST 3 START: NON-RUSH SETUP", nonRushTest);
+
+nonRushTest = playUnitFromHand(nonRushTest, "P1", 0, "front");
+nonRushTest = goToCombatPhase(nonRushTest);
+
+print("TEST 3 BEFORE NON-RUSH HERO ATTACK", nonRushTest);
+
+try {
+  const stoneGuardId = nonRushTest.players.P1.board.front[0].instanceId;
+  nonRushTest = attackHero(nonRushTest, "P1", stoneGuardId);
+  print("TEST 3 FAILED - NON-RUSH SHOULD NOT ATTACK SAME TURN", nonRushTest);
+} catch (error) {
+  console.log("\n=== TEST 3 RESULT ===");
+  console.log("Non-RUSH unit correctly blocked by summoning sickness");
+  console.log(String(error));
+}
+
+/**
+ * TEST 4
+ * End turn should refresh next player's units and add energy
+ */
+let turnFlowTest = createFixedTestMatch();
+
+turnFlowTest = {
+  ...turnFlowTest,
+  activePlayer: "P1",
+  players: {
+    ...turnFlowTest.players,
+    P1: {
+      ...turnFlowTest.players.P1,
+      hand: ["unit_stone_guard"]
+    },
+    P2: {
+      ...turnFlowTest.players.P2,
+      hand: ["unit_bronze_scout"]
+    }
+  }
+};
+
+print("TEST 4 START: TURN FLOW SETUP", turnFlowTest);
+
+turnFlowTest = playUnitFromHand(turnFlowTest, "P1", 0, "front");
+turnFlowTest = {
+  ...turnFlowTest,
+  activePlayer: "P2"
+};
+turnFlowTest = playUnitFromHand(turnFlowTest, "P2", 0, "front");
+
+turnFlowTest = {
+  ...turnFlowTest,
+  players: {
+    ...turnFlowTest.players,
+    P2: {
+      ...turnFlowTest.players.P2,
+      board: {
+        ...turnFlowTest.players.P2.board,
+        front: turnFlowTest.players.P2.board.front.map((unit) => ({
+          ...unit,
+          exhausted: true,
+          summoningSick: true
+        }))
+      }
+    }
+  }
+};
+
+print("TEST 4 BEFORE END TURN", turnFlowTest);
+
+turnFlowTest = {
+  ...turnFlowTest,
+  activePlayer: "P1"
+};
+turnFlowTest = goToCombatPhase(turnFlowTest);
+turnFlowTest = goToEndPhase(turnFlowTest);
+turnFlowTest = endTurn(turnFlowTest);
+
+print("TEST 4 AFTER END TURN / NEXT TURN START", turnFlowTest);
+
+/**
+ * TEST 5
+ * Commander passive summaries
+ */
+const stoneSummary = getCommanderPassiveSummary("cmd_stone_warden");
+const bronzeSummary = getCommanderPassiveSummary("cmd_bronze_raider");
+const hellSummary = getCommanderPassiveSummary("cmd_hell_judge");
+
+console.log("\n=== TEST 5 COMMANDER PASSIVE SUMMARIES ===");
+console.log({
+  stone_warden: stoneSummary,
+  bronze_raider: bronzeSummary,
+  hell_judge: hellSummary
+});
