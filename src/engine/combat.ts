@@ -1,186 +1,221 @@
 import { cleanupDeadUnits } from "./cleanup";
 import { MatchState, PlayerId, UnitInPlay } from "./state";
+import { getUnitPassive } from "./unitMetadata";
 
-function getOpponentId(playerId: PlayerId): PlayerId {
+function getEnemyPlayerId(playerId: PlayerId): PlayerId {
   return playerId === "P1" ? "P2" : "P1";
 }
 
-function applyDamage(unit: UnitInPlay, rawDamage: number): UnitInPlay {
-  const absorbed = Math.min(unit.armor, rawDamage);
-  const remainingDamage = rawDamage - absorbed;
+function findUnitLocation(
+  match: MatchState,
+  playerId: PlayerId,
+  instanceId: string
+): { lane: "front" | "back"; index: number } {
+  const player = match.players[playerId];
+
+  const frontIndex = player.board.front.findIndex((unit) => unit.instanceId === instanceId);
+  if (frontIndex !== -1) {
+    return { lane: "front", index: frontIndex };
+  }
+
+  const backIndex = player.board.back.findIndex((unit) => unit.instanceId === instanceId);
+  if (backIndex !== -1) {
+    return { lane: "back", index: backIndex };
+  }
+
+  throw new Error(`Unit not found: ${instanceId}`);
+}
+
+function getUnitByInstanceId(
+  match: MatchState,
+  playerId: PlayerId,
+  instanceId: string
+): UnitInPlay {
+  const location = findUnitLocation(match, playerId, instanceId);
+  return match.players[playerId].board[location.lane][location.index];
+}
+
+function updateUnitInBoard(
+  match: MatchState,
+  playerId: PlayerId,
+  updatedUnit: UnitInPlay
+): MatchState {
+  const location = findUnitLocation(match, playerId, updatedUnit.instanceId);
+  const player = match.players[playerId];
+  const updatedLane = [...player.board[location.lane]];
+  updatedLane[location.index] = updatedUnit;
+
+  return {
+    ...match,
+    players: {
+      ...match.players,
+      [playerId]: {
+        ...player,
+        board: {
+          ...player.board,
+          [location.lane]: updatedLane
+        }
+      }
+    }
+  };
+}
+
+function markAttackerSpent(
+  match: MatchState,
+  playerId: PlayerId,
+  attackerId: string
+): MatchState {
+  const attacker = getUnitByInstanceId(match, playerId, attackerId);
+
+  return updateUnitInBoard(match, playerId, {
+    ...attacker,
+    exhausted: true
+  });
+}
+
+function applyDamageToUnit(unit: UnitInPlay, damage: number): UnitInPlay {
+  let remainingDamage = damage;
+  let nextArmor = unit.armor;
+
+  if (nextArmor > 0) {
+    const blocked = Math.min(nextArmor, remainingDamage);
+    nextArmor -= blocked;
+    remainingDamage -= blocked;
+  }
 
   return {
     ...unit,
-    armor: unit.armor - absorbed,
+    armor: nextArmor,
     health: unit.health - remainingDamage
   };
 }
 
-function defenderHasFrontTaunt(match: MatchState, defenderId: PlayerId): boolean {
-  return match.players[defenderId].board.front.some((unit) =>
-    unit.keywords.includes("TAUNT")
-  );
-}
-
-function defenderFrontTauntIds(match: MatchState, defenderId: PlayerId): string[] {
-  return match.players[defenderId].board.front
-    .filter((unit) => unit.keywords.includes("TAUNT"))
-    .map((unit) => unit.instanceId);
-}
-
-export function attackHero(
-  match: MatchState,
-  playerId: PlayerId,
-  attackerInstanceId: string
-): MatchState {
-  if (match.activePlayer !== playerId) {
-    throw new Error("Not this player's turn");
-  }
-
-  if (match.phase !== "combat") {
-    throw new Error("Hero attacks can only happen during combat phase");
-  }
-
+function healHero(match: MatchState, playerId: PlayerId, amount: number): MatchState {
   const player = match.players[playerId];
-  const opponentId = getOpponentId(playerId);
-  const opponent = match.players[opponentId];
-
-  if (defenderHasFrontTaunt(match, opponentId)) {
-    throw new Error("Cannot attack hero while enemy TAUNT unit is in front lane");
-  }
-
-  const frontUnitIndex = player.board.front.findIndex(
-    (unit) => unit.instanceId === attackerInstanceId
-  );
-
-  if (frontUnitIndex === -1) {
-    throw new Error("Attacker not found in front lane");
-  }
-
-  const attacker = player.board.front[frontUnitIndex];
-
-  if (attacker.exhausted) {
-    throw new Error("Unit is exhausted");
-  }
-
-  if (attacker.summoningSick) {
-    throw new Error("Unit has summoning sickness");
-  }
-
-  const updatedAttacker = {
-    ...attacker,
-    exhausted: true
-  };
-
-  const newFront = [...player.board.front];
-  newFront[frontUnitIndex] = updatedAttacker;
-
-  const newOpponentHealth = Math.max(0, opponent.health - attacker.attack);
-  const winner = newOpponentHealth <= 0 ? playerId : null;
 
   return {
     ...match,
-    winner,
     players: {
       ...match.players,
       [playerId]: {
         ...player,
-        board: {
-          ...player.board,
-          front: newFront
-        }
-      },
-      [opponentId]: {
-        ...opponent,
-        health: newOpponentHealth
+        health: player.health + amount
       }
     }
   };
+}
+
+function damageHero(match: MatchState, playerId: PlayerId, amount: number): MatchState {
+  const player = match.players[playerId];
+  const nextHealth = player.health - amount;
+
+  return {
+    ...match,
+    winner: nextHealth <= 0 ? getEnemyPlayerId(playerId) : match.winner,
+    players: {
+      ...match.players,
+      [playerId]: {
+        ...player,
+        health: nextHealth
+      }
+    }
+  };
+}
+
+function hasTauntUnit(match: MatchState, playerId: PlayerId): boolean {
+  const player = match.players[playerId];
+  const allUnits = [...player.board.front, ...player.board.back];
+  return allUnits.some((unit) => unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT");
+}
+
+function isTauntUnit(unit: UnitInPlay): boolean {
+  return unit.keywords.includes("TAUNT") || getUnitPassive(unit.cardId) === "TAUNT";
 }
 
 export function attackUnit(
   match: MatchState,
-  playerId: PlayerId,
+  attackerPlayerId: PlayerId,
   attackerInstanceId: string,
   defenderInstanceId: string
 ): MatchState {
-  if (match.activePlayer !== playerId) {
+  if (match.activePlayer !== attackerPlayerId) {
     throw new Error("Not this player's turn");
   }
 
   if (match.phase !== "combat") {
-    throw new Error("Unit attacks can only happen during combat phase");
+    throw new Error("Can only attack during combat phase");
   }
 
-  const opponentId = getOpponentId(playerId);
+  const defenderPlayerId = getEnemyPlayerId(attackerPlayerId);
 
-  const player = match.players[playerId];
-  const opponent = match.players[opponentId];
-
-  const attackerIndex = player.board.front.findIndex(
-    (unit) => unit.instanceId === attackerInstanceId
-  );
-
-  if (attackerIndex === -1) {
-    throw new Error("Attacker not found in front lane");
-  }
-
-  const defenderIndex = opponent.board.front.findIndex(
-    (unit) => unit.instanceId === defenderInstanceId
-  );
-
-  if (defenderIndex === -1) {
-    throw new Error("Defender not found in enemy front lane");
-  }
-
-  const tauntIds = defenderFrontTauntIds(match, opponentId);
-  if (tauntIds.length > 0 && !tauntIds.includes(defenderInstanceId)) {
-    throw new Error("Must attack enemy TAUNT unit first");
-  }
-
-  const attacker = player.board.front[attackerIndex];
-  const defender = opponent.board.front[defenderIndex];
+  let attacker = getUnitByInstanceId(match, attackerPlayerId, attackerInstanceId);
+  let defender = getUnitByInstanceId(match, defenderPlayerId, defenderInstanceId);
 
   if (attacker.exhausted) {
-    throw new Error("Unit is exhausted");
+    throw new Error("Attacker is exhausted");
   }
 
   if (attacker.summoningSick) {
-    throw new Error("Unit has summoning sickness");
+    throw new Error("Attacker has summoning sickness");
   }
 
-  const damagedDefender = applyDamage(defender, attacker.attack);
-  const damagedAttacker = applyDamage(
-    { ...attacker, exhausted: true },
-    defender.attack
-  );
+  if (hasTauntUnit(match, defenderPlayerId) && !isTauntUnit(defender)) {
+    throw new Error("Must attack a TAUNT unit first");
+  }
 
-  const newPlayerFront = [...player.board.front];
-  newPlayerFront[attackerIndex] = damagedAttacker;
+  const attackerDamage = attacker.attack;
+  const defenderDamage = defender.attack;
 
-  const newOpponentFront = [...opponent.board.front];
-  newOpponentFront[defenderIndex] = damagedDefender;
+  attacker = applyDamageToUnit(attacker, defenderDamage);
+  defender = applyDamageToUnit(defender, attackerDamage);
 
-  const updatedMatch: MatchState = {
-    ...match,
-    players: {
-      ...match.players,
-      [playerId]: {
-        ...player,
-        board: {
-          ...player.board,
-          front: newPlayerFront
-        }
-      },
-      [opponentId]: {
-        ...opponent,
-        board: {
-          ...opponent.board,
-          front: newOpponentFront
-        }
-      }
-    }
-  };
+  let updatedMatch = updateUnitInBoard(match, attackerPlayerId, attacker);
+  updatedMatch = updateUnitInBoard(updatedMatch, defenderPlayerId, defender);
+  updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
 
-  return cleanupDeadUnits(updatedMatch);
+  if (getUnitPassive(attacker.cardId) === "LIFESTEAL" && attackerDamage > 0) {
+    updatedMatch = healHero(updatedMatch, attackerPlayerId, attackerDamage);
+  }
+
+  updatedMatch = cleanupDeadUnits(updatedMatch);
+
+  return updatedMatch;
+}
+
+export function attackHero(
+  match: MatchState,
+  attackerPlayerId: PlayerId,
+  attackerInstanceId: string
+): MatchState {
+  if (match.activePlayer !== attackerPlayerId) {
+    throw new Error("Not this player's turn");
+  }
+
+  if (match.phase !== "combat") {
+    throw new Error("Can only attack during combat phase");
+  }
+
+  const defenderPlayerId = getEnemyPlayerId(attackerPlayerId);
+  const attacker = getUnitByInstanceId(match, attackerPlayerId, attackerInstanceId);
+
+  if (attacker.exhausted) {
+    throw new Error("Attacker is exhausted");
+  }
+
+  if (attacker.summoningSick) {
+    throw new Error("Attacker has summoning sickness");
+  }
+
+  if (hasTauntUnit(match, defenderPlayerId)) {
+    throw new Error("Cannot attack hero while enemy TAUNT unit exists");
+  }
+
+  let updatedMatch = damageHero(match, defenderPlayerId, attacker.attack);
+  updatedMatch = markAttackerSpent(updatedMatch, attackerPlayerId, attackerInstanceId);
+
+  if (getUnitPassive(attacker.cardId) === "LIFESTEAL" && attacker.attack > 0) {
+    updatedMatch = healHero(updatedMatch, attackerPlayerId, attacker.attack);
+  }
+
+  return updatedMatch;
 }
