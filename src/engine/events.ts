@@ -33,8 +33,6 @@ export type GameEvent =
       ownerId: PlayerId;
     };
 
-export function emitEvent(match: MatchState, event: GameEvent): MatchState {
-  console.log(`\n=== EVENT: ${event.type} ===`);
-  console.log(JSON.stringify(event, null, 2));
+export function emitEvent(match: MatchState, _event: GameEvent): MatchState {
   return match;
 }

@@ -1,0 +1,1 @@
+export const mockOwnedTokens: Array<string | number> = [1, 2, 3, 4, 7, 8, 9, 10];

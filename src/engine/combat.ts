@@ -85,7 +85,7 @@ function healHero(match: MatchState, playerId: PlayerId, amount: number): MatchS
       ...match.players,
       [playerId]: {
         ...player,
-        health: player.health + amount
+        health: Math.min(30, player.health + amount)
       }
     }
   };
@@ -95,7 +95,7 @@ function damageHero(match: MatchState, playerId: PlayerId, amount: number): Matc
   if (amount <= 0) return match;
 
   const player = match.players[playerId];
-  const nextHealth = player.health - amount;
+  const nextHealth = Math.max(0, player.health - amount);
 
   return {
     ...match,
@@ -217,7 +217,7 @@ export function attackUnit(
     updatedMatch,
     attackerPlayerId,
     getUnitByInstanceId(updatedMatch, attackerPlayerId, attackerInstanceId),
-    attackerDamage
+    Math.max(0, attackerDamage)
   );
 
   updatedMatch = cleanupDeadUnits(updatedMatch);

@@ -16,7 +16,7 @@ export type UnitPassive =
   | "BATTLECRY_HERO_HIT"
   | "ARMOR_GAIN";
 
-export type UnitSubtype = "STONE" | "BRONZE" | "SHADOW" | "TECH";
+export type UnitSubtype = "STONE" | "BRONZE" | "OCCULT" | "DIVINE" | "WILD" | "TECH";
 
 export type UnitCombatStyle =
   | "DEFENSIVE"
@@ -157,7 +157,12 @@ function scoreFromSource(source: string): number {
 function deriveUnitIdentity(source: string, faction: "stone" | "bronze") {
   const s = source.toLowerCase();
 
-  if (s.includes("shield") || s.includes("buckler") || s.includes("gauntlets") || s.includes("bracers")) {
+  if (
+    s.includes("shield") ||
+    s.includes("buckler") ||
+    s.includes("gauntlets") ||
+    s.includes("bracers")
+  ) {
     return {
       cardClass: "TANK" as UnitClass,
       passive: s.includes("shield") ? ("TAUNT" as UnitPassive) : ("GUARD" as UnitPassive),
@@ -187,11 +192,16 @@ function deriveUnitIdentity(source: string, faction: "stone" | "bronze") {
     };
   }
 
-  if (s.includes("dragon") || s.includes("scorpion") || s.includes("raven") || s.includes("octopus")) {
+  if (
+    s.includes("dragon") ||
+    s.includes("scorpion") ||
+    s.includes("raven") ||
+    s.includes("octopus")
+  ) {
     return {
       cardClass: "NECRO" as UnitClass,
       passive: "DEATH_BLAST" as UnitPassive,
-      subtype: "BRONZE" as UnitSubtype,
+      subtype: "WILD" as UnitSubtype,
       combatStyle: "SACRIFICE" as UnitCombatStyle,
       keywords: ["DEATH_BLAST_2"]
     };
@@ -212,7 +222,7 @@ function deriveUnitStats(
   cardClass: UnitClass,
   passive: UnitPassive
 ) {
-  let attack = faction === "stone" ? 3 : 3;
+  let attack = 3;
   let health = faction === "stone" ? 12 : 8;
   let speed = faction === "stone" ? 2 : 4;
   let armor = 0;
@@ -262,189 +272,286 @@ function deriveUnitStats(
   return { attack, health, speed, armor };
 }
 
-function deriveUnitCost(cardClass: UnitClass, rarity: "common" | "rare") {
-  if (cardClass === "RANGER") return 1;
-  if (cardClass === "NECRO") return rarity === "rare" ? 2 : 2;
-  if (cardClass === "CONTROL") return 2;
-  if (cardClass === "TANK") return rarity === "rare" ? 3 : 2;
-  if (cardClass === "ASSASSIN") return 3;
-  if (cardClass === "BRUISER") return 4;
-  return 3;
-}
+function deriveEquipmentEffect(
+  name: string,
+  faction: "stone" | "bronze",
+  rarity: "common" | "rare"
+) {
+  const s = name.toLowerCase();
 
-export function buildGeneratedUnit(seed: UnitSeed): GeneratedUnit {
-  const rarityScore = scoreFromSource(seed.source);
-  const finalRarity = seed.rarity ?? rarityBucket(rarityScore);
-
-  const identity = deriveUnitIdentity(seed.source, seed.faction);
-  const stats = deriveUnitStats(
-    seed.faction,
-    finalRarity,
-    identity.cardClass,
-    identity.passive
-  );
-
-  return {
-    id: seed.id,
-    name: seed.name,
-    type: "unit",
-    faction: seed.faction,
-    rarity: finalRarity,
-    cost: deriveUnitCost(identity.cardClass, finalRarity),
-    stats,
-    keywords: identity.keywords,
-    generated: {
-      source: seed.source,
-      cardClass: identity.cardClass,
-      passive: identity.passive,
-      subtype: identity.subtype,
-      combatStyle: identity.combatStyle,
-      rarityScore
-    }
-  };
-}
-
-export function buildGeneratedSpell(seed: SpellSeed): GeneratedSpell {
-  const rarityScore = scoreFromSource(seed.source);
-
-  if (seed.source === "Grimoire") {
+  if (s.includes("shield") || s.includes("plate")) {
     return {
-      id: seed.id,
-      name: seed.name,
-      type: "spell",
-      faction: seed.faction,
-      rarity: seed.rarity,
-      cost: 2,
-      effect: { type: "DRAW_CARDS", value: 2 },
-      generated: { source: seed.source, rarityScore }
+      attack: 0,
+      health: rarity === "rare" ? 2 : 2,
+      speed: 0,
+      armor: rarity === "rare" ? 2 : 2
     };
   }
 
-  if (seed.source === "Arcane Orb") {
+  if (s.includes("boots")) {
     return {
-      id: seed.id,
-      name: seed.name,
-      type: "spell",
-      faction: seed.faction,
-      rarity: seed.rarity,
-      cost: 2,
-      effect: { type: "DAMAGE_UNIT", value: 3 },
-      generated: { source: seed.source, rarityScore }
+      attack: 0,
+      health: 0,
+      speed: 2,
+      armor: 0
     };
   }
 
-  if (seed.source === "Bong Of Protection") {
+  if (s.includes("axe")) {
     return {
-      id: seed.id,
-      name: seed.name,
-      type: "spell",
-      faction: seed.faction,
-      rarity: seed.rarity,
-      cost: 2,
-      effect: { type: "HEAL_UNIT", value: 4 },
-      generated: { source: seed.source, rarityScore }
+      attack: 2,
+      health: 0,
+      speed: 0,
+      armor: 0
     };
   }
 
   return {
-    id: seed.id,
-    name: seed.name,
-    type: "spell",
-    faction: seed.faction,
-    rarity: seed.rarity,
-    cost: 3,
-    effect: { type: "BUFF_UNIT", attack: 2, health: 2 },
-    generated: { source: seed.source, rarityScore }
+    attack: faction === "bronze" ? 1 : 0,
+    health: faction === "stone" ? 1 : 0,
+    speed: 0,
+    armor: 0
   };
 }
 
-export function buildGeneratedEquipment(seed: EquipmentSeed): GeneratedEquipment {
-  const rarityScore = scoreFromSource(seed.source);
-
-  if (seed.source.includes("Shield") || seed.source === "Buckler") {
-    return {
-      id: seed.id,
-      name: seed.name,
-      type: "equipment",
-      faction: seed.faction,
-      rarity: seed.rarity,
-      cost: 2,
-      effect: { attack: 0, health: 2, speed: 0, armor: 2 },
-      generated: { source: seed.source, rarityScore }
-    };
+const UNIT_SEEDS: UnitSeed[] = [
+  {
+    id: "unit_stone_guard",
+    name: "Stone Guard",
+    faction: "stone",
+    rarity: "common",
+    source: "Bracers"
+  },
+  {
+    id: "unit_shield_bearer",
+    name: "Shield Bearer",
+    faction: "stone",
+    rarity: "common",
+    source: "Buckler"
+  },
+  {
+    id: "unit_stone_brute",
+    name: "Stone Brute",
+    faction: "stone",
+    rarity: "rare",
+    source: "Crusader Shield"
+  },
+  {
+    id: "unit_bronze_scout",
+    name: "Bronze Scout",
+    faction: "bronze",
+    rarity: "common",
+    source: "Boots"
+  },
+  {
+    id: "unit_blade_striker",
+    name: "Blade Striker",
+    faction: "bronze",
+    rarity: "common",
+    source: "Revolver"
+  },
+  {
+    id: "unit_berserker",
+    name: "Berserker",
+    faction: "bronze",
+    rarity: "rare",
+    source: "Axe"
+  },
+  {
+    id: "unit_bomb_skull",
+    name: "Bomb Skull",
+    faction: "bronze",
+    rarity: "rare",
+    source: "Dead Dragon"
+  },
+  {
+    id: "unit_shock_raider",
+    name: "Shock Raider",
+    faction: "bronze",
+    rarity: "rare",
+    source: "Storm Breaker"
   }
+];
 
-  if (seed.source.includes("Boots")) {
-    return {
-      id: seed.id,
-      name: seed.name,
-      type: "equipment",
-      faction: seed.faction,
-      rarity: seed.rarity,
-      cost: 2,
-      effect: { attack: 0, health: 0, speed: 2, armor: 0 },
-      generated: { source: seed.source, rarityScore }
-    };
+const SPELL_SEEDS: SpellSeed[] = [
+  {
+    id: "spell_firebolt",
+    name: "Firebolt",
+    faction: "neutral",
+    rarity: "common",
+    source: "Arcane Orb"
+  },
+  {
+    id: "spell_insight",
+    name: "Insight",
+    faction: "neutral",
+    rarity: "common",
+    source: "Grimoire"
+  },
+  {
+    id: "spell_mend",
+    name: "Mend",
+    faction: "stone",
+    rarity: "common",
+    source: "Bong Of Protection"
+  },
+  {
+    id: "spell_battle_blessing",
+    name: "Battle Blessing",
+    faction: "stone",
+    rarity: "rare",
+    source: "Wings"
+  },
+  {
+    id: "spell_execute",
+    name: "Execute",
+    faction: "bronze",
+    rarity: "rare",
+    source: "Dead Scorpion"
   }
+];
 
-  return {
-    id: seed.id,
-    name: seed.name,
-    type: "equipment",
-    faction: seed.faction,
-    rarity: seed.rarity,
-    cost: 2,
-    effect: { attack: 2, health: 0, speed: 0, armor: 0 },
-    generated: { source: seed.source, rarityScore }
-  };
-}
+const EQUIPMENT_SEEDS: EquipmentSeed[] = [
+  {
+    id: "eq_riot_shield",
+    name: "Riot Shield",
+    faction: "stone",
+    rarity: "rare",
+    source: "Riot Shield"
+  },
+  {
+    id: "eq_heavy_plate",
+    name: "Heavy Plate",
+    faction: "stone",
+    rarity: "common",
+    source: "Energy Shield"
+  },
+  {
+    id: "eq_speed_boots",
+    name: "Speed Boots",
+    faction: "bronze",
+    rarity: "common",
+    source: "Stealth Boots"
+  },
+  {
+    id: "eq_axe",
+    name: "War Axe",
+    faction: "bronze",
+    rarity: "rare",
+    source: "Axe"
+  }
+];
 
 export function buildStarterUnits(): GeneratedUnit[] {
-  const seeds: UnitSeed[] = [
-    { id: "unit_stone_guard", name: "Stone Guard", faction: "stone", rarity: "common", source: "Bracers" },
-    { id: "unit_shield_bearer", name: "Shield Bearer", faction: "stone", rarity: "common", source: "Buckler" },
-    { id: "unit_stone_brute", name: "Stone Brute", faction: "stone", rarity: "rare", source: "Crusader Shield" },
-    { id: "unit_bronze_scout", name: "Bronze Scout", faction: "bronze", rarity: "common", source: "Boots" },
-    { id: "unit_blade_striker", name: "Blade Striker", faction: "bronze", rarity: "common", source: "Revolver" },
-    { id: "unit_berserker", name: "Berserker", faction: "bronze", rarity: "rare", source: "Axe" },
-    { id: "unit_bomb_skull", name: "Bomb Skull", faction: "bronze", rarity: "rare", source: "Dead Dragon" },
-    { id: "unit_shock_raider", name: "Shock Raider", faction: "bronze", rarity: "rare", source: "Storm Breaker" }
-  ];
+  return UNIT_SEEDS.map((seed) => {
+    const rarityScore = scoreFromSource(seed.source);
+    const rarity = seed.rarity ?? rarityBucket(rarityScore);
+    const identity = deriveUnitIdentity(seed.source, seed.faction);
+    const stats = deriveUnitStats(seed.faction, rarity, identity.cardClass, identity.passive);
 
-  return seeds.map(buildGeneratedUnit);
+    const cost =
+      identity.cardClass === "RANGER"
+        ? 1
+        : identity.cardClass === "ASSASSIN"
+          ? 3
+          : identity.cardClass === "NECRO"
+            ? 2
+            : identity.cardClass === "BRUISER"
+              ? 4
+              : rarity === "rare"
+                ? 3
+                : 2;
+
+    return {
+      id: seed.id,
+      name: seed.name,
+      type: "unit",
+      faction: seed.faction,
+      rarity,
+      cost,
+      stats,
+      keywords: identity.keywords,
+      generated: {
+        source: seed.source,
+        cardClass: identity.cardClass,
+        passive: identity.passive,
+        subtype: identity.subtype,
+        combatStyle: identity.combatStyle,
+        rarityScore
+      }
+    };
+  });
 }
 
 export function buildStarterSpells(): GeneratedSpell[] {
-  const seeds: SpellSeed[] = [
-    { id: "spell_firebolt", name: "Firebolt", faction: "neutral", rarity: "common", source: "Arcane Orb" },
-    { id: "spell_insight", name: "Insight", faction: "neutral", rarity: "common", source: "Grimoire" },
-    { id: "spell_mend", name: "Mend", faction: "stone", rarity: "common", source: "Bong Of Protection" },
-    { id: "spell_battle_blessing", name: "Battle Blessing", faction: "stone", rarity: "rare", source: "Wings" },
-    { id: "spell_execute", name: "Execute", faction: "bronze", rarity: "rare", source: "Dead Scorpion" }
-  ];
+  return SPELL_SEEDS.map((seed) => {
+    const rarityScore = scoreFromSource(seed.source);
+    const rarity = seed.rarity ?? rarityBucket(rarityScore);
 
-  const spells = seeds.map(buildGeneratedSpell);
+    let effect: GeneratedSpell["effect"];
 
-  return spells.map((spell) => {
-    if (spell.id === "spell_execute") {
-      return {
-        ...spell,
-        cost: 2,
-        effect: { type: "DESTROY_DAMAGED_UNIT" as const }
-      };
+    switch (seed.id) {
+      case "spell_firebolt":
+        effect = { type: "DAMAGE_UNIT", value: 3 };
+        break;
+      case "spell_insight":
+        effect = { type: "DRAW_CARDS", value: 2 };
+        break;
+      case "spell_mend":
+        effect = { type: "HEAL_UNIT", value: 4 };
+        break;
+      case "spell_battle_blessing":
+        effect = { type: "BUFF_UNIT", attack: 2, health: 2 };
+        break;
+      case "spell_execute":
+        effect = { type: "DESTROY_DAMAGED_UNIT" };
+        break;
+      default:
+        effect = { type: "DAMAGE_UNIT", value: 2 };
+        break;
     }
 
-    return spell;
+    const cost =
+      seed.id === "spell_battle_blessing"
+        ? 3
+        : seed.id === "spell_execute"
+          ? 2
+          : 2;
+
+    return {
+      id: seed.id,
+      name: seed.name,
+      type: "spell",
+      faction: seed.faction,
+      rarity,
+      cost,
+      effect,
+      generated: {
+        source: seed.source,
+        rarityScore
+      }
+    };
   });
 }
 
 export function buildStarterEquipment(): GeneratedEquipment[] {
-  const seeds: EquipmentSeed[] = [
-    { id: "eq_riot_shield", name: "Riot Shield", faction: "stone", rarity: "rare", source: "Riot Shield" },
-    { id: "eq_heavy_plate", name: "Heavy Plate", faction: "stone", rarity: "common", source: "Energy Shield" },
-    { id: "eq_speed_boots", name: "Speed Boots", faction: "bronze", rarity: "common", source: "Stealth Boots" },
-    { id: "eq_axe", name: "War Axe", faction: "bronze", rarity: "rare", source: "Axe" }
-  ];
+  return EQUIPMENT_SEEDS.map((seed) => {
+    const rarityScore = scoreFromSource(seed.source);
+    const rarity = seed.rarity ?? rarityBucket(rarityScore);
+    const effect = deriveEquipmentEffect(seed.name, seed.faction, rarity);
 
-  return seeds.map(buildGeneratedEquipment);
+    return {
+      id: seed.id,
+      name: seed.name,
+      type: "equipment",
+      faction: seed.faction,
+      rarity,
+      cost: 2,
+      effect,
+      generated: {
+        source: seed.source,
+        rarityScore
+      }
+    };
+  });
 }

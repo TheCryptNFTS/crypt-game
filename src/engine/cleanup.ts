@@ -1,5 +1,6 @@
 import { emitEvent } from "./events";
-import { MatchState, PlayerId } from "./state";
+import { applyDeathPassiveEffects } from "./unitAbilities";
+import { MatchState, PlayerId, UnitInPlay } from "./state";
 
 export function cleanupDeadUnits(match: MatchState): MatchState {
   let updatedMatch = match;
@@ -9,6 +10,10 @@ export function cleanupDeadUnits(match: MatchState): MatchState {
 
     const deadFront = player.board.front.filter((unit) => unit.health <= 0);
     const deadBack = player.board.back.filter((unit) => unit.health <= 0);
+
+    if (deadFront.length === 0 && deadBack.length === 0) {
+      continue;
+    }
 
     const aliveFront = player.board.front.filter((unit) => unit.health > 0);
     const aliveBack = player.board.back.filter((unit) => unit.health > 0);
@@ -32,7 +37,9 @@ export function cleanupDeadUnits(match: MatchState): MatchState {
       }
     };
 
-    for (const deadUnit of [...deadFront, ...deadBack]) {
+    for (const deadUnit of [...deadFront, ...deadBack] as UnitInPlay[]) {
+      updatedMatch = applyDeathPassiveEffects(updatedMatch, playerId, deadUnit);
+
       updatedMatch = emitEvent(updatedMatch, {
         type: "UNIT_DIED",
         unitId: deadUnit.instanceId,

@@ -8,6 +8,7 @@ export interface UnitInPlay {
   lane: Lane;
   attack: number;
   health: number;
+  maxHealth: number;
   speed: number;
   armor: number;
   keywords: string[];

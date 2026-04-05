@@ -1,27 +1,37 @@
-import rawCommanders from "./commanders.json";
+import commanders from "./commanders.json";
 import { buildCommanderFromTraits, LoadedCommander } from "../engine/traitEngine";
 
 type RawCommander = {
   id: string;
   name: string;
-  isLegendary?: boolean;
-  oneOfOne?: string;
   traits: {
     skin: string;
     eyes: string;
     headwear: string;
     mouth: string;
   };
+  isLegendary?: boolean;
+  oneOfOne?: string;
 };
 
+const commanderList = commanders as RawCommander[];
+
+export const loadedCommanders: LoadedCommander[] = commanderList.map((commander) =>
+  buildCommanderFromTraits(commander)
+);
+
 export function loadCommanders(): LoadedCommander[] {
-  return (rawCommanders as RawCommander[]).map((commander) =>
-    buildCommanderFromTraits(commander)
-  );
+  return loadedCommanders;
 }
 
-export function loadCommanderById(id: string): LoadedCommander | undefined {
-  return loadCommanders().find((commander) => commander.id === id);
+export function getLoadedCommanderById(id: string): LoadedCommander {
+  const commander = loadedCommanders.find((item) => item.id === id);
+
+  if (!commander) {
+    throw new Error(`Commander not found: ${id}`);
+  }
+
+  return commander;
 }
 
-export default loadCommanders;
+export default loadedCommanders;

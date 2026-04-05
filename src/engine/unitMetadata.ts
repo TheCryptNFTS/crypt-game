@@ -1,5 +1,10 @@
 import { getLoadedUnitById, LoadedUnit } from "../data/loadUnits";
-import { UnitClass, UnitPassive, UnitSubtype, UnitCombatStyle } from "../data/unitArchetypes";
+import {
+  UnitClass,
+  UnitPassive,
+  UnitSubtype,
+  UnitCombatStyle
+} from "../data/unitArchetypes";
 
 export function getUnitMetadata(cardId: string): LoadedUnit {
   return getLoadedUnitById(cardId);
