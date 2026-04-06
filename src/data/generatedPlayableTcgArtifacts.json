@@ -1,0 +1,1919 @@
+[
+  {
+    "id": "tcg_art_3399",
+    "name": "Crypt - Digital Trading Card #3399",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "epic",
+    "cost": 5,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3399",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Carvings Epic",
+      "Eye": "Hells Gateway",
+      "Headwear": "Peaky Blinder",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Robotic",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_3418",
+    "name": "Crypt - Digital Trading Card #3418",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3418",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Diamond Common",
+      "Eye": "Around The World",
+      "Headwear": "Cap",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_3427",
+    "name": "Crypt - Digital Trading Card #3427",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "epic",
+    "cost": 5,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3427",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Unplugged Epic",
+      "Eye": "I See Dead People",
+      "Headwear": "Cap",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Wax Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3492",
+    "name": "Crypt - Digital Trading Card #3492",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3492",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Red",
+      "Skin": "Lost Hope Rare",
+      "Eye": "Around The World",
+      "Headwear": "Deadphones",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Racers Mask",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3536",
+    "name": "Crypt - Digital Trading Card #3536",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3536",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Dantes Monument",
+      "Skin": "Long Live The King Common",
+      "Eye": "In Lucifer We Trust",
+      "Headwear": "King Crown",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Robotic",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3580",
+    "name": "Crypt - Digital Trading Card #3580",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3580",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke",
+      "Skin": "Praise Common",
+      "Eye": "In Lucifer We Trust",
+      "Headwear": "Miner",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3609",
+    "name": "Crypt - Digital Trading Card #3609",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3609",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Whispering Stones",
+      "Skin": "Melting Common",
+      "Eye": "Light Up My Life",
+      "Headwear": "Biker",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Crypt Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_3654",
+    "name": "Crypt - Digital Trading Card #3654",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3654",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "The Hairdresser Common",
+      "Eye": "Facing Death",
+      "Headwear": "Chained",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Wax Grill",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3669",
+    "name": "Crypt - Digital Trading Card #3669",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3669",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "Day Of The Dead Common",
+      "Eye": "Ancient History",
+      "Headwear": "Lords Crown All Around",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3719",
+    "name": "Crypt - Digital Trading Card #3719",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "epic",
+    "cost": 5,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3719",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "Unplugged Epic",
+      "Eye": "Around The World",
+      "Headwear": "Miner",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Tongue Out",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3804",
+    "name": "Crypt - Digital Trading Card #3804",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3804",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkPurple",
+      "Skin": "Kill For Gold Common",
+      "Eye": "Oh Beehave",
+      "Headwear": "Flaming Skull",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Friday Night Lights",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_3852",
+    "name": "Crypt - Digital Trading Card #3852",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3852",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkGreen",
+      "Skin": "Ruined Rare",
+      "Eye": "Around The World",
+      "Headwear": "None",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Warfare Mask",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_3895",
+    "name": "Crypt - Digital Trading Card #3895",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "3895",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkGreen",
+      "Skin": "Glory In Death Common",
+      "Eye": "Sharp",
+      "Headwear": "Pirate Beanie",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4006",
+    "name": "Crypt - Digital Trading Card #4006",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4006",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "Spreading Evil Rare",
+      "Eye": "Hells Gateway",
+      "Headwear": "Caribbean Pirate",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4020",
+    "name": "Crypt - Digital Trading Card #4020",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4020",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Round Table Common",
+      "Eye": "Skeletor",
+      "Headwear": "The Captain",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Wax Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4098",
+    "name": "Crypt - Digital Trading Card #4098",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4098",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkGreen",
+      "Skin": "Mandala Common",
+      "Eye": "Hells Gateway",
+      "Headwear": "Chained",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Robotic",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4168",
+    "name": "Crypt - Digital Trading Card #4168",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4168",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkPurple",
+      "Skin": "In Death I Hear You Rare",
+      "Eye": "I See Dead People",
+      "Headwear": "Jester",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4202",
+    "name": "Crypt - Digital Trading Card #4202",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4202",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Dead Dollars Rare",
+      "Eye": "Troll",
+      "Headwear": "Jackson",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Warfare Mask",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4240",
+    "name": "Crypt - Digital Trading Card #4240",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4240",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "The Hairdresser Common",
+      "Eye": "Piercing",
+      "Headwear": "Miner",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Razor Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_4309",
+    "name": "Crypt - Digital Trading Card #4309",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4309",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkPurple",
+      "Skin": "Melting Common",
+      "Eye": "Hells Gateway",
+      "Headwear": "Caribbean Pirate",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Robotic",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4332",
+    "name": "Crypt - Digital Trading Card #4332",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4332",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Good Vs Evil Common",
+      "Eye": "Endless Void",
+      "Headwear": "Dead Samurai",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Razor Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_4349",
+    "name": "Crypt - Digital Trading Card #4349",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4349",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Melting Rare",
+      "Eye": "Sharp",
+      "Headwear": "The Captain",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Racers Mask",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_4379",
+    "name": "Crypt - Digital Trading Card #4379",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4379",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Green",
+      "Skin": "Witching Hour Common",
+      "Eye": "Lightning",
+      "Headwear": "Roses Are Dead",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Flash Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4477",
+    "name": "Crypt - Digital Trading Card #4477",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4477",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkPurple",
+      "Skin": "Healer Common",
+      "Eye": "I See Dead People",
+      "Headwear": "Matrix Helmet",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4495",
+    "name": "Crypt - Digital Trading Card #4495",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4495",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "Illuminati Common",
+      "Eye": "The Fly",
+      "Headwear": "Flaming Skull",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "ATM",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4538",
+    "name": "Crypt - Digital Trading Card #4538",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4538",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Death Defines Skull Rare",
+      "Eye": "Piercing",
+      "Headwear": "Police Hat",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Pearls",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4540",
+    "name": "Crypt - Digital Trading Card #4540",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4540",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "Guardian Common",
+      "Eye": "Oh Beehave",
+      "Headwear": "None",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Dead Protector",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4584",
+    "name": "Crypt - Digital Trading Card #4584",
+    "type": "artifact",
+    "faction": "GOLD",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4584",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Dollar Bill Skull Common",
+      "Eye": "Jarvis",
+      "Headwear": "Jackson",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Golden Sovereigns"
+    }
+  },
+  {
+    "id": "tcg_art_4605",
+    "name": "Crypt - Digital Trading Card #4605",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4605",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkGreen",
+      "Skin": "Carvings Common",
+      "Eye": "Grieving Widow",
+      "Headwear": "Clowning Around",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Vampire",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4607",
+    "name": "Crypt - Digital Trading Card #4607",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4607",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Red",
+      "Skin": "Funeral Song Common",
+      "Eye": "Hells Gateway",
+      "Headwear": "Deadphones",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Wax Grill",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_4631",
+    "name": "Crypt - Digital Trading Card #4631",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4631",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "Drippy Skull Common",
+      "Eye": "Light Up My Life",
+      "Headwear": "Cap",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4662",
+    "name": "Crypt - Digital Trading Card #4662",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4662",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Red",
+      "Skin": "Light Of My Life Common",
+      "Eye": "Marley",
+      "Headwear": "The Captain",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Flash Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4666",
+    "name": "Crypt - Digital Trading Card #4666",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "epic",
+    "cost": 5,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4666",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke",
+      "Skin": "Unplugged Epic",
+      "Eye": "Oh Beehave",
+      "Headwear": "Her Hat",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Warfare Mask",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_4713",
+    "name": "Crypt - Digital Trading Card #4713",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4713",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Dead Flowers Common",
+      "Eye": "Unseen Death",
+      "Headwear": "Jackson",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_4969",
+    "name": "Crypt - Digital Trading Card #4969",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "4969",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Ornate Common",
+      "Eye": "Light Up My Life",
+      "Headwear": "Chained",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Smoke Bomb",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_5211",
+    "name": "Crypt - Digital Trading Card #5211",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5211",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Absent A Capella",
+      "Skin": "Great Britain Common",
+      "Eye": "The Fly",
+      "Headwear": "Chained",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Razor Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_5301",
+    "name": "Crypt - Digital Trading Card #5301",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5301",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Imperial Requiem",
+      "Skin": "Fast Lane Common",
+      "Eye": "Mad Scientist",
+      "Headwear": "Jackson",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "The Creep",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_5339",
+    "name": "Crypt - Digital Trading Card #5339",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5339",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Lost Common",
+      "Eye": "Around The World",
+      "Headwear": "Devil Horns",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Alien Attack",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_5400",
+    "name": "Crypt - Digital Trading Card #5400",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5400",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "Junkyard Common",
+      "Eye": "Unseen Death",
+      "Headwear": "Fireman",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_5458",
+    "name": "Crypt - Digital Trading Card #5458",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5458",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "Loved Fashion Common",
+      "Eye": "I See Dead People",
+      "Headwear": "Hellrazor",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_5465",
+    "name": "Crypt - Digital Trading Card #5465",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5465",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Green",
+      "Skin": "Misty Death Common",
+      "Eye": "Piercing",
+      "Headwear": "Davy Jones",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Joint",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_5539",
+    "name": "Crypt - Digital Trading Card #5539",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5539",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "Anunnaki Common",
+      "Eye": "Endless Void",
+      "Headwear": "Jackson",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Flash Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_5598",
+    "name": "Crypt - Digital Trading Card #5598",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "epic",
+    "cost": 5,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5598",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Skull In Skulls Epic",
+      "Eye": "Endless Void",
+      "Headwear": "Mohawk",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Stitched Up",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_5600",
+    "name": "Crypt - Digital Trading Card #5600",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5600",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Celtic Skull Common",
+      "Eye": "Trapped",
+      "Headwear": "Roman Soldier",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_5659",
+    "name": "Crypt - Digital Trading Card #5659",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5659",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Red",
+      "Skin": "Clown Common",
+      "Eye": "Facing Death",
+      "Headwear": "None",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Fangs",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_5728",
+    "name": "Crypt - Digital Trading Card #5728",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "uncommon",
+    "cost": 3,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5728",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Death Glow Uncommon",
+      "Eye": "I See Dead People",
+      "Headwear": "Jackson",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Smoke Bomb",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_5822",
+    "name": "Crypt - Digital Trading Card #5822",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5822",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Misunderstood Common",
+      "Eye": "Light Up My Life",
+      "Headwear": "Matrix Helmet",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Flash Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_5853",
+    "name": "Crypt - Digital Trading Card #5853",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5853",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke",
+      "Skin": "Dragons Mother Common",
+      "Eye": "Facing Death",
+      "Headwear": "Snapback",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_5965",
+    "name": "Crypt - Digital Trading Card #5965",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5965",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Green",
+      "Skin": "Day Of The Dead Common",
+      "Eye": "I See Dead People",
+      "Headwear": "Deadphones",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Smoked Out",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_5970",
+    "name": "Crypt - Digital Trading Card #5970",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "epic",
+    "cost": 5,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "5970",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Green",
+      "Skin": "Misunderstood Epic",
+      "Eye": "Fire And Ice",
+      "Headwear": "Four Twenty",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Crypt Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_6094",
+    "name": "Crypt - Digital Trading Card #6094",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6094",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkPurple",
+      "Skin": "Sound Of Death Common",
+      "Eye": "Sharp",
+      "Headwear": "Deadphones",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_6121",
+    "name": "Crypt - Digital Trading Card #6121",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6121",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Purple",
+      "Skin": "79 Years Common",
+      "Eye": "Around The World",
+      "Headwear": "Flaming Skull",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Crypt Grill",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_6129",
+    "name": "Crypt - Digital Trading Card #6129",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6129",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Diamond Common",
+      "Eye": "Heavens Gateway",
+      "Headwear": "Roses Are Dead",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "The Creep",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_6147",
+    "name": "Crypt - Digital Trading Card #6147",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6147",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "Mech Rare",
+      "Eye": "Hells Gateway",
+      "Headwear": "Chained",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Alien Attack",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_6152",
+    "name": "Crypt - Digital Trading Card #6152",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6152",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Pink",
+      "Skin": "Techno Common",
+      "Eye": "Light Up My Life",
+      "Headwear": "King Crown",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Racers Mask",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_6176",
+    "name": "Crypt - Digital Trading Card #6176",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6176",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Red",
+      "Skin": "Smooth Operator Common",
+      "Eye": "In Lucifer We Trust",
+      "Headwear": "Card Master",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Flash Grill",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_6197",
+    "name": "Crypt - Digital Trading Card #6197",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6197",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke",
+      "Skin": "Junkyard Common",
+      "Eye": "Naked",
+      "Headwear": "Marley",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Blunt",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_6269",
+    "name": "Crypt - Digital Trading Card #6269",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6269",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "3D Future Common",
+      "Eye": "Jarvis",
+      "Headwear": "The Captain",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_6271",
+    "name": "Crypt - Digital Trading Card #6271",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6271",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke",
+      "Skin": "Good Vs Evil Common",
+      "Eye": "Endless Void",
+      "Headwear": "Cap",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_6325",
+    "name": "Crypt - Digital Trading Card #6325",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6325",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkGreen",
+      "Skin": "Honeycomb Common",
+      "Eye": "Burning Desire",
+      "Headwear": "Chained",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Grimoire",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_6380",
+    "name": "Crypt - Digital Trading Card #6380",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6380",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Four Twenty Common",
+      "Eye": "Sunflare",
+      "Headwear": "King Crown",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Dead Protector",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_6414",
+    "name": "Crypt - Digital Trading Card #6414",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6414",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Healer Common",
+      "Eye": "Around The World",
+      "Headwear": "Hellrazor",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Robotic",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_6431",
+    "name": "Crypt - Digital Trading Card #6431",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6431",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Yellow",
+      "Skin": "Beauty Queen Common",
+      "Eye": "Endless Void",
+      "Headwear": "None",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Flash Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_6449",
+    "name": "Crypt - Digital Trading Card #6449",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6449",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Cyan",
+      "Skin": "Half Human Common",
+      "Eye": "Sharp",
+      "Headwear": "Police Hat",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Skull Eats Skull",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_6493",
+    "name": "Crypt - Digital Trading Card #6493",
+    "type": "artifact",
+    "faction": "IRON",
+    "rarity": "rare",
+    "cost": 4,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6493",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Healer Rare",
+      "Eye": "Piercing",
+      "Headwear": "Deadphones",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Iron Defenders"
+    }
+  },
+  {
+    "id": "tcg_art_6514",
+    "name": "Crypt - Digital Trading Card #6514",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6514",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke",
+      "Skin": "Sovereign Of Shadows Common",
+      "Eye": "I See Dead People",
+      "Headwear": "The Captain",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Robotic",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  },
+  {
+    "id": "tcg_art_6516",
+    "name": "Crypt - Digital Trading Card #6516",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6516",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkPurple",
+      "Skin": "One Shot One Kill Common",
+      "Eye": "I See Dead People",
+      "Headwear": "Ring Of Roses",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "666 Grill",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_6581",
+    "name": "Crypt - Digital Trading Card #6581",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6581",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Green",
+      "Skin": "The Cogs Turn Common",
+      "Eye": "Lightning",
+      "Headwear": "Cap",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Sting",
+      "Artifacts": "Bong Of Protection",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_6596",
+    "name": "Crypt - Digital Trading Card #6596",
+    "type": "artifact",
+    "faction": "STONE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6596",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke Orange",
+      "Skin": "Trapped Common",
+      "Eye": "I See Dead People",
+      "Headwear": "Dead Samurai",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Fangs",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Stone Keepers"
+    }
+  },
+  {
+    "id": "tcg_art_6624",
+    "name": "Crypt - Digital Trading Card #6624",
+    "type": "artifact",
+    "faction": "SILVER",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6624",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Faded Frontier",
+      "Skin": "Guardian Common",
+      "Eye": "Light Up My Life",
+      "Headwear": "None",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Alien Attack",
+      "Artifacts": "Arcane Orb",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Silver Sentinels"
+    }
+  },
+  {
+    "id": "tcg_art_6660",
+    "name": "Crypt - Digital Trading Card #6660",
+    "type": "artifact",
+    "faction": "BRONZE",
+    "rarity": "common",
+    "cost": 2,
+    "effectTags": [
+      "ARCANE"
+    ],
+    "sourceTokenId": "6660",
+    "sourceCardClass": "artifact",
+    "sourceSubtype": "artifact",
+    "rawTraits": {
+      "Background": "Smoke DarkGreen",
+      "Skin": "Good Vs Evil Common",
+      "Eye": "Piercing",
+      "Headwear": "Lucky Death",
+      "Metaverse": "None",
+      "Creature": "None",
+      "Mouth": "Rainbow Grill",
+      "Artifacts": "Wings",
+      "Armor": "None",
+      "Weapons": "None",
+      "Faction": "Bronze Guardians"
+    }
+  }
+]
