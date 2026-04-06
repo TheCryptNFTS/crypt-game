@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2805",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2805",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2805.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Hybrid Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Fly",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Fireman",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Knife Eye",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

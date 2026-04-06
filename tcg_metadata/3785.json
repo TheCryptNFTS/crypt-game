@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3785",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3785",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3785.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Ornate Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Lizards Eyes"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Police Hat"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Dead Astronaut"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Sting"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Smoke Grenade"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

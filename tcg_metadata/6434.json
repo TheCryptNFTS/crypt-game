@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6434",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6434",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6434.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Bloody Death Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Fire Nuggets"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Devil Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Baby Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Eats Skull"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Revolver"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

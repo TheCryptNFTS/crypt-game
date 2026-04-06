@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5761",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5761",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5761.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Eternal Torment"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Deathglow Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I Made A Mistake"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Devil Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Leather Tunic"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Revolver"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

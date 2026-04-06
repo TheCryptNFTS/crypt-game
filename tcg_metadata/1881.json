@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1881",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1881",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1881.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Diamond Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Piercing",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Scorpion",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

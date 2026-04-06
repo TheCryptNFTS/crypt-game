@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #736",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "736",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/736.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Take Me To Hell Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Lightning",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Head",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Riot Shield",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Redemption",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

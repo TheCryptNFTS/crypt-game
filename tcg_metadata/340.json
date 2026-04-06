@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #340",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "340",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/340.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Hooded One Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "EMP Grenade",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Benji",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Skull Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

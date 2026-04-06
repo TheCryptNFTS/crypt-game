@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4923",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4923",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4923.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Red"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Sound Of Death Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Hells Gateway"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Morning Star"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

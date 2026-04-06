@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4684",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4684",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4684.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Dollar Bill Skull Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "The Dons M-Frames"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Chained"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Alien Attack"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Wings"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Redemption"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

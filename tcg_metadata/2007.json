@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2007",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2007",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2007.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Shrouded Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Snake",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Black Widow",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Grenade",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Wings",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Leather Tunic",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Trippie Brew",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

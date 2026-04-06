@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2158",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2158",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2158.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lookin Glass Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Trees Have Eyes",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Police Hat",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Smoke Bomb",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pike",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

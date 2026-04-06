@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1930",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1930",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1930.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Heavy Is The Head",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Explorer",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "BioHazard",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nightmare Claws",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

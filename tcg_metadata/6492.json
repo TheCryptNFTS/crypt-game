@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6492",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6492",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6492.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Pink"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Diamond Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "In Lucifer We Trust"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Emperor"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Dead Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Beard Of Flames"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3635",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3635",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3635.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Skull Island"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Comms Down Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Explosive"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Marley"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Dead Scorpion"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Scale Mail"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

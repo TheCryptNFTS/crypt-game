@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2750",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2750",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2750.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Money Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Dons M-Frames",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Royalty",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pans Revenge",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

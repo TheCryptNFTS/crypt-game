@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #531",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "531",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/531.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Blessed Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Popeye",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "On A Dim Night",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Dead Protectors Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

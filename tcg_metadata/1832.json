@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1832",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1832",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1832.png",
+  "attributes": [
+    {
+      "value": "Ghost Deck",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Death Defines Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Hells Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Kings Crown",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "The Fixer",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

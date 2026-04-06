@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2827",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2827",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2827.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sovereign Of Shadows Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Endless Void",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Benji",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pulse Energy Gun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

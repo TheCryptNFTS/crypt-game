@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1625",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1625",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1625.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Techno Epic",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Hugin And Munin",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dragon Slayer",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Pipe",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Staff",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

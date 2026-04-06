@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3289",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3289",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3289.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Punishment Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Visions Of Fate",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Octopus",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Smoked Out",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Glavie",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

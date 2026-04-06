@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1144",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1144",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1144.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Misunderstood Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Dragons Roar",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Leonidas",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Flash Diamond",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

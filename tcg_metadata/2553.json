@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2553",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2553",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2553.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Guardian Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Supernova",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Biker",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Katana",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

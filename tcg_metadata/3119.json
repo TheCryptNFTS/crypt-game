@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3119",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3119",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3119.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Mosaic Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Piercing",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Devil Horns",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Snake Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Knife Eye",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #715",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "715",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/715.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Glory In Death Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Heavens Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Arachne",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Wings",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Dragon Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

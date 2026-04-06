@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2881",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2881",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2881.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "79 Years Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Through A Broken Lense",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Baby Dragon",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Dead Protector",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

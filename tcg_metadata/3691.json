@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3691",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3691",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3691.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Trapped Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Life Is Hell"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "420 Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Baby Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Racers Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Stealth Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Revolver"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4905",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4905",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4905.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "The Dead Patriot Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I See Dead People"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Nailed It"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Socks And Jesus Sandals"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

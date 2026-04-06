@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #184",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "184",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/184.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Unplugged Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Moonshot",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Facing The Stinger",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Missing Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flail",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

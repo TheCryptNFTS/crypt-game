@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3884",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3884",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3884.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Del Muerte Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Endless Void"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Fortune Teller"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Pirate Beanie"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Flash Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Mech Full Plate"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Pipe Gun"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

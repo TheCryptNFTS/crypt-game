@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5451",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5451",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5451.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Punishment Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Explorer"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Snapback"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Pentagram"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "None"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Stealth Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Nailed It"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

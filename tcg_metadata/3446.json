@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3446",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3446",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3446.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Take Me To Hell Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Oh Beehave"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Mohawk"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Grimoire"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Knife Eye"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

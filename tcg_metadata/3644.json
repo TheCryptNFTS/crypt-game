@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3644",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3644",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3644.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkGreen"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Trapped Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Nighvision"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Devil Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Clockwork"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Red Arrow"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

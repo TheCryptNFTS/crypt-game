@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1406",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1406",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1406.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Mech Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Around The World",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Jackson",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Smoke Bomb",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flash Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3779",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3779",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3779.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Sealed Depths"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Skull In Skulls Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Piercing"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Ring Of Roses"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Baby Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Weed Leaf"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Bong Of Protection"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Socks And Jesus Sandals"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

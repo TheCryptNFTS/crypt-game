@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2746",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2746",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2746.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Pop Art Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Through Hazy Eyes",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Fortune Teller",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Hand Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

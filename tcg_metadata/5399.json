@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5399",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5399",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5399.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Pushing Daisies Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I Made A Mistake"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Miner"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Single Tooth"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Bracers"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

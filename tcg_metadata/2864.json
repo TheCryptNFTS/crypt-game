@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2864",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2864",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2864.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Naked Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Oh Beehave",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Devil Horns",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

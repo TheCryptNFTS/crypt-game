@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #291",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "291",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/291.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Heavy Is The Head",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The High Life",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dragon Slayer",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Missing Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Leather Tunic",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Light Saber",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

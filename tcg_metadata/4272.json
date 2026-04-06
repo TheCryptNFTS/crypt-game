@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4272",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4272",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4272.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Hooded One Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Atlantis"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Hooded One"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Bushido"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Flash Diamond"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Bracers"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Desert Eagle 5.0"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

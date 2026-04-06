@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #492",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "492",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/492.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Bane Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Dons M-Frames",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Thunderstruck",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Snake Whip",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

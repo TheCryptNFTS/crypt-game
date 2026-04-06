@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5286",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5286",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5286.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkGreen"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Blessed Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Endless Void"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Police Hat"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Sting"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Short Bow"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

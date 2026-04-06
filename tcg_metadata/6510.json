@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6510",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6510",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6510.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Naked Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Deadeye"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Snapback"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Eats Skull"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Pipe Dream"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

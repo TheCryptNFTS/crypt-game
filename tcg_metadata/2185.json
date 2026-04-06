@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2185",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2185",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2185.png",
+  "attributes": [
+    {
+      "value": "Cursed Crops",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Frankenstein Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Hells Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Octopus",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Sniper Rifle",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

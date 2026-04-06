@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5786",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5786",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5786.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Beautiful Disaster Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Endless Void"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Flaming Skull"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Dragon Scale Mail"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

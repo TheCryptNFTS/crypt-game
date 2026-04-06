@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4427",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4427",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4427.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Rotting Flesh Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Unseen Death"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Lucky Death"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Beard Of Flames"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

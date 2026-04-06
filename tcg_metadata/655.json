@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #655",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "655",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/655.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Heavy Is The Head",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Through A Broken Lense",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Samurai",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Molotov Cocktail",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

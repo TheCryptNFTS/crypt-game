@@ -1,5 +1,6 @@
 import baseUnits from "./units.json";
 import generatedNftCards from "./generatedNftCards.json";
+import generatedPlayableTcgUnits from "./generatedPlayableTcgUnits.json";
 
 export type UnitCard = {
   id: string;
@@ -17,13 +18,10 @@ export type UnitCard = {
   keywords: string[];
 };
 
-const nftUnits = (generatedNftCards as UnitCard[]).filter(
-  (card) => card && card.type === "unit"
-);
-
 const allUnits: UnitCard[] = [
   ...(baseUnits as UnitCard[]),
-  ...nftUnits
+  ...(generatedNftCards as UnitCard[]),
+  ...(generatedPlayableTcgUnits as UnitCard[])
 ];
 
 export function getLoadedUnitById(cardId: string): UnitCard {
@@ -38,8 +36,4 @@ export function getLoadedUnitById(cardId: string): UnitCard {
 
 export function getAllLoadedUnits(): UnitCard[] {
   return allUnits;
-}
-
-export function getAllNftUnits(): UnitCard[] {
-  return nftUnits;
 }

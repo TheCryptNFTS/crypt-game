@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2794",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2794",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2794.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Deathglow Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Dons M-Frames",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Miner",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Hands Of Death",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

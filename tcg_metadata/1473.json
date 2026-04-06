@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1473",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1473",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1473.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Death Defines Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Sunflare",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Snapback",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Molotov Cocktail",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

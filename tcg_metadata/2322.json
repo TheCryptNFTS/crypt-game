@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2322",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2322",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2322.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sleek Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Lightyears",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Jackson",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Dragon Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Slingshot",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

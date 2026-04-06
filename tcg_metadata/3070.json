@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3070",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3070",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3070.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dragons Mother Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Endless Void",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Odins Raven",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Leather Tunic",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Bullet",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

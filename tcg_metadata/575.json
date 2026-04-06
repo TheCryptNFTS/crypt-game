@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #575",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "575",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/575.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Wisdom Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Soul Cry",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Clowning Around",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Creep",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pike",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

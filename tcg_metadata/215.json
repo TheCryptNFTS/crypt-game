@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #215",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "215",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/215.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sovereign Of Shadows Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Vipers Rise",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Baby Dragon",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Garden Hoe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

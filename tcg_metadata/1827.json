@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1827",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1827",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1827.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Circle Of Life Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Hugin And Munin",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "On A Dim Night",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Dead Protector",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

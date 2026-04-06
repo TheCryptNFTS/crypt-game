@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2615",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2615",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2615.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Healer Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Hells Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Thunderstruck",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Creepers",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nightmare Claws",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

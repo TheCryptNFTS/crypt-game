@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3835",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3835",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3835.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Wisdom Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Sharp"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Four Twenty"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Davy Jones"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Gold Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Cutlass"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

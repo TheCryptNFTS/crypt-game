@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4835",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4835",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4835.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Cobblestone Echoes"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Dead Money Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Daggers To The Soul"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Jester"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Warfare Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Stealth Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Short Sword"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

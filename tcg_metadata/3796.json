@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3796",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3796",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3796.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Brainiac Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Piercing"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "King Crown"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Pharaohs Fortune"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "666 Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Smoked Out"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

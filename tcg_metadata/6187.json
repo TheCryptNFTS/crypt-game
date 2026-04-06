@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6187",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6187",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6187.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Trapped Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Faiths Guardian"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Lords Crown All Around"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Flash Diamond"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Socks And Jesus Sandals"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Shotgun"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

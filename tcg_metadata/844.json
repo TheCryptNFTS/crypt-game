@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #844",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "844",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/844.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Cogs Turn Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Through A Broken Lense",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Chained",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Vampire",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Red Rose",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

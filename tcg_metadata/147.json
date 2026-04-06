@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #147",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "147",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/147.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Melting Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Soldiers Pain",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "King Crown",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Vampire",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Smoked Out",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

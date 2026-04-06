@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3488",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3488",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3488.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Lost Hope Epic"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "In Lucifer We Trust"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "The Captain"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Flash Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Baseball Bat"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

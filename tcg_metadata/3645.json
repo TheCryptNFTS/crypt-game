@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3645",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3645",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3645.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Ice Age Epic"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I See Dead People"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Four Twenty"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Medieval Armour"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "666 Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Bong Of Protection"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

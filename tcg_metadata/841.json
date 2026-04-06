@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #841",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "841",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/841.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sound Of Death Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Around The World",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Arachne",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Knife Eye",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

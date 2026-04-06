@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3046",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3046",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3046.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Good Vs Evil Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Popeye",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Samurai",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "All Gums",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Grenade Launcher",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

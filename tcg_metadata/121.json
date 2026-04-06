@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #121",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "121",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/121.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Rotting Flesh Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Unimaginable",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Wolfgang",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

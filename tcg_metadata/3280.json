@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3280",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3280",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3280.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Visiting Earth Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "I Made A Mistake",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Scorpion",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Flash Diamond",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

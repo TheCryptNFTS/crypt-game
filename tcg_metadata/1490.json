@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1490",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1490",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1490.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Bees And Honey Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "I Made A Mistake",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "None",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

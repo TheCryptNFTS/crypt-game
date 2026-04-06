@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5535",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5535",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5535.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Beauty Queen"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Time Is Short"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Hell Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Baby Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

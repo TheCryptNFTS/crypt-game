@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4441",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4441",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4441.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Smooth Operator Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Hugin And Munin"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Pirate Beanie"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Crystal Hawk"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Eats Skull"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Scale Mail"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3886",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3886",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3886.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Mosaic Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Piercing"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Fortune Teller"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Red Arrow"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

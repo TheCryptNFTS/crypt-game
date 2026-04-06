@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6503",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6503",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6503.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Heavens Retro Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Dragon Eyes"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Lords Crown All Around"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Benji"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Bracers"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

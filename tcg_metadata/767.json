@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #767",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "767",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/767.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lost Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Dons M-Frames",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "BioHazard",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Freeze",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

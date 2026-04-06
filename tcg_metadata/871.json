@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #871",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "871",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/871.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Four Twenty Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fish Eyes",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Fortune Teller",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Smoke Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

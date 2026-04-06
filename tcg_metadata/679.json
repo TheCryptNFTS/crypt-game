@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #679",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "679",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/679.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Pop Art Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Soldiers Pain",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Lords Crown",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Throwing Knives",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

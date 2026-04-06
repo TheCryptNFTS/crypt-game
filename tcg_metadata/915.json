@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #915",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "915",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/915.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Mad House Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Popeye",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "None",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Diamond",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Lead Pipe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

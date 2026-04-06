@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3786",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3786",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3786.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Lost Hope Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "The Dons M-Frames"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Mohawk"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Alien Attack"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Scimitar"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

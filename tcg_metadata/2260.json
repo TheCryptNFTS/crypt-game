@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2260",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2260",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2260.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Hells Retro Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Talk",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Egyptian God",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Red Arrow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

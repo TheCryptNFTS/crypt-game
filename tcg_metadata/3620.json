@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3620",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3620",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3620.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkPurple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Illuminati Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Endless Void"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "420 Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "666 Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

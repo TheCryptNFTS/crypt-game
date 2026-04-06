@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3989",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3989",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3989.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Glory In Death Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Sharp"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Flaming Skull"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Dead Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Bong Of Protection"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Bracers"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

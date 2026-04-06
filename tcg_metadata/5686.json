@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5686",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5686",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5686.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Enigma Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Ice Blast"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Deadphones"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Revolver"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Wings"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Uzi"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

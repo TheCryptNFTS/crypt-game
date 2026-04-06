@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3770",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3770",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3770.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Pop Art Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Piercing"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "The Captain"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Racers Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

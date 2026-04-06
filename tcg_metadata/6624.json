@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6624",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6624",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6624.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Faded Frontier"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Guardian Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Light Up My Life"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Alien Attack"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Arcane Orb"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

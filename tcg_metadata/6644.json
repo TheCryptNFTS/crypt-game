@@ -1,0 +1,16 @@
+{
+  "name": "Winged Watcher",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6644",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6644.png",
+  "attributes": [
+    {
+      "value": "Legendary Creation",
+      "trait_type": "Character"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

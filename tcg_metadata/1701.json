@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1701",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1701",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1701.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Praise Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Mad Scientist",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "All Seeing Eye",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Smoke Bomb",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

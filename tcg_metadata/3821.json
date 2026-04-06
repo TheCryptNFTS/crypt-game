@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3821",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3821",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3821.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Red"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Misty Death Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Oh Beehave"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Devil Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Rainbow Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

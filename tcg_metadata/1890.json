@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1890",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1890",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1890.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Holy Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Kheper",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Matrix Helmet",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Stitched Mouth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Cross Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

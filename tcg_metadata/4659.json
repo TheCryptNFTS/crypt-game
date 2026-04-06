@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4659",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4659",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4659.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Enslaved Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Facing Death"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Peaky Blinder"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Stealth Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

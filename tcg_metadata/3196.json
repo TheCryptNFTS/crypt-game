@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3196",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3196",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3196.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Shrouded Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fire Nuggets",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "The Brainiac",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Minoru Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

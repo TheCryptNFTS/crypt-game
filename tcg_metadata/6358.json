@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6358",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6358",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6358.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Spiral Descent"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Serial Killer Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Sharp"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Caribbean Pirate"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Alien Attack"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

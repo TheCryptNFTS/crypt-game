@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2135",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2135",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2135.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sleek Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Half Moon",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Matrix Helmet",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flash Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

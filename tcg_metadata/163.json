@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #163",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "163",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/163.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Misunderstood Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Is Hell",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Medieval Armour",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

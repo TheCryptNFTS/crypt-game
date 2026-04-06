@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1643",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1643",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1643.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Spiteful Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Leave Me Alone",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "War",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Scimitar",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

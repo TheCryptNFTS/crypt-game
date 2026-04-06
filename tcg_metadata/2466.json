@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2466",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2466",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2466.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Enslaved Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Around The World",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Royalty",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Missing Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Grenade Launcher",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

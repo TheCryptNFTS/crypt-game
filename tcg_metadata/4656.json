@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4656",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4656",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4656.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Inferno Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I See Dead People"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Four Twenty"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Eats Skull"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Crusader Shield"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Flamethrower"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3012",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3012",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3012.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Carved In Hell Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Contagion",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Her Hair",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Demon Slayer",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

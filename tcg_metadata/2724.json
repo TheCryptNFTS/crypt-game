@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2724",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2724",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2724.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Mech Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Fly",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Roman Soldier",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Racers Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Snake Whip",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

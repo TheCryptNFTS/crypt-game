@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #837",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "837",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/837.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Heavy Is The Head",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Fly",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Chained",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

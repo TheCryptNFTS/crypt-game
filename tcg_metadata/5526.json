@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5526",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5526",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5526.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Pop Art Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Kheper"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Flaming Skull"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Beard Of Flames"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

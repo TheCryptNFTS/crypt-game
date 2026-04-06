@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #674",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "674",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/674.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Glory In Death Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Kheper",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Mourning",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Dead Protectors Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Shotgun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1003",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1003",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1003.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Spreading Evil Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Android",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dragon Slayer",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Wings",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Leather Tunic",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

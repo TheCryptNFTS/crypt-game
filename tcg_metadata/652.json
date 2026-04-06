@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #652",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "652",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/652.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Honeycomb Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Sharp",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "War Horns",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Robotic Pistol",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

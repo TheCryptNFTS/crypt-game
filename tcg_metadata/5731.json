@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5731",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5731",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5731.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Skull Island"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Dead King Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Light Up My Life"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "666 Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Wings"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Scimitar"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

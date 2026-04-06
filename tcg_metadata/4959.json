@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4959",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4959",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4959.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "79 Years Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Mad Professor"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Indian"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Socks And Jesus Sandals"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Short Bow"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

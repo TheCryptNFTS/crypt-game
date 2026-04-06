@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #155",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "155",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/155.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lost Hope Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Facing Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Biker",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Dead Protector",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Staff",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

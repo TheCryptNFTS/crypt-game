@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #541",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "541",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/541.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Hairdresser Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "In Lucifer We Trust",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Deadphones",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Scimitar",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

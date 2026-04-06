@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5876",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5876",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5876.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkPurple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Slave Master Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Skull V Skull"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Marley"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Warfare Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Mech Full Plate"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

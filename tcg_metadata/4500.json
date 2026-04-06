@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4500",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4500",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4500.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Forsaken Throne Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Sharp"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Fortune Teller"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Bipolar"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Glavie"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

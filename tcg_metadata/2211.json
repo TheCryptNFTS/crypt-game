@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2211",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2211",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2211.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Clown Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Mad Scientist",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Baby Dragon",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pike",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

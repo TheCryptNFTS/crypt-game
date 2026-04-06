@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6155",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6155",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6155.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Good Vs Evil Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Light Up My Life"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Clowning Around"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Davy Jones"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Racers Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Buckler"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

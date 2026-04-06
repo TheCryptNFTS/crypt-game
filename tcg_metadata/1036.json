@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1036",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1036",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1036.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Flair Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Electrified",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "The Brainiac",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Knife Eye",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

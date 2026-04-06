@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #91",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "91",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/91.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Her Beauty Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Fly",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "WW2 Ace",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Leather Tunic",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Yaka Arrow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

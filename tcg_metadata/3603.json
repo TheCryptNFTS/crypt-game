@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3603",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3603",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3603.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Red"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Holy Epic"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Lost Childhood"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Roses Are Dead"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Dead Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Single Tooth"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Revolver"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

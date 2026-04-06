@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2324",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2324",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2324.png",
+  "attributes": [
+    {
+      "value": "Crimson Rift",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Money Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Light Up My Life",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Snapback",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Snake Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nine Tails Whip",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

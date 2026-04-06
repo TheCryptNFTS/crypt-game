@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #223",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "223",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/223.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Queen Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Unseen Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Arachne",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3714",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3714",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3714.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Purple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Ice Age Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Hells Gateway"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Fireman"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Single Tooth"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Grimoire"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Nailed It"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

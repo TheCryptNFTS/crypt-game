@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5692",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5692",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5692.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Hells Retro Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Unseen Death"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "The Captain"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Dragon Slayer"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Royal Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Riot Shield"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

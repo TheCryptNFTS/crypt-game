@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1608",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1608",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1608.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Celtic Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Damien",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Her Hair",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

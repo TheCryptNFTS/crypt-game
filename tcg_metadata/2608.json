@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2608",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2608",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2608.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Pop Art Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Tech Moncocle",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Jackson",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #255",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "255",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/255.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Celtic Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Facing Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Biker",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Smoked Out",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Smoked Out",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

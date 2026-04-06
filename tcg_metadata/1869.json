@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1869",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1869",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1869.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lost Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Facing Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "None",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Clockwork",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Gun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

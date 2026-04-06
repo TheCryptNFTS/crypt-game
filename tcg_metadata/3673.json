@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3673",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3673",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3673.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Day Of The Dead Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Moonshot"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "King Crown"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Baby Dragon"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Molotov Cocktail"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

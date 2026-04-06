@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4015",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4015",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4015.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Comms Down Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Soul Cry"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Devil Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "BioHazard"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Wax Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

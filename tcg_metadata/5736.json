@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5736",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5736",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5736.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkPurple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Time Is All We Have Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Honey"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Jester"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Buckler"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

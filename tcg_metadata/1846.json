@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1846",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1846",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1846.png",
+  "attributes": [
+    {
+      "value": "Cursed Crops",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Circle Of Life Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Aura",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Biker",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Racers Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Cutlass",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

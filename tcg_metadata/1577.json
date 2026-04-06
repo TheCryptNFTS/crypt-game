@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1577",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1577",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1577.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Celtic Skull Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Dystopia",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Red Indian",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Wax Drip",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Bullet",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1925",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1925",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1925.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Queen Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Eye",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Pharaohs Fortune",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Nesferatu",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

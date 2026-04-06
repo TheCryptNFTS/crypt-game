@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #928",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "928",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/928.png",
+  "attributes": [
+    {
+      "value": "Mad Scientists Lab",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Dead Patriot Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Trapped",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Ring Of Roses",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Stitched Up",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Broken Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

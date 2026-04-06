@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3315",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3315",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3315.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Round Table Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Around The World",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Astronaut",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Riot Shield",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "AK47",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

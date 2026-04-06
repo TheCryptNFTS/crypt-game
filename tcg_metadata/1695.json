@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1695",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1695",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1695.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sleek Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Reflections Of The Past",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bright Idea",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #394",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "394",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/394.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Deceit Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fantasy Glow",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Facing The Stinger",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Arrow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

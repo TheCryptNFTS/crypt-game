@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #3400",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3400",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3400.png",
+  "attributes": [
+    {
+      "value": "Skull Heart",
+      "trait_type": "One of One"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

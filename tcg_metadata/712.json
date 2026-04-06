@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #712",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "712",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/712.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Drippy Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Endless Void",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Octopus",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Warfare Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Sniper Rifle",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

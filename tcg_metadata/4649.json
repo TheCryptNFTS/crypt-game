@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4649",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4649",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4649.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Pink"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Death Defines Skull Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Temporal Rift"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "420 Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Teeth Glow"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Energy Shield"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3075",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3075",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3075.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Loved Fashion Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Dragon Fruit",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Wolfgang",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Scythe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #479",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "479",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/479.png",
+  "attributes": [
+    {
+      "value": "Concrete Canvas",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Blessed Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fireborn",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Arachne",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Sniper Rifle",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

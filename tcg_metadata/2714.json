@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2714",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2714",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2714.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Not King Nor Queen Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Wandering Souls",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "BioHazard",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flamethrower",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

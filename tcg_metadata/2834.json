@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2834",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2834",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2834.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Skull In Skulls Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Contagion",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Pentagram",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Hands Of Death",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flash Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #581",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "581",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/581.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Gold Carvings Epic",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Creeper",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Her Hat",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Throwing Knives",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

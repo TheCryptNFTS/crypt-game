@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1765",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1765",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1765.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Hells Retro Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Pieces Of Eight",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hell Horns",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Redemption",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

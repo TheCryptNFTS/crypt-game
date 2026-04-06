@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2579",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2579",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2579.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Drippy Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Earths Core",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Benji",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Hand Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

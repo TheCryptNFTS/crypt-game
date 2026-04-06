@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6459",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6459",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6459.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Pink"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Dead Mans Hand Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "See No Evil"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Pirate Beanie"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Crypt Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Mech Full Plate"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Axe"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

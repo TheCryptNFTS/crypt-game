@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1889",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1889",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1889.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lookin Glass Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Lost Childhood",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dragon Slayer",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Lokis Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

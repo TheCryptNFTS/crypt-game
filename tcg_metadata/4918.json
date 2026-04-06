@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4918",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4918",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4918.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Brainiac Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Grieving Widow"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Jester"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Bane"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Diamond Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

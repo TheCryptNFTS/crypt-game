@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #3425",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3425",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3425.png",
+  "attributes": [
+    {
+      "value": "Yesterday Is History",
+      "trait_type": "One of One"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

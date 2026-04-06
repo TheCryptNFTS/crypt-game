@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3854",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3854",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3854.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Hooded One Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Piercing"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Octopus"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Nesferatu"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Saurons Mace"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

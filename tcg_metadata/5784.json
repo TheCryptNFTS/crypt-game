@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5784",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5784",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5784.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Deathly Shadows"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Del Muerte Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I Made A Mistake"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Flaming Skull"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Knife Eye"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

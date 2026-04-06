@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4418",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4418",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4418.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkPurple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Four Twenty Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I Made A Mistake"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Snapback"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Teeth Glow"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Energy Shield"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

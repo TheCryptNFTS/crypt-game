@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2875",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2875",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2875.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Inferno Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Piercing",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Crystal Hawk",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

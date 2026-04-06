@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #642",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "642",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/642.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Half Human Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Lightning",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "None",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "AK47",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

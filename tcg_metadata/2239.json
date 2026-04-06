@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2239",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2239",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2239.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Half Human Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Grieving Widow",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Miner",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Revolver",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

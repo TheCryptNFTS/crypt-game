@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1728",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1728",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1728.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lookin Glass Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Eye See All",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "War",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Creepers",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Cutlass",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

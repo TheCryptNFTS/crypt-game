@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #860",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "860",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/860.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Hells Retro Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Soul Cry",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Wolfgang",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Hands Of Death",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Bullet",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

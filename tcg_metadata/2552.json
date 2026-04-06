@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2552",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2552",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2552.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "3D Future Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Moonshot",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Black Widow",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

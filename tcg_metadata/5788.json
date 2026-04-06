@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5788",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5788",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5788.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Red"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Frankenstein Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I Made A Mistake"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Emperor"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

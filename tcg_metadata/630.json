@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #630",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "630",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/630.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Guardian Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Death Stare",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bushido",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Under Pressure",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

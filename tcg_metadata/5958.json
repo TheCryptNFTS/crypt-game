@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5958",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5958",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5958.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Misty Death Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Devilish Sight"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Chained"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Biker"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Crusader Shield"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Smoke Grenade"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

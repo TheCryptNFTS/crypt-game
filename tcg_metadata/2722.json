@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2722",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2722",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2722.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Praise Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "In Lucifer We Trust",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Peaky Blinder",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Dragon Bone Plate",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

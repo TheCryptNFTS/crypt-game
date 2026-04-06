@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #453",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "453",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/453.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Naked Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fantasy Glow",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Fortune Teller",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Molotov Cocktail",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

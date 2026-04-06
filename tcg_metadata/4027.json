@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4027",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4027",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4027.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Take Me To Hell Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Facing Death"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Medieval Armour"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Dead Protector"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Grimoire"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Garden Hoe"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

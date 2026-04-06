@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3363",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3363",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3363.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Red"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Dragons Mother Epic"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I Made A Mistake"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Hellrazor"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "666 Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Snake Scale Mail"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "AK47"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

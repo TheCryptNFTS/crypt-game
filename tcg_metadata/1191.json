@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1191",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1191",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1191.png",
+  "attributes": [
+    {
+      "value": "Eternal Rest",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Good Vs Evil Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Urchins",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "On A Dim Night",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Spliff",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Pike",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

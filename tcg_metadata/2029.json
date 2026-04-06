@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2029",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2029",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2029.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Circle Of Life Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Ancient History",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Medieval Armour",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Rainbow Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Wings",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Leather Tunic",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pulse Energy Gun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1810",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1810",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1810.png",
+  "attributes": [
+    {
+      "value": "Forgotten Streets",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Pop Art Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Hells Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "King Crown",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Tongue Out",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

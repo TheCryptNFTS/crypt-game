@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #9",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "9",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/9.png",
+  "attributes": [
+    {
+      "value": "Corridor Of Time",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Enslaved Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Piercing",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hell Horns",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Vampire",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

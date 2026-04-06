@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5448",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5448",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5448.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Pink"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Round Table Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Vinyl"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Pirate Beanie"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Snake Scale Mail"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Mjolnir"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

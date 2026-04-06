@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6136",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6136",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6136.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkGreen"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Hybrid Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Lightning"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Dead Protectors Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Elven Shoemakers Hammer"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

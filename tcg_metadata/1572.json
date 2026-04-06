@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1572",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1572",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1572.png",
+  "attributes": [
+    {
+      "value": "Forgotten Streets",
+      "trait_type": "Background"
+    },
+    {
+      "value": "In Death I Hear You Epic",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Beehive",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Snapback",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Gun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1537",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1537",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1537.png",
+  "attributes": [
+    {
+      "value": "Eternal Torment",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Hairdresser Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Dragons Spirit",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Crystal Hawk",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Garden Hoe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

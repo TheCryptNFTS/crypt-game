@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #6115",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6115",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    },
+    {
+      "value": "Legendary Creation",
+      "trait_type": "Character"
+    }
+  ]
+}

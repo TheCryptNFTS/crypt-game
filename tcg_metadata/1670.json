@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1670",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1670",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1670.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Del Muerte Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Heavens Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Devil Horns",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Snake Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flash Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

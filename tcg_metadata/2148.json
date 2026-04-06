@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2148",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2148",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2148.png",
+  "attributes": [
+    {
+      "value": "Mad Scientists Lab",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Mandala Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fire Nuggets",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bushido",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Normal Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Smoke Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

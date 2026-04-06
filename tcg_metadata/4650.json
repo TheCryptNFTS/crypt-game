@@ -1,0 +1,16 @@
+{
+  "name": "Aphrodite",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4650",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4650.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Gods"
+    },
+    {
+      "trait_type": "God",
+      "value": "Aphrodite"
+    }
+  ]
+}

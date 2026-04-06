@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4412",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4412",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4412.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Yellow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Anunnaki Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Escaping Darkness"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Matrix Helmet"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Socks And Jesus Sandals"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

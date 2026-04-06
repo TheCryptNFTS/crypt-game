@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2503",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2503",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2503.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Gold Carvings Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Ancient History",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "None",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Dead Samurai",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Scimitar",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

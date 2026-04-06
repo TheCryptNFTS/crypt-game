@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1347",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1347",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1347.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dare Me Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Grieving Widow",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Medieval Armour",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Riot Shield",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Under Pressure",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1148",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1148",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1148.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Ornate Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Heavens Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bipolar",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pans Revenge",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

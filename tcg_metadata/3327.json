@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3327",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3327",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3327.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Funeral Song Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Is Hell",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Deadphones",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Robotic Pistol",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

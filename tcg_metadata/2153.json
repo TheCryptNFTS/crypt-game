@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2153",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2153",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2153.png",
+  "attributes": [
+    {
+      "value": "Mad Scientists Lab",
+      "trait_type": "Background"
+    },
+    {
+      "value": "In Death I Hear You Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Self Reflection",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dragon Slayer",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

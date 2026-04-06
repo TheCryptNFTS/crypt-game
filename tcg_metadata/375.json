@@ -1,0 +1,40 @@
+{
+  "name": "Crypt - Digital Trading Card #375",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "375",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/375.png",
+  "attributes": [
+    {
+      "value": "Fungal Dreamscape",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Deathglow Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Tractor Beam",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Pentagram",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Weed Leaf",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Bong Of Protection",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

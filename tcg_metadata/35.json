@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #35",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "35",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/35.png",
+  "attributes": [
+    {
+      "value": "Rebel Walls",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Devils Advocate Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Unseen Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Benji",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nine Tails Whip",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

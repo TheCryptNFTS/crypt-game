@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2787",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2787",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2787.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Live A Full Life Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Fly",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Scorpion",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Gun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4599",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4599",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4599.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "In Death I Hear You Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Piercing"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Crypt Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Grimoire"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Bullet"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

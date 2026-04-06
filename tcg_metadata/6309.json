@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6309",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6309",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6309.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Botanic Haven"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Celebrate Life Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "The Fly"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Devil Horns"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Normal Teeth"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Riot Shield"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

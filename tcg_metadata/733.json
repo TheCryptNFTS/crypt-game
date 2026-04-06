@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #733",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "733",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/733.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Rotting Flesh Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Through A Broken Lense",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Miner",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3891",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3891",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3891.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Pink"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Del Muerte Common Light"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Sharp"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Bipolar"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Razor Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Wand"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1893",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1893",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1893.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Bloody Death Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Supernova",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Odins Raven",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Racers Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

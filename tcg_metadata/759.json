@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #759",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "759",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/759.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Mandala Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Leave Me Alone",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Peaky Blinder",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "ATM",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Minoru Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

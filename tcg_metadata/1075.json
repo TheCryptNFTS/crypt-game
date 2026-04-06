@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1075",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1075",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1075.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Rotting Flesh Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Spider",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Octopus",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Revolver",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

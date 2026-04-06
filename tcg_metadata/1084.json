@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1084",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1084",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1084.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Living In Grief Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Trons veil",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Roman Soldier",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Missing Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Mech Full Plate",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flash Grenade",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

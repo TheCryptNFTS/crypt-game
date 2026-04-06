@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #454",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "454",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/454.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Skull In Skulls Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Around The World",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hellrazor",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Smoked Out",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

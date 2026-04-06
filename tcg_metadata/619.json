@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #619",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "619",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/619.png",
+  "attributes": [
+    {
+      "value": "Hellfire Gorge",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Melting Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Fly",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Caribbean Pirate",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Elven Shoemakers Hammer",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6330",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6330",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6330.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "The Hollow"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Sleek Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Oh Beehave"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

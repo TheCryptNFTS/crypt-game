@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2578",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2578",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2578.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Rekt Skull Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Till Death Do Us Part",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Wolfskin",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3971",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3971",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3971.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Chosen One Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Unseen Death"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Miner"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Crypt Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Bong Of Protection"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

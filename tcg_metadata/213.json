@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #213",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "213",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/213.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Long Live The King Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Heavens Gateway",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Jackson",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

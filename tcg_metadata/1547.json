@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1547",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1547",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1547.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Naked Minds Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Time Warp",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Ice Man",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Clockwork",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

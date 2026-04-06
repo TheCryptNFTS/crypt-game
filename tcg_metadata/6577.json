@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6577",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6577",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6577.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Hells Pinnacle"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Unplugged Epic"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "I See Dead People"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "The Captain"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Robotic"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

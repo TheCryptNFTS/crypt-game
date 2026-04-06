@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #141",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "141",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/141.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Kill For Gold Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Endless Void",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Peaky Blinder",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Smoke Bomb",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flamethrower",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

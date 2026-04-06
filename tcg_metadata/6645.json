@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6645",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6645",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6645.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkPurple"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Ruined Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Ancient Classics"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Biker"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Wax Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Gauntlets"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Pulse Energy Gun"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

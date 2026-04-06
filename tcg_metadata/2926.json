@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2926",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2926",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2926.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Bees And Honey Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Owls Perspective",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Matrix Helmet",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

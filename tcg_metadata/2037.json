@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2037",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2037",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2037.png",
+  "attributes": [
+    {
+      "value": "Hells Pinnacle",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Great Britain Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Unseen Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Kings Crown",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Spliff",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Throwing Knives",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

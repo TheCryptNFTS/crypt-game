@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2283",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2283",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2283.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Anunnaki Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Cobweb",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hooded One",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Creepers",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Adams Hand",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Daggers",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

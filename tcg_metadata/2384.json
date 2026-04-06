@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #2384",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2384",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2384.png",
+  "attributes": [
+    {
+      "value": "Amenadiel",
+      "trait_type": "Character"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

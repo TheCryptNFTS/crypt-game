@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3827",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3827",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3827.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkGreen"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Death Glow Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Life Is Hell"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "King Crown"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Snake Whip"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

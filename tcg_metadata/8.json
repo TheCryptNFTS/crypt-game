@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #8",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "8",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/8.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Ancient Warrior Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Talk",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Dragon",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Baseball Bat",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

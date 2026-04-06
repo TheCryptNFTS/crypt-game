@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3170",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3170",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3170.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Glory In Death Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Unseen Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Cap",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Racers Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Arrow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

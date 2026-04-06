@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4989",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4989",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4989.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Bloody Death Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Crypt Coin"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Hooded One"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "BioHazard"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Cigar"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Stealth Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Elven Shoemakers Hammer"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

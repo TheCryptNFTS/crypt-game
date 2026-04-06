@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2358",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2358",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2358.png",
+  "attributes": [
+    {
+      "value": "Fogveil Alley",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Dead Patriot Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Trapped",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Baby Dragon",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Fangs",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Mad Max Pipe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

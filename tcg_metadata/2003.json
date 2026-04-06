@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2003",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2003",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2003.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Flair Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Trees Have Eyes",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Heavy Is The Head",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Hands Of Death",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Revolver",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

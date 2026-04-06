@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1472",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1472",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1472.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Spiteful Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Faiths Guardian",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bane",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Red Arrow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

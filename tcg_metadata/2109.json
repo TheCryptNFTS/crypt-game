@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2109",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2109",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2109.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Ice Age Epic",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Devilish Sight",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Cap",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Creep",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

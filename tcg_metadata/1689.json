@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1689",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1689",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1689.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Flair Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Facing Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Astral",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Boxing Gloves",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #284",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "284",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/284.png",
+  "attributes": [
+    {
+      "value": "Fractured Vessel",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Sleek Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Oh Beehave",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Roman Soldier",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Skull Eats Skull",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

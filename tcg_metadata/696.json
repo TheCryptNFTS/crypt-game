@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #696",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "696",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/696.png",
+  "attributes": [
+    {
+      "value": "Elias",
+      "trait_type": "Character"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

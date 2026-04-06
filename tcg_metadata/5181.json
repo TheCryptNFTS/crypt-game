@@ -1,0 +1,16 @@
+{
+  "name": "Zeus",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5181",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5181.png",
+  "attributes": [
+    {
+      "trait_type": "Faction",
+      "value": "Gods"
+    },
+    {
+      "trait_type": "God",
+      "value": "Zeus"
+    }
+  ]
+}

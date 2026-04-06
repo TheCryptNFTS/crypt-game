@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #854",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "854",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/854.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Hybrid Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Endless Void",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Ring Of Roses",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Dead Money",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

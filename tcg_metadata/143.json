@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #143",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "143",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/143.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Pure Evil Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Atomic Bombs",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "BioHazard",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Gauntlets",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Short Sword",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

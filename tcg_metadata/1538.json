@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1538",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1538",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1538.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Techno Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Honey",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bipolar",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

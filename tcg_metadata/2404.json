@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2404",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2404",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2404.png",
+  "attributes": [
+    {
+      "value": "Smoke Purple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Dead Patriot Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Vinyl",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bipolar",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Elven Shoemakers Hammer",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

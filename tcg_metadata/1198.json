@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1198",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1198",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1198.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Drippy Skull Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "I See Dead People",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Octopus",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flamethrower",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

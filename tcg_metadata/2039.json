@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2039",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2039",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2039.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Comms Down Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "The Trees Have Eyes",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Astronaut",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Revolver",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

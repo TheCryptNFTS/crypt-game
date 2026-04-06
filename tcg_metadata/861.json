@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #861",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "861",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/861.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lookin Glass Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Winter Vortex",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Police Hat",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Warfare Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Flail",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

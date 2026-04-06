@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2489",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2489",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2489.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Round Table Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "In Lucifer We Trust",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bane",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "666 Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Great Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

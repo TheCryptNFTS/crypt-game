@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #29",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "29",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/29.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Naked Minds Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Around The World",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "None",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Four Twenty",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Wings",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Great Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

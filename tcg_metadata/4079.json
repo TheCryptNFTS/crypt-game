@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4079",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4079",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4079.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Chrono Cascade"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "79 Years Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Unseen Death"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Marley"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "The Captain"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Sting"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Buckler"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

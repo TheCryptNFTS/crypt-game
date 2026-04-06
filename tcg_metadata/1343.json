@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1343",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1343",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1343.png",
+  "attributes": [
+    {
+      "value": "Skull Island",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lookin Glass Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Moonshot",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "King Crown",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Snake Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

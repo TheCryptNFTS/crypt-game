@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2092",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2092",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2092.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Fast Lane Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Lost Childhood",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Red Indian",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Cigar",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Mad Max Pipe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2564",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2564",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2564.png",
+  "attributes": [
+    {
+      "value": "Smoke Red",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Bloody Death Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Snake",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Davy Jones",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Knife Eye",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

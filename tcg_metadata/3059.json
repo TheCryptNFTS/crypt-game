@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3059",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3059",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3059.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Living In Grief Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Ancient History",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Snapback",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Double Blunts",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

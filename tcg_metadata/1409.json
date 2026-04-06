@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1409",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1409",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1409.png",
+  "attributes": [
+    {
+      "value": "Hellfire Gorge",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Skull In Skulls Epic",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Imprisoned",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Snapback",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Razor Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Storm Breaker",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

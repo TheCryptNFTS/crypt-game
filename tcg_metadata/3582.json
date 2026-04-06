@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3582",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3582",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3582.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Cobblestone Echoes"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Clown Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Hells Gateway"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Marley"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Flash Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Boots"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Shotgun"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

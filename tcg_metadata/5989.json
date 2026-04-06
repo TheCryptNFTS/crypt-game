@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5989",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5989",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5989.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke DarkGreen"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Dead Queen Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Mad Scientist"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2052",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2052",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2052.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Heavens Retro Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Eternal Glow",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Wolfgang",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Normal Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "AK47",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

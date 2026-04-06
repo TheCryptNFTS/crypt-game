@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #285",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "285",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/285.png",
+  "attributes": [
+    {
+      "value": "Dantes Monument",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Flowers Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Crypt Coin",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Dragon",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Blunt",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Mjolnir",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

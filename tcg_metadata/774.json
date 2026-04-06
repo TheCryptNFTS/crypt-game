@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #774",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "774",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/774.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Celebrate Life Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Moonshot",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Her Hat",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

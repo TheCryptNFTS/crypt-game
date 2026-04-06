@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1593",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1593",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1593.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Smooth Operator Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Jarvis",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hellrazor",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Flash Diamond",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Arcane Orb",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Baseball Bat",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

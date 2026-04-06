@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1544",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1544",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1544.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Del Muerte Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Moonshot",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hellrazor",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Katana",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

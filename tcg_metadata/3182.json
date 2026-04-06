@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #3182",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3182",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3182.gif",
+  "attributes": [
+    {
+      "value": "Legendary Creation",
+      "trait_type": "Character"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

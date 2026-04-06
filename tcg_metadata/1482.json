@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1482",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1482",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1482.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Red Rose Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Temporal Rift",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Redemption",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Pipe",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Robotic Pistol",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

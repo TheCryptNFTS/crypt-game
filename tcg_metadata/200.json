@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #200",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "200",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/200.png",
+  "attributes": [
+    {
+      "value": "Corridor Of Time",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Lookin Glass Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Through A Broken Lense",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Odins Raven",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Cross Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

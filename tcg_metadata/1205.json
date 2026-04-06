@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1205",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1205",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1205.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Heavy Is The Head",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Escaping Darkness",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dead Scorpion",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Bullet",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Morning Star",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

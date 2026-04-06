@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2368",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2368",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2368.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Wisdom Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Life Is Hell",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Benji",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Missing Teeth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Chain Whip",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

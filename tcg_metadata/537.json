@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #537",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "537",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/537.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Devils Advocate Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Devilish Sight",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Pentagram",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Minoru Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

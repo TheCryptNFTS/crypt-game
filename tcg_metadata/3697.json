@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3697",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3697",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3697.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Misunderstood Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Skull V Skull"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Roses Are Dead"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Viking Warrior"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Smoked Out"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "None"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

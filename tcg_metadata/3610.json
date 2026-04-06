@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #3610",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3610",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3610.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Silent Tombs"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Galactic Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Lightning"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "The Captain"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Crypt Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Socks And Jesus Sandals"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Katana"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

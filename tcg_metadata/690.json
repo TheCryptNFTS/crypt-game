@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #690",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "690",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/690.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Misty Death Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Troll",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Biker",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Bullet",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Scythe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

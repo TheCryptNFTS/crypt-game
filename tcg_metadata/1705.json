@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1705",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1705",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1705.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Dollars Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Plugged Into The Matrix",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Matrix Helmet",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Creepers",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

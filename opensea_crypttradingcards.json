@@ -1,0 +1,3159 @@
+{
+  "nfts" : [ {
+    "identifier" : "6658",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6658",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/d194266f22b8389017950e3e068652/55d194266f22b8389017950e3e068652.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/d194266f22b8389017950e3e068652/55d194266f22b8389017950e3e068652.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6658.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6658",
+    "updated_at" : "2026-04-06T00:02:44.700124",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6658.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hells Gateway"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Misunderstood Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Razor Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Nailed It"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "The Captain"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hive Mind"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Yellow"
+    } ]
+  }, {
+    "identifier" : "6665",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Thor",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/a653e096ad16acdd37cde6ccaacb68/a2a653e096ad16acdd37cde6ccaacb68.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/a653e096ad16acdd37cde6ccaacb68/a2a653e096ad16acdd37cde6ccaacb68.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6665.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6665",
+    "updated_at" : "2026-04-06T00:02:44.700166",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6665.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "God",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Thor"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Gods"
+    } ]
+  }, {
+    "identifier" : "6657",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6657",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/c6058d02ff689d0ffa2657ae626ce6/e2c6058d02ff689d0ffa2657ae626ce6.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/c6058d02ff689d0ffa2657ae626ce6/e2c6058d02ff689d0ffa2657ae626ce6.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6657.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6657",
+    "updated_at" : "2026-04-06T00:02:44.700177",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6657.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Times Up"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Mad House Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Skull Eats Skull"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Short Sword"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Baby Dragon"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Devil Horns"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke"
+    } ]
+  }, {
+    "identifier" : "6655",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6655",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/2e14071620451c3cc0c83101872373/1a2e14071620451c3cc0c83101872373.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/2e14071620451c3cc0c83101872373/1a2e14071620451c3cc0c83101872373.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6655.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6655",
+    "updated_at" : "2026-04-06T00:02:44.700189",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6655.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lost Childhood"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Crazy Life Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stitched Up"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "King Crown"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkGreen"
+    } ]
+  }, {
+    "identifier" : "6660",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6660",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/7df9893eba14a4715291f4cd4a34df/857df9893eba14a4715291f4cd4a34df.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/7df9893eba14a4715291f4cd4a34df/857df9893eba14a4715291f4cd4a34df.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6660.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6660",
+    "updated_at" : "2026-04-06T00:02:44.700200",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6660.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Piercing"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Good Vs Evil Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Rainbow Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lucky Death"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Wings"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkGreen"
+    } ]
+  }, {
+    "identifier" : "6666",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Anunnaki",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/5f9ab0dd1158e644c5a90bdf53a6b6/6a5f9ab0dd1158e644c5a90bdf53a6b6.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/5f9ab0dd1158e644c5a90bdf53a6b6/6a5f9ab0dd1158e644c5a90bdf53a6b6.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6666.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6666",
+    "updated_at" : "2026-04-06T00:02:44.700211",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6666.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "God",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Anunnaki"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Gods"
+    } ]
+  }, {
+    "identifier" : "6663",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6663",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/27cb7fbe906542aa1a88d07fdae544/7027cb7fbe906542aa1a88d07fdae544.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/27cb7fbe906542aa1a88d07fdae544/7027cb7fbe906542aa1a88d07fdae544.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6663.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6663",
+    "updated_at" : "2026-04-06T00:02:44.700253",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6663.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Explorer"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Visiting Earth Epic"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Riot Shield"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Flash Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Red Arrow"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Facing The Stinger"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Devil Horns"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Yellow"
+    } ]
+  }, {
+    "identifier" : "6662",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6662",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/5f1e07117be0841b5b054d00f4aacc/f05f1e07117be0841b5b054d00f4aacc.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/5f1e07117be0841b5b054d00f4aacc/f05f1e07117be0841b5b054d00f4aacc.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6662.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6662",
+    "updated_at" : "2026-04-06T00:02:44.700268",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6662.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "In Lucifer We Trust"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Fast Lane Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Diamond Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Silver Sentinels"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Biker"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke"
+    } ]
+  }, {
+    "identifier" : "6652",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6652",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/35d5ce6ba6d4e428c87472d27507f8/6e35d5ce6ba6d4e428c87472d27507f8.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/35d5ce6ba6d4e428c87472d27507f8/6e35d5ce6ba6d4e428c87472d27507f8.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6652.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6652",
+    "updated_at" : "2026-04-06T00:02:44.700279",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6652.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Mad Scientist"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Glory In Death Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Blunt"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Viking Warrior"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Quantum Mechanica"
+    } ]
+  }, {
+    "identifier" : "6664",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Odin",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/e64a441c2b33e738c35bee662f2158/2de64a441c2b33e738c35bee662f2158.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/e64a441c2b33e738c35bee662f2158/2de64a441c2b33e738c35bee662f2158.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6664.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6664",
+    "updated_at" : "2026-04-06T00:02:44.700310",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6664.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "God",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Odin"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Gods"
+    } ]
+  }, {
+    "identifier" : "6654",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Neon Warder",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/25eed863265f8eea7b2f8844d3feb2/2b25eed863265f8eea7b2f8844d3feb2.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/25eed863265f8eea7b2f8844d3feb2/2b25eed863265f8eea7b2f8844d3feb2.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6654.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6654",
+    "updated_at" : "2026-04-06T00:02:44.700317",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6654.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6653",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6653",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/278643835e900673773b35e4b2ef62/7f278643835e900673773b35e4b2ef62.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/278643835e900673773b35e4b2ef62/7f278643835e900673773b35e4b2ef62.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6653.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6653",
+    "updated_at" : "2026-04-06T00:02:44.700334",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6653.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Endless Void"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Brainiac Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "666 Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Red Rose"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Steampunk"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bright Idea"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Purple"
+    } ]
+  }, {
+    "identifier" : "6646",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6646",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/7ef73ede410561dcc1732fa89efee4/447ef73ede410561dcc1732fa89efee4.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/7ef73ede410561dcc1732fa89efee4/447ef73ede410561dcc1732fa89efee4.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6646.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6646",
+    "updated_at" : "2026-04-06T00:02:44.700345",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6646.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lightning"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Carvings Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stealth Boots"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hands Of Death"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Mjolnir"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hell Horns"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Yellow"
+    } ]
+  }, {
+    "identifier" : "6648",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6648",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/a9b9fc1eed0b0d1274202d563cd6c8/afa9b9fc1eed0b0d1274202d563cd6c8.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/a9b9fc1eed0b0d1274202d563cd6c8/afa9b9fc1eed0b0d1274202d563cd6c8.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6648.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6648",
+    "updated_at" : "2026-04-06T00:02:44.700355",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6648.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Endless Void"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hooded One Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Skull Eats Skull"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Revolver"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Ring Of Roses"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Grimoire"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke"
+    } ]
+  }, {
+    "identifier" : "6645",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6645",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/0fa6db81429dbcf0dc6d88624cb2fe/e40fa6db81429dbcf0dc6d88624cb2fe.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/0fa6db81429dbcf0dc6d88624cb2fe/e40fa6db81429dbcf0dc6d88624cb2fe.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6645.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6645",
+    "updated_at" : "2026-04-06T00:02:44.700364",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6645.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Ancient Classics"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Ruined Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Gauntlets"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Wax Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Pulse Energy Gun"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Biker"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkPurple"
+    } ]
+  }, {
+    "identifier" : "6644",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Winged Watcher",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/cc3874f16b45b3126e71d0635bc0c1/0fcc3874f16b45b3126e71d0635bc0c1.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/cc3874f16b45b3126e71d0635bc0c1/0fcc3874f16b45b3126e71d0635bc0c1.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6644.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6644",
+    "updated_at" : "2026-04-06T00:02:44.700373",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6644.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6643",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6643",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6643.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6643",
+    "updated_at" : "2026-04-06T00:02:44.700383",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6641",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6641",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/b2879d2f0898e34d2a1e1a9d672940/c0b2879d2f0898e34d2a1e1a9d672940.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/b2879d2f0898e34d2a1e1a9d672940/c0b2879d2f0898e34d2a1e1a9d672940.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6641.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6641",
+    "updated_at" : "2026-04-06T00:02:44.700392",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6641.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "In Lucifer We Trust"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Half Human Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Leather Tunic"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Razor Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Silver Sentinels"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Jackson"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Fungal Dreamscape"
+    } ]
+  }, {
+    "identifier" : "6640",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6640",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/d1ee2ec99ccebd7fc9f1816ac3fdcb/cfd1ee2ec99ccebd7fc9f1816ac3fdcb.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/d1ee2ec99ccebd7fc9f1816ac3fdcb/cfd1ee2ec99ccebd7fc9f1816ac3fdcb.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6640.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6640",
+    "updated_at" : "2026-04-06T00:02:44.700403",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6640.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Unimaginable"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Diamond Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Boots"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Flash Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Chained"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Yellow"
+    } ]
+  }, {
+    "identifier" : "6639",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6639",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/2a783b19931526e753ca60364bc2de/262a783b19931526e753ca60364bc2de.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/2a783b19931526e753ca60364bc2de/262a783b19931526e753ca60364bc2de.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6639.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6639",
+    "updated_at" : "2026-04-06T00:02:44.700441",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6639.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Unseen Death"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Dragons Mother Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Double Joint"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Octopus"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Davy Jones"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkGreen"
+    } ]
+  }, {
+    "identifier" : "6637",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6637",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6637.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6637",
+    "updated_at" : "2026-04-06T00:02:44.700451",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6632",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6632",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6632.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6632",
+    "updated_at" : "2026-04-06T00:02:44.700461",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6624",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6624",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/8f742f259f0ed768210d409c05fa62/838f742f259f0ed768210d409c05fa62.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/8f742f259f0ed768210d409c05fa62/838f742f259f0ed768210d409c05fa62.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6624.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6624",
+    "updated_at" : "2026-04-06T00:02:44.700472",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6624.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Light Up My Life"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Guardian Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Alien Attack"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Silver Sentinels"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Arcane Orb"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Faded Frontier"
+    } ]
+  }, {
+    "identifier" : "6621",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6621",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6621.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6621",
+    "updated_at" : "2026-04-06T00:02:44.700510",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6616",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6616",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6616.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6616",
+    "updated_at" : "2026-04-06T00:02:44.700520",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6598",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6598",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/e28445593d29dffef7f7422b5c1d1e/85e28445593d29dffef7f7422b5c1d1e.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/e28445593d29dffef7f7422b5c1d1e/85e28445593d29dffef7f7422b5c1d1e.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6598.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6598",
+    "updated_at" : "2026-04-06T00:02:44.700531",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6598.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Sharp"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Carvings Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Energy Shield"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Red Rose"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bushido"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkPurple"
+    } ]
+  }, {
+    "identifier" : "6601",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6601",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/4569e6d81593aab311da8d15c5f4f6/2c4569e6d81593aab311da8d15c5f4f6.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/4569e6d81593aab311da8d15c5f4f6/2c4569e6d81593aab311da8d15c5f4f6.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6601.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6601",
+    "updated_at" : "2026-04-06T00:02:44.700542",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6601.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "I Made A Mistake"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "A Pirates Sin Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Racers Mask"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lords Crown All Around"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Cursed Crops"
+    } ]
+  }, {
+    "identifier" : "6597",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6597",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/3a5d554a1ce85757704912ae1fb1ee/803a5d554a1ce85757704912ae1fb1ee.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/3a5d554a1ce85757704912ae1fb1ee/803a5d554a1ce85757704912ae1fb1ee.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6597.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6597",
+    "updated_at" : "2026-04-06T00:02:44.700557",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6597.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Half Moon"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Glory In Death Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stealth Boots"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Warfare Mask"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Devil Horns"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke"
+    } ]
+  }, {
+    "identifier" : "6596",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6596",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/64f78ae115954496f7bb141bf2ee41/f764f78ae115954496f7bb141bf2ee41.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/64f78ae115954496f7bb141bf2ee41/f764f78ae115954496f7bb141bf2ee41.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6596.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6596",
+    "updated_at" : "2026-04-06T00:02:44.700567",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6596.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "I See Dead People"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Trapped Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Fangs"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Dead Samurai"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Wings"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Orange"
+    } ]
+  }, {
+    "identifier" : "6581",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6581",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/fccc44fae700bcac3fc06e813fcbec/48fccc44fae700bcac3fc06e813fcbec.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/fccc44fae700bcac3fc06e813fcbec/48fccc44fae700bcac3fc06e813fcbec.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6581.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6581",
+    "updated_at" : "2026-04-06T00:02:44.700578",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6581.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lightning"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "The Cogs Turn Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Sting"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Cap"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bong Of Protection"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Green"
+    } ]
+  }, {
+    "identifier" : "6579",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6579",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/173f6d142300709bd1f9294e9dcad2/02173f6d142300709bd1f9294e9dcad2.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/173f6d142300709bd1f9294e9dcad2/02173f6d142300709bd1f9294e9dcad2.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6579.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6579",
+    "updated_at" : "2026-04-06T00:02:44.700588",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6579.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Facing Death"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Del Muerte Epic"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Razor Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Garden Hoe"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Wolfgang"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Grimoire"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkPurple"
+    } ]
+  }, {
+    "identifier" : "6584",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6584",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/80214dfedb4324bd19ae52d860cc8d/d780214dfedb4324bd19ae52d860cc8d.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/80214dfedb4324bd19ae52d860cc8d/d780214dfedb4324bd19ae52d860cc8d.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6584.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6584",
+    "updated_at" : "2026-04-06T00:02:44.700599",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6584.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Eternal Glow"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Forsaken Throne Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Mech Full Plate"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Robotic"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lords Crown All Around"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Pink"
+    } ]
+  }, {
+    "identifier" : "6586",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6586",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/e6551f9c88536447f834d14384a125/06e6551f9c88536447f834d14384a125.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/e6551f9c88536447f834d14384a125/06e6551f9c88536447f834d14384a125.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6586.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6586",
+    "updated_at" : "2026-04-06T00:02:44.700609",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6586.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Piercing"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "79 Years Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Flash Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Silver Sentinels"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Grenade Launcher"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Marley"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkPurple"
+    } ]
+  }, {
+    "identifier" : "6577",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6577",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/d07c3bf41999b07ae0feffb7a3e36b/8dd07c3bf41999b07ae0feffb7a3e36b.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/d07c3bf41999b07ae0feffb7a3e36b/8dd07c3bf41999b07ae0feffb7a3e36b.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6577.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6577",
+    "updated_at" : "2026-04-06T00:02:44.700620",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6577.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "I See Dead People"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Unplugged Epic"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Robotic"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "The Captain"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hells Pinnacle"
+    } ]
+  }, {
+    "identifier" : "6576",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6576",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/43f2c67e692399c1466fdd8d5e2487/2b43f2c67e692399c1466fdd8d5e2487.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/43f2c67e692399c1466fdd8d5e2487/2b43f2c67e692399c1466fdd8d5e2487.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6576.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6576",
+    "updated_at" : "2026-04-06T00:02:44.700630",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6576.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lightning"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Circle Of Life Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Leather Tunic"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Crypt Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hell Horns"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Green"
+    } ]
+  }, {
+    "identifier" : "6575",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6575",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6d98f7a9f6ef4cf32da24783a63e5b/8e6d98f7a9f6ef4cf32da24783a63e5b.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6d98f7a9f6ef4cf32da24783a63e5b/8e6d98f7a9f6ef4cf32da24783a63e5b.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6575.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6575",
+    "updated_at" : "2026-04-06T00:02:44.700641",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6575.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Light Up My Life"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smooth Operator Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stealth Boots"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Flash Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Biker"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Pink"
+    } ]
+  }, {
+    "identifier" : "6573",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6573",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/b70b915e5396a528aeaa59a6263eff/11b70b915e5396a528aeaa59a6263eff.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/b70b915e5396a528aeaa59a6263eff/11b70b915e5396a528aeaa59a6263eff.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6573.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6573",
+    "updated_at" : "2026-04-06T00:02:44.700651",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6573.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Supernova"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Illuminati Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Buckler"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Crypt Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Chained"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Orange"
+    } ]
+  }, {
+    "identifier" : "6559",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6559",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/1cf6c02082f715c86de6d0b41090fe/b41cf6c02082f715c86de6d0b41090fe.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/1cf6c02082f715c86de6d0b41090fe/b41cf6c02082f715c86de6d0b41090fe.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6559.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6559",
+    "updated_at" : "2026-04-06T00:02:44.700661",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6559.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "The High Life"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Illuminati Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Bomb"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Dead Samurai"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Yellow"
+    } ]
+  }, {
+    "identifier" : "6567",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6567",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/3c529d7287f86765a286c205e0be6d/173c529d7287f86765a286c205e0be6d.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/3c529d7287f86765a286c205e0be6d/173c529d7287f86765a286c205e0be6d.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6567.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6567",
+    "updated_at" : "2026-04-06T00:02:44.700671",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6567.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Around The World"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Day Of The Dead Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Bomb"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Scythe"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Cap"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Pink"
+    } ]
+  }, {
+    "identifier" : "6569",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6569",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/1d5912c33be90705be29f0893a080e/441d5912c33be90705be29f0893a080e.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/1d5912c33be90705be29f0893a080e/441d5912c33be90705be29f0893a080e.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6569.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6569",
+    "updated_at" : "2026-04-06T00:02:44.700681",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6569.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hells Gateway"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Pop Art Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stitched Up"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Dead Dragon"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Biker"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Cyan"
+    } ]
+  }, {
+    "identifier" : "6571",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6571",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/50a1b45a120275d8c3466483135565/a750a1b45a120275d8c3466483135565.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/50a1b45a120275d8c3466483135565/a750a1b45a120275d8c3466483135565.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6571.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6571",
+    "updated_at" : "2026-04-06T00:02:44.700691",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6571.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Serpents"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Mad House Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Warfare Mask"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Long Sword"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Deadphones"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke DarkPurple"
+    } ]
+  }, {
+    "identifier" : "6564",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6564",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/3c6f9d956e3ca8977f3d70c8b5ea6b/ea3c6f9d956e3ca8977f3d70c8b5ea6b.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/3c6f9d956e3ca8977f3d70c8b5ea6b/ea3c6f9d956e3ca8977f3d70c8b5ea6b.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6564.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6564",
+    "updated_at" : "2026-04-06T00:02:44.700701",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6564.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Unseen Death"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "In Death I Hear You Rare"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Razor Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Revolver"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Cap"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Egyptian God"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Cyan"
+    } ]
+  }, {
+    "identifier" : "6555",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6555",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/af45730a0684ae69951516ecd40203/e6af45730a0684ae69951516ecd40203.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/af45730a0684ae69951516ecd40203/e6af45730a0684ae69951516ecd40203.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6555.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6555",
+    "updated_at" : "2026-04-06T00:02:44.700712",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6555.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hells Gateway"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Loved Fashion Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Four Twenty"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Pike"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Biker"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Yellow"
+    } ]
+  }, {
+    "identifier" : "6556",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6556",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/cfd4480f26f23d22b7944a521f179b/2fcfd4480f26f23d22b7944a521f179b.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/cfd4480f26f23d22b7944a521f179b/2fcfd4480f26f23d22b7944a521f179b.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6556.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6556",
+    "updated_at" : "2026-04-06T00:02:44.700722",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6556.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "I See Dead People"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Dead Flowers Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Alien Attack"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Silver Sentinels"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Pipe Dream"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Dead Samurai"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Arcane Orb"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Red"
+    } ]
+  }, {
+    "identifier" : "6561",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6561",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/56c92fe26fdaaf72547e8d27659669/2456c92fe26fdaaf72547e8d27659669.gif",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6561.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6561",
+    "updated_at" : "2026-04-06T00:02:44.700732",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3083.gif",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Character",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Legendary Creation"
+    } ]
+  }, {
+    "identifier" : "6568",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6568",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/09994dd70fefda74ed360ee82566da/0e09994dd70fefda74ed360ee82566da.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/09994dd70fefda74ed360ee82566da/0e09994dd70fefda74ed360ee82566da.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6568.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6568",
+    "updated_at" : "2026-04-06T00:02:44.700742",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6568.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Sharp"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "The Dead Patriot Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Robotic"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Nightmare Claws"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Deadphones"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Mourning"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Purple"
+    } ]
+  }, {
+    "identifier" : "6552",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6552",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/7b1fb87ea81beb3ecb597a5abb48fd/0d7b1fb87ea81beb3ecb597a5abb48fd.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/7b1fb87ea81beb3ecb597a5abb48fd/0d7b1fb87ea81beb3ecb597a5abb48fd.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6552.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6552",
+    "updated_at" : "2026-04-06T00:02:44.700752",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6552.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "The Creeper"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Enslaved Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "666 Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Iron Defenders"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Biker"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Purple"
+    } ]
+  }, {
+    "identifier" : "6553",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6553",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/75642ca583d200ffda30ee79a71f4e/b775642ca583d200ffda30ee79a71f4e.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/75642ca583d200ffda30ee79a71f4e/b775642ca583d200ffda30ee79a71f4e.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6553.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6553",
+    "updated_at" : "2026-04-06T00:02:44.700761",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6553.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lightning"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Holy Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Wax Grill"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lords Crown"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Green"
+    } ]
+  }, {
+    "identifier" : "6566",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6566",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/1f7830e54304ace6cd7d032786b861/3f1f7830e54304ace6cd7d032786b861.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/1f7830e54304ace6cd7d032786b861/3f1f7830e54304ace6cd7d032786b861.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6566.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6566",
+    "updated_at" : "2026-04-06T00:02:44.700779",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6566.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Lizards Eyes"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Praise Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Cigar"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Bronze Guardians"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Clowning Around"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Cyan"
+    } ]
+  }, {
+    "identifier" : "6554",
+    "collection" : "crypttradingcards",
+    "contract" : "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "token_standard" : "erc721",
+    "name" : "Crypt - Digital Trading Card #6554",
+    "description" : "A unique collection of Digital Trading Card NFTs",
+    "image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/538328dfe328214442dc06750edea3/ff538328dfe328214442dc06750edea3.png",
+    "display_image_url" : "https://i2c.seadn.io/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/538328dfe328214442dc06750edea3/ff538328dfe328214442dc06750edea3.png",
+    "display_animation_url" : null,
+    "metadata_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmcwxU7FWPcm7mT6zP4gUoJSEtBPjoomy91y18KSRbE9vw/6554.json",
+    "opensea_url" : "https://opensea.io/assets/ethereum/0x48fd513c9f8ca591ffada7223a261ffc6e797394/6554",
+    "updated_at" : "2026-04-06T00:02:44.700791",
+    "is_disabled" : false,
+    "is_nsfw" : false,
+    "original_image_url" : "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6554.png",
+    "original_animation_url" : null,
+    "traits" : [ {
+      "trait_type" : "Eye",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Hells Gateway"
+    }, {
+      "trait_type" : "Skin",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "79 Years Common"
+    }, {
+      "trait_type" : "Armor",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Mouth",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Smoke Bomb"
+    }, {
+      "trait_type" : "Faction",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Stone Keepers"
+    }, {
+      "trait_type" : "Weapons",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Creature",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Headwear",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Clowning Around"
+    }, {
+      "trait_type" : "Artifacts",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Metaverse",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "None"
+    }, {
+      "trait_type" : "Background",
+      "display_type" : null,
+      "max_value" : null,
+      "value" : "Tombstone Path"
+    } ]
+  } ],
+  "next" : "WyIyMDI0LTExLTIwVDE4OjAzOjM1WiIsIjE0NjA2MTUxLTg2NGItM2ExMC04OTQwLWMwZTMxZjkyMDFkOCJd"
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4409",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4409",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4409.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Skull Dust Sanctuary"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Hybrid Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "The Creeper"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Sting"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Short Sword"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

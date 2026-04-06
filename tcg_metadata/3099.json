@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3099",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3099",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3099.png",
+  "attributes": [
+    {
+      "value": "Smoke Pink",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Wisdom Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Devilish Sight",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Chained",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Grenade",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Crusader Shield",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Trippie Brew",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

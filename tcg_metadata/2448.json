@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2448",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2448",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2448.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Del Muerte Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Dystopia",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Fortune Teller",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Warfare Mask",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Light Saber",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

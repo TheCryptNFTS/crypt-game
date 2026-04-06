@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1964",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1964",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1964.png",
+  "attributes": [
+    {
+      "value": "Quantum Mechanica",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Bloody Death Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Mad Scientist",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Cap",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Smoke Bomb",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Mjolnir",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1458",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1458",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1458.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Beauty Queen",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Times Up",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Mourning",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Skull Teeth Glow",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Minoru Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

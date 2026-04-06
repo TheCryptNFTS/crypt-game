@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1313",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1313",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1313.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Fast Lane Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Facing Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Matrix Helmet",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Crypt Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pans Revenge",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

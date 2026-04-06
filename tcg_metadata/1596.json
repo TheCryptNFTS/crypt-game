@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1596",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1596",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1596.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Visiting Earth Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Faiths Guardian",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Royalty",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Double Blunts",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4742",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4742",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4742.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Drippy Skull Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Sharp"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Bushido"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Black Widow"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Dead Protector"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Arcane Orb"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Bracers"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Double Storm Breaker"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

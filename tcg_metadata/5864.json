@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5864",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5864",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5864.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Absent A Capella"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Smooth Operator Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Oh Beehave"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Ring Of Roses"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Skull Eats Skull"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Bong Of Protection"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Smoke Bomb"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Golden Sovereigns"
+    }
+  ]
+}

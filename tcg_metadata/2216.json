@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2216",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2216",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2216.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Techno Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Temporal Rift",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Ice Man",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Skull Teeth Glow",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Socks And Jesus Sandals",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Bullet",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

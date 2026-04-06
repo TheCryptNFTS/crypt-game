@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2535",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2535",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2535.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Drippy Skull Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Light Up My Life",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Pirates Life",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "ATM",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Lokis Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

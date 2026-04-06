@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1825",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1825",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1825.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Yes Or No Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Honey",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Samurai",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Sting",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Demon Slayer",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

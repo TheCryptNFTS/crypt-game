@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1953",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1953",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1953.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkPurple",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Funeral Song Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Grieving Widow",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Deadphones",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Joint",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pulse Energy Gun",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

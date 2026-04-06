@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3077",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3077",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3077.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Junkyard Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Kheper",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bipolar",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Gone Nuclear",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Axe",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

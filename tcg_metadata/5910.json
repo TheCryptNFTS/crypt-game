@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #5910",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "5910",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/5910.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Green"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Enslaved Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Thermal Detonation"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Hooded One"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "Roman Soldier"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Stiched"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "Buckler"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Knife Eye"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

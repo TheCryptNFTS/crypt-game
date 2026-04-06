@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #501",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "501",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/501.png",
+  "attributes": [
+    {
+      "value": "Dungeon Passage",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead King Epic",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Oh Beehave",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Steampunk",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Pipe Dream",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

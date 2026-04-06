@@ -1,0 +1,16 @@
+{
+  "name": "Crypt - Digital Trading Card #3385",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3385",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3385.png",
+  "attributes": [
+    {
+      "value": "Lucifer",
+      "trait_type": "One of One"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

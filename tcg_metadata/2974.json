@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #2974",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "2974",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/2974.png",
+  "attributes": [
+    {
+      "value": "Smoke Orange",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Dead Money Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Eye",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Miner",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Dragon Scale Mail",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Desert Eagle 5.0",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #480",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "480",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/480.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Junkyard Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Fairy",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Hell Horns",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Double Blunts",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Grimoire",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Buckler",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nailed It",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Bronze Guardians"
+    }
+  ]
+}

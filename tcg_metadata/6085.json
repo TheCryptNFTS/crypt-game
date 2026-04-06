@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #6085",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "6085",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/6085.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Smoke Cyan"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Unplugged Common"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Ancient History"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "Cap"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "Octopus"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Warfare Mask"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "Arcane Orb"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Axe"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

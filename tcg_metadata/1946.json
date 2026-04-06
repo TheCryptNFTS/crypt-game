@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1946",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1946",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1946.png",
+  "attributes": [
+    {
+      "value": "Smoke DarkGreen",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Live A Full Life Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Unseen Death",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Caribbean Pirate",
+      "trait_type": "Headwear"
+    },
+    {
+      "value": "Smoke Bomb",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Minoru Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

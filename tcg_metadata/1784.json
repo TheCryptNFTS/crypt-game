@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1784",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1784",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1784.png",
+  "attributes": [
+    {
+      "value": "Smoke Yellow",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Holy Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Faiths Guardian",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Wolfgang",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Wax Grill",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "AK47",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

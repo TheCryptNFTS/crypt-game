@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3157",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3157",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3157.png",
+  "attributes": [
+    {
+      "value": "Smoke Cyan",
+      "trait_type": "Background"
+    },
+    {
+      "value": "The Hairdresser Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Self Reflection",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Bright Idea",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Double Joint",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Bracers",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Nine Tails Whip",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Stone Keepers"
+    }
+  ]
+}

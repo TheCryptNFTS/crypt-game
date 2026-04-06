@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #3310",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "3310",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/3310.png",
+  "attributes": [
+    {
+      "value": "Smoke",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Forsaken Throne Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Light Up My Life",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Pirates Life",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Pearls",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "None",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Revolver",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}

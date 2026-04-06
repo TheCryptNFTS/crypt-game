@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #49",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "49",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/49.png",
+  "attributes": [
+    {
+      "value": "Smoke Green",
+      "trait_type": "Background"
+    },
+    {
+      "value": "Guardian Common",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Sharp",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Thunderstruck",
+      "trait_type": "Metaverse"
+    },
+    {
+      "value": "Robotic",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Stealth Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Long Bow",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

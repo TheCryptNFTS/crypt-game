@@ -1,0 +1,52 @@
+{
+  "name": "Crypt - Digital Trading Card #4388",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "4388",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/4388.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Concrete Canvas"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Naked Rare"
+    },
+    {
+      "trait_type": "Eye",
+      "value": "Steampunk Solutions"
+    },
+    {
+      "trait_type": "Headwear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Metaverse",
+      "value": "None"
+    },
+    {
+      "trait_type": "Creature",
+      "value": "None"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Wax Grill"
+    },
+    {
+      "trait_type": "Artifacts",
+      "value": "None"
+    },
+    {
+      "trait_type": "Armor",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons",
+      "value": "Snake Whip"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Iron Defenders"
+    }
+  ]
+}

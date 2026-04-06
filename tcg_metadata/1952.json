@@ -1,0 +1,44 @@
+{
+  "name": "Crypt - Digital Trading Card #1952",
+  "description": "A unique collection of Digital Trading Card NFTs",
+  "edition": "1952",
+  "image": "https://mute-amber-dragonfly.myfilebase.com/ipfs/QmTBrBFjgC6sy6UMHieDSRgW48CtCbWUTvKZxkFWn2f3MU/1952.png",
+  "attributes": [
+    {
+      "value": "Fungal Dreamscape",
+      "trait_type": "Background"
+    },
+    {
+      "value": "No Remorse Rare",
+      "trait_type": "Skin"
+    },
+    {
+      "value": "Triple Geek Eyes",
+      "trait_type": "Eye"
+    },
+    {
+      "value": "Dragon Slayer",
+      "trait_type": "Creature"
+    },
+    {
+      "value": "Single Tooth",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "None",
+      "trait_type": "Artifacts"
+    },
+    {
+      "value": "Boots",
+      "trait_type": "Armor"
+    },
+    {
+      "value": "Lokis Sceptre",
+      "trait_type": "Weapons"
+    },
+    {
+      "trait_type": "Faction",
+      "value": "Silver Sentinels"
+    }
+  ]
+}
