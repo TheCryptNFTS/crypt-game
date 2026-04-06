@@ -7,8 +7,46 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              display: ['Orbitron', 'Inter', 'sans-serif'],
+            },
+            colors: {
+              crypt: {
+                bg: '#06060a',
+                surface: '#0d0d14',
+                card: '#12121c',
+                border: '#1e1e2e',
+                muted: '#8b8b9e',
+                text: '#e4e4ed',
+                accent: '#c9a227',
+                gold: '#ffd700',
+                stone: '#7c8a8e',
+                iron: '#4a5568',
+                bronze: '#cd7f32',
+                silver: '#c0c0c0',
+                god: '#9b59b6',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #06060a; color: #e4e4ed; font-family: 'Inter', system-ui, sans-serif; }
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: #0d0d14; }
+      ::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #2a2a3a; }
+    </style>
   </head>
-  <body style="margin: 0; background: #06060a; color: #e4e4ed; font-family: Inter, system-ui, sans-serif;">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
