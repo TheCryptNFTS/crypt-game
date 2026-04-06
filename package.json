@@ -24,7 +24,8 @@
     "dev:coreset:v2": "tsx src/dev/runCuratedCoreSetV2Check.ts",
     "dev:curateddecks": "tsx src/dev/runCuratedDeckBuildCheck.ts",
     "dev:regression": "tsx src/dev/runRegressionSuite.ts",
-    "check:alpha": "npx tsc --noEmit && npm run build:coreset:v2 && npm run dev:curateddecks && npm run report:coreset:v2 && node scripts/checkCuratedAlphaBalance.cjs && npm run dev:regression && npm run dev:turncombat"
+    "check:alpha": "npx tsc --noEmit && npm run build:coreset:v2 && npm run dev:curateddecks && npm run report:coreset:v2 && node scripts/checkCuratedAlphaBalance.cjs && npm run dev:regression && npm run dev:turncombat",
+    "health": "npx tsc --noEmit && npm run dev:regression && npm run dev:turncombat && npm run check:alpha"
   },
   "keywords": [],
   "author": "",
