@@ -6,3 +6,7 @@ dist
 review_dump/
 review_dump.tar.gz
 *.bak
+
+.env.local
+backend_audit/
+refactor_dump/
