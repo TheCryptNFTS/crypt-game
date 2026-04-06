@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Orbitron", "Inter", sans-serif;
+
+  /* Custom Colors */
+  --color-crypt-bg: #06060a;
+  --color-crypt-surface: #0d0d14;
+  --color-crypt-card: #12121c;
+  --color-crypt-border: #1e1e2e;
+  --color-crypt-muted: #8b8b9e;
+  --color-crypt-text: #e4e4ed;
+  --color-crypt-accent: #c9a227;
+  --color-crypt-gold: #ffd700;
+  --color-crypt-stone: #7c8a8e;
+  --color-crypt-iron: #4a5568;
+  --color-crypt-bronze: #cd7f32;
+  --color-crypt-silver: #c0c0c0;
+  --color-crypt-god: #9b59b6;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-crypt-bg);
+  color: var(--color-crypt-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-crypt-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-crypt-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a2a3a;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-crypt-accent);
+  color: black;
+}
