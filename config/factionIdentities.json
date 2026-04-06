@@ -1,0 +1,42 @@
+{
+  "STONE": {
+    "fantasy": "Fortress midrange",
+    "keywords": ["GUARD", "CRUSH"],
+    "preferredCosts": [2, 3, 4],
+    "unitTargets": { "2": 6, "3": 5, "4": 4, "5": 2, "7": 1 },
+    "equipmentTargets": 8,
+    "artifactTargets": 4
+  },
+  "IRON": {
+    "fantasy": "Aggro pressure",
+    "keywords": ["RUSH", "CRUSH"],
+    "preferredCosts": [2, 3, 4],
+    "unitTargets": { "2": 7, "3": 5, "4": 4, "5": 1, "7": 1 },
+    "equipmentTargets": 8,
+    "artifactTargets": 4
+  },
+  "BRONZE": {
+    "fantasy": "Tempo skirmish",
+    "keywords": ["RUSH", "CRUSH"],
+    "preferredCosts": [2, 3, 4],
+    "unitTargets": { "2": 7, "3": 5, "4": 4, "5": 1, "7": 1 },
+    "equipmentTargets": 8,
+    "artifactTargets": 4
+  },
+  "SILVER": {
+    "fantasy": "Arcane control",
+    "keywords": ["GUARD", "ARCANE"],
+    "preferredCosts": [2, 3, 4, 5],
+    "unitTargets": { "2": 5, "3": 5, "4": 4, "5": 3, "7": 1 },
+    "equipmentTargets": 7,
+    "artifactTargets": 5
+  },
+  "GOLD": {
+    "fantasy": "Elite value",
+    "keywords": ["GUARD", "CRUSH"],
+    "preferredCosts": [3, 4, 5, 7],
+    "unitTargets": { "2": 4, "3": 5, "4": 5, "5": 3, "7": 1 },
+    "equipmentTargets": 7,
+    "artifactTargets": 4
+  }
+}
