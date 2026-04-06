@@ -132,6 +132,14 @@ export function createMatch(): MatchState {
   };
 }
 
+/**
+ * Dev-only: legacy match seeded from bundled `decks.json` test decks
+ * (not the curated commander + main-deck bootstrap).
+ */
+export function createSandboxMatch(): MatchState {
+  return createMatch();
+}
+
 export function createFixedTestMatch(): MatchState {
   assertCommanderExists("cmd_stone_warden");
   assertCommanderExists("cmd_bronze_raider");
