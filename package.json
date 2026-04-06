@@ -25,7 +25,14 @@
     "dev:curateddecks": "tsx src/dev/runCuratedDeckBuildCheck.ts",
     "dev:regression": "tsx src/dev/runRegressionSuite.ts",
     "check:alpha": "npx tsc --noEmit && npm run build:coreset:v2 && npm run dev:curateddecks && npm run report:coreset:v2 && node scripts/checkCuratedAlphaBalance.cjs && npm run dev:regression && npm run dev:turncombat",
-    "health": "npx tsc --noEmit && npm run dev:regression && npm run dev:turncombat && npm run check:alpha"
+    "health": "npx tsc --noEmit && npm run dev:backend-sanity && npm run dev:legality && npm run dev:assets && npm run dev:e2e && npm run dev:regression && npm run dev:turncombat && npm run check:alpha",
+    "dev:backend-sanity": "tsx src/dev/runBackendSanityCheck.ts",
+    "dev:legality": "tsx src/dev/runLegalityAndBootstrapCheck.ts",
+    "assets:fetch": "node scripts/fetchOpenseaAssets.mjs",
+    "assets:build-manifest": "node scripts/buildRenderManifest.mjs",
+    "dev:render-manifest": "tsx src/dev/runRenderManifestCheck.ts",
+    "dev:assets": "tsx src/dev/runAssetIntegrityCheck.ts",
+    "dev:e2e": "tsx src/dev/runE2EMatchFlow.ts"
   },
   "keywords": [],
   "author": "",
