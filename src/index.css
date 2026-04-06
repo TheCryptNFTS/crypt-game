@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: ui-sans-serif, system-ui, "SF Pro Display", sans-serif;
+  --color-crypt-bg: #050508;
+  --color-crypt-panel: #0c0c12;
+  --color-crypt-border: rgba(212, 175, 55, 0.22);
+  --color-crypt-accent: #d4af37;
+  --color-crypt-ice: #7ee8ff;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-display);
+  background: var(--color-crypt-bg);
+  color: #e8e6ed;
+}

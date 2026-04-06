@@ -1,20 +1,39 @@
-import { createMatch } from "../engine/setup";
+import { createSandboxMatch } from "../engine/setup";
 import { createMatchFromDecks } from "../engine/createMatchFromDecks";
 import { playUnitFromHand, playEquipmentFromHand } from "../engine/setup";
 import { playArtifactCard } from "../engine/effectSystem";
 import { endTurn } from "../engine/turnEngine";
 import { attackUnit, attackPlayer } from "../engine/combatEngine";
 import { MatchBootstrapInput } from "../types/matchBootstrap";
+import { buildCuratedDeck } from "./buildCuratedDeck";
 
 export type PlayerId = "P1" | "P2";
 export type Lane = "front";
 
-export function createNewMatch(initial?: MatchBootstrapInput) {
-  if (initial?.p1?.commanderId && initial?.p2?.commanderId) {
-    return createMatchFromDecks(initial);
-  }
-  return createMatch();
+const DEFAULT_P1_COMMANDER = "cmd_stone_warden";
+const DEFAULT_P2_COMMANDER = "cmd_bronze_raider";
+
+export function defaultMatchBootstrap(): MatchBootstrapInput {
+  return {
+    p1: {
+      commanderId: DEFAULT_P1_COMMANDER,
+      deck: buildCuratedDeck(DEFAULT_P1_COMMANDER),
+    },
+    p2: {
+      commanderId: DEFAULT_P2_COMMANDER,
+      deck: buildCuratedDeck(DEFAULT_P2_COMMANDER),
+    },
+  };
 }
+
+export function createNewMatch(initial?: MatchBootstrapInput) {
+  return createMatchFromDecks(initial ?? defaultMatchBootstrap());
+}
+
+/**
+ * Dev-only: re-export of the legacy `decks.json` sandbox match factory.
+ */
+export { createSandboxMatch };
 
 export function playUnit(
   match: any,
