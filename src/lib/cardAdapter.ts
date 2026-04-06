@@ -50,15 +50,18 @@ export function getAllPlayableDisplayCards(): DisplayCard[] {
 }
 
 export function getAllCommanderDisplayCards(): DisplayCard[] {
-  return allCommanderCards.map((cmd) => ({
-    id: cmd.id,
-    name: cmd.name || cmd.id,
-    type: "commander" as const,
-    faction: cmd.faction,
-    rarity: "commander" as CardRarity,
-    imageUrl: manifestLookup.get(cmd.id)?.imageUrl || null,
-    keywords: [],
-  }));
+  return allCommanderCards.map((cmd) => {
+    const manifestEntry = manifestLookup.get(cmd.id);
+    return {
+      id: cmd.id,
+      name: cmd.name || cmd.id,
+      type: "commander" as const,
+      faction: (manifestEntry?.faction as Faction) || cmd.faction || "GOD",
+      rarity: "commander" as CardRarity,
+      imageUrl: manifestEntry?.imageUrl || null,
+      keywords: manifestEntry?.keywords || [],
+    };
+  });
 }
 
 export function getDisplayCardById(id: string): DisplayCard | null {

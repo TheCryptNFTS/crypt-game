@@ -11,6 +11,7 @@ import { getDisplayCardById } from "./lib/cardAdapter";
 import type { DisplayCard } from "./types/ui";
 
 export default function App() {
+  console.log("[v0] App component rendering");
   const [currentScreen, setCurrentScreen] = useState<Screen>("home");
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
 
@@ -48,7 +49,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-crypt-bg text-crypt-text">
+    <div className="min-h-screen bg-crypt-bg text-crypt-text" style={{ background: '#06060a', color: '#e4e4ed', minHeight: '100vh' }}>
       <Navigation currentScreen={currentScreen} onNavigate={handleNavigate} />
       
       {renderScreen()}

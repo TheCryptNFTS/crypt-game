@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme inline {
   /* Fonts */
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Orbitron", "Inter", sans-serif;
