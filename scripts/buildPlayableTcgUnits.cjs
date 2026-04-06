@@ -28,7 +28,7 @@ function mapFaction(faction) {
     case "GODS":
       return "GOD";
     default:
-      return "NEUTRAL";
+      return "GOD";
   }
 }
 

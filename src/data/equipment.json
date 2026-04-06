@@ -1,58 +1,58 @@
 [
-    {
-      "id": "eq_riot_shield",
-      "name": "Riot Shield",
-      "type": "equipment",
-      "faction": "neutral",
-      "rarity": "common",
-      "cost": 2,
-      "effect": {
-        "attack": 0,
-        "health": 0,
-        "speed": 0,
-        "armor": 5
-      }
-    },
-    {
-      "id": "eq_heavy_plate",
-      "name": "Heavy Plate",
-      "type": "equipment",
-      "faction": "neutral",
-      "rarity": "common",
-      "cost": 2,
-      "effect": {
-        "attack": 0,
-        "health": 8,
-        "speed": 0,
-        "armor": 0
-      }
-    },
-    {
-      "id": "eq_axe",
-      "name": "Axe",
-      "type": "equipment",
-      "faction": "neutral",
-      "rarity": "common",
-      "cost": 2,
-      "effect": {
-        "attack": 3,
-        "health": 0,
-        "speed": 0,
-        "armor": 0
-      }
-    },
-    {
-      "id": "eq_speed_boots",
-      "name": "Speed Boots",
-      "type": "equipment",
-      "faction": "neutral",
-      "rarity": "common",
-      "cost": 1,
-      "effect": {
-        "attack": 0,
-        "health": 0,
-        "speed": 2,
-        "armor": 0
-      }
+  {
+    "id": "eq_riot_shield",
+    "name": "Riot Shield",
+    "type": "equipment",
+    "faction": "GOD",
+    "rarity": "common",
+    "cost": 2,
+    "effect": {
+      "attack": 0,
+      "health": 0,
+      "speed": 0,
+      "armor": 5
     }
-  ]
+  },
+  {
+    "id": "eq_heavy_plate",
+    "name": "Heavy Plate",
+    "type": "equipment",
+    "faction": "GOD",
+    "rarity": "common",
+    "cost": 2,
+    "effect": {
+      "attack": 0,
+      "health": 8,
+      "speed": 0,
+      "armor": 0
+    }
+  },
+  {
+    "id": "eq_axe",
+    "name": "Axe",
+    "type": "equipment",
+    "faction": "GOD",
+    "rarity": "common",
+    "cost": 2,
+    "effect": {
+      "attack": 3,
+      "health": 0,
+      "speed": 0,
+      "armor": 0
+    }
+  },
+  {
+    "id": "eq_speed_boots",
+    "name": "Speed Boots",
+    "type": "equipment",
+    "faction": "GOD",
+    "rarity": "common",
+    "cost": 1,
+    "effect": {
+      "attack": 0,
+      "health": 0,
+      "speed": 2,
+      "armor": 0
+    }
+  }
+]
