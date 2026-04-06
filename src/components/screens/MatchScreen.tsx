@@ -5,7 +5,7 @@ import { getDisplayCardById } from "../../lib/cardAdapter";
 import { UnitOnBoard } from "../match/UnitOnBoard";
 import { HandCard } from "../match/HandCard";
 import { Button } from "../ui/Button";
-import type { PlayerId, UnitInPlay } from "../../engine/state";
+import type { PlayerId, UnitInPlay } from "../../lib/gameClient";
 
 interface MatchScreenProps {
   onSelectCard: (cardId: string) => void;

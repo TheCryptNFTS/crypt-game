@@ -8,6 +8,7 @@ import { MatchBootstrapInput } from "../types/matchBootstrap";
 
 export type PlayerId = "P1" | "P2";
 export type Lane = "front";
+export type { UnitInPlay, MatchState, PlayerState } from "../engine/state";
 
 export function createNewMatch(initial?: MatchBootstrapInput) {
   if (initial?.p1?.commanderId && initial?.p2?.commanderId) {
