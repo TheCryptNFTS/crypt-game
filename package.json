@@ -7,12 +7,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:catalog": "tsx src/dev/runPlayableTcgCatalogCheck.ts",
+    "dev:equipment": "tsx src/dev/runEquipmentPlayCheck.ts",
+    "dev:artifact": "tsx src/dev/runArtifactPlayCheck.ts",
+    "dev:keywords": "tsx src/dev/runKeywordEngineCheck.ts",
+    "dev:deckrules": "tsx src/dev/runDeckRulesCheck.ts",
+    "dev:fullmatch": "tsx src/dev/runGeneratedTcgFullMatch.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

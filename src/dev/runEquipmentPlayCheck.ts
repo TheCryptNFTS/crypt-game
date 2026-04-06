@@ -54,6 +54,12 @@ function printMatch(label: string, match: MatchState) {
 
 let match = createMatch();
 
+// force enough energy for the test
+match.players.P1.energy = 10;
+match.players.P1.maxEnergy = 10;
+match.players.P2.energy = 10;
+match.players.P2.maxEnergy = 10;
+
 match.players.P1.hand = ["unit_stone_guard", "eq_axe"];
 match.players.P2.hand = ["unit_bronze_scout"];
 
