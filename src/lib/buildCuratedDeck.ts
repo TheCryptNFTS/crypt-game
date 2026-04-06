@@ -1,6 +1,5 @@
 import curatedCoreSet from "../data/curatedCoreSetV2.json";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
-import { CORE_SET_TARGETS } from "../design/coreSetTargets";
 
 type Card = {
   id: string;
@@ -19,45 +18,64 @@ type CuratedSet = {
 };
 
 const data = curatedCoreSet as CuratedSet;
+const MAX_COPIES = 2;
 
-function scoreCard(card: Card): number {
-  const rarityScore =
-    card.rarity === "god" ? 8 :
-    card.rarity === "one_of_one" ? 7 :
-    card.rarity === "legendary" ? 6 :
-    card.rarity === "epic" ? 5 :
-    card.rarity === "rare" ? 4 :
-    card.rarity === "uncommon" ? 3 :
-    2;
-
-  const keywordScore = (card.keywords || []).length;
-  return rarityScore + keywordScore;
+function rarityScore(rarity: string): number {
+  switch (rarity) {
+    case "god": return 8;
+    case "one_of_one": return 7;
+    case "legendary": return 6;
+    case "epic": return 5;
+    case "rare": return 4;
+    case "uncommon": return 3;
+    default: return 2;
+  }
 }
 
-function chooseWithCurve(cards: Card[], desiredCosts: number[], limit: number): Card[] {
-  const taken: Card[] = [];
-  const used = new Set<string>();
+function scoreCard(card: Card): number {
+  const kw = (card.keywords || []).length;
+  const curveBias =
+    card.cost === 2 ? 4 :
+    card.cost === 3 ? 3 :
+    card.cost === 4 ? 2 :
+    card.cost === 5 ? 1 :
+    0;
 
-  for (const cost of desiredCosts) {
-    const candidate = cards
-      .filter((c) => !used.has(c.id) && c.cost === cost)
-      .sort((a, b) => scoreCard(b) - scoreCard(a))[0];
+  return rarityScore(card.rarity) * 10 + kw * 3 + curveBias;
+}
 
-    if (candidate) {
-      taken.push(candidate);
-      used.add(candidate.id);
-      if (taken.length >= limit) return taken;
+function sortedPool(cards: Card[]): Card[] {
+  return [...cards].sort((a, b) => {
+    const byScore = scoreCard(b) - scoreCard(a);
+    if (byScore !== 0) return byScore;
+    return a.id.localeCompare(b.id);
+  });
+}
+
+function addCopies(
+  deck: string[],
+  pool: Card[],
+  target: number,
+  counts: Map<string, number>
+) {
+  const ordered = sortedPool(pool);
+
+  while (deck.length < target) {
+    let added = false;
+
+    for (const card of ordered) {
+      const current = counts.get(card.id) || 0;
+      if (current >= MAX_COPIES) continue;
+
+      deck.push(card.id);
+      counts.set(card.id, current + 1);
+      added = true;
+
+      if (deck.length >= target) break;
     }
-  }
 
-  for (const candidate of cards.sort((a, b) => scoreCard(b) - scoreCard(a))) {
-    if (used.has(candidate.id)) continue;
-    taken.push(candidate);
-    used.add(candidate.id);
-    if (taken.length >= limit) break;
+    if (!added) break;
   }
-
-  return taken;
 }
 
 export function buildCuratedDeck(commanderId: string): string[] {
@@ -69,28 +87,65 @@ export function buildCuratedDeck(commanderId: string): string[] {
   const units = data.units.filter((c) => c.faction === faction);
   const equipment = data.equipment.filter((c) => c.faction === faction);
   const artifacts = data.artifacts.filter((c) => c.faction === faction);
-  const godCards = data.all.filter((c) => c.faction === "GOD");
+  const gods = data.all.filter((c) => c.faction === "GOD");
 
-  const desiredCurve = [
-    2,2,2,2,2,2,2,2,
-    3,3,3,3,3,3,3,3,
-    4,4,4,4,4,4,4,
-    5,5,5,5,5,
-    6,6
-  ];
+  const counts = new Map<string, number>();
+  const deck: string[] = [];
 
-  const chosenUnits = chooseWithCurve(units, desiredCurve, CORE_SET_TARGETS.idealDeckMix.units);
-  const chosenEquipment = chooseWithCurve(equipment, [2,2,3,3,4,4], CORE_SET_TARGETS.idealDeckMix.equipment);
-  const chosenArtifacts = chooseWithCurve(artifacts, [3,4,4,5], CORE_SET_TARGETS.idealDeckMix.artifacts);
+  // practical legal targets
+  const targetUnits = Math.max(20, spec.deckRules.minUnits);
+  const targetEquipment = Math.max(6, spec.deckRules.minEquipment);
+  const targetArtifacts = Math.max(4, spec.deckRules.minArtifacts);
 
-  const deck = [
-    ...chosenUnits.map((c) => c.id),
-    ...chosenEquipment.map((c) => c.id),
-    ...chosenArtifacts.map((c) => c.id)
-  ];
+  addCopies(deck, units, targetUnits, counts);
+  addCopies(deck, equipment, targetUnits + targetEquipment, counts);
+  addCopies(deck, artifacts, targetUnits + targetEquipment + targetArtifacts, counts);
 
-  if (deck.length < spec.deckRules.deckSize && godCards.length > 0 && spec.deckRules.maxGodCards > 0) {
-    deck.push(godCards[0].id);
+  // if still short, fill from best faction cards first, then optional one GOD
+  const allFactionCards = sortedPool([
+    ...units,
+    ...equipment,
+    ...artifacts
+  ]);
+
+  while (deck.length < spec.deckRules.deckSize) {
+    let added = false;
+
+    for (const card of allFactionCards) {
+      const current = counts.get(card.id) || 0;
+      if (current >= MAX_COPIES) continue;
+
+      deck.push(card.id);
+      counts.set(card.id, current + 1);
+      added = true;
+
+      if (deck.length >= spec.deckRules.deckSize) break;
+    }
+
+    if (!added) break;
+  }
+
+  if (
+    deck.length < spec.deckRules.deckSize &&
+    spec.deckRules.maxGodCards > 0 &&
+    gods.length > 0
+  ) {
+    const god = sortedPool(gods)[0];
+    const current = counts.get(god.id) || 0;
+
+    if (current < 1) {
+      deck.push(god.id);
+      counts.set(god.id, 1);
+    }
+  }
+
+  // final emergency fill
+  while (deck.length < spec.deckRules.deckSize) {
+    const filler = allFactionCards.find((card) => (counts.get(card.id) || 0) < MAX_COPIES);
+    if (!filler) break;
+
+    deck.push(filler.id);
+    counts.set(filler.id, (counts.get(filler.id) || 0) + 1);
   }
 
   return deck.slice(0, spec.deckRules.deckSize);
