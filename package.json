@@ -13,7 +13,23 @@
     "dev:artifact": "tsx src/dev/runArtifactPlayCheck.ts",
     "dev:keywords": "tsx src/dev/runKeywordEngineCheck.ts",
     "dev:deckrules": "tsx src/dev/runDeckRulesCheck.ts",
-    "dev:fullmatch": "tsx src/dev/runGeneratedTcgFullMatch.ts"
+    "dev:fullmatch": "tsx src/dev/runGeneratedTcgFullMatch.ts",
+    "build:coreset": "node scripts/buildCuratedCoreSet.cjs",
+    "dev:turncombat": "tsx src/dev/runTurnCombatEffectCheck.ts",
+    "dev:coreset": "tsx src/dev/runCuratedCoreSetCheck.ts",
+    "build:coreset:v2": "node scripts/buildCuratedCoreSetV2.cjs",
+    "report:coreset:v2": "node scripts/reportCuratedCoreSetV2.cjs",
+    "report:outliers": "node scripts/reportCardOutliers.cjs",
+    "sim:curated": "node scripts/simulateCuratedMatchups.cjs",
+    "dev:coreset:v2": "tsx src/dev/runCuratedCoreSetV2Check.ts",
+    "dev:curateddecks": "tsx src/dev/runCuratedDeckBuildCheck.ts",
+    "report:balancehotspots": "node scripts/reportBalanceHotspots.cjs",
+    "build:coreset:v3": "node scripts/buildCuratedCoreSetV3.cjs",
+    "report:coreset:v3": "node scripts/reportCuratedCoreSetV3.cjs",
+    "build:legaldecks:v3": "node scripts/buildCuratedLegalDecksV3.cjs",
+    "sim:curated:v3": "node scripts/simulateCuratedLegalMatchupsV3.cjs",
+    "dev:curateddecks:v3": "tsx src/dev/runCuratedDeckBuildV3Check.ts",
+    "dev:curatedfull:v3": "tsx src/dev/runCuratedFullMatchV3.ts"
   },
   "keywords": [],
   "author": "",
@@ -32,4 +48,4 @@
     "tsx": "^4.21.0",
     "vite": "^8.0.3"
   }
-}
+}\n

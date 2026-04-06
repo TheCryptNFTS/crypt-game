@@ -1,0 +1,6066 @@
+{
+  "units": [
+    {
+      "id": "tcg_unit_3198",
+      "name": "Crypt - Digital Trading Card #3198",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "3198",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Warrior Common",
+        "Eye": "Snakes Hiss",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Missing Teeth",
+        "Artifacts": "Arcane Orb",
+        "Armor": "Stealth Boots",
+        "Weapons": "Sword Of Heaven",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_191",
+      "name": "Crypt - Digital Trading Card #191",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "191",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Mad House Common",
+        "Eye": "Escaping Darkness",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_2172",
+      "name": "Crypt - Digital Trading Card #2172",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2172",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Visiting Earth Common",
+        "Eye": "Piercing",
+        "Creature": "Baby Dragon",
+        "Mouth": "Joint",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1443",
+      "name": "Crypt - Digital Trading Card #1443",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1443",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Diamond Common",
+        "Eye": "Hugin And Munin",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1999",
+      "name": "Crypt - Digital Trading Card #1999",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1999",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Naked Minds Common",
+        "Eye": "Temporal Rift",
+        "Creature": "Black Widow",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Crusader Shield",
+        "Weapons": "Saurons Mace",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_3280",
+      "name": "Crypt - Digital Trading Card #3280",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "3280",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Visiting Earth Common",
+        "Eye": "I Made A Mistake",
+        "Creature": "Dead Scorpion",
+        "Mouth": "Flash Diamond",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1628",
+      "name": "Crypt - Digital Trading Card #1628",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 9,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1628",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Devilish Sight",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Normal Teeth",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Broken Sword",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1673",
+      "name": "Crypt - Digital Trading Card #1673",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1673",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Rebel Walls",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Sharp",
+        "Creature": "Dead Dragon",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Molotov Cocktail",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_2171",
+      "name": "Crypt - Digital Trading Card #2171",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2171",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Piercing",
+        "Headwear": "Chained",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Flail",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_798",
+      "name": "Crypt - Digital Trading Card #798",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "798",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Moonshot",
+        "Metaverse": "Pharaohs Fortune",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Mask",
+        "Weapons": "Trippie Brew",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1791",
+      "name": "Crypt - Digital Trading Card #1791",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1791",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Pushing Daisies Rare",
+        "Eye": "Faiths Guardian",
+        "Creature": "Dead Dragon",
+        "Mouth": "Hands Of Death",
+        "Artifacts": "Grimoire",
+        "Armor": "Buckler",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_350",
+      "name": "Crypt - Digital Trading Card #350",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 8,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "350",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Sound Of Death Rare",
+        "Eye": "Moonshot",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_644",
+      "name": "Crypt - Digital Trading Card #644",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "644",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Great Britain Rare",
+        "Eye": "Till Death Do Us Part",
+        "Creature": "Baby Dragon",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Energy Shield",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_252",
+      "name": "Crypt - Digital Trading Card #252",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 9,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "252",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "In Death I Hear You Epic",
+        "Eye": "Times Up",
+        "Metaverse": "Benji",
+        "Mouth": "Flash Diamond",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Hand Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_715",
+      "name": "Crypt - Digital Trading Card #715",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "715",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Glory In Death Common",
+        "Eye": "Heavens Gateway",
+        "Creature": "Arachne",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "Wings",
+        "Armor": "Dragon Scale Mail",
+        "Weapons": "Short Sword",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1573",
+      "name": "Crypt - Digital Trading Card #1573",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1573",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Circle Of Life Common",
+        "Eye": "Bloodshot",
+        "Creature": "Baby Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Elven Shoemakers Hammer",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_3154",
+      "name": "Crypt - Digital Trading Card #3154",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "3154",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Flaming Skull Common",
+        "Eye": "Soldiers Pain",
+        "Creature": "Dead Dragon",
+        "Mouth": "Razor Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Axe",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_223",
+      "name": "Crypt - Digital Trading Card #223",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "223",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Dead Queen Common",
+        "Eye": "Unseen Death",
+        "Creature": "Arachne",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Short Bow",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1323",
+      "name": "Crypt - Digital Trading Card #1323",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1323",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Comms Down Common",
+        "Eye": "Around The World",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Mech Full Plate",
+        "Weapons": "Cross Bow",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_847",
+      "name": "Crypt - Digital Trading Card #847",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "847",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Sovereign Of Shadows Common",
+        "Eye": "Blue Lightning",
+        "Creature": "Dead Scorpion",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Throwing Knives",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1954",
+      "name": "Crypt - Digital Trading Card #1954",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1954",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Unseen Death",
+        "Metaverse": "Deadphones",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Snake Whip",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_846",
+      "name": "Crypt - Digital Trading Card #846",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "846",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Eternal Torment",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Aura",
+        "Creature": "Arachne",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Boxing Gloves",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1457",
+      "name": "Crypt - Digital Trading Card #1457",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 5,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "1457",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "The Dons M-Frames",
+        "Metaverse": "Thunderstruck",
+        "Mouth": "Pearls",
+        "Artifacts": "None",
+        "Armor": "Socks And Jesus Sandals",
+        "Weapons": "Saurons Mace",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_2112",
+      "name": "Crypt - Digital Trading Card #2112",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 5,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "2112",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Contagion",
+        "Metaverse": "Pirate Beanie",
+        "Mouth": "Razor Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Axe",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1201",
+      "name": "Crypt - Digital Trading Card #1201",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1201",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Astrological Rare",
+        "Eye": "Lost Childhood",
+        "Creature": "Arachne",
+        "Mouth": "Flash Grill",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "Gauntlets",
+        "Weapons": "Twin Daggers",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_366",
+      "name": "Crypt - Digital Trading Card #366",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "366",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Silent Tombs",
+        "Skin": "Time Is All We Have Rare",
+        "Eye": "Hells Gateway",
+        "Creature": "Dead Dragon",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Long Sword",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_2175",
+      "name": "Crypt - Digital Trading Card #2175",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 8,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2175",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Piece Of Mind Rare",
+        "Eye": "Moonshot",
+        "Creature": "Baby Dragon",
+        "Mouth": "Gold Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Great Axe",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_2282",
+      "name": "Crypt - Digital Trading Card #2282",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2282",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Round Table Epic",
+        "Eye": "Aura",
+        "Metaverse": "Ring Of Roses",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Sword Of Heaven",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_999",
+      "name": "Crypt - Digital Trading Card #999",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "999",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "A Pirates Sin Common",
+        "Eye": "Eye",
+        "Creature": "Baby Dragon",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Hand Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1575",
+      "name": "Crypt - Digital Trading Card #1575",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1575",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Chrono Cascade",
+        "Skin": "Flair Common",
+        "Eye": "Kheper",
+        "Creature": "Arachne",
+        "Mouth": "Pipe",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Short Sword",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2808",
+      "name": "Crypt - Digital Trading Card #2808",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2808",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Mandala Common",
+        "Eye": "Shadey",
+        "Creature": "Baby Dragon",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Riot Shield",
+        "Weapons": "Flail",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_26",
+      "name": "Crypt - Digital Trading Card #26",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 5,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "26",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Serial Killer Common",
+        "Eye": "Heavens Gateway",
+        "Metaverse": "Revolver",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_766",
+      "name": "Crypt - Digital Trading Card #766",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 4,
+        "health": 6,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "766",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Holy Common",
+        "Eye": "VR",
+        "Metaverse": "Police Hat",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Crusader Shield",
+        "Weapons": "Cross Bow",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1073",
+      "name": "Crypt - Digital Trading Card #1073",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 4,
+        "health": 6,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1073",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Mad House Common",
+        "Eye": "Hells Gateway",
+        "Metaverse": "BioHazard",
+        "Mouth": "Double Joint",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Nine Tails Whip",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_236",
+      "name": "Crypt - Digital Trading Card #236",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "236",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Endless Void",
+        "Metaverse": "Davy Jones",
+        "Mouth": "Cigar",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Bullet",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2692",
+      "name": "Crypt - Digital Trading Card #2692",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 5,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2692",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Tombstone Path",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Endless Void",
+        "Creature": "Odins Raven",
+        "Mouth": "Fangs",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2356",
+      "name": "Crypt - Digital Trading Card #2356",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "2356",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Eye",
+        "Metaverse": "Benji",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Bullet",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_3094",
+      "name": "Crypt - Digital Trading Card #3094",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 8,
+        "health": 8,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "3094",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Eye",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Normal Teeth",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Pike",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1998",
+      "name": "Crypt - Digital Trading Card #1998",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 8,
+        "speed": 4,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1998",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Crimson Rift",
+        "Skin": "Lost Rare",
+        "Eye": "Heat",
+        "Metaverse": "Samurai",
+        "Mouth": "666 Grill",
+        "Artifacts": "Grimoire",
+        "Armor": "Buckler",
+        "Weapons": "Long Bow",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1107",
+      "name": "Crypt - Digital Trading Card #1107",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1107",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Sealed Depths",
+        "Skin": "Ancient Warrior Rare",
+        "Eye": "I See Dead People",
+        "Creature": "Black Widow",
+        "Mouth": "Razor Grill",
+        "Artifacts": "Grimoire",
+        "Armor": "Gauntlets",
+        "Weapons": "Sword Of Heaven",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2302",
+      "name": "Crypt - Digital Trading Card #2302",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2302",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Time Is All We Have Rare",
+        "Eye": "Tech Moncocle",
+        "Metaverse": "Viking Warrior",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Hand Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_104",
+      "name": "Crypt - Digital Trading Card #104",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 10,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "104",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Dead King Epic",
+        "Eye": "Hypnotise",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Nailed It",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Snake Whip",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_3179",
+      "name": "Crypt - Digital Trading Card #3179",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "3179",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Circle Of Life Common",
+        "Eye": "The Creeper",
+        "Creature": "Baby Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2185",
+      "name": "Crypt - Digital Trading Card #2185",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2185",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Cursed Crops",
+        "Skin": "Frankenstein Common",
+        "Eye": "Hells Gateway",
+        "Creature": "Octopus",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Sniper Rifle",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2201",
+      "name": "Crypt - Digital Trading Card #2201",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2201",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Smooth Operator Common",
+        "Eye": "Hugin And Munin",
+        "Creature": "Wolfskin",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Mech Full Plate",
+        "Weapons": "Axe",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_1837",
+      "name": "Crypt - Digital Trading Card #1837",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 5,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1837",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Pure Evil Common",
+        "Eye": "Times Up",
+        "Metaverse": "Roman Soldier",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2021",
+      "name": "Crypt - Digital Trading Card #2021",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 6,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2021",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Naked Common",
+        "Eye": "Time Is Short",
+        "Metaverse": "Kings Crown",
+        "Mouth": "The Creep",
+        "Artifacts": "None",
+        "Armor": "Crusader Shield",
+        "Weapons": "Long Sword",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_403",
+      "name": "Crypt - Digital Trading Card #403",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "403",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Frankenstein Common",
+        "Eye": "The Creeper",
+        "Creature": "Dead Dragon",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Hobbits Stinger",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_781",
+      "name": "Crypt - Digital Trading Card #781",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "781",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Crypt Coin",
+        "Creature": "Dragon Slayer",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Twin Daggers",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_179",
+      "name": "Crypt - Digital Trading Card #179",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 5,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "179",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Around The World",
+        "Headwear": "Chained",
+        "Mouth": "Double Blunts",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Twin Daggers",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_55",
+      "name": "Crypt - Digital Trading Card #55",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "55",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Honeycomb",
+        "Eye": "Robotic",
+        "Headwear": "Medieval Armour",
+        "Mouth": "Wax Grill",
+        "Artifacts": "Wings",
+        "Armor": "Mech Full Plate",
+        "Weapons": "Pipe Dream",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_1561",
+      "name": "Crypt - Digital Trading Card #1561",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "1561",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Concrete Canvas",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Burning Desire",
+        "Metaverse": "Kings Crown",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Glavie",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_331",
+      "name": "Crypt - Digital Trading Card #331",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 8,
+        "health": 9,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "331",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Dead Patriot Rare",
+        "Eye": "The Creeper",
+        "Creature": "Baby Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Knife Eye",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_1507",
+      "name": "Crypt - Digital Trading Card #1507",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1507",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Circle Of Life Rare",
+        "Eye": "Mad Scientist",
+        "Headwear": "The Captain",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Snake Scale Mail",
+        "Weapons": "Knife Eye",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2154",
+      "name": "Crypt - Digital Trading Card #2154",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2154",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Quantum Mechanica",
+        "Skin": "Three Card Monty Rare",
+        "Eye": "I See Dead People",
+        "Metaverse": "Mourning",
+        "Mouth": "Razor Grill",
+        "Artifacts": "Arcane Orb",
+        "Armor": "Gauntlets",
+        "Weapons": "Knife Eye",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2426",
+      "name": "Crypt - Digital Trading Card #2426",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 11,
+        "health": 9,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2426",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Mad House Epic",
+        "Eye": "The High Life",
+        "Creature": "Baby Dragon",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Elven Shoemakers Hammer",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_123",
+      "name": "Crypt - Digital Trading Card #123",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "123",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Red Rose Skull Common",
+        "Eye": "Moonshot",
+        "Creature": "Octopus",
+        "Mouth": "Flash Grill",
+        "Artifacts": "Wings",
+        "Armor": "Riot Shield",
+        "Weapons": "Glock",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_2283",
+      "name": "Crypt - Digital Trading Card #2283",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 5,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2283",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Anunnaki Common",
+        "Eye": "Cobweb",
+        "Headwear": "Hooded One",
+        "Mouth": "Creepers",
+        "Metaverse": "Adams Hand",
+        "Armor": "None",
+        "Weapons": "Daggers",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_271",
+      "name": "Crypt - Digital Trading Card #271",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 4,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "271",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Smooth Operator Common",
+        "Eye": "Sharp",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Axe",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1243",
+      "name": "Crypt - Digital Trading Card #1243",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 4,
+        "speed": 3,
+        "armor": 0
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1243",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Red Rose Skull Common",
+        "Eye": "Till Death Do Us Part",
+        "Creature": "Dead Scorpion",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Cross Bow",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1330",
+      "name": "Crypt - Digital Trading Card #1330",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 4,
+        "speed": 3,
+        "armor": 0
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1330",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Hells Retro Common",
+        "Eye": "Half Moon",
+        "Creature": "Black Widow",
+        "Mouth": "Four Twenty",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Short Bow",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1414",
+      "name": "Crypt - Digital Trading Card #1414",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 5,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "1414",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Melting Common",
+        "Eye": "Jarvis",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Broken Sword",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_4277",
+      "name": "Crypt - Digital Trading Card #4277",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 8,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "4277",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Valadium Cross",
+        "Headwear": "Cap",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Weed Leaf",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_146",
+      "name": "Crypt - Digital Trading Card #146",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "146",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Rare",
+        "Eye": "Sorcery",
+        "Metaverse": "Heavy Is The Head",
+        "Mouth": "Bullet",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Short Sword",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_965",
+      "name": "Crypt - Digital Trading Card #965",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 8,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "965",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Dead Mans Hand Rare",
+        "Eye": "Crypt Coin",
+        "Creature": "Odins Raven",
+        "Mouth": "Diamond Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Pipe Dream",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1086",
+      "name": "Crypt - Digital Trading Card #1086",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1086",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Quantum Mechanica",
+        "Skin": "Spreading Evil Rare",
+        "Eye": "Lizards Eyes",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Lead Pipe",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_2574",
+      "name": "Crypt - Digital Trading Card #2574",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 10,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "2574",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Dead King Epic",
+        "Eye": "Unseen Death",
+        "Creature": "Octopus",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Red Arrow",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_3928",
+      "name": "Crypt - Digital Trading Card #3928",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 12,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "3928",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Ice Age Epic",
+        "Eye": "I See Dead People",
+        "Headwear": "Capone",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_256",
+      "name": "Crypt - Digital Trading Card #256",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 5,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "256",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Living In Grief Rare",
+        "Eye": "Contagion",
+        "Metaverse": "Hooded One",
+        "Mouth": "Nesferatu",
+        "Artifacts": "Grimoire",
+        "Armor": "Stealth Boots",
+        "Weapons": "Lokis Sceptre",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_4720",
+      "name": "Crypt - Digital Trading Card #4720",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 10,
+        "health": 7,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "4720",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Celebrate Life Rare",
+        "Eye": "Light Up My Life",
+        "Headwear": "The Captain",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "Wings",
+        "Armor": "None",
+        "Weapons": "Broken Sword",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1519",
+      "name": "Anubis",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "1519",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Anubis"
+      }
+    },
+    {
+      "id": "tcg_unit_1535",
+      "name": "Hades",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "1535",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Hades"
+      }
+    },
+    {
+      "id": "tcg_unit_3500",
+      "name": "Vishnu",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "3500",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Vishnu"
+      }
+    },
+    {
+      "id": "tcg_unit_4326",
+      "name": "Loki",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "4326",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Loki"
+      }
+    }
+  ],
+  "equipment": [
+    {
+      "id": "tcg_eq_4102",
+      "name": "Crypt - Digital Trading Card #4102",
+      "type": "equipment",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 2,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "4102",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Endless Void",
+        "Headwear": "Chained",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Double Blunts",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_eq_5057",
+      "name": "Crypt - Digital Trading Card #5057",
+      "type": "equipment",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 3,
+        "armor": 3,
+        "speed": 0
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "5057",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Facing Death",
+        "Headwear": "Deadphones",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Dead Protector",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_eq_3710",
+      "name": "Crypt - Digital Trading Card #3710",
+      "type": "equipment",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 2,
+        "health": 3,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "3710",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "3 Card Monty Rare",
+        "Eye": "Endless Void",
+        "Headwear": "Roses Are Dead",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_eq_5552",
+      "name": "Crypt - Digital Trading Card #5552",
+      "type": "equipment",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 3,
+        "armor": 3,
+        "speed": 0
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "5552",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Rebel Walls",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Hells Gateway",
+        "Headwear": "Cap",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "None",
+        "Armor": "Energy Shield",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_eq_4921",
+      "name": "Crypt - Digital Trading Card #4921",
+      "type": "equipment",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "4921",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Time Warp",
+        "Headwear": "Miner",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Revolver",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_eq_6640",
+      "name": "Crypt - Digital Trading Card #6640",
+      "type": "equipment",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 2,
+        "health": 3,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "6640",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Diamond Rare",
+        "Eye": "Unimaginable",
+        "Headwear": "Chained",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_eq_5047",
+      "name": "Crypt - Digital Trading Card #5047",
+      "type": "equipment",
+      "faction": "BRONZE",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "5047",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Leave Me Alone",
+        "Headwear": "Fortune Teller",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Pipe Dream",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_eq_268",
+      "name": "Crypt - Digital Trading Card #268",
+      "type": "equipment",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 3,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "268",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Death Defines Skull Common",
+        "Eye": "Eye",
+        "Headwear": "Caribbean Pirate",
+        "Mouth": "Smoke Bomb",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Twin Daggers",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_eq_665",
+      "name": "Crypt - Digital Trading Card #665",
+      "type": "equipment",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 1
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "665",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Hells Retro Rare",
+        "Eye": "Oh Beehave",
+        "Headwear": "Clowning Around",
+        "Mouth": "Tongue Out",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Pipe Gun",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_eq_6065",
+      "name": "Crypt - Digital Trading Card #6065",
+      "type": "equipment",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 2,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "6065",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "No Remorse Common",
+        "Eye": "Facing Death",
+        "Headwear": "None",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Razor Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_eq_51",
+      "name": "Crypt - Digital Trading Card #51",
+      "type": "equipment",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 3,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "51",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Carved In Hell Common",
+        "Eye": "Leave Me Alone",
+        "Headwear": "Pirate Beanie",
+        "Mouth": "Stitched Up",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Flail",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_eq_5682",
+      "name": "Crypt - Digital Trading Card #5682",
+      "type": "equipment",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 2,
+        "health": 3,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "5682",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Living In Grief Rare",
+        "Eye": "In Lucifer We Trust",
+        "Headwear": "None",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_eq_4659",
+      "name": "Crypt - Digital Trading Card #4659",
+      "type": "equipment",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 2,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "4659",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Enslaved Common",
+        "Eye": "Facing Death",
+        "Headwear": "Peaky Blinder",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Smoke Bomb",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_eq_44",
+      "name": "Crypt - Digital Trading Card #44",
+      "type": "equipment",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 3,
+        "health": 1,
+        "armor": 1,
+        "speed": 1
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "44",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Drippy Skull Common",
+        "Eye": "I See Dead People",
+        "Headwear": "Devil Horns",
+        "Mouth": "The Creep",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Pipe Gun",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_eq_722",
+      "name": "Crypt - Digital Trading Card #722",
+      "type": "equipment",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 1
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "722",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Half Human Rare",
+        "Eye": "Magma Pool",
+        "Headwear": "Capone",
+        "Mouth": "Normal Teeth",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Shotgun",
+        "Faction": "Golden Sovereigns"
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "tcg_art_3492",
+      "name": "Crypt - Digital Trading Card #3492",
+      "type": "artifact",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3492",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Lost Hope Rare",
+        "Eye": "Around The World",
+        "Headwear": "Deadphones",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Racers Mask",
+        "Artifacts": "Grimoire",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_art_3427",
+      "name": "Crypt - Digital Trading Card #3427",
+      "type": "artifact",
+      "faction": "STONE",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3427",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Unplugged Epic",
+        "Eye": "I See Dead People",
+        "Headwear": "Cap",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "Arcane Orb",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_art_4006",
+      "name": "Crypt - Digital Trading Card #4006",
+      "type": "artifact",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "4006",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Spreading Evil Rare",
+        "Eye": "Hells Gateway",
+        "Headwear": "Caribbean Pirate",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "Grimoire",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_art_4666",
+      "name": "Crypt - Digital Trading Card #4666",
+      "type": "artifact",
+      "faction": "IRON",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "4666",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Unplugged Epic",
+        "Eye": "Oh Beehave",
+        "Headwear": "Her Hat",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Warfare Mask",
+        "Artifacts": "Grimoire",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_art_3852",
+      "name": "Crypt - Digital Trading Card #3852",
+      "type": "artifact",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3852",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Ruined Rare",
+        "Eye": "Around The World",
+        "Headwear": "None",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Warfare Mask",
+        "Artifacts": "Arcane Orb",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_art_5970",
+      "name": "Crypt - Digital Trading Card #5970",
+      "type": "artifact",
+      "faction": "BRONZE",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "5970",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Misunderstood Epic",
+        "Eye": "Fire And Ice",
+        "Headwear": "Four Twenty",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "Arcane Orb",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_art_5728",
+      "name": "Crypt - Digital Trading Card #5728",
+      "type": "artifact",
+      "faction": "SILVER",
+      "rarity": "uncommon",
+      "cost": 3,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "5728",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "I See Dead People",
+        "Headwear": "Jackson",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Smoke Bomb",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_art_3399",
+      "name": "Crypt - Digital Trading Card #3399",
+      "type": "artifact",
+      "faction": "SILVER",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3399",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Carvings Epic",
+        "Eye": "Hells Gateway",
+        "Headwear": "Peaky Blinder",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Robotic",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_art_4584",
+      "name": "Crypt - Digital Trading Card #4584",
+      "type": "artifact",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "4584",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Dollar Bill Skull Common",
+        "Eye": "Jarvis",
+        "Headwear": "Jackson",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Sting",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    }
+  ],
+  "all": [
+    {
+      "id": "tcg_unit_3198",
+      "name": "Crypt - Digital Trading Card #3198",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "3198",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Warrior Common",
+        "Eye": "Snakes Hiss",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Missing Teeth",
+        "Artifacts": "Arcane Orb",
+        "Armor": "Stealth Boots",
+        "Weapons": "Sword Of Heaven",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_191",
+      "name": "Crypt - Digital Trading Card #191",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "191",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Mad House Common",
+        "Eye": "Escaping Darkness",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_2172",
+      "name": "Crypt - Digital Trading Card #2172",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2172",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Visiting Earth Common",
+        "Eye": "Piercing",
+        "Creature": "Baby Dragon",
+        "Mouth": "Joint",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1443",
+      "name": "Crypt - Digital Trading Card #1443",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1443",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Diamond Common",
+        "Eye": "Hugin And Munin",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1999",
+      "name": "Crypt - Digital Trading Card #1999",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1999",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Naked Minds Common",
+        "Eye": "Temporal Rift",
+        "Creature": "Black Widow",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Crusader Shield",
+        "Weapons": "Saurons Mace",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_3280",
+      "name": "Crypt - Digital Trading Card #3280",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "3280",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Visiting Earth Common",
+        "Eye": "I Made A Mistake",
+        "Creature": "Dead Scorpion",
+        "Mouth": "Flash Diamond",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1628",
+      "name": "Crypt - Digital Trading Card #1628",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 9,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1628",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Devilish Sight",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Normal Teeth",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Broken Sword",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1673",
+      "name": "Crypt - Digital Trading Card #1673",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1673",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Rebel Walls",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Sharp",
+        "Creature": "Dead Dragon",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Molotov Cocktail",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_2171",
+      "name": "Crypt - Digital Trading Card #2171",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2171",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Piercing",
+        "Headwear": "Chained",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Flail",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_798",
+      "name": "Crypt - Digital Trading Card #798",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "798",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Moonshot",
+        "Metaverse": "Pharaohs Fortune",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Mask",
+        "Weapons": "Trippie Brew",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_1791",
+      "name": "Crypt - Digital Trading Card #1791",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1791",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Pushing Daisies Rare",
+        "Eye": "Faiths Guardian",
+        "Creature": "Dead Dragon",
+        "Mouth": "Hands Of Death",
+        "Artifacts": "Grimoire",
+        "Armor": "Buckler",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_350",
+      "name": "Crypt - Digital Trading Card #350",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 8,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "350",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Sound Of Death Rare",
+        "Eye": "Moonshot",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_644",
+      "name": "Crypt - Digital Trading Card #644",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "644",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Great Britain Rare",
+        "Eye": "Till Death Do Us Part",
+        "Creature": "Baby Dragon",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Energy Shield",
+        "Weapons": "Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_252",
+      "name": "Crypt - Digital Trading Card #252",
+      "type": "unit",
+      "faction": "STONE",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 9,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "252",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "In Death I Hear You Epic",
+        "Eye": "Times Up",
+        "Metaverse": "Benji",
+        "Mouth": "Flash Diamond",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Hand Axe",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_unit_715",
+      "name": "Crypt - Digital Trading Card #715",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "715",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Glory In Death Common",
+        "Eye": "Heavens Gateway",
+        "Creature": "Arachne",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "Wings",
+        "Armor": "Dragon Scale Mail",
+        "Weapons": "Short Sword",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1573",
+      "name": "Crypt - Digital Trading Card #1573",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1573",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Circle Of Life Common",
+        "Eye": "Bloodshot",
+        "Creature": "Baby Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Elven Shoemakers Hammer",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_3154",
+      "name": "Crypt - Digital Trading Card #3154",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "3154",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Flaming Skull Common",
+        "Eye": "Soldiers Pain",
+        "Creature": "Dead Dragon",
+        "Mouth": "Razor Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Axe",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_223",
+      "name": "Crypt - Digital Trading Card #223",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "223",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Dead Queen Common",
+        "Eye": "Unseen Death",
+        "Creature": "Arachne",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Short Bow",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1323",
+      "name": "Crypt - Digital Trading Card #1323",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1323",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Comms Down Common",
+        "Eye": "Around The World",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Mech Full Plate",
+        "Weapons": "Cross Bow",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_847",
+      "name": "Crypt - Digital Trading Card #847",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "847",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Sovereign Of Shadows Common",
+        "Eye": "Blue Lightning",
+        "Creature": "Dead Scorpion",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Throwing Knives",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1954",
+      "name": "Crypt - Digital Trading Card #1954",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1954",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Unseen Death",
+        "Metaverse": "Deadphones",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Snake Whip",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_846",
+      "name": "Crypt - Digital Trading Card #846",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "846",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Eternal Torment",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Aura",
+        "Creature": "Arachne",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Boxing Gloves",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1457",
+      "name": "Crypt - Digital Trading Card #1457",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 5,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "1457",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "The Dons M-Frames",
+        "Metaverse": "Thunderstruck",
+        "Mouth": "Pearls",
+        "Artifacts": "None",
+        "Armor": "Socks And Jesus Sandals",
+        "Weapons": "Saurons Mace",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_2112",
+      "name": "Crypt - Digital Trading Card #2112",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 5,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "2112",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Contagion",
+        "Metaverse": "Pirate Beanie",
+        "Mouth": "Razor Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Axe",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_1201",
+      "name": "Crypt - Digital Trading Card #1201",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1201",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Astrological Rare",
+        "Eye": "Lost Childhood",
+        "Creature": "Arachne",
+        "Mouth": "Flash Grill",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "Gauntlets",
+        "Weapons": "Twin Daggers",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_366",
+      "name": "Crypt - Digital Trading Card #366",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "366",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Silent Tombs",
+        "Skin": "Time Is All We Have Rare",
+        "Eye": "Hells Gateway",
+        "Creature": "Dead Dragon",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Long Sword",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_2175",
+      "name": "Crypt - Digital Trading Card #2175",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 9,
+        "health": 8,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2175",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Piece Of Mind Rare",
+        "Eye": "Moonshot",
+        "Creature": "Baby Dragon",
+        "Mouth": "Gold Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Great Axe",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_2282",
+      "name": "Crypt - Digital Trading Card #2282",
+      "type": "unit",
+      "faction": "IRON",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 9,
+        "health": 9,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2282",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Round Table Epic",
+        "Eye": "Aura",
+        "Metaverse": "Ring Of Roses",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Sword Of Heaven",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_unit_999",
+      "name": "Crypt - Digital Trading Card #999",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "999",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "A Pirates Sin Common",
+        "Eye": "Eye",
+        "Creature": "Baby Dragon",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Hand Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1575",
+      "name": "Crypt - Digital Trading Card #1575",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1575",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Chrono Cascade",
+        "Skin": "Flair Common",
+        "Eye": "Kheper",
+        "Creature": "Arachne",
+        "Mouth": "Pipe",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Short Sword",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2808",
+      "name": "Crypt - Digital Trading Card #2808",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2808",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Mandala Common",
+        "Eye": "Shadey",
+        "Creature": "Baby Dragon",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Riot Shield",
+        "Weapons": "Flail",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_26",
+      "name": "Crypt - Digital Trading Card #26",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 5,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "26",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Serial Killer Common",
+        "Eye": "Heavens Gateway",
+        "Metaverse": "Revolver",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_766",
+      "name": "Crypt - Digital Trading Card #766",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 4,
+        "health": 6,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "766",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Holy Common",
+        "Eye": "VR",
+        "Metaverse": "Police Hat",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Crusader Shield",
+        "Weapons": "Cross Bow",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1073",
+      "name": "Crypt - Digital Trading Card #1073",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 4,
+        "health": 6,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1073",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Mad House Common",
+        "Eye": "Hells Gateway",
+        "Metaverse": "BioHazard",
+        "Mouth": "Double Joint",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Nine Tails Whip",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_236",
+      "name": "Crypt - Digital Trading Card #236",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "236",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Endless Void",
+        "Metaverse": "Davy Jones",
+        "Mouth": "Cigar",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Bullet",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2692",
+      "name": "Crypt - Digital Trading Card #2692",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 5,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2692",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Tombstone Path",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Endless Void",
+        "Creature": "Odins Raven",
+        "Mouth": "Fangs",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2356",
+      "name": "Crypt - Digital Trading Card #2356",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 2,
+        "armor": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "2356",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Eye",
+        "Metaverse": "Benji",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Bullet",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_3094",
+      "name": "Crypt - Digital Trading Card #3094",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 8,
+        "health": 8,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "3094",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Eye",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Normal Teeth",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Pike",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1998",
+      "name": "Crypt - Digital Trading Card #1998",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 8,
+        "speed": 4,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1998",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Crimson Rift",
+        "Skin": "Lost Rare",
+        "Eye": "Heat",
+        "Metaverse": "Samurai",
+        "Mouth": "666 Grill",
+        "Artifacts": "Grimoire",
+        "Armor": "Buckler",
+        "Weapons": "Long Bow",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_1107",
+      "name": "Crypt - Digital Trading Card #1107",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1107",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Sealed Depths",
+        "Skin": "Ancient Warrior Rare",
+        "Eye": "I See Dead People",
+        "Creature": "Black Widow",
+        "Mouth": "Razor Grill",
+        "Artifacts": "Grimoire",
+        "Armor": "Gauntlets",
+        "Weapons": "Sword Of Heaven",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_2302",
+      "name": "Crypt - Digital Trading Card #2302",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2302",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Time Is All We Have Rare",
+        "Eye": "Tech Moncocle",
+        "Metaverse": "Viking Warrior",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Hand Axe",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_104",
+      "name": "Crypt - Digital Trading Card #104",
+      "type": "unit",
+      "faction": "BRONZE",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 10,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "104",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Dead King Epic",
+        "Eye": "Hypnotise",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Nailed It",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Snake Whip",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_unit_3179",
+      "name": "Crypt - Digital Trading Card #3179",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "3179",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Circle Of Life Common",
+        "Eye": "The Creeper",
+        "Creature": "Baby Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2185",
+      "name": "Crypt - Digital Trading Card #2185",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2185",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Cursed Crops",
+        "Skin": "Frankenstein Common",
+        "Eye": "Hells Gateway",
+        "Creature": "Octopus",
+        "Mouth": "Single Tooth",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Sniper Rifle",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2201",
+      "name": "Crypt - Digital Trading Card #2201",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2201",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Smooth Operator Common",
+        "Eye": "Hugin And Munin",
+        "Creature": "Wolfskin",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Mech Full Plate",
+        "Weapons": "Axe",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_1837",
+      "name": "Crypt - Digital Trading Card #1837",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 5,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "1837",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Pure Evil Common",
+        "Eye": "Times Up",
+        "Metaverse": "Roman Soldier",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Long Sword",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2021",
+      "name": "Crypt - Digital Trading Card #2021",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 6,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2021",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Naked Common",
+        "Eye": "Time Is Short",
+        "Metaverse": "Kings Crown",
+        "Mouth": "The Creep",
+        "Artifacts": "None",
+        "Armor": "Crusader Shield",
+        "Weapons": "Long Sword",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_403",
+      "name": "Crypt - Digital Trading Card #403",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "403",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Frankenstein Common",
+        "Eye": "The Creeper",
+        "Creature": "Dead Dragon",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Hobbits Stinger",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_781",
+      "name": "Crypt - Digital Trading Card #781",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 8,
+        "health": 7,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "781",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Crypt Coin",
+        "Creature": "Dragon Slayer",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Twin Daggers",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_179",
+      "name": "Crypt - Digital Trading Card #179",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 5,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "179",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Around The World",
+        "Headwear": "Chained",
+        "Mouth": "Double Blunts",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Twin Daggers",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_55",
+      "name": "Crypt - Digital Trading Card #55",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "55",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Honeycomb",
+        "Eye": "Robotic",
+        "Headwear": "Medieval Armour",
+        "Mouth": "Wax Grill",
+        "Artifacts": "Wings",
+        "Armor": "Mech Full Plate",
+        "Weapons": "Pipe Dream",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_1561",
+      "name": "Crypt - Digital Trading Card #1561",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "speed": 2,
+        "armor": 3
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "1561",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Concrete Canvas",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Burning Desire",
+        "Metaverse": "Kings Crown",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Glavie",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_331",
+      "name": "Crypt - Digital Trading Card #331",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 8,
+        "health": 9,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "331",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Cyan",
+        "Skin": "Dead Patriot Rare",
+        "Eye": "The Creeper",
+        "Creature": "Baby Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Knife Eye",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_1507",
+      "name": "Crypt - Digital Trading Card #1507",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 8,
+        "speed": 1,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "1507",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Circle Of Life Rare",
+        "Eye": "Mad Scientist",
+        "Headwear": "The Captain",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Snake Scale Mail",
+        "Weapons": "Knife Eye",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2154",
+      "name": "Crypt - Digital Trading Card #2154",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 3,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2154",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Quantum Mechanica",
+        "Skin": "Three Card Monty Rare",
+        "Eye": "I See Dead People",
+        "Metaverse": "Mourning",
+        "Mouth": "Razor Grill",
+        "Artifacts": "Arcane Orb",
+        "Armor": "Gauntlets",
+        "Weapons": "Knife Eye",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_2426",
+      "name": "Crypt - Digital Trading Card #2426",
+      "type": "unit",
+      "faction": "SILVER",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 11,
+        "health": 9,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "2426",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Mad House Epic",
+        "Eye": "The High Life",
+        "Creature": "Baby Dragon",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Gauntlets",
+        "Weapons": "Elven Shoemakers Hammer",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_unit_123",
+      "name": "Crypt - Digital Trading Card #123",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 5,
+        "health": 7,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "RUSH",
+        "GUARD"
+      ],
+      "sourceTokenId": "123",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Red Rose Skull Common",
+        "Eye": "Moonshot",
+        "Creature": "Octopus",
+        "Mouth": "Flash Grill",
+        "Artifacts": "Wings",
+        "Armor": "Riot Shield",
+        "Weapons": "Glock",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_2283",
+      "name": "Crypt - Digital Trading Card #2283",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 5,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "2283",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Anunnaki Common",
+        "Eye": "Cobweb",
+        "Headwear": "Hooded One",
+        "Mouth": "Creepers",
+        "Metaverse": "Adams Hand",
+        "Armor": "None",
+        "Weapons": "Daggers",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_271",
+      "name": "Crypt - Digital Trading Card #271",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 4,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "271",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Smooth Operator Common",
+        "Eye": "Sharp",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Axe",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1243",
+      "name": "Crypt - Digital Trading Card #1243",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 4,
+        "speed": 3,
+        "armor": 0
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1243",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Red Rose Skull Common",
+        "Eye": "Till Death Do Us Part",
+        "Creature": "Dead Scorpion",
+        "Mouth": "Sting",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Cross Bow",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1330",
+      "name": "Crypt - Digital Trading Card #1330",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 7,
+        "health": 4,
+        "speed": 3,
+        "armor": 0
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1330",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Hells Retro Common",
+        "Eye": "Half Moon",
+        "Creature": "Black Widow",
+        "Mouth": "Four Twenty",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Short Bow",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1414",
+      "name": "Crypt - Digital Trading Card #1414",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "stats": {
+        "attack": 8,
+        "health": 5,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "1414",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Melting Common",
+        "Eye": "Jarvis",
+        "Creature": "Dragon Slayer",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Broken Sword",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_4277",
+      "name": "Crypt - Digital Trading Card #4277",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "uncommon",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 8,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "4277",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Valadium Cross",
+        "Headwear": "Cap",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Weed Leaf",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_146",
+      "name": "Crypt - Digital Trading Card #146",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 6,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "146",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Rare",
+        "Eye": "Sorcery",
+        "Metaverse": "Heavy Is The Head",
+        "Mouth": "Bullet",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "Short Sword",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_965",
+      "name": "Crypt - Digital Trading Card #965",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 8,
+        "speed": 3,
+        "armor": 3
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "965",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Dead Mans Hand Rare",
+        "Eye": "Crypt Coin",
+        "Creature": "Odins Raven",
+        "Mouth": "Diamond Grill",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "Pipe Dream",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1086",
+      "name": "Crypt - Digital Trading Card #1086",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "speed": 4,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "1086",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Quantum Mechanica",
+        "Skin": "Spreading Evil Rare",
+        "Eye": "Lizards Eyes",
+        "Creature": "Dead Scorpion",
+        "Mouth": "666 Grill",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "Lead Pipe",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_2574",
+      "name": "Crypt - Digital Trading Card #2574",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 10,
+        "speed": 1,
+        "armor": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "2574",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Dead King Epic",
+        "Eye": "Unseen Death",
+        "Creature": "Octopus",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Red Arrow",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_3928",
+      "name": "Crypt - Digital Trading Card #3928",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "epic",
+      "cost": 5,
+      "stats": {
+        "attack": 10,
+        "health": 12,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "3928",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Ice Age Epic",
+        "Eye": "I See Dead People",
+        "Headwear": "Capone",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_256",
+      "name": "Crypt - Digital Trading Card #256",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 6,
+        "speed": 5,
+        "armor": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "256",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Living In Grief Rare",
+        "Eye": "Contagion",
+        "Metaverse": "Hooded One",
+        "Mouth": "Nesferatu",
+        "Artifacts": "Grimoire",
+        "Armor": "Stealth Boots",
+        "Weapons": "Lokis Sceptre",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_4720",
+      "name": "Crypt - Digital Trading Card #4720",
+      "type": "unit",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 10,
+        "health": 7,
+        "speed": 2,
+        "armor": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "4720",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Celebrate Life Rare",
+        "Eye": "Light Up My Life",
+        "Headwear": "The Captain",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "Wings",
+        "Armor": "None",
+        "Weapons": "Broken Sword",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_unit_1519",
+      "name": "Anubis",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "1519",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Anubis"
+      }
+    },
+    {
+      "id": "tcg_unit_1535",
+      "name": "Hades",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "1535",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Hades"
+      }
+    },
+    {
+      "id": "tcg_unit_3500",
+      "name": "Vishnu",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "3500",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Vishnu"
+      }
+    },
+    {
+      "id": "tcg_unit_4326",
+      "name": "Loki",
+      "type": "unit",
+      "faction": "GOD",
+      "rarity": "god",
+      "cost": 7,
+      "stats": {
+        "attack": 12,
+        "health": 17,
+        "speed": 1,
+        "armor": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "4326",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "none",
+      "rawTraits": {
+        "Faction": "Gods",
+        "God": "Loki"
+      }
+    },
+    {
+      "id": "tcg_eq_4102",
+      "name": "Crypt - Digital Trading Card #4102",
+      "type": "equipment",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 2,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "4102",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Endless Void",
+        "Headwear": "Chained",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Double Blunts",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_eq_5057",
+      "name": "Crypt - Digital Trading Card #5057",
+      "type": "equipment",
+      "faction": "STONE",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 3,
+        "armor": 3,
+        "speed": 0
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "5057",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Facing Death",
+        "Headwear": "Deadphones",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Dead Protector",
+        "Artifacts": "None",
+        "Armor": "Buckler",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_eq_3710",
+      "name": "Crypt - Digital Trading Card #3710",
+      "type": "equipment",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 2,
+        "health": 3,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "3710",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "3 Card Monty Rare",
+        "Eye": "Endless Void",
+        "Headwear": "Roses Are Dead",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Robotic",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_eq_5552",
+      "name": "Crypt - Digital Trading Card #5552",
+      "type": "equipment",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 3,
+        "armor": 3,
+        "speed": 0
+      },
+      "keywords": [
+        "GUARD"
+      ],
+      "sourceTokenId": "5552",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Rebel Walls",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Hells Gateway",
+        "Headwear": "Cap",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "None",
+        "Armor": "Energy Shield",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_eq_4921",
+      "name": "Crypt - Digital Trading Card #4921",
+      "type": "equipment",
+      "faction": "IRON",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "4921",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Time Warp",
+        "Headwear": "Miner",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Revolver",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_eq_6640",
+      "name": "Crypt - Digital Trading Card #6640",
+      "type": "equipment",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 2,
+        "health": 3,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "6640",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Diamond Rare",
+        "Eye": "Unimaginable",
+        "Headwear": "Chained",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Flash Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_eq_5047",
+      "name": "Crypt - Digital Trading Card #5047",
+      "type": "equipment",
+      "faction": "BRONZE",
+      "rarity": "uncommon",
+      "cost": 2,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [],
+      "sourceTokenId": "5047",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "Leave Me Alone",
+        "Headwear": "Fortune Teller",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Pipe Dream",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_eq_268",
+      "name": "Crypt - Digital Trading Card #268",
+      "type": "equipment",
+      "faction": "BRONZE",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 3,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [
+        "CRUSH",
+        "RUSH"
+      ],
+      "sourceTokenId": "268",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Death Defines Skull Common",
+        "Eye": "Eye",
+        "Headwear": "Caribbean Pirate",
+        "Mouth": "Smoke Bomb",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Twin Daggers",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_eq_665",
+      "name": "Crypt - Digital Trading Card #665",
+      "type": "equipment",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 1
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "665",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Hells Retro Rare",
+        "Eye": "Oh Beehave",
+        "Headwear": "Clowning Around",
+        "Mouth": "Tongue Out",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Pipe Gun",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_eq_6065",
+      "name": "Crypt - Digital Trading Card #6065",
+      "type": "equipment",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 2,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "6065",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke DarkPurple",
+        "Skin": "No Remorse Common",
+        "Eye": "Facing Death",
+        "Headwear": "None",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Razor Grill",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_eq_51",
+      "name": "Crypt - Digital Trading Card #51",
+      "type": "equipment",
+      "faction": "SILVER",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 3,
+        "health": 2,
+        "armor": 1,
+        "speed": 0
+      },
+      "keywords": [
+        "CRUSH"
+      ],
+      "sourceTokenId": "51",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Carved In Hell Common",
+        "Eye": "Leave Me Alone",
+        "Headwear": "Pirate Beanie",
+        "Mouth": "Stitched Up",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Flail",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_eq_5682",
+      "name": "Crypt - Digital Trading Card #5682",
+      "type": "equipment",
+      "faction": "SILVER",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 2,
+        "health": 3,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "5682",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Living In Grief Rare",
+        "Eye": "In Lucifer We Trust",
+        "Headwear": "None",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "None",
+        "Armor": "Boots",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_eq_4659",
+      "name": "Crypt - Digital Trading Card #4659",
+      "type": "equipment",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 1,
+        "health": 2,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "4659",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "armor",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Enslaved Common",
+        "Eye": "Facing Death",
+        "Headwear": "Peaky Blinder",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Smoke Bomb",
+        "Artifacts": "None",
+        "Armor": "Stealth Boots",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_eq_44",
+      "name": "Crypt - Digital Trading Card #44",
+      "type": "equipment",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "bonuses": {
+        "attack": 3,
+        "health": 1,
+        "armor": 1,
+        "speed": 1
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "44",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Drippy Skull Common",
+        "Eye": "I See Dead People",
+        "Headwear": "Devil Horns",
+        "Mouth": "The Creep",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Pipe Gun",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_eq_722",
+      "name": "Crypt - Digital Trading Card #722",
+      "type": "equipment",
+      "faction": "GOLD",
+      "rarity": "rare",
+      "cost": 3,
+      "bonuses": {
+        "attack": 4,
+        "health": 2,
+        "armor": 1,
+        "speed": 1
+      },
+      "keywords": [
+        "RUSH"
+      ],
+      "sourceTokenId": "722",
+      "sourceCardClass": "equipment",
+      "sourceSubtype": "weapon",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Half Human Rare",
+        "Eye": "Magma Pool",
+        "Headwear": "Capone",
+        "Mouth": "Normal Teeth",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "Shotgun",
+        "Faction": "Golden Sovereigns"
+      }
+    },
+    {
+      "id": "tcg_art_3492",
+      "name": "Crypt - Digital Trading Card #3492",
+      "type": "artifact",
+      "faction": "STONE",
+      "rarity": "rare",
+      "cost": 4,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3492",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Red",
+        "Skin": "Lost Hope Rare",
+        "Eye": "Around The World",
+        "Headwear": "Deadphones",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Racers Mask",
+        "Artifacts": "Grimoire",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_art_3427",
+      "name": "Crypt - Digital Trading Card #3427",
+      "type": "artifact",
+      "faction": "STONE",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3427",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Unplugged Epic",
+        "Eye": "I See Dead People",
+        "Headwear": "Cap",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Wax Grill",
+        "Artifacts": "Arcane Orb",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Stone Keepers"
+      }
+    },
+    {
+      "id": "tcg_art_4006",
+      "name": "Crypt - Digital Trading Card #4006",
+      "type": "artifact",
+      "faction": "IRON",
+      "rarity": "rare",
+      "cost": 4,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "4006",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Purple",
+        "Skin": "Spreading Evil Rare",
+        "Eye": "Hells Gateway",
+        "Headwear": "Caribbean Pirate",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Skull Eats Skull",
+        "Artifacts": "Grimoire",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_art_4666",
+      "name": "Crypt - Digital Trading Card #4666",
+      "type": "artifact",
+      "faction": "IRON",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "4666",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Unplugged Epic",
+        "Eye": "Oh Beehave",
+        "Headwear": "Her Hat",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Warfare Mask",
+        "Artifacts": "Grimoire",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      }
+    },
+    {
+      "id": "tcg_art_3852",
+      "name": "Crypt - Digital Trading Card #3852",
+      "type": "artifact",
+      "faction": "BRONZE",
+      "rarity": "rare",
+      "cost": 4,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3852",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Ruined Rare",
+        "Eye": "Around The World",
+        "Headwear": "None",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Warfare Mask",
+        "Artifacts": "Arcane Orb",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_art_5970",
+      "name": "Crypt - Digital Trading Card #5970",
+      "type": "artifact",
+      "faction": "BRONZE",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "5970",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Green",
+        "Skin": "Misunderstood Epic",
+        "Eye": "Fire And Ice",
+        "Headwear": "Four Twenty",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Crypt Grill",
+        "Artifacts": "Arcane Orb",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Bronze Guardians"
+      }
+    },
+    {
+      "id": "tcg_art_5728",
+      "name": "Crypt - Digital Trading Card #5728",
+      "type": "artifact",
+      "faction": "SILVER",
+      "rarity": "uncommon",
+      "cost": 3,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "5728",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Death Glow Uncommon",
+        "Eye": "I See Dead People",
+        "Headwear": "Jackson",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Smoke Bomb",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_art_3399",
+      "name": "Crypt - Digital Trading Card #3399",
+      "type": "artifact",
+      "faction": "SILVER",
+      "rarity": "epic",
+      "cost": 5,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "3399",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Orange",
+        "Skin": "Carvings Epic",
+        "Eye": "Hells Gateway",
+        "Headwear": "Peaky Blinder",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Robotic",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Silver Sentinels"
+      }
+    },
+    {
+      "id": "tcg_art_4584",
+      "name": "Crypt - Digital Trading Card #4584",
+      "type": "artifact",
+      "faction": "GOLD",
+      "rarity": "common",
+      "cost": 2,
+      "effectTags": [
+        "ARCANE"
+      ],
+      "sourceTokenId": "4584",
+      "sourceCardClass": "artifact",
+      "sourceSubtype": "artifact",
+      "rawTraits": {
+        "Background": "Smoke Pink",
+        "Skin": "Dollar Bill Skull Common",
+        "Eye": "Jarvis",
+        "Headwear": "Jackson",
+        "Metaverse": "None",
+        "Creature": "None",
+        "Mouth": "Sting",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Golden Sovereigns"
+      }
+    }
+  ]
+}
