@@ -31,7 +31,12 @@
     "dev:playproof": "tsx src/dev/testPlayModifierApplication.ts",
     "dev:exactproof": "tsx src/dev/runExactTraitModifierProof.ts",
     "dev:combat": "tsx src/dev/runCombatModifierProof.ts",
-    "dev:arch": "tsx src/dev/runArchitectureSmoke.ts"
+    "dev:arch": "tsx src/dev/runArchitectureSmoke.ts",
+    "dev:armorproof": "tsx src/dev/runArmorUtilityProof.ts",
+    "dev:nomatch": "tsx src/dev/runNoMatchBaselineProof.ts",
+    "dev:oneofone": "tsx src/dev/runOneOfOneCombatProof.ts",
+    "dev:legendary": "tsx src/dev/runLegendaryCombatProof.ts",
+    "dev:expert-regression": "tsx src/dev/runFullExpertRegression.ts"
   },
   "keywords": [],
   "author": "",
