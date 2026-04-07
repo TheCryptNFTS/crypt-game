@@ -1,5 +1,5 @@
 import equipmentCards from "./equipment.json";
-import generatedPlayableTcgEquipment from "./generatedPlayableTcgEquipment.json";
+import runtimeEquipment from "./runtimeEquipment.json";
 
 export type EquipmentCard = {
   id: string;
@@ -24,13 +24,23 @@ type LegacyEquipmentCard = {
   faction: string;
   rarity: string;
   cost: number;
-  effect: {
-    attack: number;
-    health: number;
-    armor: number;
-    speed: number;
+  effect?: {
+    attack?: number;
+    health?: number;
+    armor?: number;
+    speed?: number;
   };
 };
+
+type RuntimeEquipmentTuple = [
+  string, // id
+  number, // cost
+  number, // attack
+  number, // health
+  number, // armor
+  number, // speed
+  string[] // keywords
+];
 
 function normalizeLegacyEquipment(card: LegacyEquipmentCard): EquipmentCard {
   return {
@@ -44,9 +54,9 @@ function normalizeLegacyEquipment(card: LegacyEquipmentCard): EquipmentCard {
       attack: card.effect?.attack ?? 0,
       health: card.effect?.health ?? 0,
       armor: card.effect?.armor ?? 0,
-      speed: card.effect?.speed ?? 0
+      speed: card.effect?.speed ?? 0,
     },
-    keywords: []
+    keywords: [],
   };
 }
 
@@ -54,13 +64,29 @@ const normalizedBaseEquipment: EquipmentCard[] = (equipmentCards as LegacyEquipm
   normalizeLegacyEquipment
 );
 
-const normalizedTcgEquipment: EquipmentCard[] =
-  generatedPlayableTcgEquipment as EquipmentCard[];
+const normalizedRuntimeEquipment: EquipmentCard[] = (runtimeEquipment as RuntimeEquipmentTuple[]).map(
+  ([id, cost, attack, health, armor, speed, keywords]) => ({
+    id,
+    name: id,
+    type: "equipment",
+    faction: "STONE",
+    rarity: "common",
+    cost: cost ?? 0,
+    bonuses: {
+      attack: attack ?? 0,
+      health: health ?? 0,
+      armor: armor ?? 0,
+      speed: speed ?? 0,
+    },
+    keywords: Array.isArray(keywords) ? keywords : [],
+  })
+);
 
-const allEquipment: EquipmentCard[] = [
-  ...normalizedBaseEquipment,
-  ...normalizedTcgEquipment
-];
+const allEquipment: EquipmentCard[] = Array.from(
+  new Map(
+    [...normalizedBaseEquipment, ...normalizedRuntimeEquipment].map((card) => [card.id, card])
+  ).values()
+);
 
 export function getLoadedEquipmentById(cardId: string): EquipmentCard {
   const card = allEquipment.find((u) => u.id === cardId);

@@ -1,0 +1,111 @@
+type Bonus = {
+  attack?: number;
+  health?: number;
+  armor?: number;
+  crit?: number;
+  speed?: number;
+  utility?: number;
+};
+
+type ModifierRecord = {
+  bonus?: Bonus;
+  reasons?: string[];
+  extraTags?: string[];
+  extraPassives?: string[];
+  exactTraitMatches?: string[];
+  categoryMatches?: string[];
+  nameMatch?: boolean;
+  factionMatch?: boolean;
+};
+
+function num(value: unknown, fallback = 0): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function uniqueStrings(values: unknown[]): string[] {
+  return [...new Set(values.filter((v) => typeof v === "string" && v.trim()).map(String))];
+}
+
+export function getStoredCardModifier(match: any, playerId: string, cardId: string): ModifierRecord | null {
+  const player = match?.players?.[playerId];
+  if (!player?.cardModifiers || !cardId) return null;
+  return player.cardModifiers[cardId] ?? null;
+}
+
+export function applyModifierToUnitLike(unit: any, modifier: ModifierRecord | null) {
+  if (!unit || !modifier?.bonus) return unit;
+
+  unit.attack = num(unit.attack) + num(modifier.bonus.attack);
+  unit.health = num(unit.health) + num(modifier.bonus.health);
+  unit.armor = num(unit.armor) + num(modifier.bonus.armor);
+  unit.speed = num(unit.speed) + num(modifier.bonus.speed);
+
+  unit.keywords = uniqueStrings([
+    ...(Array.isArray(unit.keywords) ? unit.keywords : []),
+    ...(Array.isArray(modifier.extraTags) ? modifier.extraTags : []),
+  ]);
+
+  unit.passives = uniqueStrings([
+    ...(Array.isArray(unit.passives) ? unit.passives : []),
+    ...(Array.isArray(modifier.extraPassives) ? modifier.extraPassives : []),
+  ]);
+
+  unit.commanderModifier = {
+    ...(unit.commanderModifier ?? {}),
+    ...modifier,
+  };
+
+  return unit;
+}
+
+export function applyModifierToArtifactLike(artifact: any, modifier: ModifierRecord | null) {
+  if (!artifact || !modifier?.bonus) return artifact;
+
+  artifact.attack = num(artifact.attack) + num(modifier.bonus.attack);
+  artifact.health = num(artifact.health) + num(modifier.bonus.health);
+  artifact.armor = num(artifact.armor) + num(modifier.bonus.armor);
+  artifact.speed = num(artifact.speed) + num(modifier.bonus.speed);
+
+  artifact.keywords = uniqueStrings([
+    ...(Array.isArray(artifact.keywords) ? artifact.keywords : []),
+    ...(Array.isArray(modifier.extraTags) ? modifier.extraTags : []),
+  ]);
+
+  artifact.passives = uniqueStrings([
+    ...(Array.isArray(artifact.passives) ? artifact.passives : []),
+    ...(Array.isArray(modifier.extraPassives) ? modifier.extraPassives : []),
+  ]);
+
+  artifact.commanderModifier = {
+    ...(artifact.commanderModifier ?? {}),
+    ...modifier,
+  };
+
+  return artifact;
+}
+
+export function applyModifierToEquippedTarget(target: any, modifier: ModifierRecord | null) {
+  if (!target || !modifier?.bonus) return target;
+
+  target.attack = num(target.attack) + num(modifier.bonus.attack);
+  target.health = num(target.health) + num(modifier.bonus.health);
+  target.armor = num(target.armor) + num(modifier.bonus.armor);
+  target.speed = num(target.speed) + num(modifier.bonus.speed);
+
+  target.keywords = uniqueStrings([
+    ...(Array.isArray(target.keywords) ? target.keywords : []),
+    ...(Array.isArray(modifier.extraTags) ? modifier.extraTags : []),
+  ]);
+
+  target.passives = uniqueStrings([
+    ...(Array.isArray(target.passives) ? target.passives : []),
+    ...(Array.isArray(modifier.extraPassives) ? modifier.extraPassives : []),
+  ]);
+
+  target.commanderEquipmentModifier = {
+    ...(target.commanderEquipmentModifier ?? {}),
+    ...modifier,
+  };
+
+  return target;
+}

@@ -1,12 +1,11 @@
-import baseUnits from "./units.json";
-import generatedNftCards from "./generatedNftCards.json";
-import generatedPlayableTcgUnits from "./generatedPlayableTcgUnits.json";
+import generatedTcgCards from "./generatedTcgCards.json";
+import { normalizeFaction, Faction } from "../types/faction";
 
 export type UnitCard = {
   id: string;
   name: string;
   type: "unit";
-  faction: string;
+  faction: Faction;
   rarity: string;
   cost: number;
   stats: {
@@ -16,16 +15,52 @@ export type UnitCard = {
     armor: number;
   };
   keywords: string[];
+  rawTraits: Record<string, string>;
 };
 
-const allUnits: UnitCard[] = [
-  ...(baseUnits as UnitCard[]),
-  ...(generatedNftCards as UnitCard[]),
-  ...(generatedPlayableTcgUnits as UnitCard[])
-];
+type GeneratedTcgCard = {
+  id: string;
+  name?: string;
+  type?: string;
+  faction?: string;
+  rarity?: string;
+  cost?: number;
+  stats?: {
+    attack?: number;
+    health?: number;
+    speed?: number;
+    armor?: number;
+  };
+  keywords?: string[];
+  rawTraits?: Record<string, string> | null;
+};
+
+const allUnits: UnitCard[] = ((generatedTcgCards as GeneratedTcgCard[]) ?? [])
+  .filter((card) => {
+    if (!card?.id) return false;
+    return true;
+  })
+  .map((card) => ({
+    id: card.id,
+    name: card.name ?? card.id,
+    type: "unit" as const,
+    faction: normalizeFaction(card.faction ?? "STONE_KEEPERS"),
+    rarity: card.rarity ?? "COMMON",
+    cost: card.cost ?? 0,
+    stats: {
+      attack: card.stats?.attack ?? 0,
+      health: card.stats?.health ?? 1,
+      speed: card.stats?.speed ?? 0,
+      armor: card.stats?.armor ?? 0,
+    },
+    keywords: Array.isArray(card.keywords) ? card.keywords : [],
+    rawTraits: (card.rawTraits as Record<string, string> | undefined) ?? {},
+  }));
+
+const byId = new Map<string, UnitCard>(allUnits.map((unit) => [unit.id, unit]));
 
 export function getLoadedUnitById(cardId: string): UnitCard {
-  const card = allUnits.find((u) => u.id === cardId);
+  const card = byId.get(cardId);
 
   if (!card) {
     throw new Error(`Unit card not found: ${cardId}`);

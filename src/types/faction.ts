@@ -1,21 +1,50 @@
-export type Faction = "STONE" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "GOD";
+export type Faction =
+  | "STONE"
+  | "IRON"
+  | "BRONZE"
+  | "SILVER"
+  | "GOLD"
+  | "GOD";
 
-export function normalizeFaction(value: string): Faction {
-  const v = value.trim().toUpperCase();
+export function normalizeFaction(value: string | null | undefined): Faction {
+  const raw = String(value ?? "").trim();
 
-  if (v === "STONE") return "STONE";
-  if (v === "IRON") return "IRON";
-  if (v === "BRONZE") return "BRONZE";
-  if (v === "SILVER") return "SILVER";
-  if (v === "GOLD") return "GOLD";
-  if (v === "GOD") return "GOD";
-  if (v === "NEUTRAL") return "GOD";
+  const normalized = raw
+    .toUpperCase()
+    .replace(/[\s-]+/g, "_");
 
-  throw new Error(`Unknown faction: ${value}`);
-}
+  switch (normalized) {
+    case "STONE":
+    case "STONE_KEEPER":
+    case "STONE_KEEPERS":
+      return "STONE";
 
-export function isFaction(value: string): value is Faction {
-  return ["STONE", "IRON", "BRONZE", "SILVER", "GOLD", "GOD"].includes(
-    value.trim().toUpperCase()
-  );
+    case "IRON":
+    case "IRON_DEFENDER":
+    case "IRON_DEFENDERS":
+      return "IRON";
+
+    case "BRONZE":
+    case "BRONZE_GUARDIAN":
+    case "BRONZE_GUARDIANS":
+      return "BRONZE";
+
+    case "SILVER":
+    case "SILVER_SENTINEL":
+    case "SILVER_SENTINELS":
+      return "SILVER";
+
+    case "GOLD":
+    case "GOLDEN":
+    case "GOLDEN_SOVEREIGN":
+    case "GOLDEN_SOVEREIGNS":
+      return "GOLD";
+
+    case "GOD":
+    case "GODS":
+      return "GOD";
+
+    default:
+      throw new Error(`Unknown faction: ${value}`);
+  }
 }

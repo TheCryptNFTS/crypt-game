@@ -1,4 +1,4 @@
-import generatedPlayableTcgArtifacts from "./generatedPlayableTcgArtifacts.json";
+import runtimeArtifacts from "./runtimeArtifacts.json";
 
 export type ArtifactCard = {
   id: string;
@@ -10,9 +10,23 @@ export type ArtifactCard = {
   effectTags: string[];
 };
 
-const allArtifacts: ArtifactCard[] = [
-  ...(generatedPlayableTcgArtifacts as ArtifactCard[])
+type RuntimeArtifactTuple = [
+  string, // id
+  number, // cost
+  string[] // effectTags
 ];
+
+const allArtifacts: ArtifactCard[] = (runtimeArtifacts as RuntimeArtifactTuple[]).map(
+  ([id, cost, effectTags]) => ({
+    id,
+    name: id,
+    type: "artifact",
+    faction: "STONE",
+    rarity: "common",
+    cost: cost ?? 0,
+    effectTags: Array.isArray(effectTags) ? effectTags : [],
+  })
+);
 
 export function getLoadedArtifactById(cardId: string): ArtifactCard {
   const card = allArtifacts.find((u) => u.id === cardId);

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "cmd_stone_warden",
+    "name": "Stone Warden",
+    "faction": null,
+    "deckRules": {
+      "exactFaction": false,
+      "maxGodCards": 1,
+      "deckSize": 30,
+      "minUnits": 18,
+      "minEquipment": 4,
+      "minArtifacts": 2
+    }
+  },
+  {
+    "id": "cmd_iron_warlord",
+    "name": "Iron Warlord",
+    "faction": null,
+    "deckRules": {
+      "exactFaction": false,
+      "maxGodCards": 1,
+      "deckSize": 30,
+      "minUnits": 18,
+      "minEquipment": 5,
+      "minArtifacts": 2
+    }
+  },
+  {
+    "id": "cmd_bronze_raider",
+    "name": "Bronze Raider",
+    "faction": null,
+    "deckRules": {
+      "exactFaction": false,
+      "maxGodCards": 1,
+      "deckSize": 30,
+      "minUnits": 20,
+      "minEquipment": 4,
+      "minArtifacts": 1
+    }
+  },
+  {
+    "id": "cmd_silver_oracle",
+    "name": "Silver Oracle",
+    "faction": null,
+    "deckRules": {
+      "exactFaction": false,
+      "maxGodCards": 1,
+      "deckSize": 30,
+      "minUnits": 17,
+      "minEquipment": 4,
+      "minArtifacts": 3
+    }
+  },
+  {
+    "id": "cmd_golden_emperor",
+    "name": "Golden Emperor",
+    "faction": null,
+    "deckRules": {
+      "exactFaction": false,
+      "maxGodCards": 1,
+      "deckSize": 30,
+      "minUnits": 18,
+      "minEquipment": 4,
+      "minArtifacts": 2
+    }
+  }
+]

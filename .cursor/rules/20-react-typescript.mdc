@@ -1,0 +1,25 @@
+---
+description: React and TypeScript coding standards
+globs:
+  - "**/*.tsx"
+  - "**/*.ts"
+alwaysApply: true
+---
+
+# React + TypeScript Standards
+
+## Rules
+- Prefer small reusable components over repeated markup
+- Keep props typed explicitly
+- Avoid any
+- Avoid large monolithic page files when a component can be extracted cleanly
+- Preserve existing behavior unless asked to change it
+- Keep className logic readable
+- Use useMemo/useCallback only when they actually help
+- Avoid dead code
+- Avoid duplicated styles across pages
+
+## When editing
+- do the minimum required to improve quality
+- do not refactor unrelated logic
+- keep naming consistent with the project

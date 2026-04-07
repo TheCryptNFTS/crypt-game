@@ -1,40 +1,67 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Suspense } from "react";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import CryptRouteFallback from "../CryptRouteFallback";
 
-const linkClass = ({ isActive }: { isActive: boolean }) =>
-  [
-    "rounded-md px-3 py-2 text-sm font-medium transition-colors",
-    isActive
-      ? "bg-[color:var(--color-crypt-border)] text-[color:var(--color-crypt-accent)]"
-      : "text-zinc-400 hover:text-zinc-100",
-  ].join(" ");
+const dockClass = (isActive: boolean) =>
+  ["crypt-mobile-dock-link", isActive ? "crypt-mobile-dock-link--active" : ""].filter(Boolean).join(" ");
 
 export default function AppShell() {
+  const { pathname } = useLocation();
+
   return (
-    <div className="flex min-h-full flex-col">
-      <header className="border-b border-[color:var(--color-crypt-border)] bg-[color:var(--color-crypt-panel)]">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <div className="text-sm font-semibold tracking-wide text-[color:var(--color-crypt-accent)]">
-            Crypt
-          </div>
-          <nav className="flex flex-wrap gap-1 sm:gap-2">
-            <NavLink to="/match" className={linkClass}>
-              Match
-            </NavLink>
-            <NavLink to="/deck" className={linkClass}>
-              Deck
-            </NavLink>
-            <NavLink to="/collection" className={linkClass}>
-              Collection
-            </NavLink>
-            <NavLink to="/profile" className={linkClass}>
-              Profile
-            </NavLink>
-          </nav>
+    <div className="flex min-h-full flex-col bg-[color:var(--color-crypt-bg)] crypt-app-root">
+      <header className="crypt-app-chrome shrink-0" aria-label="CRYPT · Crypt Legends">
+        <div className="relative flex items-center justify-center px-4 py-3 md:px-8 md:py-3.5">
+          <NavLink
+            to="/home"
+            className="crypt-brand-lockup flex items-center gap-3 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-crypt-ice)]"
+          >
+            <span className="crypt-brand-icon crypt-brand-icon--header" aria-hidden />
+            <span className="flex min-w-0 flex-col items-center md:items-start">
+              <span className="crypt-wordmark crypt-wordmark--header">CRYPT</span>
+              <span className="crypt-brand-tagline">Crypt Legends · dark TCG</span>
+            </span>
+          </NavLink>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6">
-        <Outlet />
+      <main className="crypt-app-main min-h-0 w-full flex-1">
+        <Suspense fallback={<CryptRouteFallback />}>
+          <Outlet />
+        </Suspense>
       </main>
+      <nav className="crypt-mobile-dock" aria-label="Crypt Legends · command hub">
+        <NavLink
+          to="/home"
+          end
+          className={({ isActive }) =>
+            dockClass(isActive || pathname === "/daily-pack")
+          }
+        >
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--home" aria-hidden />
+          Home
+        </NavLink>
+        <NavLink
+          to="/play"
+          className={({ isActive }) =>
+            dockClass(isActive || pathname === "/match" || pathname.startsWith("/match/"))
+          }
+        >
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--play" aria-hidden />
+          Play
+        </NavLink>
+        <NavLink to="/collection" className={({ isActive }) => dockClass(isActive)}>
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--catalog" aria-hidden />
+          Vault
+        </NavLink>
+        <NavLink to="/deck" className={({ isActive }) => dockClass(isActive)}>
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--deck" aria-hidden />
+          Deck
+        </NavLink>
+        <NavLink to="/profile" className={({ isActive }) => dockClass(isActive)}>
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--profile" aria-hidden />
+          Profile
+        </NavLink>
+      </nav>
     </div>
   );
 }

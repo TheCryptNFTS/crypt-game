@@ -6,7 +6,7 @@ function assert(condition: unknown, message: string) {
 }
 
 function run() {
-  const file = path.resolve(process.cwd(), "src/data/renderManifest.json");
+  const file = path.resolve(process.cwd(), "public/data/renderManifest.json");
   assert(fs.existsSync(file), "renderManifest.json missing");
 
   const manifest = JSON.parse(fs.readFileSync(file, "utf8"));
