@@ -19,10 +19,10 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   cmd_stone_warden: {
     id: "cmd_stone_warden",
     name: "Stone Warden",
-    faction: "STONE",
+    faction: null,
     passive: "+1 durability pressure for guard-style boards",
     deckRules: {
-      exactFaction: true,
+      exactFaction: false,
       maxGodCards: 1,
       deckSize: 30,
       minUnits: 18,
@@ -33,10 +33,10 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   cmd_iron_warlord: {
     id: "cmd_iron_warlord",
     name: "Iron Warlord",
-    faction: "IRON",
+    faction: null,
     passive: "weapon/tempo pressure",
     deckRules: {
-      exactFaction: true,
+      exactFaction: false,
       maxGodCards: 1,
       deckSize: 30,
       minUnits: 18,
@@ -47,10 +47,10 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   cmd_bronze_raider: {
     id: "cmd_bronze_raider",
     name: "Bronze Raider",
-    faction: "BRONZE",
+    faction: null,
     passive: "rush openings and pressure",
     deckRules: {
-      exactFaction: true,
+      exactFaction: false,
       maxGodCards: 1,
       deckSize: 30,
       minUnits: 20,
@@ -61,10 +61,10 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   cmd_silver_oracle: {
     id: "cmd_silver_oracle",
     name: "Silver Oracle",
-    faction: "SILVER",
+    faction: null,
     passive: "artifact/arcane value",
     deckRules: {
-      exactFaction: true,
+      exactFaction: false,
       maxGodCards: 1,
       deckSize: 30,
       minUnits: 17,
@@ -75,10 +75,10 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   cmd_golden_emperor: {
     id: "cmd_golden_emperor",
     name: "Golden Emperor",
-    faction: "GOLD",
+    faction: null,
     passive: "elite scaling and top-end value",
     deckRules: {
-      exactFaction: true,
+      exactFaction: false,
       maxGodCards: 1,
       deckSize: 30,
       minUnits: 18,

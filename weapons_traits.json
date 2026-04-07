@@ -1,0 +1,322 @@
+[
+  {
+    "value": "AK47",
+    "count": 26
+  },
+  {
+    "value": "Arrow",
+    "count": 26
+  },
+  {
+    "value": "Axe",
+    "count": 222
+  },
+  {
+    "value": "Baseball Bat",
+    "count": 31
+  },
+  {
+    "value": "Boxing Gloves",
+    "count": 32
+  },
+  {
+    "value": "Broken Sword",
+    "count": 37
+  },
+  {
+    "value": "Bullet",
+    "count": 55
+  },
+  {
+    "value": "Chain Whip",
+    "count": 36
+  },
+  {
+    "value": "Cross Bow",
+    "count": 38
+  },
+  {
+    "value": "Cutlass",
+    "count": 29
+  },
+  {
+    "value": "Daggers",
+    "count": 6
+  },
+  {
+    "value": "Demon Slayer",
+    "count": 32
+  },
+  {
+    "value": "Desert Eagle 5.0",
+    "count": 28
+  },
+  {
+    "value": "Double Storm Breaker",
+    "count": 25
+  },
+  {
+    "value": "Elven Shoemakers Hammer",
+    "count": 33
+  },
+  {
+    "value": "Flail",
+    "count": 38
+  },
+  {
+    "value": "Flamethrower",
+    "count": 39
+  },
+  {
+    "value": "Flash Grenade",
+    "count": 41
+  },
+  {
+    "value": "Freeze",
+    "count": 34
+  },
+  {
+    "value": "Garden Hoe",
+    "count": 31
+  },
+  {
+    "value": "Glavie",
+    "count": 37
+  },
+  {
+    "value": "Glock",
+    "count": 23
+  },
+  {
+    "value": "Great Axe",
+    "count": 20
+  },
+  {
+    "value": "Grenade Launcher",
+    "count": 24
+  },
+  {
+    "value": "Hand Axe",
+    "count": 26
+  },
+  {
+    "value": "Hobbits Stinger",
+    "count": 17
+  },
+  {
+    "value": "Katana",
+    "count": 30
+  },
+  {
+    "value": "Knife Eye",
+    "count": 30
+  },
+  {
+    "value": "Lead Pipe",
+    "count": 26
+  },
+  {
+    "value": "Light Saber",
+    "count": 28
+  },
+  {
+    "value": "Lokis Sceptre",
+    "count": 40
+  },
+  {
+    "value": "Lokis Sceptre Green",
+    "count": 8
+  },
+  {
+    "value": "Lokis Sceptre Teal",
+    "count": 11
+  },
+  {
+    "value": "Long Bow",
+    "count": 30
+  },
+  {
+    "value": "Long Sword",
+    "count": 42
+  },
+  {
+    "value": "Mad Max Pipe",
+    "count": 22
+  },
+  {
+    "value": "Minoru Sceptre",
+    "count": 23
+  },
+  {
+    "value": "Mjolnir",
+    "count": 26
+  },
+  {
+    "value": "Molotov Cocktail",
+    "count": 26
+  },
+  {
+    "value": "Morning Star",
+    "count": 41
+  },
+  {
+    "value": "Nailed It",
+    "count": 226
+  },
+  {
+    "value": "Nightmare Claws",
+    "count": 24
+  },
+  {
+    "value": "Nine Tails Whip",
+    "count": 23
+  },
+  {
+    "value": "None",
+    "count": 922
+  },
+  {
+    "value": "Pans Revenge",
+    "count": 47
+  },
+  {
+    "value": "Pike",
+    "count": 33
+  },
+  {
+    "value": "Pipe Dream",
+    "count": 203
+  },
+  {
+    "value": "Pipe Gun",
+    "count": 22
+  },
+  {
+    "value": "Pulse Energy Gun",
+    "count": 22
+  },
+  {
+    "value": "Red Arrow",
+    "count": 29
+  },
+  {
+    "value": "Red Rose",
+    "count": 34
+  },
+  {
+    "value": "Redemption",
+    "count": 29
+  },
+  {
+    "value": "Revolver",
+    "count": 209
+  },
+  {
+    "value": "Robotic",
+    "count": 15
+  },
+  {
+    "value": "Robotic Gun",
+    "count": 19
+  },
+  {
+    "value": "Robotic Pistol",
+    "count": 22
+  },
+  {
+    "value": "Saurons Mace",
+    "count": 37
+  },
+  {
+    "value": "Scimitar",
+    "count": 28
+  },
+  {
+    "value": "Scythe",
+    "count": 35
+  },
+  {
+    "value": "Sharp",
+    "count": 7
+  },
+  {
+    "value": "Short Bow",
+    "count": 34
+  },
+  {
+    "value": "Short Sword",
+    "count": 28
+  },
+  {
+    "value": "Shotgun",
+    "count": 34
+  },
+  {
+    "value": "Slingshot",
+    "count": 20
+  },
+  {
+    "value": "Smoke Bomb",
+    "count": 23
+  },
+  {
+    "value": "Smoke Grenade",
+    "count": 35
+  },
+  {
+    "value": "Smoked Out",
+    "count": 34
+  },
+  {
+    "value": "Snake Whip",
+    "count": 25
+  },
+  {
+    "value": "Sniper Rifle",
+    "count": 29
+  },
+  {
+    "value": "Staff",
+    "count": 42
+  },
+  {
+    "value": "Storm Breaker",
+    "count": 36
+  },
+  {
+    "value": "Sword Of Heaven",
+    "count": 33
+  },
+  {
+    "value": "The Fixer",
+    "count": 27
+  },
+  {
+    "value": "Throwing Knives",
+    "count": 35
+  },
+  {
+    "value": "Trippie Brew",
+    "count": 40
+  },
+  {
+    "value": "Twin Daggers",
+    "count": 6
+  },
+  {
+    "value": "Under Pressure",
+    "count": 43
+  },
+  {
+    "value": "Uzi",
+    "count": 29
+  },
+  {
+    "value": "Wand",
+    "count": 39
+  },
+  {
+    "value": "Yaka Arrow",
+    "count": 31
+  }
+]

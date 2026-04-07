@@ -3,8 +3,30 @@ import { getCommanderById } from "./commanders";
 import { validateDeck } from "./deckRules";
 import { getPlayableCardById, isCommanderCardId } from "./cards";
 import { MatchBootstrapInput } from "../types/matchBootstrap";
+import { getCommanderSpecialBonuses } from "../lib/getCommanderBonuses";
+import { getCommanderCardSynergy } from "../lib/getCommanderCardSynergy";
 
 type PlayerId = "P1" | "P2";
+
+type Bonus = {
+  attack?: number;
+  health?: number;
+  armor?: number;
+  crit?: number;
+  speed?: number;
+  utility?: number;
+};
+
+function addBonus(base: Bonus, extra?: Bonus) {
+  if (!extra) return;
+  for (const key of Object.keys(extra) as (keyof Bonus)[]) {
+    base[key] = (base[key] ?? 0) + (extra[key] ?? 0);
+  }
+}
+
+function uniqueStrings(values: (string | undefined | null)[]) {
+  return [...new Set(values.filter(Boolean).map(String))];
+}
 
 export function createMatchFromDecks(input: MatchBootstrapInput) {
   const openingHandSize = Math.max(0, input.openingHandSize ?? 3);
@@ -39,12 +61,22 @@ function hydratePlayer(
   const deck = [...input.deck];
   const library = shouldShuffle ? shuffle(deck) : deck;
 
+  const commanderTraits = commander.traits ?? {};
+  const commanderSpecial = getCommanderSpecialBonuses(commanderTraits);
+
   player.commander = commander;
   player.commanderZone = {
     cardId: commander.id,
     name: commander.name,
-    faction: commander.faction,
   };
+
+  player.commanderOg = {
+    name: commander.name ?? null,
+    traits: commanderTraits,
+  };
+
+  player.commanderBonuses = commanderSpecial;
+  player.cardModifiers = buildCardModifiers(commander.name, commanderTraits, deck, commanderSpecial);
 
   player.deck = [...library];
   player.hand = [];
@@ -57,6 +89,65 @@ function hydratePlayer(
   for (let i = 0; i < openingHandSize; i += 1) {
     drawOne(player);
   }
+}
+
+function buildCardModifiers(
+  commanderName: string,
+  commanderTraits: Record<string, string>,
+  deck: string[],
+  commanderSpecial: ReturnType<typeof getCommanderSpecialBonuses>
+) {
+  const byId: Record<
+    string,
+    {
+      bonus: Bonus;
+      reasons: string[];
+      extraTags: string[];
+      extraPassives: string[];
+      exactTraitMatches: string[];
+      categoryMatches: string[];
+      nameMatch: boolean;
+      factionMatch: boolean;
+    }
+  > = {};
+
+  for (const cardId of deck) {
+    const card = getPlayableCardById(cardId) as any;
+    if (!card) continue;
+
+    const synergy = getCommanderCardSynergy(
+      commanderName,
+      card.name ?? card.id,
+      card.rawTraits ?? {},
+      card.faction ?? null,
+      commanderTraits
+    );
+
+    const totalBonus: Bonus = {};
+    addBonus(totalBonus, commanderSpecial.bonus);
+    addBonus(totalBonus, synergy.bonus);
+
+    const reasons = uniqueStrings([
+      ...(commanderSpecial.reasons ?? []),
+      ...synergy.exactTraitMatches,
+      ...synergy.categoryMatches.map((x) => `Shared category: ${x}`),
+      synergy.nameMatch ? `Name match: ${commanderName} ↔ ${card.name ?? card.id}` : null,
+      synergy.factionMatch ? `Faction match: ${card.faction ?? "unknown"}` : null,
+    ]);
+
+    byId[cardId] = {
+      bonus: totalBonus,
+      reasons,
+      extraTags: uniqueStrings([...(commanderSpecial.extraTags ?? [])]),
+      extraPassives: uniqueStrings([...(commanderSpecial.extraPassives ?? [])]),
+      exactTraitMatches: synergy.exactTraitMatches,
+      categoryMatches: synergy.categoryMatches,
+      nameMatch: synergy.nameMatch,
+      factionMatch: synergy.factionMatch,
+    };
+  }
+
+  return byId;
 }
 
 function drawOne(player: any) {
@@ -107,16 +198,6 @@ function validateBootstrapSide(
 
   if (!result.valid) {
     throw new Error(`${label} deck failed validation:\n${result.errors.join("\n")}`);
-  }
-
-  const godCount = Object.entries(result.stats.byFaction)
-    .filter(([faction]) => faction === "GOD")
-    .reduce((sum, [, count]) => sum + Number(count || 0), 0);
-
-  if (godCount > commander.deckRules.maxGodCards) {
-    throw new Error(
-      `${label} deck has ${godCount} GOD cards but commander allows max ${commander.deckRules.maxGodCards}`
-    );
   }
 }
 

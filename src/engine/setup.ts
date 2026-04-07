@@ -1,3 +1,4 @@
+import { getStoredCardModifier, applyModifierToUnitLike, applyModifierToEquippedTarget } from "./applyCommanderCardModifiers";
 import decks from "../data/decks.json";
 import units from "../data/units.json";
 import equipment from "../data/equipment.json";
@@ -382,6 +383,7 @@ export function playUnitFromHand(
   }
 
   const unitCard = getUnitCard(cardId);
+  const commanderModifier = getStoredCardModifier(match, playerId, cardId);
 
   const reduction =
     !player.turnFlags.firstUnitPlayed ? player.turnFlags.firstUnitCostReduction : 0;
@@ -404,6 +406,13 @@ export function playUnitFromHand(
     exhausted: false,
     summoningSick: !unitCard.keywords.includes("RUSH")
   };
+
+  applyModifierToUnitLike(instance, commanderModifier);
+  instance.maxHealth = Math.max(instance.maxHealth ?? instance.health, instance.health);
+
+  applyModifierToUnitLike(instance, commanderModifier);
+
+  instance.maxHealth = Math.max(instance.maxHealth ?? instance.health, instance.health);
 
   const newHand = [...player.hand];
   newHand.splice(handIndex, 1);

@@ -1,0 +1,201 @@
+=== likely unreferenced ts/tsx files (heuristic only) ===
+src/components/share/MatchResultShareCard.tsx
+src/constants/commanderOgMap.ts
+src/constants/getCommanderPower.ts
+src/constants/getTraitPower.ts
+src/constants/traitCategoryRules.ts
+src/constants/traitRegistry.ts
+src/data/commanderArchetypes.ts
+src/design/coreSetTargets.ts
+src/design/factionMechanics.ts
+src/design/keywordRules.ts
+src/engine/actions.ts
+src/engine/commander.ts
+src/engine/createMatch.ts
+src/engine/createOwnedNftMatch.ts
+src/engine/playUnitFromHand.ts
+src/lib/buildCuratedCoreSet.ts
+src/lib/getOwnedNftCards.ts
+src/lib/mockOwnedTokens.ts
+src/lib/openseaLookup.ts
+src/nft/downloadTcgMetadata.ts
+src/nft/fetchOpenSeaCollection.ts
+src/nft/importNfts.ts
+src/nft/importTcgCards.ts
+src/pages/match/StatBlock.tsx
+src/tests/effectsSmoke.ts
+src/types/uiGame.ts
+
+=== reverse import counts ===
+  1  src/App.tsx
+  7  src/components/CatalogLoader.tsx
+  1  src/components/CryptRouteFallback.tsx
+  1  src/components/DevBuildStamp.tsx
+  1  src/components/RootBoundary.tsx
+  1  src/components/cards/CardDetailModal.tsx
+  2  src/components/cards/CardFrame.tsx
+  9  src/components/cards/CommanderCard.tsx
+ 10  src/components/cards/PlayableCard.tsx
+  1  src/components/cards/cardVisuals.ts
+  1  src/components/layout/AppShell.tsx
+  5  src/components/layout/CryptPageFrame.tsx
+  1  src/components/layout/ShellLayout.tsx
+  0  src/components/share/MatchResultShareCard.tsx
+  1  src/constants/commanderLegendaryRules.ts
+  0  src/constants/commanderOgMap.ts
+  1  src/constants/commanderOneOfOneRules.ts
+  1  src/constants/commanderPowers.ts
+  1  src/constants/commanderRegistry.ts
+  1  src/constants/commanderTraitBoosts.ts
+  1  src/constants/factions.ts
+  0  src/constants/getCommanderPower.ts
+  0  src/constants/getTraitPower.ts
+  1  src/constants/specialTraitRules.ts
+  0  src/constants/traitCategoryRules.ts
+  1  src/constants/traitPowers.ts
+  0  src/constants/traitRegistry.ts
+  2  src/content/cryptMediumCodex.ts
+  0  src/data/commanderArchetypes.ts
+  3  src/data/loadAllArtifacts.ts
+  2  src/data/loadAllEquipment.ts
+  6  src/data/loadAllUnits.ts
+  3  src/data/loadCommanders.ts
+  1  src/data/loadEquipment.ts
+  1  src/data/loadSpells.ts
+  2  src/data/loadUnits.ts
+  2  src/data/unitArchetypes.ts
+  8  src/design/commanderSpecs.ts
+  0  src/design/coreSetTargets.ts
+  1  src/design/factionIdentity.ts
+  0  src/design/factionMechanics.ts
+  1  src/design/generatedCommanderSpecs.ts
+  0  src/design/keywordRules.ts
+  0  src/dev/auditCardData.ts
+  0  src/dev/auditNftTraits.ts
+  0  src/dev/auditTcgCards.ts
+  0  src/dev/checkCuratedIds.ts
+  0  src/dev/checkGeneratedTcgShape.ts
+  0  src/dev/checkOneCommander.ts
+  0  src/dev/checkRuntimeIds.ts
+  0  src/dev/exportCommanderTraitsByCategory.ts
+  0  src/dev/exportCommanders.ts
+  0  src/dev/exportNormalizedEyeTraits.ts
+  0  src/dev/exportRealCommanders.ts
+  0  src/dev/exportTraitsByCategory.ts
+  0  src/dev/findExactTraitMatchCard.ts
+  0  src/dev/findRichCommanders.ts
+  0  src/dev/generateAllCommanderSpecs.ts
+  0  src/dev/runAIMatch.ts
+  0  src/dev/runArtifactPlayCheck.ts
+  0  src/dev/runAssetIntegrityCheck.ts
+  0  src/dev/runBackendSanityCheck.ts
+  0  src/dev/runBatchSim.ts
+  0  src/dev/runCuratedCoreSetCheck.ts
+  0  src/dev/runCuratedCoreSetV2Check.ts
+  0  src/dev/runCuratedDeckBuildCheck.ts
+  0  src/dev/runDeckRulesCheck.ts
+  0  src/dev/runE2EMatchFlow.ts
+  0  src/dev/runEquipmentMatch.ts
+  0  src/dev/runEquipmentPlayCheck.ts
+  0  src/dev/runFullMatch.ts
+  0  src/dev/runGeneratedTcgFullMatch.ts
+  0  src/dev/runKeywordEngineCheck.ts
+  0  src/dev/runLegalityAndBootstrapCheck.ts
+  0  src/dev/runMatch.ts
+  0  src/dev/runNftBattle.ts
+  0  src/dev/runNftMatch.ts
+  0  src/dev/runPlayableTcgBattle.ts
+  0  src/dev/runPlayableTcgCatalogCheck.ts
+  0  src/dev/runRegressionSuite.ts
+  0  src/dev/runRenderManifestCheck.ts
+  0  src/dev/runSpellMatch.ts
+  0  src/dev/runTcgImportCheck.ts
+  0  src/dev/runTurnCombatEffectCheck.ts
+  0  src/dev/showCommanderNames.ts
+  0  src/dev/showPlayableIds.ts
+  0  src/dev/showPlayableTraitSample.ts
+  0  src/dev/testArtifactModifierApplication.ts
+  0  src/dev/testCommanderBonuses.ts
+  0  src/dev/testEquipmentModifierApplication.ts
+  0  src/dev/testMatchBootstrap.ts
+  0  src/dev/testPlayModifierApplication.ts
+  0  src/engine/actions.ts
+  2  src/engine/applyCommanderCardModifiers.ts
+  2  src/engine/cardFactory.ts
+ 13  src/engine/cards.ts
+  2  src/engine/cleanup.ts
+  5  src/engine/combat.ts
+  3  src/engine/combatEngine.ts
+  0  src/engine/commander.ts
+  1  src/engine/commanderAbilities.ts
+  8  src/engine/commanders.ts
+  0  src/engine/createMatch.ts
+  7  src/engine/createMatchFromDecks.ts
+  0  src/engine/createOwnedNftMatch.ts
+  6  src/engine/deckRules.ts
+  1  src/engine/deckRulesV2.ts
+  6  src/engine/effectSystem.ts
+  1  src/engine/effects.ts
+  3  src/engine/events.ts
+  2  src/engine/keywordEngine.ts
+  2  src/engine/playArtifactFromHand.ts
+  1  src/engine/playEquipmentFromHand.ts
+  0  src/engine/playUnitFromHand.ts
+ 23  src/engine/setup.ts
+ 25  src/engine/state.ts
+  1  src/engine/traitEngine.ts
+  3  src/engine/turnEngine.ts
+  1  src/engine/unitAbilities.ts
+  2  src/engine/unitMetadata.ts
+  1  src/hooks/useAppSessionStub.ts
+  1  src/hooks/useGame.ts
+  9  src/hooks/useRenderManifest.tsx
+  0  src/index.ts
+  3  src/lib/appSession.ts
+  0  src/lib/buildCuratedCoreSet.ts
+  3  src/lib/buildCuratedDeck.ts
+  2  src/lib/buildGeneratedTcgDeck.ts
+  4  src/lib/deckBuilderStorage.ts
+  5  src/lib/gameClient.ts
+  2  src/lib/getCommanderBonuses.ts
+  1  src/lib/getCommanderCardSynergy.ts
+  0  src/lib/getOwnedNftCards.ts
+  5  src/lib/localProgress.ts
+  0  src/lib/mockOwnedTokens.ts
+  0  src/lib/openseaLookup.ts
+  0  src/main.tsx
+  1  src/nft/buildNftDeck.ts
+  0  src/nft/downloadTcgMetadata.ts
+  0  src/nft/fetchOpenSeaCollection.ts
+  2  src/nft/getOwnedNftCardIds.ts
+  0  src/nft/importNfts.ts
+  0  src/nft/importTcgCards.ts
+  1  src/nft/nftCardMapper.ts
+  1  src/pages/CollectionPage.tsx
+  1  src/pages/DailyPackPage.tsx
+  1  src/pages/DeckBuilderPage.tsx
+  1  src/pages/HomePage.tsx
+  1  src/pages/MatchPage.tsx
+  1  src/pages/MatchResultsPage.tsx
+  1  src/pages/PlayHubPage.tsx
+  1  src/pages/ProfilePage.tsx
+  1  src/pages/ShopPage.tsx
+  1  src/pages/SplashLoginPage.tsx
+  1  src/pages/match/BattleRow.tsx
+  1  src/pages/match/BattlefieldSurface.tsx
+  1  src/pages/match/CombatHud.tsx
+  1  src/pages/match/HandTray.tsx
+  1  src/pages/match/MatchFooterLog.tsx
+  1  src/pages/match/OpponentZone.tsx
+  1  src/pages/match/PlayerZone.tsx
+  0  src/pages/match/StatBlock.tsx
+  1  src/pages/match/StrikeIntentOverlay.tsx
+  2  src/pages/match/combatRules.ts
+  0  src/presentation/index.ts
+  2  src/presentation/traitFilters.ts
+  4  src/presentation/uiCardModel.ts
+  0  src/tests/effectsSmoke.ts
+  5  src/types/faction.ts
+  2  src/types/matchBootstrap.ts
+ 14  src/types/renderManifest.ts
+  0  src/types/uiGame.ts

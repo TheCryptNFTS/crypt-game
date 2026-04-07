@@ -1,0 +1,37 @@
+---
+description: Specific rules for TCG and game-client UI
+globs:
+  - "**/*Page.tsx"
+  - "**/components/**/*.tsx"
+alwaysApply: true
+---
+
+# Game UI Rules
+
+This is not a normal website.
+
+## Treat these as hero areas
+- Home page = cinematic entry point
+- Collection = premium codex / archive
+- Deck builder = command center
+- Match UI = clarity-first battlefield
+- Cards = hero objects, not ordinary panels
+
+## Card UI rules
+- cards must feel valuable
+- rarity and faction should read instantly
+- hover states should feel premium, not gimmicky
+- card framing should be consistent
+- sizing rhythm must be deliberate
+
+## Layout rules
+- sections need clear focal points
+- spacing should create authority and calm
+- dense information must still scan quickly
+- mobile must remain clean and legible
+
+## Modal rules
+- modals should feel intentional and premium
+- strong framing
+- good close affordance
+- no messy overflow

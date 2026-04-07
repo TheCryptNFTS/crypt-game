@@ -1,19 +1,48 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CatalogLoader } from "../components/CatalogLoader";
 import { getPlayableCardById } from "../engine/cards";
 import { useGame } from "../hooks/useGame";
 import { useRenderManifest } from "../hooks/useRenderManifest";
-import CardFrame from "../components/cards/CardFrame";
 import type { PlayerId } from "../lib/gameClient";
+import { legalTargetInstanceIds } from "./match/combatRules";
+import { CombatHud } from "./match/CombatHud";
+import { OpponentZone } from "./match/OpponentZone";
+import { PlayerZone } from "./match/PlayerZone";
+import { HandTray } from "./match/HandTray";
+import { BattlefieldSurface } from "./match/BattlefieldSurface";
+import { MatchFooterLog } from "./match/MatchFooterLog";
 
-function panelClass() {
-  return "rounded-xl border border-[color:var(--color-crypt-border)] bg-[color:var(--color-crypt-panel)] p-4";
+function commanderCardId(player: any): string | undefined {
+  return (
+    player?.commanderZone?.cardId ?? player?.commander?.id ?? player?.commanderId
+  );
 }
 
+type InteractionMode =
+  | { type: "idle" }
+  | { type: "hand_selected"; handIndex: number }
+  | { type: "equip_targeting"; handIndex: number }
+  | { type: "attack_targeting"; attackerId: string; hoverTargetId: string | null };
+
 export default function MatchPage() {
-  const { match, combatLog, actions } = useGame();
-  const { entryById } = useRenderManifest();
-  const [equipHandIndex, setEquipHandIndex] = useState<number | null>(null);
-  const [attackPick, setAttackPick] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { match, combatLog, uiError, actions } = useGame();
+  const { entryById, loading, error, ready } = useRenderManifest();
+
+  const [interaction, setInteraction] = useState<InteractionMode>({ type: "idle" });
+
+  const boardAnchorsRef = useRef(new Map<string, HTMLElement>());
+
+  const registerBoardAnchor = useCallback(
+    (instanceId: string, el: HTMLElement | null) => {
+      if (el) boardAnchorsRef.current.set(instanceId, el);
+      else boardAnchorsRef.current.delete(instanceId);
+    },
+    []
+  );
+
+  const getAnchorEl = useCallback((id: string) => boardAnchorsRef.current.get(id), []);
 
   const active = match.activePlayer as PlayerId;
   const phase = match.phase ?? "—";
@@ -22,104 +51,97 @@ export default function MatchPage() {
   const p1 = match.players.P1 as any;
   const p2 = match.players.P2 as any;
 
-  const deckCount = (p: any) => (typeof p.deckCount === "number" ? p.deckCount : p.deck?.length ?? 0);
+  const selectedHandIndex =
+    interaction.type === "hand_selected" ? interaction.handIndex : null;
 
-  const commanderEntry = (cardId: string | undefined) =>
+  const equipHandIndex =
+    interaction.type === "equip_targeting" ? interaction.handIndex : null;
+
+  const attackPick =
+    interaction.type === "attack_targeting" ? interaction.attackerId : null;
+
+  const strikeHoverTarget =
+    interaction.type === "attack_targeting" ? interaction.hoverTargetId : null;
+
+  const clearInteractionState = useCallback(() => {
+    setInteraction({ type: "idle" });
+  }, []);
+
+  const handleSelectHandIndex = useCallback((index: number | null) => {
+    if (index === null) {
+      setInteraction({ type: "idle" });
+      return;
+    }
+    setInteraction({ type: "hand_selected", handIndex: index });
+  }, []);
+
+  const handleStartEquip = useCallback((index: number) => {
+    setInteraction({ type: "equip_targeting", handIndex: index });
+  }, []);
+
+  const handleCancelEquip = useCallback(() => {
+    setInteraction({ type: "idle" });
+  }, []);
+
+  const handleDeclareAttacker = useCallback((instanceId: string) => {
+    setInteraction({
+      type: "attack_targeting",
+      attackerId: instanceId,
+      hoverTargetId: null,
+    });
+  }, []);
+
+  const handleStrikeHoverTarget = useCallback((instanceId: string | null) => {
+    setInteraction((prev) =>
+      prev.type === "attack_targeting"
+        ? { ...prev, hoverTargetId: instanceId }
+        : prev
+    );
+  }, []);
+
+  const handleStrikeUnit = useCallback(
+    (defenderInstanceId: string) => {
+      setInteraction((prev) => {
+        if (prev.type !== "attack_targeting") return prev;
+        actions.attack(prev.attackerId, defenderInstanceId);
+        return { type: "idle" };
+      });
+    },
+    [actions]
+  );
+
+  const handleStrikeFace = useCallback(() => {
+    setInteraction((prev) => {
+      if (prev.type !== "attack_targeting") return prev;
+      actions.attack(prev.attackerId);
+      return { type: "idle" };
+    });
+  }, [actions]);
+
+  const handleCancelCombat = useCallback(() => {
+    setInteraction((prev) =>
+      prev.type === "attack_targeting" ? { type: "idle" } : prev
+    );
+  }, []);
+
+  const handleAffixEquipment = useCallback(
+    (targetInstanceId: string) => {
+      setInteraction((prev) => {
+        if (prev.type !== "equip_targeting") return prev;
+        actions.playEquipment(active, prev.handIndex, targetInstanceId);
+        return { type: "idle" };
+      });
+    },
+    [actions, active]
+  );
+
+  const deckSize = (player: any) =>
+    typeof player.deckCount === "number"
+      ? player.deckCount
+      : player.deck?.length ?? 0;
+
+  const resolveCommanderEntry = (cardId: string | undefined) =>
     cardId ? entryById.get(cardId) : undefined;
-
-  const boardRow = (playerId: PlayerId, label: string) => {
-    const p = match.players[playerId] as any;
-    const units = p.board?.front ?? [];
-    return (
-      <div className={panelClass()}>
-        <div className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500">
-          {label} — front lane
-        </div>
-        <div className="flex min-h-[100px] flex-wrap gap-2">
-          {units.length === 0 && (
-            <span className="text-sm text-zinc-600">Empty</span>
-          )}
-          {units.map((u: any) => {
-            const isOwn = playerId === active;
-            const canPickAttack =
-              attackPick === null && isOwn && playerId === active && !winner;
-            const isAttackTarget =
-              attackPick &&
-              playerId !== active &&
-              !winner;
-
-            return (
-              <div key={u.instanceId} className="w-40 space-y-1">
-                <CardFrame entry={entryById.get(u.cardId)} compact className="!w-40" />
-                <div className="text-[11px] text-zinc-400">
-                  {u.attack}/{u.health} {u.exhausted ? "· exhausted" : ""}{" "}
-                  {u.summoningSick ? "· summoning sick" : ""}
-                </div>
-                <div className="flex flex-wrap gap-1">
-                  {playerId === active &&
-                    !winner &&
-                    equipHandIndex !== null &&
-                    equipCard?.type === "equipment" && (
-                      <button
-                        type="button"
-                        className="rounded bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-200"
-                        onClick={() => {
-                          actions.playEquipment(active, equipHandIndex, u.instanceId);
-                          setEquipHandIndex(null);
-                        }}
-                      >
-                        Equip here
-                      </button>
-                    )}
-                  {canPickAttack && (
-                    <button
-                      type="button"
-                      className="rounded bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-200"
-                      onClick={() => setAttackPick(u.instanceId)}
-                    >
-                      Select attacker
-                    </button>
-                  )}
-                  {isAttackTarget && attackPick && (
-                    <button
-                      type="button"
-                      className="rounded bg-rose-900/50 px-2 py-0.5 text-[10px] text-rose-100"
-                      onClick={() => {
-                        actions.attack(attackPick, u.instanceId);
-                        setAttackPick(null);
-                      }}
-                    >
-                      Block / target
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  const artifactZone = (playerId: PlayerId, label: string) => {
-    const p = match.players[playerId] as any;
-    const arts = p.artifacts ?? [];
-    return (
-      <div className={panelClass()}>
-        <div className="mb-2 text-xs font-medium text-zinc-500">{label} — artifacts</div>
-        <div className="flex flex-wrap gap-2">
-          {arts.length === 0 && <span className="text-sm text-zinc-600">None</span>}
-          {arts.map((a: any, i: number) => (
-            <div key={`${a.cardId}-${i}`} className="w-32">
-              <CardFrame entry={entryById.get(a.cardId)} compact className="!w-32" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const hand = (match.players[active] as any)?.hand ?? [];
 
   const equipCard =
     equipHandIndex !== null
@@ -127,185 +149,145 @@ export default function MatchPage() {
       : null;
 
   const enemyId: PlayerId = active === "P1" ? "P2" : "P1";
-  const enemyFrontEmpty = ((match.players[enemyId] as any)?.board?.front ?? []).length === 0;
+  const enemyFrontEmpty =
+    ((match.players[enemyId] as any)?.board?.front ?? []).length === 0;
+
+  const hand = (match.players[active] as any)?.hand ?? [];
+  const legalTargets = attackPick ? legalTargetInstanceIds(match, enemyId) : null;
+  const strikeActive = !!attackPick && !winner;
+
+  const MATCH_END_GATE = "crypt.lastMatchEndNav";
+
+  useEffect(() => {
+    if (!winner && match.turn === 1) {
+      try {
+        sessionStorage.removeItem(MATCH_END_GATE);
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [winner, match.turn]);
+
+  useEffect(() => {
+    if (!winner) return;
+
+    const key = `${winner}:${match.turn}`;
+
+    try {
+      if (sessionStorage.getItem(MATCH_END_GATE) === key) return;
+      sessionStorage.setItem(MATCH_END_GATE, key);
+    } catch {
+      /* still navigate */
+    }
+
+    navigate("/match/result", {
+      replace: true,
+      state: {
+        nonce: crypto.randomUUID(),
+        winner: String(winner),
+        turn: match.turn,
+        p1CommanderId: commanderCardId(p1) ?? "",
+        p2CommanderId: commanderCardId(p2) ?? "",
+      },
+    });
+  }, [winner, match.turn, navigate, p1, p2]);
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-xl font-semibold text-zinc-100">Match</h1>
-          <p className="text-sm text-zinc-500">
-            Turn {match.turn ?? "—"} · Phase {phase} · Active {active}
-            {winner && (
-              <span className="ml-2 text-[color:var(--color-crypt-accent)]">
-                · Winner: {winner}
-              </span>
-            )}
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="rounded-lg border border-zinc-600 px-3 py-2 text-sm hover:bg-zinc-800"
-            onClick={() => actions.reset()}
-          >
-            New match
-          </button>
-          <button
-            type="button"
-            disabled={!!winner}
-            className="rounded-lg border border-[color:var(--color-crypt-accent)]/40 bg-amber-950/30 px-3 py-2 text-sm text-[color:var(--color-crypt-accent)] disabled:opacity-40"
-            onClick={() => actions.endTurn()}
-          >
-            End turn
-          </button>
-        </div>
-      </div>
+    <CatalogLoader loading={loading} error={error} ready={ready}>
+      <div className="crypt-match-root flex min-h-[calc(100dvh-49px)] flex-col">
+        <CombatHud
+          turn={match.turn}
+          phase={String(phase)}
+          activePlayer={active}
+          winner={winner}
+          onEndTurn={() => {
+            actions.endTurn();
+            clearInteractionState();
+          }}
+          endTurnDisabled={!!winner}
+          attackPick={attackPick}
+          enemyFrontEmpty={enemyFrontEmpty}
+          legalTargetCount={legalTargets?.size ?? 0}
+          onStrikeFace={handleStrikeFace}
+          onCancelCombat={handleCancelCombat}
+        />
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className={panelClass()}>
-          <div className="text-xs font-medium text-zinc-500">P2</div>
-          <div className="mt-1 text-2xl font-semibold">{p2.health ?? "—"} HP</div>
-          <div className="text-sm text-zinc-400">
-            Energy {p2.energy ?? "—"} / {p2.maxEnergy ?? "—"}
+        {uiError && (
+          <div className="mx-auto mt-2 w-[min(960px,92vw)] rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+            <div className="flex items-center justify-between gap-3">
+              <span>{uiError}</span>
+              <button
+                type="button"
+                className="rounded-md border border-red-400/40 px-2 py-1 text-xs"
+                onClick={actions.clearUiError}
+              >
+                Dismiss
+              </button>
+            </div>
           </div>
-          <div className="mt-2 text-xs text-zinc-500">
-            Deck {deckCount(p2)} · Discard {p2.discard?.length ?? 0}
-          </div>
-        </div>
-        <div className={panelClass()}>
-          <div className="text-xs font-medium text-zinc-500">P1</div>
-          <div className="mt-1 text-2xl font-semibold">{p1.health ?? "—"} HP</div>
-          <div className="text-sm text-zinc-400">
-            Energy {p1.energy ?? "—"} / {p1.maxEnergy ?? "—"}
-          </div>
-          <div className="mt-2 text-xs text-zinc-500">
-            Deck {deckCount(p1)} · Discard {p1.discard?.length ?? 0}
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className={panelClass()}>
-          <div className="mb-2 text-xs font-medium text-zinc-500">P2 commander</div>
-          <div className="max-w-xs">
-            <CardFrame
-              entry={commanderEntry(p2.commanderZone?.cardId ?? p2.commander?.id ?? p2.commanderId)}
-            />
-          </div>
-        </div>
-        <div className={panelClass()}>
-          <div className="mb-2 text-xs font-medium text-zinc-500">P1 commander</div>
-          <div className="max-w-xs">
-            <CardFrame
-              entry={commanderEntry(p1.commanderZone?.cardId ?? p1.commander?.id ?? p1.commanderId)}
-            />
-          </div>
-        </div>
-      </div>
-
-      {attackPick && !winner && (
-        <div className="rounded-lg border border-amber-900/50 bg-amber-950/20 p-3 text-sm text-amber-100">
-          Attacking with {attackPick}.{" "}
-          {enemyFrontEmpty ? (
-            <button
-              type="button"
-              className="ml-2 underline"
-              onClick={() => {
-                actions.attack(attackPick);
-                setAttackPick(null);
-              }}
-            >
-              Strike opponent
-            </button>
-          ) : (
-            <span className="text-amber-200/80">Choose an enemy unit.</span>
-          )}{" "}
-          <button type="button" className="ml-2 text-zinc-400 underline" onClick={() => setAttackPick(null)}>
-            Cancel
-          </button>
-        </div>
-      )}
-
-      {boardRow("P2", "P2")}
-      {boardRow("P1", "P1")}
-
-      <div className="grid gap-4 md:grid-cols-2">
-        {artifactZone("P2", "P2")}
-        {artifactZone("P1", "P1")}
-      </div>
-
-      <div className={panelClass()}>
-        <div className="mb-2 flex items-center justify-between">
-          <span className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-            {active} hand (actions use active player)
-          </span>
-          {equipHandIndex !== null && (
-            <button
-              type="button"
-              className="text-xs text-zinc-400 underline"
-              onClick={() => setEquipHandIndex(null)}
-            >
-              Cancel equip mode
-            </button>
-          )}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {hand.map((cardId: string, index: number) => {
-            const def = getPlayableCardById(cardId);
-            const entry = entryById.get(cardId);
-            return (
-              <div key={`${cardId}-${index}`} className="w-36 space-y-1">
-                <CardFrame entry={entry} compact className="!w-36" />
-                <div className="flex flex-wrap gap-1">
-                  {def?.type === "unit" && !winner && (
-                    <button
-                      type="button"
-                      className="rounded bg-emerald-900/50 px-2 py-0.5 text-[10px] text-emerald-100"
-                      onClick={() => actions.playUnit(active, index, "front")}
-                    >
-                      Play unit
-                    </button>
-                  )}
-                  {def?.type === "equipment" && !winner && (
-                    <button
-                      type="button"
-                      className="rounded bg-indigo-900/50 px-2 py-0.5 text-[10px] text-indigo-100"
-                      onClick={() => setEquipHandIndex(index)}
-                    >
-                      Target equip
-                    </button>
-                  )}
-                  {def?.type === "artifact" && !winner && (
-                    <button
-                      type="button"
-                      className="rounded bg-cyan-900/50 px-2 py-0.5 text-[10px] text-cyan-100"
-                      onClick={() => actions.playArtifact(active, index)}
-                    >
-                      Play
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {equipHandIndex !== null && (
-          <p className="mt-2 text-xs text-zinc-500">
-            Select a friendly unit below with &quot;Equip here&quot; (instance must be on {active}&apos;s board).
-          </p>
         )}
-      </div>
 
-      <div className={panelClass()}>
-        <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">Combat log</div>
-        <ul className="mt-2 max-h-40 list-inside list-disc space-y-1 overflow-y-auto text-sm text-zinc-400">
-          {combatLog.length === 0 && <li className="list-none text-zinc-600">No actions yet.</li>}
-          {combatLog.slice().reverse().map((line, i) => (
-            <li key={`${combatLog.length - i}-${line}`}>{line}</li>
-          ))}
-        </ul>
+        <OpponentZone
+          player={p2}
+          commanderEntry={resolveCommanderEntry(commanderCardId(p2))}
+          entryById={entryById}
+          deckCount={deckSize(match.players.P2)}
+        />
+
+        <BattlefieldSurface
+          match={match}
+          active={active}
+          winner={winner}
+          attackPick={attackPick}
+          legalTargets={legalTargets}
+          equipHandIndex={equipHandIndex}
+          equipCardType={equipCard?.type}
+          entryById={entryById}
+          registerBoardAnchor={registerBoardAnchor}
+          getAnchorEl={getAnchorEl}
+          strikeActive={strikeActive}
+          strikeHoverTarget={strikeHoverTarget}
+          enemyFrontEmpty={enemyFrontEmpty}
+          onStrikeHoverTarget={handleStrikeHoverTarget}
+          onDeclareAttacker={handleDeclareAttacker}
+          onStrikeUnit={handleStrikeUnit}
+          onAffixEquipment={handleAffixEquipment}
+        />
+
+        <PlayerZone
+          player={p1}
+          commanderEntry={resolveCommanderEntry(commanderCardId(p1))}
+          entryById={entryById}
+          deckCount={deckSize(match.players.P1)}
+        />
+
+        <HandTray
+          hand={hand}
+          winner={winner}
+          entryById={entryById}
+          selectedHandIndex={selectedHandIndex}
+          onSelectHandIndex={handleSelectHandIndex}
+          equipHandIndex={equipHandIndex}
+          onCancelEquip={handleCancelEquip}
+          onPlayUnit={(index) => {
+            actions.playUnit(active, index, "front");
+            clearInteractionState();
+          }}
+          onStartEquip={handleStartEquip}
+          onPlayArtifact={(index) => {
+            actions.playArtifact(active, index);
+            clearInteractionState();
+          }}
+        />
+
+        <MatchFooterLog
+          combatLog={combatLog}
+          onNewMatch={() => {
+            actions.reset();
+            clearInteractionState();
+          }}
+        />
       </div>
-    </div>
+    </CatalogLoader>
   );
 }

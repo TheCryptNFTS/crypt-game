@@ -97,7 +97,9 @@ const manifest = {
   }),
 };
 
-const outPath = path.resolve(process.cwd(), "src/data/renderManifest.json");
+const outDir = path.resolve(process.cwd(), "public/data");
+fs.mkdirSync(outDir, { recursive: true });
+const outPath = path.resolve(outDir, "renderManifest.json");
 fs.writeFileSync(outPath, JSON.stringify(manifest, null, 2) + "\n");
 console.log(`Saved render manifest -> ${outPath}`);
 console.log(`Commanders: ${manifest.commanders.length}`);

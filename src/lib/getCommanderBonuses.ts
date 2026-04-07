@@ -1,0 +1,66 @@
+import { COMMANDER_LEGENDARY_RULES } from "../constants/commanderLegendaryRules";
+import { COMMANDER_ONE_OF_ONE_RULES } from "../constants/commanderOneOfOneRules";
+import { COMMANDER_TRAIT_BOOSTS } from "../constants/commanderTraitBoosts";
+
+type Bonus = {
+  attack?: number;
+  health?: number;
+  armor?: number;
+  crit?: number;
+  speed?: number;
+  utility?: number;
+};
+
+function addBonus(base: Bonus, extra?: Bonus) {
+  if (!extra) return;
+  for (const key of Object.keys(extra) as (keyof Bonus)[]) {
+    base[key] = (base[key] ?? 0) + (extra[key] ?? 0);
+  }
+}
+
+export function getCommanderSpecialBonuses(traits: Record<string, string>) {
+  const bonus: Bonus = {};
+  const reasons: string[] = [];
+  const extraTags = new Set<string>();
+  const extraPassives = new Set<string>();
+
+  // Normal commander OG trait boosts
+  for (const [category, value] of Object.entries(traits)) {
+    const rule = COMMANDER_TRAIT_BOOSTS.find(
+      (r) => r.category === category && r.value === value
+    );
+
+    if (rule) {
+      addBonus(bonus, rule.bonus);
+      reasons.push(`${category}: ${value}`);
+      for (const tag of rule.extraTags ?? []) extraTags.add(tag);
+      for (const passive of rule.extraPassives ?? []) extraPassives.add(passive);
+    }
+  }
+
+  // Legendary flag
+  if (traits["Legendary"] === "Legendary") {
+    const rule = COMMANDER_LEGENDARY_RULES.find((r) => r.value === "Legendary");
+    if (rule) {
+      addBonus(bonus, rule.bonus);
+      reasons.push(`Legendary: ${rule.effectType}`);
+    }
+  }
+
+  // One of One named override
+  const oneOfOne = traits["One of One"];
+  if (oneOfOne) {
+    const rule = COMMANDER_ONE_OF_ONE_RULES.find((r) => r.value === oneOfOne);
+    if (rule) {
+      addBonus(bonus, rule.bonus);
+      reasons.push(`One of One: ${rule.effectType}`);
+    }
+  }
+
+  return {
+    bonus,
+    reasons,
+    extraTags: [...extraTags],
+    extraPassives: [...extraPassives],
+  };
+}

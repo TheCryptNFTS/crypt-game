@@ -1,100 +1,67 @@
-import type { RenderManifestEntry } from "../../types/renderManifest";
+import type { ReactNode } from "react";
+import { factionEdgeStyle, rarityStripClass } from "./cardVisuals";
 
-type CardFrameProps = {
-  entry: RenderManifestEntry | null | undefined;
-  onClick?: () => void;
+export type CardFrameProps = {
+  commander?: boolean;
+  faction?: string;
+  rarity?: string;
+  interactive?: boolean;
+  /** Extra state classes on chrome root (combat, hand focus, etc.) */
+  chromeStateClass?: string;
   className?: string;
-  compact?: boolean;
+  art: ReactNode;
+  footer: ReactNode;
 };
 
 export default function CardFrame({
-  entry,
-  onClick,
+  commander,
+  faction,
+  rarity,
+  interactive,
+  chromeStateClass = "",
   className = "",
-  compact = false,
+  art,
+  footer,
 }: CardFrameProps) {
-  if (!entry) {
-    return (
-      <div
-        className={`rounded-lg border border-dashed border-zinc-700 bg-zinc-900/40 text-zinc-500 ${className}`}
-      >
-        <div className={compact ? "p-2 text-xs" : "p-4 text-sm"}>Unknown card</div>
-      </div>
-    );
-  }
-
-  const isCommander = entry.role === "commander";
-  const padding = compact ? "p-2" : "p-3";
-  const titleSize = compact ? "text-xs" : "text-sm";
-
-  const shellClass = [
-    "w-full rounded-lg border text-left transition-colors",
-    "border-[color:var(--color-crypt-border)] bg-[color:var(--color-crypt-panel)]",
-    onClick
-      ? "hover:border-[color:var(--color-crypt-accent)]/50 hover:shadow-[0_0_0_1px_rgba(212,175,55,0.12)] cursor-pointer"
-      : "cursor-default",
-    className,
-  ].join(" ");
-
-  const inner = (
+  return (
     <div
-      className={`flex gap-2 ${padding} ${compact ? "flex-col" : "flex-col sm:flex-row sm:items-start"}`}
+      className={[
+        "crypt-card-chrome relative flex flex-col overflow-hidden",
+        commander ? "crypt-card-chrome-commander" : "",
+        interactive ? "crypt-card-interactive cursor-pointer" : "",
+        chromeStateClass,
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
-        {entry.imageUrl ? (
-          <img
-            src={entry.imageUrl}
-            alt=""
-            className={
-              compact
-                ? "mx-auto h-16 w-full max-w-[4.5rem] rounded object-cover"
-                : "mx-auto h-24 w-full max-w-28 rounded-md object-cover sm:mx-0"
-            }
-          />
-        ) : (
-          <div
-            className={
-              compact
-                ? "mx-auto flex h-16 w-full max-w-[4.5rem] items-center justify-center rounded bg-zinc-800 text-[10px] text-zinc-500"
-                : "mx-auto flex h-24 w-full max-w-28 items-center justify-center rounded-md bg-zinc-800 text-xs text-zinc-500 sm:mx-0"
-            }
-          >
-            No art
-          </div>
-        )}
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-1">
-            <span className={`font-semibold leading-snug text-zinc-100 ${titleSize}`}>
-              {entry.name}
-            </span>
-            <span
-              className={[
-                "rounded px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide",
-                isCommander
-                  ? "bg-amber-950/80 text-[color:var(--color-crypt-accent)]"
-                  : "bg-sky-950/60 text-[color:var(--color-crypt-ice)]",
-              ].join(" ")}
-            >
-              {entry.role}
-            </span>
-          </div>
-          {!compact && (
-            <div className="mt-1 flex flex-wrap gap-x-2 text-xs text-zinc-500">
-              <span>{entry.faction}</span>
-              {entry.cost != null && <span>Cost {entry.cost}</span>}
-              {entry.rarity && <span>{entry.rarity}</span>}
-            </div>
-          )}
-        </div>
+      {commander && <div className="crypt-commander-crest" aria-hidden />}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 top-0 z-10 w-[2px]"
+        style={factionEdgeStyle(faction)}
+        aria-hidden
+      />
+      <div
+        className={[
+          "crypt-card-art relative w-full shrink-0",
+          commander ? "crypt-card-art-commander crypt-card-art-commander-aspect" : "aspect-[3/4]",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {art}
       </div>
+      <div
+        className={[
+          "relative z-20 shrink-0 border-t border-white/[0.06]",
+          commander ? "crypt-commander-footer-sill" : "bg-[#0a0a12]",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <div className={["h-[3px] w-full", rarityStripClass(rarity)].join(" ")} aria-hidden />
+        <div className={commander ? "px-2 py-1.5" : "px-1.5 py-1"}>{footer}</div>
+      </div>
+    </div>
   );
-
-  if (onClick) {
-    return (
-      <button type="button" onClick={onClick} className={shellClass}>
-        {inner}
-      </button>
-    );
-  }
-
-  return <div className={shellClass}>{inner}</div>;
 }

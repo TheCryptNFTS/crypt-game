@@ -5,7 +5,8 @@ import { playArtifactCard } from "../engine/effectSystem";
 import { endTurn } from "../engine/turnEngine";
 import { attackUnit, attackPlayer } from "../engine/combatEngine";
 import { MatchBootstrapInput } from "../types/matchBootstrap";
-import { buildCuratedDeck } from "./buildCuratedDeck";
+import { COMMANDER_SPECS } from "../design/commanderSpecs";
+import defaultDecks from "../data/defaultDecks.json";
 
 export type PlayerId = "P1" | "P2";
 export type Lane = "front";
@@ -13,16 +14,34 @@ export type Lane = "front";
 const DEFAULT_P1_COMMANDER = "cmd_stone_warden";
 const DEFAULT_P2_COMMANDER = "cmd_bronze_raider";
 
+function assertCommanderExists(commanderId: string) {
+  if (!COMMANDER_SPECS[commanderId as keyof typeof COMMANDER_SPECS]) {
+    throw new Error(`Unknown default commander: ${commanderId}`);
+  }
+}
+
+function assertDeckExists(
+  decks: Record<string, string[]>,
+  commanderId: string
+): string[] {
+  const deck = decks[commanderId];
+  if (!Array.isArray(deck)) {
+    throw new Error(`defaultDecks.json is missing deck list for commander ${commanderId}`);
+  }
+  return deck;
+}
+
 export function defaultMatchBootstrap(): MatchBootstrapInput {
+  assertCommanderExists(DEFAULT_P1_COMMANDER);
+  assertCommanderExists(DEFAULT_P2_COMMANDER);
+
+  const decks = defaultDecks as Record<string, string[]>;
+  const p1Deck = assertDeckExists(decks, DEFAULT_P1_COMMANDER);
+  const p2Deck = assertDeckExists(decks, DEFAULT_P2_COMMANDER);
+
   return {
-    p1: {
-      commanderId: DEFAULT_P1_COMMANDER,
-      deck: buildCuratedDeck(DEFAULT_P1_COMMANDER),
-    },
-    p2: {
-      commanderId: DEFAULT_P2_COMMANDER,
-      deck: buildCuratedDeck(DEFAULT_P2_COMMANDER),
-    },
+    p1: { commanderId: DEFAULT_P1_COMMANDER, deck: [...p1Deck] },
+    p2: { commanderId: DEFAULT_P2_COMMANDER, deck: [...p2Deck] },
   };
 }
 

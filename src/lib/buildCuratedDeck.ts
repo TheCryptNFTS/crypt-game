@@ -1,23 +1,18 @@
-import curatedCoreSet from "../data/curatedCoreSetV2.json";
+import cardMaster from "../data/cardMaster.json";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 
 type Card = {
   id: string;
-  type: "unit" | "equipment" | "artifact";
-  faction: string;
-  rarity: string;
-  cost: number;
-  keywords?: string[];
+  collection: "OG_SKULL" | "AVATAR_TCG";
+  cardType: "unit" | "equipment" | "artifact" | "commander";
+  faction?: string | null;
+  rarity?: string | null;
+  gameStats?: {
+    cost?: number | null;
+    keywords?: string[];
+  };
 };
 
-type CuratedSet = {
-  units: Card[];
-  equipment: Card[];
-  artifacts: Card[];
-  all: Card[];
-};
-
-const data = curatedCoreSet as CuratedSet;
 const MAX_COPIES = 2;
 
 function rarityScore(rarity: string): number {
@@ -33,7 +28,7 @@ function rarityScore(rarity: string): number {
 }
 
 function keywordScore(card: Card): number {
-  const keywords = card.keywords || [];
+  const keywords = card.gameStats?.keywords || [];
   let score = 0;
 
   for (const kw of keywords) {
@@ -48,20 +43,17 @@ function keywordScore(card: Card): number {
 }
 
 function cheapUnitPenalty(card: Card): number {
-  if (card.type !== "unit") return 0;
-  if (card.cost !== 2) return 0;
+  if (card.cardType !== "unit") return 0;
+  if ((card.gameStats?.cost ?? 0) !== 2) return 0;
 
-  const kw = (card.keywords || []).length;
-
-  // cheap units were dominating selection, especially keyword-heavy ones
+  const kw = (card.gameStats?.keywords || []).length;
   return 6 + kw * 2;
 }
 
 function curveScore(card: Card): number {
-  if (card.type !== "unit") return 0;
+  if (card.cardType !== "unit") return 0;
 
-  // stop blindly preferring 2-drops
-  switch (card.cost) {
+  switch (card.gameStats?.cost ?? 0) {
     case 2: return 0;
     case 3: return 3;
     case 4: return 4;
@@ -71,40 +63,40 @@ function curveScore(card: Card): number {
 }
 
 function factionBonus(card: Card, faction: string): number {
-  const keywords = card.keywords || [];
+  const keywords = card.gameStats?.keywords || [];
   let score = 0;
 
   if (faction === "STONE") {
     if (keywords.includes("GUARD")) score += 3;
-    if (card.type === "artifact") score += 1;
+    if (card.cardType === "artifact") score += 1;
   }
 
-  if (faction === "IRON") {
-    if (card.type === "equipment") score += 3;
-    if (keywords.includes("RUSH")) score += 1;
+  if (faction === "SILVER") {
+    if (keywords.includes("ARCANE")) score += 3;
+    if (card.cardType === "equipment") score += 1;
   }
 
   if (faction === "BRONZE") {
     if (keywords.includes("RUSH")) score += 2;
+    if ((card.gameStats?.cost ?? 0) <= 3) score += 1;
   }
 
-  if (faction === "SILVER") {
-    if (card.type === "artifact") score += 4;
-    if (keywords.includes("ARCANE")) score += 3;
+  if (faction === "IRON") {
+    if (keywords.includes("CRUSH")) score += 2;
+    if (card.cardType === "unit" && (card.gameStats?.cost ?? 0) >= 4) score += 1;
   }
 
   if (faction === "GOLD") {
-    if (card.cost >= 4) score += 3;
-    if (keywords.includes("CRUSH")) score += 2;
-    if (keywords.includes("GUARD")) score += 1;
+    if ((card.rarity ?? "") === "legendary") score += 2;
+    if ((card.rarity ?? "") === "epic") score += 1;
   }
 
   return score;
 }
 
-function scoreCard(card: Card, faction: string): number {
+function cardScore(card: Card, faction: string): number {
   return (
-    rarityScore(card.rarity) * 8 +
+    rarityScore(card.rarity ?? "common") +
     keywordScore(card) +
     curveScore(card) +
     factionBonus(card, faction) -
@@ -112,138 +104,87 @@ function scoreCard(card: Card, faction: string): number {
   );
 }
 
-function sortedPool(cards: Card[], faction: string): Card[] {
-  return [...cards].sort((a, b) => {
-    const byScore = scoreCard(b, faction) - scoreCard(a, faction);
-    if (byScore !== 0) return byScore;
-    if (a.cost !== b.cost) return a.cost - b.cost;
-    return a.id.localeCompare(b.id);
-  });
-}
-
-function addCopiesFromPool(
-  deck: string[],
-  pool: Card[],
-  target: number,
-  counts: Map<string, number>,
-  faction: string
-) {
-  const ordered = sortedPool(pool, faction);
-
-  while (deck.length < target) {
-    let added = false;
-
-    for (const card of ordered) {
-      const current = counts.get(card.id) || 0;
-      if (current >= MAX_COPIES) continue;
-
-      deck.push(card.id);
-      counts.set(card.id, current + 1);
-      added = true;
-
-      if (deck.length >= target) break;
-    }
-
-    if (!added) break;
-  }
-}
-
-function addUnitsByCurve(
-  deck: string[],
-  units: Card[],
-  targetUnits: number,
-  counts: Map<string, number>,
-  faction: string
-) {
-  const curveTargets: Record<number, number> = {
-    2: 4,
-    3: 6,
-    4: 6,
-    5: 4
-  };
-
-  for (const cost of [2, 3, 4, 5]) {
-    const pool = units.filter((c) => c.cost === cost);
-    const currentUnits = deck.length;
-    const desired = Math.min(targetUnits, currentUnits + (curveTargets[cost] || 0));
-    addCopiesFromPool(deck, pool, desired, counts, faction);
-  }
-
-  if (deck.length < targetUnits) {
-    const leftovers = units.filter((c) => ![2, 3, 4, 5].includes(c.cost));
-    addCopiesFromPool(deck, leftovers, targetUnits, counts, faction);
-  }
-
-  if (deck.length < targetUnits) {
-    addCopiesFromPool(deck, units, targetUnits, counts, faction);
-  }
-}
-
 export function buildCuratedDeck(commanderId: string): string[] {
-  const spec = COMMANDER_SPECS[commanderId];
-  if (!spec) throw new Error(`Unknown commander: ${commanderId}`);
+  const spec = COMMANDER_SPECS[commanderId as keyof typeof COMMANDER_SPECS];
+
+  if (!spec) {
+    throw new Error(`Unknown commander: ${commanderId}`);
+  }
 
   const faction = spec.faction;
+  const deckSize = spec.deckRules.deckSize;
+  const maxGodCards = spec.deckRules.maxGodCards ?? 0;
 
-  const units = data.units.filter((c) => c.faction === faction);
-  const equipment = data.equipment.filter((c) => c.faction === faction);
-  const artifacts = data.artifacts.filter((c) => c.faction === faction);
-  const gods = data.all.filter((c) => c.faction === "GOD");
+  const allCards = (cardMaster as Card[]).filter((card) => {
+    if (card.collection !== "AVATAR_TCG") return false;
+    if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
+    if (!card.id) return false;
 
-  const counts = new Map<string, number>();
+    return card.faction === faction;
+  });
+
+  const ranked = [...allCards].sort((a, b) => {
+    const scoreDiff = cardScore(b, faction) - cardScore(a, faction);
+    if (scoreDiff !== 0) return scoreDiff;
+
+    const costDiff = (a.gameStats?.cost ?? 0) - (b.gameStats?.cost ?? 0);
+    if (costDiff !== 0) return costDiff;
+
+    return a.id.localeCompare(b.id);
+  });
+
   const deck: string[] = [];
+  let godCount = 0;
 
-  const targetUnits = Math.max(20, spec.deckRules.minUnits);
-  const targetEquipment = Math.max(6, spec.deckRules.minEquipment);
-  const targetArtifacts = Math.max(4, spec.deckRules.minArtifacts);
+  for (const card of ranked) {
+    const copies = deck.filter((id) => id === card.id).length;
+    if (copies >= MAX_COPIES) continue;
 
-  addUnitsByCurve(deck, units, targetUnits, counts, faction);
-  addCopiesFromPool(deck, equipment, targetUnits + targetEquipment, counts, faction);
-  addCopiesFromPool(deck, artifacts, targetUnits + targetEquipment + targetArtifacts, counts, faction);
+    const rarity = card.rarity ?? "common";
+    if ((rarity === "god" || rarity === "one_of_one") && godCount >= maxGodCards) {
+      continue;
+    }
 
-  const allFactionCards = sortedPool(
-    [...units, ...equipment, ...artifacts],
-    faction
-  );
+    deck.push(card.id);
 
-  while (deck.length < spec.deckRules.deckSize) {
-    let added = false;
+    if (rarity === "god" || rarity === "one_of_one") {
+      godCount += 1;
+    }
 
-    for (const card of allFactionCards) {
-      const current = counts.get(card.id) || 0;
-      if (current >= MAX_COPIES) continue;
+    if (deck.length >= deckSize) break;
+  }
+
+  if (deck.length < deckSize) {
+    const fallback = (cardMaster as Card[]).filter((card) => {
+      if (card.collection !== "AVATAR_TCG") return false;
+      if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
+      return true;
+    });
+
+    const rankedFallback = [...fallback].sort((a, b) => {
+      const scoreDiff = cardScore(b, faction) - cardScore(a, faction);
+      if (scoreDiff !== 0) return scoreDiff;
+      return a.id.localeCompare(b.id);
+    });
+
+    for (const card of rankedFallback) {
+      const copies = deck.filter((id) => id === card.id).length;
+      if (copies >= MAX_COPIES) continue;
+
+      const rarity = card.rarity ?? "common";
+      if ((rarity === "god" || rarity === "one_of_one") && godCount >= maxGodCards) {
+        continue;
+      }
 
       deck.push(card.id);
-      counts.set(card.id, current + 1);
-      added = true;
 
-      if (deck.length >= spec.deckRules.deckSize) break;
-    }
+      if (rarity === "god" || rarity === "one_of_one") {
+        godCount += 1;
+      }
 
-    if (!added) break;
-  }
-
-  if (
-    deck.length < spec.deckRules.deckSize &&
-    spec.deckRules.maxGodCards > 0 &&
-    gods.length > 0
-  ) {
-    const god = sortedPool(gods, faction)[0];
-    const current = counts.get(god.id) || 0;
-
-    if (current < 1) {
-      deck.push(god.id);
-      counts.set(god.id, 1);
+      if (deck.length >= deckSize) break;
     }
   }
 
-  while (deck.length < spec.deckRules.deckSize) {
-    const filler = allFactionCards.find((card) => (counts.get(card.id) || 0) < MAX_COPIES);
-    if (!filler) break;
-
-    deck.push(filler.id);
-    counts.set(filler.id, (counts.get(filler.id) || 0) + 1);
-  }
-
-  return deck.slice(0, spec.deckRules.deckSize);
+  return deck.slice(0, deckSize);
 }

@@ -1,63 +1,141 @@
+import runtimeMatchPlayableCards from "../data/runtimeMatchPlayableCards.json";
+import generatedTcgCards from "../data/generatedTcgCards.json";
 import commanders from "../data/commanders.json";
-import units from "../data/generatedPlayableTcgUnits.json";
-import equipment from "../data/generatedPlayableTcgEquipment.json";
-import artifacts from "../data/generatedPlayableTcgArtifacts.json";
-import { Faction, normalizeFaction } from "../types/faction";
+import { normalizeFaction, Faction } from "../types/faction";
 
-type RawCard = Record<string, unknown> & {
+export type CardType = "unit" | "equipment" | "artifact";
+
+export type PlayableCard = {
+  id: string;
+  name: string;
+  type: CardType;
+  faction: Faction;
+  rarity: string;
+  cost: number;
+  stats: {
+    attack: number;
+    health: number;
+    speed: number;
+    armor: number;
+  };
+  keywords: string[];
+  rawTraits: Record<string, string>;
+  effectTags: string[];
+  sourceCardClass: string | null;
+  sourceSubtype: string | null;
+};
+
+export type CommanderCard = {
+  id: string;
+  name: string;
+  faction: Faction | null;
+};
+
+type RuntimePlayableTuple = [
+  id: string,
+  type: CardType,
+  cost?: number,
+  attack?: number,
+  health?: number,
+  speed?: number,
+  armor?: number,
+  keywords?: string[]
+];
+
+type RawCommanderCard = {
+  id: string;
+  name?: string;
+  faction?: string | null;
+};
+
+type GeneratedTcgCard = {
   id: string;
   name?: string;
   faction?: string;
-  type?: string;
+  rarity?: string;
+  cardClass?: string | null;
+  subtype?: string | null;
+  rawTraits?: Record<string, string> | null;
+  traits?: Record<string, string> | null;
 };
 
-export type CommanderCard = RawCard & {
-  id: string;
-  type: "commander";
-  faction: Faction;
-};
+function normalizeCardType(runtimeType: CardType, generated?: GeneratedTcgCard): CardType {
+  const cardClass = String(generated?.cardClass ?? "").trim().toLowerCase();
+  const subtype = String(generated?.subtype ?? "").trim().toLowerCase();
 
-export type PlayableCard = RawCard & {
-  id: string;
-  type: "unit" | "equipment" | "artifact";
-  faction: Faction;
-};
+  if (cardClass === "equipment") return "equipment";
+  if (cardClass === "artifact") return "artifact";
 
-function withCommanderType(card: RawCard): CommanderCard {
+  if (
+    cardClass === "character" ||
+    cardClass === "creature" ||
+    cardClass === "unit" ||
+    subtype === "character" ||
+    subtype === "creature" ||
+    subtype === "unit"
+  ) {
+    return "unit";
+  }
+
+  return runtimeType;
+}
+
+const generatedAll = (generatedTcgCards as GeneratedTcgCard[]) ?? [];
+const generatedById = new Map<string, GeneratedTcgCard>(
+  generatedAll.map((card) => [card.id, card])
+);
+
+function withCommanderType(raw: RawCommanderCard): CommanderCard {
   return {
-    ...card,
-    type: "commander",
-    faction: normalizeFaction(String(card.faction ?? "GOD")),
+    id: raw.id,
+    name: raw.name ?? raw.id,
+    faction: raw.faction ? normalizeFaction(String(raw.faction)) : null,
   };
 }
 
-function withPlayableType(card: RawCard, type: PlayableCard["type"]): PlayableCard {
+function withPlayableType([
+  id,
+  type,
+  cost,
+  attack,
+  health,
+  speed,
+  armor,
+  keywords,
+]: RuntimePlayableTuple): PlayableCard {
+  const generated = generatedById.get(id);
+  const resolvedType = normalizeCardType(type, generated);
+
   return {
-    ...card,
-    type,
-    faction: normalizeFaction(String(card.faction ?? "GOD")),
+    id,
+    name: generated?.name ?? id,
+    type: resolvedType,
+    faction: normalizeFaction(generated?.faction ?? "STONE_KEEPERS"),
+    rarity: generated?.rarity ?? "COMMON",
+    cost: cost ?? 0,
+    stats: {
+      attack: attack ?? 0,
+      health: health ?? 1,
+      speed: speed ?? 0,
+      armor: armor ?? 0,
+    },
+    keywords: Array.isArray(keywords) ? keywords : [],
+    rawTraits:
+      (generated?.rawTraits as Record<string, string> | undefined) ??
+      (generated?.traits as Record<string, string> | undefined) ??
+      {},
+    effectTags: [],
+    sourceCardClass: generated?.cardClass ?? null,
+    sourceSubtype: generated?.subtype ?? null,
   };
 }
 
-/**
- * Commanders are NOT part of the playable draw/deck pool.
- * They live in their own commander registry and should be resolved separately.
- */
-export const allCommanderCards: CommanderCard[] = (commanders as RawCard[]).map(withCommanderType);
+export const allCommanderCards: CommanderCard[] = (commanders as RawCommanderCard[]).map(withCommanderType);
 
-/**
- * These are the actual playable TCG cards that can appear in decks, hands, draws, board, etc.
- */
-export const allPlayableCards: PlayableCard[] = [
-  ...(units as RawCard[]).map((card) => withPlayableType(card, "unit")),
-  ...(equipment as RawCard[]).map((card) => withPlayableType(card, "equipment")),
-  ...(artifacts as RawCard[]).map((card) => withPlayableType(card, "artifact")),
-];
+export const allPlayableCards: PlayableCard[] = (runtimeMatchPlayableCards as RuntimePlayableTuple[]).map(
+  withPlayableType
+);
 
-/**
- * Backward-compatible export name.
- * IMPORTANT: this is now PLAYABLE cards only.
- */
 export const allCards: PlayableCard[] = allPlayableCards;
 
 const playableCardIndex = new Map<string, PlayableCard>(
@@ -78,10 +156,6 @@ export function getCommanderCardById(id: string): CommanderCard | null {
 
 export function getAnyCardById(id: string): PlayableCard | CommanderCard | null {
   return getPlayableCardById(id) ?? getCommanderCardById(id);
-}
-
-export function isPlayableCardId(id: string): boolean {
-  return playableCardIndex.has(id);
 }
 
 export function isCommanderCardId(id: string): boolean {

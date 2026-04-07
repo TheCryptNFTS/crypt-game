@@ -1,0 +1,34 @@
+---
+description: How the agent should work on this project
+alwaysApply: true
+---
+
+# Working Style
+
+## Before coding
+Always:
+1. inspect the relevant files
+2. identify the actual issue
+3. propose a short plan
+4. then implement
+
+## For bigger tasks
+Work in this order:
+1. audit
+2. plan
+3. shared primitives
+4. shell/layout
+5. individual page rebuild
+6. polish pass
+
+## Never
+- never dump huge speculative rewrites
+- never change many unrelated files at once
+- never claim something is improved without checking it
+- never use placeholder text unless requested
+
+## After coding
+Always:
+- run the relevant build or typecheck command if available
+- report what changed
+- report any remaining weakness honestly

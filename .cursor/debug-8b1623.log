@@ -1,0 +1,55 @@
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/"},"timestamp":1775503887506}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H1","location":"useRenderManifest.tsx","message":"manifest effect start","data":{"url":"/data/renderManifest.json","hasResolved":false,"hasErr":false},"timestamp":1775503887506}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"idle"},"timestamp":1775503887506}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest effect cleanup","data":{},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/"},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"idle"},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest catch ignored (cancelled)","data":{"name":"AbortError"},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H1","location":"useRenderManifest.tsx","message":"manifest effect start","data":{"url":"/data/renderManifest.json","hasResolved":false,"hasErr":false},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"loading"},"timestamp":1775503887510}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"idle"},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/"},"timestamp":1775503887506}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"idle"},"timestamp":1775503887506}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H1","location":"useRenderManifest.tsx","message":"manifest effect start","data":{"url":"/data/renderManifest.json","hasResolved":false,"hasErr":false},"timestamp":1775503887506}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest catch ignored (cancelled)","data":{"name":"AbortError"},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest effect cleanup","data":{},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx","message":"manifest fetch ok","data":{"commanders":12,"playable":3636},"timestamp":1775503887526}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"loading"},"timestamp":1775503887510}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/"},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H1","location":"useRenderManifest.tsx","message":"manifest effect start","data":{"url":"/data/renderManifest.json","hasResolved":false,"hasErr":false},"timestamp":1775503887507}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx","message":"manifest fetch ok","data":{"commanders":12,"playable":3636},"timestamp":1775503887526}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"ok","commanders":12,"playable":3636},"timestamp":1775503887528}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"ok","commanders":12,"playable":3636},"timestamp":1775503887528}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H3","location":"SplashLoginPage.tsx","message":"splash onGuest","data":{},"timestamp":1775503889432}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H3","location":"SplashLoginPage.tsx","message":"splash onGuest","data":{},"timestamp":1775503889432}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H3","location":"SplashLoginPage.tsx","message":"splash auto-nav guest","data":{"session":"guest"},"timestamp":1775503889436}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H3","location":"SplashLoginPage.tsx","message":"splash auto-nav guest","data":{"session":"guest"},"timestamp":1775503889436}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775503889481}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775503889481}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/play"},"timestamp":1775503891843}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/play"},"timestamp":1775503891843}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/match"},"timestamp":1775503899425}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/match"},"timestamp":1775503899425}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/deck"},"timestamp":1775503919870}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/deck"},"timestamp":1775503919870}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/shop"},"timestamp":1775503921740}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/shop"},"timestamp":1775503921740}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/profile"},"timestamp":1775503938322}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/profile"},"timestamp":1775503938322}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775503942996}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775503942996}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest effect cleanup","data":{},"timestamp":1775504192738}
+{"sessionId":"8b1623","runId":"pre-fix","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest effect cleanup","data":{},"timestamp":1775504192738}
+{"runId":"dev","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775504193110}
+{"runId":"dev","hypothesisId":"H1","location":"useRenderManifest.tsx","message":"manifest effect start","data":{"url":"/data/renderManifest.json","hasResolved":false,"hasErr":false},"timestamp":1775504193111}
+{"runId":"dev","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"idle"},"timestamp":1775504193111}
+{"runId":"dev","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest effect cleanup","data":{},"timestamp":1775504193111}
+{"runId":"dev","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775504193111}
+{"runId":"dev","hypothesisId":"H1","location":"useRenderManifest.tsx","message":"manifest effect start","data":{"url":"/data/renderManifest.json","hasResolved":false,"hasErr":false},"timestamp":1775504193111}
+{"runId":"dev","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"idle"},"timestamp":1775504193112}
+{"runId":"dev","hypothesisId":"H4","location":"useRenderManifest.tsx","message":"manifest catch ignored (cancelled)","data":{"name":"AbortError"},"timestamp":1775504193112}
+{"runId":"dev","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"loading"},"timestamp":1775504193117}
+{"runId":"dev","hypothesisId":"H2","location":"useRenderManifest.tsx","message":"manifest fetch ok","data":{"commanders":12,"playable":3636},"timestamp":1775504193144}
+{"runId":"dev","hypothesisId":"H2","location":"useRenderManifest.tsx:manifestState","message":"manifestState transition","data":{"status":"ok","commanders":12,"playable":3636},"timestamp":1775504193149}
+{"runId":"dev","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775504208673}
+{"runId":"dev","hypothesisId":"H5","location":"App.tsx:DebugRouteProbe","message":"location changed","data":{"pathname":"/home"},"timestamp":1775504208674}

@@ -1,0 +1,655 @@
+===== MATCH PAGE =====
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CatalogLoader } from "../components/CatalogLoader";
+import { getPlayableCardById } from "../engine/cards";
+import { useGame } from "../hooks/useGame";
+import { useRenderManifest } from "../hooks/useRenderManifest";
+import type { PlayerId } from "../lib/gameClient";
+import { legalTargetInstanceIds } from "./match/combatRules";
+import { CombatHud } from "./match/CombatHud";
+import { OpponentZone } from "./match/OpponentZone";
+import { PlayerZone } from "./match/PlayerZone";
+import { BattleRow } from "./match/BattleRow";
+import { HandTray } from "./match/HandTray";
+import { StrikeIntentOverlay } from "./match/StrikeIntentOverlay";
+
+function commanderCardId(player: any): string | undefined {
+  return (
+    player?.commanderZone?.cardId ?? player?.commander?.id ?? player?.commanderId
+  );
+}
+
+export default function MatchPage() {
+  const navigate = useNavigate();
+  const { match, combatLog, actions } = useGame();
+  const { entryById, loading, error, ready } = useRenderManifest();
+  const [equipHandIndex, setEquipHandIndex] = useState<number | null>(null);
+  const [attackPick, setAttackPick] = useState<string | null>(null);
+  const [selectedHandIndex, setSelectedHandIndex] = useState<number | null>(null);
+  const [strikeHoverTarget, setStrikeHoverTarget] = useState<string | null>(null);
+
+  const boardAnchorsRef = useRef(new Map<string, HTMLElement>());
+  const registerBoardAnchor = useCallback((instanceId: string, el: HTMLElement | null) => {
+    if (el) boardAnchorsRef.current.set(instanceId, el);
+    else boardAnchorsRef.current.delete(instanceId);
+  }, []);
+  const getAnchorEl = useCallback((id: string) => boardAnchorsRef.current.get(id), []);
+
+  const active = match.activePlayer as PlayerId;
+  const phase = match.phase ?? "—";
+  const winner = match.winner;
+
+  const deckSize = (p: any) =>
+    typeof p.deckCount === "number" ? p.deckCount : p.deck?.length ?? 0;
+
+  const resolveCommanderEntry = (cardId: string | undefined) =>
+    cardId ? entryById.get(cardId) : undefined;
+
+  const equipCard =
+    equipHandIndex !== null
+      ? getPlayableCardById((match.players[active] as any)?.hand?.[equipHandIndex])
+      : null;
+
+  const enemyId: PlayerId = active === "P1" ? "P2" : "P1";
+  const enemyFrontEmpty = ((match.players[enemyId] as any)?.board?.front ?? []).length === 0;
+
+  const hand = (match.players[active] as any)?.hand ?? [];
+
+  const legalTargets = attackPick ? legalTargetInstanceIds(match, enemyId) : null;
+
+  const clearInteractionState = () => {
+    setSelectedHandIndex(null);
+    setEquipHandIndex(null);
+    setAttackPick(null);
+    setStrikeHoverTarget(null);
+  };
+
+  const strikeActive = !!attackPick && !winner;
+
+  const p2 = match.players.P2 as any;
+  const p1 = match.players.P1 as any;
+
+  const MATCH_END_GATE = "crypt.lastMatchEndNav";
+  useEffect(() => {
+    if (!winner && match.turn === 1) {
+      try {
+        sessionStorage.removeItem(MATCH_END_GATE);
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [winner, match.turn]);
+
+  useEffect(() => {
+    if (!winner) return;
+    const key = `${winner}:${match.turn}`;
+    try {
+      if (sessionStorage.getItem(MATCH_END_GATE) === key) return;
+      sessionStorage.setItem(MATCH_END_GATE, key);
+    } catch {
+      /* still navigate */
+    }
+    navigate("/match/result", {
+      replace: true,
+      state: {
+        nonce: crypto.randomUUID(),
+        winner: String(winner),
+        turn: match.turn,
+        p1CommanderId: commanderCardId(p1) ?? "",
+        p2CommanderId: commanderCardId(p2) ?? "",
+      },
+    });
+  }, [winner, match.turn, navigate, p1, p2]);
+
+  return (
+    <CatalogLoader loading={loading} error={error} ready={ready}>
+      <div className="crypt-match-root flex min-h-[calc(100dvh-49px)] flex-col">
+        <CombatHud
+          turn={match.turn}
+          phase={String(phase)}
+          activePlayer={active}
+          winner={winner}
+          onEndTurn={() => {
+            actions.endTurn();
+            clearInteractionState();
+          }}
+          endTurnDisabled={!!winner}
+          attackPick={attackPick}
+          enemyFrontEmpty={enemyFrontEmpty}
+          legalTargetCount={legalTargets?.size ?? 0}
+          onStrikeFace={() => {
+            if (attackPick) actions.attack(attackPick);
+            setAttackPick(null);
+            setStrikeHoverTarget(null);
+          }}
+          onCancelCombat={() => {
+            setAttackPick(null);
+            setStrikeHoverTarget(null);
+          }}
+        />
+
+        <OpponentZone
+          player={p2}
+          commanderEntry={resolveCommanderEntry(commanderCardId(p2))}
+          entryById={entryById}
+          deckCount={deckSize(match.players.P2)}
+        />
+
+        <div className="crypt-battlefield relative flex min-h-[min(36vh,320px)] flex-1 flex-col justify-center">
+          <StrikeIntentOverlay
+            active={strikeActive}
+            attackPick={attackPick}
+            strikeHoverTarget={strikeHoverTarget}
+            enemyFrontEmpty={enemyFrontEmpty}
+            getAnchorEl={getAnchorEl}
+          />
+          <BattleRow
+            playerId="P2"
+            side="foe"
+            match={match}
+            active={active}
+            winner={winner}
+            attackPick={attackPick}
+            legalTargets={legalTargets}
+            equipHandIndex={equipHandIndex}
+            equipCardType={equipCard?.type}
+            entryById={entryById}
+            registerBoardAnchor={registerBoardAnchor}
+            onStrikeHoverTarget={setStrikeHoverTarget}
+            strikeHoverTarget={strikeHoverTarget}
+            onDeclareAttacker={(id) => {
+              setAttackPick(id);
+              setSelectedHandIndex(null);
+              setStrikeHoverTarget(null);
+            }}
+            onStrikeUnit={(defenderId) => {
+              if (attackPick) actions.attack(attackPick, defenderId);
+              setAttackPick(null);
+              setStrikeHoverTarget(null);
+            }}
+            onAffixEquipment={(targetId) => {
+              if (equipHandIndex !== null) {
+                actions.playEquipment(active, equipHandIndex, targetId);
+                setEquipHandIndex(null);
+              }
+            }}
+          />
+
+          <div className="crypt-battlefield-void pointer-events-none" aria-hidden />
+
+          <BattleRow
+            playerId="P1"
+            side="self"
+            match={match}
+            active={active}
+            winner={winner}
+            attackPick={attackPick}
+            legalTargets={legalTargets}
+            equipHandIndex={equipHandIndex}
+            equipCardType={equipCard?.type}
+            entryById={entryById}
+            registerBoardAnchor={registerBoardAnchor}
+            onStrikeHoverTarget={setStrikeHoverTarget}
+            strikeHoverTarget={strikeHoverTarget}
+            onDeclareAttacker={(id) => {
+              setAttackPick(id);
+              setSelectedHandIndex(null);
+              setStrikeHoverTarget(null);
+            }}
+            onStrikeUnit={(defenderId) => {
+              if (attackPick) actions.attack(attackPick, defenderId);
+              setAttackPick(null);
+              setStrikeHoverTarget(null);
+            }}
+            onAffixEquipment={(targetId) => {
+              if (equipHandIndex !== null) {
+                actions.playEquipment(active, equipHandIndex, targetId);
+                setEquipHandIndex(null);
+              }
+            }}
+          />
+        </div>
+
+        <PlayerZone
+          player={p1}
+          commanderEntry={resolveCommanderEntry(commanderCardId(p1))}
+          entryById={entryById}
+          deckCount={deckSize(match.players.P1)}
+        />
+
+        <HandTray
+          hand={hand}
+          winner={winner}
+          entryById={entryById}
+          selectedHandIndex={selectedHandIndex}
+          onSelectHandIndex={setSelectedHandIndex}
+          equipHandIndex={equipHandIndex}
+          onCancelEquip={() => setEquipHandIndex(null)}
+          onPlayUnit={(index) => actions.playUnit(active, index, "front")}
+          onStartEquip={(index) => {
+            setEquipHandIndex(index);
+            setSelectedHandIndex(null);
+          }}
+          onPlayArtifact={(index) => actions.playArtifact(active, index)}
+        />
+
+        <footer className="crypt-match-log-footer">
+          <div className="crypt-match-log-footer-inner">
+            {combatLog.length === 0 ? (
+              <span className="crypt-log-quiet">Log</span>
+            ) : (
+              <ul className="crypt-log-lines">
+                {combatLog.slice(-5).map((line, i) => (
+                  <li key={`${combatLog.length}-${i}`}>{line}</li>
+                ))}
+              </ul>
+            )}
+            <button
+              type="button"
+              className="crypt-log-reset"
+              onClick={() => {
+                actions.reset();
+                clearInteractionState();
+              }}
+            >
+              New match
+            </button>
+          </div>
+        </footer>
+      </div>
+    </CatalogLoader>
+  );
+}
+
+
+===== USE GAME =====
+import { useMemo, useState } from "react";
+import {
+  createNewMatch,
+  playUnit,
+  playEquipment,
+  playArtifact,
+  endPlayerTurn,
+  attackTarget,
+  PlayerId,
+} from "../lib/gameClient";
+
+const COMBAT_LOG_CAP = 50;
+
+function capLog(lines: string[]): string[] {
+  if (lines.length <= COMBAT_LOG_CAP) return lines;
+  return lines.slice(-COMBAT_LOG_CAP);
+}
+
+export function useGame() {
+  const [match, setMatch] = useState(() => createNewMatch());
+  const [combatLog, setCombatLog] = useState<string[]>([]);
+
+  const appendLog = (line: string) => {
+    setCombatLog((prev) => capLog([...prev, line]));
+  };
+
+  const actions = useMemo(
+    () => ({
+      reset() {
+        setMatch(createNewMatch());
+        setCombatLog([]);
+      },
+
+      playUnit(playerId: PlayerId, handIndex: number, lane: "front" = "front") {
+        setMatch((prev: any) => {
+          try {
+            const next = playUnit(prev, playerId, handIndex, lane);
+            queueMicrotask(() =>
+              appendLog(`${playerId} played a unit from hand index ${handIndex}.`)
+            );
+            return next;
+          } catch {
+            return prev;
+          }
+        });
+      },
+
+      playEquipment(playerId: PlayerId, handIndex: number, targetInstanceId: string) {
+        setMatch((prev: any) => {
+          try {
+            const next = playEquipment(prev, playerId, handIndex, targetInstanceId);
+            queueMicrotask(() =>
+              appendLog(
+                `${playerId} played equipment from hand index ${handIndex} onto ${targetInstanceId}.`
+              )
+            );
+            return next;
+          } catch {
+            return prev;
+          }
+        });
+      },
+
+      playArtifact(playerId: PlayerId, handIndex: number) {
+        setMatch((prev: any) => {
+          try {
+            const next = playArtifact(prev, playerId, handIndex);
+            queueMicrotask(() =>
+              appendLog(`${playerId} played an artifact from hand index ${handIndex}.`)
+            );
+            return next;
+          } catch {
+            return prev;
+          }
+        });
+      },
+
+      endTurn() {
+        setMatch((prev: any) => {
+          try {
+            const next = endPlayerTurn(prev);
+            queueMicrotask(() => appendLog(`Turn ended. Active: ${next.activePlayer}.`));
+            return next;
+          } catch {
+            return prev;
+          }
+        });
+      },
+
+      attack(attackerInstanceId: string, defenderInstanceId?: string) {
+        setMatch((prev: any) => {
+          try {
+            const next = attackTarget(prev, attackerInstanceId, defenderInstanceId);
+            const target = defenderInstanceId ?? "opposing player";
+            queueMicrotask(() =>
+              appendLog(`Attack: ${attackerInstanceId} → ${target}.`)
+            );
+            return next;
+          } catch {
+            return prev;
+          }
+        });
+      },
+    }),
+    []
+  );
+
+  return {
+    match,
+    combatLog,
+    actions,
+  };
+}
+
+
+===== BATTLE ROW =====
+import PlayableCard from "../../components/cards/PlayableCard";
+import type { RenderManifestEntry } from "../../types/renderManifest";
+import type { PlayerId } from "../../lib/gameClient";
+import { boardChromeForUnit, canUnitAttackUi } from "./combatRules";
+
+type BattleRowProps = {
+  playerId: PlayerId;
+  side: "foe" | "self";
+  match: any;
+  active: PlayerId;
+  winner: string | null | undefined;
+  attackPick: string | null;
+  legalTargets: Set<string> | null;
+  equipHandIndex: number | null;
+  equipCardType: string | null | undefined;
+  entryById: Map<string, RenderManifestEntry>;
+  registerBoardAnchor?: (instanceId: string, el: HTMLElement | null) => void;
+  onStrikeHoverTarget?: (instanceId: string | null) => void;
+  strikeHoverTarget?: string | null;
+  onDeclareAttacker: (instanceId: string) => void;
+  onStrikeUnit: (defenderInstanceId: string) => void;
+  onAffixEquipment: (targetInstanceId: string) => void;
+};
+
+export function BattleRow({
+  playerId,
+  side,
+  match,
+  active,
+  winner,
+  attackPick,
+  legalTargets,
+  equipHandIndex,
+  equipCardType,
+  entryById,
+  registerBoardAnchor,
+  onStrikeHoverTarget,
+  strikeHoverTarget = null,
+  onDeclareAttacker,
+  onStrikeUnit,
+  onAffixEquipment,
+}: BattleRowProps) {
+  const p = match.players[playerId];
+  const units = p?.board?.front ?? [];
+  const isActiveSide = playerId === active;
+
+  return (
+    <div
+      className={[
+        "crypt-battle-row relative z-[1] flex min-h-[104px] flex-wrap justify-center gap-5 md:gap-8",
+        side === "foe" ? "crypt-battle-row--foe items-end pb-1" : "crypt-battle-row--self items-start pt-1",
+      ].join(" ")}
+    >
+      {units.length === 0 && (
+        <span className="self-center crypt-battle-row-empty" aria-hidden>
+          Empty lane
+        </span>
+      )}
+      {units.map((u: any) => {
+        const canPickAttack =
+          attackPick === null && isActiveSide && playerId === active && !winner;
+        const mayDeclareAttack = canPickAttack && canUnitAttackUi(u);
+        const isAttackTarget = !!attackPick && playerId !== active && !winner;
+        const isLegalStrike =
+          isAttackTarget && legalTargets && legalTargets.has(u.instanceId);
+
+        const chromeState = boardChromeForUnit({
+          playerId,
+          active,
+          side,
+          u,
+          winner,
+          attackPick,
+          legalTargets,
+          equipHandIndex,
+          equipIsEquipment: equipCardType === "equipment",
+        });
+
+        const lockPreview = isLegalStrike && strikeHoverTarget === u.instanceId;
+
+        const anchorClasses = [
+          chromeState === "boardAttacker" ? "crypt-attacker-anchor" : "",
+          isLegalStrike ? "crypt-legal-target-anchor" : "",
+          lockPreview ? "crypt-strike-lock-active" : "",
+        ]
+          .filter(Boolean)
+          .join(" ");
+
+        return (
+          <div key={u.instanceId} className="crypt-board-unit flex flex-col items-center gap-1.5">
+            <div
+              ref={(el) => registerBoardAnchor?.(u.instanceId, el)}
+              className={["crypt-board-clip relative", anchorClasses].filter(Boolean).join(" ")}
+              onMouseEnter={() => {
+                if (isLegalStrike) onStrikeHoverTarget?.(u.instanceId);
+              }}
+              onMouseLeave={() => {
+                if (isLegalStrike) onStrikeHoverTarget?.(null);
+              }}
+            >
+              <PlayableCard
+                entry={entryById.get(u.cardId)}
+                mode="board"
+                attack={u.attack}
+                health={u.health}
+                exhausted={u.exhausted}
+                summoningSick={u.summoningSick}
+                chromeState={chromeState}
+                onClick={
+                  isAttackTarget && isLegalStrike ? () => onStrikeUnit(u.instanceId) : undefined
+                }
+              />
+            </div>
+            <div className="crypt-board-actions flex min-h-[1rem] flex-wrap justify-center gap-x-2 gap-y-0.5 px-0.5">
+              {playerId === active && !winner && equipHandIndex !== null && equipCardType === "equipment" && (
+                <button
+                  type="button"
+                  className="crypt-link-affix"
+                  onClick={() => onAffixEquipment(u.instanceId)}
+                >
+                  Affix here
+                </button>
+              )}
+              {canPickAttack && mayDeclareAttack && (
+                <button type="button" className="crypt-link-declare" onClick={() => onDeclareAttacker(u.instanceId)}>
+                  Attack with this unit
+                </button>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+
+===== HAND TRAY =====
+import type { CSSProperties } from "react";
+import { getPlayableCardById } from "../../engine/cards";
+import PlayableCard from "../../components/cards/PlayableCard";
+import type { RenderManifestEntry } from "../../types/renderManifest";
+type HandTrayProps = {
+  hand: string[];
+  winner: string | null | undefined;
+  entryById: Map<string, RenderManifestEntry>;
+  selectedHandIndex: number | null;
+  onSelectHandIndex: (index: number | null) => void;
+  equipHandIndex: number | null;
+  onCancelEquip: () => void;
+  onPlayUnit: (index: number) => void;
+  onStartEquip: (index: number) => void;
+  onPlayArtifact: (index: number) => void;
+};
+
+function handSlotTransform(index: number, total: number): CSSProperties {
+  if (total <= 0) return {};
+  const mid = (total - 1) / 2;
+  const tRaw = mid === 0 ? 0 : (index - mid) / mid;
+  const t = Math.max(-1, Math.min(1, tRaw));
+  const n = total;
+  const baseDeg = n > 9 ? 1.35 : n > 7 ? 1.65 : n > 5 ? 2.05 : n > 3 ? 2.55 : 3.15;
+  const rot = t * baseDeg * (0.48 + Math.min(n, 8) * 0.06);
+  const absT = Math.abs(t);
+  const arcLift = (1 - Math.cos((absT * Math.PI) / 2)) * 16;
+  const stackY = Math.abs(index - mid) * 0.85;
+  const centerHold = (1 - absT) ** 1.2 * 9;
+  const ty = stackY + arcLift - centerHold;
+  const tx = t * 3.4 * (n > 6 ? 1.05 : 1);
+  const zIndex = Math.round(12 - absT * 4 + (index === Math.round(mid) ? 3 : 0));
+  return {
+    transform: `translateX(${tx}px) translateY(${ty}px) rotateZ(${rot}deg)`,
+    zIndex,
+  };
+}
+
+export function HandTray({
+  hand,
+  winner,
+  entryById,
+  selectedHandIndex,
+  onSelectHandIndex,
+  equipHandIndex,
+  onCancelEquip,
+  onPlayUnit,
+  onStartEquip,
+  onPlayArtifact,
+}: HandTrayProps) {
+  const total = hand.length;
+  const overlap =
+    total > 8
+      ? "max-sm:-mx-[15px] -mx-[17px] sm:-mx-[19px] md:-mx-[21px]"
+      : total > 6
+        ? "max-sm:-mx-[13px] -mx-[15px] sm:-mx-[17px] md:-mx-[19px]"
+        : "max-sm:-mx-2.5 -mx-3 sm:-mx-3.5 md:-mx-4";
+
+  const selectedIdx = selectedHandIndex;
+  const selectedId = selectedIdx !== null ? hand[selectedIdx] : null;
+  const selectedDef = selectedId ? getPlayableCardById(selectedId) : null;
+
+  return (
+    <section className="crypt-hand-tray" aria-label="Your hand">
+      <div className="crypt-hand-tray-head">
+        <span className="crypt-hand-tray-wisp" />
+        {equipHandIndex !== null && (
+          <div className="crypt-equip-banner">
+            <span>Choose a unit to equip.</span>
+            <button type="button" className="crypt-equip-banner-cancel" onClick={onCancelEquip}>
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="crypt-hand-held crypt-hand-fan flex min-h-[228px] items-end justify-center pb-4 pt-6">
+        {hand.map((cardId: string, index: number) => {
+          const def = getPlayableCardById(cardId);
+          const entry = entryById.get(cardId);
+          const focus = selectedHandIndex === index;
+          const slotStyle = handSlotTransform(index, total);
+
+          return (
+            <div
+              key={`${cardId}-${index}`}
+              className={["crypt-hand-slot cursor-pointer", overlap, focus ? "crypt-hand-slot--authority" : ""].join(
+                " "
+              )}
+              style={slotStyle}
+              role="button"
+              tabIndex={0}
+              onClick={() => onSelectHandIndex(focus ? null : index)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSelectHandIndex(focus ? null : index);
+                }
+              }}
+            >
+              <PlayableCard
+                entry={entry}
+                mode="hand"
+                chromeState={focus ? "handFocus" : "default"}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      {!winner && selectedIdx !== null && selectedDef && (
+        <div className="crypt-hand-dock">
+          {selectedDef.type === "unit" && (
+            <button type="button" className="crypt-dock-btn crypt-dock-btn--primary" onClick={() => onPlayUnit(selectedIdx)}>
+              Play unit
+            </button>
+          )}
+          {selectedDef.type === "equipment" && (
+            <button type="button" className="crypt-dock-btn crypt-dock-btn--ice" onClick={() => onStartEquip(selectedIdx)}>
+              Equip mode
+            </button>
+          )}
+          {selectedDef.type === "artifact" && (
+            <button type="button" className="crypt-dock-btn crypt-dock-btn--gold" onClick={() => onPlayArtifact(selectedIdx)}>
+              Play relic
+            </button>
+          )}
+          <button type="button" className="crypt-dock-btn crypt-dock-btn--ghost" onClick={() => onSelectHandIndex(null)}>
+            Clear selection
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}

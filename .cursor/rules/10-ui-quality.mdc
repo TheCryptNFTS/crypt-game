@@ -1,0 +1,49 @@
+---
+description: UI quality bar for premium AAA frontend work
+globs:
+  - "**/*.tsx"
+  - "**/*.ts"
+  - "**/*.css"
+alwaysApply: true
+---
+
+# UI Quality Standard
+
+Every UI change must move the app toward an AAA-quality game client feel.
+
+## Required qualities
+- strong visual hierarchy
+- disciplined spacing
+- premium surfaces
+- clean alignment
+- sharp typography
+- subtle motion
+- clear interaction states
+- responsive behavior
+- consistent component language
+
+## Avoid
+- flat Tailwind blocks
+- random gradients
+- neon spam
+- oversized blur everywhere
+- weak spacing
+- cheap-looking cards
+- inconsistent button styles
+- cluttered layouts
+- placeholder-feeling sections
+
+## Visual direction
+- cinematic
+- dark luxury
+- arcane archive / codex energy
+- collectible-card-first presentation
+- restrained glow
+- layered glass / metal / stone feel
+
+## Output style
+When changing UI:
+1. explain the visual problem briefly
+2. explain the component strategy briefly
+3. implement cleanly
+4. keep styles reusable

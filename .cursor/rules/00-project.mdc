@@ -1,0 +1,37 @@
+---
+description: Project context for Legends of the Crypt frontend
+alwaysApply: true
+---
+
+# Project
+
+This project is a premium dark fantasy trading card game interface called Legends of the Crypt.
+
+## Core goal
+Build a front end that feels like a high-end game client, not a generic React web app.
+
+## Current stack
+- React
+- TypeScript
+- Vite
+- Tailwind
+- Existing gameplay logic already exists
+- Existing routing must not break
+
+## Core principle
+Preserve logic. Upgrade presentation.
+
+## Never do these
+- Do not rewrite game logic unless explicitly asked
+- Do not break routing
+- Do not rename major folders/files without reason
+- Do not introduce random libraries unless clearly necessary
+- Do not create generic SaaS-looking UI
+- Do not clone external websites 1:1
+
+## Priority order
+1. UX clarity
+2. AAA visual polish
+3. Reusable components
+4. Responsive layout
+5. Clean TypeScript

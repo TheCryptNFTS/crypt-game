@@ -1,6 +1,13 @@
-import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { getPlayableCardById } from "./cards";
 import { Faction, normalizeFaction } from "../types/faction";
+const FACTION_CODE_TO_CANON_NAME: Record<string, string> = {
+  STONE: "Stone Keepers",
+  IRON: "Iron Defenders",
+  BRONZE: "Bronze Guardians",
+  SILVER: "Silver Sentinels",
+  GOLD: "Golden Sovereigns",
+  GOD: "Gods",
+};
 
 export type DeckCardLike =
   | string
@@ -9,27 +16,21 @@ export type DeckCardLike =
       faction?: string;
     };
 
+export const FACTION_DISPLAY_NAMES = FACTION_CODE_TO_CANON_NAME;
+
+
 export type DeckValidationResult = {
   valid: boolean;
   errors: string[];
   warnings: string[];
   stats: {
     deckSize: number;
-    commanderFaction: Faction;
     byFaction: Record<string, number>;
     copyCounts: Record<string, number>;
     maxCopiesExceeded: string[];
+    godCount: number;
   };
 };
-
-export function inferCommanderFaction(commanderId: string): Faction {
-  const spec = COMMANDER_SPECS[commanderId];
-  if (!spec) {
-    throw new Error(`Unknown commander: ${commanderId}`);
-  }
-
-  return normalizeFaction(String(spec.faction));
-}
 
 export function getCardFaction(cardOrId: DeckCardLike): Faction {
   if (typeof cardOrId !== "string") {
@@ -55,7 +56,7 @@ export function getCardFaction(cardOrId: DeckCardLike): Faction {
 
 export function validateDeck(
   deck: DeckCardLike[],
-  commanderId: string,
+  _commanderId: string,
   opts?: {
     deckSize?: number;
     maxCopies?: number;
@@ -75,15 +76,14 @@ export function validateDeck(
       warnings: [],
       stats: {
         deckSize: 0,
-        commanderFaction: inferCommanderFaction(commanderId),
         byFaction: {},
         copyCounts: {},
         maxCopiesExceeded: [],
+        godCount: 0,
       },
     };
   }
 
-  const commanderFaction = inferCommanderFaction(commanderId);
   const copyCounts = new Map<string, number>();
   const byFaction = new Map<string, number>();
 
@@ -111,12 +111,8 @@ export function validateDeck(
 
     byFaction.set(faction, (byFaction.get(faction) || 0) + 1);
 
-    if (faction !== commanderFaction) {
-      if (!(allowGodCards && faction === "GOD")) {
-        errors.push(
-          `Card ${id} has faction ${faction} but commander faction is ${commanderFaction}`
-        );
-      }
+    if (!allowGodCards && faction === "GOD") {
+      errors.push(`Card ${id} is a GOD card but GOD cards are not allowed in this deck.`);
     }
   }
 
@@ -132,16 +128,18 @@ export function validateDeck(
     }
   }
 
+  const godCount = byFaction.get("GOD") || 0;
+
   return {
     valid: errors.length === 0,
     errors,
     warnings,
     stats: {
       deckSize: deck.length,
-      commanderFaction,
       byFaction: Object.fromEntries(byFaction),
       copyCounts: Object.fromEntries(copyCounts),
       maxCopiesExceeded,
+      godCount,
     },
   };
 }
@@ -157,4 +155,8 @@ function inferFactionFromIdFallback(id: string): Faction {
   if (lower.includes("god")) return "GOD";
 
   throw new Error(`Could not infer faction from id: ${id}`);
+}
+
+export function inferCommanderFaction(_commanderId: string): null {
+  return null;
 }
