@@ -1,0 +1,1 @@
+export { playEquipmentFromHand } from "../setup";

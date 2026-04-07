@@ -30,7 +30,8 @@
     "dev:artifact": "tsx src/dev/runArtifactModifierProof.ts",
     "dev:playproof": "tsx src/dev/testPlayModifierApplication.ts",
     "dev:exactproof": "tsx src/dev/runExactTraitModifierProof.ts",
-    "dev:combat": "tsx src/dev/runCombatModifierProof.ts"
+    "dev:combat": "tsx src/dev/runCombatModifierProof.ts",
+    "dev:arch": "tsx src/dev/runArchitectureSmoke.ts"
   },
   "keywords": [],
   "author": "",
