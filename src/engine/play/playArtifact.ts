@@ -1,0 +1,1 @@
+export { playArtifactCard } from "../effectSystem";
