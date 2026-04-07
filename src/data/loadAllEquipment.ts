@@ -1,100 +1,69 @@
-import equipmentCards from "./equipment.json";
-import runtimeEquipment from "./runtimeEquipment.json";
+import generatedTcgCards from "./generatedTcgCards.json";
+import { normalizeFaction, Faction } from "../types/faction";
 
 export type EquipmentCard = {
   id: string;
   name: string;
   type: "equipment";
-  faction: string;
+  faction: Faction;
   rarity: string;
   cost: number;
-  bonuses: {
+  effect: {
     attack: number;
     health: number;
-    armor: number;
     speed: number;
+    armor: number;
   };
   keywords: string[];
+  rawTraits: Record<string, string>;
+  subtype: string | null;
 };
 
-type LegacyEquipmentCard = {
+type GeneratedTcgCard = {
   id: string;
-  name: string;
-  type: string;
-  faction: string;
-  rarity: string;
-  cost: number;
-  effect?: {
+  name?: string;
+  faction?: string;
+  rarity?: string;
+  cardClass?: string | null;
+  subtype?: string | null;
+  cost?: number;
+  stats?: {
     attack?: number;
     health?: number;
-    armor?: number;
     speed?: number;
+    armor?: number;
   };
+  keywords?: string[];
+  rawTraits?: Record<string, string> | null;
 };
 
-type RuntimeEquipmentTuple = [
-  string, // id
-  number, // cost
-  number, // attack
-  number, // health
-  number, // armor
-  number, // speed
-  string[] // keywords
-];
-
-function normalizeLegacyEquipment(card: LegacyEquipmentCard): EquipmentCard {
-  return {
+const allEquipment: EquipmentCard[] = ((generatedTcgCards as GeneratedTcgCard[]) ?? [])
+  .filter((card) => String(card.cardClass ?? "").trim().toLowerCase() === "equipment")
+  .map((card) => ({
     id: card.id,
-    name: card.name,
-    type: "equipment",
-    faction: card.faction,
-    rarity: card.rarity,
-    cost: card.cost,
-    bonuses: {
-      attack: card.effect?.attack ?? 0,
-      health: card.effect?.health ?? 0,
-      armor: card.effect?.armor ?? 0,
-      speed: card.effect?.speed ?? 0,
+    name: card.name ?? card.id,
+    type: "equipment" as const,
+    faction: normalizeFaction(card.faction ?? "STONE_KEEPERS"),
+    rarity: card.rarity ?? "COMMON",
+    cost: card.cost ?? 0,
+    effect: {
+      attack: card.stats?.attack ?? 0,
+      health: card.stats?.health ?? 0,
+      speed: card.stats?.speed ?? 0,
+      armor: card.stats?.armor ?? 0,
     },
-    keywords: [],
-  };
-}
+    keywords: Array.isArray(card.keywords) ? card.keywords : [],
+    rawTraits: (card.rawTraits as Record<string, string> | undefined) ?? {},
+    subtype: card.subtype ?? null,
+  }));
 
-const normalizedBaseEquipment: EquipmentCard[] = (equipmentCards as LegacyEquipmentCard[]).map(
-  normalizeLegacyEquipment
-);
-
-const normalizedRuntimeEquipment: EquipmentCard[] = (runtimeEquipment as RuntimeEquipmentTuple[]).map(
-  ([id, cost, attack, health, armor, speed, keywords]) => ({
-    id,
-    name: id,
-    type: "equipment",
-    faction: "STONE",
-    rarity: "common",
-    cost: cost ?? 0,
-    bonuses: {
-      attack: attack ?? 0,
-      health: health ?? 0,
-      armor: armor ?? 0,
-      speed: speed ?? 0,
-    },
-    keywords: Array.isArray(keywords) ? keywords : [],
-  })
-);
-
-const allEquipment: EquipmentCard[] = Array.from(
-  new Map(
-    [...normalizedBaseEquipment, ...normalizedRuntimeEquipment].map((card) => [card.id, card])
-  ).values()
-);
+const byId = new Map<string, EquipmentCard>(allEquipment.map((card) => [card.id, card]));
 
 export function getLoadedEquipmentById(cardId: string): EquipmentCard {
-  const card = allEquipment.find((u) => u.id === cardId);
-
+  const card = byId.get(cardId);
   if (!card) {
     throw new Error(`Equipment card not found: ${cardId}`);
   }
-
   return card;
 }
 

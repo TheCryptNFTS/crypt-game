@@ -9,6 +9,7 @@ import { emitEvent } from "./events";
 import { cleanupDeadUnits } from "./cleanup";
 import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
 
+import { getPlayableCardById } from "./cards";
 type DamageUnitEffect = { type: "DAMAGE_UNIT"; value: number };
 type DrawCardsEffect = { type: "DRAW_CARDS"; value: number };
 type BuffUnitEffect = { type: "BUFF_UNIT"; attack: number; health: number };
@@ -241,9 +242,29 @@ function getUnitCard(cardId: string): UnitCard {
 }
 
 function getEquipmentCard(cardId: string): EquipmentCard {
-  const equipmentCard = (equipment as EquipmentCard[]).find((e) => e.id === cardId);
-  if (!equipmentCard) throw new Error(`Selected card is not equipment: ${cardId}`);
-  return equipmentCard;
+  const card = getPlayableCardById(cardId);
+
+  if (!card || card.type !== "equipment") {
+    throw new Error(`Selected card is not equipment: ${cardId}`);
+  }
+
+  return {
+    id: card.id,
+    name: card.name,
+    type: "equipment",
+    faction: card.faction,
+    rarity: card.rarity,
+    cost: card.cost,
+    effect: {
+      attack: card.stats.attack,
+      health: card.stats.health,
+      speed: card.stats.speed,
+      armor: card.stats.armor
+    },
+    keywords: card.keywords,
+    rawTraits: card.rawTraits,
+    subtype: card.sourceSubtype ?? null
+  } as EquipmentCard;
 }
 
 function getSpellCard(cardId: string): SpellCard {
@@ -410,10 +431,6 @@ export function playUnitFromHand(
   applyModifierToUnitLike(instance, commanderModifier);
   instance.maxHealth = Math.max(instance.maxHealth ?? instance.health, instance.health);
 
-  applyModifierToUnitLike(instance, commanderModifier);
-
-  instance.maxHealth = Math.max(instance.maxHealth ?? instance.health, instance.health);
-
   const newHand = [...player.hand];
   newHand.splice(handIndex, 1);
 
@@ -473,6 +490,7 @@ export function playEquipmentFromHand(
   }
 
   const equipmentCard = getEquipmentCard(cardId);
+  const commanderModifier = getStoredCardModifier(match, playerId, cardId);
 
   if (player.energy < equipmentCard.cost) {
     throw new Error("Not enough energy");
@@ -489,6 +507,9 @@ export function playEquipmentFromHand(
     speed: targetUnit.speed + equipmentCard.effect.speed,
     armor: targetUnit.armor + equipmentCard.effect.armor
   };
+
+  applyModifierToEquippedTarget(updatedUnit, commanderModifier);
+  updatedUnit.maxHealth = Math.max(updatedUnit.maxHealth ?? updatedUnit.health, updatedUnit.health);
 
   const updatedLane = [...player.board[lane]];
   updatedLane[unitIndex] = updatedUnit;
