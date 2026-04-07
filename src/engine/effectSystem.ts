@@ -133,6 +133,7 @@ export function playArtifactCard(match: MatchState, playerId: PlayerId, handInde
 
   const artifactsLib = require("../data/loadAllArtifacts");
   const artifactCard = artifactsLib.getLoadedArtifactById(cardId);
+  const commanderModifier = getStoredCardModifier(match, playerId, cardId);
 
   const cost = artifactCard.cost ?? 0;
   if ((player.energy ?? 0) < cost) {
@@ -141,13 +142,26 @@ export function playArtifactCard(match: MatchState, playerId: PlayerId, handInde
 
   player.energy -= cost;
   player.hand.splice(handIndex, 1);
-  player.artifacts.push({
+
+  const artifact = {
     cardId: artifactCard.id,
     name: artifactCard.name,
     effectTags: artifactCard.effectTags || [],
     rarity: artifactCard.rarity,
-    faction: artifactCard.faction
-  });
+    faction: artifactCard.faction,
+    attack: artifactCard.effect?.attack ?? 0,
+    health: artifactCard.effect?.health ?? 0,
+    speed: artifactCard.effect?.speed ?? 0,
+    armor: artifactCard.effect?.armor ?? 0,
+    crit: 0,
+    utility: 0,
+    commanderTags: [],
+    passives: [],
+    modifiers: {}
+  };
+
+  applyModifierToArtifactLike(artifact, commanderModifier);
+  player.artifacts.push(artifact);
 
   return refreshArtifactAuras(next);
 }

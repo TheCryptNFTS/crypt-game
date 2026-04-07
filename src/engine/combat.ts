@@ -1,3 +1,4 @@
+import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBonuses";
 import { cleanupDeadUnits } from "./cleanup";
 import { emitEvent } from "./events";
 import { MatchState, PlayerId, UnitInPlay } from "./state";
