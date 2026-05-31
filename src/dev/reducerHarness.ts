@@ -12,7 +12,7 @@
 import { createMatchFromDecks } from "../engine/createMatchFromDecks";
 import { allCommanders } from "../engine/commanders";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
-import { applyAction, Action, GameEvent } from "../engine/reducer";
+import { applyAction, autoPickOption, Action, GameEvent } from "../engine/reducer";
 import { MatchState, BASE_MAX_ENERGY, STARTING_NEXUS_HEALTH } from "../engine/state";
 import { planP2Turn } from "../game-ui/cryptMatchAI";
 
@@ -59,6 +59,34 @@ export function replay(start: MatchState, actions: Action[]): Replay {
   return { finalState: state, events };
 }
 
+/**
+ * Apply one action, then drain any mid-resolution CHOICE it raised with the
+ * deterministic auto-pick (RESOLUTION_MODEL.md §8). The RESOLVE_CHOICE actions are
+ * APPENDED to `log` so a `replay(seed, log)` reproduces the byte-identical match —
+ * the chosen optionId is captured, not regenerated. Returns the settled state. A
+ * choice can chain (a resume tail is a clean action boundary, but a single
+ * RESOLVE_CHOICE never re-raises in v1), so the drain loops to a fixed point with a
+ * guard against any pathological re-raise.
+ */
+function applyAndDrain(state: MatchState, action: Action, log: Action[], events: GameEvent[]): MatchState {
+  let res = applyAction(state, action);
+  let next = res.state;
+  log.push(action);
+  for (const ev of res.events) events.push(ev);
+  let guard = 0;
+  while (next.pendingChoice && guard < 64) {
+    guard += 1;
+    const optionId = autoPickOption(next);
+    if (optionId == null) break;
+    const resolve: Action = { type: "RESOLVE_CHOICE", player: next.pendingChoice.controller, optionId };
+    res = applyAction(next, resolve);
+    next = res.state;
+    log.push(resolve);
+    for (const ev of res.events) events.push(ev);
+  }
+  return next;
+}
+
 /** Drive a full P1-vs-AI match purely through `applyAction`, to a winner or a
  *  turn cap. Returns the action list actually applied + the final replay. */
 export function playAiMatch(seed: number, maxTurns = 60): { actions: Action[]; result: Replay } {
@@ -94,10 +122,7 @@ export function playAiMatch(seed: number, maxTurns = 60): { actions: Action[]; r
         action = { type: "ATTACK_FACE", player: "P1", attackerInstanceId: a.attackerInstanceId };
       }
       if (!action) continue;
-      const res = applyAction(state, action);
-      state = res.state;
-      actions.push(action);
-      for (const ev of res.events) events.push(ev);
+      state = applyAndDrain(state, action, actions, events);
     }
   };
 
@@ -124,10 +149,7 @@ export function playAiMatch(seed: number, maxTurns = 60): { actions: Action[]; r
         action = { type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId };
       }
       if (!action) continue;
-      const res = applyAction(state, action);
-      state = res.state;
-      actions.push(action);
-      for (const ev of res.events) events.push(ev);
+      state = applyAndDrain(state, action, actions, events);
     }
   };
 
@@ -137,17 +159,11 @@ export function playAiMatch(seed: number, maxTurns = 60): { actions: Action[]; r
     if (state.activePlayer === "P1") {
       runHumanGreedy();
       if (state.winner) break;
-      const res = applyAction(state, { type: "END_TURN", player: "P1" });
-      state = res.state;
-      actions.push({ type: "END_TURN", player: "P1" });
-      for (const ev of res.events) events.push(ev);
+      state = applyAndDrain(state, { type: "END_TURN", player: "P1" }, actions, events);
     } else {
       runAi();
       if (state.winner) break;
-      const res = applyAction(state, { type: "END_TURN", player: "P2" });
-      state = res.state;
-      actions.push({ type: "END_TURN", player: "P2" });
-      for (const ev of res.events) events.push(ev);
+      state = applyAndDrain(state, { type: "END_TURN", player: "P2" }, actions, events);
     }
   }
 

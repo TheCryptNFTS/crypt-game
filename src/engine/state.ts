@@ -210,10 +210,64 @@ export interface TriggerQueueEntry {
   dead?: UnitInPlay;
 }
 
+/**
+ * One offered option in a mid-resolution player CHOICE (Discover / choose-one).
+ * Pure data so the whole `pendingChoice` record is structuredClone-stable and
+ * carries cleanly across the single action boundary it lives on. The `id` is the
+ * stable token the client echoes back in RESOLVE_CHOICE; for a Discover this IS
+ * the catalog cardId, for a future choose-one it is the mode index as a string.
+ */
+export interface ChoiceOption {
+  /** Stable id the client echoes back in RESOLVE_CHOICE. */
+  id: string;
+  /** Optional UI label / cardId; never read by game logic (the `id` is canonical). */
+  cardId?: string;
+}
+
+export type PendingChoiceKind = "DISCOVER";
+
+/**
+ * A paused effect awaiting one player decision. See `src/engine/RESOLUTION_MODEL.md`
+ * §8. While `MatchState.pendingChoice` is non-null the reducer accepts ONLY a
+ * matching RESOLVE_CHOICE; every other action reject-softs (`choice-pending`).
+ * The record holds ONLY plain data (no closures / Maps / Sets) so structuredClone
+ * at the reducer entry preserves it byte-for-byte, and the resume tail is replayed
+ * purely from the logged `optionId` — keeping `(seed, actions)` fully determining.
+ */
+export interface PendingChoice {
+  kind: PendingChoiceKind;
+  /** ONLY this player may resolve it (the active player in v1). */
+  controller: PlayerId;
+  /** The offered options, in deterministic (seeded) draw order. The order is
+   *  authoritative: a replay regenerates the identical list, so the picked
+   *  `optionId` resolves to the same option every time. */
+  options: ChoiceOption[];
+  /** The continuation — enough to run the post-choice tail with NO frozen stack. */
+  resume: {
+    /** The resume op the RESOLVE_CHOICE branch interprets once a pick lands. */
+    op: "ADD_CARD_TO_HAND";
+    /** Where a DISCOVER pulls its picked card from: "deck" removes the chosen
+     *  cardId from the controller's deck, "pool" mints it fresh into hand. */
+    source?: "deck" | "pool";
+  };
+}
+
 export interface MatchState {
   turn: number;
   activePlayer: PlayerId;
   winner: PlayerId | null;
+  /**
+   * Set when an effect PAUSED for a player choice (Discover / choose-one). While
+   * non-null the reducer accepts ONLY a matching RESOLVE_CHOICE; every other action
+   * reject-softs with `choice-pending`. Always null between fully-resolved actions.
+   * Unlike `triggerQueue` (reset to [] every entry because it never crosses an
+   * action) this DOES cross exactly one action boundary by design — it is read at
+   * entry to gate legality and cleared by RESOLVE_CHOICE. It holds only plain data,
+   * so it is structuredClone-stable and absent (undefined) from every committed
+   * fixture, keeping the reducer-equivalence golden JSON unmoved. See
+   * `src/engine/RESOLUTION_MODEL.md` §8.
+   */
+  pendingChoice?: PendingChoice | null;
   /**
    * FIFO queue of pending death triggers (ON_DEATH / SUMMON_ON_ANY_DEATH) drained
    * to completion by `drainTriggerQueue` during death resolution. Reset to `[]`
