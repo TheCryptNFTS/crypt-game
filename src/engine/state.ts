@@ -13,6 +13,14 @@ export const OPENING_HAND_SIZE = 6;
 /** Starting face HP for each player's nexus. */
 export const STARTING_NEXUS_HEALTH = 20;
 
+/**
+ * Maximum live units a single lane (front / back) may hold. The board has no
+ * prior hard cap; token-minting death-watchers (SUMMON_ON_ANY_DEATH) could mint
+ * unbounded tokens via mutual-death loops. This Hearthstone-style 7-wide lane
+ * cap bounds the board so a full lane makes a token mint a clean no-op.
+ */
+export const MAX_LANE_UNITS = 7;
+
 export interface UnitInPlay {
   instanceId: string;
   cardId: string;
@@ -66,6 +74,26 @@ export interface UnitInPlay {
    * printed keywords and this derived set. Optional so fixtures default to none.
    */
   auraKeywords?: string[];
+  /**
+   * TEMP-DEBUFF bookkeeping (DEBUFF_ALL_ENEMIES, e.g. Lucifer): the attack
+   * reduction applied "this turn only". Stored so the reducer's turn-end hook can
+   * add it back to restore the unit's attack when the turn that applied it ends.
+   * Optional so fixtures default to no temp debuff.
+   */
+  tempAtkDebuff?: number;
+  /**
+   * DOUBLE_ATTACK bookkeeping (e.g. Harley): how many attacks the unit has made
+   * this turn. Reset to 0 at the start of the controller's turn (alongside
+   * `exhausted`). A DOUBLE_ATTACK unit may strike while this is < 2; others while
+   * it is < 1. Optional so fixtures default to 0.
+   */
+  attacksThisTurn?: number;
+  /**
+   * ONCEDEATH_REVIVE bookkeeping (e.g. Jean): true once the unit has used its
+   * once-per-match self-revive. Tracked on the instance so it never revives
+   * twice. Optional so fixtures default to "revive available".
+   */
+  reviveUsed?: boolean;
 }
 
 /**

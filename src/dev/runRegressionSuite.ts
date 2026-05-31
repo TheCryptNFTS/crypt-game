@@ -30,6 +30,10 @@ const commands = [
   "npm run dev:trigger-order",
   "npm run dev:card-override",
   "npm run dev:real-play-path",
+  "npm run dev:marquee-summon",
+  "npm run dev:marquee-combat",
+  "npm run dev:marquee-aura",
+  "npm run dev:marquee-redteam",
   "npm run dev:red-team-fix",
 ];
 

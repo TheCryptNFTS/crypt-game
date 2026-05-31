@@ -19,7 +19,7 @@
  * attack time (Phase C), so the resolver intentionally no-ops them here.
  */
 
-import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH } from "./state";
+import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS } from "./state";
 import { EffectSpec } from "./abilityCompiler";
 
 export interface EffectContext {
@@ -36,6 +36,10 @@ export interface EffectContext {
   /** Resolves a cardId to its faction (injected by the reducer from cardMetaById).
    *  Required only for faction-scaled BUFF_SELF (Oath/Vow/Martyr). */
   factionOf?: (cardId: string) => string | null | undefined;
+  /** Resolves a cardId to its play cost (injected by the reducer from
+   *  cardMetaById). Required only for DESTROY_ENEMY_SELECT's deterministic
+   *  highest-cost / cost-gate selection. Defaults to 0 when absent. */
+  costOf?: (cardId: string) => number;
 }
 
 /** Maps the faction NOUN as it appears in ability text ("Stone Keeper you
@@ -97,11 +101,20 @@ function alliedUnits(state: MatchState, controller: PlayerId): UnitInPlay[] {
   return [...(b?.front ?? []), ...(b?.back ?? [])];
 }
 
-function mintToken(ctx: EffectContext, spec: EffectSpec): UnitInPlay {
+function mintToken(ctx: EffectContext, spec: EffectSpec): UnitInPlay | undefined {
   const { state, controller } = ctx;
+  const lane: Lane = ctx.lane ?? ctx.source?.lane ?? "front";
+  // BUG L1 FIX: bound the board. SUMMON_ON_ANY_DEATH watchers can mint tokens off
+  // every death; two mutually-watching watchers (or a watcher that mints a token
+  // whose death is itself watched) could mint without bound. If the target lane is
+  // already at the MAX_LANE_UNITS cap, the mint is a clean no-op (no id consumed,
+  // nothing pushed). Checked BEFORE incrementing idCounter so a refused mint stays
+  // fully inert and deterministic.
+  if ((state.players[controller].board[lane]?.length ?? 0) >= MAX_LANE_UNITS) {
+    return undefined;
+  }
   const counter = state.idCounter ?? 0;
   state.idCounter = counter + 1;
-  const lane: Lane = ctx.lane ?? ctx.source?.lane ?? "front";
   const attack = spec.attack ?? 1;
   const health = spec.health ?? 1;
   // A keyword captured from "summon a N/M X with <keyword>" rides onto the token.
@@ -393,12 +406,147 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
         // auras are positional/board-derived, not part of the copied identity.)
         ctx.source.auraAtk = 0;
         ctx.source.auraHp = 0;
+        // BUG H2 FIX: COPY fully REPLACES the copier's attack with the target's
+        // stat line, so any temp "-N attack this turn" debuff recorded against the
+        // copier's OLD attack no longer corresponds to its base. Clear it so the
+        // END_TURN restore can't add a stale delta onto the copied line (drift).
+        ctx.source.tempAtkDebuff = 0;
+        // BUG M3 FIX: COPY inherits the target's cardId — including a Jean-style
+        // ONCEDEATH_REVIVE op. A copy must NOT gain a fresh once-per-match revive,
+        // so deny it by marking the inherited revive as already used. (resolveDeaths
+        // only revives a unit with ONCEDEATH_REVIVE when `reviveUsed` is falsy.)
+        ctx.source.reviveUsed = true;
+      }
+      break;
+    }
+    case "DESTROY_ENEMY_SELECT": {
+      // Deterministic hard removal of ONE enemy board unit, chosen by selector.
+      // No matching enemy / empty board -> clean no-op.
+      const enemy: PlayerId = controller === "P1" ? "P2" : "P1";
+      const foes = alliedUnits(state, enemy);
+      if (foes.length === 0) break;
+      const cost = (u: UnitInPlay) => (ctx.costOf ? ctx.costOf(u.cardId) : 0);
+      let pool = foes;
+      if (spec.selector === "RANDOM_COST_GATE") {
+        // "cost <= own attack": gate by the SOURCE's live attack, then take the
+        // highest-cost survivor (deterministic; tie-break board index via the
+        // ascending front-then-back scan order of alliedUnits).
+        const gate = ctx.source?.attack ?? 0;
+        pool = foes.filter((u) => cost(u) <= gate);
+      } else if (spec.selector === "ATTACK_GATE") {
+        // Mr LOL: "destroy unit with attack >= N". Gate by the foe's own attack.
+        const threshold = spec.amount ?? 0;
+        pool = foes.filter((u) => (u.attack ?? 0) >= threshold);
+      }
+      if (pool.length === 0) break;
+      // Pick the highest-cost candidate; first-seen wins ties (board order).
+      let victim = pool[0];
+      let bestCost = cost(victim);
+      for (const u of pool) {
+        const c = cost(u);
+        if (c > bestCost) {
+          victim = u;
+          bestCost = c;
+        }
+      }
+      victim.health = 0; // reaped (with deathrattles/on-death) by resolveDeaths
+      break;
+    }
+    case "DEBUFF_ALL_ENEMIES": {
+      // -N attack to EVERY enemy unit, THIS TURN ONLY. The reduction is recorded
+      // in `tempAtkDebuff` so the reducer's turn-end hook restores it. Floor at 0
+      // so attack never goes negative. Stacks additively across applications.
+      const enemy: PlayerId = controller === "P1" ? "P2" : "P1";
+      const n = spec.amount ?? 0;
+      if (n > 0) {
+        for (const u of alliedUnits(state, enemy)) {
+          const applied = Math.min(n, u.attack); // never push attack below 0
+          if (applied <= 0) continue;
+          u.attack -= applied;
+          u.tempAtkDebuff = (u.tempAtkDebuff ?? 0) + applied;
+        }
+      }
+      break;
+    }
+    case "RESURRECT_AS_TOKEN": {
+      // Pop the controller's most-recent graveyard record and resummon it as a
+      // 1/1 token (original stats ignored), optionally stamped with a keyword.
+      // No-op on an empty grave.
+      const grave = state.players[controller].graveyard ?? [];
+      const rec = grave.pop();
+      if (rec) {
+        const counter = state.idCounter ?? 0;
+        state.idCounter = counter + 1;
+        const lane: Lane = ctx.source?.lane ?? ctx.lane ?? "front";
+        const token: UnitInPlay = {
+          instanceId: `unit_${state.seed}_${counter}`,
+          cardId: `token_${rec.cardId.toLowerCase().replace(/\s+/g, "_")}`,
+          lane,
+          attack: 1,
+          health: 1,
+          maxHealth: 1,
+          speed: 0,
+          armor: 0,
+          keywords: spec.reviveKeyword ? [spec.reviveKeyword] : [],
+          exhausted: false,
+          summoningSick: false,
+        };
+        state.players[controller].board[lane].push(token);
+        state.players[controller].graveyard = grave;
+      }
+      break;
+    }
+    case "SWAP_STATS_ALL_ENEMIES": {
+      // Swap a unit's BASE attack <-> BASE max-health on every enemy in place.
+      // BUG H1 FIX: `u.attack`/`u.maxHealth` already INCLUDE the unit's continuous
+      // aura bonus (auraAtk/auraHp). Swapping those inflated values and leaving the
+      // aura bookkeeping intact would let the next recomputeAuras strip the OLD aura
+      // off the SWAPPED value and re-add it on the wrong base — corrupting the line
+      // (a debuff could become a buff). So we strip auras to BASE, swap the base,
+      // and ZERO the aura fields (exactly like COPY_UNIT) so recomputeAuras strips
+      // nothing spurious and re-derives the bonus fresh from the live board. The
+      // post-recompute line is then precisely "base atk and base hp swapped, auras
+      // re-applied on top". A unit swapped to 0 base health dies via resolveDeaths.
+      const enemy: PlayerId = controller === "P1" ? "P2" : "P1";
+      for (const u of alliedUnits(state, enemy)) {
+        // Strip the aura portion to recover the unit's OWN base stats. The value
+        // swapped INTO attack is the base current health (matching the original
+        // current-health swap semantics); the value swapped INTO max/current
+        // health is the base attack.
+        const baseAtk = u.attack - (u.auraAtk ?? 0);
+        const baseHp = u.health - (u.auraHp ?? 0);
+        u.attack = baseHp;
+        u.maxHealth = baseAtk;
+        u.health = baseAtk;
+        // Aura portion is now stale against the swapped base — zero it so the next
+        // recomputeAuras re-derives cleanly (no double-count off the swapped line).
+        u.auraAtk = 0;
+        u.auraHp = 0;
+        // BUG H2 FIX: SWAP fully REPLACES the attack value, so any "-N attack this
+        // turn" temp debuff recorded against the OLD attack is now meaningless. If
+        // left set, the END_TURN restore would add a stale delta onto the swapped
+        // base and drift the attack permanently wrong. The swapped-in value is the
+        // unit's fresh (already-correct) line, so clear the temp debuff here.
+        u.tempAtkDebuff = 0;
       }
       break;
     }
     // PASSIVE / STATIC / no-op classifications are resolved elsewhere or never.
     // AURA_FACTION_STAT is continuous — applied by the reducer's recomputeAuras
     // pass (which has the cardId -> faction catalog), never as a one-shot here.
+    // COMMANDER_SHIELD / AURA_COST_REDUCTION / AURA_SPELL_COST /
+    // AURA_ABILITY_SILENCE / DOUBLE_ATTACK / PASSIVE_FLOOR_HP are continuous or
+    // combat-legality passives consumed by the reducer (Phase C), never one-shot.
+    // MIRROR_ATTACK / SUMMON_ON_ANY_DEATH / ONCEDEATH_REVIVE are reducer hooks.
+    case "COMMANDER_SHIELD":
+    case "AURA_COST_REDUCTION":
+    case "AURA_SPELL_COST":
+    case "AURA_ABILITY_SILENCE":
+    case "DOUBLE_ATTACK":
+    case "PASSIVE_FLOOR_HP":
+    case "MIRROR_ATTACK":
+    case "SUMMON_ON_ANY_DEATH":
+    case "ONCEDEATH_REVIVE":
     case "AURA_FACTION_STAT":
     case "AURA_ALLY_STAT":
     case "AURA_KEYWORD":

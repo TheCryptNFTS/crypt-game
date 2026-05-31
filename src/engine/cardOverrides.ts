@@ -52,7 +52,7 @@ export interface CardOverride {
 }
 
 /** Patch version stamp. A literal string — never a runtime date. */
-export const CARD_OVERRIDES_VERSION = "2026.05.30";
+export const CARD_OVERRIDES_VERSION = "2026.05.31";
 
 /**
  * The live balance patch. Keyed by `cardId`. Only a few illustrative entries
@@ -95,6 +95,79 @@ export const cardOverrides: Record<string, CardOverride> = {
   tcg_45: {
     disabled: true,
     note: "Soft-ban demo: kept in catalog (count audits unaffected) but marked deck-illegal.",
+  },
+
+  // --- text-vs-behavior honesty fixes (2026.05.31) ---------------------------
+
+  // tcg_3360 "I Am Death": printed "destroy RANDOM highest-cost enemy" but the
+  // engine picks deterministically (highest cost, tie-break by board order).
+  // Retext removes the false "random". Compiles to DESTROY_ENEMY_SELECT
+  // HIGHEST_COST (ON_SUMMON) via parseNamedMechanics /highest[- ]?cost/.
+  tcg_3360: {
+    ability: "Cannot be targeted by spells. On play: destroy the highest-cost enemy unit.",
+    note: "Honesty fix: removed false 'random' — engine is deterministic (highest cost, tie-break board order). Compiles to DESTROY_ENEMY_SELECT selector:HIGHEST_COST.",
+  },
+
+  // tcg_3395 "Skeletor": printed "raise a RANDOM unit from graveyard" but the
+  // engine pops the most recent entry (LIFO), not a random pick. Retext clarifies
+  // LIFO. Compiles to RESURRECT_AS_TOKEN ON_TURN_END via parseNamedMechanics
+  // raiseToken regex ("raise...graveyard...as a 1/1 Wraith") + EOT check.
+  tcg_3395: {
+    ability: "End of your turn: raise the most recently fallen unit from your graveyard as a 1/1 Wraith.",
+    note: "Honesty fix: removed false 'random' — engine pops graveyard LIFO. Compiles to RESURRECT_AS_TOKEN ON_TURN_END.",
+  },
+
+  // tcg_101 "D'Vile One": printed "Start of combat: destroy random enemy with
+  // cost ≤ own attack" but the engine fires this as an ON_PLAY battlecry (once,
+  // on summon), not each combat. Retext corrects the trigger. Compiles to
+  // DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE (ON_SUMMON) via
+  // parseNamedMechanics cost≤own-attack regex. Rush + Flying are wired keywords.
+  tcg_101: {
+    ability: "Rush, Flying. On play: destroy an enemy unit with cost ≤ own attack.",
+    note: "Honesty fix: 'Start of combat' was wrong trigger — engine fires once ON_PLAY (battlecry). Compiles to DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE ON_SUMMON.",
+  },
+
+  // tcg_3420 "Walter": printed "Cannot be reduced below 1 HP by any single
+  // source" but the floor only applies to combat damage; destroy/execute effects
+  // bypass it. Retext adds 'combat damage' precision. Compiles to PASSIVE_FLOOR_HP
+  // (parseNamedMechanics /cannot be reduced below 1 hp/) + GUARD (firstKeyword).
+  tcg_3420: {
+    ability: "Guard. Cannot be reduced below 1 HP by any single instance of combat damage.",
+    note: "Honesty fix: floor is combat-damage only; destroy/execute bypass it. Compiles to KEYWORD_WIRED:GUARD + PASSIVE_FLOOR_HP.",
+  },
+
+  // tcg_2256 "Hokusai": printed "draw a spell" but the engine draws ANY top card
+  // (no spell filter). Retext corrects the draw clause to 'draw a card'. The
+  // 'spells cost 1 less' aura clause is honest and kept. Compiles to DRAW
+  // ON_TURN_START (compileColonTrigger head:'turn start' + DRAW_RE on body) and
+  // AURA_SPELL_COST PASSIVE (parseNamedMechanics /spells cost 1 less/).
+  tcg_2256: {
+    ability: "Turn start: draw a card. Spells cost 1 less while Hokusai is on board.",
+    note: "Honesty fix: engine draws ANY top card, not a filtered spell. Compiles to DRAW ON_TURN_START + AURA_SPELL_COST PASSIVE.",
+  },
+
+  // tcg_3350 "Hear Speak See No Evil": printed "enemy units cannot trigger
+  // abilities" (implies ALL abilities) but the engine silences only TRIGGERED
+  // abilities; continuous auras and death-watchers still function. Retext adds a
+  // parenthetical to be precise. Compiles to KEYWORD_WIRED:GUARD (firstKeyword
+  // 'guard') + AURA_ABILITY_SILENCE PASSIVE (parseNamedMechanics
+  // /enemy units cannot trigger abilit/).
+  tcg_3350: {
+    ability: "Guard. While in play, enemy units cannot trigger abilities (triggered abilities only; auras still function).",
+    note: "Honesty fix: silence applies to triggered abilities only; auras/death-watchers bypass it. Compiles to KEYWORD_WIRED:GUARD + AURA_ABILITY_SILENCE PASSIVE.",
+  },
+
+  // --- marquee card ability wiring ------------------------------------------
+  // tcg_2384 Amenadiel: printed "Flying, Divine Shield. Attacks deal 2 splash in lane."
+  // The compiler's firstKeyword picks "flying" (KEYWORD_WIRED), then "Attacks deal 2
+  // splash in lane." has no leading keyword and no colon-trigger, so it compiles to
+  // UNKNOWN. Retext to the canonical Cleave phrasing (mirrors tcg_293) so the
+  // leading "Cleave" keyword routes the full text through compileKeyword("cleave", ...),
+  // which emits { trigger: ON_ATTACK, op: CLEAVE } — the intended splash op.
+  // Flying and Divine Shield remain on the card's keywords tuple (reducer-wired).
+  tcg_2384: {
+    ability: "Cleave. This unit deals half its attack as damage to adjacent enemies on attack.",
+    note: "Retext: 'Attacks deal 2 splash in lane' -> canonical Cleave phrasing. Flying+Divine Shield stay on keywords tuple.",
   },
 };
 
