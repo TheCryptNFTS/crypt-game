@@ -3,6 +3,7 @@ import generatedTcgCards from "../data/generatedTcgCards.json";
 import commanders from "../data/commanders.json";
 import { normalizeFaction, Faction } from "../types/faction";
 import { applyCardOverride } from "./cardOverrides";
+import { liveSpells } from "./spellCards";
 
 export type CardType = "unit" | "equipment" | "artifact" | "spell";
 
@@ -139,13 +140,23 @@ function withPlayableType([
 
 export const allCommanderCards: CommanderCard[] = (commanders as RawCommanderCard[]).map(withCommanderType);
 
-export const allPlayableCards: PlayableCard[] = (runtimeMatchPlayableCards as RuntimePlayableTuple[])
-  .map(withPlayableType)
-  // Balance-patch spine: apply the versioned override layer at the single build
-  // chokepoint, so the reducer's cardMetaById/costOf/cardTypeOf/compile path and
-  // deck legality all inherit the patched catalog from one source of truth.
-  // applyCardOverride clones-then-overrides, so the base objects are never mutated.
-  .map(applyCardOverride);
+export const allPlayableCards: PlayableCard[] = [
+  ...(runtimeMatchPlayableCards as RuntimePlayableTuple[])
+    .map(withPlayableType)
+    // Balance-patch spine: apply the versioned override layer at the single build
+    // chokepoint, so the reducer's cardMetaById/costOf/cardTypeOf/compile path and
+    // deck legality all inherit the patched catalog from one source of truth.
+    // applyCardOverride clones-then-overrides, so the base objects are never mutated.
+    .map(applyCardOverride),
+  // LIVE SPELL ARCHETYPE: the first spell-type cards in the shipped catalog. They
+  // are already PlayableCard-shaped (SpellCard extends PlayableCard) and carry no
+  // override entries, so they are appended after the override pass. This is what
+  // makes the SPELL category — and AURA_SPELL_COST cost reduction — exercisable
+  // end-to-end through the same cardMetaById path real cards use. The unit-only
+  // curated deck builders (cardMaster.json, filtered to unit/equipment/artifact)
+  // never see these, so deck legality + count audits stay unaffected.
+  ...liveSpells,
+];
 
 export const allCards: PlayableCard[] = allPlayableCards;
 

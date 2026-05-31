@@ -168,10 +168,40 @@ export interface PlayerState {
   };
 }
 
+/**
+ * A pending death-trigger to be resolved by `drainTriggerQueue`. Deaths are no
+ * longer fired inline during the board sweep; instead each newly-dead unit
+ * ENQUEUES one entry per trigger kind (in canonical board order), and the queue
+ * is then drained FIFO to completion so a chained death (an ON_DEATH/watcher
+ * effect that kills another unit) fires that unit's own triggers within the
+ * SAME action. See `src/engine/RESOLUTION_MODEL.md`.
+ *
+ *   - ON_DEATH               — fire the dead unit's compiled ON_DEATH specs.
+ *   - SUMMON_ON_ANY_DEATH    — fire every live watcher's mint for this death.
+ *
+ * `controller` is the dead unit's owner; `source` is the dead unit itself
+ * (still referenced after it has been spliced off the board, so its ON_DEATH /
+ * watcher exclusion can resolve against a stable identity).
+ */
+export interface TriggerQueueEntry {
+  kind: "ON_DEATH" | "SUMMON_ON_ANY_DEATH";
+  controller: PlayerId;
+  source: UnitInPlay;
+  dead?: UnitInPlay;
+}
+
 export interface MatchState {
   turn: number;
   activePlayer: PlayerId;
   winner: PlayerId | null;
+  /**
+   * FIFO queue of pending death triggers (ON_DEATH / SUMMON_ON_ANY_DEATH) drained
+   * to completion by `drainTriggerQueue` during death resolution. Reset to `[]`
+   * at every action entry. Transient within a single `applyAction` — it is always
+   * empty between actions, so it does not affect cross-action determinism /
+   * structuredClone stability. Optional so existing fixtures default to empty.
+   */
+  triggerQueue?: TriggerQueueEntry[];
   /**
    * Seed the match was created from. Combined with the action list this makes
    * the match fully reproducible (server and client derive the same state).

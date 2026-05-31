@@ -21,6 +21,7 @@
 
 import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS } from "./state";
 import { EffectSpec } from "./abilityCompiler";
+import { scryDeck } from "./keywordEngine";
 
 export interface EffectContext {
   /** The already-cloned state to mutate in place. */
@@ -40,6 +41,12 @@ export interface EffectContext {
    *  cardMetaById). Required only for DESTROY_ENEMY_SELECT's deterministic
    *  highest-cost / cost-gate selection. Defaults to 0 when absent. */
   costOf?: (cardId: string) => number;
+  /** Resolves a cardId to its card type ("unit" | "spell" | ...), injected by the
+   *  reducer from cardMetaById. Required only for the deck-manipulation ops
+   *  (TUTOR_FROM_DECK / DRAW_FILTERED) that select cards by type. Defaults to a
+   *  null lookup (no card matches a type) when absent, so those ops cleanly
+   *  no-op rather than guessing. */
+  cardTypeOf?: (cardId: string) => string | null | undefined;
 }
 
 /** Maps the faction NOUN as it appears in ability text ("Stone Keeper you
@@ -529,6 +536,91 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
         // unit's fresh (already-correct) line, so clear the temp debuff here.
         u.tempAtkDebuff = 0;
       }
+      break;
+    }
+    case "TUTOR_FROM_DECK": {
+      // Search the controller's deck for ONE card matching the selector, move it
+      // to hand. Deterministic: pick by the selector's cost ordering, tie-break by
+      // the earliest deck index (first-seen). Empty deck / no match = clean no-op.
+      const player = state.players[controller];
+      const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+      if (deck.length === 0) break;
+      const cost = (id: string) => (ctx.costOf ? ctx.costOf(id) : 0);
+      const typeOf = (id: string) => (ctx.cardTypeOf ? ctx.cardTypeOf(id) : undefined);
+      const sel = spec.tutorSelector ?? "LOWEST_COST_UNIT";
+      const wantType = sel === "LOWEST_COST_SPELL" ? "spell" : "unit";
+      const wantHighest = sel === "HIGHEST_COST_UNIT";
+      let bestIdx = -1;
+      for (let i = 0; i < deck.length; i += 1) {
+        if (typeOf(deck[i]) !== wantType) continue;
+        if (bestIdx < 0) {
+          bestIdx = i;
+          continue;
+        }
+        const c = cost(deck[i]);
+        const best = cost(deck[bestIdx]);
+        // Strict comparison so the earliest deck index wins ties (first-seen).
+        if (wantHighest ? c > best : c < best) bestIdx = i;
+      }
+      if (bestIdx < 0) break; // no card of the wanted type — clean no-op
+      const [pulled] = deck.splice(bestIdx, 1);
+      player.hand = [...(player.hand ?? []), pulled];
+      player.deck = deck;
+      player.deckCount = deck.length;
+      break;
+    }
+    case "DRAW_FILTERED": {
+      // Move the first N cards of the given type from the deck TOP to hand,
+      // skipping (leaving in place) non-matching cards. Deterministic: deck order
+      // only, no RNG. Empty deck / fewer than N matches = draws what it can.
+      const player = state.players[controller];
+      const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+      const want = (spec.drawType ?? "UNIT").toLowerCase();
+      const typeOf = (id: string) => (ctx.cardTypeOf ? ctx.cardTypeOf(id) : undefined);
+      const n = Math.max(0, spec.amount ?? 0);
+      let taken = 0;
+      const remaining: string[] = [];
+      const drawn: string[] = [];
+      for (const id of deck) {
+        if (taken < n && typeOf(id) === want) {
+          drawn.push(id);
+          taken += 1;
+        } else {
+          remaining.push(id);
+        }
+      }
+      if (drawn.length > 0) {
+        player.hand = [...(player.hand ?? []), ...drawn];
+        player.deck = remaining;
+        player.deckCount = remaining.length;
+      }
+      break;
+    }
+    case "SCRY_DYNAMIC": {
+      // Reorder the top N of the controller's deck deterministically, reusing the
+      // pure scryDeck (ascending cost, stable id tie-break). No RNG; depth comes
+      // from the spec. Deck of <2 / N<2 is a no-op inside scryDeck.
+      const player = state.players[controller];
+      const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+      const depth = Math.max(0, spec.amount ?? 2);
+      const cost = (id: string) => (ctx.costOf ? ctx.costOf(id) : 0);
+      player.deck = scryDeck(deck, cost, depth);
+      // deckCount unchanged (a reorder moves no cards) — kept in sync defensively.
+      player.deckCount = player.deck.length;
+      break;
+    }
+    case "MILL_FROM_DECK": {
+      // Move the top N cards of the controller's deck to their discard pile (no
+      // hand). Deterministic: deck order only. Empty deck = clean no-op; N beyond
+      // the deck size mills what remains.
+      const player = state.players[controller];
+      const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+      const n = Math.min(Math.max(0, spec.amount ?? 0), deck.length);
+      if (n === 0) break;
+      const milled = deck.slice(0, n);
+      player.deck = deck.slice(n);
+      player.deckCount = player.deck.length;
+      player.discard = [...(player.discard ?? []), ...milled];
       break;
     }
     // PASSIVE / STATIC / no-op classifications are resolved elsewhere or never.

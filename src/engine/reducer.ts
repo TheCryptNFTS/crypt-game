@@ -33,7 +33,7 @@
  *     are recomputed idempotently at the single `applyAction` chokepoint.
  */
 
-import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH } from "./state";
+import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, TriggerQueueEntry } from "./state";
 import { playUnitFromHand, playEquipmentFromHand } from "./setup";
 import { playArtifactCard } from "./effectSystem";
 import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBonuses";
@@ -281,10 +281,136 @@ function fireDeathWatchers(state: MatchState, dead: any) {
   }
 }
 
-/** Resolve combat deaths across BOTH boards: fire each newly-dead unit's
- *  DEATHRATTLE (a fixed nexus burst against the enemy of the dead unit's
- *  owner), then record the corpse into its OWNER's graveyard, before clearing
- *  it. Deathrattle face damage cannot kill a unit, so this does not chain.
+/** Hard cap on `drainTriggerQueue` iterations. Each drained entry either resolves
+ *  a finite ON_DEATH/watcher batch or is a no-op; a pathological mutual-death
+ *  cycle (two watchers minting tokens that kill each other) is already bounded by
+ *  the MAX_LANE_UNITS lane cap, but this is a second, absolute backstop: after
+ *  this many drains the queue is abandoned (cleared) and death resolution stops
+ *  CLEANLY — never throws, never loops forever. 1000 is far above any legitimate
+ *  chain depth (a real board tops out at 28 units across 4 lanes), so it can only
+ *  fire on a true cycle, and stopping there is deterministic (state-only). */
+const DRAIN_ITERATION_CAP = 1000;
+
+/** Process ONE newly-dead unit: run its ONCEDEATH_REVIVE gate, deathrattle nexus
+ *  burst, and graveyard record, then ENQUEUE its ON_DEATH and SUMMON_ON_ANY_DEATH
+ *  triggers (ON_DEATH first, watchers second — the SAME relative order the old
+ *  inline pass fired them in). The corpse is NOT removed here: it stays on the
+ *  board so its queued ON_DEATH summon enters its own lane when the queue drains.
+ *  Returns true if the unit truly died (was reaped + enqueued), false if it was
+ *  revived instead (no triggers). Marks the corpse `_reaped` so a re-scan never
+ *  double-processes a unit still sitting at health<=0 awaiting its drain. */
+function reapAndEnqueue(state: MatchState, owner: PlayerId, u: any): boolean {
+  // ONCEDEATH_REVIVE (e.g. Jean): once per match, a unit returns to the board at
+  // full HP INSTEAD of dying. It never truly died, so no deathrattle / ON_DEATH /
+  // graveyard / death-watcher fires for it.
+  if (unitHasOp(u.cardId, "ONCEDEATH_REVIVE") && !u.reviveUsed) {
+    u.reviveUsed = true;
+    u.health = u.maxHealth ?? 1;
+    return false;
+  }
+  u._reaped = true;
+  if (hasDeathrattle(u)) {
+    const enemy = opponentOf(owner);
+    state.players[enemy].nexusHealth =
+      (state.players[enemy].nexusHealth ?? 20) - DEATHRATTLE_NEXUS_DAMAGE;
+  }
+  // GRAVEYARD: a non-token corpse is recorded for its owner (most-recent last),
+  // carrying enough to reconstruct a playable unit. Tokens vanish. Recorded here
+  // (at reap time, in canonical sweep order) — identical to the old pass, which
+  // recorded the corpse in the same per-unit order before clearing the lane.
+  if (!isTokenCardId(u.cardId)) {
+    const grave = state.players[owner].graveyard ?? (state.players[owner].graveyard = []);
+    grave.push({
+      cardId: u.cardId,
+      // Strip any live aura bonus so the recorded stat line is the unit's own
+      // base (auras are re-derived on resurrect via recomputeAuras).
+      attack: Math.max(0, (u.attack ?? 0) - (u.auraAtk ?? 0)),
+      maxHealth: Math.max(1, (u.maxHealth ?? u.health ?? 1) - (u.auraHp ?? 0)),
+      keywords: [...(u.keywords ?? [])],
+    });
+  }
+  const q: TriggerQueueEntry[] = state.triggerQueue ?? (state.triggerQueue = []);
+  q.push({ kind: "ON_DEATH", controller: owner, source: u, dead: u });
+  q.push({ kind: "SUMMON_ON_ANY_DEATH", controller: owner, source: u, dead: u });
+  return true;
+}
+
+/** Scan BOTH boards in the canonical P1-front-asc → P1-back-asc → P2-front-asc →
+ *  P2-back-asc order for newly-dead units (`health <= 0`) that have not yet been
+ *  reaped, reaping + enqueuing each via `reapAndEnqueue`. Returns the count of
+ *  units newly enqueued this sweep (0 means no new deaths to chain). The dying
+ *  set per lane is snapshotted before iterating so an ON_DEATH summon already on
+ *  the board does not perturb the index walk. */
+function sweepNewDeaths(state: MatchState): number {
+  let enqueued = 0;
+  for (const owner of ["P1", "P2"] as PlayerId[]) {
+    const board = state.players[owner].board;
+    for (const lane of ["front", "back"] as Lane[]) {
+      const dying = (board?.[lane] ?? []).filter((u: any) => (u?.health ?? 0) <= 0 && !u._reaped);
+      for (const u of dying) {
+        if (reapAndEnqueue(state, owner, u)) enqueued += 1;
+      }
+    }
+  }
+  return enqueued;
+}
+
+/** Remove every reaped corpse from both boards (corpses that survived as revived
+ *  units have `_reaped` unset and stay). Also strips the transient `_reaped` flag
+ *  off any survivor so it never leaks into a structuredClone / event payload. */
+function removeReaped(state: MatchState) {
+  for (const owner of ["P1", "P2"] as PlayerId[]) {
+    const board = state.players[owner].board;
+    for (const lane of ["front", "back"] as Lane[]) {
+      board[lane] = (board?.[lane] ?? []).filter((u: any) => !u._reaped);
+    }
+  }
+}
+
+/** Drain the death-trigger queue to completion (FIFO), firing each entry's
+ *  ON_DEATH / SUMMON_ON_ANY_DEATH effect. AFTER every entry resolves, re-scan for
+ *  units it newly killed and enqueue THEIR triggers (in canonical board order) —
+ *  so a chained death ("X dies → its ON_DEATH kills Y → Y's ON_DEATH fires → Y's
+ *  death-watchers mint") resolves within the SAME action, FIFO with new deaths
+ *  appended. Reaped corpses are spliced off the board only after the whole queue
+ *  drains, so an ON_DEATH summon still enters its dead unit's lane. Bounded by
+ *  DRAIN_ITERATION_CAP for a clean stop against a pathological mutual-death loop. */
+function drainTriggerQueue(state: MatchState) {
+  const q: TriggerQueueEntry[] = state.triggerQueue ?? (state.triggerQueue = []);
+  let iterations = 0;
+  while (q.length > 0) {
+    if (++iterations > DRAIN_ITERATION_CAP) {
+      // Clean termination backstop: abandon the remaining queue and stop. The cap
+      // is unreachable by any legitimate chain, so this only fires on a true cycle.
+      q.length = 0;
+      break;
+    }
+    const entry = q.shift() as TriggerQueueEntry;
+    if (entry.kind === "ON_DEATH") {
+      // ON_DEATH effect specs (e.g. summon-a-token-on-death, return-from-grave)
+      // resolve while the corpse is still on the board, so a summoned token enters
+      // the dead unit's lane.
+      fireTrigger(state, entry.controller, entry.source, "ON_DEATH");
+    } else {
+      // SUMMON_ON_ANY_DEATH (e.g. Crypt Keeper): every live watcher mints a token
+      // for ITS controller in response to this death. The dead unit is excluded as
+      // a watcher source so a dying watcher does not spawn off its own death twice.
+      fireDeathWatchers(state, entry.dead);
+    }
+    // Chain: an effect above may have set another unit to health<=0. Reap + enqueue
+    // those NEW deaths now, in canonical order, so they resolve later in this drain.
+    sweepNewDeaths(state);
+  }
+  removeReaped(state);
+}
+
+/** Resolve combat deaths across BOTH boards. Newly-dead units are reaped and
+ *  their death triggers ENQUEUED in the canonical order below, then the queue is
+ *  drained to completion (`drainTriggerQueue`) so chained deaths resolve in the
+ *  same action. Each corpse fires DEATHRATTLE (a fixed nexus burst against the
+ *  enemy of the dead unit's owner) and records into its OWNER's graveyard at reap
+ *  time; its ON_DEATH and death-watchers fire when the queue drains, before the
+ *  corpse is spliced off the board.
  *
  *  CANONICAL SIMULTANEOUS-DEATH ORDER (see src/engine/RESOLUTION_MODEL.md).
  *  When one action kills several units at once (AoE, cleave, aura-loss combined
@@ -297,60 +423,18 @@ function fireDeathWatchers(state: MatchState, dead: any) {
  *    2. by LANE        — front before back (fixed literal array)
  *    3. by ARRAY INDEX — ascending (Array.filter preserves index order)
  *
- *  This means ON_DEATH effects fire, and graveyard records land, in exactly this
- *  P1-front-asc → P1-back-asc → P2-front-asc → P2-back-asc sweep. An on-death
- *  summon mints into the dead unit's lane via SUMMON_TOKEN, whose tokens take
- *  ascending idCounter instanceIds (left-to-right), so the chain is deterministic.
- *  A token minted by an earlier corpse's ON_DEATH is not itself dead, so it
- *  survives this pass and is not double-reaped (the `dying` snapshot is taken per
- *  lane before any summon mutates the array). */
+ *  Because the queue is seeded in this exact sweep and drained FIFO, ON_DEATH
+ *  effects fire — and graveyard records land — in the same
+ *  P1-front-asc → P1-back-asc → P2-front-asc → P2-back-asc order as the old inline
+ *  pass for SIMULTANEOUS deaths. CHAINED deaths (caused by a drained trigger) are
+ *  appended after the current batch, FIFO, so they resolve later in the same drain
+ *  rather than being silently dropped to the next action. An on-death summon mints
+ *  into the dead unit's lane via SUMMON_TOKEN (ascending idCounter ids,
+ *  left-to-right); a minted token is not itself dead, so it survives this pass and
+ *  is not double-reaped. */
 function resolveDeaths(state: MatchState) {
-  for (const owner of ["P1", "P2"] as PlayerId[]) {
-    const board = state.players[owner].board;
-    for (const lane of ["front", "back"] as Lane[]) {
-      // Snapshot the dying units before any on-death summon mutates the array.
-      const dying = (board?.[lane] ?? []).filter((u: any) => (u?.health ?? 0) <= 0);
-      for (const u of dying) {
-        // ONCEDEATH_REVIVE (e.g. Jean): once per match, a unit returns to the
-        // board at full HP INSTEAD of dying. It never truly died, so no
-        // deathrattle / ON_DEATH / graveyard / death-watcher fires for it.
-        if (unitHasOp(u.cardId, "ONCEDEATH_REVIVE") && !u.reviveUsed) {
-          u.reviveUsed = true;
-          u.health = u.maxHealth ?? 1;
-          continue;
-        }
-        if (hasDeathrattle(u)) {
-          const enemy = opponentOf(owner);
-          state.players[enemy].nexusHealth =
-            (state.players[enemy].nexusHealth ?? 20) - DEATHRATTLE_NEXUS_DAMAGE;
-        }
-        // ON_DEATH effect specs (e.g. summon-a-token-on-death, return-from-grave)
-        // resolve while the corpse is still on the board, so a summoned token
-        // enters the dead unit's lane. Fired BEFORE the corpse is recorded into
-        // the graveyard so a deathrattle never resurrects the unit that's dying.
-        fireTrigger(state, owner, u, "ON_DEATH");
-        // SUMMON_ON_ANY_DEATH (e.g. Crypt Keeper): a watcher anywhere on the board
-        // mints a token for ITS controller whenever ANY unit dies. Fired here so
-        // it sees this real death (revives above are excluded). The watcher's own
-        // death also counts (it is a "unit dies" event).
-        fireDeathWatchers(state, u);
-        // GRAVEYARD: a non-token corpse is recorded for its owner (most-recent
-        // last), carrying enough to reconstruct a playable unit. Tokens vanish.
-        if (!isTokenCardId(u.cardId)) {
-          const grave = state.players[owner].graveyard ?? (state.players[owner].graveyard = []);
-          grave.push({
-            cardId: u.cardId,
-            // Strip any live aura bonus so the recorded stat line is the unit's
-            // own base (auras are re-derived on resurrect via recomputeAuras).
-            attack: Math.max(0, (u.attack ?? 0) - (u.auraAtk ?? 0)),
-            maxHealth: Math.max(1, (u.maxHealth ?? u.health ?? 1) - (u.auraHp ?? 0)),
-            keywords: [...(u.keywords ?? [])],
-          });
-        }
-      }
-    }
-    removeDead(board);
-  }
+  sweepNewDeaths(state);
+  drainTriggerQueue(state);
 }
 
 /**
@@ -597,6 +681,11 @@ export function applyAction(state: MatchState, action: Action): ApplyResult {
 function applyActionCore(state: MatchState, action: Action): ApplyResult {
   // PURE: clone once at entry, mutate the copy only.
   const next: MatchState = structuredClone(state);
+  // The death-trigger queue is transient within a single action: reset it to
+  // empty at entry so a (defensively) stale queue never leaks across actions and
+  // the drain always starts clean. It is always empty between actions, so this is
+  // a no-op in practice but pins the invariant.
+  next.triggerQueue = [];
   const events: GameEvent[] = [];
 
   // Global guard: once decided, nothing further is legal.
@@ -1018,6 +1107,7 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         target: chosen,
         factionOf: (id: string) => cardMetaById.get(id)?.faction ?? null,
         costOf,
+        cardTypeOf,
       });
       player.hand = [...player.hand.slice(0, action.handIndex), ...player.hand.slice(action.handIndex + 1)];
       player.discard = [...(player.discard ?? []), cardId];

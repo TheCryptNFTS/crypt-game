@@ -23,6 +23,7 @@ import { MatchState } from "../engine/state";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { buildCuratedDeck } from "../lib/buildCuratedDeck";
 import runtimeMatchPlayableCards from "../data/runtimeMatchPlayableCards.json";
+import { liveSpells } from "../engine/spellCards";
 
 let failures = 0;
 function check(name: string, cond: boolean, detail?: unknown) {
@@ -40,11 +41,16 @@ console.log(`\n=== CARD OVERRIDE PROOF (version ${CARD_OVERRIDES_VERSION}) ===`)
 
 // --- (e) card COUNT unchanged -------------------------------------------------
 {
-  const baseCount = (runtimeMatchPlayableCards as unknown[]).length;
+  // The OVERRIDE layer modifies in place — it adds/deletes nothing. The catalog is
+  // the raw runtime tuples PLUS the live SPELL archetype (a separate, non-override
+  // source merged in cards.ts), so the invariant is: catalog === raw + liveSpells.
+  // This still pins that overrides never change the count (any drift in the raw
+  // tuples or a duplicated spell id breaks it).
+  const baseCount = (runtimeMatchPlayableCards as unknown[]).length + liveSpells.length;
   check(
-    "card count unchanged by overrides (catalog === raw tuple count)",
+    "card count unchanged by overrides (catalog === raw tuple count + live spells)",
     allPlayableCards.length === baseCount,
-    { catalog: allPlayableCards.length, raw: baseCount }
+    { catalog: allPlayableCards.length, raw: (runtimeMatchPlayableCards as unknown[]).length, liveSpells: liveSpells.length }
   );
   // Every overridden id still resolves — overrides modify, never delete.
   for (const id of Object.keys(cardOverrides)) {

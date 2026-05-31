@@ -65,6 +65,12 @@ const ACTIVE_OPS = new Set<EffectOp>([
   "PIERCE_ARMOR",
   "RESTRICT_ATTACK",
   "AURA_FACTION_STAT",
+  // Deck-manipulation ops (live via the SPELL archetype; resolved deterministically
+  // against the controller's own deck on an ON_SUMMON/cast trigger).
+  "TUTOR_FROM_DECK",
+  "DRAW_FILTERED",
+  "SCRY_DYNAMIC",
+  "MILL_FROM_DECK",
 ]);
 
 /** Does this single spec actually do something at runtime? */
