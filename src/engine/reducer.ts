@@ -289,9 +289,45 @@ function detectWinner(state: MatchState): PlayerId | null {
   if (state.winner === "P1" || state.winner === "P2") return state.winner;
   const p1Dead = (state.players.P1.nexusHealth ?? 20) <= 0;
   const p2Dead = (state.players.P2.nexusHealth ?? 20) <= 0;
+  // Lethal (nexus depletion) is always checked first, so a finishing blow still
+  // wins even when an opponent is one tick from a control victory.
   if (p2Dead) return "P1";
   if (p1Dead) return "P2";
+  // ASCENDANCY control victory (#4): only consulted when the match enabled it.
+  // Indirect, no-burn — the meter is earned by sustained board dominance, not by
+  // damaging the face. P1 is checked first purely for a deterministic tie-break.
+  const threshold = state.rules?.ascendancyToWin;
+  if (threshold && state.ascendancy) {
+    if ((state.ascendancy.P1 ?? 0) >= threshold) return "P1";
+    if ((state.ascendancy.P2 ?? 0) >= threshold) return "P2";
+  }
   return null;
+}
+
+/** Live (health>0) unit count across both lanes of a player's board. */
+function liveUnitCount(state: MatchState, player: PlayerId): number {
+  const board = state.players[player].board;
+  let n = 0;
+  for (const lane of ["front", "back"] as Lane[]) {
+    for (const u of board?.[lane] ?? []) {
+      if ((u?.health ?? 0) > 0) n += 1;
+    }
+  }
+  return n;
+}
+
+/** Advance the ASCENDANCY meter for the player whose turn just ended (#4). A
+ *  clean no-op unless the match enabled `rules.ascendancyToWin`. Strict board
+ *  dominance (more live units than the opponent) at turn end increments the
+ *  ending player's counter; anything else resets it to 0 (dominance must be
+ *  SUSTAINED). The opponent's counter is left untouched — it advances on THEIR
+ *  own turn end. Never touches nexus health (no-burn). */
+function advanceAscendancy(state: MatchState, ending: PlayerId): void {
+  if (!state.rules?.ascendancyToWin) return;
+  if (!state.ascendancy) state.ascendancy = { P1: 0, P2: 0 };
+  const mine = liveUnitCount(state, ending);
+  const theirs = liveUnitCount(state, opponentOf(ending));
+  state.ascendancy[ending] = mine > theirs ? (state.ascendancy[ending] ?? 0) + 1 : 0;
 }
 
 function removeDead(board: { front: any[]; back: any[] }) {
@@ -1150,6 +1186,19 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
               unit.tempAtkDebuff = 0;
             }
           }
+        }
+      }
+
+      // ASCENDANCY (#4): score board control for the ending player now that their
+      // turn's board is settled. ENTIRELY gated on the opt-in ruleset so a vanilla
+      // match is byte-identical (no extra field, no extra finalizeWin / WIN event)
+      // and the reducer-equivalence golden JSON stays unmoved. Reaching the
+      // threshold ends the match by control victory before control even passes.
+      if (next.rules?.ascendancyToWin) {
+        advanceAscendancy(next, ending);
+        finalizeWin(next, events);
+        if (next.winner) {
+          return { state: next, events };
         }
       }
 
