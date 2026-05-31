@@ -1,10 +1,10 @@
 export type Faction =
-  | "STONE"
-  | "IRON"
-  | "BRONZE"
-  | "SILVER"
-  | "GOLD"
-  | "GOD";
+  | "STONE_KEEPERS"
+  | "IRON_DEFENDERS"
+  | "BRONZE_GUARDIANS"
+  | "SILVER_SENTINELS"
+  | "GOLDEN_SOVEREIGNS"
+  | "GODS";
 
 export function normalizeFaction(value: string | null | undefined): Faction {
   const raw = String(value ?? "").trim();
@@ -17,32 +17,32 @@ export function normalizeFaction(value: string | null | undefined): Faction {
     case "STONE":
     case "STONE_KEEPER":
     case "STONE_KEEPERS":
-      return "STONE";
+      return "STONE_KEEPERS";
 
     case "IRON":
     case "IRON_DEFENDER":
     case "IRON_DEFENDERS":
-      return "IRON";
+      return "IRON_DEFENDERS";
 
     case "BRONZE":
     case "BRONZE_GUARDIAN":
     case "BRONZE_GUARDIANS":
-      return "BRONZE";
+      return "BRONZE_GUARDIANS";
 
     case "SILVER":
     case "SILVER_SENTINEL":
     case "SILVER_SENTINELS":
-      return "SILVER";
+      return "SILVER_SENTINELS";
 
     case "GOLD":
     case "GOLDEN":
     case "GOLDEN_SOVEREIGN":
     case "GOLDEN_SOVEREIGNS":
-      return "GOLD";
+      return "GOLDEN_SOVEREIGNS";
 
     case "GOD":
     case "GODS":
-      return "GOD";
+      return "GODS";
 
     default:
       throw new Error(`Unknown faction: ${value}`);

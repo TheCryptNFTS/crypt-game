@@ -1,0 +1,365 @@
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(141, 92, 255, 0.08), transparent 24%),
+    radial-gradient(circle at 90% 10%, rgba(240, 210, 79, 0.06), transparent 20%),
+    #06080d;
+  color: #eef2f8;
+}
+
+.app-shell__main {
+  min-width: 0;
+  padding: 18px;
+}
+
+.app-shell__content {
+  margin-top: 18px;
+}
+
+.app-sidebar {
+  border-right: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(180deg, rgba(10,13,18,0.98), rgba(7,9,13,1));
+  padding: 24px 18px;
+}
+
+.app-sidebar__brand {
+  margin-bottom: 24px;
+}
+
+.app-sidebar__sigil {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.app-sidebar__sub {
+  margin-top: 8px;
+  color: #8fa0b6;
+  font-size: 13px;
+}
+
+.app-sidebar__nav {
+  display: grid;
+  gap: 10px;
+}
+
+.app-sidebar__nav-item {
+  text-align: left;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #eef2f8;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.app-sidebar__nav-item.is-active {
+  background: rgba(141,92,255,0.12);
+  border-color: rgba(141,92,255,0.28);
+}
+
+.app-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  background: rgba(14,18,24,0.9);
+  padding: 14px 16px;
+}
+
+.app-topbar__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.app-chip {
+  min-width: 96px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.app-chip span {
+  display: block;
+  font-size: 10px;
+  color: #8fa0b6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.app-wallet-button,
+.hero-panel__actions button,
+.shop-buy,
+.wallet-modal__actions button {
+  border-radius: 14px;
+  padding: 11px 15px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(141,92,255,0.12);
+  color: #eef2f8;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.wallet-modal__actions .is-secondary,
+.hero-panel__actions .is-secondary {
+  background: rgba(255,255,255,0.06);
+}
+
+.app-page {
+  display: grid;
+  gap: 18px;
+}
+
+.app-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.app-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.app-panel,
+.hero-panel {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  background: rgba(14,18,24,0.9);
+  padding: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+}
+
+.hero-panel__eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #8fdcff;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+}
+
+.hero-panel h1,
+.app-panel h1,
+.app-panel h2 {
+  margin: 0 0 10px;
+}
+
+.hero-panel p,
+.muted {
+  color: #91a0b3;
+  line-height: 1.5;
+}
+
+.hero-panel__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hero-panel__stats {
+  display: grid;
+  gap: 10px;
+}
+
+.hero-stat {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.hero-stat span {
+  display: block;
+  font-size: 10px;
+  color: #8fa0b6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.app-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 14px;
+}
+
+.app-panel__header span {
+  color: #8fa0b6;
+  font-size: 12px;
+}
+
+.progress-meter {
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.progress-meter--small {
+  height: 10px;
+}
+
+.progress-meter__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8D5CFF, #E9C984);
+}
+
+.streak-track {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.streak-track__day {
+  height: 58px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  font-weight: 800;
+}
+
+.streak-track__day.is-filled {
+  background: rgba(141,92,255,0.14);
+  border-color: rgba(141,92,255,0.28);
+}
+
+.streak-track__day.is-nft {
+  box-shadow: inset 0 0 0 1px rgba(240,210,79,0.24);
+}
+
+.quest-grid,
+.collection-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.quest-card,
+.collection-card {
+  border-radius: 18px;
+  padding: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.quest-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.quest-card__rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.quest-card__rewards span {
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  font-size: 12px;
+}
+
+.collection-card {
+  display: grid;
+  gap: 8px;
+}
+
+.collection-card__art {
+  height: 120px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(141,92,255,0.18), transparent 35%),
+    linear-gradient(180deg, rgba(19,23,31,1), rgba(10,12,17,1));
+  border: 1px solid rgba(255,255,255,0.08);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.wallet-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.wallet-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.68);
+  backdrop-filter: blur(8px);
+}
+
+.wallet-modal__panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(520px, calc(100vw - 32px));
+  transform: translate(-50%, -50%);
+  border-radius: 22px;
+  padding: 20px;
+  background: rgba(14,18,24,0.98);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.wallet-modal__state {
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.wallet-modal__state span {
+  display: block;
+  font-size: 11px;
+  color: #8fa0b6;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.wallet-modal__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 1200px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .app-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero-panel,
+  .app-grid--two {
+    grid-template-columns: 1fr;
+  }
+}

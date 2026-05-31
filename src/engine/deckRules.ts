@@ -1,12 +1,12 @@
 import { getPlayableCardById } from "./cards";
 import { Faction, normalizeFaction } from "../types/faction";
 const FACTION_CODE_TO_CANON_NAME: Record<string, string> = {
-  STONE: "Stone Keepers",
-  IRON: "Iron Defenders",
-  BRONZE: "Bronze Guardians",
-  SILVER: "Silver Sentinels",
-  GOLD: "Golden Sovereigns",
-  GOD: "Gods",
+  STONE_KEEPERS: "Stone Keepers",
+  IRON_DEFENDERS: "Iron Defenders",
+  BRONZE_GUARDIANS: "Bronze Guardians",
+  SILVER_SENTINELS: "Silver Sentinels",
+  GOLDEN_SOVEREIGNS: "Golden Sovereigns",
+  GODS: "Gods",
 };
 
 export type DeckCardLike =
@@ -111,7 +111,7 @@ export function validateDeck(
 
     byFaction.set(faction, (byFaction.get(faction) || 0) + 1);
 
-    if (!allowGodCards && faction === "GOD") {
+    if (!allowGodCards && faction === "GODS") {
       errors.push(`Card ${id} is a GOD card but GOD cards are not allowed in this deck.`);
     }
   }
@@ -128,7 +128,7 @@ export function validateDeck(
     }
   }
 
-  const godCount = byFaction.get("GOD") || 0;
+  const godCount = byFaction.get("GODS") || 0;
 
   return {
     valid: errors.length === 0,
@@ -147,12 +147,12 @@ export function validateDeck(
 function inferFactionFromIdFallback(id: string): Faction {
   const lower = id.toLowerCase();
 
-  if (lower.includes("stone")) return "STONE";
-  if (lower.includes("iron")) return "IRON";
-  if (lower.includes("bronze")) return "BRONZE";
-  if (lower.includes("silver")) return "SILVER";
-  if (lower.includes("gold")) return "GOLD";
-  if (lower.includes("god")) return "GOD";
+  if (lower.includes("stone")) return "STONE_KEEPERS";
+  if (lower.includes("iron")) return "IRON_DEFENDERS";
+  if (lower.includes("bronze")) return "BRONZE_GUARDIANS";
+  if (lower.includes("silver")) return "SILVER_SENTINELS";
+  if (lower.includes("gold")) return "GOLDEN_SOVEREIGNS";
+  if (lower.includes("god")) return "GODS";
 
   throw new Error(`Could not infer faction from id: ${id}`);
 }

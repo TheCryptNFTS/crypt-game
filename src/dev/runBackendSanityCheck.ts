@@ -25,7 +25,10 @@ function testCommanderRegistryResolvesSpecs() {
   for (const commanderId of specIds) {
     const spec = COMMANDER_SPECS[commanderId];
     assert(spec, `Missing commander spec for ${commanderId}`);
-    normalizeFaction(String(spec.faction));
+    // Commanders are faction-agnostic at runtime (the registry forces
+    // CommanderDefinition.faction to null); only validate when a spec opts
+    // into a faction so a legitimate null doesn't trip normalizeFaction.
+    if (spec.faction != null) normalizeFaction(String(spec.faction));
   }
 }
 

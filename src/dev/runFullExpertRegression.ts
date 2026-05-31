@@ -1,7 +1,6 @@
 import { execSync } from "node:child_process";
 
 const commands = [
-  "npm run dev:playproof",
   "npm run dev:exactproof",
   "npm run dev:equipment",
   "npm run dev:artifact",
@@ -10,6 +9,8 @@ const commands = [
   "npm run dev:nomatch",
   "npm run dev:oneofone",
   "npm run dev:legendary",
+  "npm run dev:lore-audit",
+  "npm run dev:aaa-audit",
 ];
 
 let failed = false;

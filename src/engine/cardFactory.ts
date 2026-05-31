@@ -90,7 +90,7 @@ export type GeneratedEquipment = {
 type UnitSeed = {
   id: string;
   name: string;
-  faction: "STONE" | "BRONZE" | "IRON" | "SILVER" | "GOLD";
+  faction: "STONE_KEEPERS" | "BRONZE_GUARDIANS" | "IRON_DEFENDERS" | "SILVER_SENTINELS" | "GOLDEN_SOVEREIGNS";
   rarity: "common" | "rare";
   source: string;
 };
@@ -98,7 +98,7 @@ type UnitSeed = {
 type SpellSeed = {
   id: string;
   name: string;
-  faction: "STONE" | "BRONZE" | "IRON" | "SILVER" | "GOLD" | "GOD";
+  faction: "STONE_KEEPERS" | "BRONZE_GUARDIANS" | "IRON_DEFENDERS" | "SILVER_SENTINELS" | "GOLDEN_SOVEREIGNS" | "GODS";
   rarity: "common" | "rare";
   source: string;
 };
@@ -106,7 +106,7 @@ type SpellSeed = {
 type EquipmentSeed = {
   id: string;
   name: string;
-  faction: "STONE" | "BRONZE" | "IRON" | "SILVER" | "GOLD";
+  faction: "STONE_KEEPERS" | "BRONZE_GUARDIANS" | "IRON_DEFENDERS" | "SILVER_SENTINELS" | "GOLDEN_SOVEREIGNS";
   rarity: "common" | "rare";
   source: string;
 };
@@ -154,7 +154,7 @@ function scoreFromSource(source: string): number {
   return inverseRarity(DIGITAL_TRAIT_COUNTS[source] ?? 140);
 }
 
-function deriveUnitIdentity(source: string, faction: "STONE" | "BRONZE" | "IRON" | "SILVER" | "GOLD") {
+function deriveUnitIdentity(source: string, faction: "STONE_KEEPERS" | "BRONZE_GUARDIANS" | "IRON_DEFENDERS" | "SILVER_SENTINELS" | "GOLDEN_SOVEREIGNS") {
   const s = source.toLowerCase();
 
   if (
@@ -166,7 +166,7 @@ function deriveUnitIdentity(source: string, faction: "STONE" | "BRONZE" | "IRON"
     return {
       cardClass: "TANK" as UnitClass,
       passive: s.includes("shield") ? ("TAUNT" as UnitPassive) : ("GUARD" as UnitPassive),
-      subtype: faction === "STONE" ? ("STONE" as UnitSubtype) : ("BRONZE" as UnitSubtype),
+      subtype: faction === "STONE_KEEPERS" ? ("STONE" as UnitSubtype) : ("BRONZE" as UnitSubtype),
       combatStyle: "DEFENSIVE" as UnitCombatStyle,
       keywords: s.includes("shield") ? ["TAUNT"] : []
     };
@@ -176,7 +176,7 @@ function deriveUnitIdentity(source: string, faction: "STONE" | "BRONZE" | "IRON"
     return {
       cardClass: "BRUISER" as UnitClass,
       passive: "ARMOR_GAIN" as UnitPassive,
-      subtype: faction === "STONE" ? ("STONE" as UnitSubtype) : ("BRONZE" as UnitSubtype),
+      subtype: faction === "STONE_KEEPERS" ? ("STONE" as UnitSubtype) : ("BRONZE" as UnitSubtype),
       combatStyle: "HEAVY" as UnitCombatStyle,
       keywords: []
     };
@@ -208,23 +208,23 @@ function deriveUnitIdentity(source: string, faction: "STONE" | "BRONZE" | "IRON"
   }
 
   return {
-    cardClass: faction === "STONE" ? ("TANK" as UnitClass) : ("RANGER" as UnitClass),
-    passive: faction === "STONE" ? ("GUARD" as UnitPassive) : ("RUSH" as UnitPassive),
-    subtype: faction === "STONE" ? ("STONE" as UnitSubtype) : ("BRONZE" as UnitSubtype),
-    combatStyle: faction === "STONE" ? ("DEFENSIVE" as UnitCombatStyle) : ("FAST" as UnitCombatStyle),
-    keywords: faction === "BRONZE" ? ["RUSH"] : []
+    cardClass: faction === "STONE_KEEPERS" ? ("TANK" as UnitClass) : ("RANGER" as UnitClass),
+    passive: faction === "STONE_KEEPERS" ? ("GUARD" as UnitPassive) : ("RUSH" as UnitPassive),
+    subtype: faction === "STONE_KEEPERS" ? ("STONE" as UnitSubtype) : ("BRONZE" as UnitSubtype),
+    combatStyle: faction === "STONE_KEEPERS" ? ("DEFENSIVE" as UnitCombatStyle) : ("FAST" as UnitCombatStyle),
+    keywords: faction === "BRONZE_GUARDIANS" ? ["RUSH"] : []
   };
 }
 
 function deriveUnitStats(
-  faction: "STONE" | "BRONZE" | "IRON" | "SILVER" | "GOLD",
+  faction: "STONE_KEEPERS" | "BRONZE_GUARDIANS" | "IRON_DEFENDERS" | "SILVER_SENTINELS" | "GOLDEN_SOVEREIGNS",
   rarity: "common" | "rare",
   cardClass: UnitClass,
   passive: UnitPassive
 ) {
   let attack = 3;
-  let health = faction === "STONE" ? 12 : 8;
-  let speed = faction === "STONE" ? 2 : 4;
+  let health = faction === "STONE_KEEPERS" ? 12 : 8;
+  let speed = faction === "STONE_KEEPERS" ? 2 : 4;
   let armor = 0;
 
   if (cardClass === "TANK") {
@@ -274,7 +274,7 @@ function deriveUnitStats(
 
 function deriveEquipmentEffect(
   name: string,
-  faction: "STONE" | "BRONZE" | "IRON" | "SILVER" | "GOLD",
+  faction: "STONE_KEEPERS" | "BRONZE_GUARDIANS" | "IRON_DEFENDERS" | "SILVER_SENTINELS" | "GOLDEN_SOVEREIGNS",
   rarity: "common" | "rare"
 ) {
   const s = name.toLowerCase();
@@ -307,8 +307,8 @@ function deriveEquipmentEffect(
   }
 
   return {
-    attack: faction === "BRONZE" ? 1 : 0,
-    health: faction === "STONE" ? 1 : 0,
+    attack: faction === "BRONZE_GUARDIANS" ? 1 : 0,
+    health: faction === "STONE_KEEPERS" ? 1 : 0,
     speed: 0,
     armor: 0
   };
@@ -318,56 +318,56 @@ const UNIT_SEEDS: UnitSeed[] = [
   {
     id: "unit_stone_guard",
     name: "Stone Guard",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "common",
     source: "Bracers"
   },
   {
     id: "unit_shield_bearer",
     name: "Shield Bearer",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "common",
     source: "Buckler"
   },
   {
     id: "unit_stone_brute",
     name: "Stone Brute",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "rare",
     source: "Crusader Shield"
   },
   {
     id: "unit_bronze_scout",
     name: "Bronze Scout",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "common",
     source: "Boots"
   },
   {
     id: "unit_blade_striker",
     name: "Blade Striker",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "common",
     source: "Revolver"
   },
   {
     id: "unit_berserker",
     name: "Berserker",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "rare",
     source: "Axe"
   },
   {
     id: "unit_bomb_skull",
     name: "Bomb Skull",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "rare",
     source: "Dead Dragon"
   },
   {
     id: "unit_shock_raider",
     name: "Shock Raider",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "rare",
     source: "Storm Breaker"
   }
@@ -377,35 +377,35 @@ const SPELL_SEEDS: SpellSeed[] = [
   {
     id: "spell_firebolt",
     name: "Firebolt",
-    faction: "GOD",
+    faction: "GODS",
     rarity: "common",
     source: "Arcane Orb"
   },
   {
     id: "spell_insight",
     name: "Insight",
-    faction: "GOD",
+    faction: "GODS",
     rarity: "common",
     source: "Grimoire"
   },
   {
     id: "spell_mend",
     name: "Mend",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "common",
     source: "Bong Of Protection"
   },
   {
     id: "spell_battle_blessing",
     name: "Battle Blessing",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "rare",
     source: "Wings"
   },
   {
     id: "spell_execute",
     name: "Execute",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "rare",
     source: "Dead Scorpion"
   }
@@ -415,28 +415,28 @@ const EQUIPMENT_SEEDS: EquipmentSeed[] = [
   {
     id: "eq_riot_shield",
     name: "Riot Shield",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "rare",
     source: "Riot Shield"
   },
   {
     id: "eq_heavy_plate",
     name: "Heavy Plate",
-    faction: "STONE",
+    faction: "STONE_KEEPERS",
     rarity: "common",
     source: "Energy Shield"
   },
   {
     id: "eq_speed_boots",
     name: "Speed Boots",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "common",
     source: "Stealth Boots"
   },
   {
     id: "eq_axe",
     name: "War Axe",
-    faction: "BRONZE",
+    faction: "BRONZE_GUARDIANS",
     rarity: "rare",
     source: "Axe"
   }

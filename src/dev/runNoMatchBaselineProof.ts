@@ -4,8 +4,9 @@ import { allPlayableCards } from "../engine/cards";
 import { playUnitFromHand } from "../engine/setup";
 import { buildNoMatchBaselineDeck } from "./buildProofDecks";
 import { buildModifierSummary } from "../engine/expert/buildModifierSummary";
+import { selectProofCommander } from "./selectProofCommander";
 
-const commander = allCommanders.find((c) => c.name === "Crypt #6600") ?? allCommanders[0];
+const commander = selectProofCommander();
 if (!commander) throw new Error("No commander found");
 
 const deck = buildNoMatchBaselineDeck(commander.traits ?? {}, 30);

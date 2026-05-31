@@ -1,6 +1,7 @@
 import type { RenderManifestEntry } from "../../types/renderManifest";
 import { lorePresenceForManifestEntry } from "../../content/cryptMediumCodex";
 import { toUICardDisplay } from "../../presentation/uiCardModel";
+import { getKeywordDescription } from "../../engine/keywordDescriptions";
 import CommanderCard from "./CommanderCard";
 import PlayableCard from "./PlayableCard";
 
@@ -71,16 +72,23 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-muted)]">
               Keywords
             </div>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {ui.keywords.map((k) => (
-                <span
-                  key={k}
-                  className="border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--color-crypt-ice)]"
-                >
-                  {k}
-                </span>
-              ))}
-            </div>
+            <dl className="mt-2 space-y-2">
+              {ui.keywords.map((k) => {
+                const def = getKeywordDescription(k);
+                return (
+                  <div key={k} className="flex flex-col gap-1">
+                    <dt>
+                      <span className="border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--color-crypt-ice)]">
+                        {k}
+                      </span>
+                    </dt>
+                    <dd className="text-[12px] leading-snug text-[color:var(--color-crypt-text)]/90">
+                      {def.description}
+                    </dd>
+                  </div>
+                );
+              })}
+            </dl>
           </div>
         )}
 

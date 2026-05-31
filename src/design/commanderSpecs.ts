@@ -3,7 +3,7 @@ import type { FactionCode } from "./factionIdentity";
 export type CommanderSpec = {
   id: string;
   name: string;
-  faction: FactionCode;
+  faction: FactionCode | null;
   passive: string;
   deckRules: {
     exactFaction: boolean;
@@ -20,7 +20,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
     id: "cmd_stone_warden",
     name: "Stone Warden",
     faction: null,
-    passive: "+1 durability pressure for guard-style boards",
+    passive: "Bulwark — units you summon with Guard enter play with +0/+2.",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,
@@ -34,7 +34,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
     id: "cmd_iron_warlord",
     name: "Iron Warlord",
     faction: null,
-    passive: "weapon/tempo pressure",
+    passive: "Warmonger — whenever you equip a unit, it gains +1 Attack.",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,
@@ -48,7 +48,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
     id: "cmd_bronze_raider",
     name: "Bronze Raider",
     faction: null,
-    passive: "rush openings and pressure",
+    passive: "Raid — whenever you summon a unit, deal 1 damage to the enemy nexus.",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,
@@ -62,7 +62,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
     id: "cmd_silver_oracle",
     name: "Silver Oracle",
     faction: null,
-    passive: "artifact/arcane value",
+    passive: "Foresight — at the start of your turn, Scry 2 (reorder your top 2 cards by cost).",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,
@@ -76,7 +76,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
     id: "cmd_golden_emperor",
     name: "Golden Emperor",
     faction: null,
-    passive: "elite scaling and top-end value",
+    passive: "Opulence — units you summon that cost 5 or more enter play with +1/+1.",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,

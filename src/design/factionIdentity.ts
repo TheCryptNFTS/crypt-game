@@ -1,4 +1,10 @@
-export type FactionCode = "STONE" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "GOD";
+export type FactionCode =
+  | "STONE_KEEPERS"
+  | "IRON_DEFENDERS"
+  | "BRONZE_GUARDIANS"
+  | "SILVER_SENTINELS"
+  | "GOLDEN_SOVEREIGNS"
+  | "GODS";
 
 export type FactionIdentity = {
   faction: FactionCode;
@@ -21,8 +27,8 @@ export type FactionIdentity = {
 };
 
 export const FACTION_IDENTITIES: Record<FactionCode, FactionIdentity> = {
-  STONE: {
-    faction: "STONE",
+  STONE_KEEPERS: {
+    faction: "STONE_KEEPERS",
     fantasy: "durable guardians and anchored midrange fighters",
     preferredKeywords: ["GUARD", "CRUSH"],
     bannedKeywords: ["TECH"],
@@ -31,8 +37,8 @@ export const FACTION_IDENTITIES: Record<FactionCode, FactionIdentity> = {
     preferredSubtypes: ["armor", "hybrid"],
     notes: "stone should feel hard to remove, stable, honest, oppressive on board"
   },
-  IRON: {
-    faction: "IRON",
+  IRON_DEFENDERS: {
+    faction: "IRON_DEFENDERS",
     fantasy: "weapon-heavy tempo attackers",
     preferredKeywords: ["RUSH", "CRUSH", "TECH"],
     bannedKeywords: ["ARCANE"],
@@ -41,8 +47,8 @@ export const FACTION_IDENTITIES: Record<FactionCode, FactionIdentity> = {
     preferredSubtypes: ["weapon", "hybrid"],
     notes: "iron should feel armed, sharp, immediate, tempo-positive"
   },
-  BRONZE: {
-    faction: "BRONZE",
+  BRONZE_GUARDIANS: {
+    faction: "BRONZE_GUARDIANS",
     fantasy: "aggressive skirmishers and fast pressure",
     preferredKeywords: ["RUSH", "QUICKSTEP", "HUNT"],
     bannedKeywords: ["GUARD"],
@@ -51,8 +57,8 @@ export const FACTION_IDENTITIES: Record<FactionCode, FactionIdentity> = {
     preferredSubtypes: ["weapon", "hybrid", "creature"],
     notes: "bronze should open fast and punish slow starts"
   },
-  SILVER: {
-    faction: "SILVER",
+  SILVER_SENTINELS: {
+    faction: "SILVER_SENTINELS",
     fantasy: "arcane tricksters with evasive tools and artifacts",
     preferredKeywords: ["ARCANE", "FLYING"],
     bannedKeywords: ["CRUSH"],
@@ -61,8 +67,8 @@ export const FACTION_IDENTITIES: Record<FactionCode, FactionIdentity> = {
     preferredSubtypes: ["artifact", "metaverse", "hybrid"],
     notes: "silver should feel slippery, clever, technical, spell-adjacent"
   },
-  GOLD: {
-    faction: "GOLD",
+  GOLDEN_SOVEREIGNS: {
+    faction: "GOLDEN_SOVEREIGNS",
     fantasy: "elite finishers, premium bodies, and command presence",
     preferredKeywords: ["COMMAND", "MYTHIC", "GUARD"],
     bannedKeywords: ["QUICKSTEP"],
@@ -71,8 +77,8 @@ export const FACTION_IDENTITIES: Record<FactionCode, FactionIdentity> = {
     preferredSubtypes: ["hybrid", "artifact", "armor"],
     notes: "gold should feel premium, slower, powerful, top-end oriented"
   },
-  GOD: {
-    faction: "GOD",
+  GODS: {
+    faction: "GODS",
     fantasy: "mythic splash cards with unfair presence but hard restrictions",
     preferredKeywords: ["MYTHIC", "FLYING", "COMMAND", "ARCANE"],
     bannedKeywords: [],

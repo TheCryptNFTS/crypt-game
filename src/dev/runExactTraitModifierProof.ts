@@ -3,8 +3,9 @@ import { allPlayableCards } from "../engine/cards";
 import { createMatchFromDecks } from "../engine/createMatchFromDecks";
 import { playUnitFromHand } from "../engine/setup";
 import { buildExactTraitProofDeck } from "./buildProofDecks";
+import { selectProofCommander } from "./selectProofCommander";
 
-const commander = allCommanders.find((c) => c.name === "Crypt #6600") ?? allCommanders[0];
+const commander = selectProofCommander();
 if (!commander) throw new Error("No commander found");
 
 const deck = buildExactTraitProofDeck(commander.traits ?? {}, 30);
@@ -39,6 +40,11 @@ const exactUnitIndex = match.players.P1.hand.findIndex((id: string) => {
 if (exactUnitIndex === -1) throw new Error("No exact-match unit in hand");
 
 const playedCardId = match.players.P1.hand[exactUnitIndex];
+// Stat-modifier proof: not an energy-economy test. Grant ample energy so the
+// real (post-BUG-2-fix) catalog cost — units no longer enter at a free 0-cost
+// stub — does not gate the play we want to inspect.
+match.players.P1.energy = 99;
+match.players.P1.maxEnergy = 99;
 const next = playUnitFromHand(match, "P1", exactUnitIndex, "front") as any;
 
 console.log(JSON.stringify({

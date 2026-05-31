@@ -3,7 +3,7 @@
     "id": "tcg_art_3399",
     "name": "Crypt - Digital Trading Card #3399",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "epic",
     "cost": 5,
     "effectTags": [
@@ -30,7 +30,7 @@
     "id": "tcg_art_3418",
     "name": "Crypt - Digital Trading Card #3418",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -57,7 +57,7 @@
     "id": "tcg_art_3427",
     "name": "Crypt - Digital Trading Card #3427",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "epic",
     "cost": 5,
     "effectTags": [
@@ -84,7 +84,7 @@
     "id": "tcg_art_3492",
     "name": "Crypt - Digital Trading Card #3492",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -111,7 +111,7 @@
     "id": "tcg_art_3536",
     "name": "Crypt - Digital Trading Card #3536",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -138,7 +138,7 @@
     "id": "tcg_art_3580",
     "name": "Crypt - Digital Trading Card #3580",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -165,7 +165,7 @@
     "id": "tcg_art_3609",
     "name": "Crypt - Digital Trading Card #3609",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -192,7 +192,7 @@
     "id": "tcg_art_3654",
     "name": "Crypt - Digital Trading Card #3654",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -219,7 +219,7 @@
     "id": "tcg_art_3669",
     "name": "Crypt - Digital Trading Card #3669",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -246,7 +246,7 @@
     "id": "tcg_art_3719",
     "name": "Crypt - Digital Trading Card #3719",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "epic",
     "cost": 5,
     "effectTags": [
@@ -273,7 +273,7 @@
     "id": "tcg_art_3804",
     "name": "Crypt - Digital Trading Card #3804",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -300,7 +300,7 @@
     "id": "tcg_art_3852",
     "name": "Crypt - Digital Trading Card #3852",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -327,7 +327,7 @@
     "id": "tcg_art_3895",
     "name": "Crypt - Digital Trading Card #3895",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -354,7 +354,7 @@
     "id": "tcg_art_4006",
     "name": "Crypt - Digital Trading Card #4006",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -381,7 +381,7 @@
     "id": "tcg_art_4020",
     "name": "Crypt - Digital Trading Card #4020",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -408,7 +408,7 @@
     "id": "tcg_art_4098",
     "name": "Crypt - Digital Trading Card #4098",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -435,7 +435,7 @@
     "id": "tcg_art_4168",
     "name": "Crypt - Digital Trading Card #4168",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -462,7 +462,7 @@
     "id": "tcg_art_4202",
     "name": "Crypt - Digital Trading Card #4202",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -489,7 +489,7 @@
     "id": "tcg_art_4240",
     "name": "Crypt - Digital Trading Card #4240",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -516,7 +516,7 @@
     "id": "tcg_art_4309",
     "name": "Crypt - Digital Trading Card #4309",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -543,7 +543,7 @@
     "id": "tcg_art_4332",
     "name": "Crypt - Digital Trading Card #4332",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -570,7 +570,7 @@
     "id": "tcg_art_4349",
     "name": "Crypt - Digital Trading Card #4349",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -597,7 +597,7 @@
     "id": "tcg_art_4379",
     "name": "Crypt - Digital Trading Card #4379",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -624,7 +624,7 @@
     "id": "tcg_art_4477",
     "name": "Crypt - Digital Trading Card #4477",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -651,7 +651,7 @@
     "id": "tcg_art_4495",
     "name": "Crypt - Digital Trading Card #4495",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -678,7 +678,7 @@
     "id": "tcg_art_4538",
     "name": "Crypt - Digital Trading Card #4538",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -705,7 +705,7 @@
     "id": "tcg_art_4540",
     "name": "Crypt - Digital Trading Card #4540",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -732,7 +732,7 @@
     "id": "tcg_art_4584",
     "name": "Crypt - Digital Trading Card #4584",
     "type": "artifact",
-    "faction": "GOLD",
+    "faction": "GOLDEN_SOVEREIGNS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -759,7 +759,7 @@
     "id": "tcg_art_4605",
     "name": "Crypt - Digital Trading Card #4605",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -786,7 +786,7 @@
     "id": "tcg_art_4607",
     "name": "Crypt - Digital Trading Card #4607",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -813,7 +813,7 @@
     "id": "tcg_art_4631",
     "name": "Crypt - Digital Trading Card #4631",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -840,7 +840,7 @@
     "id": "tcg_art_4662",
     "name": "Crypt - Digital Trading Card #4662",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -867,7 +867,7 @@
     "id": "tcg_art_4666",
     "name": "Crypt - Digital Trading Card #4666",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "epic",
     "cost": 5,
     "effectTags": [
@@ -894,7 +894,7 @@
     "id": "tcg_art_4713",
     "name": "Crypt - Digital Trading Card #4713",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -921,7 +921,7 @@
     "id": "tcg_art_4969",
     "name": "Crypt - Digital Trading Card #4969",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -948,7 +948,7 @@
     "id": "tcg_art_5211",
     "name": "Crypt - Digital Trading Card #5211",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -975,7 +975,7 @@
     "id": "tcg_art_5301",
     "name": "Crypt - Digital Trading Card #5301",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1002,7 +1002,7 @@
     "id": "tcg_art_5339",
     "name": "Crypt - Digital Trading Card #5339",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1029,7 +1029,7 @@
     "id": "tcg_art_5400",
     "name": "Crypt - Digital Trading Card #5400",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1056,7 +1056,7 @@
     "id": "tcg_art_5458",
     "name": "Crypt - Digital Trading Card #5458",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1083,7 +1083,7 @@
     "id": "tcg_art_5465",
     "name": "Crypt - Digital Trading Card #5465",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1110,7 +1110,7 @@
     "id": "tcg_art_5539",
     "name": "Crypt - Digital Trading Card #5539",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1137,7 +1137,7 @@
     "id": "tcg_art_5598",
     "name": "Crypt - Digital Trading Card #5598",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "epic",
     "cost": 5,
     "effectTags": [
@@ -1164,7 +1164,7 @@
     "id": "tcg_art_5600",
     "name": "Crypt - Digital Trading Card #5600",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1191,7 +1191,7 @@
     "id": "tcg_art_5659",
     "name": "Crypt - Digital Trading Card #5659",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1218,7 +1218,7 @@
     "id": "tcg_art_5728",
     "name": "Crypt - Digital Trading Card #5728",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "uncommon",
     "cost": 3,
     "effectTags": [
@@ -1245,7 +1245,7 @@
     "id": "tcg_art_5822",
     "name": "Crypt - Digital Trading Card #5822",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1272,7 +1272,7 @@
     "id": "tcg_art_5853",
     "name": "Crypt - Digital Trading Card #5853",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1299,7 +1299,7 @@
     "id": "tcg_art_5965",
     "name": "Crypt - Digital Trading Card #5965",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1326,7 +1326,7 @@
     "id": "tcg_art_5970",
     "name": "Crypt - Digital Trading Card #5970",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "epic",
     "cost": 5,
     "effectTags": [
@@ -1353,7 +1353,7 @@
     "id": "tcg_art_6094",
     "name": "Crypt - Digital Trading Card #6094",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1380,7 +1380,7 @@
     "id": "tcg_art_6121",
     "name": "Crypt - Digital Trading Card #6121",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1407,7 +1407,7 @@
     "id": "tcg_art_6129",
     "name": "Crypt - Digital Trading Card #6129",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1434,7 +1434,7 @@
     "id": "tcg_art_6147",
     "name": "Crypt - Digital Trading Card #6147",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -1461,7 +1461,7 @@
     "id": "tcg_art_6152",
     "name": "Crypt - Digital Trading Card #6152",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1488,7 +1488,7 @@
     "id": "tcg_art_6176",
     "name": "Crypt - Digital Trading Card #6176",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1515,7 +1515,7 @@
     "id": "tcg_art_6197",
     "name": "Crypt - Digital Trading Card #6197",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1542,7 +1542,7 @@
     "id": "tcg_art_6269",
     "name": "Crypt - Digital Trading Card #6269",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1569,7 +1569,7 @@
     "id": "tcg_art_6271",
     "name": "Crypt - Digital Trading Card #6271",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1596,7 +1596,7 @@
     "id": "tcg_art_6325",
     "name": "Crypt - Digital Trading Card #6325",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1623,7 +1623,7 @@
     "id": "tcg_art_6380",
     "name": "Crypt - Digital Trading Card #6380",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1650,7 +1650,7 @@
     "id": "tcg_art_6414",
     "name": "Crypt - Digital Trading Card #6414",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1677,7 +1677,7 @@
     "id": "tcg_art_6431",
     "name": "Crypt - Digital Trading Card #6431",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1704,7 +1704,7 @@
     "id": "tcg_art_6449",
     "name": "Crypt - Digital Trading Card #6449",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1731,7 +1731,7 @@
     "id": "tcg_art_6493",
     "name": "Crypt - Digital Trading Card #6493",
     "type": "artifact",
-    "faction": "IRON",
+    "faction": "IRON_DEFENDERS",
     "rarity": "rare",
     "cost": 4,
     "effectTags": [
@@ -1758,7 +1758,7 @@
     "id": "tcg_art_6514",
     "name": "Crypt - Digital Trading Card #6514",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1785,7 +1785,7 @@
     "id": "tcg_art_6516",
     "name": "Crypt - Digital Trading Card #6516",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1812,7 +1812,7 @@
     "id": "tcg_art_6581",
     "name": "Crypt - Digital Trading Card #6581",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1839,7 +1839,7 @@
     "id": "tcg_art_6596",
     "name": "Crypt - Digital Trading Card #6596",
     "type": "artifact",
-    "faction": "STONE",
+    "faction": "STONE_KEEPERS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1866,7 +1866,7 @@
     "id": "tcg_art_6624",
     "name": "Crypt - Digital Trading Card #6624",
     "type": "artifact",
-    "faction": "SILVER",
+    "faction": "SILVER_SENTINELS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [
@@ -1893,7 +1893,7 @@
     "id": "tcg_art_6660",
     "name": "Crypt - Digital Trading Card #6660",
     "type": "artifact",
-    "faction": "BRONZE",
+    "faction": "BRONZE_GUARDIANS",
     "rarity": "common",
     "cost": 2,
     "effectTags": [

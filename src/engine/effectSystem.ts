@@ -1,5 +1,6 @@
 import { getStoredCardModifier, applyModifierToArtifactLike } from "./applyCommanderCardModifiers";
 import { MatchState } from "./state";
+import { getLoadedArtifactById } from "../data/loadAllArtifacts";
 
 type PlayerId = "P1" | "P2";
 
@@ -131,8 +132,7 @@ export function playArtifactCard(match: MatchState, playerId: PlayerId, handInde
     throw new Error("Artifact hand index is invalid");
   }
 
-  const artifactsLib = require("../data/loadAllArtifacts");
-  const artifactCard = artifactsLib.getLoadedArtifactById(cardId);
+  const artifactCard = getLoadedArtifactById(cardId);
   const commanderModifier = getStoredCardModifier(match, playerId, cardId);
 
   const cost = artifactCard.cost ?? 0;
@@ -189,33 +189,6 @@ export function cleanupDeadUnits(match: MatchState): MatchState {
   }
 
   return next;
-}
-
-export function checkWinner(match: MatchState): MatchState {
-  const next = cloneMatch(match);
-  const p1 = getPlayer(next, "P1");
-  const p2 = getPlayer(next, "P2");
-
-  if ((p1.health ?? 0) <= 0 && (p2.health ?? 0) <= 0) {
-    (next as any).winner = "DRAW";
-    return next;
-  }
-
-  if ((p1.health ?? 0) <= 0) {
-    (next as any).winner = "P2";
-    return next;
-  }
-
-  if ((p2.health ?? 0) <= 0) {
-    (next as any).winner = "P1";
-    return next;
-  }
-
-  return next;
-}
-
-export function postActionStatePass(match: MatchState): MatchState {
-  return checkWinner(cleanupDeadUnits(refreshArtifactAuras(match)));
 }
 
 export function getEnemyPlayerId(playerId: PlayerId): PlayerId {

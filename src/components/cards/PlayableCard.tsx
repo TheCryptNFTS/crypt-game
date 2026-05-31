@@ -1,5 +1,6 @@
 import type { RenderManifestEntry } from "../../types/renderManifest";
 import { toUICardDisplay } from "../../presentation/uiCardModel";
+import { getKeywordDescription } from "../../engine/keywordDescriptions";
 import CardFrame from "./CardFrame";
 
 export type PlayableCardMode = "hand" | "board" | "collection" | "modal";
@@ -161,6 +162,19 @@ export default function PlayableCard({
         <span className="uppercase tracking-wider">{ui.role}</span>
         {ui.faction !== "—" && <span>{ui.faction}</span>}
       </div>
+      {ui.keywords.length > 0 && (
+        <div className="mt-1 flex flex-wrap gap-1">
+          {ui.keywords.map((k) => (
+            <span
+              key={k}
+              title={getKeywordDescription(k).description}
+              className="border border-white/[0.08] bg-white/[0.03] px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-wider text-[color:var(--color-crypt-ice)]"
+            >
+              {k}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 

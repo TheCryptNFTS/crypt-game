@@ -1,0 +1,367 @@
+.live-match-shell {
+  position: relative;
+  z-index: 2;
+  padding: 18px;
+}
+
+.live-grid {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr) 360px;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.live-grid__left,
+.live-grid__center,
+.live-grid__right {
+  min-width: 0;
+}
+
+.live-grid__right {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.live-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(11,15,22,0.94), rgba(8,11,17,0.98));
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+}
+
+.live-topbar__cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* Subtle helper under the topbar when the player is on the fallback demo deck —
+ * a quiet hint, not a pill, so it doesn't compete with the live HUD. */
+.live-deckhint {
+  margin: 10px 2px 0;
+  color: #8fa0b6;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.live-topbar__pill {
+  min-width: 108px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.live-topbar__pill--active {
+  border-color: rgba(141,92,255,0.28);
+  box-shadow: inset 0 0 0 1px rgba(141,92,255,0.14);
+}
+
+.live-topbar__label {
+  display: block;
+  margin-bottom: 4px;
+  color: #93a0b5;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.live-topbar__meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.live-phase {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(141,92,255,0.08);
+  border: 1px solid rgba(141,92,255,0.16);
+  color: #E9C984;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.live-phase__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #8D5CFF;
+  box-shadow: 0 0 12px rgba(141,92,255,0.75);
+}
+
+.live-topbar__actions,
+.live-quick-buttons,
+.live-actionbar__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.live-btn {
+  border-radius: 14px;
+  padding: 11px 15px;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: 140ms ease;
+}
+
+.live-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.live-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.live-btn--ghost {
+  background: rgba(255,255,255,0.05);
+  color: #e7eef8;
+}
+
+.live-btn--primary {
+  background: linear-gradient(180deg, rgba(141,92,255,0.2), rgba(141,92,255,0.12));
+  color: #E9C984;
+  border-color: rgba(141,92,255,0.26);
+  box-shadow: 0 0 20px rgba(141,92,255,0.12);
+}
+
+.live-btn--secondary {
+  background: rgba(255,255,255,0.06);
+  color: #eef2f8;
+}
+
+.live-btn--danger {
+  background: linear-gradient(180deg, rgba(255,107,107,0.22), rgba(255,107,107,0.12));
+  color: #ffd0d0;
+  border-color: rgba(255,107,107,0.28);
+}
+
+.live-btn--danger-soft {
+  background: rgba(255,107,107,0.08);
+  color: #ffc4c4;
+  border-color: rgba(255,107,107,0.18);
+}
+
+.live-board-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.live-lane,
+.live-side-panel,
+.live-actionbar,
+.live-hand {
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(14,18,24,0.92), rgba(9,12,18,0.98));
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+}
+
+.live-lane {
+  padding: 14px;
+}
+
+.live-lane__header,
+.live-hand__header,
+.live-actionbar__header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.live-lane__header h2,
+.live-hand__header h2,
+.live-actionbar__header h3,
+.live-side-panel h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.live-lane__header span,
+.live-hand__header span,
+.live-actionbar__header p {
+  margin: 0;
+  color: #8fa0b6;
+  font-size: 12px;
+}
+
+.live-lane__cards {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.live-lane__cards .crypt-card--board {
+  min-width: 220px;
+  width: 220px;
+  min-height: 320px;
+}
+
+.live-lane__empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 0 10px;
+  color: #8190a5;
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+}
+
+.live-lane__empty-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(141,92,255,0.55);
+}
+
+.live-hand {
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.live-hand__rail {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.live-hand__item {
+  min-width: 245px;
+  width: 245px;
+}
+
+.live-hand__item .crypt-card--hand {
+  min-height: 360px;
+}
+
+/* Cards the active player can't currently afford are dimmed (still selectable
+ * for inspection, but the action handlers refuse to play them). */
+.live-hand__item--unaffordable {
+  opacity: 0.4;
+  filter: grayscale(0.5);
+}
+
+.live-gameover {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 6, 10, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.live-gameover__panel {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 32px 40px;
+  text-align: center;
+  border: 1px solid rgba(141, 92, 255, 0.24);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(14, 18, 24, 0.96), rgba(9, 12, 18, 0.99));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+
+.live-gameover__title {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.02em;
+}
+
+.live-gameover__sub {
+  margin: 0;
+  color: #8fa0b6;
+  font-size: 14px;
+}
+
+.live-actionbar {
+  padding: 16px;
+}
+
+.live-actionbar__group + .live-actionbar__group {
+  margin-top: 14px;
+}
+
+.live-actionbar__group-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #93a0b5;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.live-side-panel {
+  padding: 16px;
+}
+
+.live-log {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.live-log__entry {
+  padding: 11px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #cdd7e5;
+  line-height: 1.45;
+}
+
+@media (max-width: 1450px) {
+  .live-grid {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .live-grid__right {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: grid;
+  }
+}
+
+@media (max-width: 1100px) {
+  .live-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .live-grid__right {
+    grid-template-columns: 1fr;
+  }
+
+  .live-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .live-topbar__meta {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}

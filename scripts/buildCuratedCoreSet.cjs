@@ -11,7 +11,7 @@ const artifacts = JSON.parse(
   fs.readFileSync(path.resolve(process.cwd(), "src/data/generatedPlayableTcgArtifacts.json"), "utf8")
 );
 
-const FACTIONS = ["STONE", "IRON", "BRONZE", "SILVER", "GOLD", "GOD"];
+const FACTIONS = ["STONE_KEEPERS", "IRON_DEFENDERS", "BRONZE_GUARDIANS", "SILVER_SENTINELS", "GOLDEN_SOVEREIGNS", "GODS"];
 
 function byFaction(cards, faction) {
   return cards.filter((card) => card.faction === faction);
@@ -30,9 +30,9 @@ const chosenEquipment = [];
 const chosenArtifacts = [];
 
 for (const faction of FACTIONS) {
-  chosenUnits.push(...sortCards(byFaction(units, faction)).slice(0, faction === "GOD" ? 4 : 16));
-  chosenEquipment.push(...sortCards(byFaction(equipment, faction)).slice(0, faction === "GOD" ? 2 : 3));
-  chosenArtifacts.push(...sortCards(byFaction(artifacts, faction)).slice(0, faction === "GOD" ? 1 : 2));
+  chosenUnits.push(...sortCards(byFaction(units, faction)).slice(0, faction === "GODS" ? 4 : 16));
+  chosenEquipment.push(...sortCards(byFaction(equipment, faction)).slice(0, faction === "GODS" ? 2 : 3));
+  chosenArtifacts.push(...sortCards(byFaction(artifacts, faction)).slice(0, faction === "GODS" ? 1 : 2));
 }
 
 const out = {

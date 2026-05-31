@@ -14,3 +14,17 @@ refactor_dump/
 .env.local
 backend_audit/
 refactor_dump/
+
+# local scratch / audit artifacts (not source)
+.claude/
+crypt tcg/
+Crypt/
+CANON_AUDIT_OUTPUT/
+*.bak[0-9]
+*.bakcanon
+*.bakfix
+*.broken_now
+*_AUDIT.txt
+ALL_CAPS_STRINGS.txt
+FULL_REPO_*.txt
+FULL_CANON_AUDIT.sh
