@@ -20,6 +20,7 @@ import { applyAction } from "../src/engine/reducer";
 import { createMatch } from "../src/engine/setup";
 import { createMatchFromDecks } from "../src/engine/createMatchFromDecks";
 import type { MatchBootstrapInput } from "../src/types/matchBootstrap";
+import { PersistenceStore } from "./persistence";
 import type {
   Action,
   GameEvent,
@@ -87,14 +88,19 @@ export class AuthoritativeMatch {
   readonly record: MatchRecord;
   private state: MatchState;
   private readonly bootstrap?: MatchBootstrapInput;
+  /** Optional durable backing. When set, every ACCEPTED action is appended to
+   *  the store AFTER the in-memory append. Undefined => pure in-memory match. */
+  private readonly store?: PersistenceStore;
 
   constructor(
     matchId: string,
     seed: number,
     seats: Record<Seat, AccountId>,
-    bootstrap?: MatchBootstrapInput
+    bootstrap?: MatchBootstrapInput,
+    store?: PersistenceStore
   ) {
     this.bootstrap = bootstrap;
+    this.store = store;
     this.state = buildInitialState(seed, bootstrap);
     this.record = {
       matchId,
@@ -103,6 +109,51 @@ export class AuthoritativeMatch {
       actionLog: [],
       createdAt: Date.now(),
     };
+    // Persist the immutable header once at creation. Idempotent in the store.
+    this.store?.insertMatchHeader({
+      matchId,
+      seed,
+      seats,
+      bootstrap,
+      createdAt: this.record.createdAt,
+    });
+  }
+
+  /**
+   * Rebuild a live match from its DURABLE record on startup (restart recovery).
+   * This is NOT the live-play path: it replays the already-persisted action log
+   * through the same reducer and does NOT re-persist anything (the rows already
+   * exist on disk). The resulting match is byte-identical to the one that
+   * produced the log, by the engine's determinism contract.
+   */
+  static rehydrate(
+    header: {
+      matchId: string;
+      seed: number;
+      seats: Record<Seat, AccountId>;
+      bootstrap?: MatchBootstrapInput;
+      createdAt: number;
+    },
+    persistedLog: ActionLogEntry[],
+    store?: PersistenceStore
+  ): AuthoritativeMatch {
+    const m = new AuthoritativeMatch(
+      header.matchId,
+      header.seed,
+      header.seats,
+      header.bootstrap,
+      store
+    );
+    // Preserve the original creation timestamp (audit metadata, excluded from
+    // determinism — but we keep it stable across restarts anyway).
+    m.record.createdAt = header.createdAt;
+    // Fold the persisted log in strict seq order, replacing the live cache.
+    const ordered = [...persistedLog].sort((a, b) => a.seq - b.seq);
+    for (const entry of ordered) {
+      m.state = applyAction(m.state, entry.action).state;
+      m.record.actionLog.push(entry);
+    }
+    return m;
   }
 
   /** Read-only snapshot of the live authoritative state (defensive clone). */
@@ -161,6 +212,16 @@ export class AuthoritativeMatch {
     this.record.actionLog.push(entry);
     this.state = nextState;
 
+    // --- Durably append AFTER the in-memory append (only accepted actions
+    //     ever reach here; rejects returned above never persist). The store's
+    //     (matchId, seq) UNIQUE constraint makes this idempotent on retry. ----
+    this.store?.appendAction(this.record.matchId, {
+      seq: entry.seq,
+      action: entry.action,
+      by: entry.by,
+      receivedAt: entry.receivedAt,
+    });
+
     return { accepted: true, seq: entry.seq, events };
   }
 
@@ -187,9 +248,44 @@ export class AuthoritativeMatch {
   }
 }
 
-/** Trivial in-memory registry. PERSISTENCE.md describes the durable backing. */
+/**
+ * Match registry. In-memory `Map` for live access, optionally backed by a
+ * durable `PersistenceStore`. When a store is supplied, created matches persist
+ * their header + accepted actions, and `bootstrap()` rebuilds all live matches
+ * from disk on startup — so a server restart loses nothing.
+ */
 export class MatchRegistry {
   private matches = new Map<string, AuthoritativeMatch>();
+  private readonly store?: PersistenceStore;
+
+  constructor(store?: PersistenceStore) {
+    this.store = store;
+  }
+
+  /**
+   * Restart recovery. Load every persisted match header, replay its durable
+   * action log through the reducer, and register the rebuilt live match. Safe
+   * to call once at construction; a no-op if no store is configured. Returns
+   * the number of matches recovered.
+   */
+  bootstrap(): number {
+    if (!this.store) return 0;
+    let recovered = 0;
+    for (const header of this.store.loadAllHeaders()) {
+      if (this.matches.has(header.matchId)) continue; // never clobber live
+      const persisted = this.store.loadActions(header.matchId);
+      const log: ActionLogEntry[] = persisted.map((p) => ({
+        seq: p.seq,
+        action: p.action,
+        by: p.by,
+        receivedAt: p.receivedAt,
+      }));
+      const m = AuthoritativeMatch.rehydrate(header, log, this.store);
+      this.matches.set(header.matchId, m);
+      recovered++;
+    }
+    return recovered;
+  }
 
   create(
     matchId: string,
@@ -200,7 +296,7 @@ export class MatchRegistry {
     if (this.matches.has(matchId)) {
       throw new Error(`match ${matchId} already exists`);
     }
-    const m = new AuthoritativeMatch(matchId, seed, seats, bootstrap);
+    const m = new AuthoritativeMatch(matchId, seed, seats, bootstrap, this.store);
     this.matches.set(matchId, m);
     return m;
   }
