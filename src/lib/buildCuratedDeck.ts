@@ -2,6 +2,8 @@ import cardMaster from "../data/cardMaster.json";
 import curatedCoreSetV2 from "../data/curatedCoreSetV2.json";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { isCardDisabled } from "../engine/cards";
+import { liveSpells } from "../engine/spellCards";
+import { normalizeFaction } from "../types/faction";
 
 /**
  * The PRIMARY (curated/known-good) card-id set — the ~98 cards hand-balanced by
@@ -30,6 +32,56 @@ type Card = {
 };
 
 const MAX_COPIES = 2;
+
+/**
+ * Spell deck-legality (#10). `liveSpells` are engine-legal (merged into
+ * allPlayableCards, resolved by PLAY_SPELL) but were deliberately kept out of the
+ * deck builder. We now draft a SMALL, capped number of SAFE-tier spells into the
+ * flex slots that sit ABOVE a commander's unit/equipment/artifact minimums, so
+ * the unit core is never starved and the deck stays the same size. Only "safe"
+ * spells are ever eligible — no removal/face-burn spell can be auto-drafted.
+ */
+const MAX_SPELLS_PER_DECK = 6;
+
+/** Faction enum -> id list of safe live spells of that faction (deterministic). */
+const SAFE_SPELLS = liveSpells
+  .filter((s) => (s as { tier?: string }).tier === "safe")
+  .slice()
+  .sort((a, b) => (a.cost ?? 0) - (b.cost ?? 0) || a.id.localeCompare(b.id));
+
+/** The faction (enum) most represented among the drafted non-spell cards. Used
+ *  to bias spell selection toward the deck's identity. Deterministic: ties break
+ *  on the enum string. Returns null when the deck has no factioned cards. */
+function dominantFaction(cardIds: string[], factionOf: Map<string, string>): string | null {
+  const counts = new Map<string, number>();
+  for (const id of cardIds) {
+    const f = factionOf.get(id);
+    if (!f) continue;
+    counts.set(f, (counts.get(f) ?? 0) + 1);
+  }
+  let best: string | null = null;
+  let bestN = -1;
+  for (const [f, n] of [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    if (n > bestN) {
+      best = f;
+      bestN = n;
+    }
+  }
+  return best;
+}
+
+/** Pick up to `count` safe spell ids, preferring spells matching `dominant`,
+ *  then cheapest, then id — all deterministic. */
+function selectSafeSpells(count: number, dominant: string | null): string[] {
+  if (count <= 0) return [];
+  const ranked = SAFE_SPELLS.slice().sort((a, b) => {
+    const am = dominant && a.faction === dominant ? 0 : 1;
+    const bm = dominant && b.faction === dominant ? 0 : 1;
+    if (am !== bm) return am - bm;
+    return (a.cost ?? 0) - (b.cost ?? 0) || a.id.localeCompare(b.id);
+  });
+  return ranked.slice(0, count).map((s) => s.id);
+}
 
 function rarityScore(rarity: string): number {
   switch (rarity) {
@@ -135,6 +187,14 @@ export function buildCuratedDeck(commanderId: string): string[] {
   const deckSize = spec.deckRules.deckSize;
   const maxGodCards = spec.deckRules.maxGodCards ?? 0;
 
+  // Reserve spell slots from the FLEX above the unit/equipment/artifact minimums,
+  // so the non-spell core is drafted to `nonSpellTarget` and never starved.
+  const rules = spec.deckRules;
+  const minNonSpell =
+    (rules.minUnits ?? 0) + (rules.minEquipment ?? 0) + (rules.minArtifacts ?? 0);
+  const spellSlots = Math.max(0, Math.min(MAX_SPELLS_PER_DECK, deckSize - minNonSpell));
+  const nonSpellTarget = deckSize - spellSlots;
+
   const allCards = (cardMaster as Card[]).filter((card) => {
     if (card.collection !== "AVATAR_TCG") return false;
     if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
@@ -173,10 +233,10 @@ export function buildCuratedDeck(commanderId: string): string[] {
       godCount += 1;
     }
 
-    if (deck.length >= deckSize) break;
+    if (deck.length >= nonSpellTarget) break;
   }
 
-  if (deck.length < deckSize) {
+  if (deck.length < nonSpellTarget) {
     const fallback = (cardMaster as Card[]).filter((card) => {
       if (card.collection !== "AVATAR_TCG") return false;
       if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
@@ -206,9 +266,21 @@ export function buildCuratedDeck(commanderId: string): string[] {
         godCount += 1;
       }
 
-      if (deck.length >= deckSize) break;
+      if (deck.length >= nonSpellTarget) break;
     }
   }
 
-  return deck.slice(0, deckSize);
+  // Append the reserved spell slots: a small, deterministic set of SAFE spells,
+  // biased toward the deck's dominant faction for identity. Spells are
+  // engine-legal (allPlayableCards / PLAY_SPELL) and "safe" tier only.
+  const factionOf = new Map<string, string>();
+  for (const c of cardMaster as Card[]) {
+    if (!c.id || !c.faction) continue;
+    const f = normalizeFaction(c.faction);
+    if (f) factionOf.set(c.id, f);
+  }
+  const dominant = dominantFaction(deck.slice(0, nonSpellTarget), factionOf);
+  const spells = selectSafeSpells(spellSlots, dominant);
+
+  return [...deck.slice(0, nonSpellTarget), ...spells].slice(0, deckSize);
 }
