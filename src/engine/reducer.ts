@@ -33,7 +33,7 @@
  *     are recomputed idempotently at the single `applyAction` chokepoint.
  */
 
-import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, TriggerQueueEntry } from "./state";
+import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, TriggerQueueEntry, ArmedSecret } from "./state";
 import { playUnitFromHand, playEquipmentFromHand } from "./setup";
 import { playArtifactCard } from "./effectSystem";
 import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBonuses";
@@ -95,6 +95,9 @@ export type GameEvent =
   | { type: "CHOICE_OPENED"; player: PlayerId; kind: string; options: string[] }
   // A pending CHOICE was resolved with `optionId`; the resume tail has run.
   | { type: "CHOICE_RESOLVED"; player: PlayerId; optionId: string }
+  // One or more armed SECRETS sprang on the defending `player` against the enemy
+  // attacker (#2). Deterministic, no pause — see `fireArmedSecrets`.
+  | { type: "SECRET_FIRED"; player: PlayerId; secretIds: string[]; againstInstanceId: string }
   | { type: "REJECTED"; reason: string };
 
 export interface ApplyResult {
@@ -314,6 +317,41 @@ function liveUnitCount(state: MatchState, player: PlayerId): number {
     }
   }
   return n;
+}
+
+/** Fire any armed SECRETS the defender holds against a matching enemy action (#2).
+ *  Deterministic and inline — NO pause, NO priority pass (honors the locked
+ *  no-stack / no-response model). Secrets fire in arm order; each is ONE-SHOT
+ *  (consumed on fire). A "DEAL_DAMAGE" secret hits the triggering ENEMY UNIT only
+ *  (never the face — no-burn). A pure no-op when the defender has no armed secret,
+ *  so vanilla combat is byte-identical. Mutates `enemyUnit` in place; the caller
+ *  re-checks its health to decide whether the attack fizzled. Returns the ids that
+ *  fired (for events), empty when nothing fired. */
+function fireArmedSecrets(
+  state: MatchState,
+  defender: PlayerId,
+  trigger: ArmedSecret["trigger"],
+  enemyUnit: any
+): string[] {
+  const armed = state.players[defender].secrets;
+  if (!armed?.length) return [];
+  const fired: string[] = [];
+  const remaining: ArmedSecret[] = [];
+  for (const secret of armed) {
+    if (secret.trigger !== trigger) {
+      remaining.push(secret);
+      continue;
+    }
+    // Resolve the (small, no-burn) reaction. DEAL_DAMAGE lands on the triggering
+    // enemy unit; armor is bypassed exactly like other DIRECT ability damage.
+    if (secret.op === "DEAL_DAMAGE" && enemyUnit) {
+      enemyUnit.health = (enemyUnit.health ?? 0) - (secret.amount ?? 0);
+    }
+    fired.push(secret.id);
+    // one-shot: NOT pushed onto `remaining`, so it is consumed.
+  }
+  state.players[defender].secrets = remaining;
+  return fired;
 }
 
 /** Advance the ASCENDANCY meter for the player whose turn just ended (#4). A
@@ -1014,6 +1052,46 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       const fear = passiveSpec(defenderRef.unit.cardId, "RESTRICT_ATTACK");
       if (fear && costOf(attackerRef.unit.cardId) <= (fear.costThreshold ?? 0)) {
         return reject(state, "attacker-feared");
+      }
+
+      // SECRETS (#2): the DEFENDER's armed reactive triggers spring the instant
+      // this attack is declared — automatically, with NO pause and NO priority
+      // pass (the locked no-stack / no-response model is preserved). A
+      // Counterstrike secret damages the attacker BEFORE it strikes, so a large
+      // enough secret can FIZZLE the attack outright. Pure no-op (byte-identical)
+      // when the defender holds no secret, so the golden fixture is unmoved.
+      const secretsFired = fireArmedSecrets(
+        next,
+        opponentOf(action.player),
+        "ON_ENEMY_ATTACK",
+        attackerRef.unit
+      );
+      if (secretsFired.length) {
+        events.push({
+          type: "SECRET_FIRED",
+          player: opponentOf(action.player),
+          secretIds: secretsFired,
+          againstInstanceId: action.attackerInstanceId,
+        });
+      }
+      if ((attackerRef.unit.health ?? 0) <= 0) {
+        // The secret destroyed the attacker before it could strike: the attack
+        // FIZZLES. Mark it acted, reap the dead attacker (deathrattles fire), and
+        // check the win — mirroring the normal post-combat tail. No strike lands.
+        markAttacked(attackerRef.unit);
+        attackerRef.unit.stealthed = false;
+        resolveDeaths(next);
+        events.push({
+          type: "ATTACK",
+          player: action.player,
+          attackerInstanceId: action.attackerInstanceId,
+          defenderInstanceId: action.defenderInstanceId,
+          outgoing: 0,
+          mitigated: 0,
+          counter: 0,
+        });
+        finalizeWin(next, events);
+        return { state: next, events };
       }
 
       const outgoing = resolveOutgoingDamage(attackerRef.unit);

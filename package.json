@@ -26,6 +26,7 @@
     "dev:deck-legal-spells": "tsx src/dev/runDeckLegalSpellsProof.ts",
     "dev:damage-lane": "tsx src/dev/runDamageLaneProof.ts",
     "dev:ascendancy": "tsx src/dev/runAscendancyProof.ts",
+    "dev:secret": "tsx src/dev/runSecretProof.ts",
     "dev:combat-parity": "tsx src/dev/runCombatParityProof.ts",
     "dev:keywords": "tsx src/dev/runKeywordMechanicsProof.ts",
     "dev:combatkw": "tsx src/dev/runCombatKeywordProof.ts",
