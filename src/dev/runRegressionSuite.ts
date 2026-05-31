@@ -40,6 +40,9 @@ const commands = [
   "npm run dev:marquee-aura",
   "npm run dev:marquee-redteam",
   "npm run dev:red-team-fix",
+  "npm run dev:reducer-equivalence",
+  "npm run dev:commander",
+  "npm run dev:card-outlier-sweep",
 ];
 
 let failed = false;
