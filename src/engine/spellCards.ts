@@ -89,4 +89,17 @@ export const liveSpells: SpellCard[] = [
   // deck manipulation (own deck; deterministic)
   spell("spell_seek", "Seek", "SILVER_SENTINELS", 2, "On play: search your deck for the lowest-cost unit.", "safe"),
   spell("spell_reclaim", "Reclaim", "BRONZE_GUARDIANS", 3, "On play: resurrect a friendly unit from your graveyard to play.", "safe"),
+  // --- DISCOVER (mid-resolution player CHOICE; pause/resume via pendingChoice) ---
+  // Each generates K seeded options from the controller's OWN deck (filtered by
+  // the requested type), PAUSES via state.pendingChoice, and on RESOLVE_CHOICE
+  // moves the single picked card deck->hand. Pure value / card-advantage: NO face
+  // or nexus burn, no runtime stat buff. Option generation is deterministic
+  // (seeded rngCursor stream, same seededDistinctPick the DISCOVER op already uses),
+  // and an empty pool is a clean no-op (never opens an unresolvable pause). The
+  // ability text matches the honest DISCOVER_RE / parseDiscover verb so each
+  // compiles to a single DISCOVER spec — the FIRST shipped cards to do so.
+  spell("spell_scout", "Scout", "SILVER_SENTINELS", 2, "On play: discover a unit.", "safe"),
+  spell("spell_archive", "Archive", "SILVER_SENTINELS", 2, "On play: discover a spell.", "safe"),
+  spell("spell_salvage", "Salvage", "BRONZE_GUARDIANS", 1, "On play: discover a card.", "safe"),
+  spell("spell_grand_survey", "Grand Survey", "STONE_KEEPERS", 3, "On play: discover one of 4 units.", "safe"),
 ];
