@@ -20,6 +20,34 @@ const artifacts = JSON.parse(
   )
 );
 
+// --- Soft-ban exclusion (gap #3) -------------------------------------------
+// The override layer (src/engine/cardOverrides.ts) soft-bans the 36 units whose
+// rawTraits.Ability is null/empty. Those are deck-illegal, so the curated/
+// known-good set must NOT pick them. We re-derive the disabled set here from the
+// SAME source rule (a blank Ability) so the builder stays in lockstep with the
+// overrides without a TS import. Match is on the shared sourceTokenId (curated
+// ids are "tcg_unit_<token>"; generatedTcgCards ids are "tcg_<token>").
+//
+// NOTE: the 71 spec-less "Global effect active while in play." cards are NOT in
+// this set. They are ALL of cardClass artifact and the ENTIRE artifact pool, and
+// commander specs require minArtifacts >= 1, so they stay deck-legal (documented
+// inert in cardOverrides.ts, no `disabled` flag) and the curated set may pick them.
+const generatedTcg = JSON.parse(
+  fs.readFileSync(path.resolve(process.cwd(), "src/data/generatedTcgCards.json"), "utf8")
+);
+const disabledTokens = new Set();
+for (const c of generatedTcg) {
+  const rt = c.rawTraits || c.traits || {};
+  const ab = rt.Ability;
+  const blank = ab === undefined || ab === null || String(ab).trim() === "";
+  if (blank && c.tokenId !== undefined && c.tokenId !== null) {
+    disabledTokens.add(String(c.tokenId));
+  }
+}
+function isDisabledCard(card) {
+  return card.sourceTokenId !== undefined && disabledTokens.has(String(card.sourceTokenId));
+}
+
 // Long-form faction enum (canonical on-chain reveal). The old short codes
 // ("STONE", "IRON", ...) silently matched nothing after the rename, leaving the
 // curated set empty; these are the values the source data actually carries.
@@ -171,7 +199,12 @@ function sortPool(cards, faction = null) {
 
 function filteredFactionPool(pool, faction) {
   return dedupeByName(
-    pool.filter((c) => c.faction === faction).filter((c) => !isBrokenCheapUnit(c))
+    pool
+      .filter((c) => c.faction === faction)
+      .filter((c) => !isBrokenCheapUnit(c))
+      // Never curate a soft-banned (disabled) card — the next-best real card
+      // backfills the slot, keeping all 98 curated picks deck-legal.
+      .filter((c) => !isDisabledCard(c))
   );
 }
 
@@ -222,12 +255,34 @@ for (const faction of FACTIONS) {
 
 curatedUnits.push(...takeFactionCards(units, GOD, 4, [7,7,7,7]));
 
-const all = [...curatedUnits, ...curatedEquipment, ...curatedArtifacts];
+// --- Tag every curated pick as PRIMARY (gap #1) ----------------------------
+// `isPrimary` marks the ~98 curated/known-good cards so the default deck builder
+// (src/lib/buildCuratedDeck.ts) can prefer this clean set over the full noisy
+// corpus. `sourceCardId` is the canonical "tcg_<token>" id (cardMaster.json id
+// space) so consumers can cross-map without re-deriving it. Pure, deterministic.
+function tagPrimary(card) {
+  return {
+    ...card,
+    isPrimary: true,
+    sourceCardId:
+      card.sourceTokenId !== undefined && card.sourceTokenId !== null
+        ? `tcg_${card.sourceTokenId}`
+        : card.id,
+  };
+}
+const taggedUnits = curatedUnits.map(tagPrimary);
+const taggedEquipment = curatedEquipment.map(tagPrimary);
+const taggedArtifacts = curatedArtifacts.map(tagPrimary);
+
+const all = [...taggedUnits, ...taggedEquipment, ...taggedArtifacts];
 
 const output = {
-  units: curatedUnits,
-  equipment: curatedEquipment,
-  artifacts: curatedArtifacts,
+  units: taggedUnits,
+  equipment: taggedEquipment,
+  artifacts: taggedArtifacts,
+  // Flat list of the canonical "tcg_<token>" ids for the primary/curated set —
+  // the default deck builder's preferred source.
+  primaryCardIds: all.map((c) => c.sourceCardId),
   all
 };
 

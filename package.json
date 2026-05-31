@@ -22,6 +22,7 @@
     "dev:determinism": "tsx src/dev/runDeterminismProof.ts",
     "dev:reducer-equivalence": "tsx src/dev/runReducerEquivalenceProof.ts",
     "dev:commander": "tsx src/dev/runCommanderPassiveProof.ts",
+    "dev:card-outlier-sweep": "tsx src/dev/runCardOutlierSweep.ts",
     "dev:combat-parity": "tsx src/dev/runCombatParityProof.ts",
     "dev:keywords": "tsx src/dev/runKeywordMechanicsProof.ts",
     "dev:combatkw": "tsx src/dev/runCombatKeywordProof.ts",

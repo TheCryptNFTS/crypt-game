@@ -40,9 +40,19 @@ const FIRED_TRIGGERS = new Set<EffectTrigger>([
 // PASSIVE ops the reducer consumes directly (combat math / aura recompute):
 //   PIERCE_ARMOR     -> passiveSpec(..., "PIERCE_ARMOR") at attack time
 //   RESTRICT_ATTACK  -> passiveSpec(..., "RESTRICT_ATTACK") (Fear, PASSIVE only)
-//   AURA_FACTION_STAT-> recomputeAuras()
+//   AURA_FACTION_STAT / AURA_ALLY_STAT / AURA_ADJACENT_STAT / AURA_KEYWORD
+//                    -> recomputeAuras() (all four consumed in the same switch;
+//                       they change real stats/keywords every recompute pass)
 //   MITIGATE_DAMAGE  -> mitigationFor() at applyCombatDamage time (combat math)
-const CONSUMED_PASSIVE_OPS = new Set<EffectOp>(["PIERCE_ARMOR", "RESTRICT_ATTACK", "AURA_FACTION_STAT", "MITIGATE_DAMAGE"]);
+const CONSUMED_PASSIVE_OPS = new Set<EffectOp>([
+  "PIERCE_ARMOR",
+  "RESTRICT_ATTACK",
+  "AURA_FACTION_STAT",
+  "AURA_ALLY_STAT",
+  "AURA_ADJACENT_STAT",
+  "AURA_KEYWORD",
+  "MITIGATE_DAMAGE",
+]);
 
 // Active (non-no-op) ops. STAT_LINE/GRANT_KEYWORD/KEYWORD_WIRED/GLOBAL_UNPARSED/
 // UNKNOWN are no-ops. compiled.specs already excludes those, but we re-check op
@@ -66,6 +76,11 @@ const ACTIVE_OPS = new Set<EffectOp>([
   "PIERCE_ARMOR",
   "RESTRICT_ATTACK",
   "AURA_FACTION_STAT",
+  // Continuous stat/keyword auras the reducer's recomputeAuras() consumes
+  // directly (PASSIVE trigger). All four mutate real board values each pass.
+  "AURA_ALLY_STAT",
+  "AURA_ADJACENT_STAT",
+  "AURA_KEYWORD",
   // Track A2: damage mitigation (consumed passive at combat time) + the two
   // genuinely-triggered damage-window growers (turn-start undamaged / on-damage
   // per-point). All three change real values at runtime.
@@ -177,6 +192,88 @@ if (dormantRows.length === 0) {
 console.log(
   `\n=== HEADLINE: ${pct(wired)}% behaviorally wired ` +
     `(vs the misleading ~99.10% "recognized" parse number) ===\n`
+);
+
+// ============================================================================
+// TEXT / BEHAVIOR MISMATCH (honesty audit, gap #13)
+// ----------------------------------------------------------------------------
+// "Behaviorally wired" measures whether the compiler emits ANY active op. The
+// honesty audit asks the sharper question: does the printed ability TEXT *claim*
+// an effect (deal damage, draw, destroy, summon, heal-another, bounce, buff,
+// debuff, resurrect) that the compiler does NOT wire to a behaviorally-active op?
+// Those cards over-promise: the reducer fires nothing for the claimed clause, so
+// the displayed text lies about what happens at runtime.
+//
+// We rank the offenders worst-first (most distinct false claims, then longest
+// over-promising text). The fix lives in cardOverrides.ts: retext the worst
+// offenders down to ONLY the keyword reminder the engine actually honors — never
+// introducing burn / face-damage text and never converting a static stat line
+// into a buff. Disabled (soft-banned) cards are excluded — they have no live text.
+//
+// Still a REPORT, not a gate: it always exits 0.
+// ============================================================================
+
+// Verb claims in the printed text that imply a runtime-active effect.
+const CLAIM_PATTERNS: ReadonlyArray<readonly [string, RegExp]> = [
+  ["deal_damage", /\bdeal[s]?\s+\d*\s*(?:damage|dmg)\b|\bdamage\s+(?:an?|the|all|each|target)\b/i],
+  ["destroy", /\bdestroy[s]?\b|\bkill[s]?\b|\bannihilat/i],
+  ["draw", /\bdraw[s]?\s+(?:a|an|\d+|one|two|cards?)\b/i],
+  ["summon", /\b(?:summon|create|spawn)\b.*\b(?:token|copy|unit|minion|wraith|revenant|skeleton|spirit)\b/i],
+  ["heal_other", /\b(?:restore|heal)[s]?\b.*\b(?:friendly|ally|another|allied)\b/i],
+  ["return_bounce", /\breturn[s]?\b.*\bto (?:its |their )?(?:owner'?s )?hand\b|\bbounce[s]?\b/i],
+  ["resurrect", /\b(?:resurrect|raise|reanimat|revive)\b/i],
+  ["buff", /\bgain[s]?\b.*\+\d|\bgive[s]?\b.*\+\d/i],
+  ["debuff", /\b(?:reduce|lower|weaken)\b.*\b(?:enemy|attack|health)\b/i],
+];
+
+type Mismatch = { id: string; name: string; claims: string[]; ability: string };
+const mismatches: Mismatch[] = [];
+
+for (const card of allPlayableCards) {
+  // Soft-banned cards carry no live text — skip them.
+  if ((card as { disabled?: boolean }).disabled) continue;
+  const ability = card.rawTraits?.Ability;
+  if (!ability) continue;
+
+  const compiled = compileAbility(ability);
+  const anyWired = compiled.specs.some((s) => specIsWired(s.op, s.trigger));
+  if (anyWired) continue; // the text's effect IS wired somewhere — not a mismatch
+
+  const claims = CLAIM_PATTERNS.filter(([, re]) => re.test(ability)).map(([k]) => k);
+  if (claims.length === 0) continue; // inert text that promises nothing — fine
+
+  mismatches.push({ id: card.id, name: card.name, claims, ability });
+}
+
+// Worst-first: most distinct false claims, then the longest (most over-promising)
+// text, then a stable id tie-break.
+mismatches.sort(
+  (a, b) =>
+    b.claims.length - a.claims.length ||
+    b.ability.length - a.ability.length ||
+    a.id.localeCompare(b.id)
+);
+
+const claimHistogram = new Map<string, number>();
+for (const m of mismatches) for (const c of m.claims) claimHistogram.set(c, (claimHistogram.get(c) ?? 0) + 1);
+
+console.log("=== TEXT / BEHAVIOR MISMATCH (honesty audit) ===\n");
+console.log(`Cards whose text claims an effect the compiler never wires: ${mismatches.length}`);
+console.log(`  (of ${inert} inert cards; the rest are honestly blank/keyword-only)\n`);
+
+console.log("--- False-claim histogram (a card may make several) ---");
+const claimRows = [...claimHistogram.entries()].sort((a, b) => b[1] - a[1]);
+for (const [claim, n] of claimRows) console.log(`  ${claim.padEnd(14)} ${String(n).padStart(5)}`);
+
+console.log("\n--- Worst 25 offenders (rank by # false claims, then over-promise length) ---");
+for (const m of mismatches.slice(0, 25)) {
+  const text = m.ability.length > 64 ? m.ability.slice(0, 61) + "..." : m.ability;
+  console.log(`  ${m.id.padEnd(9)} [${m.claims.join("/")}] ${m.name} :: ${text}`);
+}
+
+console.log(
+  `\n=== HONESTY HEADLINE: ${mismatches.length} text/behavior mismatches remain ` +
+    `(worst ~50 retexted in cardOverrides.ts 2026.06.02) ===\n`
 );
 
 // REPORT, not a gate: always succeed.

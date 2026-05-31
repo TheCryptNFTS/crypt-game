@@ -31,7 +31,9 @@
         "Armor": "Riot Shield",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5472"
     },
     {
       "id": "tcg_unit_2171",
@@ -63,7 +65,9 @@
         "Armor": "Buckler",
         "Weapons": "Flail",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2171"
     },
     {
       "id": "tcg_unit_1458",
@@ -94,7 +98,9 @@
         "Armor": "Buckler",
         "Weapons": "Minoru Sceptre",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1458"
     },
     {
       "id": "tcg_unit_1839",
@@ -126,7 +132,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1839"
     },
     {
       "id": "tcg_unit_798",
@@ -155,7 +163,9 @@
         "Armor": "Mask",
         "Weapons": "Trippie Brew",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_798"
     },
     {
       "id": "tcg_unit_1937",
@@ -187,7 +197,9 @@
         "Armor": "Snake Scale Mail",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1937"
     },
     {
       "id": "tcg_unit_2010",
@@ -219,7 +231,9 @@
         "Armor": "Buckler",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2010"
     },
     {
       "id": "tcg_unit_644",
@@ -251,7 +265,9 @@
         "Armor": "Energy Shield",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_644"
     },
     {
       "id": "tcg_unit_727",
@@ -283,7 +299,9 @@
         "Armor": "Buckler",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_727"
     },
     {
       "id": "tcg_unit_998",
@@ -315,7 +333,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Glock",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_998"
     },
     {
       "id": "tcg_unit_3237",
@@ -347,7 +367,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Flail",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3237"
     },
     {
       "id": "tcg_unit_597",
@@ -379,7 +401,9 @@
         "Armor": "Buckler",
         "Weapons": "Broken Sword",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_597"
     },
     {
       "id": "tcg_unit_252",
@@ -411,7 +435,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Hand Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_252"
     },
     {
       "id": "tcg_unit_5689",
@@ -444,7 +470,9 @@
         "Armor": "Gauntlets",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5689"
     },
     {
       "id": "tcg_unit_3565",
@@ -477,7 +505,9 @@
         "Armor": "Buckler",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3565"
     },
     {
       "id": "tcg_unit_3823",
@@ -510,7 +540,9 @@
         "Armor": "Dragon Scale Mail",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3823"
     },
     {
       "id": "tcg_unit_1954",
@@ -542,7 +574,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Snake Whip",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1954"
     },
     {
       "id": "tcg_unit_765",
@@ -574,7 +608,9 @@
         "Armor": "Scale Mail",
         "Weapons": "Katana",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_765"
     },
     {
       "id": "tcg_unit_846",
@@ -605,7 +641,9 @@
         "Armor": "Boots",
         "Weapons": "Boxing Gloves",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_846"
     },
     {
       "id": "tcg_unit_1361",
@@ -636,7 +674,9 @@
         "Armor": "Buckler",
         "Weapons": "Scimitar",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1361"
     },
     {
       "id": "tcg_unit_366",
@@ -668,7 +708,9 @@
         "Armor": "Buckler",
         "Weapons": "Long Sword",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_366"
     },
     {
       "id": "tcg_unit_198",
@@ -700,7 +742,9 @@
         "Armor": "Buckler",
         "Weapons": "Pipe Gun",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_198"
     },
     {
       "id": "tcg_unit_1201",
@@ -733,7 +777,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Twin Daggers",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1201"
     },
     {
       "id": "tcg_unit_2556",
@@ -765,7 +811,9 @@
         "Armor": "Buckler",
         "Weapons": "Throwing Knives",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2556"
     },
     {
       "id": "tcg_unit_2155",
@@ -797,7 +845,9 @@
         "Armor": "Buckler",
         "Weapons": "Scythe",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2155"
     },
     {
       "id": "tcg_unit_3363",
@@ -831,7 +881,9 @@
         "Armor": "Snake Scale Mail",
         "Weapons": "AK47",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3363"
     },
     {
       "id": "tcg_unit_2282",
@@ -863,7 +915,9 @@
         "Armor": "Buckler",
         "Weapons": "Sword Of Heaven",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2282"
     },
     {
       "id": "tcg_unit_2197",
@@ -894,7 +948,9 @@
         "Armor": "Crusader Shield",
         "Weapons": "Pipe Dream",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2197"
     },
     {
       "id": "tcg_unit_1967",
@@ -925,7 +981,9 @@
         "Armor": "None",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1967"
     },
     {
       "id": "tcg_unit_503",
@@ -956,7 +1014,9 @@
         "Armor": "None",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_503"
     },
     {
       "id": "tcg_unit_236",
@@ -987,7 +1047,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Bullet",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_236"
     },
     {
       "id": "tcg_unit_2356",
@@ -1016,7 +1078,9 @@
         "Armor": "Bracers",
         "Weapons": "Bullet",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2356"
     },
     {
       "id": "tcg_unit_1439",
@@ -1047,36 +1111,9 @@
         "Armor": "Buckler",
         "Weapons": "Red Arrow",
         "Faction": "Bronze Guardians"
-      }
-    },
-    {
-      "id": "tcg_unit_1545",
-      "name": "Crypt - Digital Trading Card #1545",
-      "type": "unit",
-      "faction": "BRONZE_GUARDIANS",
-      "rarity": "unknown",
-      "cost": 3,
-      "stats": {
-        "attack": 8,
-        "health": 8,
-        "armor": 2,
-        "speed": 1
       },
-      "keywords": [],
-      "sourceTokenId": "1545",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Smoke Red",
-        "Skin": "Heavy Is The Head",
-        "Eye": "Death Stare",
-        "Creature": "Dragon Slayer",
-        "Mouth": "Flash Diamond",
-        "Artifacts": "None",
-        "Armor": "Bracers",
-        "Weapons": "Smoke Grenade",
-        "Faction": "Bronze Guardians"
-      }
+      "isPrimary": true,
+      "sourceCardId": "tcg_1439"
     },
     {
       "id": "tcg_unit_2123",
@@ -1105,7 +1142,40 @@
         "Armor": "Bracers",
         "Weapons": "Redemption",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2123"
+    },
+    {
+      "id": "tcg_unit_2243",
+      "name": "Crypt - Digital Trading Card #2243",
+      "type": "unit",
+      "faction": "BRONZE_GUARDIANS",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "armor": 2,
+        "speed": 3
+      },
+      "keywords": [],
+      "sourceTokenId": "2243",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Cheshire Cat",
+        "Creature": "Odins Raven",
+        "Mouth": "Blunt",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Garden Hoe",
+        "Faction": "Bronze Guardians"
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2243"
     },
     {
       "id": "tcg_unit_1107",
@@ -1137,7 +1207,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Sword Of Heaven",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1107"
     },
     {
       "id": "tcg_unit_3496",
@@ -1171,7 +1243,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3496"
     },
     {
       "id": "tcg_unit_2302",
@@ -1203,7 +1277,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Hand Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2302"
     },
     {
       "id": "tcg_unit_1452",
@@ -1235,7 +1311,9 @@
         "Armor": "Dragon Bone Plate",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1452"
     },
     {
       "id": "tcg_unit_219",
@@ -1267,7 +1345,9 @@
         "Armor": "Buckler",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_219"
     },
     {
       "id": "tcg_unit_104",
@@ -1299,7 +1379,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Snake Whip",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_104"
     },
     {
       "id": "tcg_unit_717",
@@ -1331,7 +1413,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Short Bow",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_717"
     },
     {
       "id": "tcg_unit_1468",
@@ -1362,7 +1446,9 @@
         "Armor": "None",
         "Weapons": "Uzi",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1468"
     },
     {
       "id": "tcg_unit_1668",
@@ -1393,7 +1479,9 @@
         "Armor": "Bracers",
         "Weapons": "Glock",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1668"
     },
     {
       "id": "tcg_unit_2688",
@@ -1424,7 +1512,9 @@
         "Armor": "Boots",
         "Weapons": "Revolver",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2688"
     },
     {
       "id": "tcg_unit_6282",
@@ -1457,7 +1547,9 @@
         "Armor": "Boots",
         "Weapons": "Nailed It",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6282"
     },
     {
       "id": "tcg_unit_179",
@@ -1489,7 +1581,9 @@
         "Armor": "Boots",
         "Weapons": "Twin Daggers",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_179"
     },
     {
       "id": "tcg_unit_2277",
@@ -1520,7 +1614,9 @@
         "Armor": "Mask",
         "Weapons": "Slingshot",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2277"
     },
     {
       "id": "tcg_unit_1561",
@@ -1551,7 +1647,9 @@
         "Armor": "Buckler",
         "Weapons": "Glavie",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1561"
     },
     {
       "id": "tcg_unit_55",
@@ -1582,7 +1680,9 @@
         "Armor": "Mech Full Plate",
         "Weapons": "Pipe Dream",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_55"
     },
     {
       "id": "tcg_unit_6351",
@@ -1613,7 +1713,9 @@
         "Armor": "None",
         "Weapons": "Mjolnir",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6351"
     },
     {
       "id": "tcg_unit_1648",
@@ -1644,7 +1746,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Uzi",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1648"
     },
     {
       "id": "tcg_unit_331",
@@ -1676,7 +1780,9 @@
         "Armor": "Buckler",
         "Weapons": "Knife Eye",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_331"
     },
     {
       "id": "tcg_unit_2154",
@@ -1708,7 +1814,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Knife Eye",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2154"
     },
     {
       "id": "tcg_unit_1952",
@@ -1739,7 +1847,9 @@
         "Armor": "Boots",
         "Weapons": "Lokis Sceptre",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1952"
     },
     {
       "id": "tcg_unit_2426",
@@ -1771,7 +1881,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Elven Shoemakers Hammer",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2426"
     },
     {
       "id": "tcg_unit_4277",
@@ -1802,7 +1914,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4277"
     },
     {
       "id": "tcg_unit_146",
@@ -1834,7 +1948,9 @@
         "Armor": "Boots",
         "Weapons": "Short Sword",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_146"
     },
     {
       "id": "tcg_unit_4720",
@@ -1867,7 +1983,9 @@
         "Armor": "None",
         "Weapons": "Broken Sword",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4720"
     },
     {
       "id": "tcg_unit_1086",
@@ -1898,7 +2016,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Lead Pipe",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1086"
     },
     {
       "id": "tcg_unit_965",
@@ -1929,7 +2049,9 @@
         "Armor": "Buckler",
         "Weapons": "Pipe Dream",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_965"
     },
     {
       "id": "tcg_unit_2574",
@@ -1958,7 +2080,9 @@
         "Armor": "Bracers",
         "Weapons": "Red Arrow",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2574"
     },
     {
       "id": "tcg_unit_3928",
@@ -1989,7 +2113,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3928"
     },
     {
       "id": "tcg_unit_256",
@@ -2020,7 +2146,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Lokis Sceptre",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_256"
     },
     {
       "id": "tcg_unit_1198",
@@ -2049,7 +2177,9 @@
         "Armor": "None",
         "Weapons": "Flamethrower",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1198"
     },
     {
       "id": "tcg_unit_1862",
@@ -2078,7 +2208,9 @@
         "Armor": "None",
         "Weapons": "Glavie",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1862"
     },
     {
       "id": "tcg_unit_1223",
@@ -2107,7 +2239,9 @@
         "Armor": "None",
         "Weapons": "Minoru Sceptre",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1223"
     },
     {
       "id": "tcg_unit_2517",
@@ -2136,7 +2270,9 @@
         "Armor": "Mask",
         "Weapons": "Mad Max Pipe",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2517"
     },
     {
       "id": "tcg_unit_4648",
@@ -2167,7 +2303,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4648"
     },
     {
       "id": "tcg_unit_3617",
@@ -2198,7 +2336,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3617"
     },
     {
       "id": "tcg_unit_1519",
@@ -2220,7 +2360,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Anubis"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1519"
     },
     {
       "id": "tcg_unit_1535",
@@ -2242,7 +2384,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Hades"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1535"
     },
     {
       "id": "tcg_unit_3500",
@@ -2264,7 +2408,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Vishnu"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3500"
     },
     {
       "id": "tcg_unit_4326",
@@ -2286,7 +2432,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Loki"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4326"
     }
   ],
   "equipment": [
@@ -2321,7 +2469,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4102"
     },
     {
       "id": "tcg_eq_3710",
@@ -2354,7 +2504,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3710"
     },
     {
       "id": "tcg_eq_3781",
@@ -2387,7 +2539,9 @@
         "Armor": "None",
         "Weapons": "Long Bow",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3781"
     },
     {
       "id": "tcg_eq_5552",
@@ -2420,7 +2574,9 @@
         "Armor": "Energy Shield",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5552"
     },
     {
       "id": "tcg_eq_6640",
@@ -2453,7 +2609,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6640"
     },
     {
       "id": "tcg_eq_4203",
@@ -2487,7 +2645,9 @@
         "Armor": "None",
         "Weapons": "Daggers",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4203"
     },
     {
       "id": "tcg_eq_5047",
@@ -2518,7 +2678,9 @@
         "Armor": "None",
         "Weapons": "Pipe Dream",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5047"
     },
     {
       "id": "tcg_eq_2127",
@@ -2549,7 +2711,9 @@
         "Armor": "None",
         "Weapons": "Sniper Rifle",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2127"
     },
     {
       "id": "tcg_eq_5197",
@@ -2582,7 +2746,9 @@
         "Armor": "Buckler",
         "Weapons": "None",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5197"
     },
     {
       "id": "tcg_eq_6065",
@@ -2615,7 +2781,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6065"
     },
     {
       "id": "tcg_eq_5682",
@@ -2648,7 +2816,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5682"
     },
     {
       "id": "tcg_eq_5729",
@@ -2681,7 +2851,9 @@
         "Armor": "None",
         "Weapons": "Axe",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5729"
     },
     {
       "id": "tcg_eq_4659",
@@ -2714,7 +2886,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4659"
     },
     {
       "id": "tcg_eq_5026",
@@ -2747,7 +2921,9 @@
         "Armor": "None",
         "Weapons": "Glock",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5026"
     },
     {
       "id": "tcg_eq_4743",
@@ -2780,7 +2956,9 @@
         "Armor": "Gauntlets",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4743"
     }
   ],
   "artifacts": [
@@ -2809,7 +2987,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3492"
     },
     {
       "id": "tcg_art_3427",
@@ -2836,7 +3016,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3427"
     },
     {
       "id": "tcg_art_4006",
@@ -2863,7 +3045,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4006"
     },
     {
       "id": "tcg_art_4666",
@@ -2890,7 +3074,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4666"
     },
     {
       "id": "tcg_art_3852",
@@ -2917,7 +3103,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3852"
     },
     {
       "id": "tcg_art_5970",
@@ -2944,7 +3132,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5970"
     },
     {
       "id": "tcg_art_5728",
@@ -2971,7 +3161,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5728"
     },
     {
       "id": "tcg_art_3399",
@@ -2998,7 +3190,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3399"
     },
     {
       "id": "tcg_art_4584",
@@ -3025,8 +3219,110 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4584"
     }
+  ],
+  "primaryCardIds": [
+    "tcg_5472",
+    "tcg_2171",
+    "tcg_1458",
+    "tcg_1839",
+    "tcg_798",
+    "tcg_1937",
+    "tcg_2010",
+    "tcg_644",
+    "tcg_727",
+    "tcg_998",
+    "tcg_3237",
+    "tcg_597",
+    "tcg_252",
+    "tcg_5689",
+    "tcg_3565",
+    "tcg_3823",
+    "tcg_1954",
+    "tcg_765",
+    "tcg_846",
+    "tcg_1361",
+    "tcg_366",
+    "tcg_198",
+    "tcg_1201",
+    "tcg_2556",
+    "tcg_2155",
+    "tcg_3363",
+    "tcg_2282",
+    "tcg_2197",
+    "tcg_1967",
+    "tcg_503",
+    "tcg_236",
+    "tcg_2356",
+    "tcg_1439",
+    "tcg_2123",
+    "tcg_2243",
+    "tcg_1107",
+    "tcg_3496",
+    "tcg_2302",
+    "tcg_1452",
+    "tcg_219",
+    "tcg_104",
+    "tcg_717",
+    "tcg_1468",
+    "tcg_1668",
+    "tcg_2688",
+    "tcg_6282",
+    "tcg_179",
+    "tcg_2277",
+    "tcg_1561",
+    "tcg_55",
+    "tcg_6351",
+    "tcg_1648",
+    "tcg_331",
+    "tcg_2154",
+    "tcg_1952",
+    "tcg_2426",
+    "tcg_4277",
+    "tcg_146",
+    "tcg_4720",
+    "tcg_1086",
+    "tcg_965",
+    "tcg_2574",
+    "tcg_3928",
+    "tcg_256",
+    "tcg_1198",
+    "tcg_1862",
+    "tcg_1223",
+    "tcg_2517",
+    "tcg_4648",
+    "tcg_3617",
+    "tcg_1519",
+    "tcg_1535",
+    "tcg_3500",
+    "tcg_4326",
+    "tcg_4102",
+    "tcg_3710",
+    "tcg_3781",
+    "tcg_5552",
+    "tcg_6640",
+    "tcg_4203",
+    "tcg_5047",
+    "tcg_2127",
+    "tcg_5197",
+    "tcg_6065",
+    "tcg_5682",
+    "tcg_5729",
+    "tcg_4659",
+    "tcg_5026",
+    "tcg_4743",
+    "tcg_3492",
+    "tcg_3427",
+    "tcg_4006",
+    "tcg_4666",
+    "tcg_3852",
+    "tcg_5970",
+    "tcg_5728",
+    "tcg_3399",
+    "tcg_4584"
   ],
   "all": [
     {
@@ -3060,7 +3356,9 @@
         "Armor": "Riot Shield",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5472"
     },
     {
       "id": "tcg_unit_2171",
@@ -3092,7 +3390,9 @@
         "Armor": "Buckler",
         "Weapons": "Flail",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2171"
     },
     {
       "id": "tcg_unit_1458",
@@ -3123,7 +3423,9 @@
         "Armor": "Buckler",
         "Weapons": "Minoru Sceptre",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1458"
     },
     {
       "id": "tcg_unit_1839",
@@ -3155,7 +3457,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1839"
     },
     {
       "id": "tcg_unit_798",
@@ -3184,7 +3488,9 @@
         "Armor": "Mask",
         "Weapons": "Trippie Brew",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_798"
     },
     {
       "id": "tcg_unit_1937",
@@ -3216,7 +3522,9 @@
         "Armor": "Snake Scale Mail",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1937"
     },
     {
       "id": "tcg_unit_2010",
@@ -3248,7 +3556,9 @@
         "Armor": "Buckler",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2010"
     },
     {
       "id": "tcg_unit_644",
@@ -3280,7 +3590,9 @@
         "Armor": "Energy Shield",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_644"
     },
     {
       "id": "tcg_unit_727",
@@ -3312,7 +3624,9 @@
         "Armor": "Buckler",
         "Weapons": "Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_727"
     },
     {
       "id": "tcg_unit_998",
@@ -3344,7 +3658,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Glock",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_998"
     },
     {
       "id": "tcg_unit_3237",
@@ -3376,7 +3692,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Flail",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3237"
     },
     {
       "id": "tcg_unit_597",
@@ -3408,7 +3726,9 @@
         "Armor": "Buckler",
         "Weapons": "Broken Sword",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_597"
     },
     {
       "id": "tcg_unit_252",
@@ -3440,7 +3760,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Hand Axe",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_252"
     },
     {
       "id": "tcg_unit_5689",
@@ -3473,7 +3795,9 @@
         "Armor": "Gauntlets",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5689"
     },
     {
       "id": "tcg_unit_3565",
@@ -3506,7 +3830,9 @@
         "Armor": "Buckler",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3565"
     },
     {
       "id": "tcg_unit_3823",
@@ -3539,7 +3865,9 @@
         "Armor": "Dragon Scale Mail",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3823"
     },
     {
       "id": "tcg_unit_1954",
@@ -3571,7 +3899,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Snake Whip",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1954"
     },
     {
       "id": "tcg_unit_765",
@@ -3603,7 +3933,9 @@
         "Armor": "Scale Mail",
         "Weapons": "Katana",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_765"
     },
     {
       "id": "tcg_unit_846",
@@ -3634,7 +3966,9 @@
         "Armor": "Boots",
         "Weapons": "Boxing Gloves",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_846"
     },
     {
       "id": "tcg_unit_1361",
@@ -3665,7 +3999,9 @@
         "Armor": "Buckler",
         "Weapons": "Scimitar",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1361"
     },
     {
       "id": "tcg_unit_366",
@@ -3697,7 +4033,9 @@
         "Armor": "Buckler",
         "Weapons": "Long Sword",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_366"
     },
     {
       "id": "tcg_unit_198",
@@ -3729,7 +4067,9 @@
         "Armor": "Buckler",
         "Weapons": "Pipe Gun",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_198"
     },
     {
       "id": "tcg_unit_1201",
@@ -3762,7 +4102,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Twin Daggers",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1201"
     },
     {
       "id": "tcg_unit_2556",
@@ -3794,7 +4136,9 @@
         "Armor": "Buckler",
         "Weapons": "Throwing Knives",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2556"
     },
     {
       "id": "tcg_unit_2155",
@@ -3826,7 +4170,9 @@
         "Armor": "Buckler",
         "Weapons": "Scythe",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2155"
     },
     {
       "id": "tcg_unit_3363",
@@ -3860,7 +4206,9 @@
         "Armor": "Snake Scale Mail",
         "Weapons": "AK47",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3363"
     },
     {
       "id": "tcg_unit_2282",
@@ -3892,7 +4240,9 @@
         "Armor": "Buckler",
         "Weapons": "Sword Of Heaven",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2282"
     },
     {
       "id": "tcg_unit_2197",
@@ -3923,7 +4273,9 @@
         "Armor": "Crusader Shield",
         "Weapons": "Pipe Dream",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2197"
     },
     {
       "id": "tcg_unit_1967",
@@ -3954,7 +4306,9 @@
         "Armor": "None",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1967"
     },
     {
       "id": "tcg_unit_503",
@@ -3985,7 +4339,9 @@
         "Armor": "None",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_503"
     },
     {
       "id": "tcg_unit_236",
@@ -4016,7 +4372,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Bullet",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_236"
     },
     {
       "id": "tcg_unit_2356",
@@ -4045,7 +4403,9 @@
         "Armor": "Bracers",
         "Weapons": "Bullet",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2356"
     },
     {
       "id": "tcg_unit_1439",
@@ -4076,36 +4436,9 @@
         "Armor": "Buckler",
         "Weapons": "Red Arrow",
         "Faction": "Bronze Guardians"
-      }
-    },
-    {
-      "id": "tcg_unit_1545",
-      "name": "Crypt - Digital Trading Card #1545",
-      "type": "unit",
-      "faction": "BRONZE_GUARDIANS",
-      "rarity": "unknown",
-      "cost": 3,
-      "stats": {
-        "attack": 8,
-        "health": 8,
-        "armor": 2,
-        "speed": 1
       },
-      "keywords": [],
-      "sourceTokenId": "1545",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Smoke Red",
-        "Skin": "Heavy Is The Head",
-        "Eye": "Death Stare",
-        "Creature": "Dragon Slayer",
-        "Mouth": "Flash Diamond",
-        "Artifacts": "None",
-        "Armor": "Bracers",
-        "Weapons": "Smoke Grenade",
-        "Faction": "Bronze Guardians"
-      }
+      "isPrimary": true,
+      "sourceCardId": "tcg_1439"
     },
     {
       "id": "tcg_unit_2123",
@@ -4134,7 +4467,40 @@
         "Armor": "Bracers",
         "Weapons": "Redemption",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2123"
+    },
+    {
+      "id": "tcg_unit_2243",
+      "name": "Crypt - Digital Trading Card #2243",
+      "type": "unit",
+      "faction": "BRONZE_GUARDIANS",
+      "rarity": "unknown",
+      "cost": 3,
+      "stats": {
+        "attack": 6,
+        "health": 7,
+        "armor": 2,
+        "speed": 3
+      },
+      "keywords": [],
+      "sourceTokenId": "2243",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke DarkGreen",
+        "Skin": "Heavy Is The Head",
+        "Eye": "Cheshire Cat",
+        "Creature": "Odins Raven",
+        "Mouth": "Blunt",
+        "Artifacts": "None",
+        "Armor": "Bracers",
+        "Weapons": "Garden Hoe",
+        "Faction": "Bronze Guardians"
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2243"
     },
     {
       "id": "tcg_unit_1107",
@@ -4166,7 +4532,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Sword Of Heaven",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1107"
     },
     {
       "id": "tcg_unit_3496",
@@ -4200,7 +4568,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3496"
     },
     {
       "id": "tcg_unit_2302",
@@ -4232,7 +4602,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Hand Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2302"
     },
     {
       "id": "tcg_unit_1452",
@@ -4264,7 +4636,9 @@
         "Armor": "Dragon Bone Plate",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1452"
     },
     {
       "id": "tcg_unit_219",
@@ -4296,7 +4670,9 @@
         "Armor": "Buckler",
         "Weapons": "Axe",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_219"
     },
     {
       "id": "tcg_unit_104",
@@ -4328,7 +4704,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Snake Whip",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_104"
     },
     {
       "id": "tcg_unit_717",
@@ -4360,7 +4738,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Short Bow",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_717"
     },
     {
       "id": "tcg_unit_1468",
@@ -4391,7 +4771,9 @@
         "Armor": "None",
         "Weapons": "Uzi",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1468"
     },
     {
       "id": "tcg_unit_1668",
@@ -4422,7 +4804,9 @@
         "Armor": "Bracers",
         "Weapons": "Glock",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1668"
     },
     {
       "id": "tcg_unit_2688",
@@ -4453,7 +4837,9 @@
         "Armor": "Boots",
         "Weapons": "Revolver",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2688"
     },
     {
       "id": "tcg_unit_6282",
@@ -4486,7 +4872,9 @@
         "Armor": "Boots",
         "Weapons": "Nailed It",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6282"
     },
     {
       "id": "tcg_unit_179",
@@ -4518,7 +4906,9 @@
         "Armor": "Boots",
         "Weapons": "Twin Daggers",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_179"
     },
     {
       "id": "tcg_unit_2277",
@@ -4549,7 +4939,9 @@
         "Armor": "Mask",
         "Weapons": "Slingshot",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2277"
     },
     {
       "id": "tcg_unit_1561",
@@ -4580,7 +4972,9 @@
         "Armor": "Buckler",
         "Weapons": "Glavie",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1561"
     },
     {
       "id": "tcg_unit_55",
@@ -4611,7 +5005,9 @@
         "Armor": "Mech Full Plate",
         "Weapons": "Pipe Dream",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_55"
     },
     {
       "id": "tcg_unit_6351",
@@ -4642,7 +5038,9 @@
         "Armor": "None",
         "Weapons": "Mjolnir",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6351"
     },
     {
       "id": "tcg_unit_1648",
@@ -4673,7 +5071,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Uzi",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1648"
     },
     {
       "id": "tcg_unit_331",
@@ -4705,7 +5105,9 @@
         "Armor": "Buckler",
         "Weapons": "Knife Eye",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_331"
     },
     {
       "id": "tcg_unit_2154",
@@ -4737,7 +5139,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Knife Eye",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2154"
     },
     {
       "id": "tcg_unit_1952",
@@ -4768,7 +5172,9 @@
         "Armor": "Boots",
         "Weapons": "Lokis Sceptre",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1952"
     },
     {
       "id": "tcg_unit_2426",
@@ -4800,7 +5206,9 @@
         "Armor": "Gauntlets",
         "Weapons": "Elven Shoemakers Hammer",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2426"
     },
     {
       "id": "tcg_unit_4277",
@@ -4831,7 +5239,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4277"
     },
     {
       "id": "tcg_unit_146",
@@ -4863,7 +5273,9 @@
         "Armor": "Boots",
         "Weapons": "Short Sword",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_146"
     },
     {
       "id": "tcg_unit_4720",
@@ -4896,7 +5308,9 @@
         "Armor": "None",
         "Weapons": "Broken Sword",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4720"
     },
     {
       "id": "tcg_unit_1086",
@@ -4927,7 +5341,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Lead Pipe",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1086"
     },
     {
       "id": "tcg_unit_965",
@@ -4958,7 +5374,9 @@
         "Armor": "Buckler",
         "Weapons": "Pipe Dream",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_965"
     },
     {
       "id": "tcg_unit_2574",
@@ -4987,7 +5405,9 @@
         "Armor": "Bracers",
         "Weapons": "Red Arrow",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2574"
     },
     {
       "id": "tcg_unit_3928",
@@ -5018,7 +5438,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3928"
     },
     {
       "id": "tcg_unit_256",
@@ -5049,7 +5471,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "Lokis Sceptre",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_256"
     },
     {
       "id": "tcg_unit_1198",
@@ -5078,7 +5502,9 @@
         "Armor": "None",
         "Weapons": "Flamethrower",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1198"
     },
     {
       "id": "tcg_unit_1862",
@@ -5107,7 +5533,9 @@
         "Armor": "None",
         "Weapons": "Glavie",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1862"
     },
     {
       "id": "tcg_unit_1223",
@@ -5136,7 +5564,9 @@
         "Armor": "None",
         "Weapons": "Minoru Sceptre",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1223"
     },
     {
       "id": "tcg_unit_2517",
@@ -5165,7 +5595,9 @@
         "Armor": "Mask",
         "Weapons": "Mad Max Pipe",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2517"
     },
     {
       "id": "tcg_unit_4648",
@@ -5196,7 +5628,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4648"
     },
     {
       "id": "tcg_unit_3617",
@@ -5227,7 +5661,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3617"
     },
     {
       "id": "tcg_unit_1519",
@@ -5249,7 +5685,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Anubis"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1519"
     },
     {
       "id": "tcg_unit_1535",
@@ -5271,7 +5709,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Hades"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_1535"
     },
     {
       "id": "tcg_unit_3500",
@@ -5293,7 +5733,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Vishnu"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3500"
     },
     {
       "id": "tcg_unit_4326",
@@ -5315,7 +5757,9 @@
       "rawTraits": {
         "Faction": "Gods",
         "God": "Loki"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4326"
     },
     {
       "id": "tcg_eq_4102",
@@ -5348,7 +5792,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4102"
     },
     {
       "id": "tcg_eq_3710",
@@ -5381,7 +5827,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3710"
     },
     {
       "id": "tcg_eq_3781",
@@ -5414,7 +5862,9 @@
         "Armor": "None",
         "Weapons": "Long Bow",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3781"
     },
     {
       "id": "tcg_eq_5552",
@@ -5447,7 +5897,9 @@
         "Armor": "Energy Shield",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5552"
     },
     {
       "id": "tcg_eq_6640",
@@ -5480,7 +5932,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6640"
     },
     {
       "id": "tcg_eq_4203",
@@ -5514,7 +5968,9 @@
         "Armor": "None",
         "Weapons": "Daggers",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4203"
     },
     {
       "id": "tcg_eq_5047",
@@ -5545,7 +6001,9 @@
         "Armor": "None",
         "Weapons": "Pipe Dream",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5047"
     },
     {
       "id": "tcg_eq_2127",
@@ -5576,7 +6034,9 @@
         "Armor": "None",
         "Weapons": "Sniper Rifle",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_2127"
     },
     {
       "id": "tcg_eq_5197",
@@ -5609,7 +6069,9 @@
         "Armor": "Buckler",
         "Weapons": "None",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5197"
     },
     {
       "id": "tcg_eq_6065",
@@ -5642,7 +6104,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_6065"
     },
     {
       "id": "tcg_eq_5682",
@@ -5675,7 +6139,9 @@
         "Armor": "Boots",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5682"
     },
     {
       "id": "tcg_eq_5729",
@@ -5708,7 +6174,9 @@
         "Armor": "None",
         "Weapons": "Axe",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5729"
     },
     {
       "id": "tcg_eq_4659",
@@ -5741,7 +6209,9 @@
         "Armor": "Stealth Boots",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4659"
     },
     {
       "id": "tcg_eq_5026",
@@ -5774,7 +6244,9 @@
         "Armor": "None",
         "Weapons": "Glock",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5026"
     },
     {
       "id": "tcg_eq_4743",
@@ -5807,7 +6279,9 @@
         "Armor": "Gauntlets",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4743"
     },
     {
       "id": "tcg_art_3492",
@@ -5834,7 +6308,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3492"
     },
     {
       "id": "tcg_art_3427",
@@ -5861,7 +6337,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Stone Keepers"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3427"
     },
     {
       "id": "tcg_art_4006",
@@ -5888,7 +6366,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4006"
     },
     {
       "id": "tcg_art_4666",
@@ -5915,7 +6395,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Iron Defenders"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4666"
     },
     {
       "id": "tcg_art_3852",
@@ -5942,7 +6424,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3852"
     },
     {
       "id": "tcg_art_5970",
@@ -5969,7 +6453,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Bronze Guardians"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5970"
     },
     {
       "id": "tcg_art_5728",
@@ -5996,7 +6482,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_5728"
     },
     {
       "id": "tcg_art_3399",
@@ -6023,7 +6511,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Silver Sentinels"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_3399"
     },
     {
       "id": "tcg_art_4584",
@@ -6050,7 +6540,9 @@
         "Armor": "None",
         "Weapons": "None",
         "Faction": "Golden Sovereigns"
-      }
+      },
+      "isPrimary": true,
+      "sourceCardId": "tcg_4584"
     }
   ]
 }
