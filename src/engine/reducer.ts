@@ -1043,8 +1043,15 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // Iron Warlord: the equipped unit gains bonus Attack each time it is geared.
       const equipped = findUnitByInstance(played, action.player, action.targetInstanceId);
       if (equipped) commanderOnEquip(played, action.player, equipped.unit);
-      // IRON Tempered: gear also hardens the unit (+1 Armor). Gated no-op otherwise.
-      if (equipped) factionOnEquip(played, action.player, equipped.unit);
+      // IRON Tempered: gear also hardens the unit (+1 Armor; +1/+0 too at 3+ Iron
+      // live). Gated no-op otherwise.
+      if (equipped)
+        factionOnEquip(
+          played,
+          action.player,
+          equipped.unit,
+          (id: string) => cardMetaById.get(id)?.faction ?? null
+        );
       events.push({ type: "EQUIPPED", player: action.player, cardId, targetInstanceId: action.targetInstanceId });
       return { state: played, events };
     }
@@ -1336,9 +1343,15 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // Commander start-of-turn passive (e.g. Silver Oracle's Scry) for the
       // player whose turn is beginning.
       commanderOnTurnStart(next, nextPlayerId, costOf);
-      // SILVER Insight: start-of-turn Scry 1 (deck smoothing, no draw). Gated
-      // no-op otherwise, so vanilla matches are byte-identical.
-      factionOnTurnStart(next, nextPlayerId, costOf);
+      // SILVER Insight: start-of-turn Scry 1 (Scry 2 at 3+ Silver live; deck
+      // smoothing, no draw). Gated no-op otherwise, so vanilla matches are
+      // byte-identical.
+      factionOnTurnStart(
+        next,
+        nextPlayerId,
+        costOf,
+        (id: string) => cardMetaById.get(id)?.faction ?? null
+      );
 
       events.push({ type: "TURN_END", player: ending });
 
