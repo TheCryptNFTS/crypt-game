@@ -73,6 +73,8 @@ export type EffectOp =
   | "DRAW_FILTERED" // draw the first N cards of a given type from the deck top -> hand
   | "SCRY_DYNAMIC" // reorder the top N of the deck deterministically (parameterized scryDeck)
   | "MILL_FROM_DECK" // move the top N cards of the deck to the discard pile (no hand)
+  // CHOICE primitive (mid-resolution player decision; see CHOICE_DESIGN.md):
+  | "DISCOVER" // generate K seeded options the controller picks ONE of -> hand (PAUSES via pendingChoice)
   // Recognized-but-no-op classifications (so coverage can be measured):
   | "STAT_LINE" // static stat text, already in the card's stats
   | "GRANT_KEYWORD" // "Grants X" — keyword already on the tuple, descriptive
@@ -132,6 +134,12 @@ export interface EffectSpec {
   tutorSelector?: "LOWEST_COST_UNIT" | "LOWEST_COST_SPELL" | "HIGHEST_COST_UNIT";
   /** DRAW_FILTERED: the card type to draw from the deck top (others are skipped). */
   drawType?: "UNIT" | "SPELL";
+  /** DISCOVER: the card type the generated options are filtered to ("UNIT" |
+   *  "SPELL" | "ANY"). The options are drawn from the controller's own deck in a
+   *  deterministic seeded order; the controller picks ONE to add to hand. */
+  discoverType?: "UNIT" | "SPELL" | "ANY";
+  /** DISCOVER: how many options to offer (defaults to 3 — the Hearthstone shape). */
+  discoverCount?: number;
   /** BUFF_PER_DAMAGE_TAKEN: optional ceiling on the per-point stat growth from a
    *  single hit ("gain +1/+1 for each damage taken up to 3"). When set, the buff
    *  multiplier is min(damageJustTaken, cap). Absent = no cap. */
@@ -927,11 +935,37 @@ const DRAW_FILTERED_RE = /draw\s+(\d+)\s+(unit|spell|minion)s?\b/i;
 const SCRY_DYNAMIC_RE = /\bscry\s+(\d+)\b|look at the top\s+(\d+)\s+cards?\s+of\s+your\s+(?:deck|library)/i;
 // MILL_FROM_DECK: "mill N" / "put the top N cards of your deck into your discard".
 const MILL_RE = /\bmill\s+(\d+)\b|(?:put|move|send)\s+the\s+top\s+(\d+)\s+cards?\s+of\s+your\s+(?:deck|library)\s+(?:into|to)\s+(?:your\s+)?(?:discard|graveyard)/i;
+// DISCOVER: "discover a/an/one unit|spell|card [from your deck]" — generate K
+//   seeded options (default 3) from the controller's own deck filtered to the
+//   noun's type, then PAUSE for the controller to pick ONE into hand. The honest
+//   Hearthstone "Discover" idiom; only this explicit verb matches (so a plain
+//   tutor/draw is NOT misrouted into a pausing choice). An optional leading count
+//   ("discover one of 3 spells") overrides the default offer size.
+const DISCOVER_RE =
+  /\bdiscover\b(?:\s+one\s+of\s+(\d+))?\s+(?:a|an|one)?\s*(unit|minion|spell|card)s?\b/i;
+
+/** Parse a "discover a/an/one <unit|spell|card>" clause into a DISCOVER spec, or
+ *  null. The noun maps to the option type filter; an optional "one of N" sets the
+ *  offer size (default 3). Deterministic at resolve (seeded option draw); a pool
+ *  with zero candidates is a clean no-op (never opens an unresolvable pause). */
+function parseDiscover(text: string, trigger: EffectTrigger, raw: string): EffectSpec | null {
+  const m = text.match(DISCOVER_RE);
+  if (!m) return null;
+  const noun = (m[2] ?? "card").toLowerCase();
+  const discoverType: NonNullable<EffectSpec["discoverType"]> =
+    noun === "spell" ? "SPELL" : noun === "card" ? "ANY" : "UNIT";
+  const count = m[1] ? Math.max(1, +m[1]) : 3;
+  return { trigger, op: "DISCOVER", discoverType, discoverCount: count, raw };
+}
 
 /** Parse a deck-manipulation body (tutor / filtered-draw / scry / mill) into a
  *  single EffectSpec, or null. Order matters: the more specific filtered-draw is
  *  matched before a generic "scry/mill N" so a numeric body is not misrouted. */
 function parseDeckManipBody(body: string, trigger: EffectTrigger, raw: string): EffectSpec | null {
+  // DISCOVER first: the explicit "discover" verb is a PAUSING choice and must not
+  // be misrouted into the deterministic tutor/draw bodies below.
+  const discover = parseDiscover(body, trigger, raw);
+  if (discover) return discover;
   const tutor = body.match(TUTOR_RE);
   if (tutor) {
     const dir = tutor[1].toLowerCase();
@@ -1458,6 +1492,24 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
     if (a2.length) {
       classified.push(...a2);
       for (let i = classified.length - a2.length - 1; i >= 0; i -= 1) {
+        if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+      }
+    }
+  }
+
+  // 10. DISCOVER rider — a mid-resolution player CHOICE (Discover a unit/spell).
+  //     Matches only the explicit "discover a/an/one <unit|spell|card>" verb so a
+  //     plain tutor/draw is never turned into a pausing choice. Emitted at most
+  //     once, ORDERED LAST in `classified` so the pausing op is the tail spec the
+  //     reducer runs (RESOLUTION_MODEL.md §8: a choice is raised at a clean,
+  //     queue-empty boundary). The trigger is ON_SUMMON (battlecry/cast) unless the
+  //     clause reads as a deathrattle. Any UNKNOWN it explains is dropped.
+  if (!classified.some((s) => s.op === "DISCOVER")) {
+    const trig: EffectTrigger = ON_DEATH_RE.test(text) ? "ON_DEATH" : "ON_SUMMON";
+    const discover = parseDiscover(text, trig, text);
+    if (discover) {
+      classified.push(discover);
+      for (let i = classified.length - 2; i >= 0; i -= 1) {
         if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
       }
     }

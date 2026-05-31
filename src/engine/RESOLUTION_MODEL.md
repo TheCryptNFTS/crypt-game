@@ -161,3 +161,71 @@ enqueue and fire triggers.)
   token instanceId order) and asserts byte-identical results across two runs of
   the same trigger storm. `npm run dev:determinism` proves the global
   `(seed, actions)` guarantee.
+
+## 8. Mid-resolution player CHOICE (`pendingChoice` pause/resume)
+
+The no-stack model resolves everything **within one action** — with exactly ONE
+sanctioned exception: an effect that must ask the controller to **pick one of
+several options** (Hearthstone "Discover", future "choose one"). Such an effect
+cannot complete inside its raising action because the decision is the player's, so
+it **pauses** and resumes on a later action. This is still no-stack / no-priority:
+there is no frozen call stack and no response window — only a single, explicit
+continuation recorded as **plain data**.
+
+**The pause record.** `MatchState.pendingChoice` (`src/engine/state.ts`) is set to a
+`PendingChoice { kind, controller, options[], resume }` when an op raises a choice.
+Unlike `triggerQueue` (transient, reset to `[]` every action), `pendingChoice`
+**crosses exactly one action boundary** by design. It holds ONLY plain data (no
+closures / Maps / Sets), so `structuredClone` at the reducer entry preserves it and
+it is absent (`undefined`) from every committed fixture — the reducer-equivalence
+golden JSON is unmoved.
+
+**Raising a choice.** A choice-raising op (today `DISCOVER`, in `effectResolver.ts`)
+is compiled **last** in `CompiledAbility.specs`, so it fires at a clean,
+queue-empty boundary. It generates its option list **deterministically** from
+`makeRng(state.seed)` fast-forwarded `state.rngCursor` steps (the same stream as
+`rngAt`), then advances `rngCursor` by **exactly** the draws consumed. Edge cases:
+an **empty option pool is a clean no-op** (never pauses); a **single option
+auto-resolves inline** (identical to opening a 1-option choice and immediately
+picking). Otherwise it sets `pendingChoice` and the raising action (`PLAY_UNIT` /
+`PLAY_SPELL`) **short-circuits** — it emits its normal played-event plus
+`CHOICE_OPENED` and returns WITHOUT reaping deaths or checking the win; that
+finalization is deferred to the resume tail.
+
+**The global gate.** While `pendingChoice` is non-null the model is
+single-threaded: the reducer accepts ONLY a matching `RESOLVE_CHOICE`. EVERY other
+action type **reject-softs** `choice-pending` (state returned unchanged). This is
+the single global gate that keeps the model tractable. Conversely a
+`RESOLVE_CHOICE` arriving with **no** pending choice reject-softs
+`no-pending-choice`.
+
+**Resuming.** `RESOLVE_CHOICE { player, optionId }` is a normal **logged** action.
+Legality order: `no-pending-choice` → `not-your-choice` (only the controller may
+resolve) → `illegal-option` (the id must be one offered). On a valid pick the
+reducer runs the `resume` tail (move the chosen card deck→hand, or mint pool→hand),
+clears `pendingChoice`, then runs the **deferred** death reap + win check, and emits
+`CHOICE_RESOLVED`. No RNG is consumed on resume — the options were already drawn
+when the choice opened.
+
+**Determinism.** The chosen `optionId` enters the action log, so a replay of
+`(seed, actions)` regenerates the identical option list (same seed+cursor) AND
+resolves the identical pick — byte-identical, never regenerated. Harnesses that run
+without a human (`playAiMatch`, `replay` in `src/dev/reducerHarness.ts`) drain a
+raised choice via the pure `autoPickOption(state)` (fixed `options[0]`), appending
+the `RESOLVE_CHOICE` to the action log so the replay stays faithful and nothing
+deadlocks.
+
+- Enforced: `pendingChoice` in `src/engine/state.ts`; the global gate +
+  `RESOLVE_CHOICE` branch + `autoPickOption` in `src/engine/reducer.ts`; the
+  `DISCOVER` op + `seededDistinctPick` / `moveCardDeckToHand` in
+  `src/engine/effectResolver.ts`; the `DISCOVER` regex in
+  `src/engine/abilityCompiler.ts`.
+- Proven: `npm run dev:choice` (`src/dev/runChoiceProof.ts`) drives the full
+  lifecycle (compiler parse, resolver raise/empty-pool/single-option,
+  gate reject-soft, legality order, valid resume, same-seed option determinism,
+  logged-optionId replay equality, auto-pick drain). `npm run dev:determinism`
+  remains byte-identical.
+
+> NOTE re §1: this is the ONLY pause in the engine and it is still no-stack /
+> no-priority. It is a *continuation* (one data record + one logged action), not a
+> response window. Do not generalize it into a stack.

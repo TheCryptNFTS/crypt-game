@@ -60,7 +60,7 @@ import {
 import { allPlayableCards } from "./cards";
 import { spellCards } from "./spellCards";
 import { compileAbility, CompiledAbility, EffectTrigger, EffectOp } from "./abilityCompiler";
-import { resolveEffect, resolveSpecs } from "./effectResolver";
+import { resolveEffect, resolveSpecs, addCardToHand, moveCardDeckToHand } from "./effectResolver";
 import { makeRng, shuffle as seededShuffle } from "./rng";
 
 export type Action =
@@ -71,7 +71,12 @@ export type Action =
   | { type: "PLAY_SPELL"; player: PlayerId; handIndex: number; targetInstanceId?: string }
   | { type: "ATTACK_UNIT"; player: PlayerId; attackerInstanceId: string; defenderInstanceId: string }
   | { type: "ATTACK_FACE"; player: PlayerId; attackerInstanceId: string }
-  | { type: "END_TURN"; player: PlayerId };
+  | { type: "END_TURN"; player: PlayerId }
+  // Resolve a paused mid-resolution CHOICE (Discover / choose-one). The ONLY
+  // action accepted while `state.pendingChoice` is non-null; carries the chosen
+  // `optionId` so a replay of (seed, actions) resolves the identical tail. See
+  // RESOLUTION_MODEL.md §8.
+  | { type: "RESOLVE_CHOICE"; player: PlayerId; optionId: string };
 
 export type GameEvent =
   | { type: "UNIT_PLAYED"; player: PlayerId; cardId: string; lane: Lane }
@@ -84,6 +89,12 @@ export type GameEvent =
   | { type: "TURN_START"; player: PlayerId; energy: number; maxEnergy: number }
   | { type: "DECK_OUT"; player: PlayerId }
   | { type: "WIN"; player: PlayerId }
+  // A mid-resolution CHOICE was raised (Discover). The action that raised it ends
+  // here with `state.pendingChoice` set; the controller must follow up with a
+  // RESOLVE_CHOICE. `options` are the catalog cardIds offered, in seeded order.
+  | { type: "CHOICE_OPENED"; player: PlayerId; kind: string; options: string[] }
+  // A pending CHOICE was resolved with `optionId`; the resume tail has run.
+  | { type: "CHOICE_RESOLVED"; player: PlayerId; optionId: string }
   | { type: "REJECTED"; reason: string };
 
 export interface ApplyResult {
@@ -153,6 +164,10 @@ function fireTrigger(
       lane: source.lane,
       factionOf: (id: string) => cardMetaById.get(id)?.faction ?? null,
       costOf,
+      // DISCOVER battlecries filter the controller's deck by card type; supply the
+      // catalog lookup so the option pool is built honestly (absent -> empty pool
+      // -> clean no-op, never a fake choice).
+      cardTypeOf,
     });
   }
 }
@@ -691,6 +706,74 @@ function reject(state: MatchState, reason: string): ApplyResult {
   return { state, events: [{ type: "REJECTED", reason }] };
 }
 
+/** Build the CHOICE_OPENED event from a state that just raised a pending choice.
+ *  Pure projection of `pendingChoice`; the controller is the `player`. */
+function choiceOpenedEvent(state: MatchState): GameEvent {
+  const pc = state.pendingChoice!;
+  return {
+    type: "CHOICE_OPENED",
+    player: pc.controller,
+    kind: pc.kind,
+    options: pc.options.map((o) => o.id),
+  };
+}
+
+/**
+ * Deterministic auto-pick for harnesses (AI / sim / e2e) that must drain a raised
+ * choice with no human in the loop. ALWAYS returns the FIRST option's id — a fixed,
+ * pure function of state, so a replay drains identically (RESOLUTION_MODEL.md §8 /
+ * CHOICE_DESIGN §6). Returns null only if there is no pending choice (no option to
+ * pick), letting callers skip cleanly. Never advances RNG.
+ */
+export function autoPickOption(state: MatchState): string | null {
+  const pc = state.pendingChoice;
+  if (!pc || pc.options.length === 0) return null;
+  return pc.options[0].id;
+}
+
+/**
+ * Resolve a pending CHOICE. Entered ONLY from the global gate with `next` already
+ * cloned and `next.pendingChoice` non-null. Legality (after no-pending-choice,
+ * which the gate handled): not-your-choice -> illegal-option. On a valid pick it
+ * runs the resume tail (move the chosen card deck->hand, or mint pool->hand),
+ * clears `pendingChoice`, reaps deaths + checks the win (deferred from the action
+ * that raised the choice), and emits CHOICE_RESOLVED. No RNG is consumed here — the
+ * option list was already generated deterministically when the choice opened.
+ */
+function resolvePendingChoice(
+  next: MatchState,
+  action: { type: "RESOLVE_CHOICE"; player: PlayerId; optionId: string },
+  original: MatchState,
+  events: GameEvent[]
+): ApplyResult {
+  const pc = next.pendingChoice!;
+  // Only the choice's controller may resolve it.
+  if (action.player !== pc.controller) {
+    return reject(original, "not-your-choice");
+  }
+  // The optionId must be one of the offered options (stale / spoofed picks no-op).
+  const picked = pc.options.find((o) => o.id === action.optionId);
+  if (!picked) {
+    return reject(original, "illegal-option");
+  }
+  // Run the resume tail. For a Discover the picked id IS the cardId.
+  const cardId = picked.cardId ?? picked.id;
+  if (pc.resume.op === "ADD_CARD_TO_HAND") {
+    if (pc.resume.source === "deck") {
+      moveCardDeckToHand(next, pc.controller, cardId);
+    } else {
+      addCardToHand(next, pc.controller, cardId);
+    }
+  }
+  // Clear the pause BEFORE the deferred reap / win check so downstream logic sees a
+  // settled state, then finalize exactly as the raising action would have.
+  next.pendingChoice = null;
+  resolveDeaths(next);
+  events.push({ type: "CHOICE_RESOLVED", player: pc.controller, optionId: action.optionId });
+  finalizeWin(next, events);
+  return { state: next, events };
+}
+
 /** Shared start-of-turn draw. Mutates the cloned state. Returns false on
  *  deck-out (fatigue): sets `winner` to the opponent, exactly like the hook. */
 function drawForPlayer(state: MatchState, playerId: PlayerId): boolean {
@@ -730,6 +813,22 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
   // Global guard: once decided, nothing further is legal.
   if (detectWinner(next)) {
     return reject(state, "match-over");
+  }
+
+  // GLOBAL CHOICE GATE (RESOLUTION_MODEL.md §8). While a choice is pending the
+  // model is single-threaded: the ONLY legal action is a matching RESOLVE_CHOICE.
+  // Legality order: no-pending-choice -> not-your-choice -> illegal-option. Any
+  // other action type, or a stale/illegal RESOLVE_CHOICE, reject-softs cleanly
+  // (state unchanged) so the pause is never corrupted. Conversely a RESOLVE_CHOICE
+  // arriving with NO pending choice is itself a clean no-op.
+  if (next.pendingChoice) {
+    if (action.type !== "RESOLVE_CHOICE") {
+      return reject(state, "choice-pending");
+    }
+    return resolvePendingChoice(next, action, state, events);
+  }
+  if (action.type === "RESOLVE_CHOICE") {
+    return reject(state, "no-pending-choice");
   }
 
   // Turn ownership applies to every action.
@@ -808,6 +907,16 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         // elite scaling, Bronze Raider nexus pressure). Runs after the unit's own
         // battlecry so it modifies the resolved unit / fully-on-board state.
         commanderOnUnitSummon(played, action.player, summoned);
+      }
+      // A battlecry may have raised a mid-resolution CHOICE (Discover). If so the
+      // action ENDS here with `pendingChoice` set: emit UNIT_PLAYED + CHOICE_OPENED
+      // and short-circuit WITHOUT reaping deaths / checking the win. The board is in
+      // a clean, queue-empty state (the choice spec is ordered last), and the win /
+      // death reap runs in the matching RESOLVE_CHOICE tail. See RESOLUTION_MODEL §8.
+      if (played.pendingChoice) {
+        events.push({ type: "UNIT_PLAYED", player: action.player, cardId, lane: action.lane });
+        events.push(choiceOpenedEvent(played));
+        return { state: played, events };
       }
       // Bronze Raider's pressure can deal lethal to the enemy nexus, so reap and
       // check the win exactly like combat (no-op when nothing died / decided).
@@ -1162,6 +1271,14 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       player.hand = [...player.hand.slice(0, action.handIndex), ...player.hand.slice(action.handIndex + 1)];
       player.discard = [...(player.discard ?? []), cardId];
 
+      // A cast may have raised a mid-resolution CHOICE (Discover spell). The action
+      // ENDS here with `pendingChoice` set: emit SPELL_PLAYED + CHOICE_OPENED and
+      // short-circuit (death reap / win check run in the RESOLVE_CHOICE tail).
+      if (next.pendingChoice) {
+        events.push({ type: "SPELL_PLAYED", player: action.player, cardId, targetInstanceId: action.targetInstanceId });
+        events.push(choiceOpenedEvent(next));
+        return { state: next, events };
+      }
       // A spell that dealt lethal damage triggers deathrattles / on-death summons
       // and may end the match, exactly like combat. resolveDeaths is a no-op when
       // nothing died.

@@ -19,9 +19,10 @@
  * attack time (Phase C), so the resolver intentionally no-ops them here.
  */
 
-import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS } from "./state";
+import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, ChoiceOption } from "./state";
 import { EffectSpec } from "./abilityCompiler";
 import { scryDeck } from "./keywordEngine";
+import { makeRng } from "./rng";
 
 export interface EffectContext {
   /** The already-cloned state to mutate in place. */
@@ -221,6 +222,68 @@ function drawCards(state: MatchState, controller: PlayerId, n: number) {
   }
   player.deck = lib;
   player.deckCount = lib.length;
+}
+
+/**
+ * Deterministic, seeded selection of K distinct option indices from a pool of
+ * `size` candidates. Uses ONLY `makeRng(seed)` fast-forwarded `cursor` steps (the
+ * same stream the reducer's rngAt derives), so the draw is a pure function of
+ * (seed, cursor, size, k). Returns the chosen indices AND the number of RNG draws
+ * consumed, so the caller can advance `state.rngCursor` by exactly that count and
+ * keep the cursor in lockstep across a replay. A Fisher-Yates partial shuffle over
+ * an index array guarantees distinct picks; when k >= size it returns all indices
+ * in order with zero draws (no choice needed beyond the whole pool).
+ */
+export function seededDistinctPick(
+  seed: number,
+  cursor: number,
+  size: number,
+  k: number
+): { indices: number[]; draws: number } {
+  const want = Math.min(Math.max(0, k), size);
+  if (want <= 0) return { indices: [], draws: 0 };
+  if (want >= size) {
+    // Whole pool offered, in deterministic deck order — no RNG consumed.
+    return { indices: Array.from({ length: size }, (_, i) => i), draws: 0 };
+  }
+  // Rebuild the stream and fast-forward to the absolute cursor (mirror rngAt: the
+  // value AT `cursor` is the (cursor+1)-th draw). We then consume `want` fresh
+  // draws for the partial shuffle, so the cursor advances by exactly `want`.
+  const rng = makeRng(seed);
+  for (let i = 0; i <= cursor; i += 1) rng();
+  const pool = Array.from({ length: size }, (_, i) => i);
+  let draws = 0;
+  for (let i = 0; i < want; i += 1) {
+    // pick j in [i, size) and swap to the front segment.
+    const j = i + Math.floor(rng() * (size - i));
+    draws += 1;
+    const tmp = pool[i];
+    pool[i] = pool[j];
+    pool[j] = tmp;
+  }
+  return { indices: pool.slice(0, want), draws };
+}
+
+/** Append a cardId to a player's hand (the RESOLVE_CHOICE resume tail for a
+ *  Discover whose source is "pool"). Pure mutation, no RNG. */
+export function addCardToHand(state: MatchState, controller: PlayerId, cardId: string): void {
+  const player = state.players[controller];
+  player.hand = [...(player.hand ?? []), cardId];
+}
+
+/** Resume tail for a Discover whose options came from the controller's OWN deck:
+ *  move the chosen cardId from deck to hand (first matching copy). If the card is
+ *  no longer in the deck (defensive; shouldn't happen between paired actions) it
+ *  is a clean no-op. */
+export function moveCardDeckToHand(state: MatchState, controller: PlayerId, cardId: string): void {
+  const player = state.players[controller];
+  const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+  const idx = deck.indexOf(cardId);
+  if (idx < 0) return; // not in deck anymore — clean no-op
+  const next = [...deck.slice(0, idx), ...deck.slice(idx + 1)];
+  player.deck = next;
+  player.deckCount = next.length;
+  player.hand = [...(player.hand ?? []), cardId];
 }
 
 /**
@@ -647,6 +710,55 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       player.deck = deck.slice(n);
       player.deckCount = player.deck.length;
       player.discard = [...(player.discard ?? []), ...milled];
+      break;
+    }
+    case "DISCOVER": {
+      // Mid-resolution CHOICE (Discover). Generate K seeded options from the
+      // controller's OWN deck, filtered to the requested type, then PAUSE by
+      // setting state.pendingChoice — the ONLY op that returns control to the
+      // caller rather than completing. The reducer detects pendingChoice after
+      // resolveSpecs and short-circuits with a CHOICE_OPENED event.
+      //
+      // Determinism: option selection uses ONLY makeRng(seed)+rngCursor via
+      // seededDistinctPick, and advances state.rngCursor by exactly the draws
+      // consumed, so a replay regenerates the identical option list. The chosen
+      // optionId is then logged in RESOLVE_CHOICE -> byte-identical resume.
+      const player = state.players[controller];
+      const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+      const want = spec.discoverType ?? "ANY";
+      const typeOf = (id: string) => (ctx.cardTypeOf ? ctx.cardTypeOf(id) : undefined);
+      // Candidate pool = deck cards matching the type filter, in deck order. We
+      // pick from DISTINCT deck positions so a card appearing twice can be offered
+      // twice (each is a real, removable copy). De-dup is NOT applied: the option
+      // id is the cardId and the resume removes the FIRST matching copy.
+      const poolIdx: number[] = [];
+      for (let i = 0; i < deck.length; i += 1) {
+        const t = (typeOf(deck[i]) ?? "").toLowerCase();
+        if (want === "ANY" || (want === "UNIT" && t === "unit") || (want === "SPELL" && t === "spell")) {
+          poolIdx.push(i);
+        }
+      }
+      if (poolIdx.length === 0) break; // empty pool -> clean no-op, never pauses
+      const k = Math.max(1, spec.discoverCount ?? 3);
+      const pick = seededDistinctPick(state.seed, state.rngCursor ?? 0, poolIdx.length, k);
+      state.rngCursor = (state.rngCursor ?? 0) + pick.draws;
+      const chosenCardIds = pick.indices.map((pi) => deck[poolIdx[pi]]);
+      const options: ChoiceOption[] = chosenCardIds.map((cardId) => ({ id: cardId, cardId }));
+      // Single option (k>=1 but only one candidate matched): auto-resolve INLINE
+      // to avoid a trivial round-trip (RESOLUTION_MODEL.md §8 / CHOICE_DESIGN §6).
+      // Behavior is identical to opening a 1-option choice and immediately picking.
+      if (options.length === 1) {
+        moveCardDeckToHand(state, controller, options[0].id);
+        break;
+      }
+      // Raise the choice: the reducer detects this and ends the action with a
+      // CHOICE_OPENED event. controller is the active player in v1.
+      state.pendingChoice = {
+        kind: "DISCOVER",
+        controller,
+        options,
+        resume: { op: "ADD_CARD_TO_HAND", source: "deck" },
+      };
       break;
     }
     // PASSIVE / STATIC / no-op classifications are resolved elsewhere or never.

@@ -78,6 +78,12 @@ const ACTIVE_OPS = new Set<EffectOp>([
   "DRAW_FILTERED",
   "SCRY_DYNAMIC",
   "MILL_FROM_DECK",
+  // DISCOVER: a mid-resolution player CHOICE (Hearthstone Discover) that PAUSES the
+  // action via state.pendingChoice and resumes on a logged RESOLVE_CHOICE. Wired
+  // honestly: it fires on ON_SUMMON/cast (and ON_DEATH) and genuinely moves a card
+  // to hand. No shipped card's text matches the "discover" verb yet, so this adds
+  // +0 to the live coverage count — it is counted here because the op IS wired.
+  "DISCOVER",
 ]);
 
 /** Does this single spec actually do something at runtime? */
