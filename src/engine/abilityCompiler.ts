@@ -45,6 +45,7 @@ export type EffectOp =
   | "RETURN_TO_HAND" // bounce: remove a targeted unit and return its card to hand
   | "CLEAVE" // on-attack splash: damage the struck defender's board-neighbors
   | "DAMAGE_ADJACENT_ENEMIES" // self-anchored: damage the enemy unit(s) adjacent to the source
+  | "DAMAGE_LANE" // on-summon: sweep every enemy unit in one enemy lane (densest by default) — makes lane PLACEMENT matter
   | "COPY_UNIT" // on-summon: copy a target unit's stats/keywords/abilities onto self
   | "RESURRECT" // graveyard: resummon a dead friendly unit onto the controller's board
   | "RETURN_FROM_GRAVE" // graveyard: return a dead friendly unit's card to the controller's hand
@@ -107,6 +108,11 @@ export interface EffectSpec {
    *  foes/lanes"); false/undefined = hit a single adjacent enemy ("an adjacent
    *  enemy", e.g. Decay). Same-lane array index±1 only — no cross-lane grid. */
   allAdjacent?: boolean;
+  /** DAMAGE_LANE: which enemy lane to sweep. "densest" (default) punishes unit
+   *  clustering — it hits whichever enemy lane holds the most units, making the
+   *  lane PLACEMENT choice mechanically meaningful. "front"/"back" name a fixed
+   *  lane. Enemy units only — never the nexus (no-burn safe). */
+  targetLane?: "front" | "back" | "densest";
   /** A keyword to stamp onto a summoned token's `keywords` array. */
   tokenKeyword?: string;
   /** Optional gate evaluated against the live ctx before the effect resolves. If
@@ -444,6 +450,17 @@ function parseOnPlayDealRider(text: string): EffectSpec | null {
   // Must explicitly aim at an enemy UNIT/target; never the nexus/commander/face.
   if (/\b(?:nexus|commander|hero|face)\b/i.test(text)) return null;
   if (!/\b(?:target\s+)?enem(?:y|ies)(?:\s+unit)?\b|\btarget\s+(?:unit|minion)\b/i.test(text)) return null;
+  // "deal N to every enemy in a lane/line/row" sweeps one enemy lane — the
+  // densest one by default, so clustering units in a lane is punished. Routed
+  // BEFORE the adjacency splash so "lane" wins over a generic "all enemies".
+  if (/\b(?:lane|line|row)\b/i.test(text)) {
+    const lane: "front" | "back" | "densest" = /\bfront\b/i.test(text)
+      ? "front"
+      : /\bback\b/i.test(text)
+        ? "back"
+        : "densest";
+    return { trigger: "ON_SUMMON", op: "DAMAGE_LANE", amount: +deal[1], targetLane: lane, raw: text };
+  }
   // "deal N to ALL/adjacent enemies" is splash — route to the self-anchored AoE.
   if (/\ball\s+enem|adjacent/i.test(text)) {
     return { trigger: "ON_SUMMON", op: "DAMAGE_ADJACENT_ENEMIES", amount: +deal[1], allAdjacent: true, raw: text };
@@ -1016,7 +1033,21 @@ function compileColonTrigger(text: string): EffectSpec[] | null {
   const nexus = body.match(NEXUS_HEAL_RE);
   if (nexus) return [{ trigger, op: "HEAL_NEXUS", amount: +nexus[1], raw: text }];
   const deal = body.match(DEAL_RE);
-  if (deal) return [{ trigger, op: "DEAL_DAMAGE", amount: +deal[1], raw: text }];
+  if (deal) {
+    // "deal N to (every/all) enemy unit(s) in a lane/line/row" sweeps one enemy
+    // lane (densest by default) — checked BEFORE the single-target deal so the
+    // lane noun wins. Enemy units only; never the nexus (no-burn). The lane
+    // clause must explicitly name enemies to avoid catching self/ally text.
+    if (/\b(?:lane|line|row)\b/i.test(body) && /\benem(?:y|ies)\b/i.test(body)) {
+      const targetLane: "front" | "back" | "densest" = /\bfront\b/i.test(body)
+        ? "front"
+        : /\bback\b/i.test(body)
+          ? "back"
+          : "densest";
+      return [{ trigger, op: "DAMAGE_LANE", amount: +deal[1], targetLane, raw: text }];
+    }
+    return [{ trigger, op: "DEAL_DAMAGE", amount: +deal[1], raw: text }];
+  }
   if (RETURN_HAND_RE.test(body)) return [{ trigger, op: "RETURN_TO_HAND", raw: text }];
   if (DESTROY_RE.test(body)) return [{ trigger, op: "DESTROY_UNIT", raw: text }];
   // "copy stats and abilities of <enemy>" — clone a target onto self.
