@@ -65,6 +65,11 @@ export type EffectOp =
   | "DOUBLE_ATTACK" // passive: this unit may attack twice per turn
   | "AURA_SPELL_COST" // continuous: friendly spells cost N less
   | "AURA_ABILITY_SILENCE" // continuous: enemy units cannot trigger their abilities
+  // Deck-manipulation ops (deterministic; operate on the controller's own deck):
+  | "TUTOR_FROM_DECK" // search the deck for a selector-matched card -> hand
+  | "DRAW_FILTERED" // draw the first N cards of a given type from the deck top -> hand
+  | "SCRY_DYNAMIC" // reorder the top N of the deck deterministically (parameterized scryDeck)
+  | "MILL_FROM_DECK" // move the top N cards of the deck to the discard pile (no hand)
   // Recognized-but-no-op classifications (so coverage can be measured):
   | "STAT_LINE" // static stat text, already in the card's stats
   | "GRANT_KEYWORD" // "Grants X" — keyword already on the tuple, descriptive
@@ -118,6 +123,12 @@ export interface EffectSpec {
   selector?: "HIGHEST_COST" | "RANDOM_COST_GATE" | "ATTACK_GATE";
   /** RESURRECT_AS_TOKEN: stamp this keyword onto the revived 1/1 token. */
   reviveKeyword?: string;
+  /** TUTOR_FROM_DECK: how the searched card is chosen, deterministically. The pick
+   *  is by the selector's ordering with a deck-index tie-break; empty/no-match is a
+   *  clean no-op. */
+  tutorSelector?: "LOWEST_COST_UNIT" | "LOWEST_COST_SPELL" | "HIGHEST_COST_UNIT";
+  /** DRAW_FILTERED: the card type to draw from the deck top (others are skipped). */
+  drawType?: "UNIT" | "SPELL";
   /** The source clause this spec was compiled from (for debugging/proofs). */
   raw: string;
 }
@@ -195,6 +206,14 @@ const RETURN_FROM_GRAVE_RE =
 //     so it never collides with the return-to-hand path above.
 const RESURRECT_RE =
   /\b(?:resurrect|resummon|reanimate)\b[^.]*\bgrave(?:yard)?\b|\b(?:revive|return|raise)\b[^.]*\bgrave(?:yard)?\b[^.]*\bto\b[^.]*\b(?:play|the battlefield|the field)\b/i;
+// Regrow self-recursion ("When this unit dies, return/restore IT to your hand
+// [after N turns / at the start of your next turn / with +N/+N]"). The unit is
+// already recorded in its owner's graveyard before its ON_DEATH fires, so the
+// existing RETURN_FROM_GRAVE op (pop most-recent grave record back to hand) is the
+// exact behavior. The "to your hand" destination is REQUIRED — a "return to deck"
+// has no engine op and must stay UNKNOWN. The timing words are flavor we ignore.
+const REGROW_RETURN_RE =
+  /\b(?:return|restore|recall)\b[^.]*\bit\b[^.]*\bto\s+your\s+hand\b/i;
 const DECAY_RE = /(?:reduce[s]?\s+(?:the\s+target's\s+)?attack\s+by|loses?\s+)(\d+)\s*attack/i;
 const DRAW_RE = /draw\s+(?:a\s+card|(\d+)\s+cards?)/i;
 // On-death trigger phrasing ("When this unit dies/is destroyed", "Upon death").
@@ -226,8 +245,10 @@ function parseSummonBody(text: string, trigger: EffectTrigger): EffectSpec | nul
 }
 // Natural-language summon trigger ("When this unit is summoned / enters play").
 const SUMMON_TRIGGER_RE = /when (?:this unit (?:is summoned|enters (?:play|the battlefield))|summoned)/i;
-// Natural-language on-damage trigger ("When this unit takes damage / is damaged").
-const ON_DAMAGE_TRIGGER_RE = /when this unit (?:takes damage|is damaged)/i;
+// Natural-language on-damage trigger. The reducer fires ON_DAMAGE for a unit that
+// took combat damage AND for a unit that was attacked (ctx.target = the attacker),
+// so "when/whenever this unit takes damage / is damaged / is attacked" all map here.
+const ON_DAMAGE_TRIGGER_RE = /(?:when|whenever) this unit (?:takes damage|is damaged|is attacked)/i;
 // "for each [other] <Faction>" — the faction scaler on a summon buff.
 const FOR_EACH_FACTION_RE = /for each (?:(other)\s+)?(stone keeper|iron defender|bronze guardian|silver sentinel|golden sovereign|god)s?\b/i;
 
@@ -266,6 +287,30 @@ function parseCondition(text: string): EffectSpec["condition"] | null {
   if (hp) return { kind: "SELF_HEALTH_BELOW", value: +(hp[1] ?? hp[2]) };
   if (COND_SURVIVED_RE.test(text)) return { kind: "SURVIVED" };
   return null;
+}
+
+/** "This unit gains +N/+M for each [other] <Faction|ally|enemy|card in hand>" with
+ *  NO trigger word — an untriggered self-scale buff. Modeled as a ONE-SHOT
+ *  ON_SUMMON BUFF_SELF (identical to the existing Oath/Vow keyword: snapshot the
+ *  scaler at summon). Only emitted when a recognized faction/generic scaler
+ *  matches; bespoke scalers ("for each attack prevented / turn on board / enemy
+ *  that targets it") have no deterministic count and stay UNKNOWN. */
+function parseUntriggeredSelfScaleBuff(text: string): EffectSpec | null {
+  // Must NOT carry an explicit trigger (those are handled by the summon/attack/
+  // damage rider parsers); this is the bare "this unit gains ... for each" form.
+  if (/\b(?:when|whenever|on play|battlecry|takes? damage|is attacked|is damaged|end of|start of|attacks?\b|enters?\b)/i.test(text)) {
+    return null;
+  }
+  const nm = text.match(/this unit gains?\s+\+?(\d+)\s*\/\s*\+?(\d+)\s+for each/i);
+  if (!nm) return null;
+  const fe = text.match(FOR_EACH_FACTION_RE);
+  const generic = fe ? null : genericScaleBy(text);
+  if (!fe && !generic) return null;
+  if (fe) {
+    const scaleFaction = `${fe[1] ? `${fe[1]} ` : ""}${fe[2]}`.trim();
+    return { trigger: "ON_SUMMON", op: "BUFF_SELF", attack: +nm[1], health: +nm[2], scaleFaction, raw: text };
+  }
+  return { trigger: "ON_SUMMON", op: "BUFF_SELF", attack: +nm[1], health: +nm[2], scaleBy: generic!, raw: text };
 }
 
 /** "When summoned, gain +N/+M (or +N attack / N health/life) for each [other]
@@ -342,7 +387,68 @@ function parseOnDamageReaction(text: string): EffectSpec | null {
   if (!ON_DAMAGE_TRIGGER_RE.test(text)) return null;
   const body = parseSummonBody(text, "ON_DAMAGE");
   if (body) return body;
+  // Reuse the taunt-rider body parser (deal-to-attacker / gain +N/+N / self-heal /
+  // token) so units that carry an on-damage reaction WITHOUT a leading Taunt
+  // (Ward/Shield/Armored or keyword-less) wire the same effects.
+  const rider = parseTauntRider(text);
+  if (rider) return rider;
   if (DRAW_RE.test(text)) return { trigger: "ON_DAMAGE", op: "DRAW", amount: 1, raw: text };
+  return null;
+}
+
+// On-play trigger phrasing for a battlecry that has no leading keyword OR rides a
+// Charge/Rush keyword ("when this unit enters play/the battlefield", "on play",
+// "upon entering"). Used by the on-play deal-damage rider.
+const ON_PLAY_TRIGGER_RE =
+  /(?:when this unit enters (?:play|the battlefield)|on play\b|upon entering(?:\s+the battlefield)?|when summoned|enters? the battlefield)/i;
+
+/** "Charge. When this unit enters play, deal N damage to target enemy unit." — an
+ *  on-play single-target strike. ctx.target is the chosen ENEMY unit (the reducer
+ *  searches the opponent board for a DEAL_DAMAGE battlecry). Burn-violating
+ *  variants ("to the enemy nexus/commander/face") stay UNKNOWN. */
+function parseOnPlayDealRider(text: string): EffectSpec | null {
+  if (!ON_PLAY_TRIGGER_RE.test(text)) return null;
+  const deal = text.match(DEAL_RE);
+  if (!deal) return null;
+  // Must explicitly aim at an enemy UNIT/target; never the nexus/commander/face.
+  if (/\b(?:nexus|commander|hero|face)\b/i.test(text)) return null;
+  if (!/\b(?:target\s+)?enem(?:y|ies)(?:\s+unit)?\b|\btarget\s+(?:unit|minion)\b/i.test(text)) return null;
+  // "deal N to ALL/adjacent enemies" is splash — route to the self-anchored AoE.
+  if (/\ball\s+enem|adjacent/i.test(text)) {
+    return { trigger: "ON_SUMMON", op: "DAMAGE_ADJACENT_ENEMIES", amount: +deal[1], allAdjacent: true, raw: text };
+  }
+  return { trigger: "ON_SUMMON", op: "DEAL_DAMAGE", amount: +deal[1], raw: text };
+}
+
+// Natural-language on-attack trigger ("When this unit attacks ...").
+const ON_ATTACK_TRIGGER_RE = /when this unit attacks\b/i;
+
+/** "Charge. When this unit attacks, <gains +N/+M [for each <Faction>] | deals N to
+ *  target enemy unit>." The reducer fires ON_ATTACK for the attacker with the
+ *  struck DEFENDER as ctx.target, so a DEAL_DAMAGE rider lands on that enemy unit.
+ *  A buff may carry a faction or generic per-X scaler (reusing the existing
+ *  scaleFaction / scaleBy math). Burn variants (excess to nexus/fortifications)
+ *  stay UNKNOWN. */
+function parseOnAttackRider(text: string): EffectSpec | null {
+  if (!ON_ATTACK_TRIGGER_RE.test(text)) return null;
+  // Buff form: "it gains +N/+M [for each <X>]".
+  const nm = text.match(/gains?\s+\+?(\d+)\s*\/\s*\+?(\d+)/i);
+  if (nm) {
+    const fe = text.match(FOR_EACH_FACTION_RE);
+    if (fe) {
+      const scaleFaction = `${fe[1] ? `${fe[1]} ` : ""}${fe[2]}`.trim();
+      return { trigger: "ON_ATTACK", op: "BUFF_SELF", attack: +nm[1], health: +nm[2], scaleFaction, raw: text };
+    }
+    const generic = genericScaleBy(text);
+    if (generic) return { trigger: "ON_ATTACK", op: "BUFF_SELF", attack: +nm[1], health: +nm[2], scaleBy: generic, raw: text };
+    return { trigger: "ON_ATTACK", op: "BUFF_SELF", attack: +nm[1], health: +nm[2], raw: text };
+  }
+  // Deal form: "deal[s] N damage to (a/the/target) enemy/opposing unit". Never the
+  // nexus/commander/face (burn) and never an AoE/excess clause.
+  const deal = text.match(DEAL_RE);
+  if (deal && !/\b(?:nexus|commander|hero|face|fortif)/i.test(text) && /\b(?:enemy|opposing|target)\b/i.test(text)) {
+    return { trigger: "ON_ATTACK", op: "DEAL_DAMAGE", amount: +deal[1], raw: text };
+  }
   return null;
 }
 
@@ -461,7 +567,9 @@ const REAL_OP_KEYWORDS = new Set([
  *  "When this unit takes damage, <gain N/N | deal N | draw | create token>." */
 function parseTauntRider(text: string): EffectSpec | null {
   const lower = text.toLowerCase();
-  if (!/takes?\s+damage/.test(lower)) return null;
+  // The rider fires when this unit took damage OR was attacked — the reducer fires
+  // ON_DAMAGE for the defender in both cases (ctx.target = the attacking enemy).
+  if (!/takes?\s+damage|is\s+damaged|is\s+attacked/.test(lower)) return null;
   const token = text.match(TOKEN_RE);
   if (token) {
     return { trigger: "ON_DAMAGE", op: "SUMMON_TOKEN", attack: +token[1], health: +token[2], token: token[3].trim(), raw: text };
@@ -477,9 +585,24 @@ function parseTauntRider(text: string): EffectSpec | null {
     if (/adjacent/i.test(text)) {
       return { trigger: "ON_DAMAGE", op: "DAMAGE_ADJACENT_ENEMIES", amount: +deal[1], allAdjacent: true, raw: text };
     }
+    // "deal N damage to the attacker" — ctx.target IS the attacker on an ON_DAMAGE
+    // fired for the defender (reducer threads attacker as the target). Plain
+    // DEAL_DAMAGE lands on it. A clause that instead damages the enemy nexus/face
+    // is a burn violation and must stay UNKNOWN.
+    if (/\b(?:nexus|face|hero|commander)\b/i.test(text)) return null;
     return { trigger: "ON_DAMAGE", op: "DEAL_DAMAGE", amount: +deal[1], raw: text };
   }
+  // "gain/restore N health/life [to itself]" — a single-stat self-heal reaction.
+  // Only the SELF-targeted form is honest here: the reducer threads the ATTACKER
+  // (an enemy) as ctx.target on this ON_DAMAGE, so "to a friendly unit" can't be
+  // routed. We require either an explicit self target or no other-unit target.
+  // DRAW takes precedence over the self-heal: a "...and draw a card" clause is
+  // wired as DRAW (the existing behavior), so the heal branch must not swallow it.
   if (DRAW_RE.test(text)) return { trigger: "ON_DAMAGE", op: "DRAW", amount: 1, raw: text };
+  const selfHeal = text.match(/(?:gain|restore|heal)\s+(\d+)\s*(?:health|life|hp)\b/i);
+  if (selfHeal && !/\bfor each\b/i.test(text) && !/to\s+(?:a\s+|an\s+|another\s+|target\s+|friendly|allied)/i.test(text)) {
+    return { trigger: "ON_DAMAGE", op: "HEAL", amount: +selfHeal[1], self: true, raw: text };
+  }
   return null;
 }
 
@@ -621,6 +744,50 @@ function compileKeyword(kw: string, full: string, clauseText: string): EffectSpe
   }
 }
 
+// --- Deck-manipulation clause matchers (deterministic; own-deck only) ---------
+// TUTOR: "search/tutor your deck for the lowest-cost unit/spell | highest-cost
+//   unit (and put it into your hand)". The selector noun + cost ordering is the
+//   deterministic pick; an empty/no-match deck is a clean no-op at resolve.
+const TUTOR_RE =
+  /\b(?:search|tutor)\b[^.]*\b(?:deck|library)\b[^.]*\b(lowest|highest)[- ]?cost\s+(unit|spell|minion)\b/i;
+// DRAW_FILTERED: "draw N unit(s)/spell(s) from your deck" — draw the first N cards
+//   of that type from the deck top, skipping non-matching cards.
+const DRAW_FILTERED_RE = /draw\s+(\d+)\s+(unit|spell|minion)s?\b/i;
+// SCRY_DYNAMIC: "scry N" / "look at the top N cards of your deck (and reorder)".
+const SCRY_DYNAMIC_RE = /\bscry\s+(\d+)\b|look at the top\s+(\d+)\s+cards?\s+of\s+your\s+(?:deck|library)/i;
+// MILL_FROM_DECK: "mill N" / "put the top N cards of your deck into your discard".
+const MILL_RE = /\bmill\s+(\d+)\b|(?:put|move|send)\s+the\s+top\s+(\d+)\s+cards?\s+of\s+your\s+(?:deck|library)\s+(?:into|to)\s+(?:your\s+)?(?:discard|graveyard)/i;
+
+/** Parse a deck-manipulation body (tutor / filtered-draw / scry / mill) into a
+ *  single EffectSpec, or null. Order matters: the more specific filtered-draw is
+ *  matched before a generic "scry/mill N" so a numeric body is not misrouted. */
+function parseDeckManipBody(body: string, trigger: EffectTrigger, raw: string): EffectSpec | null {
+  const tutor = body.match(TUTOR_RE);
+  if (tutor) {
+    const dir = tutor[1].toLowerCase();
+    const noun = tutor[2].toLowerCase();
+    let sel: NonNullable<EffectSpec["tutorSelector"]>;
+    if (noun === "spell") sel = "LOWEST_COST_SPELL";
+    else sel = dir === "highest" ? "HIGHEST_COST_UNIT" : "LOWEST_COST_UNIT";
+    return { trigger, op: "TUTOR_FROM_DECK", tutorSelector: sel, raw };
+  }
+  const df = body.match(DRAW_FILTERED_RE);
+  if (df) {
+    const noun = df[2].toLowerCase();
+    const drawType = noun === "spell" ? "SPELL" : "UNIT";
+    return { trigger, op: "DRAW_FILTERED", amount: +df[1], drawType, raw };
+  }
+  const scry = body.match(SCRY_DYNAMIC_RE);
+  if (scry) {
+    return { trigger, op: "SCRY_DYNAMIC", amount: +(scry[1] ?? scry[2]), raw };
+  }
+  const mill = body.match(MILL_RE);
+  if (mill) {
+    return { trigger, op: "MILL_FROM_DECK", amount: +(mill[1] ?? mill[2]), raw };
+  }
+  return null;
+}
+
 /** Colon-trigger syntax: "On play: ...", "End of turn: ...", "Damage taken: ...". */
 function compileColonTrigger(text: string): EffectSpec[] | null {
   const m = text.match(/^([a-z][a-z ]+?):\s*(.+)$/i);
@@ -654,6 +821,11 @@ function compileColonTrigger(text: string): EffectSpec[] | null {
     const h = body.match(HEAL_RE);
     return [{ trigger, op: "HEAL", amount: h && h[1] ? +h[1] : 0, raw: text }];
   }
+  // Deck-manipulation bodies (controller's own deck; no target). Checked BEFORE
+  // the plain DRAW body so "draw N units/spells" (filtered) is not swallowed by
+  // the generic draw. All are deterministic and no-op cleanly on an empty deck.
+  const deckOp = parseDeckManipBody(body, trigger, text);
+  if (deckOp) return [deckOp];
   const draw = body.match(DRAW_RE);
   if (draw) return [{ trigger, op: "DRAW", amount: draw[1] ? +draw[1] : 1, raw: text }];
   // "gain +A/+H" — a self/target buff (BUFF_SELF buffs ctx.source; a spell wires
@@ -968,6 +1140,11 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
       graveSpec = { trigger: graveTrigger, op: "RETURN_FROM_GRAVE", raw: text };
     } else if (RESURRECT_RE.test(text)) {
       graveSpec = { trigger: graveTrigger, op: "RESURRECT", raw: text };
+    } else if (ON_DEATH_RE.test(text) && REGROW_RETURN_RE.test(text)) {
+      // Regrow self-recursion: on death, the unit's own card returns to hand. Only
+      // when the unit actually DIES (ON_DEATH) — the just-died card is the
+      // most-recent grave record RETURN_FROM_GRAVE pops back.
+      graveSpec = { trigger: "ON_DEATH", op: "RETURN_FROM_GRAVE", raw: text };
     }
     if (graveSpec) {
       classified.push(graveSpec);
@@ -992,6 +1169,13 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
     const s = parseConditionalSummonBuff(text);
     if (s) naturalRiders.push(s);
   }
+  // Untriggered self-scale buff ("This unit gains +N/+M for each <Faction>") —
+  // a one-shot ON_SUMMON snapshot (Oath-equivalent). Only when no ON_SUMMON
+  // BUFF_SELF was already produced.
+  if (!classified.some((s) => s.trigger === "ON_SUMMON" && s.op === "BUFF_SELF") && !naturalRiders.some((s) => s.trigger === "ON_SUMMON" && s.op === "BUFF_SELF")) {
+    const s = parseUntriggeredSelfScaleBuff(text);
+    if (s) naturalRiders.push(s);
+  }
   if (!classified.some((s) => s.trigger === "ON_DAMAGE")) {
     const s = parseOnDamageReaction(text);
     if (s) naturalRiders.push(s);
@@ -1005,6 +1189,25 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
   if (!classified.some((s) => s.trigger === "ON_SUMMON" && s.op === "HEAL")) {
     const s = parseSummonTargetedHeal(text);
     if (s) naturalRiders.push(...s);
+  }
+  // On-play single-target strike ("Charge. When this unit enters play, deal N to
+  // target enemy unit"). Only when no ON_SUMMON damage was already classified.
+  if (
+    !classified.some((s) => s.trigger === "ON_SUMMON" && (s.op === "DEAL_DAMAGE" || s.op === "DAMAGE_ADJACENT_ENEMIES")) &&
+    !naturalRiders.some((s) => s.trigger === "ON_SUMMON" && (s.op === "DEAL_DAMAGE" || s.op === "DAMAGE_ADJACENT_ENEMIES"))
+  ) {
+    const s = parseOnPlayDealRider(text);
+    if (s) naturalRiders.push(s);
+  }
+  // On-attack rider ("Charge. When this unit attacks, gains +N/+M for each <X> /
+  // deals N to target enemy unit"). Skipped if an ON_ATTACK op (e.g. Rally/Cleave)
+  // already exists.
+  if (
+    !classified.some((s) => s.trigger === "ON_ATTACK") &&
+    !naturalRiders.some((s) => s.trigger === "ON_ATTACK")
+  ) {
+    const s = parseOnAttackRider(text);
+    if (s) naturalRiders.push(s);
   }
   if (naturalRiders.length) {
     classified.push(...naturalRiders);

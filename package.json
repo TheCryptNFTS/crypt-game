@@ -38,6 +38,7 @@
     "dev:longtail": "tsx src/dev/runLongTailProof.ts",
     "dev:battlecry-target": "tsx src/dev/runBattlecryTargetProof.ts",
     "dev:spells": "tsx src/dev/runSpellProof.ts",
+    "dev:spell-archetype": "tsx src/dev/runSpellArchetypeProof.ts",
     "dev:cleave-copy": "tsx src/dev/runCleaveCopyProof.ts",
     "dev:expressiveness": "tsx src/dev/runExpressivenessProof.ts",
     "dev:graveyard": "tsx src/dev/runGraveyardProof.ts",

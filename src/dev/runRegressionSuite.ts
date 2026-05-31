@@ -21,6 +21,7 @@ const commands = [
   "npm run dev:longtail",
   "npm run dev:battlecry-target",
   "npm run dev:spells",
+  "npm run dev:spell-archetype",
   "npm run dev:cleave-copy",
   "npm run dev:expressiveness",
   "npm run dev:graveyard",

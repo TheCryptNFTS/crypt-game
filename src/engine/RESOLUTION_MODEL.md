@@ -10,8 +10,15 @@ bugs in multiplayer/replay.
 Crypt resolves effects **immediately and depth-first** the instant they trigger —
 the same model as Hearthstone and Marvel Snap. There is deliberately **no stack,
 no priority window, and no responses/counterspells**. When an effect causes a
-death that causes another trigger, that inner trigger resolves fully right then,
-before control returns to the outer effect.
+death that causes another trigger, that inner trigger resolves fully **within the
+same action**, never silently deferred to the next one.
+
+Death triggers specifically are routed through a small **FIFO trigger queue**
+(`state.triggerQueue`) that is **drained to completion** before the action
+returns — see §5. This is still no-stack / immediate in spirit: the queue exists
+only to make a *chain* of deaths ("X dies → its ON_DEATH kills Y → Y's ON_DEATH
+fires → Y's death-watchers mint") resolve correctly and deterministically, rather
+than dropping the chained deaths until the next action's reap.
 
 This is an intentional design choice, NOT a missing feature. Do **not** add a
 stack/priority system. The job is to keep this model deterministic and
@@ -55,26 +62,74 @@ ON_DEATH effects fire, and graveyard records are appended, in exactly that order
 instanceIds (`unit_${seed}_${counter}`) are strictly ascending and deterministic
 for a given (seed, action order).
 
-## 5. Death reaping (`resolveDeaths`)
+## 5. Death reaping (`resolveDeaths` + the FIFO trigger queue)
 
-After each trigger batch the reducer scans both boards in the canonical order
-above. For each newly-dead unit (`health <= 0`):
+`resolveDeaths` is a thin wrapper around two steps: **seed** the trigger queue
+from the units that are currently dead, then **drain** it to completion.
 
-1. fire its DEATHRATTLE keyword burst (fixed nexus damage to the dead unit's
+### 5a. Data structure
+
+`MatchState.triggerQueue?: TriggerQueueEntry[]` — a typed FIFO array (defined in
+`state.ts`). Each entry is one pending death trigger:
+
+```
+{ kind: "ON_DEATH" | "SUMMON_ON_ANY_DEATH"; controller: PlayerId;
+  source: UnitInPlay; dead?: UnitInPlay }
+```
+
+It is **transient within a single action**: `applyAction` resets it to `[]` at
+entry, and `drainTriggerQueue` always empties it before returning, so it is
+**always `[]` between actions**. That keeps it neutral for `structuredClone`
+stability and `(seed, actions)` determinism — it never carries state across
+actions.
+
+### 5b. Seeding (`sweepNewDeaths` → `reapAndEnqueue`)
+
+The reducer scans both boards in the canonical order of §3 for newly-dead units
+(`health <= 0` not yet reaped). For each one, in that sweep order:
+
+1. apply the ONCEDEATH_REVIVE gate — a revived unit **did not die**, so it fires
+   no deathrattle / ON_DEATH / graveyard / watcher and is **not** enqueued;
+2. fire its DEATHRATTLE keyword burst (fixed nexus damage to the dead unit's
    owner's enemy);
-2. fire its compiled `ON_DEATH` specs **while the corpse is still on the board**,
-   so an on-death summon enters the dead unit's lane;
 3. record a non-token corpse into its owner's graveyard (most-recent last),
    stripping live aura bonuses back to base;
-4. clear all dead units from the lane (`removeDead`).
+4. mark the corpse reaped (a transient `_reaped` flag, stripped before return)
+   and **enqueue** two entries: its `ON_DEATH` then its `SUMMON_ON_ANY_DEATH`
+   (this is the **exact** relative order the old inline pass fired them in).
+
+The corpse is **left on the board** at this point so a queued on-death summon can
+enter the dead unit's own lane when the queue drains.
+
+### 5c. Draining (`drainTriggerQueue`)
+
+The queue is drained **FIFO** (`shift()`): for each entry, fire its `ON_DEATH`
+specs (corpse still on board) or its death-watcher mints. **After each entry
+resolves**, re-scan both boards (canonical order) for units that effect just
+killed, reaping + enqueuing **their** triggers onto the tail. Loop until the
+queue is empty, then splice every reaped corpse off the board.
+
+This makes simultaneous deaths resolve in **exactly** the old
+`P1-front-asc → P1-back-asc → P2-front-asc → P2-back-asc` order (the queue is
+seeded in that sweep and drained FIFO), while **chained** deaths — a death caused
+by a drained trigger — are appended after the current batch and resolve **later
+in the same drain** instead of being silently dropped to the next action. A
+nexus / board-empty **win** caused by a chained kill is therefore detected within
+the same action.
 
 The per-lane `dying` snapshot is captured **before** any on-death summon mutates
 the array, so a token minted by an earlier corpse is never double-counted, and a
-token minted during this pass (not itself dead) survives it.
+token minted during the drain (not itself dead) survives it.
 
-Deathrattle face damage cannot kill a unit, so death resolution does not infinitely
-chain. An on-death summon that itself dies later does so on the **next** action's
-resolution, not recursively within this pass.
+### 5d. Termination cap
+
+Deathrattle face damage cannot kill a unit, and token mints are bounded by the
+`MAX_LANE_UNITS` lane cap, so a legitimate chain always terminates. As an
+**absolute backstop** against a pathological mutual-death cycle, `drainTriggerQueue`
+bails after `DRAIN_ITERATION_CAP` (**1000**) drains: it clears the remaining
+queue and stops **cleanly** (never throws, never loops forever). 1000 is far
+above any reachable chain depth (a full board is 28 units), so the cap can only
+fire on a true cycle, and stopping there is deterministic (state-only).
 
 ## 6. Aura recompute (`recomputeAuras`)
 
@@ -89,13 +144,17 @@ Continuous "while in play" effects are **recomputed from scratch** at the single
 Because step 1 removes exactly what step 3 last added, recompute is **idempotent**
 and **order-independent** (each beneficiary set is recomputed fresh from the live
 board). A unit reduced to `<=0` by losing a `+health` aura is reaped **silently**
-— aura-loss is NOT a combat death, so it fires **no deathrattle/ON_DEATH**. This
-silent-aura-loss-death behavior is intentional and must be preserved.
+by `recomputeAuras`'s own `removeDead` — aura-loss is NOT a combat death, so it
+does **not** go through the trigger queue and fires **no deathrattle / ON_DEATH /
+death-watcher**. This silent-aura-loss-death behavior is intentional and must be
+preserved. (Only `health<=0`-from-damage/effect deaths, swept by `resolveDeaths`,
+enqueue and fire triggers.)
 
 ## 7. Where this is enforced / proven
 
-- Enforced: `resolveDeaths`, `recomputeAuras`, and the `applyAction` chokepoint in
-  `src/engine/reducer.ts`; `mintToken` / `SUMMON_TOKEN` in
+- Enforced: `resolveDeaths` / `drainTriggerQueue`, `recomputeAuras`, and the
+  `applyAction` chokepoint in `src/engine/reducer.ts`; the `triggerQueue` field in
+  `src/engine/state.ts`; `mintToken` / `SUMMON_TOKEN` in
   `src/engine/effectResolver.ts`.
 - Proven: `npm run dev:trigger-order` (`src/dev/runTriggerOrderProof.ts`) locks in
   the canonical order via observable side effects (graveyard insertion order,
