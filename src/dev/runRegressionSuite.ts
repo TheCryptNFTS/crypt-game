@@ -45,6 +45,7 @@ const commands = [
   "npm run dev:card-outlier-sweep",
   "npm run dev:deck-legal-spells",
   "npm run dev:damage-lane",
+  "npm run dev:ascendancy",
 ];
 
 let failed = false;

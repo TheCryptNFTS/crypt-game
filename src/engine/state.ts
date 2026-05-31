@@ -294,8 +294,38 @@ export interface MatchState {
    * from `(seed, actionList)` alone with no external input.
    */
   rngCursor: number;
+  /**
+   * Optional match RULESET (alt win conditions, #4). ABSENT by default, so a
+   * vanilla match plays exactly as before and the reducer-equivalence golden JSON
+   * stays unmoved (undefined survives structuredClone). When `ascendancyToWin` is
+   * set, the reducer tracks the board-control meter below and awards a second,
+   * purely INDIRECT victory axis (no face/nexus burn — earned by board dominance).
+   */
+  rules?: MatchRules | null;
+  /**
+   * ASCENDANCY meter (#4) — the no-burn alternate win track. Only present once a
+   * match enables `rules.ascendancyToWin`; absent (undefined) otherwise, so default
+   * matches and fixtures carry no extra field. At each player's turn END the reducer
+   * increments that player's counter if they hold STRICTLY more live units than the
+   * opponent (sustained board dominance), and RESETS it to 0 otherwise. Reaching the
+   * threshold is a control victory — a win earned through the board, never burn.
+   */
+  ascendancy?: { P1: number; P2: number } | null;
   players: {
     P1: PlayerState;
     P2: PlayerState;
   };
+}
+
+/**
+ * Per-match ruleset (#4). Optional and additive: an undefined field means "vanilla".
+ */
+export interface MatchRules {
+  /**
+   * When set (e.g. 7), a player who holds strictly more live units than their
+   * opponent at the end of `ascendancyToWin` consecutive own turns wins by board
+   * control — an INDIRECT, no-burn second win axis. Unset = the only win axis is
+   * nexus depletion / deck-out (the historical behavior).
+   */
+  ascendancyToWin?: number;
 }
