@@ -1,5 +1,7 @@
 import React from "react";
 
+type NexusHit = { key: number; damage: number } | null;
+
 type Props = {
   turn: number;
   activePlayer: string;
@@ -12,6 +14,9 @@ type Props = {
   onRecalibrate: () => void;
   onEndTurn: () => void;
   onReset: () => void;
+  /** Presentation-only nexus-damage motion tokens from useMatchMotion. */
+  ownNexusHit?: NexusHit;
+  enemyNexusHit?: NexusHit;
 };
 
 export function MatchTopBar({
@@ -25,7 +30,9 @@ export function MatchTopBar({
   canRecalibrate,
   onRecalibrate,
   onEndTurn,
-  onReset
+  onReset,
+  ownNexusHit,
+  enemyNexusHit
 }: Props) {
   const youActive = activePlayer === "P1";
   return (
@@ -36,19 +43,27 @@ export function MatchTopBar({
           <strong>{turn}</strong>
         </div>
 
-        <div className="live-topbar__pill live-topbar__pill--active">
+        <div className={`live-topbar__pill live-topbar__pill--active ${youActive ? "mm-your-turn" : ""}`}>
           <span className="live-topbar__label">Active</span>
           <strong>{youActive ? "You" : "Opponent"}</strong>
         </div>
 
-        <div className="live-topbar__pill">
+        <div
+          className={`live-topbar__pill ${ownNexusHit ? "mm-nexus-hit" : ""}`}
+          key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
+        >
           <span className="live-topbar__label">Your Nexus</span>
           <strong>{p1Health}</strong>
+          {ownNexusHit ? <span className="mm-float-dmg mm-float-dmg--nexus">{ownNexusHit.damage}</span> : null}
         </div>
 
-        <div className="live-topbar__pill">
+        <div
+          className={`live-topbar__pill ${enemyNexusHit ? "mm-nexus-hit" : ""}`}
+          key={`enemy-nexus-${enemyNexusHit?.key ?? "idle"}`}
+        >
           <span className="live-topbar__label">Enemy Nexus</span>
           <strong>{p2Health}</strong>
+          {enemyNexusHit ? <span className="mm-float-dmg mm-float-dmg--nexus">{enemyNexusHit.damage}</span> : null}
         </div>
 
         <div className="live-topbar__pill live-topbar__pill--active">
