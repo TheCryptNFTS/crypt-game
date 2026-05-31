@@ -49,8 +49,13 @@ const commands = [
   "npm run dev:secret",
   "npm run dev:faction-identity",
   "npm run dev:server-persistence",
+  "npm run dev:server-fog",
+  "npm run dev:server-auth",
   "npm run dev:seeded-random",
   "npm run dev:expanded-spells",
+  "npm run dev:deep-content",
+  "npm run dev:response-stack",
+  "npm run dev:alt-wincon",
 ];
 
 let failed = false;

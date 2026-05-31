@@ -30,6 +30,9 @@
     "dev:faction-identity": "tsx src/dev/runFactionIdentityProof.ts",
     "dev:seeded-random": "tsx src/dev/runSeededRandomProof.ts",
     "dev:expanded-spells": "tsx src/dev/runExpandedSpellPoolProof.ts",
+    "dev:deep-content": "tsx src/dev/runDeepContentProof.ts",
+    "dev:response-stack": "tsx src/dev/runResponseStackProof.ts",
+    "dev:alt-wincon": "tsx src/dev/runAltWinConProof.ts",
     "dev:combat-parity": "tsx src/dev/runCombatParityProof.ts",
     "dev:keywords": "tsx src/dev/runKeywordMechanicsProof.ts",
     "dev:combatkw": "tsx src/dev/runCombatKeywordProof.ts",
@@ -90,7 +93,9 @@
     "dev:aaa-audit": "tsx src/dev/runAAAReadinessAudit.ts",
     "server": "tsx server/server.ts",
     "dev:server-convergence": "tsx src/dev/runServerConvergenceProof.ts",
-    "dev:server-persistence": "tsx src/dev/runServerPersistenceProof.ts"
+    "dev:server-persistence": "tsx src/dev/runServerPersistenceProof.ts",
+    "dev:server-fog": "tsx src/dev/runFogOfWarProof.ts",
+    "dev:server-auth": "tsx src/dev/runAuthProof.ts"
   },
   "keywords": [],
   "author": "",
