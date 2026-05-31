@@ -213,16 +213,32 @@ const RESURRECT_RE =
 // exact behavior. The "to your hand" destination is REQUIRED — a "return to deck"
 // has no engine op and must stay UNKNOWN. The timing words are flavor we ignore.
 const REGROW_RETURN_RE =
-  /\b(?:return|restore|recall)\b[^.]*\bit\b[^.]*\bto\s+your\s+hand\b/i;
+  /\b(?:return|restore|recall)\b[^.]*\b(?:it|this unit)\b[^.]*\bto\s+your\s+hand\b/i;
 const DECAY_RE = /(?:reduce[s]?\s+(?:the\s+target's\s+)?attack\s+by|loses?\s+)(\d+)\s*attack/i;
 const DRAW_RE = /draw\s+(?:a\s+card|(\d+)\s+cards?)/i;
-// On-death trigger phrasing ("When this unit dies/is destroyed", "Upon death").
-const ON_DEATH_RE = /(?:when this unit (?:is )?(?:dies|destroyed|defeated|killed)|upon death|on death)/i;
-// Count words for "summon two/three N/M X".
-const COUNT_WORDS: Record<string, number> = { a: 1, an: 1, one: 1, two: 2, three: 3, four: 4 };
+// On-death trigger phrasing. Covers the natural-language variants the corpus
+// actually uses: "When/Whenever this unit dies/is destroyed/falls", "When/If it
+// dies/is destroyed", "If destroyed/defeated/killed", and "Upon/On death". The
+// "(?:this unit|it) " subject is optional after the bare verb forms so "If
+// destroyed, ..." / "When it dies, ..." both match, while the verb set keeps it
+// disjoint from non-death text (no plain "destroy <target>" battlecry matches —
+// those use "destroy" transitively, never "is destroyed"/"dies"/"falls").
+const ON_DEATH_RE =
+  /(?:when|whenever|if)\s+(?:this unit|it)\s+(?:is\s+)?(?:dies|destroyed|defeated|killed|falls)|(?:when|whenever|if)\s+(?:destroyed|defeated|killed)\b|upon death|on death/i;
+// Count words for "summon two/three N/M X". "another" is a 1-count synonym used by
+// "summon another N/M X ..." clauses.
+const COUNT_WORDS: Record<string, number> = { a: 1, an: 1, one: 1, another: 1, two: 2, three: 3, four: 4 };
 // Full summon-body matcher: count word, N/M stats, token name, optional "with <KW>".
+//
+// The token NAME ([a-z][a-z ]*?) is lazy and STOPS at the first trailing-clause
+// connector ("at the start", "that restores", "in its place", "for the cost",
+// "and ...", "to your hero") OR a hard terminator (adjacent / punctuation / end).
+// That keeps the captured name clean ("warden", not "warden at the start") and —
+// critically — lets a summon whose flavor trails on with extra words still match
+// and mint its token. The connector set is anchored on a word boundary so it
+// never clips a legitimate multi-word token name mid-word.
 const SUMMON_BODY_RE =
-  /summon\s+(a|an|one|two|three|four|\d+)?\s*(\d+)\s*\/\s*(\d+)\s+([a-z][a-z ]*?)(?:\s+with\s+([a-z][a-z ]*?))?(?=\s+adjacent\b|[.,]|$)/i;
+  /summon\s+(a|an|one|another|two|three|four|\d+)?\s*(\d+)\s*\/\s*(\d+)\s+([a-z][a-z ]*?)(?:\s+with\s+([a-z][a-z ]*?))?(?=\s+(?:adjacent|at|that|in|for|and|to)\b|[.,]|$)/i;
 
 /** Parse a "summon [count] N/M <name> [with <keyword>]" body into a SUMMON_TOKEN
  *  spec carrying count + tokenKeyword. Returns null when no summon body matches. */
@@ -1178,6 +1194,22 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
   }
   if (!classified.some((s) => s.trigger === "ON_DAMAGE")) {
     const s = parseOnDamageReaction(text);
+    if (s) naturalRiders.push(s);
+  }
+  // On-damage SUMMON rider that co-exists with an already-claimed ON_DAMAGE buff.
+  // "When this unit takes damage, gain N health AND summon a 1/1 X" compiles its
+  // "gain N health" half as an ON_DAMAGE BUFF_SELF (claimed by the Taunt-rider or
+  // the reaction above), which then blocks the whole reaction path and silently
+  // drops the summon. Emit the summon explicitly here when (a) the clause is an
+  // on-damage trigger, (b) it carries a summon body, and (c) no ON_DAMAGE
+  // SUMMON_TOKEN was already classified — so the token genuinely mints on damage
+  // without double-firing an existing on-damage summon.
+  if (
+    ON_DAMAGE_TRIGGER_RE.test(text) &&
+    !classified.some((s) => s.trigger === "ON_DAMAGE" && s.op === "SUMMON_TOKEN") &&
+    !naturalRiders.some((s) => s.trigger === "ON_DAMAGE" && s.op === "SUMMON_TOKEN")
+  ) {
+    const s = parseSummonBody(text, "ON_DAMAGE");
     if (s) naturalRiders.push(s);
   }
   // "If it survives, gain +N/+M" — a conditional ON_DAMAGE self-buff. Only added
