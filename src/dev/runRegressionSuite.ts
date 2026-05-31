@@ -43,6 +43,7 @@ const commands = [
   "npm run dev:reducer-equivalence",
   "npm run dev:commander",
   "npm run dev:card-outlier-sweep",
+  "npm run dev:deck-legal-spells",
 ];
 
 let failed = false;
