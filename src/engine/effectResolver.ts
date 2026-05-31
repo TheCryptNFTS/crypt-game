@@ -19,7 +19,7 @@
  * attack time (Phase C), so the resolver intentionally no-ops them here.
  */
 
-import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, ChoiceOption } from "./state";
+import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, ChoiceOption, ResponseEffectSpec } from "./state";
 import { EffectSpec } from "./abilityCompiler";
 import { scryDeck } from "./keywordEngine";
 import { makeRng } from "./rng";
@@ -886,4 +886,59 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
  *  `CompiledAbility.specs`, so this only fires real ops.) */
 export function resolveSpecs(specs: EffectSpec[], ctx: EffectContext): void {
   for (const spec of specs) resolveEffect(spec, ctx);
+}
+
+/**
+ * RESPONSE STACK (opt-in `rules.responseStack`). Resolve ONE fast-effect response
+ * descriptor against the LIVE state, mutating in place. This is a small, self-contained
+ * interpreter that maps each `ResponseEffectSpec.op` onto an existing, proven primitive,
+ * so the response system needs NO `abilityCompiler.ts` edit (the descriptor is carried by
+ * the CAST_RESPONSE action, not parsed from card text).
+ *
+ *   - PUMP_ALLY    — buff the CONTROLLER's own `target` unit (+attack/+health). Used to
+ *                    change a combat outcome mid-window (the deferred attack beneath reads
+ *                    the pumped stats when it pops).
+ *   - SHIELD_ALLY  — arm WARD/DIVINE_SHIELD on the controller's own `target` (one-shot
+ *                    absorb), so the next damage instance the unit takes is voided.
+ *   - DAMAGE_UNIT  — direct (armor-ignoring) damage to the ENEMY `target` unit. NO-BURN:
+ *                    a face/nexus is never a valid `target` here (targets are units only,
+ *                    resolved by instanceId against a board), so this can never burn.
+ *   - HEAL_NEXUS   — heal the CONTROLLER's OWN nexus, capped at the starting HP. No-burn.
+ *
+ * `target` is the already-located live unit (resolved by the reducer from the entry's
+ * `targetInstanceId`); a missing/illegal target is a clean no-op. Determinism: pure state
+ * mutation, no RNG, no Date.now.
+ */
+export function resolveResponseEffect(
+  state: MatchState,
+  controller: PlayerId,
+  effect: ResponseEffectSpec,
+  target?: UnitInPlay
+): void {
+  switch (effect.op) {
+    case "PUMP_ALLY": {
+      if (target) buffUnit(target, effect.attack ?? 0, effect.health ?? 0);
+      break;
+    }
+    case "SHIELD_ALLY": {
+      // Arm the one-shot WARD/DIVINE_SHIELD absorb flag (mirrors initShield at summon).
+      if (target) (target as any).shielded = true;
+      break;
+    }
+    case "DAMAGE_UNIT": {
+      // ENEMY unit only — a face is never a unit ref, so no-burn holds by construction.
+      if (target) damageUnit(target, effect.amount ?? 0);
+      break;
+    }
+    case "HEAL_NEXUS": {
+      const amount = effect.amount ?? 0;
+      if (amount > 0) {
+        const cur = state.players[controller].nexusHealth ?? STARTING_NEXUS_HEALTH;
+        state.players[controller].nexusHealth = Math.min(STARTING_NEXUS_HEALTH, cur + amount);
+      }
+      break;
+    }
+    default:
+      break;
+  }
 }

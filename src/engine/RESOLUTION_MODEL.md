@@ -229,3 +229,144 @@ deadlocks.
 > NOTE re §1: this is the ONLY pause in the engine and it is still no-stack /
 > no-priority. It is a *continuation* (one data record + one logged action), not a
 > response window. Do not generalize it into a stack.
+
+## 9. Opt-in LIFO response stack (`rules.responseStack`)
+
+§1 declares the vanilla engine **no-stack / no-priority**: a slow action (a unit
+attack / face swing) resolves **immediately** inside its own action. §9 layers a
+**genuine reactive priority system** on top — but **entirely behind the
+`rules.responseStack` flag**. With the flag **absent / false** (the default and
+every committed fixture) **none of this code runs**: attacks resolve inline exactly
+as before, the 21 reducer-equivalence scenarios stay **byte-identical**, and the
+golden JSON is never regenerated. The flag is the single switch between the two
+worlds.
+
+**The two crossing-the-boundary records.** Both live on `MatchState`
+(`src/engine/state.ts`) as plain data (no closures), so `structuredClone` at the
+reducer entry preserves them and they are absent from every vanilla fixture:
+
+- `responseStack: ResponseStackEntry[]` — the LIFO stack of deferred slow actions
+  and the fast responses layered on them. Each entry is
+  `{ id, controller, kind: "ATTACK" | "EFFECT" | "COUNTER", … }`. An `ATTACK` entry
+  carries `attackerInstanceId` / `defenderInstanceId` / `face`; an `EFFECT` entry
+  carries a `ResponseEffectSpec` + optional `targetInstanceId`; a `COUNTER` carries
+  nothing but its intent. A `fizzled` flag marks an entry a counter has neutralized.
+- `pendingResponse: { priority, passes }` — the open window: **whose** priority it
+  is and how many **consecutive** passes have been seen.
+
+**Opening the window.** When `rules.responseStack` is on, a validated `ATTACK_UNIT`
+/ `ATTACK_FACE` does **not** resolve combat inline. It calls `openResponseWindow`:
+push a base `ATTACK` entry (id = `resp_${seed}_${counter}`, advancing `idCounter`),
+set `pendingResponse.priority` to the **opponent** of the attacker (the defender
+reacts first), `passes = 0`, and emit `RESPONSE_OPENED`. The combat is now
+**deferred** — it will be replayed at the bottom of the stack when the window
+closes.
+
+**The global response gate.** While `pendingResponse` is non-null the model is
+single-threaded (mirroring §8's choice gate): the reducer accepts **only**
+`CAST_RESPONSE` / `PASS_RESPONSE`. Every other action type reject-softs
+`response-pending` (state unchanged). A `CAST_RESPONSE` / `PASS_RESPONSE` arriving
+from the **wrong** player reject-softs `not-your-priority`; one arriving with **no**
+open window reject-softs `no-response-window`. The gate keeps the reactive layer as
+tractable as the rest of the engine.
+
+**Casting a response.** `CAST_RESPONSE { player, response }` pushes a new entry
+**on top** of the stack — a `COUNTER`, or an `EFFECT` carrying a
+`ResponseEffectSpec` (`PUMP_ALLY` / `SHIELD_ALLY` / `DAMAGE_UNIT` / `HEAL_NEXUS`)
+plus an optional `targetInstanceId`. It **resets `passes` to 0** and hands priority
+back to the **opponent** (a fresh response always reopens the window), emitting
+`RESPONSE_CAST`. Because each cast flips priority, players alternate; the player who
+just spoke cannot immediately speak again.
+
+**Closing + LIFO resolution.** `PASS_RESPONSE` increments `passes` and flips
+priority. **Two consecutive passes** (`passes >= 2`) close the window and call
+`resolveResponseStack`, which pops the stack **top-down (LIFO)**:
+
+- a `fizzled` entry is **skipped** (a counter already neutralized it);
+- a `COUNTER` marks the entry **now beneath it** `fizzled` and emits
+  `RESPONSE_FIZZLED` — so a counter-the-counter resolves first and re-enables the
+  original, exactly LIFO;
+- an `EFFECT` **re-locates** its target from live state (`DAMAGE_UNIT` searches the
+  **opponent's** board, every other op the **controller's** board), runs
+  `resolveResponseEffect` (`src/engine/effectResolver.ts`), then `resolveDeaths`;
+- the base `ATTACK` replays the **deferred** combat via the same
+  `resolveAttackUnitCombat` / `resolveAttackFaceCombat` helpers the inline path
+  uses — so a `PUMP_ALLY` / `SHIELD_ALLY` resolved earlier in the pop **changes the
+  combat outcome**, and a `COUNTER` on the attack **fizzles the swing entirely**.
+
+When the stack is drained it clears `responseStack` + `pendingResponse`, emits
+`RESPONSE_RESOLVED`, and the normal `finalizeWin` runs.
+
+**Determinism & no-burn.** No response op consumes RNG and every action is logged,
+so a `(seed, actions)` replay is byte-identical. **NO-BURN is structural**:
+`DAMAGE_UNIT` resolves only against the opponent's **board** and there is no
+response op that targets the enemy **face** — the nexus is unreachable by
+construction (`HEAL_NEXUS` only restores the controller's own nexus, capped at the
+starting total).
+
+- Enforced: `responseStack` / `pendingResponse` / `ResponseStackEntry` /
+  `ResponseEffectSpec` + the `rules.responseStack` flag in `src/engine/state.ts`;
+  the response gate, `openResponseWindow` / `castResponse` / `passResponse` /
+  `resolveResponseStack` + the combat-extraction helpers in
+  `src/engine/reducer.ts`; `resolveResponseEffect` in `src/engine/effectResolver.ts`.
+- Proven: `npm run dev:response-stack`
+  (`src/dev/runResponseStackProof.ts`) — flag-OFF inline equivalence, window
+  open + PASS/PASS resolve, counter-fizzle, pump/shield changing the combat
+  outcome, counter-the-counter LIFO, determinism (byte-identical state), no-burn,
+  and the three reject-softs (`no-response-window`, `not-your-priority`,
+  `response-pending`). `npm run dev:reducer-equivalence` stays **21/21**.
+
+> NOTE re §1: §9 does **not** weaken the vanilla guarantee — it is dead code until a
+> ruleset opts in. The §8 choice pause is still the only pause in a vanilla match.
+
+## 10. Opt-in alternate win conditions
+
+The vanilla victory path (`detectWinner` + `finalizeWin` in `src/engine/reducer.ts`)
+is **nexus depletion** (a nexus at ≤ 0 loses) and **deck-out fatigue** (drawing from
+an empty deck loses). §10 adds two **opt-in** alternate win axes, each behind its own
+`MatchRules` flag, both **no-burn-compatible** (neither touches the enemy face).
+Absent flags survive `structuredClone` as `undefined`, so a vanilla match is
+unaffected and the golden fixture is unmoved.
+
+**Precedence (asserted).** `detectWinner` checks the axes in a fixed order so the
+result is deterministic and lethal always wins first:
+
+> **lethal-nexus → deckout → ascendancy (§prior) → assemble**
+
+A position that is already decided at action **entry** is reject-softed `match-over`
+by the global guard (§8 opening lines) — so a player can never be awarded an
+alternate win from an already-lost position (e.g. a dead-nexus player who also holds
+an assemble hand does **not** assemble-win; lethal decided it first).
+
+**10a. DECKOUT (`rules.deckoutLoss`).** Drawing from an **empty** deck loses you the
+game (fatigue). The **vanilla engine already does this**, so `deckoutLoss` defaults
+to the proven behavior — it exists to let a ruleset **explicitly disable** it
+(`deckoutLoss: false`) for a no-fatigue variant. In `drawForPlayer`, an empty draw
+sets `winner = opponent` **unless** `deckoutLoss === false` (only an explicit `false`
+opts out; absent / `true` = the historical loss, byte-identical). The `DECK_OUT`
+event is emitted **either way** (informational), so a disabled ruleset still reports
+the empty draw while keeping the drawing player alive.
+
+**10b. ASSEMBLE / LIBRARY (`rules.assembleToWin: N`).** Holding **≥ N** cards in
+hand wins by **card advantage** — an INDIRECT, no-burn victory that never touches the
+enemy face. `detectWinner` consults `players[P].hand.length` (P1 first for a
+deterministic tie-break, mirroring ascendancy) **after** the lethal / deckout axes.
+The win is **scored when an action carries a player across the threshold** — most
+naturally the **start-of-turn draw** ("drawing into the library win"): `END_TURN`
+re-runs `finalizeWin` after the next player's draw when the flag is set. A hand that
+is **already at/above N at action entry** is a decided position and reject-softs
+`match-over` (the guard fires before the body) — it is not silently dropped, it is
+simply already over.
+
+- Enforced: the `assemble` block in `detectWinner`, the `deckoutLoss` gate in
+  `drawForPlayer`, and the post-draw assemble re-score in the `END_TURN` handler, all
+  in `src/engine/reducer.ts`; the `deckoutLoss` / `assembleToWin` flags in
+  `src/engine/state.ts`.
+- Proven: `npm run dev:alt-wincon` (`src/dev/runAltWinConProof.ts`) — deckout loses
+  by default / when `true` / stays alive when `false`; assemble wins by drawing into
+  the threshold (no-burn, P2 nexus untouched, `WIN` emitted), does not win below
+  threshold, is OFF by default; lethal-nexus precedence (`match-over` beats an
+  assemble hand); determinism. `npm run dev:reducer-equivalence` stays **21/21**.
+
+> NOTE re §1: §10 is gated identically to §9 — dead code in a vanilla match. The
+> default deckout behavior is unchanged, so no fixture moves.

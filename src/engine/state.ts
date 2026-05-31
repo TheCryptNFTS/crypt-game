@@ -341,6 +341,29 @@ export interface MatchState {
    * threshold is a control victory — a win earned through the board, never burn.
    */
   ascendancy?: { P1: number; P2: number } | null;
+  /**
+   * RESPONSE STACK (opt-in `rules.responseStack`). ABSENT by default, so a vanilla
+   * match carries no field and the reducer-equivalence golden JSON is byte-identical
+   * (undefined survives structuredClone; every stack hook is a clean no-op without
+   * the flag). When the flag is ON, a "slow" action (the BASE entry) does not resolve
+   * immediately: it is pushed here and a response window opens. Players may push FAST
+   * responses on top (LIFO) via CAST_RESPONSE; when both players PASS consecutively
+   * the stack resolves top-down (the most-recent response first), so a response can
+   * counter / pump / shield the entry beneath it before it resolves. Always `[]` /
+   * absent between fully-resolved actions. Holds ONLY plain data, so it is
+   * structuredClone-stable. See `src/engine/RESOLUTION_MODEL.md` §9.
+   */
+  responseStack?: ResponseStackEntry[] | null;
+  /**
+   * The OPEN response window (opt-in `rules.responseStack`). Non-null exactly while
+   * the stack is awaiting priority passes. While set, the reducer accepts ONLY
+   * CAST_RESPONSE / PASS_RESPONSE (every other action reject-softs `response-pending`),
+   * mirroring the `pendingChoice` global gate. `priority` is whose turn it is to act in
+   * the window; `passes` counts CONSECUTIVE passes — at 2 (both players passed in a row)
+   * the window closes and the stack resolves LIFO. Absent (undefined/null) in a vanilla
+   * match, so fixtures are unmoved.
+   */
+  pendingResponse?: PendingResponse | null;
   players: {
     P1: PlayerState;
     P2: PlayerState;
@@ -348,9 +371,112 @@ export interface MatchState {
 }
 
 /**
+ * One entry on the response stack (opt-in `rules.responseStack`). Pure plain data so
+ * the whole stack is structuredClone-stable. The BASE entry is the slow action that
+ * opened the window (today: a unit attack or a spell-like cast); entries pushed on top
+ * are FAST responses. Resolution is LIFO — the entry with the HIGHEST index resolves
+ * first, so a response resolves before (and can modify/fizzle) the entry beneath it.
+ */
+export interface ResponseStackEntry {
+  /** Stable id for events / counter-targeting (e.g. "resp_<seed>_<n>"). */
+  id: string;
+  /** Who put this entry on the stack. */
+  controller: PlayerId;
+  /**
+   * The kind of entry, deciding how the reducer resolves it when it pops:
+   *  - "ATTACK"        — a deferred unit attack (the BASE of an attack window). Carries
+   *                      attacker/defender instance ids; resolves through the normal
+   *                      combat path when it pops, reading the (possibly pumped/shielded)
+   *                      LIVE units, so a response beneath-resolving-later changed them.
+   *  - "EFFECT"        — a fast spell-like effect (pump / shield / direct unit damage /
+   *                      nexus heal). Carries an explicit EffectSpec + optional target,
+   *                      resolved via the shared effectResolver (no abilityCompiler edit).
+   *  - "COUNTER"       — fizzles the entry DIRECTLY BENEATH it on the stack (LIFO), so a
+   *                      counter neutralizes the action it was played in response to, and
+   *                      a counter-the-counter (a COUNTER targeting another COUNTER) is
+   *                      itself just an entry that fizzles the one below — resolving
+   *                      correctly LIFO.
+   */
+  kind: "ATTACK" | "EFFECT" | "COUNTER";
+  /** ATTACK: the attacking unit's instanceId. */
+  attackerInstanceId?: string;
+  /** ATTACK: the defending unit's instanceId, OR undefined for a face swing. */
+  defenderInstanceId?: string;
+  /** ATTACK: true for a face (nexus) swing rather than a unit attack. */
+  face?: boolean;
+  /** EFFECT: the explicit effect to resolve when this pops (carried by CAST_RESPONSE,
+   *  so no new card-text parsing / abilityCompiler edit is needed). */
+  effect?: ResponseEffectSpec;
+  /** EFFECT: optional target unit instanceId, resolved against the LIVE board at pop. */
+  targetInstanceId?: string;
+  /** Set true when a COUNTER above this entry fizzled it; a fizzled entry is a clean
+   *  no-op when it pops (it never resolves its attack/effect). */
+  fizzled?: boolean;
+}
+
+/**
+ * A self-contained fast-effect descriptor a CAST_RESPONSE carries (opt-in
+ * `rules.responseStack`). Deliberately a SMALL, explicit shape (NOT parsed from card
+ * text), so the response system needs no `abilityCompiler.ts` edit. The resolver maps
+ * each op to an existing, proven effectResolver/no-burn primitive when the entry pops.
+ * A content agent could later compile real "instant" cards into this same shape.
+ */
+export interface ResponseEffectSpec {
+  /**
+   *  - "PUMP_ALLY"    — +attack/+health to one of the CONTROLLER's own units
+   *                     (BUFF_SELF on the target). Changes a combat outcome mid-window.
+   *  - "SHIELD_ALLY"  — arm WARD/DIVINE_SHIELD on one of the controller's own units,
+   *                     absorbing the next damage instance (no-burn; defensive).
+   *  - "DAMAGE_UNIT"  — direct damage to an ENEMY unit (never the face — no-burn).
+   *  - "HEAL_NEXUS"   — heal the CONTROLLER's own nexus (no-burn; self only). */
+  op: "PUMP_ALLY" | "SHIELD_ALLY" | "DAMAGE_UNIT" | "HEAL_NEXUS";
+  amount?: number;
+  attack?: number;
+  health?: number;
+}
+
+/**
+ * The open response window (opt-in `rules.responseStack`). Pure plain data, crosses
+ * action boundaries while the window is open, cleared when the stack resolves. See
+ * `src/engine/RESOLUTION_MODEL.md` §9.
+ */
+export interface PendingResponse {
+  /** Whose turn it is to act in the window (CAST_RESPONSE or PASS_RESPONSE). */
+  priority: PlayerId;
+  /** Consecutive PASS count. At 2 (both players passed in a row) the window closes and
+   *  the stack resolves LIFO. A CAST_RESPONSE resets it to 0 (the opponent regains a
+   *  chance to respond to the new top entry). */
+  passes: number;
+}
+
+/**
  * Per-match ruleset (#4). Optional and additive: an undefined field means "vanilla".
  */
 export interface MatchRules {
+  /**
+   * RESPONSE STACK (headline interactivity). When true, "slow" actions open a LIFO
+   * response window: players may play FAST responses (CAST_RESPONSE) that resolve
+   * before the action beneath them — a counter that fizzles it, a pump/shield that
+   * changes a combat outcome, or a counter-the-counter, all resolving LIFO. ABSENT/
+   * false by default, so a vanilla match plays EXACTLY as today (slow actions resolve
+   * immediately, no window) and the reducer-equivalence golden JSON stays byte-identical.
+   * See `src/engine/RESOLUTION_MODEL.md` §9.
+   */
+  responseStack?: boolean;
+  /**
+   * DECKOUT LOSS (alt win-con, opt-in). When true, drawing from an EMPTY deck loses you
+   * the game (classic mill/fatigue). The vanilla draw already sets the opponent as winner
+   * on an empty deck, so this flag makes the loss EXPLICIT and gateable; OFF by default it
+   * is a clean no-op and the golden fixture is unmoved. Lethal-nexus still takes precedence.
+   */
+  deckoutLoss?: boolean;
+  /**
+   * ASSEMBLE / LIBRARY win (alt win-con, opt-in, no-burn). When set to N, a player who
+   * holds at least N cards in HAND at the end of their own turn wins by "assembling the
+   * archive" — a deck-building/card-advantage victory that never touches the enemy face.
+   * ABSENT by default = no-op, fixtures unmoved. Lethal-nexus and deckout precede it.
+   */
+  assembleToWin?: number;
   /**
    * When set (e.g. 7), a player who holds strictly more live units than their
    * opponent at the end of `ascendancyToWin` consecutive own turns wins by board
