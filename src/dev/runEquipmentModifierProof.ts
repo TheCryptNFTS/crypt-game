@@ -3,8 +3,9 @@ import { allCommanders } from "../engine/commanders";
 import { allPlayableCards, getPlayableCardById } from "../engine/cards";
 import { playUnitFromHand, playEquipmentFromHand } from "../engine/setup";
 import { buildProofDeck } from "./buildProofDecks";
+import { selectProofCommander } from "./selectProofCommander";
 
-const commander = allCommanders.find((c) => c.name === "Crypt #6600") ?? allCommanders[0];
+const commander = selectProofCommander();
 if (!commander) throw new Error("No commander found");
 
 const deck = buildProofDeck(["unit", "equipment"], 30);
@@ -37,6 +38,10 @@ const unitIndex = match.players.P1.hand.findIndex((id: string) => {
 if (unitIndex === -1) throw new Error("No unit in hand");
 
 const unitCardId = match.players.P1.hand[unitIndex];
+// Grant ample energy BEFORE the play: post-BUG-2-fix units enter at their real
+// catalog cost (no longer a free 0-cost stub), so the unit play needs energy too.
+match.players.P1.energy = 999;
+match.players.P1.maxEnergy = 999;
 const afterUnit = playUnitFromHand(match, "P1", unitIndex, "front") as any;
 afterUnit.players.P1.energy = 999;
 

@@ -4,8 +4,9 @@ import { allPlayableCards } from "../engine/cards";
 import { playUnitFromHand } from "../engine/setup";
 import { resolveOutgoingDamage, resolveMitigatedDamage } from "../engine/resolveCombatBonuses";
 import { buildArmorUtilityProofDeck } from "./buildProofDecks";
+import { selectProofCommander } from "./selectProofCommander";
 
-const commander = allCommanders.find((c) => c.name === "Crypt #6600") ?? allCommanders[0];
+const commander = selectProofCommander();
 if (!commander) throw new Error("No commander found");
 
 const deck = buildArmorUtilityProofDeck(commander.traits ?? {}, 30);

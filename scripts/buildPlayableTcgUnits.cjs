@@ -16,19 +16,19 @@ function mapFaction(faction) {
 
   switch (f) {
     case "STONE_KEEPERS":
-      return "STONE";
+      return "STONE_KEEPERS";
     case "IRON_DEFENDERS":
-      return "IRON";
+      return "IRON_DEFENDERS";
     case "BRONZE_GUARDIANS":
-      return "BRONZE";
+      return "BRONZE_GUARDIANS";
     case "SILVER_SENTINELS":
-      return "SILVER";
+      return "SILVER_SENTINELS";
     case "GOLDEN_SOVEREIGNS":
-      return "GOLD";
+      return "GOLDEN_SOVEREIGNS";
     case "GODS":
-      return "GOD";
+      return "GODS";
     default:
-      return "GOD";
+      return "GODS";
   }
 }
 
@@ -136,7 +136,7 @@ function buildPlayableUnit(card) {
 }
 
 const playableUnits = cards
-  .filter((card) => card.cardClass !== "artifact")
+  .filter((card) => card.cardClass === "unit")
   .map(buildPlayableUnit);
 
 fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });

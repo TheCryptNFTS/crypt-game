@@ -6,7 +6,7 @@ import { buildOneOfOneProofDeck } from "./buildProofDecks";
 import { buildModifierSummary } from "../engine/expert/buildModifierSummary";
 import { resolveCombatBreakdown } from "../engine/expert/resolveCombatBreakdown";
 
-const commander = allCommanders.find((c) => c.traits?.["One of One"]) ?? allCommanders[0];
+const commander = allCommanders.find((c: any) => c.traits?.["One of One"]) ?? allCommanders[0];
 if (!commander) throw new Error("No commander found");
 
 const deck = buildOneOfOneProofDeck(30);

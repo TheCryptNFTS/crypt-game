@@ -1,37 +1,14 @@
 import { getStoredCardModifier, applyModifierToUnitLike, applyModifierToEquippedTarget } from "./applyCommanderCardModifiers";
 import decks from "../data/decks.json";
 import units from "../data/units.json";
-import equipment from "../data/equipment.json";
-import spells from "../data/spells.json";
 import { getLoadedCommanderById } from "../data/loadCommanders";
 import { getLoadedUnitById } from "../data/loadAllUnits";
 import { emitEvent } from "./events";
-import { cleanupDeadUnits } from "./cleanup";
-import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay } from "./state";
+import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay, STARTING_NEXUS_HEALTH } from "./state";
 
-import { getPlayableCardById } from "./cards";
-type DamageUnitEffect = { type: "DAMAGE_UNIT"; value: number };
-type DrawCardsEffect = { type: "DRAW_CARDS"; value: number };
-type BuffUnitEffect = { type: "BUFF_UNIT"; attack: number; health: number };
-type HealUnitEffect = { type: "HEAL_UNIT"; value: number };
-type DestroyDamagedUnitEffect = { type: "DESTROY_DAMAGED_UNIT" };
-
-type SpellEffect =
-  | DamageUnitEffect
-  | DrawCardsEffect
-  | BuffUnitEffect
-  | HealUnitEffect
-  | DestroyDamagedUnitEffect;
-
-type SpellCard = {
-  id: string;
-  name: string;
-  type: "spell";
-  faction: string;
-  rarity: string;
-  cost: number;
-  effect: SpellEffect;
-};
+import { getPlayableCardById, assertNoDisabledCards } from "./cards";
+import { applyCardOverride } from "./cardOverrides";
+import { makeRng, shuffle as seededShuffle, Rng } from "./rng";
 
 type UnitCard = {
   id: string;
@@ -66,17 +43,6 @@ type EquipmentCard = {
 
 type DeckKey = keyof typeof decks;
 
-function shuffle<T>(array: T[]): T[] {
-  const copy = [...array];
-
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-
-  return copy;
-}
-
 function drawCards(deck: string[], count: number) {
   const newDeck = [...deck];
   const drawn: string[] = [];
@@ -93,23 +59,32 @@ function assertCommanderExists(commanderId: string): void {
   getLoadedCommanderById(commanderId);
 }
 
-function createPlayer(playerId: PlayerId, deckKey: DeckKey): PlayerState {
+function createPlayer(playerId: PlayerId, deckKey: DeckKey, rng: Rng): PlayerState {
   const deckDef = decks[deckKey];
 
   assertCommanderExists(deckDef.commanderId);
 
-  const shuffledDeck = shuffle(deckDef.cardIds);
+  // BUG 3 FIX: enforce the override-layer soft-ban on the sandbox path too. The
+  // legacy unit_* cards here aren't in the catalog, so isCardDisabled is false
+  // for them (no false positives); only a genuinely disabled catalog card trips.
+  assertNoDisabledCards(deckDef.cardIds as string[], `${playerId} sandbox deck`);
+
+  const shuffledDeck = seededShuffle(deckDef.cardIds, rng);
   const { newDeck, drawn } = drawCards(shuffledDeck, 3);
 
   return {
     id: playerId,
     health: 30,
+    nexusHealth: STARTING_NEXUS_HEALTH,
     energy: 1,
     maxEnergy: 1,
     commanderId: deckDef.commanderId,
     deck: newDeck,
     hand: drawn,
     discard: [],
+    graveyard: [],
+    deckCount: newDeck.length,
+    artifacts: [],
     board: {
       front: [],
       back: []
@@ -121,15 +96,18 @@ function createPlayer(playerId: PlayerId, deckKey: DeckKey): PlayerState {
   };
 }
 
-export function createMatch(): MatchState {
+export function createMatch(seed: number = Date.now()): MatchState {
+  const rng = makeRng(seed);
   return {
     turn: 1,
     activePlayer: "P1",
-    phase: "main",
     winner: null,
+    seed,
+    idCounter: 0,
+    rngCursor: 0,
     players: {
-      P1: createPlayer("P1", "deck_stone_test"),
-      P2: createPlayer("P2", "deck_bronze_test")
+      P1: createPlayer("P1", "deck_stone_test", rng),
+      P2: createPlayer("P2", "deck_bronze_test", rng)
     }
   };
 }
@@ -138,8 +116,8 @@ export function createMatch(): MatchState {
  * Dev-only: legacy match seeded from bundled `decks.json` test decks
  * (not the curated commander + main-deck bootstrap).
  */
-export function createSandboxMatch(): MatchState {
-  return createMatch();
+export function createSandboxMatch(seed?: number): MatchState {
+  return createMatch(seed);
 }
 
 export function createFixedTestMatch(): MatchState {
@@ -149,12 +127,15 @@ export function createFixedTestMatch(): MatchState {
   return {
     turn: 1,
     activePlayer: "P1",
-    phase: "main",
     winner: null,
+    seed: 0,
+    idCounter: 0,
+    rngCursor: 0,
     players: {
       P1: {
         id: "P1",
         health: 30,
+        nexusHealth: STARTING_NEXUS_HEALTH,
         energy: 10,
         maxEnergy: 10,
         commanderId: "cmd_stone_warden",
@@ -172,6 +153,9 @@ export function createFixedTestMatch(): MatchState {
           "spell_mend"
         ],
         discard: [],
+        graveyard: [],
+        deckCount: 4,
+        artifacts: [],
         board: {
           front: [],
           back: []
@@ -184,6 +168,7 @@ export function createFixedTestMatch(): MatchState {
       P2: {
         id: "P2",
         health: 30,
+        nexusHealth: STARTING_NEXUS_HEALTH,
         energy: 10,
         maxEnergy: 10,
         commanderId: "cmd_bronze_raider",
@@ -198,6 +183,9 @@ export function createFixedTestMatch(): MatchState {
           "eq_axe"
         ],
         discard: [],
+        graveyard: [],
+        deckCount: 3,
+        artifacts: [],
         board: {
           front: [],
           back: []
@@ -211,8 +199,18 @@ export function createFixedTestMatch(): MatchState {
   };
 }
 
-function makeInstanceId() {
-  return `unit_${Math.random().toString(36).slice(2, 10)}`;
+/**
+ * Deterministic instance id derived from the match seed + a monotonic counter.
+ * Returns the id and the next counter value; the caller must persist
+ * `nextCounter` onto the updated match state so ids stay unique and
+ * reproducible for a given seed + action order.
+ */
+function makeInstanceId(match: MatchState): { instanceId: string; nextCounter: number } {
+  const counter = match.idCounter ?? 0;
+  return {
+    instanceId: `unit_${match.seed}_${counter}`,
+    nextCounter: counter + 1
+  };
 }
 
 function findUnit(
@@ -233,12 +231,40 @@ function findUnit(
 }
 
 function getUnitCard(cardId: string): UnitCard {
-  const builtInUnit = (units as UnitCard[]).find((u) => u.id === cardId);
-  if (builtInUnit) {
-    return builtInUnit;
+  // BUG 2 FIX — SINGLE SOURCE OF TRUTH for board stats.
+  // Board instantiation must derive attack/health/speed/armor/keywords/cost from
+  // the SAME override-patched catalog the reducer uses (`cardMetaById` / `costOf`
+  // / deck legality all read `allPlayableCards` via `getPlayableCardById`, which
+  // applies the versioned override at the single build chokepoint in cards.ts).
+  //
+  // Previously this read from `getLoadedUnitById` (generatedTcgCards.json), whose
+  // `stats` are 0/1 STUBS for every tcg_* card — the real stats live only in
+  // runtimeMatchPlayableCards.json (the tuple the catalog consumes). That made a
+  // played unit enter the board at 0/1 (e.g. tcg_475: catalog 15/9 -> board 15/1;
+  // tcg_86: catalog atk 4 -> board atk 0), diverging from its catalog/overridden
+  // line. Read the catalog first so overridden AND non-overridden cards agree.
+  const catalogUnit = getPlayableCardById(cardId);
+  if (catalogUnit && catalogUnit.type === "unit") {
+    return {
+      id: catalogUnit.id,
+      name: catalogUnit.name,
+      type: "unit",
+      faction: catalogUnit.faction,
+      rarity: catalogUnit.rarity,
+      cost: catalogUnit.cost,
+      stats: { ...catalogUnit.stats },
+      keywords: [...catalogUnit.keywords],
+    };
   }
 
-  return getLoadedUnitById(cardId) as UnitCard;
+  // Legacy sandbox units (`unit_*`) live only in units.json, not the catalog.
+  // Re-apply the override layer here for parity (clones-then-overrides).
+  const builtInUnit = (units as UnitCard[]).find((u) => u.id === cardId);
+  if (builtInUnit) {
+    return applyCardOverride(builtInUnit);
+  }
+
+  return applyCardOverride(getLoadedUnitById(cardId) as UnitCard);
 }
 
 function getEquipmentCard(cardId: string): EquipmentCard {
@@ -267,135 +293,12 @@ function getEquipmentCard(cardId: string): EquipmentCard {
   } as EquipmentCard;
 }
 
-function getSpellCard(cardId: string): SpellCard {
-  const spellCard = (spells as SpellCard[]).find((s) => s.id === cardId);
-  if (!spellCard) throw new Error(`Selected card is not a spell: ${cardId}`);
-  return spellCard;
-}
-
-function applyDamageToUnit(unit: UnitInPlay, damage: number): UnitInPlay {
-  if (damage <= 0) return unit;
-
-  let remainingDamage = damage;
-  let nextArmor = unit.armor;
-
-  if (nextArmor > 0) {
-    const blocked = Math.min(nextArmor, remainingDamage);
-    nextArmor -= blocked;
-    remainingDamage -= blocked;
-  }
-
-  return {
-    ...unit,
-    armor: nextArmor,
-    health: unit.health - remainingDamage
-  };
-}
-
-function spendSpell(
-  match: MatchState,
-  playerId: PlayerId,
-  player: PlayerState,
-  spellCard: SpellCard,
-  handIndex: number
-): MatchState {
-  const newHand = [...player.hand];
-  newHand.splice(handIndex, 1);
-
-  return {
-    ...match,
-    players: {
-      ...match.players,
-      [playerId]: {
-        ...player,
-        energy: player.energy - spellCard.cost,
-        hand: newHand,
-        discard: [...player.discard, spellCard.id]
-      }
-    }
-  };
-}
-
-function getOpponentId(playerId: PlayerId): PlayerId {
-  return playerId === "P1" ? "P2" : "P1";
-}
-
-function updateWinner(match: MatchState): MatchState {
-  const p1 = match.players.P1;
-  const p2 = match.players.P2;
-
-  if (p1.health <= 0 && p2.health <= 0) {
-    return {
-      ...match,
-      winner: "P1"
-    };
-  }
-
-  if (p1.health <= 0) {
-    return {
-      ...match,
-      winner: "P2"
-    };
-  }
-
-  if (p2.health <= 0) {
-    return {
-      ...match,
-      winner: "P1"
-    };
-  }
-
-  return match;
-}
-
-export function goToCombatPhase(match: MatchState): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.phase !== "main") {
-    throw new Error("Can only move to combat from main phase");
-  }
-
-  return {
-    ...match,
-    phase: "combat"
-  };
-}
-
-export function goToEndPhase(match: MatchState): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.phase !== "combat") {
-    throw new Error("Can only move to end from combat phase");
-  }
-
-  return {
-    ...match,
-    phase: "end"
-  };
-}
-
 export function playUnitFromHand(
   match: MatchState,
   playerId: PlayerId,
   handIndex: number,
   lane: Lane
 ): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.activePlayer !== playerId) {
-    throw new Error("Not this player's turn");
-  }
-
-  if (match.phase !== "main") {
-    throw new Error("Units can only be played during main phase");
-  }
-
   const player = match.players[playerId];
   const cardId = player.hand[handIndex];
 
@@ -414,8 +317,10 @@ export function playUnitFromHand(
     throw new Error("Not enough energy");
   }
 
+  const { instanceId, nextCounter } = makeInstanceId(match);
+
   const instance: UnitInPlay = {
-    instanceId: makeInstanceId(),
+    instanceId,
     cardId: unitCard.id,
     lane,
     attack: unitCard.stats.attack,
@@ -441,6 +346,7 @@ export function playUnitFromHand(
 
   const updatedMatch = {
     ...match,
+    idCounter: nextCounter,
     players: {
       ...match.players,
       [playerId]: {
@@ -470,18 +376,6 @@ export function playEquipmentFromHand(
   handIndex: number,
   targetInstanceId: string
 ): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.activePlayer !== playerId) {
-    throw new Error("Not this player's turn");
-  }
-
-  if (match.phase !== "main") {
-    throw new Error("Equipment can only be played during main phase");
-  }
-
   const player = match.players[playerId];
   const cardId = player.hand[handIndex];
 
@@ -535,358 +429,3 @@ export function playEquipmentFromHand(
   };
 }
 
-export function playSpellFromHand(
-  match: MatchState,
-  playerId: PlayerId,
-  handIndex: number,
-  targetInstanceId?: string
-): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.activePlayer !== playerId) {
-    throw new Error("Not this player's turn");
-  }
-
-  if (match.phase !== "main") {
-    throw new Error("Spells can only be played during main phase");
-  }
-
-  const player = match.players[playerId];
-  const cardId = player.hand[handIndex];
-
-  if (!cardId) {
-    throw new Error("No card in that hand slot");
-  }
-
-  const spellCard = getSpellCard(cardId);
-
-  if (player.energy < spellCard.cost) {
-    throw new Error("Not enough energy");
-  }
-
-  let updatedMatch = spendSpell(match, playerId, player, spellCard, handIndex);
-
-  if (spellCard.effect.type === "DRAW_CARDS") {
-    const currentPlayer = updatedMatch.players[playerId];
-    const { newDeck, drawn } = drawCards(currentPlayer.deck, spellCard.effect.value);
-
-    updatedMatch = {
-      ...updatedMatch,
-      players: {
-        ...updatedMatch.players,
-        [playerId]: {
-          ...currentPlayer,
-          deck: newDeck,
-          hand: [...currentPlayer.hand, ...drawn]
-        }
-      }
-    };
-
-    return updatedMatch;
-  }
-
-  if (!targetInstanceId) {
-    if (spellCard.effect.type === "DESTROY_DAMAGED_UNIT") {
-      throw new Error("Spell requires a target");
-    }
-    if (spellCard.effect.type === "DAMAGE_UNIT") {
-      throw new Error("Spell requires a target");
-    }
-    if (spellCard.effect.type === "HEAL_UNIT") {
-      throw new Error("Spell requires a target");
-    }
-    if (spellCard.effect.type === "BUFF_UNIT") {
-      throw new Error("Spell requires a target");
-    }
-  }
-
-  let targetOwnerId: PlayerId | null = null;
-
-  if (targetInstanceId) {
-    try {
-      findUnit(updatedMatch.players.P1, targetInstanceId);
-      targetOwnerId = "P1";
-    } catch {
-      try {
-        findUnit(updatedMatch.players.P2, targetInstanceId);
-        targetOwnerId = "P2";
-      } catch {
-        throw new Error("Target unit not found");
-      }
-    }
-  }
-
-  if (!targetOwnerId || !targetInstanceId) {
-    return updatedMatch;
-  }
-
-  const targetPlayer = updatedMatch.players[targetOwnerId];
-  const { lane, unitIndex } = findUnit(targetPlayer, targetInstanceId);
-  const unit = targetPlayer.board[lane][unitIndex];
-
-  let updatedUnit = unit;
-
-  if (spellCard.effect.type === "DAMAGE_UNIT") {
-    updatedUnit = applyDamageToUnit(unit, spellCard.effect.value);
-  }
-
-  if (spellCard.effect.type === "HEAL_UNIT") {
-    updatedUnit = {
-      ...unit,
-      health: Math.min(unit.maxHealth ?? unit.health, unit.health + spellCard.effect.value)
-    };
-  }
-
-  if (spellCard.effect.type === "BUFF_UNIT") {
-    updatedUnit = {
-      ...unit,
-      attack: unit.attack + spellCard.effect.attack,
-      health: unit.health + spellCard.effect.health,
-      maxHealth: (unit.maxHealth ?? unit.health) + spellCard.effect.health
-    };
-  }
-
-  if (spellCard.effect.type === "DESTROY_DAMAGED_UNIT") {
-    if (unit.health < (unit.maxHealth ?? unit.health)) {
-      updatedUnit = {
-        ...unit,
-        health: 0
-      };
-    }
-  }
-
-  const updatedLane = [...targetPlayer.board[lane]];
-  updatedLane[unitIndex] = updatedUnit;
-
-  updatedMatch = {
-    ...updatedMatch,
-    players: {
-      ...updatedMatch.players,
-      [targetOwnerId]: {
-        ...targetPlayer,
-        board: {
-          ...targetPlayer.board,
-          [lane]: updatedLane
-        }
-      }
-    }
-  };
-
-  updatedMatch = cleanupDeadUnits(updatedMatch);
-  updatedMatch = updateWinner(updatedMatch);
-
-  return updatedMatch;
-}
-
-export function attackUnit(
-  match: MatchState,
-  playerId: PlayerId,
-  attackerInstanceId: string,
-  defenderInstanceId: string
-): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.activePlayer !== playerId) {
-    throw new Error("Not this player's turn");
-  }
-
-  if (match.phase !== "combat") {
-    throw new Error("Can only attack during combat phase");
-  }
-
-  const attackerPlayer = match.players[playerId];
-  const defenderPlayerId = getOpponentId(playerId);
-  const defenderPlayer = match.players[defenderPlayerId];
-
-  const attackerPos = findUnit(attackerPlayer, attackerInstanceId);
-  const defenderPos = findUnit(defenderPlayer, defenderInstanceId);
-
-  const attacker = attackerPlayer.board[attackerPos.lane][attackerPos.unitIndex];
-  const defender = defenderPlayer.board[defenderPos.lane][defenderPos.unitIndex];
-
-  if (attacker.exhausted) {
-    throw new Error("Unit is exhausted");
-  }
-
-  if (attacker.summoningSick) {
-    throw new Error("Unit has summoning sickness");
-  }
-
-  let updatedAttacker = applyDamageToUnit(attacker, defender.attack);
-  updatedAttacker = {
-    ...updatedAttacker,
-    exhausted: true
-  };
-
-  const updatedDefender = applyDamageToUnit(defender, attacker.attack);
-
-  const updatedAttackerLane = [...attackerPlayer.board[attackerPos.lane]];
-  updatedAttackerLane[attackerPos.unitIndex] = updatedAttacker;
-
-  const updatedDefenderLane = [...defenderPlayer.board[defenderPos.lane]];
-  updatedDefenderLane[defenderPos.unitIndex] = updatedDefender;
-
-  let updatedMatch: MatchState = {
-    ...match,
-    players: {
-      ...match.players,
-      [playerId]: {
-        ...attackerPlayer,
-        board: {
-          ...attackerPlayer.board,
-          [attackerPos.lane]: updatedAttackerLane
-        }
-      },
-      [defenderPlayerId]: {
-        ...defenderPlayer,
-        board: {
-          ...defenderPlayer.board,
-          [defenderPos.lane]: updatedDefenderLane
-        }
-      }
-    }
-  };
-
-  updatedMatch = cleanupDeadUnits(updatedMatch);
-  updatedMatch = updateWinner(updatedMatch);
-
-  return updatedMatch;
-}
-
-export function attackPlayer(
-  match: MatchState,
-  playerId: PlayerId,
-  attackerInstanceId: string
-): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.activePlayer !== playerId) {
-    throw new Error("Not this player's turn");
-  }
-
-  if (match.phase !== "combat") {
-    throw new Error("Can only attack during combat phase");
-  }
-
-  const attackerPlayer = match.players[playerId];
-  const defenderPlayerId = getOpponentId(playerId);
-  const defenderPlayer = match.players[defenderPlayerId];
-
-  if (defenderPlayer.board.front.length > 0) {
-    throw new Error("Cannot attack player directly while enemy front lane has units");
-  }
-
-  const attackerPos = findUnit(attackerPlayer, attackerInstanceId);
-  const attacker = attackerPlayer.board[attackerPos.lane][attackerPos.unitIndex];
-
-  if (attacker.exhausted) {
-    throw new Error("Unit is exhausted");
-  }
-
-  if (attacker.summoningSick) {
-    throw new Error("Unit has summoning sickness");
-  }
-
-  const updatedAttacker: UnitInPlay = {
-    ...attacker,
-    exhausted: true
-  };
-
-  const updatedAttackerLane = [...attackerPlayer.board[attackerPos.lane]];
-  updatedAttackerLane[attackerPos.unitIndex] = updatedAttacker;
-
-  let updatedMatch: MatchState = {
-    ...match,
-    players: {
-      ...match.players,
-      [playerId]: {
-        ...attackerPlayer,
-        board: {
-          ...attackerPlayer.board,
-          [attackerPos.lane]: updatedAttackerLane
-        }
-      },
-      [defenderPlayerId]: {
-        ...defenderPlayer,
-        health: defenderPlayer.health - attacker.attack
-      }
-    }
-  };
-
-  updatedMatch = updateWinner(updatedMatch);
-
-  return updatedMatch;
-}
-
-export function endTurn(match: MatchState): MatchState {
-  if (match.winner) {
-    throw new Error("Match is already over");
-  }
-
-  if (match.phase !== "end") {
-    throw new Error("Turn can only end from end phase");
-  }
-
-  const endingPlayerId = match.activePlayer;
-  const nextPlayerId: PlayerId = endingPlayerId === "P1" ? "P2" : "P1";
-  const nextPlayer = match.players[nextPlayerId];
-
-  const refreshedFront = nextPlayer.board.front.map((unit) => ({
-    ...unit,
-    exhausted: false,
-    summoningSick: false
-  }));
-
-  const refreshedBack = nextPlayer.board.back.map((unit) => ({
-    ...unit,
-    exhausted: false,
-    summoningSick: false
-  }));
-
-  const nextMaxEnergy = Math.min(10, nextPlayer.maxEnergy + 1);
-  const { newDeck, drawn } = drawCards(nextPlayer.deck, 1);
-
-  let updatedMatch: MatchState = {
-    ...match,
-    turn: match.turn + 1,
-    activePlayer: nextPlayerId,
-    phase: "main",
-    players: {
-      ...match.players,
-      [nextPlayerId]: {
-        ...nextPlayer,
-        maxEnergy: nextMaxEnergy,
-        energy: nextMaxEnergy,
-        deck: newDeck,
-        hand: [...nextPlayer.hand, ...drawn],
-        board: {
-          front: refreshedFront,
-          back: refreshedBack
-        },
-        turnFlags: {
-          ...nextPlayer.turnFlags,
-          firstUnitPlayed: false,
-          firstUnitCostReduction: 0
-        }
-      }
-    }
-  };
-
-  updatedMatch = emitEvent(updatedMatch, {
-    type: "TURN_END",
-    playerId: endingPlayerId
-  });
-
-  updatedMatch = emitEvent(updatedMatch, {
-    type: "TURN_START",
-    playerId: nextPlayerId
-  });
-
-  return updatedMatch;
-}

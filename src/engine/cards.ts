@@ -2,8 +2,9 @@ import runtimeMatchPlayableCards from "../data/runtimeMatchPlayableCards.json";
 import generatedTcgCards from "../data/generatedTcgCards.json";
 import commanders from "../data/commanders.json";
 import { normalizeFaction, Faction } from "../types/faction";
+import { applyCardOverride } from "./cardOverrides";
 
-export type CardType = "unit" | "equipment" | "artifact";
+export type CardType = "unit" | "equipment" | "artifact" | "spell";
 
 export type PlayableCard = {
   id: string;
@@ -23,6 +24,12 @@ export type PlayableCard = {
   effectTags: string[];
   sourceCardClass: string | null;
   sourceSubtype: string | null;
+  /**
+   * Soft-ban flag set by the balance-patch override layer (`cardOverrides.ts`).
+   * The card stays in the catalog (count audits unaffected) but is excluded from
+   * deck legality. Absent/false on every un-overridden card.
+   */
+  disabled?: boolean;
 };
 
 export type CommanderCard = {
@@ -132,9 +139,13 @@ function withPlayableType([
 
 export const allCommanderCards: CommanderCard[] = (commanders as RawCommanderCard[]).map(withCommanderType);
 
-export const allPlayableCards: PlayableCard[] = (runtimeMatchPlayableCards as RuntimePlayableTuple[]).map(
-  withPlayableType
-);
+export const allPlayableCards: PlayableCard[] = (runtimeMatchPlayableCards as RuntimePlayableTuple[])
+  .map(withPlayableType)
+  // Balance-patch spine: apply the versioned override layer at the single build
+  // chokepoint, so the reducer's cardMetaById/costOf/cardTypeOf/compile path and
+  // deck legality all inherit the patched catalog from one source of truth.
+  // applyCardOverride clones-then-overrides, so the base objects are never mutated.
+  .map(applyCardOverride);
 
 export const allCards: PlayableCard[] = allPlayableCards;
 
@@ -160,4 +171,22 @@ export function getAnyCardById(id: string): PlayableCard | CommanderCard | null 
 
 export function isCommanderCardId(id: string): boolean {
   return commanderCardIndex.has(id);
+}
+
+/** True if a card is soft-banned (disabled) by the override layer. */
+export function isCardDisabled(id: string): boolean {
+  return getPlayableCardById(id)?.disabled === true;
+}
+
+/**
+ * Shared soft-ban guard for ALL deck-construction paths. A disabled (soft-banned)
+ * card must never enter a match. Throws a clear, consistent error on the first
+ * disabled card found, matching the check already in createMatchFromDecks. Used by
+ * createOwnedNftMatch and the sandbox createMatch so no path can smuggle one in.
+ */
+export function assertNoDisabledCards(deck: string[], label = "deck"): void {
+  const banned = deck.find((id) => isCardDisabled(id));
+  if (banned) {
+    throw new Error(`${label} contains a disabled (soft-banned) card: ${banned}`);
+  }
 }

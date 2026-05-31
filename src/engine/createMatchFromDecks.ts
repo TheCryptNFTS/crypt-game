@@ -5,6 +5,8 @@ import { getPlayableCardById, isCommanderCardId } from "./cards";
 import { MatchBootstrapInput } from "../types/matchBootstrap";
 import { getCommanderSpecialBonuses } from "../lib/getCommanderBonuses";
 import { getCommanderCardSynergy } from "../lib/getCommanderCardSynergy";
+import { makeRng, shuffle as seededShuffle, Rng } from "./rng";
+import { STARTING_NEXUS_HEALTH } from "./state";
 
 type PlayerId = "P1" | "P2";
 
@@ -31,19 +33,26 @@ function uniqueStrings(values: (string | undefined | null)[]) {
 export function createMatchFromDecks(input: MatchBootstrapInput) {
   const openingHandSize = Math.max(0, input.openingHandSize ?? 3);
   const shouldShuffle = input.shuffle ?? true;
+  const seed = input.seed ?? Date.now();
 
   validateBootstrapSide(input.p1, "P1");
   validateBootstrapSide(input.p2, "P2");
 
-  const match = createMatch() as any;
+  // Single deterministic RNG stream drives both players' shuffles in order
+  // (P1 then P2), so the whole opening is reproducible from `seed`.
+  const rng = makeRng(seed);
 
-  hydratePlayer(match, "P1", input.p1, openingHandSize, shouldShuffle);
-  hydratePlayer(match, "P2", input.p2, openingHandSize, shouldShuffle);
+  const match = createMatch(seed) as any;
+  match.seed = seed;
+  match.idCounter = match.idCounter ?? 0;
+
+  hydratePlayer(match, "P1", input.p1, openingHandSize, shouldShuffle, rng);
+  hydratePlayer(match, "P2", input.p2, openingHandSize, shouldShuffle, rng);
 
   match.turn = match.turn ?? 1;
   match.activePlayer = match.activePlayer ?? "P1";
-  match.phase = match.phase ?? "main";
   match.winner = match.winner ?? null;
+  match.rngCursor = match.rngCursor ?? 0;
 
   return match;
 }
@@ -53,13 +62,14 @@ function hydratePlayer(
   playerId: PlayerId,
   input: { commanderId: string; deck: string[] },
   openingHandSize: number,
-  shouldShuffle: boolean
+  shouldShuffle: boolean,
+  rng: Rng
 ) {
   const player = match.players[playerId];
   const commander = getCommanderById(input.commanderId);
 
   const deck = [...input.deck];
-  const library = shouldShuffle ? shuffle(deck) : deck;
+  const library = shouldShuffle ? seededShuffle(deck, rng) : deck;
 
   const commanderTraits = commander.traits ?? {};
   const commanderSpecial = getCommanderSpecialBonuses(commanderTraits);
@@ -81,10 +91,15 @@ function hydratePlayer(
   player.deck = [...library];
   player.hand = [];
   player.discard = [];
+  player.graveyard = [];
   player.artifacts = [];
-  player.board = player.board ?? { front: [] };
+  player.board = player.board ?? { front: [], back: [] };
   player.board.front = [];
+  // Bootstrap bug fix: the `back` lane was never initialised here, so the live
+  // {front, back} board shape carried an undefined back lane until first touch.
+  player.board.back = [];
   player.deckCount = player.deck.length;
+  player.nexusHealth = player.nexusHealth ?? STARTING_NEXUS_HEALTH;
 
   for (let i = 0; i < openingHandSize; i += 1) {
     drawOne(player);
@@ -190,6 +205,13 @@ function validateBootstrapSide(
     throw new Error(`${label} deck contains unknown or non-playable card: ${unknown}`);
   }
 
+  // Balance-patch soft-ban: cards flagged `disabled` by the override layer stay
+  // in the catalog (count audits unaffected) but are not deck-legal.
+  const banned = input.deck.find((id) => getPlayableCardById(id)?.disabled === true);
+  if (banned) {
+    throw new Error(`${label} deck contains a disabled (soft-banned) card: ${banned}`);
+  }
+
   const result = validateDeck(input.deck, input.commanderId, {
     deckSize: commander.deckRules.deckSize,
     maxCopies: 2,
@@ -201,11 +223,3 @@ function validateBootstrapSide(
   }
 }
 
-function shuffle<T>(items: T[]): T[] {
-  const out = [...items];
-  for (let i = out.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}

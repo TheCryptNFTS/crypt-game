@@ -1,11 +1,36 @@
 import { execSync } from "node:child_process";
 
 const commands = [
-  "npm run dev:playproof",
   "npm run dev:exactproof",
   "npm run dev:equipment",
   "npm run dev:artifact",
   "npm run dev:combat",
+  "npm run dev:keywords",
+  "npm run dev:combatkw",
+  "npm run dev:statuskw",
+  "npm run dev:effect-coverage",
+  "npm run dev:effects",
+  "npm run dev:triggers",
+  "npm run dev:passives",
+  "npm run dev:targeting",
+  "npm run dev:faction-scaling",
+  "npm run dev:auras",
+  "npm run dev:turnstart",
+  "npm run dev:turnend",
+  "npm run dev:ondeath",
+  "npm run dev:longtail",
+  "npm run dev:battlecry-target",
+  "npm run dev:spells",
+  "npm run dev:cleave-copy",
+  "npm run dev:expressiveness",
+  "npm run dev:graveyard",
+  "npm run dev:adjacency",
+  "npm run dev:copy-aura",
+  "npm run dev:continuous-aura",
+  "npm run dev:trigger-order",
+  "npm run dev:card-override",
+  "npm run dev:real-play-path",
+  "npm run dev:red-team-fix",
 ];
 
 let failed = false;

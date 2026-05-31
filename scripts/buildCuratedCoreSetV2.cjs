@@ -20,8 +20,11 @@ const artifacts = JSON.parse(
   )
 );
 
-const FACTIONS = ["STONE", "IRON", "BRONZE", "SILVER", "GOLD"];
-const GOD = "GOD";
+// Long-form faction enum (canonical on-chain reveal). The old short codes
+// ("STONE", "IRON", ...) silently matched nothing after the rename, leaving the
+// curated set empty; these are the values the source data actually carries.
+const FACTIONS = ["STONE_KEEPERS", "IRON_DEFENDERS", "BRONZE_GUARDIANS", "SILVER_SENTINELS", "GOLDEN_SOVEREIGNS"];
+const GOD = "GODS";
 
 function keywordList(card) {
   return card.keywords || card.effectTags || [];
@@ -118,6 +121,31 @@ function baseScore(card) {
   return score;
 }
 
+// --- Faction identity ----------------------------------------------------
+// The curated source only carries the GUARD / RUSH / CRUSH keywords, so faction
+// identity is expressed through (a) which of those a faction prefers, (b) the
+// stat shape it skews toward, and (c) its mana curve. This pulls each faction's
+// 14 curated units toward a distinct archetype instead of generic "best stats".
+const FACTION_IDENTITY = {
+  STONE_KEEPERS:     { archetype: "Endurance Wall",   keyword: "GUARD", stat: { health: 1.2, armor: 0.9 }, curve: [2,3,3,3,3,4,4,4,4,4,5,5,5,5] },
+  IRON_DEFENDERS:    { archetype: "Fortress",         keyword: "GUARD", stat: { armor: 1.5, health: 0.6 }, curve: [2,2,3,3,3,3,4,4,4,4,4,5,5,5] },
+  BRONZE_GUARDIANS:  { archetype: "Bruiser Midrange", keyword: "CRUSH", stat: { attack: 0.9, health: 0.5 }, curve: [2,2,3,3,3,3,3,4,4,4,4,4,5,5] },
+  SILVER_SENTINELS:  { archetype: "Tempo Aggro",      keyword: "RUSH",  stat: { attack: 1.0, speed: 1.1 }, curve: [2,2,2,2,3,3,3,3,3,4,4,4,4,5] },
+  GOLDEN_SOVEREIGNS: { archetype: "Premium Finisher", keyword: "CRUSH", stat: { attack: 0.8, health: 0.3 }, curve: [3,3,3,4,4,4,4,5,5,5,5,5,5,5] },
+};
+
+// Faction-identity bonus added on top of the generic baseScore. Rewards the
+// faction's signature keyword and stat shape so its curated picks cohere.
+function identityBonus(card, faction) {
+  const id = FACTION_IDENTITY[faction];
+  if (!id || card.type !== "unit") return 0;
+  let bonus = 0;
+  if ((card.keywords || []).includes(id.keyword)) bonus += 8;
+  const stats = statBlock(card);
+  for (const [k, w] of Object.entries(id.stat)) bonus += (stats[k] || 0) * w;
+  return bonus;
+}
+
 function dedupeByName(cards) {
   const seen = new Set();
   return cards.filter((card) => {
@@ -128,10 +156,14 @@ function dedupeByName(cards) {
   });
 }
 
-function sortPool(cards) {
+// Faction-aware sort: identity bonus rides on top of the generic balance score,
+// so each faction prefers cards that match its archetype (falling back to raw
+// score when faction is null, e.g. equipment/artifact pools).
+function sortPool(cards, faction = null) {
   return [...cards].sort((a, b) => {
-    const scoreDiff = baseScore(b) - baseScore(a);
-    if (scoreDiff !== 0) return scoreDiff;
+    const sa = baseScore(a) + identityBonus(a, faction);
+    const sb = baseScore(b) + identityBonus(b, faction);
+    if (sb !== sa) return sb - sa;
     if ((a.cost || 0) !== (b.cost || 0)) return (a.cost || 0) - (b.cost || 0);
     return String(a.id).localeCompare(String(b.id));
   });
@@ -150,7 +182,8 @@ function takeFactionCards(pool, faction, count, preferredCosts) {
 
   for (const cost of preferredCosts) {
     const candidate = sortPool(
-      factionPool.filter((c) => !used.has(c.id) && c.cost === cost)
+      factionPool.filter((c) => !used.has(c.id) && c.cost === cost),
+      faction
     )[0];
 
     if (candidate) {
@@ -160,7 +193,7 @@ function takeFactionCards(pool, faction, count, preferredCosts) {
     }
   }
 
-  for (const candidate of sortPool(factionPool)) {
+  for (const candidate of sortPool(factionPool, faction)) {
     if (used.has(candidate.id)) continue;
     picked.push(candidate);
     used.add(candidate.id);
@@ -170,7 +203,8 @@ function takeFactionCards(pool, faction, count, preferredCosts) {
   return picked;
 }
 
-// Less insane curve. Old one was poisoning the pool.
+// Less insane curve. Old one was poisoning the pool. Per-faction curves (above)
+// override this for units; this is the fallback when a faction has no identity.
 const unitCurve = [2,2,2,2,3,3,3,3,3,4,4,4,4,5];
 const equipmentCurve = [2,3,4];
 const artifactCurve = [3,4];
@@ -180,7 +214,8 @@ const curatedEquipment = [];
 const curatedArtifacts = [];
 
 for (const faction of FACTIONS) {
-  curatedUnits.push(...takeFactionCards(units, faction, 14, unitCurve));
+  const curve = (FACTION_IDENTITY[faction] && FACTION_IDENTITY[faction].curve) || unitCurve;
+  curatedUnits.push(...takeFactionCards(units, faction, 14, curve));
   curatedEquipment.push(...takeFactionCards(equipment, faction, 3, equipmentCurve));
   curatedArtifacts.push(...takeFactionCards(artifacts, faction, 2, artifactCurve));
 }

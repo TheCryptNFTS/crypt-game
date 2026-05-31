@@ -3,8 +3,9 @@ import { allCommanders } from "../engine/commanders";
 import { allPlayableCards } from "../engine/cards";
 import { playArtifactCard } from "../engine/effectSystem";
 import { buildProofDeck } from "./buildProofDecks";
+import { selectProofCommander } from "./selectProofCommander";
 
-const commander = allCommanders.find((c) => c.name === "Crypt #6600") ?? allCommanders[0];
+const commander = selectProofCommander();
 if (!commander) throw new Error("No commander found");
 
 const deck = buildProofDeck(["artifact"], 30);

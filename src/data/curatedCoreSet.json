@@ -4,14 +4,14 @@
       "id": "tcg_unit_1017",
       "name": "Crypt - Digital Trading Card #1017",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 6,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1017",
@@ -33,14 +33,14 @@
       "id": "tcg_unit_1026",
       "name": "Crypt - Digital Trading Card #1026",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1026",
@@ -62,14 +62,14 @@
       "id": "tcg_unit_1029",
       "name": "Crypt - Digital Trading Card #1029",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1029",
@@ -91,14 +91,14 @@
       "id": "tcg_unit_1030",
       "name": "Crypt - Digital Trading Card #1030",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1030",
@@ -120,14 +120,14 @@
       "id": "tcg_unit_1031",
       "name": "Crypt - Digital Trading Card #1031",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 5,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [],
       "sourceTokenId": "1031",
@@ -149,14 +149,14 @@
       "id": "tcg_unit_1032",
       "name": "Crypt - Digital Trading Card #1032",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1032",
@@ -178,14 +178,14 @@
       "id": "tcg_unit_1033",
       "name": "Crypt - Digital Trading Card #1033",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1033",
@@ -207,14 +207,14 @@
       "id": "tcg_unit_1035",
       "name": "Crypt - Digital Trading Card #1035",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1035",
@@ -236,14 +236,14 @@
       "id": "tcg_unit_1038",
       "name": "Crypt - Digital Trading Card #1038",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -267,14 +267,14 @@
       "id": "tcg_unit_1054",
       "name": "Crypt - Digital Trading Card #1054",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "RUSH"
@@ -298,14 +298,14 @@
       "id": "tcg_unit_1060",
       "name": "Crypt - Digital Trading Card #1060",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1060",
@@ -327,14 +327,14 @@
       "id": "tcg_unit_1063",
       "name": "Crypt - Digital Trading Card #1063",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1063",
@@ -356,14 +356,14 @@
       "id": "tcg_unit_1081",
       "name": "Crypt - Digital Trading Card #1081",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -387,14 +387,14 @@
       "id": "tcg_unit_1113",
       "name": "Crypt - Digital Trading Card #1113",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1113",
@@ -416,14 +416,14 @@
       "id": "tcg_unit_1118",
       "name": "Crypt - Digital Trading Card #1118",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 5,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [],
       "sourceTokenId": "1118",
@@ -445,14 +445,14 @@
       "id": "tcg_unit_1127",
       "name": "Crypt - Digital Trading Card #1127",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1127",
@@ -474,14 +474,14 @@
       "id": "tcg_unit_1003",
       "name": "Crypt - Digital Trading Card #1003",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 7,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -505,14 +505,14 @@
       "id": "tcg_unit_1013",
       "name": "Crypt - Digital Trading Card #1013",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 4,
-        "armor": 2
+        "armor": 2,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -536,14 +536,14 @@
       "id": "tcg_unit_1020",
       "name": "Crypt - Digital Trading Card #1020",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1020",
@@ -565,14 +565,14 @@
       "id": "tcg_unit_1024",
       "name": "Crypt - Digital Trading Card #1024",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 6,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1024",
@@ -594,14 +594,14 @@
       "id": "tcg_unit_1036",
       "name": "Crypt - Digital Trading Card #1036",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "RUSH"
@@ -625,14 +625,14 @@
       "id": "tcg_unit_1047",
       "name": "Crypt - Digital Trading Card #1047",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1047",
@@ -654,14 +654,14 @@
       "id": "tcg_unit_1049",
       "name": "Crypt - Digital Trading Card #1049",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "RUSH",
@@ -686,14 +686,14 @@
       "id": "tcg_unit_1052",
       "name": "Crypt - Digital Trading Card #1052",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "CRUSH",
@@ -718,14 +718,14 @@
       "id": "tcg_unit_1057",
       "name": "Crypt - Digital Trading Card #1057",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -749,14 +749,14 @@
       "id": "tcg_unit_1068",
       "name": "Crypt - Digital Trading Card #1068",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 5,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -780,14 +780,14 @@
       "id": "tcg_unit_1070",
       "name": "Crypt - Digital Trading Card #1070",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1070",
@@ -809,14 +809,14 @@
       "id": "tcg_unit_1078",
       "name": "Crypt - Digital Trading Card #1078",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -840,14 +840,14 @@
       "id": "tcg_unit_108",
       "name": "Crypt - Digital Trading Card #108",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "108",
@@ -869,14 +869,14 @@
       "id": "tcg_unit_1083",
       "name": "Crypt - Digital Trading Card #1083",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1083",
@@ -898,14 +898,14 @@
       "id": "tcg_unit_1084",
       "name": "Crypt - Digital Trading Card #1084",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -929,14 +929,14 @@
       "id": "tcg_unit_110",
       "name": "Crypt - Digital Trading Card #110",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "110",
@@ -958,14 +958,14 @@
       "id": "tcg_unit_1048",
       "name": "Crypt - Digital Trading Card #1048",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 4,
-        "speed": 4,
-        "armor": 0
+        "armor": 0,
+        "speed": 4
       },
       "keywords": [],
       "sourceTokenId": "1048",
@@ -987,14 +987,14 @@
       "id": "tcg_unit_105",
       "name": "Crypt - Digital Trading Card #105",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "GUARD"
@@ -1018,14 +1018,14 @@
       "id": "tcg_unit_1073",
       "name": "Crypt - Digital Trading Card #1073",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 3,
-        "armor": 3
+        "armor": 3,
+        "speed": 3
       },
       "keywords": [
         "RUSH",
@@ -1050,14 +1050,14 @@
       "id": "tcg_unit_1141",
       "name": "Crypt - Digital Trading Card #1141",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 4,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -1081,14 +1081,14 @@
       "id": "tcg_unit_118",
       "name": "Crypt - Digital Trading Card #118",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "118",
@@ -1110,14 +1110,14 @@
       "id": "tcg_unit_1281",
       "name": "Crypt - Digital Trading Card #1281",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 4,
-        "armor": 2
+        "armor": 2,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -1141,14 +1141,14 @@
       "id": "tcg_unit_1318",
       "name": "Crypt - Digital Trading Card #1318",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -1172,14 +1172,14 @@
       "id": "tcg_unit_1343",
       "name": "Crypt - Digital Trading Card #1343",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "CRUSH",
@@ -1204,14 +1204,14 @@
       "id": "tcg_unit_1346",
       "name": "Crypt - Digital Trading Card #1346",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -1235,14 +1235,14 @@
       "id": "tcg_unit_1354",
       "name": "Crypt - Digital Trading Card #1354",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -1266,14 +1266,14 @@
       "id": "tcg_unit_1359",
       "name": "Crypt - Digital Trading Card #1359",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "GUARD"
@@ -1297,14 +1297,14 @@
       "id": "tcg_unit_1371",
       "name": "Crypt - Digital Trading Card #1371",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -1328,14 +1328,14 @@
       "id": "tcg_unit_14",
       "name": "Crypt - Digital Trading Card #14",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 5,
-        "armor": 2
+        "armor": 2,
+        "speed": 5
       },
       "keywords": [
         "RUSH"
@@ -1359,14 +1359,14 @@
       "id": "tcg_unit_1412",
       "name": "Crypt - Digital Trading Card #1412",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 4,
-        "armor": 2
+        "armor": 2,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -1390,14 +1390,14 @@
       "id": "tcg_unit_143",
       "name": "Crypt - Digital Trading Card #143",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [
         "CRUSH",
@@ -1422,14 +1422,14 @@
       "id": "tcg_unit_1435",
       "name": "Crypt - Digital Trading Card #1435",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1435",
@@ -1451,14 +1451,14 @@
       "id": "tcg_unit_1004",
       "name": "Crypt - Digital Trading Card #1004",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -1482,14 +1482,14 @@
       "id": "tcg_unit_1016",
       "name": "Crypt - Digital Trading Card #1016",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "RUSH"
@@ -1513,14 +1513,14 @@
       "id": "tcg_unit_1059",
       "name": "Crypt - Digital Trading Card #1059",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1059",
@@ -1542,14 +1542,14 @@
       "id": "tcg_unit_109",
       "name": "Crypt - Digital Trading Card #109",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "109",
@@ -1571,14 +1571,14 @@
       "id": "tcg_unit_1125",
       "name": "Crypt - Digital Trading Card #1125",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -1602,14 +1602,14 @@
       "id": "tcg_unit_1126",
       "name": "Crypt - Digital Trading Card #1126",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 7,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -1633,14 +1633,14 @@
       "id": "tcg_unit_1199",
       "name": "Crypt - Digital Trading Card #1199",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -1664,14 +1664,14 @@
       "id": "tcg_unit_1279",
       "name": "Crypt - Digital Trading Card #1279",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1279",
@@ -1693,14 +1693,14 @@
       "id": "tcg_unit_1316",
       "name": "Crypt - Digital Trading Card #1316",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -1724,14 +1724,14 @@
       "id": "tcg_unit_1350",
       "name": "Crypt - Digital Trading Card #1350",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1350",
@@ -1753,14 +1753,14 @@
       "id": "tcg_unit_1460",
       "name": "Crypt - Digital Trading Card #1460",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 6,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1460",
@@ -1782,14 +1782,14 @@
       "id": "tcg_unit_1468",
       "name": "Crypt - Digital Trading Card #1468",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 4,
-        "speed": 4,
-        "armor": 0
+        "armor": 0,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -1813,14 +1813,14 @@
       "id": "tcg_unit_1471",
       "name": "Crypt - Digital Trading Card #1471",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1471",
@@ -1842,14 +1842,14 @@
       "id": "tcg_unit_1472",
       "name": "Crypt - Digital Trading Card #1472",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1472",
@@ -1871,14 +1871,14 @@
       "id": "tcg_unit_1477",
       "name": "Crypt - Digital Trading Card #1477",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "GUARD"
@@ -1902,14 +1902,14 @@
       "id": "tcg_unit_1502",
       "name": "Crypt - Digital Trading Card #1502",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 4,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -1933,14 +1933,14 @@
       "id": "tcg_unit_100",
       "name": "Crypt - Digital Trading Card #100",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [],
       "sourceTokenId": "100",
@@ -1962,14 +1962,14 @@
       "id": "tcg_unit_123",
       "name": "Crypt - Digital Trading Card #123",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 7,
-        "speed": 3,
-        "armor": 3
+        "armor": 3,
+        "speed": 3
       },
       "keywords": [
         "RUSH",
@@ -1994,14 +1994,14 @@
       "id": "tcg_unit_1243",
       "name": "Crypt - Digital Trading Card #1243",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 4,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -2025,14 +2025,14 @@
       "id": "tcg_unit_1330",
       "name": "Crypt - Digital Trading Card #1330",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 4,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -2056,14 +2056,14 @@
       "id": "tcg_unit_1414",
       "name": "Crypt - Digital Trading Card #1414",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -2087,14 +2087,14 @@
       "id": "tcg_unit_1495",
       "name": "Crypt - Digital Trading Card #1495",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1495",
@@ -2116,14 +2116,14 @@
       "id": "tcg_unit_1517",
       "name": "Crypt - Digital Trading Card #1517",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1517",
@@ -2145,14 +2145,14 @@
       "id": "tcg_unit_1933",
       "name": "Crypt - Digital Trading Card #1933",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -2176,14 +2176,14 @@
       "id": "tcg_unit_2083",
       "name": "Crypt - Digital Trading Card #2083",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "2083",
@@ -2205,14 +2205,14 @@
       "id": "tcg_unit_2124",
       "name": "Crypt - Digital Trading Card #2124",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "2124",
@@ -2234,14 +2234,14 @@
       "id": "tcg_unit_2245",
       "name": "Crypt - Digital Trading Card #2245",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 6,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "2245",
@@ -2263,14 +2263,14 @@
       "id": "tcg_unit_2250",
       "name": "Crypt - Digital Trading Card #2250",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "2250",
@@ -2292,14 +2292,14 @@
       "id": "tcg_unit_2268",
       "name": "Crypt - Digital Trading Card #2268",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -2323,14 +2323,14 @@
       "id": "tcg_unit_2283",
       "name": "Crypt - Digital Trading Card #2283",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH",
@@ -2355,14 +2355,14 @@
       "id": "tcg_unit_271",
       "name": "Crypt - Digital Trading Card #271",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 4,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -2386,14 +2386,14 @@
       "id": "tcg_unit_275",
       "name": "Crypt - Digital Trading Card #275",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "275",
@@ -2415,14 +2415,14 @@
       "id": "tcg_unit_1519",
       "name": "Anubis",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1519",
@@ -2437,14 +2437,14 @@
       "id": "tcg_unit_1535",
       "name": "Hades",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1535",
@@ -2459,14 +2459,14 @@
       "id": "tcg_unit_3500",
       "name": "Vishnu",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "3500",
@@ -2481,14 +2481,14 @@
       "id": "tcg_unit_4326",
       "name": "Loki",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "4326",
@@ -2505,7 +2505,7 @@
       "id": "tcg_eq_1",
       "name": "Crypt - Digital Trading Card #1",
       "type": "equipment",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2536,7 +2536,7 @@
       "id": "tcg_eq_1041",
       "name": "Crypt - Digital Trading Card #1041",
       "type": "equipment",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2565,7 +2565,7 @@
       "id": "tcg_eq_1055",
       "name": "Crypt - Digital Trading Card #1055",
       "type": "equipment",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2594,7 +2594,7 @@
       "id": "tcg_eq_1069",
       "name": "Crypt - Digital Trading Card #1069",
       "type": "equipment",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2623,7 +2623,7 @@
       "id": "tcg_eq_1076",
       "name": "Crypt - Digital Trading Card #1076",
       "type": "equipment",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2654,7 +2654,7 @@
       "id": "tcg_eq_1096",
       "name": "Crypt - Digital Trading Card #1096",
       "type": "equipment",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2683,7 +2683,7 @@
       "id": "tcg_eq_1053",
       "name": "Crypt - Digital Trading Card #1053",
       "type": "equipment",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2714,7 +2714,7 @@
       "id": "tcg_eq_1089",
       "name": "Crypt - Digital Trading Card #1089",
       "type": "equipment",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2743,7 +2743,7 @@
       "id": "tcg_eq_1091",
       "name": "Crypt - Digital Trading Card #1091",
       "type": "equipment",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2772,7 +2772,7 @@
       "id": "tcg_eq_1010",
       "name": "Crypt - Digital Trading Card #1010",
       "type": "equipment",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2801,7 +2801,7 @@
       "id": "tcg_eq_1043",
       "name": "Crypt - Digital Trading Card #1043",
       "type": "equipment",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2830,7 +2830,7 @@
       "id": "tcg_eq_106",
       "name": "Crypt - Digital Trading Card #106",
       "type": "equipment",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2861,7 +2861,7 @@
       "id": "tcg_eq_1557",
       "name": "Crypt - Digital Trading Card #1557",
       "type": "equipment",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2890,7 +2890,7 @@
       "id": "tcg_eq_1562",
       "name": "Crypt - Digital Trading Card #1562",
       "type": "equipment",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2919,7 +2919,7 @@
       "id": "tcg_eq_1828",
       "name": "Crypt - Digital Trading Card #1828",
       "type": "equipment",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -2950,7 +2950,7 @@
       "id": "tcg_art_3536",
       "name": "Crypt - Digital Trading Card #3536",
       "type": "artifact",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -2977,7 +2977,7 @@
       "id": "tcg_art_3580",
       "name": "Crypt - Digital Trading Card #3580",
       "type": "artifact",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3004,7 +3004,7 @@
       "id": "tcg_art_4020",
       "name": "Crypt - Digital Trading Card #4020",
       "type": "artifact",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3031,7 +3031,7 @@
       "id": "tcg_art_4309",
       "name": "Crypt - Digital Trading Card #4309",
       "type": "artifact",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3058,7 +3058,7 @@
       "id": "tcg_art_3418",
       "name": "Crypt - Digital Trading Card #3418",
       "type": "artifact",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3085,7 +3085,7 @@
       "id": "tcg_art_3609",
       "name": "Crypt - Digital Trading Card #3609",
       "type": "artifact",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3112,7 +3112,7 @@
       "id": "tcg_art_6121",
       "name": "Crypt - Digital Trading Card #6121",
       "type": "artifact",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3139,7 +3139,7 @@
       "id": "tcg_art_6176",
       "name": "Crypt - Digital Trading Card #6176",
       "type": "artifact",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3166,7 +3166,7 @@
       "id": "tcg_art_4584",
       "name": "Crypt - Digital Trading Card #4584",
       "type": "artifact",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -3195,14 +3195,14 @@
       "id": "tcg_unit_1017",
       "name": "Crypt - Digital Trading Card #1017",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 6,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1017",
@@ -3224,14 +3224,14 @@
       "id": "tcg_unit_1026",
       "name": "Crypt - Digital Trading Card #1026",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1026",
@@ -3253,14 +3253,14 @@
       "id": "tcg_unit_1029",
       "name": "Crypt - Digital Trading Card #1029",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1029",
@@ -3282,14 +3282,14 @@
       "id": "tcg_unit_1030",
       "name": "Crypt - Digital Trading Card #1030",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1030",
@@ -3311,14 +3311,14 @@
       "id": "tcg_unit_1031",
       "name": "Crypt - Digital Trading Card #1031",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 5,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [],
       "sourceTokenId": "1031",
@@ -3340,14 +3340,14 @@
       "id": "tcg_unit_1032",
       "name": "Crypt - Digital Trading Card #1032",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1032",
@@ -3369,14 +3369,14 @@
       "id": "tcg_unit_1033",
       "name": "Crypt - Digital Trading Card #1033",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1033",
@@ -3398,14 +3398,14 @@
       "id": "tcg_unit_1035",
       "name": "Crypt - Digital Trading Card #1035",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1035",
@@ -3427,14 +3427,14 @@
       "id": "tcg_unit_1038",
       "name": "Crypt - Digital Trading Card #1038",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -3458,14 +3458,14 @@
       "id": "tcg_unit_1054",
       "name": "Crypt - Digital Trading Card #1054",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "RUSH"
@@ -3489,14 +3489,14 @@
       "id": "tcg_unit_1060",
       "name": "Crypt - Digital Trading Card #1060",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1060",
@@ -3518,14 +3518,14 @@
       "id": "tcg_unit_1063",
       "name": "Crypt - Digital Trading Card #1063",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1063",
@@ -3547,14 +3547,14 @@
       "id": "tcg_unit_1081",
       "name": "Crypt - Digital Trading Card #1081",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -3578,14 +3578,14 @@
       "id": "tcg_unit_1113",
       "name": "Crypt - Digital Trading Card #1113",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1113",
@@ -3607,14 +3607,14 @@
       "id": "tcg_unit_1118",
       "name": "Crypt - Digital Trading Card #1118",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 5,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [],
       "sourceTokenId": "1118",
@@ -3636,14 +3636,14 @@
       "id": "tcg_unit_1127",
       "name": "Crypt - Digital Trading Card #1127",
       "type": "unit",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1127",
@@ -3665,14 +3665,14 @@
       "id": "tcg_unit_1003",
       "name": "Crypt - Digital Trading Card #1003",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 7,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -3696,14 +3696,14 @@
       "id": "tcg_unit_1013",
       "name": "Crypt - Digital Trading Card #1013",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 4,
-        "armor": 2
+        "armor": 2,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -3727,14 +3727,14 @@
       "id": "tcg_unit_1020",
       "name": "Crypt - Digital Trading Card #1020",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1020",
@@ -3756,14 +3756,14 @@
       "id": "tcg_unit_1024",
       "name": "Crypt - Digital Trading Card #1024",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 6,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1024",
@@ -3785,14 +3785,14 @@
       "id": "tcg_unit_1036",
       "name": "Crypt - Digital Trading Card #1036",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "RUSH"
@@ -3816,14 +3816,14 @@
       "id": "tcg_unit_1047",
       "name": "Crypt - Digital Trading Card #1047",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1047",
@@ -3845,14 +3845,14 @@
       "id": "tcg_unit_1049",
       "name": "Crypt - Digital Trading Card #1049",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "RUSH",
@@ -3877,14 +3877,14 @@
       "id": "tcg_unit_1052",
       "name": "Crypt - Digital Trading Card #1052",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "CRUSH",
@@ -3909,14 +3909,14 @@
       "id": "tcg_unit_1057",
       "name": "Crypt - Digital Trading Card #1057",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -3940,14 +3940,14 @@
       "id": "tcg_unit_1068",
       "name": "Crypt - Digital Trading Card #1068",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 5,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -3971,14 +3971,14 @@
       "id": "tcg_unit_1070",
       "name": "Crypt - Digital Trading Card #1070",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1070",
@@ -4000,14 +4000,14 @@
       "id": "tcg_unit_1078",
       "name": "Crypt - Digital Trading Card #1078",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -4031,14 +4031,14 @@
       "id": "tcg_unit_108",
       "name": "Crypt - Digital Trading Card #108",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "108",
@@ -4060,14 +4060,14 @@
       "id": "tcg_unit_1083",
       "name": "Crypt - Digital Trading Card #1083",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1083",
@@ -4089,14 +4089,14 @@
       "id": "tcg_unit_1084",
       "name": "Crypt - Digital Trading Card #1084",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -4120,14 +4120,14 @@
       "id": "tcg_unit_110",
       "name": "Crypt - Digital Trading Card #110",
       "type": "unit",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "110",
@@ -4149,14 +4149,14 @@
       "id": "tcg_unit_1048",
       "name": "Crypt - Digital Trading Card #1048",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 4,
-        "speed": 4,
-        "armor": 0
+        "armor": 0,
+        "speed": 4
       },
       "keywords": [],
       "sourceTokenId": "1048",
@@ -4178,14 +4178,14 @@
       "id": "tcg_unit_105",
       "name": "Crypt - Digital Trading Card #105",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "GUARD"
@@ -4209,14 +4209,14 @@
       "id": "tcg_unit_1073",
       "name": "Crypt - Digital Trading Card #1073",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 3,
-        "armor": 3
+        "armor": 3,
+        "speed": 3
       },
       "keywords": [
         "RUSH",
@@ -4241,14 +4241,14 @@
       "id": "tcg_unit_1141",
       "name": "Crypt - Digital Trading Card #1141",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 4,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -4272,14 +4272,14 @@
       "id": "tcg_unit_118",
       "name": "Crypt - Digital Trading Card #118",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "118",
@@ -4301,14 +4301,14 @@
       "id": "tcg_unit_1281",
       "name": "Crypt - Digital Trading Card #1281",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 4,
-        "armor": 2
+        "armor": 2,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -4332,14 +4332,14 @@
       "id": "tcg_unit_1318",
       "name": "Crypt - Digital Trading Card #1318",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -4363,14 +4363,14 @@
       "id": "tcg_unit_1343",
       "name": "Crypt - Digital Trading Card #1343",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "CRUSH",
@@ -4395,14 +4395,14 @@
       "id": "tcg_unit_1346",
       "name": "Crypt - Digital Trading Card #1346",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -4426,14 +4426,14 @@
       "id": "tcg_unit_1354",
       "name": "Crypt - Digital Trading Card #1354",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -4457,14 +4457,14 @@
       "id": "tcg_unit_1359",
       "name": "Crypt - Digital Trading Card #1359",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 2,
-        "armor": 3
+        "armor": 3,
+        "speed": 2
       },
       "keywords": [
         "GUARD"
@@ -4488,14 +4488,14 @@
       "id": "tcg_unit_1371",
       "name": "Crypt - Digital Trading Card #1371",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -4519,14 +4519,14 @@
       "id": "tcg_unit_14",
       "name": "Crypt - Digital Trading Card #14",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 5,
-        "armor": 2
+        "armor": 2,
+        "speed": 5
       },
       "keywords": [
         "RUSH"
@@ -4550,14 +4550,14 @@
       "id": "tcg_unit_1412",
       "name": "Crypt - Digital Trading Card #1412",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 4,
-        "armor": 2
+        "armor": 2,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -4581,14 +4581,14 @@
       "id": "tcg_unit_143",
       "name": "Crypt - Digital Trading Card #143",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [
         "CRUSH",
@@ -4613,14 +4613,14 @@
       "id": "tcg_unit_1435",
       "name": "Crypt - Digital Trading Card #1435",
       "type": "unit",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1435",
@@ -4642,14 +4642,14 @@
       "id": "tcg_unit_1004",
       "name": "Crypt - Digital Trading Card #1004",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -4673,14 +4673,14 @@
       "id": "tcg_unit_1016",
       "name": "Crypt - Digital Trading Card #1016",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "RUSH"
@@ -4704,14 +4704,14 @@
       "id": "tcg_unit_1059",
       "name": "Crypt - Digital Trading Card #1059",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1059",
@@ -4733,14 +4733,14 @@
       "id": "tcg_unit_109",
       "name": "Crypt - Digital Trading Card #109",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 7,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "109",
@@ -4762,14 +4762,14 @@
       "id": "tcg_unit_1125",
       "name": "Crypt - Digital Trading Card #1125",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -4793,14 +4793,14 @@
       "id": "tcg_unit_1126",
       "name": "Crypt - Digital Trading Card #1126",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 7,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -4824,14 +4824,14 @@
       "id": "tcg_unit_1199",
       "name": "Crypt - Digital Trading Card #1199",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 6,
-        "speed": 1,
-        "armor": 3
+        "armor": 3,
+        "speed": 1
       },
       "keywords": [
         "GUARD"
@@ -4855,14 +4855,14 @@
       "id": "tcg_unit_1279",
       "name": "Crypt - Digital Trading Card #1279",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1279",
@@ -4884,14 +4884,14 @@
       "id": "tcg_unit_1316",
       "name": "Crypt - Digital Trading Card #1316",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -4915,14 +4915,14 @@
       "id": "tcg_unit_1350",
       "name": "Crypt - Digital Trading Card #1350",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 6,
-        "speed": 1,
-        "armor": 2
+        "armor": 2,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1350",
@@ -4944,14 +4944,14 @@
       "id": "tcg_unit_1460",
       "name": "Crypt - Digital Trading Card #1460",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 6,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1460",
@@ -4973,14 +4973,14 @@
       "id": "tcg_unit_1468",
       "name": "Crypt - Digital Trading Card #1468",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 4,
-        "speed": 4,
-        "armor": 0
+        "armor": 0,
+        "speed": 4
       },
       "keywords": [
         "RUSH"
@@ -5004,14 +5004,14 @@
       "id": "tcg_unit_1471",
       "name": "Crypt - Digital Trading Card #1471",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1471",
@@ -5033,14 +5033,14 @@
       "id": "tcg_unit_1472",
       "name": "Crypt - Digital Trading Card #1472",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1472",
@@ -5062,14 +5062,14 @@
       "id": "tcg_unit_1477",
       "name": "Crypt - Digital Trading Card #1477",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "GUARD"
@@ -5093,14 +5093,14 @@
       "id": "tcg_unit_1502",
       "name": "Crypt - Digital Trading Card #1502",
       "type": "unit",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 4,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -5124,14 +5124,14 @@
       "id": "tcg_unit_100",
       "name": "Crypt - Digital Trading Card #100",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 4,
         "health": 5,
-        "speed": 3,
-        "armor": 2
+        "armor": 2,
+        "speed": 3
       },
       "keywords": [],
       "sourceTokenId": "100",
@@ -5153,14 +5153,14 @@
       "id": "tcg_unit_123",
       "name": "Crypt - Digital Trading Card #123",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 7,
-        "speed": 3,
-        "armor": 3
+        "armor": 3,
+        "speed": 3
       },
       "keywords": [
         "RUSH",
@@ -5185,14 +5185,14 @@
       "id": "tcg_unit_1243",
       "name": "Crypt - Digital Trading Card #1243",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 4,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -5216,14 +5216,14 @@
       "id": "tcg_unit_1330",
       "name": "Crypt - Digital Trading Card #1330",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 4,
-        "speed": 3,
-        "armor": 0
+        "armor": 0,
+        "speed": 3
       },
       "keywords": [
         "RUSH"
@@ -5247,14 +5247,14 @@
       "id": "tcg_unit_1414",
       "name": "Crypt - Digital Trading Card #1414",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [
         "CRUSH"
@@ -5278,14 +5278,14 @@
       "id": "tcg_unit_1495",
       "name": "Crypt - Digital Trading Card #1495",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1495",
@@ -5307,14 +5307,14 @@
       "id": "tcg_unit_1517",
       "name": "Crypt - Digital Trading Card #1517",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "1517",
@@ -5336,14 +5336,14 @@
       "id": "tcg_unit_1933",
       "name": "Crypt - Digital Trading Card #1933",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -5367,14 +5367,14 @@
       "id": "tcg_unit_2083",
       "name": "Crypt - Digital Trading Card #2083",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 5,
         "health": 5,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "2083",
@@ -5396,14 +5396,14 @@
       "id": "tcg_unit_2124",
       "name": "Crypt - Digital Trading Card #2124",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "2124",
@@ -5425,14 +5425,14 @@
       "id": "tcg_unit_2245",
       "name": "Crypt - Digital Trading Card #2245",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 6,
         "health": 6,
-        "speed": 2,
-        "armor": 2
+        "armor": 2,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "2245",
@@ -5454,14 +5454,14 @@
       "id": "tcg_unit_2250",
       "name": "Crypt - Digital Trading Card #2250",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 5,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "2250",
@@ -5483,14 +5483,14 @@
       "id": "tcg_unit_2268",
       "name": "Crypt - Digital Trading Card #2268",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -5514,14 +5514,14 @@
       "id": "tcg_unit_2283",
       "name": "Crypt - Digital Trading Card #2283",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH",
@@ -5546,14 +5546,14 @@
       "id": "tcg_unit_271",
       "name": "Crypt - Digital Trading Card #271",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 8,
         "health": 4,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [
         "CRUSH"
@@ -5577,14 +5577,14 @@
       "id": "tcg_unit_275",
       "name": "Crypt - Digital Trading Card #275",
       "type": "unit",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "stats": {
         "attack": 7,
         "health": 5,
-        "speed": 2,
-        "armor": 0
+        "armor": 0,
+        "speed": 2
       },
       "keywords": [],
       "sourceTokenId": "275",
@@ -5606,14 +5606,14 @@
       "id": "tcg_unit_1519",
       "name": "Anubis",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1519",
@@ -5628,14 +5628,14 @@
       "id": "tcg_unit_1535",
       "name": "Hades",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "1535",
@@ -5650,14 +5650,14 @@
       "id": "tcg_unit_3500",
       "name": "Vishnu",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "3500",
@@ -5672,14 +5672,14 @@
       "id": "tcg_unit_4326",
       "name": "Loki",
       "type": "unit",
-      "faction": "GOD",
+      "faction": "GODS",
       "rarity": "god",
-      "cost": 7,
+      "cost": 8,
       "stats": {
         "attack": 12,
         "health": 17,
-        "speed": 1,
-        "armor": 0
+        "armor": 0,
+        "speed": 1
       },
       "keywords": [],
       "sourceTokenId": "4326",
@@ -5694,7 +5694,7 @@
       "id": "tcg_eq_1",
       "name": "Crypt - Digital Trading Card #1",
       "type": "equipment",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5725,7 +5725,7 @@
       "id": "tcg_eq_1041",
       "name": "Crypt - Digital Trading Card #1041",
       "type": "equipment",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5754,7 +5754,7 @@
       "id": "tcg_eq_1055",
       "name": "Crypt - Digital Trading Card #1055",
       "type": "equipment",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5783,7 +5783,7 @@
       "id": "tcg_eq_1069",
       "name": "Crypt - Digital Trading Card #1069",
       "type": "equipment",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5812,7 +5812,7 @@
       "id": "tcg_eq_1076",
       "name": "Crypt - Digital Trading Card #1076",
       "type": "equipment",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5843,7 +5843,7 @@
       "id": "tcg_eq_1096",
       "name": "Crypt - Digital Trading Card #1096",
       "type": "equipment",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5872,7 +5872,7 @@
       "id": "tcg_eq_1053",
       "name": "Crypt - Digital Trading Card #1053",
       "type": "equipment",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5903,7 +5903,7 @@
       "id": "tcg_eq_1089",
       "name": "Crypt - Digital Trading Card #1089",
       "type": "equipment",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5932,7 +5932,7 @@
       "id": "tcg_eq_1091",
       "name": "Crypt - Digital Trading Card #1091",
       "type": "equipment",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5961,7 +5961,7 @@
       "id": "tcg_eq_1010",
       "name": "Crypt - Digital Trading Card #1010",
       "type": "equipment",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -5990,7 +5990,7 @@
       "id": "tcg_eq_1043",
       "name": "Crypt - Digital Trading Card #1043",
       "type": "equipment",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -6019,7 +6019,7 @@
       "id": "tcg_eq_106",
       "name": "Crypt - Digital Trading Card #106",
       "type": "equipment",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -6050,7 +6050,7 @@
       "id": "tcg_eq_1557",
       "name": "Crypt - Digital Trading Card #1557",
       "type": "equipment",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -6079,7 +6079,7 @@
       "id": "tcg_eq_1562",
       "name": "Crypt - Digital Trading Card #1562",
       "type": "equipment",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -6108,7 +6108,7 @@
       "id": "tcg_eq_1828",
       "name": "Crypt - Digital Trading Card #1828",
       "type": "equipment",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "bonuses": {
@@ -6137,7 +6137,7 @@
       "id": "tcg_art_3536",
       "name": "Crypt - Digital Trading Card #3536",
       "type": "artifact",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6164,7 +6164,7 @@
       "id": "tcg_art_3580",
       "name": "Crypt - Digital Trading Card #3580",
       "type": "artifact",
-      "faction": "STONE",
+      "faction": "STONE_KEEPERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6191,7 +6191,7 @@
       "id": "tcg_art_4020",
       "name": "Crypt - Digital Trading Card #4020",
       "type": "artifact",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6218,7 +6218,7 @@
       "id": "tcg_art_4309",
       "name": "Crypt - Digital Trading Card #4309",
       "type": "artifact",
-      "faction": "IRON",
+      "faction": "IRON_DEFENDERS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6245,7 +6245,7 @@
       "id": "tcg_art_3418",
       "name": "Crypt - Digital Trading Card #3418",
       "type": "artifact",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6272,7 +6272,7 @@
       "id": "tcg_art_3609",
       "name": "Crypt - Digital Trading Card #3609",
       "type": "artifact",
-      "faction": "BRONZE",
+      "faction": "BRONZE_GUARDIANS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6299,7 +6299,7 @@
       "id": "tcg_art_6121",
       "name": "Crypt - Digital Trading Card #6121",
       "type": "artifact",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6326,7 +6326,7 @@
       "id": "tcg_art_6176",
       "name": "Crypt - Digital Trading Card #6176",
       "type": "artifact",
-      "faction": "SILVER",
+      "faction": "SILVER_SENTINELS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
@@ -6353,7 +6353,7 @@
       "id": "tcg_art_4584",
       "name": "Crypt - Digital Trading Card #4584",
       "type": "artifact",
-      "faction": "GOLD",
+      "faction": "GOLDEN_SOVEREIGNS",
       "rarity": "common",
       "cost": 2,
       "effectTags": [
