@@ -49,6 +49,8 @@ const commands = [
   "npm run dev:secret",
   "npm run dev:faction-identity",
   "npm run dev:server-persistence",
+  "npm run dev:seeded-random",
+  "npm run dev:expanded-spells",
 ];
 
 let failed = false;

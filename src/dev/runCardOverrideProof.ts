@@ -52,13 +52,15 @@ console.log(`\n=== CARD OVERRIDE PROOF (version ${CARD_OVERRIDES_VERSION}) ===`)
     allPlayableCards.length === baseCount,
     { catalog: allPlayableCards.length, raw: (runtimeMatchPlayableCards as unknown[]).length, liveSpells: liveSpells.length }
   );
-  // Pin the live SPELL archetype size: the 6 original value/deck-manip spells PLUS
-  // the 4 DISCOVER spells (spell_scout / spell_archive / spell_salvage /
-  // spell_grand_survey). If a spell is added/removed this must be updated in lockstep
-  // with the catalog count above.
+  // Pin the live SPELL archetype size: the 6 original value/deck-manip spells, the
+  // 4 DISCOVER spells (spell_scout / spell_archive / spell_salvage /
+  // spell_grand_survey), PLUS the 2026.05.31 content-expansion batch (14 more:
+  // meditate/fortify/swell/warhorn/bulwark/exhume/revenant_call/necrocall/reinforce/
+  // twin_rites/divine + cull/scour/banish) = 24 total. If a spell is added/removed
+  // this must be updated in lockstep with the catalog count above.
   check(
-    "liveSpells length is 10 (6 value/deck-manip + 4 discover)",
-    liveSpells.length === 10,
+    "liveSpells length is 24 (10 original + 14 content-expansion)",
+    liveSpells.length === 24,
     liveSpells.length
   );
   // ZERO duplicate ids across the ENTIRE catalog (raw tuples + live spells). A

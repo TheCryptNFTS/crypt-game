@@ -48,6 +48,7 @@ export type EffectOp =
   | "DAMAGE_LANE" // on-summon: sweep every enemy unit in one enemy lane (densest by default) — makes lane PLACEMENT matter
   | "COPY_UNIT" // on-summon: copy a target unit's stats/keywords/abilities onto self
   | "RESURRECT" // graveyard: resummon a dead friendly unit onto the controller's board
+  | "RESURRECT_RANDOM" // graveyard: resummon a SEEDED-RANDOM dead friendly unit onto the controller's board
   | "RETURN_FROM_GRAVE" // graveyard: return a dead friendly unit's card to the controller's hand
   | "AURA_FACTION_STAT" // continuous: "Other <Faction> gain +X/+Y while this is in play"
   | "AURA_ALLY_STAT" // continuous: "[other] allied units gain +X/+Y while this is in play" (non-faction)
@@ -132,6 +133,19 @@ export interface EffectSpec {
    *   - HIGHEST_COST     — the highest-cost enemy unit (tie-break: board index).
    *   - RANDOM_COST_GATE — highest-cost enemy whose cost <= the source's attack. */
   selector?: "HIGHEST_COST" | "RANDOM_COST_GATE" | "ATTACK_GATE";
+  /** DESTROY_ENEMY_SELECT / RESURRECT_AS_TOKEN: when true, resolve the choice
+   *  among the eligible pool with the match's SEEDED rng (state.seed + rngCursor)
+   *  instead of the deterministic first-seen pick. The randomness only breaks
+   *  TIES within the top-priority tier (highest-cost eligible victims / the
+   *  graveyard); a singleton tier is still a deterministic, zero-draw pick, so a
+   *  card whose pool has a unique winner behaves byte-identically to the
+   *  non-random path. Used to honor printed "random" text without breaking
+   *  determinism (identical seeds -> identical picks; replay-safe via rngCursor). */
+  random?: boolean;
+  /** DEBUFF_ENEMY: when true the attack reduction is TEMPORARY ("until the end of
+   *  the turn" / "this turn") — recorded in the target's tempAtkDebuff so the
+   *  reducer's turn-end hook restores it. Default (false) is a permanent debuff. */
+  temporary?: boolean;
   /** RESURRECT_AS_TOKEN: stamp this keyword onto the revived 1/1 token. */
   reviveKeyword?: string;
   /** TUTOR_FROM_DECK: how the searched card is chosen, deterministically. The pick
@@ -819,7 +833,13 @@ function compileKeyword(kw: string, full: string, clauseText: string): EffectSpe
       // "At the end of [each|your] turn, ..." Decay is a DIFFERENT mechanic
       // (self HP loss / adjacent AoE), not the on-hit attack debuff. Don't
       // misfire it on attack.
-      if (/end of (?:each|your|the)?\s*turn/i.test(full)) {
+      //   GUARD: "until the end of the turn" is a DURATION modifier on a debuff
+      //   (e.g. Scribe's "reduce the target's attack by 1 until the end of the
+      //   turn"), NOT an end-of-turn trigger. Treat it as the on-hit DEBUFF path
+      //   below, never as EOT self-decay. So only enter the EOT branch when the
+      //   "end of turn" phrase is NOT preceded by "until".
+      const isEotTrigger = /end of (?:each|your|the)?\s*turn/i.test(full) && !/until\s+(?:the\s+)?end of (?:each|your|the)?\s*turn/i.test(full);
+      if (isEotTrigger) {
         // Self-decay we can resolve deterministically with no targeting:
         //   "this unit loses N health [and gains +X attack]".
         const lose = full.match(/loses?\s+(\d+)\s*health/i);
@@ -845,7 +865,10 @@ function compileKeyword(kw: string, full: string, clauseText: string): EffectSpe
         return [{ trigger: "PASSIVE", op: "GLOBAL_UNPARSED", raw: clauseText }];
       }
       const d = full.match(DECAY_RE);
-      return [{ trigger: "ON_ATTACK", op: "DEBUFF_ENEMY", amount: d ? +d[1] : 1, raw: clauseText }];
+      // "until the end of the turn" -> a TEMPORARY attack reduction the reducer
+      // restores at end of turn (recorded via tempAtkDebuff), vs a permanent one.
+      const temporary = /until\s+(?:the\s+)?end of (?:each|your|the)?\s*turn|this turn/i.test(full);
+      return [{ trigger: "ON_ATTACK", op: "DEBUFF_ENEMY", amount: d ? +d[1] : 1, temporary, raw: clauseText }];
     }
     case "fear": {
       const c = full.match(COST_THRESHOLD_RE);
@@ -1089,10 +1112,15 @@ function parseNamedMechanics(text: string): EffectSpec[] {
   //    "destroy ... enemy with cost <= own attack" (RANDOM_COST_GATE). Both are
   //    ON_SUMMON ("On play" / "Start of combat" both resolve as the battlecry).
   if (/\bdestroy\b/i.test(text) && /\benem/i.test(text)) {
+    // A printed "random" makes the victim a SEEDED-RANDOM pick within the highest-
+    // cost eligible tier (deterministic when that tier is a singleton — so a unique
+    // costliest enemy is still reaped exactly). This lets the engine honor the
+    // word "random" honestly without ever leaving determinism (seed -> same pick).
+    const rand = /\brandom\b/i.test(text);
     if (/cost\s*(?:≤|<=|<|or\s+(?:less|fewer))\s*(?:own|its|this unit's)?\s*attack|cost\s*(?:≤|<=)\s*own attack/i.test(text)) {
-      out.push({ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "RANDOM_COST_GATE", raw: text });
+      out.push({ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "RANDOM_COST_GATE", random: rand, raw: text });
     } else if (/highest[- ]?cost/i.test(text)) {
-      out.push({ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "HIGHEST_COST", raw: text });
+      out.push({ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "HIGHEST_COST", random: rand, raw: text });
     }
   }
 
@@ -1128,6 +1156,9 @@ function parseNamedMechanics(text: string): EffectSpec[] {
     out.push({
       trigger: trig,
       op: "RESURRECT_AS_TOKEN",
+      // "a RANDOM unit from your graveyard" -> seeded-random graveyard pick
+      // (deterministic for a single-entry grave). Default (no "random") is LIFO.
+      random: /\brandom\b/i.test(text),
       reviveKeyword: raiseToken[1].trim().toUpperCase().replace(/\s+/g, "_"),
       raw: text,
     });
@@ -1175,6 +1206,25 @@ function parseNamedMechanics(text: string): EffectSpec[] {
   // 13. AURA_ABILITY_SILENCE — "Enemy units cannot trigger abilities while on board."
   if (/enem(?:y|ies)\s+units?\s+cannot\s+trigger\s+abilit/i.test(text)) {
     out.push({ trigger: "PASSIVE", op: "AURA_ABILITY_SILENCE", raw: text });
+  }
+
+  // 14. ON_TURN_START DRAW — "Turn start: draw N card(s)" / "At the start of your
+  //     turn, draw N." The controller draws from the TOP of their own deck (the
+  //     reducer fires ON_TURN_START for the beginning player's units). Pure card
+  //     advantage; no targeting, no burn. Hokusai pairs this with AURA_SPELL_COST.
+  const turnStartDraw = text.match(/(?:turn\s+start|start\s+of\s+(?:your|each|the)\s+turn)\s*[:,]?\s*draw\s+(a|an|one|\d+)\b/i);
+  if (turnStartDraw) {
+    const w = turnStartDraw[1].toLowerCase();
+    const n = /^(a|an|one)$/.test(w) ? 1 : parseInt(w, 10) || 1;
+    out.push({ trigger: "ON_TURN_START", op: "DRAW", amount: n, raw: text });
+  }
+
+  // 15. ON_TURN_END "revive one" (Crypt Keeper) — a graveyard rebuild clause that
+  //     resummons a fallen unit as a 1/1 token at end of turn. Paired with the
+  //     SUMMON_ON_ANY_DEATH watcher ("place a 1/1 Wraith in your graveyard"), the
+  //     deck-stocking half. We resurrect from the controller's graveyard LIFO.
+  if (/\brevive\s+(?:one|a|an)\b/i.test(text) && /end of (?:your |each |the )?turn/i.test(text)) {
+    out.push({ trigger: "ON_TURN_END", op: "RESURRECT_AS_TOKEN", reviveKeyword: "WRAITH", random: /\brandom\b/i.test(text), raw: text });
   }
 
   // ADAPTATIONS for burn-violating cards: script ONLY the allowed clause.
@@ -1374,7 +1424,12 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
     if (RETURN_FROM_GRAVE_RE.test(text)) {
       graveSpec = { trigger: graveTrigger, op: "RETURN_FROM_GRAVE", raw: text };
     } else if (RESURRECT_RE.test(text)) {
-      graveSpec = { trigger: graveTrigger, op: "RESURRECT", raw: text };
+      // "resurrect/raise a RANDOM friendly unit from your graveyard to play" wires
+      // to the SEEDED-RANDOM resurrection (RESURRECT_RANDOM); without "random" it
+      // is the deterministic LIFO RESURRECT. A single-entry grave resolves both
+      // identically (no rng draw), so the random op never breaks determinism.
+      const op = /\brandom\b/i.test(text) ? "RESURRECT_RANDOM" : "RESURRECT";
+      graveSpec = { trigger: graveTrigger, op, raw: text };
     } else if (ON_DEATH_RE.test(text) && REGROW_RETURN_RE.test(text)) {
       // Regrow self-recursion: on death, the unit's own card returns to hand. Only
       // when the unit actually DIES (ON_DEATH) — the just-died card is the

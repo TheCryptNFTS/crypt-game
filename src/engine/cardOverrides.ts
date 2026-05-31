@@ -104,8 +104,8 @@ export const cardOverrides: Record<string, CardOverride> = {
   // Retext removes the false "random". Compiles to DESTROY_ENEMY_SELECT
   // HIGHEST_COST (ON_SUMMON) via parseNamedMechanics /highest[- ]?cost/.
   tcg_3360: {
-    ability: "Cannot be targeted by spells. On play: destroy the highest-cost enemy unit.",
-    note: "Honesty fix: removed false 'random' — engine is deterministic (highest cost, tie-break board order). Compiles to DESTROY_ENEMY_SELECT selector:HIGHEST_COST.",
+    ability: "Cannot be targeted by spells. On play: destroy a random highest-cost enemy unit.",
+    note: "Honesty fix: 'random' is now WIRED — DESTROY_ENEMY_SELECT selector:HIGHEST_COST with random:true picks a SEEDED-RANDOM victim among the highest-cost tier (deterministic when that tier is a singleton; identical seeds -> identical pick). Was a deterministic-only retext.",
   },
 
   // tcg_3395 "Skeletor": printed "raise a RANDOM unit from graveyard" but the
@@ -113,8 +113,8 @@ export const cardOverrides: Record<string, CardOverride> = {
   // LIFO. Compiles to RESURRECT_AS_TOKEN ON_TURN_END via parseNamedMechanics
   // raiseToken regex ("raise...graveyard...as a 1/1 Wraith") + EOT check.
   tcg_3395: {
-    ability: "End of your turn: raise the most recently fallen unit from your graveyard as a 1/1 Wraith.",
-    note: "Honesty fix: removed false 'random' — engine pops graveyard LIFO. Compiles to RESURRECT_AS_TOKEN ON_TURN_END.",
+    ability: "End of your turn: raise a random unit from your graveyard as a 1/1 Wraith.",
+    note: "Honesty fix: 'random' is now WIRED — RESURRECT_AS_TOKEN ON_TURN_END with random:true picks a SEEDED-RANDOM graveyard record (deterministic for a single-entry grave; identical seeds -> identical pick). Was a deterministic LIFO retext.",
   },
 
   // tcg_101 "D'Vile One": printed "Start of combat: destroy random enemy with
@@ -123,8 +123,8 @@ export const cardOverrides: Record<string, CardOverride> = {
   // DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE (ON_SUMMON) via
   // parseNamedMechanics cost≤own-attack regex. Rush + Flying are wired keywords.
   tcg_101: {
-    ability: "Rush, Flying. On play: destroy an enemy unit with cost ≤ own attack.",
-    note: "Honesty fix: 'Start of combat' was wrong trigger — engine fires once ON_PLAY (battlecry). Compiles to DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE ON_SUMMON.",
+    ability: "Rush, Flying. On play: destroy a random enemy unit with cost ≤ own attack.",
+    note: "Honesty fix: 'Start of combat' was the wrong trigger (engine fires once ON_PLAY) and 'random' is now WIRED — DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE with random:true picks a SEEDED-RANDOM victim among the highest-cost in-gate tier (deterministic when unique; identical seeds -> identical pick).",
   },
 
   // tcg_3420 "Walter": printed "Cannot be reduced below 1 HP by any single

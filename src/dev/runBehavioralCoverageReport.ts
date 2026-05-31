@@ -72,7 +72,21 @@ const ACTIVE_OPS = new Set<EffectOp>([
   "CLEAVE",
   "COPY_UNIT",
   "RESURRECT",
+  // SEEDED-RANDOM resurrection (state.seed + rngCursor; single-entry grave = no
+  // draw, so determinism-safe). Genuinely mutates board state on an ON_SUMMON /
+  // ON_TURN_END / ON_DEATH trigger the reducer fires.
+  "RESURRECT_RANDOM",
+  // Graveyard token-revive (Skeletor / Crypt Keeper). Fires ON_TURN_END via
+  // fireTrigger and pushes a real 1/1 token onto the board.
+  "RESURRECT_AS_TOKEN",
   "RETURN_FROM_GRAVE",
+  // Selector-driven hard removal (I Am Death / D'Vile One). Fires ON_SUMMON /
+  // ON_DAMAGE via fireTrigger and reaps a real enemy unit (never the nexus).
+  "DESTROY_ENEMY_SELECT",
+  // Board-wide on-summon mutators the reducer resolves end-to-end (Lucifer /
+  // Kiss of Death): -N atk to all enemies this turn / swap atk<->hp on all enemies.
+  "DEBUFF_ALL_ENEMIES",
+  "SWAP_STATS_ALL_ENEMIES",
   "PIERCE_ARMOR",
   "RESTRICT_ATTACK",
   "AURA_FACTION_STAT",
