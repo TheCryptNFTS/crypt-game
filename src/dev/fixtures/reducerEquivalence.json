@@ -1123,7 +1123,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -2262,7 +2263,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -3401,7 +3403,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -4540,7 +4543,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -6893,6 +6897,7 @@
                 "keywords": [],
                 "exhausted": true,
                 "summoningSick": false,
+                "attacksThisTurn": 1,
                 "stealthed": false,
                 "auraAtk": 0,
                 "auraHp": 0,
@@ -7967,7 +7972,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -8051,6 +8057,10 @@
                 "keywords": [],
                 "exhausted": true,
                 "summoningSick": false,
+                "tookDamageThisTurn": true,
+                "lastDamageTaken": 2,
+                "damageTakenThisTurn": 2,
+                "attacksThisTurn": 1,
                 "stealthed": false,
                 "auraAtk": 0,
                 "auraHp": 0,
@@ -9132,7 +9142,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -10284,7 +10295,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -12544,7 +12556,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -12661,6 +12674,7 @@
                 "auraAtk": 0,
                 "auraHp": 0,
                 "auraKeywords": [],
+                "attacksThisTurn": 1,
                 "stealthed": false
               }
             ],
@@ -13732,7 +13746,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -16039,7 +16054,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -18393,6 +18409,7 @@
                 "keywords": [],
                 "exhausted": true,
                 "summoningSick": false,
+                "attacksThisTurn": 1,
                 "stealthed": false,
                 "auraAtk": 0,
                 "auraHp": 0,
@@ -18413,6 +18430,7 @@
                 "auraAtk": 0,
                 "auraHp": 0,
                 "auraKeywords": [],
+                "attacksThisTurn": 1,
                 "stealthed": false
               }
             ],
@@ -19484,7 +19502,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -19572,6 +19591,10 @@
                 "exhausted": true,
                 "summoningSick": false,
                 "utility": 3,
+                "tookDamageThisTurn": true,
+                "lastDamageTaken": 1,
+                "damageTakenThisTurn": 1,
+                "attacksThisTurn": 1,
                 "stealthed": false,
                 "auraAtk": 0,
                 "auraHp": 0,
@@ -20147,6 +20170,9 @@
                 "keywords": [],
                 "exhausted": false,
                 "summoningSick": false,
+                "tookDamageThisTurn": true,
+                "lastDamageTaken": 4,
+                "damageTakenThisTurn": 4,
                 "auraAtk": 0,
                 "auraHp": 0,
                 "auraKeywords": []
@@ -20663,7 +20689,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -20689,7 +20716,7 @@
         "P1": {
           "id": "P1",
           "health": 30,
-          "nexusHealth": 2,
+          "nexusHealth": 5,
           "energy": 2,
           "maxEnergy": 7,
           "commanderId": "cmd_stone_warden",
@@ -20814,6 +20841,10 @@
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
                 "stealthed": false
               },
               {
@@ -20888,6 +20919,10 @@
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
                 "stealthed": false
               },
               {
@@ -21498,12 +21533,13 @@
                 "cardId": "tcg_29",
                 "lane": "front",
                 "attack": 6,
-                "health": 1,
+                "health": 3,
                 "maxHealth": 7,
                 "speed": 0,
                 "armor": 1,
                 "keywords": [
-                  "ARMORED"
+                  "ARMORED",
+                  "RUSH"
                 ],
                 "exhausted": true,
                 "summoningSick": true,
@@ -21565,13 +21601,17 @@
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
                 "stealthed": false
               },
               {
                 "instanceId": "unit_2001_4",
                 "cardId": "tcg_16",
                 "lane": "front",
-                "attack": 9,
+                "attack": 11,
                 "health": 6,
                 "maxHealth": 6,
                 "speed": 0,
@@ -21639,6 +21679,10 @@
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
                 "stealthed": false
               },
               {
@@ -22200,7 +22244,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -22430,21 +22475,26 @@
   },
   "full-ai-match-2002": {
     "finalState": {
-      "turn": 28,
+      "turn": 18,
       "activePlayer": "P2",
       "winner": "P2",
       "seed": 2002,
-      "idCounter": 29,
+      "idCounter": 19,
       "rngCursor": 0,
       "players": {
         "P1": {
           "id": "P1",
           "health": 30,
-          "nexusHealth": -20,
-          "energy": 4,
+          "nexusHealth": -3,
+          "energy": 7,
           "maxEnergy": 10,
           "commanderId": "cmd_stone_warden",
           "deck": [
+            "tcg_8",
+            "tcg_28",
+            "tcg_30",
+            "tcg_26",
+            "tcg_16",
             "tcg_27",
             "tcg_3",
             "tcg_23",
@@ -22464,8 +22514,7 @@
             "tcg_9",
             "tcg_20",
             "tcg_1",
-            "tcg_25",
-            "tcg_30"
+            "tcg_25"
           ],
           "graveyard": [
             {
@@ -22515,66 +22564,169 @@
               "keywords": [
                 "RUSH"
               ]
-            },
-            {
-              "cardId": "tcg_17",
-              "attack": 4,
-              "maxHealth": 3,
-              "keywords": [
-                "REGROW"
-              ]
-            },
-            {
-              "cardId": "tcg_32",
-              "attack": 17,
-              "maxHealth": 22,
-              "keywords": [
-                "PATIENT"
-              ]
-            },
-            {
-              "cardId": "tcg_8",
-              "attack": 4,
-              "maxHealth": 4,
-              "keywords": [
-                "GUARD"
-              ]
-            },
-            {
-              "cardId": "tcg_28",
-              "attack": 4,
-              "maxHealth": 6,
-              "keywords": [
-                "GUARD"
-              ]
-            },
-            {
-              "cardId": "tcg_26",
-              "attack": 7,
-              "maxHealth": 4,
-              "keywords": [
-                "REGROW"
-              ]
             }
           ],
-          "deckCount": 11,
+          "deckCount": 16,
           "artifacts": [],
           "board": {
             "front": [
               {
-                "instanceId": "unit_2002_27",
-                "cardId": "tcg_16",
+                "instanceId": "unit_2002_4",
+                "cardId": "tcg_32",
                 "lane": "front",
-                "attack": 8,
-                "health": 5,
-                "maxHealth": 5,
+                "attack": 16,
+                "health": 3,
+                "maxHealth": 21,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "RUSH"
+                  "PATIENT"
+                ],
+                "exhausted": true,
+                "summoningSick": true,
+                "crit": 0,
+                "utility": 4,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  },
+                  "equipment": [
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
+                        "utility": 1
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [
+                          "Shared category: Keyword"
+                        ],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [
+                          "Keyword"
+                        ],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    },
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
+                        "utility": 1
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [
+                          "Shared category: Keyword"
+                        ],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [
+                          "Keyword"
+                        ],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    },
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
+                        "utility": 0
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    },
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
+                        "utility": 1
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [
+                          "Shared category: Keyword"
+                        ],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [
+                          "Keyword"
+                        ],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    }
+                  ]
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [],
+                "windfuryStruck": false,
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": true,
+                "damageTakenThisTurn": 1,
+                "lastDamageTaken": 1,
+                "stealthed": false
+              },
+              {
+                "instanceId": "unit_2002_17",
+                "cardId": "tcg_17",
+                "lane": "front",
+                "attack": 4,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "REGROW"
                 ],
                 "exhausted": false,
-                "summoningSick": false,
+                "summoningSick": true,
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -23122,11 +23274,16 @@
         "P2": {
           "id": "P2",
           "health": 30,
-          "nexusHealth": 1,
-          "energy": 7,
+          "nexusHealth": 2,
+          "energy": 6,
           "maxEnergy": 10,
           "commanderId": "cmd_bronze_raider",
           "deck": [
+            "tcg_23",
+            "tcg_9",
+            "tcg_19",
+            "tcg_8",
+            "tcg_35",
             "tcg_29",
             "tcg_33",
             "tcg_27",
@@ -23138,16 +23295,16 @@
             "tcg_6",
             "tcg_10"
           ],
-          "hand": [],
+          "hand": [
+            "tcg_30",
+            "tcg_25",
+            "tcg_37"
+          ],
           "discard": [
             "tcg_18",
-            "tcg_1",
             "tcg_20",
             "tcg_3",
-            "tcg_37",
-            "tcg_30",
-            "tcg_9",
-            "tcg_25"
+            "tcg_1"
           ],
           "graveyard": [
             {
@@ -23159,19 +23316,20 @@
               ]
             },
             {
-              "cardId": "tcg_26",
-              "attack": 7,
-              "maxHealth": 4,
-              "keywords": [
-                "REGROW"
-              ]
-            },
-            {
               "cardId": "tcg_21",
               "attack": 3,
               "maxHealth": 4,
               "keywords": [
-                "GUARD"
+                "GUARD",
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_16",
+              "attack": 8,
+              "maxHealth": 5,
+              "keywords": [
+                "RUSH"
               ]
             },
             {
@@ -23179,14 +23337,7 @@
               "attack": 2,
               "maxHealth": 2,
               "keywords": [
-                "GUARD"
-              ]
-            },
-            {
-              "cardId": "tcg_16",
-              "attack": 10,
-              "maxHealth": 9,
-              "keywords": [
+                "GUARD",
                 "RUSH"
               ]
             },
@@ -23195,19 +23346,12 @@
               "attack": 4,
               "maxHealth": 3,
               "keywords": [
-                "REGROW"
-              ]
-            },
-            {
-              "cardId": "tcg_2",
-              "attack": 3,
-              "maxHealth": 2,
-              "keywords": [
-                "GUARD"
+                "REGROW",
+                "RUSH"
               ]
             }
           ],
-          "deckCount": 10,
+          "deckCount": 15,
           "artifacts": [],
           "board": {
             "front": [
@@ -23215,9 +23359,9 @@
                 "instanceId": "unit_2002_7",
                 "cardId": "tcg_32",
                 "lane": "front",
-                "attack": 24,
-                "health": 5,
-                "maxHealth": 28,
+                "attack": 9,
+                "health": 4,
+                "maxHealth": 10,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
@@ -23226,7 +23370,60 @@
                 "exhausted": true,
                 "summoningSick": true,
                 "crit": 0,
-                "utility": 6,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [],
+                "windfuryStruck": false,
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "stealthed": false
+              },
+              {
+                "instanceId": "unit_2002_10",
+                "cardId": "tcg_26",
+                "lane": "front",
+                "attack": 14,
+                "health": 15,
+                "maxHealth": 15,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "REGROW"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "crit": 0,
+                "utility": 3,
                 "commanderTags": [],
                 "passives": [],
                 "modifiers": {
@@ -23284,6 +23481,29 @@
                         "armor": 0,
                         "speed": 0,
                         "crit": 0,
+                        "utility": 1
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [
+                          "Shared category: Keyword"
+                        ],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [
+                          "Keyword"
+                        ],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    },
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
                         "utility": 0
                       },
                       "commanderTags": [],
@@ -23303,87 +23523,14 @@
                         "armor": 0,
                         "speed": 0,
                         "crit": 0,
-                        "utility": 1
+                        "utility": 0
                       },
                       "commanderTags": [],
                       "passives": [],
                       "audit": {
-                        "reasons": [
-                          "Shared category: Keyword"
-                        ],
+                        "reasons": [],
                         "exactTraitMatches": [],
-                        "categoryMatches": [
-                          "Keyword"
-                        ],
-                        "nameMatch": false,
-                        "factionMatch": false
-                      }
-                    },
-                    {
-                      "stats": {
-                        "attack": 1,
-                        "health": 0,
-                        "armor": 0,
-                        "speed": 0,
-                        "crit": 0,
-                        "utility": 1
-                      },
-                      "commanderTags": [],
-                      "passives": [],
-                      "audit": {
-                        "reasons": [
-                          "Keyword:Fear"
-                        ],
-                        "exactTraitMatches": [
-                          "Keyword:Fear"
-                        ],
                         "categoryMatches": [],
-                        "nameMatch": false,
-                        "factionMatch": false
-                      }
-                    },
-                    {
-                      "stats": {
-                        "attack": 0,
-                        "health": 0,
-                        "armor": 0,
-                        "speed": 0,
-                        "crit": 0,
-                        "utility": 1
-                      },
-                      "commanderTags": [],
-                      "passives": [],
-                      "audit": {
-                        "reasons": [
-                          "Shared category: Keyword"
-                        ],
-                        "exactTraitMatches": [],
-                        "categoryMatches": [
-                          "Keyword"
-                        ],
-                        "nameMatch": false,
-                        "factionMatch": false
-                      }
-                    },
-                    {
-                      "stats": {
-                        "attack": 0,
-                        "health": 0,
-                        "armor": 0,
-                        "speed": 0,
-                        "crit": 0,
-                        "utility": 1
-                      },
-                      "commanderTags": [],
-                      "passives": [],
-                      "audit": {
-                        "reasons": [
-                          "Shared category: Keyword"
-                        ],
-                        "exactTraitMatches": [],
-                        "categoryMatches": [
-                          "Keyword"
-                        ],
                         "nameMatch": false,
                         "factionMatch": false
                       }
@@ -23394,126 +23541,39 @@
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
                 "stealthed": false
               },
               {
-                "instanceId": "unit_2002_20",
-                "cardId": "token_stonewarden",
+                "instanceId": "unit_2002_16",
+                "cardId": "token_sapling",
                 "lane": "front",
                 "attack": 1,
                 "health": 1,
                 "maxHealth": 1,
                 "speed": 0,
                 "armor": 0,
-                "keywords": [],
+                "keywords": [
+                  "LIFESTEAL"
+                ],
                 "exhausted": false,
                 "summoningSick": false,
                 "auraAtk": 0,
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
                 "stealthed": false
               },
               {
-                "instanceId": "unit_2002_21",
-                "cardId": "tcg_23",
-                "lane": "front",
-                "attack": 2,
-                "health": 3,
-                "maxHealth": 4,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "RUSH"
-                ],
-                "exhausted": false,
-                "summoningSick": false,
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "stealthed": false
-              },
-              {
-                "instanceId": "unit_2002_24",
-                "cardId": "tcg_19",
-                "lane": "front",
-                "attack": 3,
-                "health": 3,
-                "maxHealth": 3,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "OATH"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false
-              },
-              {
-                "instanceId": "unit_2002_26",
-                "cardId": "tcg_8",
+                "instanceId": "unit_2002_18",
+                "cardId": "tcg_2",
                 "lane": "front",
                 "attack": 3,
                 "health": 2,
@@ -23521,58 +23581,11 @@
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "GUARD"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false
-              },
-              {
-                "instanceId": "unit_2002_28",
-                "cardId": "tcg_35",
-                "lane": "front",
-                "attack": 4,
-                "health": 3,
-                "maxHealth": 3,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
+                  "GUARD",
                   "RUSH"
                 ],
                 "exhausted": false,
-                "summoningSick": false,
+                "summoningSick": true,
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -24118,7 +24131,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {
@@ -24370,28 +24384,22 @@
       {
         "type": "UNIT_PLAYED",
         "player": "P2",
-        "cardId": "tcg_17",
+        "cardId": "tcg_26",
         "lane": "front"
       },
       {
         "type": "UNIT_PLAYED",
         "player": "P2",
-        "cardId": "tcg_31",
+        "cardId": "tcg_17",
         "lane": "front"
-      },
-      {
-        "type": "EQUIPPED",
-        "player": "P2",
-        "cardId": "tcg_18",
-        "targetInstanceId": "unit_2002_5"
       },
       {
         "type": "ATTACK",
         "player": "P2",
         "attackerInstanceId": "unit_2002_5",
         "defenderInstanceId": "unit_2002_6",
-        "outgoing": 9,
-        "mitigated": 9,
+        "outgoing": 8,
+        "mitigated": 8,
         "counter": 3
       },
       {
@@ -24424,14 +24432,17 @@
         "type": "ATTACK",
         "player": "P1",
         "attackerInstanceId": "unit_2002_4",
-        "defenderInstanceId": "unit_2002_11",
+        "defenderInstanceId": "unit_2002_5",
         "outgoing": 12,
         "mitigated": 12,
-        "counter": 2
+        "counter": 8
       },
       {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
+        "type": "NEXUS_DAMAGE",
+        "player": "P1",
+        "targetPlayer": "P2",
+        "attackerInstanceId": "unit_2002_9",
+        "damage": 2
       },
       {
         "type": "TURN_END",
@@ -24444,23 +24455,25 @@
         "maxEnergy": 9
       },
       {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_31",
+        "lane": "front"
+      },
+      {
         "type": "EQUIPPED",
         "player": "P2",
-        "cardId": "tcg_1",
-        "targetInstanceId": "unit_2002_5"
+        "cardId": "tcg_18",
+        "targetInstanceId": "unit_2002_10"
       },
       {
         "type": "ATTACK",
         "player": "P2",
-        "attackerInstanceId": "unit_2002_5",
+        "attackerInstanceId": "unit_2002_7",
         "defenderInstanceId": "unit_2002_12",
-        "outgoing": 10,
-        "mitigated": 10,
+        "outgoing": 6,
+        "mitigated": 6,
         "counter": 5
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
       },
       {
         "type": "REJECTED",
@@ -24490,19 +24503,14 @@
         "type": "ATTACK",
         "player": "P1",
         "attackerInstanceId": "unit_2002_4",
-        "defenderInstanceId": "unit_2002_5",
+        "defenderInstanceId": "unit_2002_13",
         "outgoing": 14,
         "mitigated": 14,
-        "counter": 10
+        "counter": 2
       },
       {
-        "type": "ATTACK",
-        "player": "P1",
-        "attackerInstanceId": "unit_2002_9",
-        "defenderInstanceId": "unit_2002_13",
-        "outgoing": 3,
-        "mitigated": 3,
-        "counter": 1
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
       },
       {
         "type": "TURN_END",
@@ -24518,23 +24526,37 @@
         "type": "EQUIPPED",
         "player": "P2",
         "cardId": "tcg_20",
-        "targetInstanceId": "unit_2002_7"
+        "targetInstanceId": "unit_2002_10"
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2002_7",
+        "damage": 7
       },
       {
         "type": "ATTACK",
         "player": "P2",
-        "attackerInstanceId": "unit_2002_7",
+        "attackerInstanceId": "unit_2002_10",
         "defenderInstanceId": "unit_2002_9",
-        "outgoing": 9,
-        "mitigated": 9,
+        "outgoing": 10,
+        "mitigated": 10,
         "counter": 3
       },
       {
         "type": "NEXUS_DAMAGE",
         "player": "P2",
         "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_10",
+        "attackerInstanceId": "unit_2002_11",
         "damage": 4
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2002_14",
+        "damage": 1
       },
       {
         "type": "TURN_END",
@@ -24556,7 +24578,7 @@
         "type": "ATTACK",
         "player": "P1",
         "attackerInstanceId": "unit_2002_4",
-        "defenderInstanceId": "unit_2002_10",
+        "defenderInstanceId": "unit_2002_11",
         "outgoing": 15,
         "mitigated": 15,
         "counter": 4
@@ -24575,22 +24597,33 @@
         "type": "EQUIPPED",
         "player": "P2",
         "cardId": "tcg_3",
-        "targetInstanceId": "unit_2002_7"
+        "targetInstanceId": "unit_2002_10"
       },
       {
         "type": "ATTACK",
         "player": "P2",
         "attackerInstanceId": "unit_2002_7",
-        "defenderInstanceId": "unit_2002_14",
-        "outgoing": 13,
-        "mitigated": 13,
+        "defenderInstanceId": "unit_2002_15",
+        "outgoing": 8,
+        "mitigated": 8,
         "counter": 1
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
       },
       {
         "type": "NEXUS_DAMAGE",
         "player": "P2",
         "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_15",
+        "attackerInstanceId": "unit_2002_14",
+        "damage": 1
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2002_16",
         "damage": 1
       },
       {
@@ -24613,7 +24646,7 @@
         "type": "ATTACK",
         "player": "P1",
         "attackerInstanceId": "unit_2002_4",
-        "defenderInstanceId": "unit_2002_15",
+        "defenderInstanceId": "unit_2002_14",
         "outgoing": 16,
         "mitigated": 16,
         "counter": 1
@@ -24637,316 +24670,15 @@
       {
         "type": "EQUIPPED",
         "player": "P2",
-        "cardId": "tcg_37",
-        "targetInstanceId": "unit_2002_7"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_7",
-        "defenderInstanceId": "unit_2002_16",
-        "outgoing": 15,
-        "mitigated": 15,
-        "counter": 4
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_8",
-        "lane": "front"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P1",
-        "attackerInstanceId": "unit_2002_4",
-        "defenderInstanceId": "unit_2002_17",
-        "outgoing": 17,
-        "mitigated": 17,
-        "counter": 3
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_23",
-        "lane": "front"
-      },
-      {
-        "type": "EQUIPPED",
-        "player": "P2",
-        "cardId": "tcg_30",
-        "targetInstanceId": "unit_2002_7"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_7",
-        "defenderInstanceId": "unit_2002_19",
-        "outgoing": 17,
-        "mitigated": 17,
-        "counter": 3
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_28",
-        "lane": "front"
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P1",
-        "targetPlayer": "P2",
-        "attackerInstanceId": "unit_2002_18",
-        "damage": 1
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "EQUIPPED",
-        "player": "P2",
-        "cardId": "tcg_9",
-        "targetInstanceId": "unit_2002_7"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_7",
-        "defenderInstanceId": "unit_2002_22",
-        "outgoing": 20,
-        "mitigated": 20,
-        "counter": 4
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "EQUIPPED",
-        "player": "P1",
-        "cardId": "tcg_30",
-        "targetInstanceId": "unit_2002_18"
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P1",
-        "targetPlayer": "P2",
-        "attackerInstanceId": "unit_2002_18",
-        "damage": 1
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P1",
-        "targetPlayer": "P2",
-        "attackerInstanceId": "unit_2002_23",
-        "damage": 1
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_19",
-        "lane": "front"
-      },
-      {
-        "type": "EQUIPPED",
-        "player": "P2",
-        "cardId": "tcg_25",
-        "targetInstanceId": "unit_2002_7"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_7",
-        "defenderInstanceId": "unit_2002_18",
-        "outgoing": 22,
-        "mitigated": 22,
-        "counter": 1
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_20",
-        "damage": 1
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_26",
-        "lane": "front"
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P1",
-        "targetPlayer": "P2",
-        "attackerInstanceId": "unit_2002_23",
-        "damage": 1
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_8",
-        "lane": "front"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_7",
-        "defenderInstanceId": "unit_2002_25",
-        "outgoing": 23,
-        "mitigated": 23,
-        "counter": 7
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_20",
-        "damage": 1
-      },
-      {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_21",
-        "defenderInstanceId": "unit_2002_23",
-        "outgoing": 2,
-        "mitigated": 2,
-        "counter": 1
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_16",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 10,
-        "maxEnergy": 10
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_35",
-        "lane": "front"
+        "cardId": "tcg_1",
+        "targetInstanceId": "unit_2002_10"
       },
       {
         "type": "NEXUS_DAMAGE",
         "player": "P2",
         "targetPlayer": "P1",
         "attackerInstanceId": "unit_2002_7",
-        "damage": 24
+        "damage": 9
       },
       {
         "type": "WIN",
@@ -26125,7 +25857,8 @@
             }
           }
         }
-      }
+      },
+      "triggerQueue": []
     },
     "events": [
       {

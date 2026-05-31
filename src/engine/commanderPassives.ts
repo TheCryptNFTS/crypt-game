@@ -9,7 +9,7 @@
  *
  *   cmd_stone_warden  (Bulwark)   summoned GUARD units enter with +0/+2  [onUnitSummon]
  *   cmd_iron_warlord  (Warmonger) each equip grants the unit +1 Attack   [onEquip]
- *   cmd_bronze_raider (Raid)      summoning a unit deals 1 to enemy nexus[onUnitSummon]
+ *   cmd_bronze_raider (Raid)      summoned units costing <=3 gain RUSH   [onUnitSummon]
  *   cmd_silver_oracle (Foresight) start of turn: Scry 2 (smooth top 2)   [onTurnStart]
  *   cmd_golden_emperor(Opulence)  summoned cost-5+ units enter with +1/+1[onUnitSummon]
  *
@@ -19,7 +19,7 @@
  * clean no-op, so passives only ever fire for the five hand-authored commanders.
  */
 
-import { MatchState, PlayerId, UnitInPlay, STARTING_NEXUS_HEALTH } from "./state";
+import { MatchState, PlayerId, UnitInPlay } from "./state";
 import { allPlayableCards } from "./cards";
 import { scryDeck } from "./keywordEngine";
 
@@ -28,7 +28,7 @@ import { scryDeck } from "./keywordEngine";
 export const COMMANDER_PASSIVE_TEXT: Record<string, string> = {
   cmd_stone_warden: "Bulwark — units you summon with Guard enter play with +0/+2.",
   cmd_iron_warlord: "Warmonger — whenever you equip a unit, it gains +1 Attack.",
-  cmd_bronze_raider: "Raid — whenever you summon a unit, deal 1 damage to the enemy nexus.",
+  cmd_bronze_raider: "Raid — units you summon that cost 3 or less gain Rush (they can attack the turn they arrive).",
   cmd_silver_oracle: "Foresight — at the start of your turn, Scry 2 (reorder your top 2 cards by cost).",
   cmd_golden_emperor: "Opulence — units you summon that cost 5 or more enter play with +1/+1.",
 };
@@ -38,10 +38,6 @@ const COST_BY_ID = new Map<string, number>(
 );
 function cardCost(cardId: string): number {
   return COST_BY_ID.get(cardId) ?? 0;
-}
-
-function opponentOf(playerId: PlayerId): PlayerId {
-  return playerId === "P1" ? "P2" : "P1";
 }
 
 /** Printed OR aura-granted keyword (mirrors keywordEngine.unitHasKeyword without
@@ -60,6 +56,13 @@ function buffUnit(unit: UnitInPlay, attack: number, health: number): void {
     unit.maxHealth = (unit.maxHealth ?? unit.health) + health;
     unit.health += health;
   }
+}
+
+/** Grant a printed keyword to a live unit (idempotent). RUSH is read by
+ *  keywordEngine.unitCanAttack to let a freshly-summoned unit swing this turn. */
+function grantKeyword(unit: UnitInPlay, keyword: string): void {
+  if (!Array.isArray(unit.keywords)) unit.keywords = [];
+  if (!unit.keywords.includes(keyword)) unit.keywords.push(keyword);
 }
 
 function commanderIdOf(state: MatchState, controller: PlayerId): string {
@@ -82,10 +85,10 @@ export function commanderOnUnitSummon(state: MatchState, controller: PlayerId, u
       if (cardCost(unit.cardId) >= 5) buffUnit(unit, 1, 1);
       break;
     case "cmd_bronze_raider": {
-      // Raid: every body that hits the board pings the enemy nexus for reach.
-      const enemy = opponentOf(controller);
-      state.players[enemy].nexusHealth =
-        (state.players[enemy].nexusHealth ?? STARTING_NEXUS_HEALTH) - 1;
+      // Raid: cheap bodies you summon strike the turn they arrive (Rush),
+      // turning a wide aggressive board into reach THROUGH COMBAT — never
+      // direct nexus burn (locked no-burn constraint).
+      if (cardCost(unit.cardId) <= 3) grantKeyword(unit, "RUSH");
       break;
     }
     default:
