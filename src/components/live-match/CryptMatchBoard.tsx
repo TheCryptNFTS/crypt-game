@@ -8,6 +8,8 @@ import { HandCard } from "../crypt/HandCard";
 import { MatchTopBar } from "./MatchTopBar";
 import { artifactToVm, getCommanderVmForPlayer, handToVm, unitToVm } from "../../game-ui/liveMatchAdapter";
 import { InspectState, PlayCardVM } from "../../ui/cryptTypes";
+import { useMatchMotion } from "../../hooks/useMatchMotion";
+import "../../styles/match-motion.css";
 
 type PlayerId = "P1" | "P2";
 
@@ -134,8 +136,28 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   // Perspective-relative "Active" pill: "You" when it's my turn.
   const perspectiveActive: PlayerId = activePlayer === mySeat ? "P1" : "P2";
 
+  const ownNexus = match.players[mySeat].nexusHealth ?? 20;
+  const enemyNexus = match.players[opponentSeat].nexusHealth ?? 20;
+
+  // PRESENTATION-ONLY: derive transient game-feel motion from state diffs.
+  const motion = useMatchMotion({
+    ownFront,
+    ownBack,
+    enemyFront,
+    enemyBack,
+    ownNexus,
+    enemyNexus,
+    activePlayer,
+    mySeat,
+    winner,
+    resetKey: match.seed ?? 0,
+  });
+
+  const dyingFor = (side: "own" | "enemy", lane: "front" | "back") =>
+    motion.dying.filter((d) => d.side === side && d.lane === lane);
+
   return (
-    <div className="live-match-shell">
+    <div className={`live-match-shell ${motion.boardFlinch ? "mm-flinch" : ""}`}>
       <MatchTopBar
         turn={match.turn ?? 1}
         activePlayer={perspectiveActive}
@@ -148,6 +170,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         onRecalibrate={mulligan}
         onEndTurn={endTurn}
         onReset={resetMatch}
+        ownNexusHit={motion.ownNexusHit}
+        enemyNexusHit={motion.enemyNexusHit}
       />
 
       {statusBanner}
@@ -176,6 +200,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             <BoardLane
               title="Enemy Front"
               cards={enemyFront}
+              unitMotion={motion.unitMotion}
+              floats={motion.unitFloats}
+              dying={dyingFor("enemy", "front")}
               onSelect={(card) => {
                 setSelectedBoardId(card.id);
                 setInspectId(card.id);
@@ -184,6 +211,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             <BoardLane
               title="Enemy Back"
               cards={enemyBack}
+              unitMotion={motion.unitMotion}
+              floats={motion.unitFloats}
+              dying={dyingFor("enemy", "back")}
               onSelect={(card) => {
                 setSelectedBoardId(card.id);
                 setInspectId(card.id);
@@ -192,6 +222,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             <BoardLane
               title="Your Front"
               cards={ownFront}
+              unitMotion={motion.unitMotion}
+              floats={motion.unitFloats}
+              dying={dyingFor("own", "front")}
               onSelect={(card) => {
                 setSelectedBoardId(card.id);
                 setInspectId(card.id);
@@ -200,6 +233,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             <BoardLane
               title="Your Back"
               cards={ownBack}
+              unitMotion={motion.unitMotion}
+              floats={motion.unitFloats}
+              dying={dyingFor("own", "back")}
               onSelect={(card) => {
                 setSelectedBoardId(card.id);
                 setInspectId(card.id);
@@ -297,9 +333,22 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
 
       <InspectDrawer state={inspectState} onClose={() => setInspectId(null)} />
 
+      {motion.turnBanner ? (
+        <div className="mm-turn-banner" key={motion.turnBanner.key} aria-hidden="true">
+          <div
+            className={`mm-turn-banner__inner ${
+              motion.turnBanner.who === "enemy" ? "mm-turn-banner__inner--enemy" : ""
+            }`}
+          >
+            <span className="mm-turn-banner__glyph">{"\u2B22"}</span>
+            {motion.turnBanner.who === "you" ? "Your Turn" : "Enemy Turn"}
+          </div>
+        </div>
+      ) : null}
+
       {matchOver ? (
         <div className="live-gameover" role="dialog" aria-modal="true">
-          <div className="live-gameover__panel">
+          <div className={`live-gameover__panel ${playerWon ? "live-gameover__panel--win" : ""}`}>
             <span className="live-topbar__label">Transmission Ended</span>
             <h2 className="live-gameover__title">{playerWon ? "Signal Restored" : "Signal Lost"}</h2>
             <p className="live-gameover__sub">

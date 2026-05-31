@@ -1,0 +1,325 @@
+/*
+ * match-motion.css — PRESENTATION-ONLY game-feel for the live match.
+ *
+ * All motion is transform/opacity driven (GPU-friendly, no layout thrash) and is
+ * fully disabled under prefers-reduced-motion. Animations are triggered by
+ * view-layer state diffs (see src/hooks/useMatchMotion.ts); nothing here touches
+ * game logic, the reducer, or determinism. Palette stays within cryptTheme tones
+ * (purple #8D5CFF, gold #E9C984/#f0d24f, danger #ff6a6a). No emojis — the hex
+ * glyph (⬡) is used where a mark is needed.
+ */
+
+/* ---- Unit enters the board (card-play / deploy) -------------------------- */
+@keyframes mm-unit-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.9);
+    filter: brightness(1.6);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
+.crypt-card--board.mm-enter {
+  animation: mm-unit-enter 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+/* A one-shot deploy ring sweep behind the freshly-played unit. */
+.crypt-card--board.mm-enter::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(141, 92, 255, 0.55);
+  animation: mm-deploy-ring 520ms ease-out both;
+}
+
+@keyframes mm-deploy-ring {
+  0% { opacity: 0.9; transform: scale(0.96); }
+  100% { opacity: 0; transform: scale(1.08); }
+}
+
+/* ---- Unit takes damage (HP dropped, still alive) ------------------------- */
+@keyframes mm-unit-damage {
+  0% { transform: translateX(0); }
+  18% { transform: translateX(-5px); }
+  38% { transform: translateX(4px); }
+  58% { transform: translateX(-3px); }
+  78% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+.crypt-card--board.mm-damage {
+  animation: mm-unit-damage 360ms ease-in-out both;
+}
+
+.crypt-card--board.mm-damage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 106, 106, 0.45), rgba(255, 106, 106, 0) 70%);
+  animation: mm-damage-flash 360ms ease-out both;
+  z-index: 3;
+}
+
+@keyframes mm-damage-flash {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---- Unit dies (leaving the board) --------------------------------------- */
+@keyframes mm-unit-death {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1) grayscale(0);
+  }
+  35% {
+    filter: brightness(1.5) grayscale(0.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.82) translateY(10px) rotate(-2deg);
+    filter: brightness(0.4) grayscale(0.85);
+  }
+}
+
+.mm-death-wrap {
+  animation: mm-unit-death 460ms cubic-bezier(0.4, 0, 0.7, 0.2) both;
+  pointer-events: none;
+}
+
+/* ---- Attacker lunge (the unit that struck) ------------------------------- */
+@keyframes mm-attack-lunge {
+  0% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-10px) scale(1.05); }
+  55% { transform: translateY(2px) scale(1.02); box-shadow: 0 0 26px rgba(240, 210, 79, 0.4); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.crypt-card--board.mm-attack {
+  animation: mm-attack-lunge 380ms cubic-bezier(0.3, 0.7, 0.3, 1) both;
+  z-index: 4;
+}
+
+/* A positioned slot lets us overlay floating numbers / death ghosts without
+ * clipping (the card itself uses overflow:hidden). */
+.live-lane__slot {
+  position: relative;
+  display: flex;
+}
+
+/* ---- Floating damage number (over a lane / nexus pill) ------------------- */
+.mm-float-dmg {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  z-index: 30;
+  pointer-events: none;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 0.02em;
+  color: #ff8c8c;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 0 14px rgba(255, 106, 106, 0.6);
+  animation: mm-float-dmg 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.mm-float-dmg::before {
+  content: "−";
+  margin-right: 1px;
+  opacity: 0.85;
+}
+
+@keyframes mm-float-dmg {
+  0% { opacity: 0; transform: translate(-50%, 6px) scale(0.7); }
+  18% { opacity: 1; transform: translate(-50%, -6px) scale(1.12); }
+  60% { opacity: 1; transform: translate(-50%, -22px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -40px) scale(0.95); }
+}
+
+.live-topbar__pill {
+  position: relative;
+}
+
+.mm-float-dmg--nexus {
+  top: -10px;
+  left: 50%;
+  font-size: 20px;
+}
+
+/* ---- Nexus damage: pill shake + red flash -------------------------------- */
+@keyframes mm-nexus-shake {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-3px, 1px); }
+  30% { transform: translate(3px, -1px); }
+  45% { transform: translate(-2px, 1px); }
+  60% { transform: translate(2px, 0); }
+  80% { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+.live-topbar__pill.mm-nexus-hit {
+  position: relative;
+  animation: mm-nexus-shake 420ms ease-in-out both;
+  border-color: rgba(255, 106, 106, 0.5) !important;
+  box-shadow: 0 0 22px rgba(255, 106, 106, 0.35), inset 0 0 0 1px rgba(255, 106, 106, 0.3) !important;
+}
+
+.live-topbar__pill.mm-nexus-hit strong {
+  color: #ff8c8c;
+  transition: color 420ms ease;
+}
+
+/* The whole board flinches a touch when YOUR nexus is struck. */
+@keyframes mm-board-flinch {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4px, 0); }
+  40% { transform: translate(4px, 0); }
+  60% { transform: translate(-2px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+.live-match-shell.mm-flinch {
+  animation: mm-board-flinch 340ms ease-in-out both;
+}
+
+/* ---- Turn-change banner -------------------------------------------------- */
+.mm-turn-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.mm-turn-banner__inner {
+  margin-top: 16vh;
+  padding: 14px 40px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #E9C984;
+  background: linear-gradient(180deg, rgba(14, 18, 24, 0.95), rgba(9, 12, 18, 0.98));
+  border: 1px solid rgba(141, 92, 255, 0.35);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), 0 0 36px rgba(141, 92, 255, 0.22);
+  animation: mm-turn-banner 1100ms ease-in-out both;
+}
+
+.mm-turn-banner__inner--enemy {
+  color: #ff9d9d;
+  border-color: rgba(255, 106, 106, 0.35);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.5), 0 0 36px rgba(255, 106, 106, 0.2);
+}
+
+.mm-turn-banner__glyph {
+  margin-right: 10px;
+  opacity: 0.85;
+}
+
+@keyframes mm-turn-banner {
+  0% { opacity: 0; transform: translateY(-14px) scale(0.96); }
+  16% { opacity: 1; transform: translateY(0) scale(1); }
+  78% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.99); }
+}
+
+/* ---- Win flourish (gameover panel) --------------------------------------- */
+.live-gameover {
+  animation: mm-overlay-fade 320ms ease-out both;
+}
+
+@keyframes mm-overlay-fade {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.live-gameover__panel {
+  animation: mm-win-panel 520ms cubic-bezier(0.16, 0.84, 0.3, 1) both;
+}
+
+@keyframes mm-win-panel {
+  0% { opacity: 0; transform: translateY(24px) scale(0.92); }
+  60% { opacity: 1; transform: translateY(-4px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.live-gameover__title {
+  animation: mm-win-title 900ms ease-out both;
+}
+
+@keyframes mm-win-title {
+  0% { letter-spacing: 0.3em; opacity: 0; filter: brightness(1.8); }
+  100% { letter-spacing: 0.02em; opacity: 1; filter: brightness(1); }
+}
+
+/* A soft sweeping sheen across the panel on a win. */
+.live-gameover__panel--win::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(240, 210, 79, 0.18) 50%, transparent 65%);
+  background-size: 240% 100%;
+  animation: mm-sheen 1500ms ease-out 220ms both;
+}
+
+@keyframes mm-sheen {
+  0% { background-position: 140% 0; opacity: 0; }
+  30% { opacity: 1; }
+  100% { background-position: -40% 0; opacity: 0; }
+}
+
+/* ---- Active-turn pulse on the "Active" pill ------------------------------ */
+.live-topbar__pill--active.mm-your-turn {
+  animation: mm-turn-pulse 1600ms ease-in-out infinite;
+}
+
+@keyframes mm-turn-pulse {
+  0%, 100% { box-shadow: inset 0 0 0 1px rgba(141, 92, 255, 0.14); }
+  50% { box-shadow: inset 0 0 0 1px rgba(141, 92, 255, 0.4), 0 0 18px rgba(141, 92, 255, 0.22); }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Accessibility: honor reduced-motion — kill all transforms/animation but
+ * keep the (instant) end states readable. */
+@media (prefers-reduced-motion: reduce) {
+  .crypt-card--board.mm-enter,
+  .crypt-card--board.mm-damage,
+  .crypt-card--board.mm-attack,
+  .mm-death-wrap,
+  .live-topbar__pill.mm-nexus-hit,
+  .live-match-shell.mm-flinch,
+  .mm-turn-banner__inner,
+  .live-gameover,
+  .live-gameover__panel,
+  .live-gameover__title,
+  .live-topbar__pill--active.mm-your-turn,
+  .mm-float-dmg {
+    animation: none !important;
+  }
+
+  .mm-death-wrap { opacity: 0; }
+  .mm-float-dmg { display: none; }
+  .crypt-card--board.mm-enter::after,
+  .crypt-card--board.mm-damage::before,
+  .live-gameover__panel--win::before {
+    display: none;
+  }
+}
