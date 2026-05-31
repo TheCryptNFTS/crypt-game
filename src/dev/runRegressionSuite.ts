@@ -47,6 +47,7 @@ const commands = [
   "npm run dev:damage-lane",
   "npm run dev:ascendancy",
   "npm run dev:secret",
+  "npm run dev:faction-identity",
 ];
 
 let failed = false;

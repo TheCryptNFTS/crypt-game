@@ -57,6 +57,11 @@ import {
   commanderOnEquip,
   commanderOnTurnStart,
 } from "./commanderPassives";
+import {
+  factionOnUnitSummon,
+  factionOnEquip,
+  factionOnTurnStart,
+} from "./factionIdentity";
 import { allPlayableCards } from "./cards";
 import { spellCards } from "./spellCards";
 import { compileAbility, CompiledAbility, EffectTrigger, EffectOp } from "./abilityCompiler";
@@ -981,6 +986,17 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         // elite scaling, Bronze Raider nexus pressure). Runs after the unit's own
         // battlecry so it modifies the resolved unit / fully-on-board state.
         commanderOnUnitSummon(played, action.player, summoned);
+        // Faction identity summon hook (STONE Bedrock armor, BRONZE Onslaught
+        // Rush, GOLD Largesse +0/+2). Gated by rules.factionIdentities; a clean
+        // no-op otherwise, so vanilla matches are byte-identical. Stacks on top of
+        // the commander passive on a distinct axis.
+        factionOnUnitSummon(
+          played,
+          action.player,
+          summoned,
+          (id: string) => cardMetaById.get(id)?.faction ?? null,
+          costOf
+        );
       }
       // A battlecry may have raised a mid-resolution CHOICE (Discover). If so the
       // action ENDS here with `pendingChoice` set: emit UNIT_PLAYED + CHOICE_OPENED
@@ -1027,6 +1043,8 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // Iron Warlord: the equipped unit gains bonus Attack each time it is geared.
       const equipped = findUnitByInstance(played, action.player, action.targetInstanceId);
       if (equipped) commanderOnEquip(played, action.player, equipped.unit);
+      // IRON Tempered: gear also hardens the unit (+1 Armor). Gated no-op otherwise.
+      if (equipped) factionOnEquip(played, action.player, equipped.unit);
       events.push({ type: "EQUIPPED", player: action.player, cardId, targetInstanceId: action.targetInstanceId });
       return { state: played, events };
     }
@@ -1318,6 +1336,9 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // Commander start-of-turn passive (e.g. Silver Oracle's Scry) for the
       // player whose turn is beginning.
       commanderOnTurnStart(next, nextPlayerId, costOf);
+      // SILVER Insight: start-of-turn Scry 1 (deck smoothing, no draw). Gated
+      // no-op otherwise, so vanilla matches are byte-identical.
+      factionOnTurnStart(next, nextPlayerId, costOf);
 
       events.push({ type: "TURN_END", player: ending });
 
