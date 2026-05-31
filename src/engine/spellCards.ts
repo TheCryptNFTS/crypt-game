@@ -144,4 +144,114 @@ export const liveSpells: SpellCard[] = [
   spell("spell_cull", "Cull", "GODS", 4, "On play: destroy an enemy unit.", "restricted"),
   spell("spell_scour", "Scour", "GOLDEN_SOVEREIGNS", 2, "On play: an enemy loses 3 attack.", "restricted"),
   spell("spell_banish", "Banish", "SILVER_SENTINELS", 3, "On play: return an enemy unit to its owner's hand.", "restricted"),
+
+  // ==========================================================================
+  // CONTENT EXPANSION WAVE 2 (2026.05.31) — roughly DOUBLES the deck-legal pool
+  // AGAIN (24 -> 46) toward Hearthstone/LoR depth, with clear ARCHETYPES, all on
+  // the EXISTING resolver vocabulary (no new ops). Same locked constraints:
+  //   - NO-BURN: damage spells hit enemy UNITS only; every nexus op is HEAL_NEXUS
+  //     on the CASTER's OWN face. No spell can lower an enemy nexus.
+  //   - Determinism: graveyard/random ops ride the match's seeded stream; deck
+  //     ops are deterministic; nothing reads wall-clock or unseeded RNG.
+  //   - "+X/+Y" lines compile to runtime BUFF effects, never a static stat line.
+  // Tiering mirrors the pool: pure own-value / deck-shaping / go-wide own-buff =
+  // "safe" (auto-draftable); single-target removal, board-wide enemy AoE, bounce,
+  // hard destroy, and stat-swap tech = "restricted" (deck-legal but never
+  // auto-drafted until a matchup-sim balance gate exists).
+  //
+  // RESOLVER NOTE (verified against reducer PLAY_SPELL + effectResolver):
+  //   - BUFF_ALLIES / DEBUFF_ALL_ENEMIES / DAMAGE_LANE / SWAP_STATS_ALL_ENEMIES /
+  //     DESTROY_ENEMY_SELECT(HIGHEST_COST) / all graveyard + deck ops resolve
+  //     source-free off the CONTROLLER, so they cast WITHOUT a target.
+  //   - DEAL_DAMAGE / DEBUFF_ENEMY / DESTROY_UNIT / RETURN_TO_HAND require an
+  //     enemy target; HEAL / BUFF_SELF require an ally target (reducer ENEMY_OPS /
+  //     ALLY_OPS gate). Worded accordingly so each is honestly castable.
+  // ==========================================================================
+
+  // --- ARCHETYPE: card-draw / dig (safe; own deck only) ---
+  spell("spell_epiphany", "Epiphany", "SILVER_SENTINELS", 4, "On play: draw 4 cards.", "safe"),
+  // filtered dig — pull only the card TYPE you need from the top of your deck.
+  spell("spell_muster_call", "Muster Call", "STONE_KEEPERS", 3, "On play: draw 2 units.", "safe"),
+  spell("spell_grimoire", "Grimoire", "SILVER_SENTINELS", 3, "On play: draw 2 spells.", "safe"),
+  // scry/smooth (card quality, NO advantage) + mill (own-deck graveyard fuel).
+  spell("spell_farsight", "Farsight", "SILVER_SENTINELS", 1, "On play: scry 2.", "safe"),
+  spell("spell_grave_dig", "Grave Dig", "BRONZE_GUARDIANS", 1, "On play: mill 2.", "safe"),
+
+  // --- ARCHETYPE: tutor / toolbox (safe; deterministic own-deck search) ---
+  spell("spell_call_arms", "Call to Arms", "STONE_KEEPERS", 2, "On play: search your deck for the highest-cost unit.", "safe"),
+  spell("spell_spellseek", "Spellseek", "SILVER_SENTINELS", 1, "On play: search your deck for the lowest-cost spell.", "safe"),
+
+  // --- ARCHETYPE: discover / toolbox value (safe; pausing CHOICE) ---
+  spell("spell_requisition", "Requisition", "STONE_KEEPERS", 2, "On play: discover one of 4 cards.", "safe"),
+
+  // --- ARCHETYPE: go-wide / board buff (safe; BUFF_ALLIES on YOUR board) ---
+  // Leading "Bless" keyword compiles to BUFF_ALLIES — buffs every OTHER allied
+  // unit (the caster has no source body), the canonical anthem payoff. NOTE: the
+  // bless parser reads the "+N attack [and] +M health" WORD form (not "+N/+M"
+  // shorthand), so the text is written that way to print exactly what it does.
+  spell("spell_war_banner", "War Banner", "STONE_KEEPERS", 3, "Bless: allies gain +1 attack and +1 health.", "safe"),
+  spell("spell_battle_anthem", "Battle Anthem", "BRONZE_GUARDIANS", 4, "Bless: allies gain +2 attack and +1 health.", "safe"),
+  spell("spell_iron_drill", "Iron Drill", "IRON_DEFENDERS", 3, "Bless: allies gain +1 attack and +2 health.", "safe"),
+
+  // --- ARCHETYPE: tempo / single-ally pump (safe; BUFF_SELF on chosen ally) ---
+  spell("spell_temper", "Temper", "IRON_DEFENDERS", 1, "On play: gain +2/+1.", "safe"),
+
+  // --- ARCHETYPE: token / go-wide bodies (safe; SUMMON_TOKEN on YOUR board) ---
+  spell("spell_levy", "Levy", "STONE_KEEPERS", 3, "On play: summon two 2/2 Wraiths.", "safe"),
+
+  // --- ARCHETYPE: graveyard / recursion (safe; own grave, controller-based) ---
+  // RETURN_FROM_GRAVE pulls a fallen card back to HAND (regrow value); the
+  // RESURRECT family re-deploys a BODY straight to the board (LIFO or seeded
+  // random). All no-op cleanly on an empty grave.
+  // "When summoned," (not "On play:") so ONLY RETURN_FROM_GRAVE (graveyard->hand,
+  // controller-based, no target) fires; "On play: ... to your hand" would also emit
+  // a target-required RETURN_TO_HAND (enemy bounce) and mis-bind the spell.
+  spell("spell_regrow", "Regrow", "BRONZE_GUARDIANS", 1, "When summoned, return a card from your graveyard to your hand.", "safe"),
+  spell("spell_mass_raise", "Mass Raise", "BRONZE_GUARDIANS", 5, "On play: resurrect a random friendly unit from your graveyard to play.", "safe"),
+
+  // --- ARCHETYPE: board-wide control (restricted; enemy UNITS only) ---
+  // DEBUFF_ALL_ENEMIES: -N attack to EVERY enemy unit, THIS TURN ONLY (temp,
+  // restored at turn end) — a defensive blunting sweep, never the nexus.
+  spell("spell_intimidate", "Intimidate", "GOLDEN_SOVEREIGNS", 2, "On play: enemy units -1 attack this turn.", "restricted"),
+  // NOTE: a board-wide DAMAGE op (DAMAGE_LANE) is intentionally NOT shipped as a
+  // live spell. DAMAGE_LANE resolves correctly in effectResolver, but the
+  // behavioral-coverage honesty audit's ACTIVE_OPS allow-list (owned by another
+  // module) does not yet recognize it, so a live DAMAGE_LANE spell would register
+  // as a text/behavior mismatch. Board-wide CONTROL is instead covered by the
+  // recognized DEBUFF_ALL_ENEMIES (spell_intimidate) and SWAP_STATS_ALL_ENEMIES
+  // (spell_upheaval) ops below; single-target burst stays on DEAL_DAMAGE
+  // (spell_smite). [Reported to the resolver-owning agent for an allow-list add.]
+  // SWAP_STATS_ALL_ENEMIES: flip attack<->health on every enemy unit — a tech
+  // answer to wide glass-cannon boards (controller-based, source-free).
+  spell("spell_upheaval", "Upheaval", "GODS", 4, "On play: swap attack and health of all enemy units.", "restricted"),
+
+  // --- ARCHETYPE: premium removal (restricted; single enemy unit) ---
+  spell("spell_smite", "Smite", "IRON_DEFENDERS", 2, "On play: deal 5 damage.", "restricted"),
+  // "When summoned," (not "On play:") so ONLY the DESTROY_ENEMY_SELECT(HIGHEST_COST)
+  // auto-pick fires; "On play: destroy ..." would also emit a target-required
+  // DESTROY_UNIT, double-binding the removal. This auto-selects (no manual target).
+  spell("spell_execute", "Execute", "GODS", 3, "When summoned, destroy the highest-cost enemy unit.", "restricted"),
+  spell("spell_disarm", "Disarm", "GOLDEN_SOVEREIGNS", 1, "On play: an enemy loses 2 attack.", "restricted"),
+
+  // ==========================================================================
+  // FACTION-EXCLUSIVE PAYOFF SPELLS (2026.05.31) — "Oath" cards that reward
+  // MONO-FACTION commitment. Each is a faction anthem whose CARD itself is fair
+  // value (so it stays deck-legal + honest), and whose printed faction makes it a
+  // natural fit only for a deck already committed to that faction. The DEEPER
+  // archetype payoff (the "if you control N+ of your faction" snowball) lives in
+  // factionIdentity.ts behind rules.factionIdentities; these spells are the
+  // castable, always-honest face of that identity. NO-BURN, deterministic.
+  //
+  // Honesty: each compiles to exactly the active op its text claims —
+  //   Oath of Stone   -> Bless / BUFF_ALLIES (rally the Keepers' wall)
+  //   Oath of Bronze  -> RESURRECT (the Guardians' grave never stays quiet)
+  //   Oath of Silver  -> DRAW (the Sentinels' insight engine)
+  //   Oath of Iron    -> SUMMON_TOKEN (the Defenders field another body)
+  //   Oath of Gold    -> HEAL_NEXUS (the Sovereigns' treasury shores the throne)
+  // ==========================================================================
+  spell("spell_oath_stone", "Oath of Stone", "STONE_KEEPERS", 4, "Bless: allies gain +2 attack and +2 health.", "safe"),
+  spell("spell_oath_bronze", "Oath of Bronze", "BRONZE_GUARDIANS", 4, "On play: resurrect a friendly unit from your graveyard to play.", "safe"),
+  spell("spell_oath_silver", "Oath of Silver", "SILVER_SENTINELS", 3, "On play: draw 3 cards.", "safe"),
+  spell("spell_oath_iron", "Oath of Iron", "IRON_DEFENDERS", 3, "On play: summon a 3/3 Wraith.", "safe"),
+  spell("spell_oath_gold", "Oath of Gold", "GOLDEN_SOVEREIGNS", 3, "On play: restore 6 to your nexus.", "safe"),
 ];
