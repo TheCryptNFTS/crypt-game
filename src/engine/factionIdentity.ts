@@ -27,6 +27,23 @@
  * A controller whose commander is not one of the five curated commanders (every
  * generated NFT commander, the demo opponent) maps to NO faction -> clean no-op,
  * so identities only ever fire for an intentionally factioned deck.
+ *
+ * ARCHETYPE DEPTH (#8b) — on top of the single-trigger base identities above, each
+ * faction earns a THRESHOLD payoff once the controller commands N+ of their OWN
+ * faction's live units on board. This is what turns a color-swap into a real
+ * archetype: a mono-faction commitment snowballs into a stronger identity.
+ *
+ *   STONE  3+ Stone units  -> Bedrock armor on summon deepens to +2 (a thicker wall)
+ *   SILVER 3+ Silver units -> start-of-turn Scry deepens to Scry 2 (deeper smoothing)
+ *   BRONZE 3+ Bronze units -> Onslaught Rush extends to cost<=3 (aggro snowball)
+ *   IRON   3+ Iron units   -> equips ALSO grant +1 Attack on top of the +1 Armor
+ *   GOLD   4+ Gold units   -> Largesse cost>=5 bonus deepens to +1/+3 (top-end payoff)
+ *
+ * The thresholds are RECOMPUTED from the live board at every trigger moment (never a
+ * cached counter that could desync replay), share the SAME `rules.factionIdentities`
+ * gate as the base hooks (so vanilla stays byte-identical), and remain NO-BURN:
+ * every payoff only adds armor / attack / health / a keyword / deck smoothing to the
+ * controller's OWN side, never touching the enemy nexus.
  */
 
 import { MatchState, PlayerId, UnitInPlay } from "./state";
@@ -51,6 +68,19 @@ const COMMANDER_FACTION: Record<string, IdentityFaction> = {
   cmd_bronze_raider: "BRONZE_GUARDIANS",
   cmd_silver_oracle: "SILVER_SENTINELS",
   cmd_golden_emperor: "GOLDEN_SOVEREIGNS",
+};
+
+/**
+ * Archetype thresholds: how many live OWN-faction units the controller must command
+ * for the deepened payoff to activate. STONE/SILVER/BRONZE/IRON snowball at 3; GOLD
+ * (a premium top-end deck that fields fewer, bigger bodies) at 4.
+ */
+const ARCHETYPE_THRESHOLD: Record<IdentityFaction, number> = {
+  STONE_KEEPERS: 3,
+  SILVER_SENTINELS: 3,
+  BRONZE_GUARDIANS: 3,
+  IRON_DEFENDERS: 3,
+  GOLDEN_SOVEREIGNS: 4,
 };
 
 /** Player-facing one-liners for the UI (mechanics-of-record live below). */
@@ -91,6 +121,49 @@ function addArmor(unit: UnitInPlay, amount: number): void {
   unit.armor = (unit.armor ?? 0) + amount;
 }
 
+/** Add attack to a live unit (mirrors effectResolver / commanderPassives buffUnit:
+ *  a flat +attack with no health side effect). */
+function buffAttack(unit: UnitInPlay, attack: number): void {
+  if (!attack) return;
+  unit.attack += attack;
+}
+
+/**
+ * Count the controller's LIVE units (front + back lanes) whose OWN faction matches
+ * `faction`. Recomputed from the board at the call site EVERY trigger — no cached
+ * counter — so replay/determinism is exact. Defensive against a missing `board`
+ * (some isolated unit-proof states omit it): a board-less state counts as 0, which
+ * keeps the deepened payoff off and the base identity intact.
+ */
+function countFactionUnits(
+  state: MatchState,
+  controller: PlayerId,
+  faction: IdentityFaction,
+  factionOf: (cardId: string) => string | null | undefined
+): number {
+  const board = state.players[controller]?.board;
+  if (!board) return 0;
+  let n = 0;
+  for (const lane of [board.front, board.back]) {
+    if (!Array.isArray(lane)) continue;
+    for (const u of lane) {
+      if (factionOf(u.cardId) === faction) n += 1;
+    }
+  }
+  return n;
+}
+
+/** True when the controller commands enough OWN-faction units for the deepened
+ *  archetype payoff to fire (live board count >= the faction's threshold). */
+function archetypeActive(
+  state: MatchState,
+  controller: PlayerId,
+  faction: IdentityFaction,
+  factionOf: (cardId: string) => string | null | undefined
+): boolean {
+  return countFactionUnits(state, controller, faction, factionOf) >= ARCHETYPE_THRESHOLD[faction];
+}
+
 /** Grant a printed keyword to a live unit (idempotent), mirroring commanderPassives. */
 function grantKeyword(unit: UnitInPlay, keyword: string): void {
   if (!Array.isArray(unit.keywords)) unit.keywords = [];
@@ -122,20 +195,37 @@ export function factionOnUnitSummon(
   if (factionOf(unit.cardId) !== faction) return;
 
   switch (faction) {
-    case "STONE_KEEPERS":
+    case "STONE_KEEPERS": {
       // Bedrock: the keepers' fortress plan — every body you raise is sturdier.
-      addArmor(unit, 1);
+      // Archetype (3+ Stone live): the wall thickens to +2 Armor per summon.
+      const deep = archetypeActive(state, controller, faction, factionOf);
+      addArmor(unit, deep ? 2 : 1);
       break;
-    case "BRONZE_GUARDIANS":
+    }
+    case "BRONZE_GUARDIANS": {
       // Onslaught: your cheapest skirmishers strike the turn they arrive (Rush),
-      // pressuring THROUGH COMBAT only — never direct nexus burn.
-      if (costOf(unit.cardId) <= 2) grantKeyword(unit, "RUSH");
+      // pressuring THROUGH COMBAT only — never direct nexus burn. Archetype (3+
+      // Bronze live): the Rush band widens to cost<=3 as the swarm snowballs.
+      const deep = archetypeActive(state, controller, faction, factionOf);
+      const rushCap = deep ? 3 : 2;
+      if (costOf(unit.cardId) <= rushCap) grantKeyword(unit, "RUSH");
       break;
-    case "GOLDEN_SOVEREIGNS":
+    }
+    case "GOLDEN_SOVEREIGNS": {
       // Largesse: the sovereigns' premium top-end comes down with extra staying
       // power (+0/+2 health — a durability axis, distinct from Opulence's +1/+1).
-      if (costOf(unit.cardId) >= 5) buffHealth(unit, 2);
+      // Archetype (4+ Gold live): the top-end pays off as +1/+3.
+      if (costOf(unit.cardId) >= 5) {
+        const deep = archetypeActive(state, controller, faction, factionOf);
+        if (deep) {
+          buffAttack(unit, 1);
+          buffHealth(unit, 3);
+        } else {
+          buffHealth(unit, 2);
+        }
+      }
       break;
+    }
     default:
       // SILVER / IRON identities trigger on other hooks (turn-start / equip).
       break;
@@ -146,11 +236,23 @@ export function factionOnUnitSummon(
  * Fires when the controller equips one of their units. IRON's identity hardens
  * the geared unit (+1 Armor), rewarding the weapon/equipment plan with durability
  * that trades up in combat. No-burn.
+ *
+ * Archetype (3+ Iron live units): gear ALSO scales the unit's attack (+1/+0 on top
+ * of the +1 Armor) — the defenders' arsenal starts paying offence as well as
+ * durability. `factionOf` is passed in to recompute the live Iron count.
  */
-export function factionOnEquip(state: MatchState, controller: PlayerId, unit: UnitInPlay): void {
+export function factionOnEquip(
+  state: MatchState,
+  controller: PlayerId,
+  unit: UnitInPlay,
+  factionOf?: (cardId: string) => string | null | undefined
+): void {
   if (!identitiesEnabled(state)) return;
   if (factionOfCommander(state, controller) === "IRON_DEFENDERS") {
     addArmor(unit, 1);
+    if (factionOf && archetypeActive(state, controller, "IRON_DEFENDERS", factionOf)) {
+      buffAttack(unit, 1);
+    }
   }
 }
 
@@ -163,11 +265,17 @@ export function factionOnEquip(state: MatchState, controller: PlayerId, unit: Un
 export function factionOnTurnStart(
   state: MatchState,
   playerId: PlayerId,
-  costOf: (cardId: string) => number
+  costOf: (cardId: string) => number,
+  factionOf?: (cardId: string) => string | null | undefined
 ): void {
   if (!identitiesEnabled(state)) return;
   if (factionOfCommander(state, playerId) === "SILVER_SENTINELS") {
     const player = state.players[playerId];
-    if (Array.isArray(player.deck)) player.deck = scryDeck(player.deck, costOf, 1);
+    if (!Array.isArray(player.deck)) return;
+    // Insight: Scry 1 base; archetype (3+ Silver live) deepens to Scry 2 — a wider
+    // smoothing window, still NO draw and NO card advantage (pure card quality).
+    const depth =
+      factionOf && archetypeActive(state, playerId, "SILVER_SENTINELS", factionOf) ? 2 : 1;
+    player.deck = scryDeck(player.deck, costOf, depth);
   }
 }
