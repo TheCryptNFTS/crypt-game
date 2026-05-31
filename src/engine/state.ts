@@ -358,4 +358,13 @@ export interface MatchRules {
    * nexus depletion / deck-out (the historical behavior).
    */
   ascendancyToWin?: number;
+  /**
+   * FACTION IDENTITIES (#8). When true, the five curated factions gain a distinct
+   * mechanical identity (durability / tempo / card-smoothing / gear / top-end
+   * value) via the additive, no-burn hooks in `factionIdentity.ts`. ABSENT/false
+   * by default, so a vanilla match plays exactly as before and the reducer-
+   * equivalence golden JSON stays byte-identical (undefined survives
+   * structuredClone, and every identity hook is a clean no-op without this flag).
+   */
+  factionIdentities?: boolean;
 }
