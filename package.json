@@ -87,12 +87,14 @@
     "dev:lore-audit": "tsx src/dev/runLoreAudit.ts",
     "dev:aaa-audit": "tsx src/dev/runAAAReadinessAudit.ts",
     "server": "tsx server/server.ts",
-    "dev:server-convergence": "tsx src/dev/runServerConvergenceProof.ts"
+    "dev:server-convergence": "tsx src/dev/runServerConvergenceProof.ts",
+    "dev:server-persistence": "tsx src/dev/runServerPersistenceProof.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^12.10.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.14.0",
@@ -101,6 +103,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.2",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

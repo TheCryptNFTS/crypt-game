@@ -3,6 +3,9 @@ dist
 .env
 .DS_Store
 
+# durable match DB (derivable from action log; never source)
+server/.data/
+
 review_dump/
 review_dump.tar.gz
 *.bak

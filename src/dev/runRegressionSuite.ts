@@ -48,6 +48,7 @@ const commands = [
   "npm run dev:ascendancy",
   "npm run dev:secret",
   "npm run dev:faction-identity",
+  "npm run dev:server-persistence",
 ];
 
 let failed = false;

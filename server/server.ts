@@ -21,6 +21,7 @@
 
 import http from "node:http";
 import { MatchRegistry } from "./matchEngine";
+import { PersistenceStore } from "./persistence";
 import type { Action, Seat, SubmitResult, MatchState } from "./types";
 
 export interface CreateMatchBody {
@@ -35,11 +36,33 @@ export interface CreateMatchBody {
  * HTTP layer below is a trivial adapter over this object.
  */
 export class GameServer {
-  readonly registry = new MatchRegistry();
+  readonly registry: MatchRegistry;
+  /** The durable backing store (undefined => pure in-memory server). */
+  readonly store?: PersistenceStore;
   private counter = 0;
 
+  /**
+   * @param store Optional durable backing. When supplied, the server bootstraps
+   *   all persisted matches from disk on construction (restart recovery) and
+   *   persists every accepted action going forward. Omit for a pure in-memory
+   *   server (the original convergence-proof behaviour).
+   */
+  constructor(store?: PersistenceStore) {
+    this.store = store;
+    this.registry = new MatchRegistry(store);
+    // Recover any matches that survived a restart, and seed the id counter past
+    // the highest recovered numeric suffix so new ids never collide.
+    const recovered = this.registry.bootstrap();
+    if (recovered > 0) this.counter = recovered;
+  }
+
   createMatch(body: CreateMatchBody): { matchId: string; seq: number } {
-    const matchId = `m_${body.seed}_${this.counter++}`;
+    // Skip past any ids already recovered from disk so a reused seed after a
+    // restart never collides with a persisted match.
+    let matchId = `m_${body.seed}_${this.counter++}`;
+    while (this.registry.get(matchId)) {
+      matchId = `m_${body.seed}_${this.counter++}`;
+    }
     const m = this.registry.create(matchId, body.seed, body.seats, body.bootstrap);
     return { matchId, seq: m.seq };
   }
@@ -134,7 +157,10 @@ const isMain =
   process.argv[1].endsWith("server.ts");
 if (isMain) {
   const port = Number(process.env.PORT ?? 8787);
-  createHttpServer().listen(port, () => {
+  // Durable by default when run as a real server (CRYPT_DB_PATH overrides path).
+  const store = new PersistenceStore();
+  const server = new GameServer(store);
+  createHttpServer(server).listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`[crypt authoritative server] listening on :${port}`);
   });
