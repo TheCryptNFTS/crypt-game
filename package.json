@@ -40,6 +40,7 @@
     "dev:spells": "tsx src/dev/runSpellProof.ts",
     "dev:spell-archetype": "tsx src/dev/runSpellArchetypeProof.ts",
     "dev:cleave-copy": "tsx src/dev/runCleaveCopyProof.ts",
+    "dev:track-a1": "tsx src/dev/runTrackA1RoutingProof.ts",
     "dev:expressiveness": "tsx src/dev/runExpressivenessProof.ts",
     "dev:graveyard": "tsx src/dev/runGraveyardProof.ts",
     "dev:adjacency": "tsx src/dev/runAdjacencyProof.ts",
