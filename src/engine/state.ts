@@ -152,6 +152,28 @@ export interface ArtifactInPlay {
   modifiers?: Record<string, unknown>;
 }
 
+/**
+ * An armed SECRET / TRAP (#2) — a face-down reactive trigger a player sets on
+ * their own turn that fires AUTOMATICALLY the instant the opponent takes the
+ * matching action. There is no live decision and no priority pass when it fires,
+ * so it preserves the engine's locked no-stack / no-response model
+ * (RESOLUTION_MODEL.md §1): a secret is a pre-committed, deterministic reaction,
+ * NOT a response window. One-shot — it is consumed (removed) the moment it fires.
+ */
+export interface ArmedSecret {
+  /** Stable id for events / dedupe (e.g. "secret_<seed>_<n>"). */
+  id: string;
+  /** What enemy action springs it. Today only the attack-declaration window. */
+  trigger: "ON_ENEMY_ATTACK";
+  /** The reaction. "DEAL_DAMAGE" hits the triggering ENEMY UNIT (never the face —
+   *  no-burn). Kept deliberately small; new ops are additive. */
+  op: "DEAL_DAMAGE";
+  /** Magnitude for the reaction op. */
+  amount: number;
+  /** Display label for the client; never read by game logic. */
+  name?: string;
+}
+
 export interface PlayerState {
   id: PlayerId;
   /**
@@ -186,6 +208,14 @@ export interface PlayerState {
     firstUnitCostReduction: number;
     firstUnitPlayed: boolean;
   };
+  /**
+   * Armed SECRETS / TRAPS (#2). ABSENT by default — a player who never sets a
+   * secret carries no field, so `structuredClone` keeps it `undefined` and the
+   * reducer-equivalence golden JSON (which has no secret-setting actions) is
+   * unmoved. The combat hook that fires these is a pure no-op on an empty/missing
+   * zone, so vanilla matches are byte-identical.
+   */
+  secrets?: ArmedSecret[];
 }
 
 /**
