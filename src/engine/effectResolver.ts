@@ -258,6 +258,32 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       }
       break;
     }
+    case "BUFF_IF_UNDAMAGED": {
+      // Track A2 (2): "Patient/Ward. Gains +N/+N for each turn it remains
+      // undamaged." A genuine TRIGGERED stat-grower. Fired by the reducer at the
+      // controller's ON_TURN_START; it grows the unit ONLY when the unit took no
+      // damage during the round window (gate: `tookDamageThisTurn` falsy). The
+      // reducer resets that flag AFTER this fires, opening a fresh window. No-op
+      // without a source or when the unit was hit (clean, deterministic).
+      if (ctx.source && !(ctx.source as any).tookDamageThisTurn) {
+        buffUnit(ctx.source, spec.attack ?? 0, spec.health ?? 0);
+      }
+      break;
+    }
+    case "BUFF_PER_DAMAGE_TAKEN": {
+      // Track A2 (3): "Taunt/Patient. When this unit takes damage, gain +N/+N for
+      // each point of damage taken." Fires on ON_DAMAGE; the points of THAT hit are
+      // recorded on the unit as `lastDamageTaken` by the reducer immediately before
+      // firing. Scale the printed delta by that count (capped at `cap` when the
+      // text said "up to M"). A non-positive / missing hit is a clean no-op so the
+      // buff never applies spuriously or negatively.
+      if (ctx.source) {
+        let pts = Math.max(0, (ctx.source as any).lastDamageTaken ?? 0);
+        if (spec.cap !== undefined) pts = Math.min(pts, spec.cap);
+        if (pts > 0) buffUnit(ctx.source, (spec.attack ?? 0) * pts, (spec.health ?? 0) * pts);
+      }
+      break;
+    }
     case "BUFF_ALLIES": {
       for (const u of alliedUnits(state, controller)) {
         if (u === ctx.source) continue; // "Other allies"
@@ -634,6 +660,9 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
     case "AURA_COST_REDUCTION":
     case "AURA_SPELL_COST":
     case "AURA_ABILITY_SILENCE":
+    // MITIGATE_DAMAGE is a combat-legality/damage passive consumed by the reducer
+    // (mitigationFor() at applyCombatDamage time), never a one-shot effect here.
+    case "MITIGATE_DAMAGE":
     case "DOUBLE_ATTACK":
     case "PASSIVE_FLOOR_HP":
     case "MIRROR_ATTACK":

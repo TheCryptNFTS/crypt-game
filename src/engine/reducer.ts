@@ -179,14 +179,53 @@ function boardHasOp(state: MatchState, playerId: PlayerId, op: EffectOp): boolea
   return [...(b?.front ?? []), ...(b?.back ?? [])].some((u: any) => unitHasOp(u.cardId, op));
 }
 
+/** Track A2 (1): a unit's flat COMBAT-damage mitigation (Armored/Patient "reduce
+ *  damage by N"). Summed from the unit's compiled MITIGATE_DAMAGE specs and
+ *  re-derived from the static ability each call, so it is idempotent and
+ *  deterministic. Reject-soft: a missing/illegal cardId yields 0 (no mitigation).
+ *  This is SEPARATE from `armor` (already applied in resolveMitigatedDamage) and
+ *  from WARD/DIVINE_SHIELD absorb — see applyCombatDamage for the layering order. */
+function mitigationFor(cardId: string): number {
+  let total = 0;
+  for (const s of compiledFor(cardId).specs) {
+    if (s.op === "MITIGATE_DAMAGE") total += Math.max(0, s.amount ?? 0);
+  }
+  return total;
+}
+
 /** Apply a single combat-damage instance to a unit, honoring PASSIVE_FLOOR_HP
  *  (e.g. Walter): a unit with that passive can never be dropped below 1 HP by ONE
  *  damage instance. EXECUTE / hard-removal that set health to 0 directly bypass
  *  this (they are not "damage instances"). A unit already at/below 1 is untouched
- *  by the floor (it doesn't get healed up to 1). */
+ *  by the floor (it doesn't get healed up to 1).
+ *
+ *  TRACK A2 layering (documented order): the incoming `amount` reaches here AFTER
+ *  armor (resolveMitigatedDamage subtracts the defender's `armor` field) and AFTER
+ *  WARD/DIVINE_SHIELD absorb (absorbDamage in the reducer). This function then
+ *  applies the unit's flat MITIGATE_DAMAGE reduction LAST, floored at 0 so it can
+ *  never heal or push damage negative. Mitigation is intentionally kept distinct
+ *  from armor (a different field/mechanic) so it never double-counts with
+ *  PIERCE_ARMOR (which only ignores `armor`, not this reduction — by design, since
+ *  Judgment pierces armor, not the bearer's Armored "reduce damage by N" passive).
+ *
+ *  Damage-window trackers (A2 (2)/(3)) are also stamped here on the ACTUAL points
+ *  landed: `tookDamageThisTurn` flags the undamaged-window grower, and
+ *  `lastDamageTaken` / `damageTakenThisTurn` feed the per-point grower. */
 function applyCombatDamage(unit: any, amount: number): void {
   if (amount <= 0) return;
-  const after = unit.health - amount;
+  // Flat mitigation, applied last and floored at 0 (never heals / goes negative).
+  const mitigated = Math.max(0, amount - mitigationFor(unit.cardId));
+  if (mitigated <= 0) {
+    // Fully absorbed: no damage landed. Zero the per-hit record so a downstream
+    // ON_DAMAGE per-point grower reads 0 (no spurious buff off a stale value).
+    unit.lastDamageTaken = 0;
+    return;
+  }
+  // Damage-window bookkeeping on the points actually landed.
+  unit.tookDamageThisTurn = true;
+  unit.lastDamageTaken = mitigated;
+  unit.damageTakenThisTurn = (unit.damageTakenThisTurn ?? 0) + mitigated;
+  const after = unit.health - mitigated;
   if (unitHasOp(unit.cardId, "PASSIVE_FLOOR_HP") && unit.health > 1 && after < 1) {
     unit.health = 1;
   } else {
@@ -1025,7 +1064,18 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
           unit.windfuryStruck = false; // WINDFURY bonus attack refreshes each turn
           unit.attacksThisTurn = 0; // DOUBLE_ATTACK tally refreshes each turn
           regrowAtTurnStart(unit);
+          // TRACK A2 (2): the "per turn undamaged" grower (BUFF_IF_UNDAMAGED) reads
+          // `tookDamageThisTurn` here — it grows the unit only if it went the round
+          // untouched. We fire FIRST (so the resolver sees the round's damage
+          // state), then reset the damage-window trackers, opening a fresh window
+          // for this controller's turn. The window boundary is the controller's own
+          // turn start (ON_TURN_START), matching "each turn it remains undamaged".
           fireTrigger(next, nextPlayerId, unit, "ON_TURN_START");
+          unit.tookDamageThisTurn = false;
+          // TRACK A2 (3): reset the per-point damage accumulator at the same
+          // boundary (its grower already fired on ON_DAMAGE during the round).
+          unit.damageTakenThisTurn = 0;
+          unit.lastDamageTaken = 0;
         }
       }
 

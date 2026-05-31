@@ -65,6 +65,9 @@ export type EffectOp =
   | "DOUBLE_ATTACK" // passive: this unit may attack twice per turn
   | "AURA_SPELL_COST" // continuous: friendly spells cost N less
   | "AURA_ABILITY_SILENCE" // continuous: enemy units cannot trigger their abilities
+  | "MITIGATE_DAMAGE" // passive: reduce each instance of COMBAT damage to the bearer by N (floor 0)
+  | "BUFF_IF_UNDAMAGED" // turn-boundary: +A/+H at the controller's turn start IF the unit took no damage that round
+  | "BUFF_PER_DAMAGE_TAKEN" // on-damage: +A/+H scaled by the points of damage just taken (optional cap)
   // Deck-manipulation ops (deterministic; operate on the controller's own deck):
   | "TUTOR_FROM_DECK" // search the deck for a selector-matched card -> hand
   | "DRAW_FILTERED" // draw the first N cards of a given type from the deck top -> hand
@@ -129,6 +132,10 @@ export interface EffectSpec {
   tutorSelector?: "LOWEST_COST_UNIT" | "LOWEST_COST_SPELL" | "HIGHEST_COST_UNIT";
   /** DRAW_FILTERED: the card type to draw from the deck top (others are skipped). */
   drawType?: "UNIT" | "SPELL";
+  /** BUFF_PER_DAMAGE_TAKEN: optional ceiling on the per-point stat growth from a
+   *  single hit ("gain +1/+1 for each damage taken up to 3"). When set, the buff
+   *  multiplier is min(damageJustTaken, cap). Absent = no cap. */
+  cap?: number;
   /** The source clause this spec was compiled from (for debugging/proofs). */
   raw: string;
 }
@@ -579,6 +586,122 @@ const REAL_OP_KEYWORDS = new Set([
   "global",
 ]);
 
+// --- Track A2: damage mitigation + per-unit damage-window trackers ------------
+//
+// (1) MITIGATE_DAMAGE — a flat per-instance reduction of incoming COMBAT damage
+//     to the bearer. The reduction magnitude is the explicit number in a
+//     "reduce ... by N" / "takes N less damage" / "reduces damage ... by N" /
+//     "absorbs N damage" / "prevents the first N damage" clause. When the leading
+//     keyword itself is "Armored N", that number is the fallback. NEVER matches
+//     the "takes no damage from the first attack/source" full-negation variants
+//     (a different mechanic with no flat -N) — those stay as the inert KEYWORD
+//     reminder, honestly. Emitted at PASSIVE: the reducer reads it by op at combat
+//     time, recomputed from the unit's compiled ability (deterministic).
+const MITIGATE_BY_RE =
+  /(?:reduce[s]?|lower[s]?)\s+(?:the\s+|that\s+|this\s+|all\s+|incoming\s+|each\s+|its\s+|damage\s+(?:taken|received|dealt(?:\s+to\s+it)?)\s+)*(?:incoming\s+)?damage(?:\s+(?:taken|received|dealt(?:\s+to\s+(?:it|this unit))?|from\s+(?:attacks|incoming attacks|all sources|each (?:attack|source))))?\s+by\s+(\d+)/i;
+// "reduce it by N" (the "it" stands in for the just-mentioned damage).
+const MITIGATE_IT_BY_RE = /reduce[s]?\s+it\s+by\s+(\d+)/i;
+// "takes N less damage" / "N less damage from attacks/sources" / "takes N less".
+const MITIGATE_LESS_RE =
+  /takes?\s+(\d+)\s+less\s+damage|(\d+)\s+less\s+damage\s+from\b|takes?\s+(\d+)\s+less\b/i;
+// "reduces damage ... by N" / "reduces incoming damage by N" / "reduces damage from attacks by N".
+const MITIGATE_REDUCES_RE = /reduces?\s+(?:incoming\s+|all\s+)?damage(?:\s+(?:taken|from\s+(?:attacks|incoming attacks)))?\s+by\s+(\d+)/i;
+// "absorbs N damage" / "prevents the first N damage".
+const MITIGATE_ABSORB_RE = /absorbs?\s+(\d+)\s+damage|prevents?\s+the\s+first\s+(\d+)\s+damage/i;
+// Leading "Armored N" number as the fallback magnitude.
+const ARMORED_N_RE = /^armored\s+(\d+)\b/i;
+
+/** Detect a flat damage-mitigation magnitude in `text` for the Armored/Patient
+ *  mitigation cluster. Returns the reduction amount or null. The full-negation
+ *  "takes no damage from the first attack" variants deliberately return null. */
+function parseMitigationAmount(text: string): number | null {
+  for (const re of [MITIGATE_IT_BY_RE, MITIGATE_BY_RE, MITIGATE_REDUCES_RE]) {
+    const m = text.match(re);
+    if (m) {
+      const n = m.slice(1).find((g) => g !== undefined);
+      if (n !== undefined) return +n;
+    }
+  }
+  const less = text.match(MITIGATE_LESS_RE);
+  if (less) {
+    const n = less.slice(1).find((g) => g !== undefined);
+    if (n !== undefined) return +n;
+  }
+  const ab = text.match(MITIGATE_ABSORB_RE);
+  if (ab) {
+    const n = ab.slice(1).find((g) => g !== undefined);
+    if (n !== undefined) return +n;
+  }
+  const armored = text.match(ARMORED_N_RE);
+  if (armored) return +armored[1];
+  return null;
+}
+
+// (2) "per turn undamaged" grower. The growth window is a full turn-cycle: the
+//     unit grows +N/+N at its controller's turn start ONLY if it took no damage
+//     since the previous check (tracked by tookDamageThisTurn). The "undamaged"
+//     synonyms the corpus uses: undamaged / unscathed / untouched / uninjured /
+//     unharmed / unchallenged / unchallenged / without taking damage.
+const UNDAMAGED_RE =
+  /\b(?:undamaged|unscathed|untouched|uninjured|unharmed|unchallenged|endures damage)\b/i;
+const PER_TURN_RE = /for each (?:turn|round)|each turn it remains|per turn|gains?\s+\+?\d+\s*\/\s*\+?\d+[^.]*\b(?:turn|round)\b/i;
+
+/** "Patient/Ward. [This unit] gains +N/+N for each turn it remains undamaged."
+ *  A genuine TRIGGERED stat-grower gated on an undamaged turn window. Emits
+ *  BUFF_IF_UNDAMAGED at ON_TURN_START. Only matches the per-turn-undamaged form
+ *  (NOT "for each turn on the battlefield" which is the existing unconditional
+ *  Patient grower, NOR the "for each point of damage taken" per-point grower). */
+function parsePerTurnUndamagedBuff(text: string): EffectSpec | null {
+  if (!UNDAMAGED_RE.test(text)) return null;
+  if (!PER_TURN_RE.test(text)) return null;
+  // Must be a turn-window grower, not a per-point-of-damage grower.
+  if (/for each (?:point of )?damage|per point of damage/i.test(text)) return null;
+  const nm = text.match(/gains?\s+\+?(\d+)\s*\/\s*\+?(\d+)/i);
+  if (!nm) return null;
+  return { trigger: "ON_TURN_START", op: "BUFF_IF_UNDAMAGED", attack: +nm[1], health: +nm[2], raw: text };
+}
+
+// (3) "per point of damage taken" accumulator-scaled grower. On ON_DAMAGE the
+//     unit grows +N/+N times the points of damage it just took (optional cap).
+const PER_POINT_DMG_RE =
+  /(?:for each|per)\s+(?:point of\s+)?damage(?:\s+(?:it\s+)?(?:taken|received|takes|receives|lost))?\b/i;
+
+/** "Taunt/Patient/Armored. When this unit takes damage, gain +N/+N for each point
+ *  of damage taken [up to M]." A genuine ON_DAMAGE triggered buff scaled by the
+ *  points of THAT hit. Emits BUFF_PER_DAMAGE_TAKEN; the resolver reads the hit
+ *  magnitude off the unit and multiplies (capped at `cap` when present). */
+function parsePerDamageTakenBuff(text: string): EffectSpec | null {
+  if (!ON_DAMAGE_TRIGGER_RE.test(text)) return null;
+  if (!PER_POINT_DMG_RE.test(text)) return null;
+  const nm = text.match(/gains?\s+\+?(\d+)\s*\/\s*\+?(\d+)/i);
+  // "+N/+N" growth or a single-stat "gain +N health for each point" form.
+  if (nm) {
+    const cap = text.match(/up to\s+\+?(\d+)/i);
+    return {
+      trigger: "ON_DAMAGE",
+      op: "BUFF_PER_DAMAGE_TAKEN",
+      attack: +nm[1],
+      health: +nm[2],
+      ...(cap ? { cap: +cap[1] } : {}),
+      raw: text,
+    };
+  }
+  const single = text.match(/gains?\s+\+?(\d+)\s+(attack|health|hp|life)\b/i);
+  if (single) {
+    const isAtk = /attack/i.test(single[2]);
+    const cap = text.match(/up to\s+\+?(\d+)/i);
+    return {
+      trigger: "ON_DAMAGE",
+      op: "BUFF_PER_DAMAGE_TAKEN",
+      attack: isAtk ? +single[1] : 0,
+      health: isAtk ? 0 : +single[1],
+      ...(cap ? { cap: +cap[1] } : {}),
+      raw: text,
+    };
+  }
+  return null;
+}
+
 /** Parse the optional rider that trails a Taunt keyword:
  *  "When this unit takes damage, <gain N/N | deal N | draw | create token>." */
 function parseTauntRider(text: string): EffectSpec | null {
@@ -590,8 +713,12 @@ function parseTauntRider(text: string): EffectSpec | null {
   if (token) {
     return { trigger: "ON_DAMAGE", op: "SUMMON_TOKEN", attack: +token[1], health: +token[2], token: token[3].trim(), raw: text };
   }
+  // Track A2 (3): a "gain +N/+N for each point of damage taken" clause is a
+  // per-point grower, NOT a fixed +N/+N. Defer it to the BUFF_PER_DAMAGE_TAKEN
+  // rider (parsed in compileAbility) by NOT claiming it as a flat BUFF_SELF here.
+  const perPoint = PER_POINT_DMG_RE.test(text);
   const nn = text.match(NN_DELTA_RE);
-  if (nn && /gain/.test(lower)) {
+  if (nn && /gain/.test(lower) && !perPoint) {
     return { trigger: "ON_DAMAGE", op: "BUFF_SELF", attack: +nn[1], health: +nn[2], raw: text };
   }
   const deal = text.match(DEAL_RE);
@@ -722,6 +849,33 @@ function compileKeyword(kw: string, full: string, clauseText: string): EffectSpe
         return [
           { trigger: "STATIC", op: "RESTRICT_ATTACK", raw: clauseText },
           { trigger: "ON_TURN_END", op: "BUFF_SELF", attack, health, scaleBy: "ADJACENT_UNITS", raw: clauseText },
+        ];
+      }
+      // Track A2 (2): "gains +N/+N for each turn it remains undamaged" — a genuine
+      // turn-window grower gated on the unit going untouched. Replaces the
+      // unconditional ON_TURN_START grower with the gated BUFF_IF_UNDAMAGED so it
+      // does NOT grow on a turn the unit was hit.
+      const undamaged = parsePerTurnUndamagedBuff(full);
+      if (undamaged) {
+        return [{ trigger: "STATIC", op: "RESTRICT_ATTACK", raw: clauseText }, undamaged];
+      }
+      // Track A2 (3): "When this unit takes damage, gain +N/+N for each point of
+      // damage taken" — an ON_DAMAGE grower scaled by the points of THAT hit.
+      const perDmg = parsePerDamageTakenBuff(full);
+      if (perDmg) {
+        const specs: EffectSpec[] = [{ trigger: "STATIC", op: "RESTRICT_ATTACK", raw: clauseText }, perDmg];
+        const mit = parseMitigationAmount(full);
+        if (mit !== null) specs.push({ trigger: "PASSIVE", op: "MITIGATE_DAMAGE", amount: mit, raw: clauseText });
+        return specs;
+      }
+      // Track A2 (1): "Patient. When/On ... reduce (damage) by N" — a flat combat
+      // damage mitigation on the bearer (the "Patient. On attack, reduce damage by
+      // N" / "reduce damage taken by N" cluster). No turn-start grower in this case.
+      const patientMit = parseMitigationAmount(full);
+      if (patientMit !== null && /reduce|less\s+damage|absorb|prevent/i.test(full)) {
+        return [
+          { trigger: "STATIC", op: "RESTRICT_ATTACK", raw: clauseText },
+          { trigger: "PASSIVE", op: "MITIGATE_DAMAGE", amount: patientMit, raw: clauseText },
         ];
       }
       const fe = full.match(FOR_EACH_RE);
@@ -1264,6 +1418,46 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
     }
     if (added.length) {
       for (let i = classified.length - added.length - 1; i >= 0; i -= 1) {
+        if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+      }
+    }
+  }
+
+  // 9. Track A2 riders — damage mitigation + per-unit damage-window growers. These
+  //    ride keywords that compile to an inert reminder (Armored / Ward / Shield /
+  //    Taunt) or have no leading keyword, so without this pass the numeric
+  //    reduce-damage / per-turn-undamaged / per-point-of-damage clause would be a
+  //    no-op. Each op is emitted only if an equivalent (op,trigger) was not already
+  //    classified by the keyword pass above (so the Patient case's own emits are
+  //    not duplicated), then any UNKNOWN it explains is dropped.
+  {
+    const a2: EffectSpec[] = [];
+    if (!classified.some((s) => s.op === "MITIGATE_DAMAGE")) {
+      const mit = parseMitigationAmount(text);
+      // Only a genuine flat-reduction phrasing (not a bare "Armored." reminder with
+      // no number, and not the "takes no damage from the first attack" negation).
+      if (mit !== null && /reduce|less\s+damage|absorb|prevent|^armored\s+\d/i.test(text)) {
+        a2.push({ trigger: "PASSIVE", op: "MITIGATE_DAMAGE", amount: mit, raw: text });
+      }
+    }
+    if (!classified.some((s) => s.op === "BUFF_IF_UNDAMAGED")) {
+      const u = parsePerTurnUndamagedBuff(text);
+      // Skip if an unconditional ON_TURN_START grower already claimed this clause
+      // (the keyword pass owns the non-undamaged Patient growth).
+      if (u && !classified.some((s) => s.trigger === "ON_TURN_START" && s.op === "BUFF_SELF")) {
+        a2.push(u);
+      }
+    }
+    if (
+      !classified.some((s) => s.op === "BUFF_PER_DAMAGE_TAKEN") &&
+      !classified.some((s) => s.trigger === "ON_DAMAGE" && s.op === "BUFF_SELF")
+    ) {
+      const p = parsePerDamageTakenBuff(text);
+      if (p) a2.push(p);
+    }
+    if (a2.length) {
+      classified.push(...a2);
+      for (let i = classified.length - a2.length - 1; i >= 0; i -= 1) {
         if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
       }
     }

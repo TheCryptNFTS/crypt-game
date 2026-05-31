@@ -94,6 +94,26 @@ export interface UnitInPlay {
    * twice. Optional so fixtures default to "revive available".
    */
   reviveUsed?: boolean;
+  /**
+   * "PATIENT / per turn undamaged" bookkeeping (BUFF_IF_UNDAMAGED). Set true the
+   * moment this unit takes ANY damage (combat or ability), so the controller's
+   * turn-boundary grower can tell whether the unit went a full round untouched.
+   * The reducer checks it at the unit's ON_TURN_START — if still falsy, it fires
+   * the +N/+N growth — then resets it to false (a fresh undamaged window begins).
+   * Optional so fixtures default to "undamaged".
+   */
+  tookDamageThisTurn?: boolean;
+  /**
+   * "TAUNT / gain +N/+N per point of damage taken" bookkeeping. Accumulates the
+   * total points of damage this unit has taken during the current turn window;
+   * `lastDamageTaken` records the points from the SINGLE most-recent hit, which is
+   * what the ON_DAMAGE per-point grower (BUFF_PER_DAMAGE_TAKEN) scales by ("per
+   * point of damage taken" = per point of THAT hit). The accumulator is reset at
+   * the controller's turn boundary. Both deterministic; optional so fixtures
+   * default to 0 (no damage taken).
+   */
+  damageTakenThisTurn?: number;
+  lastDamageTaken?: number;
 }
 
 /**
