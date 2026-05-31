@@ -23,6 +23,7 @@ const commands = [
   "npm run dev:spells",
   "npm run dev:spell-archetype",
   "npm run dev:choice",
+  "npm run dev:discover-spells",
   "npm run dev:cleave-copy",
   "npm run dev:track-a1",
   "npm run dev:track-a2",

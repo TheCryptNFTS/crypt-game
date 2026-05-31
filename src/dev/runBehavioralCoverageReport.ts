@@ -81,8 +81,10 @@ const ACTIVE_OPS = new Set<EffectOp>([
   // DISCOVER: a mid-resolution player CHOICE (Hearthstone Discover) that PAUSES the
   // action via state.pendingChoice and resumes on a logged RESOLVE_CHOICE. Wired
   // honestly: it fires on ON_SUMMON/cast (and ON_DEATH) and genuinely moves a card
-  // to hand. No shipped card's text matches the "discover" verb yet, so this adds
-  // +0 to the live coverage count — it is counted here because the op IS wired.
+  // to hand. As of the Discover-spell content drop the live SPELL archetype ships
+  // 4 cards whose text matches the "discover" verb (spell_scout / spell_archive /
+  // spell_salvage / spell_grand_survey), so this op now contributes +4 behaviorally-
+  // wired cards (primary op DISCOVER) to the live coverage count.
   "DISCOVER",
 ]);
 

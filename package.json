@@ -40,6 +40,7 @@
     "dev:spells": "tsx src/dev/runSpellProof.ts",
     "dev:spell-archetype": "tsx src/dev/runSpellArchetypeProof.ts",
     "dev:choice": "tsx src/dev/runChoiceProof.ts",
+    "dev:discover-spells": "tsx src/dev/runDiscoverSpellProof.ts",
     "dev:cleave-copy": "tsx src/dev/runCleaveCopyProof.ts",
     "dev:track-a1": "tsx src/dev/runTrackA1RoutingProof.ts",
     "dev:track-a2": "tsx src/dev/runTrackA2Proof.ts",
