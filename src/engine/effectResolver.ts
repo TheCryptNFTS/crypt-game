@@ -264,6 +264,48 @@ export function seededDistinctPick(
   return { indices: pool.slice(0, want), draws };
 }
 
+/**
+ * Pick ONE index from a pool of `size` candidates using the match's SEEDED rng
+ * stream (state.seed + state.rngCursor), advancing `state.rngCursor` by exactly
+ * the draws consumed so the pick is replay-stable. Returns -1 for an empty pool.
+ *
+ * BYTE-IDENTICAL-SAFE for singletons: a pool of size 1 returns index 0 with ZERO
+ * draws (seededDistinctPick returns the whole pool with no RNG when k>=size), so
+ * the cursor is untouched and any card whose eligible pool is a singleton behaves
+ * exactly like the deterministic (non-random) path — no fixture moves. Only a
+ * genuine tie (size >= 2) consumes a draw and varies with the seed.
+ */
+function seededPickOne(state: MatchState, size: number): number {
+  if (size <= 0) return -1;
+  const pick = seededDistinctPick(state.seed, state.rngCursor ?? 0, size, 1);
+  state.rngCursor = (state.rngCursor ?? 0) + pick.draws;
+  return pick.indices[0] ?? -1;
+}
+
+/** Build a fresh live unit from a popped graveyard record (full HP, no sickness).
+ *  Shared by RESURRECT and RESURRECT_RANDOM so the revived body is identical
+ *  regardless of which graveyard slot was chosen. */
+function reviveRecord(ctx: EffectContext, rec: { cardId: string; attack: number; maxHealth: number; keywords: string[] }): void {
+  const { state, controller } = ctx;
+  const counter = state.idCounter ?? 0;
+  state.idCounter = counter + 1;
+  const lane: Lane = ctx.source?.lane ?? ctx.lane ?? "front";
+  const revived: UnitInPlay = {
+    instanceId: `unit_${state.seed}_${counter}`,
+    cardId: rec.cardId,
+    lane,
+    attack: rec.attack,
+    health: rec.maxHealth,
+    maxHealth: rec.maxHealth,
+    speed: 0,
+    armor: 0,
+    keywords: [...(rec.keywords ?? [])],
+    exhausted: false,
+    summoningSick: false,
+  };
+  state.players[controller].board[lane].push(revived);
+}
+
 /** Append a cardId to a player's hand (the RESOLVE_CHOICE resume tail for a
  *  Discover whose source is "pool"). Pure mutation, no RNG. */
 export function addCardToHand(state: MatchState, controller: PlayerId, cardId: string): void {
@@ -356,7 +398,17 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
     }
     case "DEBUFF_ENEMY": {
       const tgt = ctx.target;
-      if (tgt) tgt.attack = Math.max(0, tgt.attack - (spec.amount ?? 0));
+      if (tgt) {
+        // Floor at 0 so attack never goes negative; apply only the amount that
+        // actually lands (so a temporary debuff records exactly what it removed).
+        const applied = Math.min(spec.amount ?? 0, tgt.attack);
+        if (applied > 0) {
+          tgt.attack -= applied;
+          // "until the end of the turn": stash the removed amount so the reducer's
+          // turn-end hook restores it (mirrors DEBUFF_ALL_ENEMIES' temp model).
+          if (spec.temporary) tgt.tempAtkDebuff = (tgt.tempAtkDebuff ?? 0) + applied;
+        }
+      }
       break;
     }
     case "SUMMON_TOKEN": {
@@ -407,23 +459,23 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       const grave = state.players[controller].graveyard ?? [];
       const rec = grave.pop();
       if (rec) {
-        const counter = state.idCounter ?? 0;
-        state.idCounter = counter + 1;
-        const lane: Lane = ctx.source?.lane ?? ctx.lane ?? "front";
-        const revived: UnitInPlay = {
-          instanceId: `unit_${state.seed}_${counter}`,
-          cardId: rec.cardId,
-          lane,
-          attack: rec.attack,
-          health: rec.maxHealth,
-          maxHealth: rec.maxHealth,
-          speed: 0,
-          armor: 0,
-          keywords: [...(rec.keywords ?? [])],
-          exhausted: false,
-          summoningSick: false,
-        };
-        state.players[controller].board[lane].push(revived);
+        reviveRecord(ctx, rec);
+        state.players[controller].graveyard = grave;
+      }
+      break;
+    }
+    case "RESURRECT_RANDOM": {
+      // SEEDED-RANDOM resurrection: pick ONE record from the controller's
+      // graveyard using the match's seeded rng (state.seed + rngCursor), remove
+      // it, and put a fresh full-health live copy on the board. Determinism:
+      // identical seeds -> identical pick; a single-entry grave consumes NO rng
+      // draw (deterministic) so it composes byte-identically with non-random
+      // graveyard cards. Empty grave -> clean no-op.
+      const grave = [...(state.players[controller].graveyard ?? [])];
+      const idx = seededPickOne(state, grave.length);
+      if (idx >= 0) {
+        const [rec] = grave.splice(idx, 1);
+        reviveRecord(ctx, rec);
         state.players[controller].graveyard = grave;
       }
       break;
@@ -555,15 +607,19 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
         pool = foes.filter((u) => (u.attack ?? 0) >= threshold);
       }
       if (pool.length === 0) break;
-      // Pick the highest-cost candidate; first-seen wins ties (board order).
-      let victim = pool[0];
-      let bestCost = cost(victim);
-      for (const u of pool) {
-        const c = cost(u);
-        if (c > bestCost) {
-          victim = u;
-          bestCost = c;
-        }
+      // Find the highest-cost tier among the eligible pool.
+      let bestCost = cost(pool[0]);
+      for (const u of pool) bestCost = Math.max(bestCost, cost(u));
+      const topTier = pool.filter((u) => cost(u) === bestCost);
+      // Deterministic default: first-seen of the top tier (board scan order).
+      // spec.random: pick a SEEDED-RANDOM victim WITHIN the highest-cost tier (the
+      // match's seed + rngCursor). A singleton top tier consumes NO rng draw, so a
+      // card whose costliest enemy is unique reaps it deterministically (identical
+      // to the non-random path) and identical seeds always pick the same tie.
+      let victim = topTier[0];
+      if (spec.random) {
+        const idx = seededPickOne(state, topTier.length);
+        if (idx >= 0) victim = topTier[idx];
       }
       victim.health = 0; // reaped (with deathrattles/on-death) by resolveDeaths
       break;
@@ -585,11 +641,20 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       break;
     }
     case "RESURRECT_AS_TOKEN": {
-      // Pop the controller's most-recent graveyard record and resummon it as a
-      // 1/1 token (original stats ignored), optionally stamped with a keyword.
-      // No-op on an empty grave.
-      const grave = state.players[controller].graveyard ?? [];
-      const rec = grave.pop();
+      // Resummon a dead friendly unit as a 1/1 token (original stats ignored),
+      // optionally stamped with a keyword. By default pops the most-recent grave
+      // record (LIFO); when spec.random is set, picks a SEEDED-RANDOM record from
+      // the controller's graveyard instead (state.seed + rngCursor; a single-entry
+      // grave consumes no draw -> deterministic). No-op on an empty grave.
+      let grave = state.players[controller].graveyard ?? [];
+      let rec: { cardId: string; attack: number; maxHealth: number; keywords: string[] } | undefined;
+      if (spec.random) {
+        grave = [...grave];
+        const idx = seededPickOne(state, grave.length);
+        if (idx >= 0) [rec] = grave.splice(idx, 1);
+      } else {
+        rec = grave.pop();
+      }
       if (rec) {
         const counter = state.idCounter ?? 0;
         state.idCounter = counter + 1;

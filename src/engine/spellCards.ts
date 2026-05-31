@@ -106,4 +106,42 @@ export const liveSpells: SpellCard[] = [
   spell("spell_archive", "Archive", "SILVER_SENTINELS", 2, "On play: discover a spell.", "safe"),
   spell("spell_salvage", "Salvage", "BRONZE_GUARDIANS", 1, "On play: discover a card.", "safe"),
   spell("spell_grand_survey", "Grand Survey", "STONE_KEEPERS", 3, "On play: discover one of 4 units.", "safe"),
+
+  // ==========================================================================
+  // CONTENT EXPANSION (2026.05.31) — roughly doubles the deck-legal spell pool
+  // with VARIED archetypes, all on the EXISTING resolver vocabulary. Every entry
+  // obeys the locked constraints:
+  //   - NO-BURN: no direct damage to an enemy nexus/face. Damage spells hit enemy
+  //     UNITS only; nexus heals only ever restore the CASTER's own nexus.
+  //   - "+X/+Y" buff lines are runtime BUFF effects (compiled BUFF_SELF on a
+  //     chosen ally / the caster's source), never a static stat line.
+  // Tiering mirrors the existing pool: pure own-value / deck-shaping = "safe"
+  // (auto-draftable by buildCuratedDeck); single-target removal / bounce /
+  // board-wide enemy-unit AoE = "restricted" (engine-legal + deck-legal via
+  // allPlayableCards, but never AUTO-drafted until a matchup-sim balance gate
+  // exists — same policy as spell_strike / spell_annihilate).
+  // ==========================================================================
+
+  // --- safe: pure value / tempo (own board, own deck, own nexus) ---
+  spell("spell_meditate", "Meditate", "SILVER_SENTINELS", 3, "On play: draw 3 cards.", "safe"),
+  spell("spell_fortify", "Fortify", "BRONZE_GUARDIANS", 3, "On play: heal 5 health.", "safe"),
+  spell("spell_swell", "Swell", "STONE_KEEPERS", 3, "On play: gain +3/+3.", "safe"),
+  spell("spell_warhorn", "War Horn", "STONE_KEEPERS", 2, "On play: gain +1/+2.", "safe"),
+  spell("spell_bulwark", "Bulwark", "BRONZE_GUARDIANS", 2, "On play: restore 3 to your nexus.", "safe"),
+  // graveyard value (own grave): reclaim a card OR re-deploy a body.
+  spell("spell_exhume", "Exhume", "BRONZE_GUARDIANS", 2, "On play: recover a friendly unit from your graveyard to your hand.", "safe"),
+  spell("spell_revenant_call", "Revenant Call", "BRONZE_GUARDIANS", 4, "On play: resurrect a friendly unit from your graveyard to play.", "safe"),
+  // SEEDED-RANDOM graveyard re-deploy (the new RESURRECT_RANDOM op as content):
+  // honest "random" — pick is drawn from the match's seeded stream, replay-stable.
+  spell("spell_necrocall", "Necrocall", "BRONZE_GUARDIANS", 3, "On play: resurrect a random friendly unit from your graveyard to play.", "safe"),
+  // tokens (own board presence)
+  spell("spell_reinforce", "Reinforce", "IRON_DEFENDERS", 2, "On play: summon a 2/2 Wraith.", "safe"),
+  spell("spell_twin_rites", "Twin Rites", "IRON_DEFENDERS", 3, "On play: summon two 1/1 Wraiths.", "safe"),
+  // deck-shaping (own deck; deterministic)
+  spell("spell_divine", "Divine", "SILVER_SENTINELS", 2, "On play: search your deck for the lowest-cost spell.", "safe"),
+
+  // --- restricted: removal / tempo (enemy UNITS only; never the nexus) ---
+  spell("spell_cull", "Cull", "GODS", 4, "On play: destroy an enemy unit.", "restricted"),
+  spell("spell_scour", "Scour", "GOLDEN_SOVEREIGNS", 2, "On play: an enemy loses 3 attack.", "restricted"),
+  spell("spell_banish", "Banish", "SILVER_SENTINELS", 3, "On play: return an enemy unit to its owner's hand.", "restricted"),
 ];

@@ -28,6 +28,8 @@
     "dev:ascendancy": "tsx src/dev/runAscendancyProof.ts",
     "dev:secret": "tsx src/dev/runSecretProof.ts",
     "dev:faction-identity": "tsx src/dev/runFactionIdentityProof.ts",
+    "dev:seeded-random": "tsx src/dev/runSeededRandomProof.ts",
+    "dev:expanded-spells": "tsx src/dev/runExpandedSpellPoolProof.ts",
     "dev:combat-parity": "tsx src/dev/runCombatParityProof.ts",
     "dev:keywords": "tsx src/dev/runKeywordMechanicsProof.ts",
     "dev:combatkw": "tsx src/dev/runCombatKeywordProof.ts",
