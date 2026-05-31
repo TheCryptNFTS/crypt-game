@@ -52,7 +52,7 @@ export interface CardOverride {
 }
 
 /** Patch version stamp. A literal string — never a runtime date. */
-export const CARD_OVERRIDES_VERSION = "2026.05.31";
+export const CARD_OVERRIDES_VERSION = "2026.06.01";
 
 /**
  * The live balance patch. Keyed by `cardId`. Only a few illustrative entries
@@ -153,8 +153,34 @@ export const cardOverrides: Record<string, CardOverride> = {
   // 'guard') + AURA_ABILITY_SILENCE PASSIVE (parseNamedMechanics
   // /enemy units cannot trigger abilit/).
   tcg_3350: {
+    cost: 9,
+    health: 8,
     ability: "Guard. While in play, enemy units cannot trigger abilities (triggered abilities only; auras still function).",
-    note: "Honesty fix: silence applies to triggered abilities only; auras/death-watchers bypass it. Compiles to KEYWORD_WIRED:GUARD + AURA_ABILITY_SILENCE PASSIVE.",
+    note: "Honesty fix: silence applies to triggered abilities only; auras/death-watchers bypass it. Compiles to KEYWORD_WIRED:GUARD + AURA_ABILITY_SILENCE PASSIVE. Balance (2026.06.01): 8-mana 3/10 -> 9-mana 3/8. A permanent triggered-silence aura on a Guard body must pay a premium cost + reduced toughness to stay answerable (cf. HS Loatheb, a 5-mana 1-turn delay).",
+  },
+
+  // --- balance nerfs (2026.06.01) -------------------------------------------
+
+  // tcg_3267 "Kiss of Death": SWAP_STATS_ALL_ENEMIES is a one-sided board wipe vs
+  // high-hp/low-atk boards. At 7-mana 5/7 Flying the evasive body is above curve
+  // for the effect. Reprice to the 8-mana board-wipe tier and trim the leftover
+  // body to 4/5 (killable by any 5-atk unit). Effect scope unchanged (all enemies).
+  tcg_3267: {
+    cost: 8,
+    attack: 4,
+    health: 5,
+    note: "Balance nerf: 7-mana 5/7 -> 8-mana 4/5 (Flying kept). Global atk/hp swap is a board wipe; priced to the 8-mana wipe tier (cf. LoR Ruination, 7-mana, leaves no body).",
+  },
+
+  // tcg_3345 "Harley": Rush + DOUBLE_ATTACK delivers ~12 split board damage the
+  // turn it lands (no face-burn in this game, so it's pure board control burst).
+  // Cost 7 -> 8 removes the "free" tempo turn; 5/4 keeps the double-attack fantasy
+  // but makes her answerable on the counterswing. Rush + DOUBLE_ATTACK retained.
+  tcg_3345: {
+    cost: 8,
+    attack: 5,
+    health: 4,
+    note: "Balance nerf: 7-mana 6/5 -> 8-mana 5/4 (Rush + DOUBLE_ATTACK kept). Multi-hit rush burst priced 1 mana above its statline (cf. HS multi-strike rush pricing).",
   },
 
   // --- marquee card ability wiring ------------------------------------------
