@@ -78,7 +78,9 @@
     "dev:legendary": "tsx src/dev/runLegendaryCombatProof.ts",
     "dev:expert-regression": "tsx src/dev/runFullExpertRegression.ts",
     "dev:lore-audit": "tsx src/dev/runLoreAudit.ts",
-    "dev:aaa-audit": "tsx src/dev/runAAAReadinessAudit.ts"
+    "dev:aaa-audit": "tsx src/dev/runAAAReadinessAudit.ts",
+    "server": "tsx server/server.ts",
+    "dev:server-convergence": "tsx src/dev/runServerConvergenceProof.ts"
   },
   "keywords": [],
   "author": "",
