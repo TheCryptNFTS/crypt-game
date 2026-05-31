@@ -59,6 +59,10 @@ export const spellCards: SpellCard[] = [
   // --- restricted (removal / tempo; fixture-only until balance-gated) ---
   spell("spell_strike", "Strike", "IRON_DEFENDERS", 1, "On play: deal 3 damage.", "restricted"),
   spell("spell_sap", "Sap", "GOLDEN_SOVEREIGNS", 1, "On play: enemy loses 2 attack.", "restricted"),
+  // Lane sweep (#11): punishes clustering. Hits every enemy unit in the densest
+  // enemy lane — an AoE removal class effect, so it stays fixture-only/restricted
+  // until a matchup-sim balance gate exists. Never touches the nexus (no-burn).
+  spell("spell_lanebreak", "Lanebreak", "IRON_DEFENDERS", 3, "On play: deal 2 damage to every enemy unit in a lane.", "restricted"),
   // --- advanced ops (DESTROY / HEAL_NEXUS / RETURN_TO_HAND) ---
   spell("spell_annihilate", "Annihilate", "GODS", 4, "On play: destroy an enemy unit.", "restricted"),
   spell("spell_recall", "Recall", "SILVER_SENTINELS", 2, "On play: return an enemy unit to its owner's hand.", "restricted"),

@@ -484,6 +484,26 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       }
       break;
     }
+    case "DAMAGE_LANE": {
+      // Sweep every enemy unit in ONE enemy lane. Default "densest" picks the
+      // enemy lane holding the most units (ties -> "front" for determinism), so
+      // clustering bodies in a single lane is punished and the PLACEMENT choice
+      // becomes mechanically meaningful. Enemy units only — never the nexus
+      // (locked no-burn constraint). A clean no-op when the enemy board is empty.
+      const enemy: PlayerId = controller === "P1" ? "P2" : "P1";
+      const enemyBoard = state.players[enemy].board;
+      const front = enemyBoard.front ?? [];
+      const back = enemyBoard.back ?? [];
+      let lane: UnitInPlay[];
+      if (spec.targetLane === "front") lane = front;
+      else if (spec.targetLane === "back") lane = back;
+      else lane = back.length > front.length ? back : front; // "densest" (front wins ties)
+      const amount = spec.amount ?? 0;
+      for (const u of [...lane]) {
+        if (u) damageUnit(u, amount);
+      }
+      break;
+    }
     case "COPY_UNIT": {
       // Become a copy of the target: take its cardId (so its abilities follow),
       // stat line, and keywords. instanceId / lane / controller stay ours.
