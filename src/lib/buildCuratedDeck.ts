@@ -1,5 +1,21 @@
 import cardMaster from "../data/cardMaster.json";
+import curatedCoreSetV2 from "../data/curatedCoreSetV2.json";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
+import { isCardDisabled } from "../engine/cards";
+
+/**
+ * The PRIMARY (curated/known-good) card-id set — the ~98 cards hand-balanced by
+ * the V2 core-set builder (scripts/buildCuratedCoreSetV2.cjs), tagged `isPrimary`.
+ * The default deck builder draws from THIS clean set first and only falls back to
+ * the full noisy corpus when a faction can't fill its curve from primaries.
+ * `sourceCardId` is the canonical "tcg_<token>" id (cardMaster.json id space).
+ */
+const PRIMARY_CARD_IDS: ReadonlySet<string> = new Set(
+  (curatedCoreSetV2 as { primaryCardIds?: string[] }).primaryCardIds ?? []
+);
+
+/** A big additive score bump so primaries sort ahead of equivalent corpus cards. */
+const PRIMARY_BONUS = 1000;
 
 type Card = {
   id: string;
@@ -100,7 +116,11 @@ function cardScore(card: Card, faction: string): number {
     keywordScore(card) +
     curveScore(card) +
     factionBonus(card, faction) -
-    cheapUnitPenalty(card)
+    cheapUnitPenalty(card) +
+    // Default to the curated/known-good (PRIMARY) set: any primary card outranks
+    // every non-primary corpus card of the same faction, so curated cards are
+    // chosen first and the noisy corpus is only a backfill.
+    (PRIMARY_CARD_IDS.has(card.id) ? PRIMARY_BONUS : 0)
   );
 }
 
@@ -119,6 +139,8 @@ export function buildCuratedDeck(commanderId: string): string[] {
     if (card.collection !== "AVATAR_TCG") return false;
     if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
     if (!card.id) return false;
+    // Never draft a soft-banned (disabled) card — keeps the default deck legal.
+    if (isCardDisabled(card.id)) return false;
 
     return card.faction === faction;
   });
@@ -158,6 +180,8 @@ export function buildCuratedDeck(commanderId: string): string[] {
     const fallback = (cardMaster as Card[]).filter((card) => {
       if (card.collection !== "AVATAR_TCG") return false;
       if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
+      if (!card.id) return false;
+      if (isCardDisabled(card.id)) return false;
       return true;
     });
 
