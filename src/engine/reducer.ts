@@ -59,7 +59,7 @@ import {
 } from "./commanderPassives";
 import { allPlayableCards } from "./cards";
 import { spellCards } from "./spellCards";
-import { compileAbility, CompiledAbility, EffectTrigger } from "./abilityCompiler";
+import { compileAbility, CompiledAbility, EffectTrigger, EffectOp } from "./abilityCompiler";
 import { resolveEffect, resolveSpecs } from "./effectResolver";
 import { makeRng, shuffle as seededShuffle } from "./rng";
 
@@ -139,6 +139,10 @@ function fireTrigger(
   trigger: EffectTrigger,
   target?: any
 ) {
+  // AURA_ABILITY_SILENCE: while an enemy silencer is in play, this unit's
+  // ability triggers are fully suppressed (a clean no-op). The silencer itself
+  // is never silenced (it is on the opposing board to its own controller).
+  if (abilitiesSilenced(state, controller)) return;
   for (const spec of compiledFor(source.cardId).specs) {
     if (spec.trigger !== trigger) continue;
     resolveEffect(spec, {
@@ -148,6 +152,7 @@ function fireTrigger(
       target,
       lane: source.lane,
       factionOf: (id: string) => cardMetaById.get(id)?.faction ?? null,
+      costOf,
     });
   }
 }
@@ -160,6 +165,68 @@ function passiveSpec(cardId: string, op: "PIERCE_ARMOR" | "RESTRICT_ATTACK") {
   // emits a RESTRICT_ATTACK, but as a STATIC "this unit cannot attack" marker —
   // it must NOT bleed into Fear's defender logic, so the trigger gate excludes it.
   return compiledFor(cardId).specs.find((s) => s.op === op && s.trigger === "PASSIVE");
+}
+
+/** True if a unit's compiled ability carries a given op (any trigger). Used for
+ *  combat-legality passives (COMMANDER_SHIELD, DOUBLE_ATTACK, PASSIVE_FLOOR_HP). */
+function unitHasOp(cardId: string, op: EffectOp): boolean {
+  return compiledFor(cardId).specs.some((s) => s.op === op);
+}
+
+/** True if ANY live unit on a player's board carries a given passive op. */
+function boardHasOp(state: MatchState, playerId: PlayerId, op: EffectOp): boolean {
+  const b = state.players[playerId].board;
+  return [...(b?.front ?? []), ...(b?.back ?? [])].some((u: any) => unitHasOp(u.cardId, op));
+}
+
+/** Apply a single combat-damage instance to a unit, honoring PASSIVE_FLOOR_HP
+ *  (e.g. Walter): a unit with that passive can never be dropped below 1 HP by ONE
+ *  damage instance. EXECUTE / hard-removal that set health to 0 directly bypass
+ *  this (they are not "damage instances"). A unit already at/below 1 is untouched
+ *  by the floor (it doesn't get healed up to 1). */
+function applyCombatDamage(unit: any, amount: number): void {
+  if (amount <= 0) return;
+  const after = unit.health - amount;
+  if (unitHasOp(unit.cardId, "PASSIVE_FLOOR_HP") && unit.health > 1 && after < 1) {
+    unit.health = 1;
+  } else {
+    unit.health = after;
+  }
+}
+
+/** Post-swing bookkeeping shared by ATTACK_UNIT / ATTACK_FACE. Increments the
+ *  unit's per-turn attack tally, then decides whether it stays ready:
+ *   - WINDFURY: the existing one-bonus-swing rule (delegated, unchanged).
+ *   - DOUBLE_ATTACK (e.g. Harley): may strike twice; stays ready until its 2nd
+ *     swing, then exhausts. Reset to 0 attacks at the controller's turn start.
+ *  A unit with neither keeps the vanilla "exhaust after one swing" behavior. */
+function markAttacked(unit: any): void {
+  unit.attacksThisTurn = (unit.attacksThisTurn ?? 0) + 1;
+  if (consumeWindfuryStrike(unit)) return; // WINDFURY granted a bonus swing
+  if (unitHasOp(unit.cardId, "DOUBLE_ATTACK") && (unit.attacksThisTurn ?? 0) < 2) return;
+  unit.exhausted = true;
+}
+
+/** AURA_ABILITY_SILENCE: a unit's abilities are suppressed while ANY enemy unit
+ *  carrying the silence aura is in play. The owner of `source` is `controller`,
+ *  so the silencer must be on the OPPOSING board. */
+function abilitiesSilenced(state: MatchState, controller: PlayerId): boolean {
+  return boardHasOp(state, opponentOf(controller), "AURA_ABILITY_SILENCE");
+}
+
+/** Continuous cost-reduction aura total for the controller. Sums every friendly
+ *  source's reduction op (AURA_COST_REDUCTION for units, AURA_SPELL_COST for
+ *  spells) — re-derived from the live board each call, so it is idempotent and
+ *  drops cleanly when a source leaves play. Floors at 0 at the call site. */
+function costReductionFor(state: MatchState, controller: PlayerId, op: EffectOp): number {
+  const b = state.players[controller].board;
+  let total = 0;
+  for (const u of [...(b?.front ?? []), ...(b?.back ?? [])]) {
+    for (const s of compiledFor((u as any).cardId).specs) {
+      if (s.op === op) total += s.amount ?? 0;
+    }
+  }
+  return total;
 }
 
 /** Win detection on the LIVED shape: nexusHealth + deck-out only. Mirrors the
@@ -183,6 +250,35 @@ function removeDead(board: { front: any[]; back: any[] }) {
  *  isTokenCard(). */
 function isTokenCardId(cardId: string): boolean {
   return cardId.startsWith("token_") || cardId.startsWith("unit_");
+}
+
+/** SUMMON_ON_ANY_DEATH watchers (e.g. Crypt Keeper): when ANY unit dies, every
+ *  live watcher on the board mints its token for the watcher's controller. Walks
+ *  both boards in the canonical P1-front → P2-back order so multi-watcher mints
+ *  are deterministic. The just-dead unit (`dead`) is excluded as a watcher source
+ *  so a dying Crypt Keeper does not spawn off its own death twice. */
+function fireDeathWatchers(state: MatchState, dead: any) {
+  for (const owner of ["P1", "P2"] as PlayerId[]) {
+    const board = state.players[owner].board;
+    for (const lane of ["front", "back"] as Lane[]) {
+      for (const w of board?.[lane] ?? []) {
+        if (w === dead || (w.health ?? 0) <= 0) continue;
+        const spec = compiledFor(w.cardId).specs.find((s) => s.op === "SUMMON_ON_ANY_DEATH");
+        if (!spec) continue;
+        resolveEffect(
+          { trigger: "PASSIVE", op: "SUMMON_TOKEN", attack: spec.attack, health: spec.health, token: spec.token, raw: spec.raw },
+          {
+            state,
+            controller: owner,
+            source: w,
+            lane: w.lane,
+            factionOf: (id: string) => cardMetaById.get(id)?.faction ?? null,
+            costOf,
+          }
+        );
+      }
+    }
+  }
 }
 
 /** Resolve combat deaths across BOTH boards: fire each newly-dead unit's
@@ -215,6 +311,14 @@ function resolveDeaths(state: MatchState) {
       // Snapshot the dying units before any on-death summon mutates the array.
       const dying = (board?.[lane] ?? []).filter((u: any) => (u?.health ?? 0) <= 0);
       for (const u of dying) {
+        // ONCEDEATH_REVIVE (e.g. Jean): once per match, a unit returns to the
+        // board at full HP INSTEAD of dying. It never truly died, so no
+        // deathrattle / ON_DEATH / graveyard / death-watcher fires for it.
+        if (unitHasOp(u.cardId, "ONCEDEATH_REVIVE") && !u.reviveUsed) {
+          u.reviveUsed = true;
+          u.health = u.maxHealth ?? 1;
+          continue;
+        }
         if (hasDeathrattle(u)) {
           const enemy = opponentOf(owner);
           state.players[enemy].nexusHealth =
@@ -225,6 +329,11 @@ function resolveDeaths(state: MatchState) {
         // enters the dead unit's lane. Fired BEFORE the corpse is recorded into
         // the graveyard so a deathrattle never resurrects the unit that's dying.
         fireTrigger(state, owner, u, "ON_DEATH");
+        // SUMMON_ON_ANY_DEATH (e.g. Crypt Keeper): a watcher anywhere on the board
+        // mints a token for ITS controller whenever ANY unit dies. Fired here so
+        // it sees this real death (revives above are excluded). The watcher's own
+        // death also counts (it is a "unit dies" event).
+        fireDeathWatchers(state, u);
         // GRAVEYARD: a non-token corpse is recorded for its owner (most-recent
         // last), carrying enough to reconstruct a playable unit. Tokens vanish.
         if (!isTokenCardId(u.cardId)) {
@@ -509,10 +618,30 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       }
       const cardId = player.hand[action.handIndex];
       if (cardTypeOf(cardId) !== "unit") return reject(state, "not-a-unit");
-      if (costOf(cardId) > (player.energy ?? 0)) return reject(state, "not-enough-energy");
+      // AURA_COST_REDUCTION (e.g. King Tomb): friendly units cost N less. The
+      // reduction is re-derived from the live board, so it is idempotent. The
+      // legality check uses the reduced cost; setup.ts charges the full cost
+      // (minus its own first-unit reduction), so the aura amount is refunded
+      // after the play resolves. Floored at 0.
+      const unitReduction = costReductionFor(next, action.player, "AURA_COST_REDUCTION");
+      const effUnitCost = Math.max(0, costOf(cardId) - unitReduction);
+      if (effUnitCost > (player.energy ?? 0)) return reject(state, "not-enough-energy");
       // Delegate the already-correct play (energy deduction incl. first-unit
       // reduction, instance-id minting, commander modifiers) to the engine.
       const played = playUnitFromHand(next, action.player, action.handIndex, action.lane) as MatchState;
+      // Refund the continuous cost-reduction aura. setup.ts charged
+      // `max(0, cardCost - firstUnitReduction)`; the desired spend is
+      // `max(0, cardCost - firstUnitReduction - unitReduction)`. We compute what
+      // setup actually charged (energyBefore - energyAfter) and the desired final
+      // spend, then credit the difference so both reductions stack correctly and
+      // the spend never goes negative.
+      if (unitReduction > 0) {
+        const ppl = played.players[action.player];
+        const charged = (player.energy ?? 0) - (ppl.energy ?? 0);
+        const desired = Math.max(0, charged - unitReduction);
+        const refund = charged - desired;
+        if (refund > 0) ppl.energy = (ppl.energy ?? 0) + refund;
+      }
       // Summon-time keyword mechanics on the live path: arm WARD/DIVINE_SHIELD,
       // and let SCRY smooth the top of the deck. The just-played unit is the
       // last one pushed into its lane by playUnitFromHand.
@@ -625,8 +754,8 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       const counter = absorbDamage(attackerRef.unit, resolveMitigatedDamage(defenderRef.unit, attackerRef.unit));
 
       const defHpBefore = defenderRef.unit.health;
-      defenderRef.unit.health -= mitigated;
-      attackerRef.unit.health -= counter;
+      applyCombatDamage(defenderRef.unit, mitigated);
+      applyCombatDamage(attackerRef.unit, counter);
       // EXECUTE: finish a defender that survived but was left at/below half HP.
       if (executesTarget(attackerRef.unit, defenderRef.unit)) {
         defenderRef.unit.health = 0;
@@ -644,9 +773,9 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       healNexus(next, action.player, lifestealHeal(attackerRef.unit, mitigated));
       healNexus(next, opponentOf(action.player), lifestealHeal(defenderRef.unit, counter));
 
-      // WINDFURY: the first swing of the turn leaves the unit ready to strike
-      // again; otherwise it exhausts as normal.
-      if (!consumeWindfuryStrike(attackerRef.unit)) attackerRef.unit.exhausted = true;
+      // WINDFURY / DOUBLE_ATTACK: the unit may stay ready for a bonus/second
+      // swing; otherwise it exhausts as normal.
+      markAttacked(attackerRef.unit);
       // STEALTH breaks the moment the unit acts.
       attackerRef.unit.stealthed = false;
 
@@ -660,6 +789,48 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       }
       if (counter > 0) {
         fireTrigger(next, action.player, attackerRef.unit, "ON_DAMAGE", defenderRef.unit);
+      }
+
+      // MIRROR_ATTACK (e.g. T2): a phantom copy of the attacker lands ONE more
+      // identical strike on the SAME defender. The phantom never enters the board
+      // and leaves no corpse, so we apply only its outgoing damage (re-mitigated
+      // against the live defender) — no counter is dealt back to the phantom. The
+      // mirror does not fire the attacker's ON_ATTACK again (no recursion). Only
+      // resolves while the defender is still alive after the first strike.
+      // BUG M1 FIX: gate MIRROR to the unit's FIRST swing this turn. `markAttacked`
+      // above already incremented `attacksThisTurn`, so a unit's first attack reads
+      // 1 here. Without this gate a DOUBLE_ATTACK + MIRROR unit would mirror on BOTH
+      // real swings (2 real + 2 phantom = 4 strikes); gating to the first swing caps
+      // it at 3 (swing1 + its mirror + swing2). A pure MIRROR unit attacks once, so
+      // attacksThisTurn === 1 and it still mirrors as before (2 strikes total).
+      if (
+        unitHasOp(attackerRef.unit.cardId, "MIRROR_ATTACK") &&
+        (attackerRef.unit.attacksThisTurn ?? 0) === 1 &&
+        defenderRef.unit.health > 0
+      ) {
+        const phantomPierces = attackerPierces;
+        const phantomRaw = phantomPierces
+          ? resolveOutgoingDamage(attackerRef.unit)
+          : resolveMitigatedDamage(attackerRef.unit, defenderRef.unit);
+        const phantomDmg = absorbDamage(defenderRef.unit, phantomRaw);
+        const defHpPre = defenderRef.unit.health;
+        applyCombatDamage(defenderRef.unit, phantomDmg);
+        if (executesTarget(attackerRef.unit, defenderRef.unit)) {
+          defenderRef.unit.health = 0;
+        }
+        // CRUSH spillover from the phantom's lethal mirrors the real strike's rule.
+        if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {
+          const overflow = Math.max(0, phantomDmg - Math.max(0, defHpPre));
+          if (overflow > 0) {
+            const tgt = opponentOf(action.player);
+            next.players[tgt].nexusHealth = (next.players[tgt].nexusHealth ?? 20) - overflow;
+          }
+        }
+        // LIFESTEAL: the controller heals for the phantom's damage too.
+        healNexus(next, action.player, lifestealHeal(attackerRef.unit, phantomDmg));
+        if (phantomDmg > 0 && defenderRef.unit.health > 0) {
+          fireTrigger(next, opponentOf(action.player), defenderRef.unit, "ON_DAMAGE", attackerRef.unit);
+        }
       }
 
       // Death resolution fires DEATHRATTLE before clearing dead units.
@@ -686,14 +857,21 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       if (playerHasGuard(next, opponentOf(action.player))) {
         return reject(state, "guard-blocks-face");
       }
+      // COMMANDER_SHIELD (e.g. Skull Island): while the defending player controls
+      // a unit with this passive, their nexus/commander cannot be hit directly —
+      // an attacker must clear the board first.
+      if (boardHasOp(next, opponentOf(action.player), "COMMANDER_SHIELD")) {
+        return reject(state, "commander-shielded");
+      }
 
       const target = opponentOf(action.player);
       const damage = resolveOutgoingDamage(attackerRef.unit);
       next.players[target].nexusHealth = (next.players[target].nexusHealth ?? 20) - damage;
       // LIFESTEAL: heal the attacking controller for the face damage dealt.
       healNexus(next, action.player, lifestealHeal(attackerRef.unit, damage));
-      // WINDFURY: first swing of the turn keeps the unit ready; else it exhausts.
-      if (!consumeWindfuryStrike(attackerRef.unit)) attackerRef.unit.exhausted = true;
+      // WINDFURY / DOUBLE_ATTACK: keep the unit ready for its bonus/second swing;
+      // else it exhausts.
+      markAttacked(attackerRef.unit);
       // STEALTH breaks the moment the unit acts.
       attackerRef.unit.stealthed = false;
       // ON_ATTACK (Rally) fires on face swings too ("when this attacks").
@@ -722,6 +900,22 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         }
       }
 
+      // DEBUFF_ALL_ENEMIES expiry (e.g. Lucifer's "-N attack THIS TURN"): the
+      // temp attack reduction was applied during this turn, so restore it now,
+      // at this turn's end, across BOTH boards. Adding the stored amount back
+      // (rather than recomputing base) preserves any other permanent buffs/
+      // debuffs the unit accrued meanwhile.
+      for (const owner of ["P1", "P2"] as PlayerId[]) {
+        for (const lane of ["front", "back"] as Lane[]) {
+          for (const unit of next.players[owner].board?.[lane] ?? []) {
+            if (unit.tempAtkDebuff) {
+              unit.attack += unit.tempAtkDebuff;
+              unit.tempAtkDebuff = 0;
+            }
+          }
+        }
+      }
+
       const nextPlayerId = opponentOf(ending);
       const np = next.players[nextPlayerId];
 
@@ -740,6 +934,7 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         for (const unit of np.board?.[lane] ?? []) {
           unit.exhausted = false;
           unit.windfuryStruck = false; // WINDFURY bonus attack refreshes each turn
+          unit.attacksThisTurn = 0; // DOUBLE_ATTACK tally refreshes each turn
           regrowAtTurnStart(unit);
           fireTrigger(next, nextPlayerId, unit, "ON_TURN_START");
         }
@@ -788,7 +983,11 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       }
       const cardId = player.hand[action.handIndex];
       if (cardTypeOf(cardId) !== "spell") return reject(state, "not-a-spell");
-      if (costOf(cardId) > (player.energy ?? 0)) return reject(state, "not-enough-energy");
+      // AURA_SPELL_COST (e.g. Hokusai): friendly spells cost N less while a source
+      // is in play. Re-derived from the live board (idempotent), floored at 0.
+      const spellReduction = costReductionFor(next, action.player, "AURA_SPELL_COST");
+      const effSpellCost = Math.max(0, costOf(cardId) - spellReduction);
+      if (effSpellCost > (player.energy ?? 0)) return reject(state, "not-enough-energy");
 
       const specs = compiledFor(cardId).specs;
       // Resolve an optional single target. Damage / debuff spells hit the
@@ -811,13 +1010,14 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // == ON_SUMMON) then goes to the discard pile (graveyard) — never the board.
       // `chosen` is wired as BOTH source and target: HEAL/DEAL_DAMAGE/DEBUFF_ENEMY
       // read ctx.target, while BUFF_SELF (buff-an-ally) reads ctx.source.
-      player.energy = (player.energy ?? 0) - costOf(cardId);
+      player.energy = (player.energy ?? 0) - effSpellCost;
       resolveSpecs(specs, {
         state: next,
         controller: action.player,
         source: chosen,
         target: chosen,
         factionOf: (id: string) => cardMetaById.get(id)?.faction ?? null,
+        costOf,
       });
       player.hand = [...player.hand.slice(0, action.handIndex), ...player.hand.slice(action.handIndex + 1)];
       player.discard = [...(player.discard ?? []), cardId];

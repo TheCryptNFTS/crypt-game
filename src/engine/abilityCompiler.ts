@@ -52,6 +52,19 @@ export type EffectOp =
   | "AURA_ALLY_STAT" // continuous: "[other] allied units gain +X/+Y while this is in play" (non-faction)
   | "AURA_KEYWORD" // continuous: "[other/adjacent] allies gain <KEYWORD> while this is in play"
   | "AURA_ADJACENT_STAT" // continuous: "adjacent allies gain +X/+Y" (same-lane index ±1)
+  | "DESTROY_ENEMY_SELECT" // on-summon: destroy one enemy unit chosen by a selector
+  | "DEBUFF_ALL_ENEMIES" // on-summon: -N attack to ALL enemy units, this turn only
+  | "COMMANDER_SHIELD" // passive: enemies cannot attack the controller's nexus directly
+  | "MIRROR_ATTACK" // on-attack: a phantom copy strikes the same defender, then vanishes
+  | "AURA_COST_REDUCTION" // continuous: friendly units cost N less to play (floor 0)
+  | "RESURRECT_AS_TOKEN" // graveyard: resummon a dead friendly unit as a 1/1 token
+  | "SUMMON_ON_ANY_DEATH" // watcher: ANY unit dies -> summon a token for the controller
+  | "PASSIVE_FLOOR_HP" // passive: no single damage instance reduces this unit below 1
+  | "ONCEDEATH_REVIVE" // once-per-match: on death, return to board at full HP instead
+  | "SWAP_STATS_ALL_ENEMIES" // on-summon: swap attack/health of every enemy unit
+  | "DOUBLE_ATTACK" // passive: this unit may attack twice per turn
+  | "AURA_SPELL_COST" // continuous: friendly spells cost N less
+  | "AURA_ABILITY_SILENCE" // continuous: enemy units cannot trigger their abilities
   // Recognized-but-no-op classifications (so coverage can be measured):
   | "STAT_LINE" // static stat text, already in the card's stats
   | "GRANT_KEYWORD" // "Grants X" — keyword already on the tuple, descriptive
@@ -99,6 +112,12 @@ export interface EffectSpec {
    *  ALSO a beneficiary ("your X gain ..." with no "other"). Default false =
    *  "other" semantics (the source excludes itself). */
   includeSelf?: boolean;
+  /** DESTROY_ENEMY_SELECT: how the victim is chosen, deterministically.
+   *   - HIGHEST_COST     — the highest-cost enemy unit (tie-break: board index).
+   *   - RANDOM_COST_GATE — highest-cost enemy whose cost <= the source's attack. */
+  selector?: "HIGHEST_COST" | "RANDOM_COST_GATE" | "ATTACK_GATE";
+  /** RESURRECT_AS_TOKEN: stamp this keyword onto the revived 1/1 token. */
+  reviveKeyword?: string;
   /** The source clause this spec was compiled from (for debugging/proofs). */
   raw: string;
 }
@@ -649,6 +668,129 @@ function compileColonTrigger(text: string): EffectSpec[] | null {
 }
 
 /**
+ * Parse the 13 bespoke "named-mechanic" ops that don't fit the generic
+ * keyword/aura templates. Each is matched on distinctive phrasing from the
+ * marquee card it serves. Burn-violating riders (enemy commander/face damage)
+ * are deliberately NOT parsed here — they stay UNKNOWN per the engine's content
+ * rules. Returns every spec it can prove from the text (possibly empty).
+ */
+function parseNamedMechanics(text: string): EffectSpec[] {
+  const out: EffectSpec[] = [];
+  const lower = text.toLowerCase();
+
+  // 1. DESTROY_ENEMY_SELECT — "destroy ... highest-cost enemy" (HIGHEST_COST) or
+  //    "destroy ... enemy with cost <= own attack" (RANDOM_COST_GATE). Both are
+  //    ON_SUMMON ("On play" / "Start of combat" both resolve as the battlecry).
+  if (/\bdestroy\b/i.test(text) && /\benem/i.test(text)) {
+    if (/cost\s*(?:≤|<=|<|or\s+(?:less|fewer))\s*(?:own|its|this unit's)?\s*attack|cost\s*(?:≤|<=)\s*own attack/i.test(text)) {
+      out.push({ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "RANDOM_COST_GATE", raw: text });
+    } else if (/highest[- ]?cost/i.test(text)) {
+      out.push({ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "HIGHEST_COST", raw: text });
+    }
+  }
+
+  // 2. DEBUFF_ALL_ENEMIES — "enemy units -N attack this turn" (+ the permanent
+  //    "allies +N/+N" rider routes through BUFF_ALLIES).
+  const tempDebuff = text.match(/enem(?:y|ies)\s+units?\s+-(\d+)\s+attack\s+this\s+turn/i);
+  if (tempDebuff) {
+    out.push({ trigger: "ON_SUMMON", op: "DEBUFF_ALL_ENEMIES", amount: +tempDebuff[1], raw: text });
+    const allyBuff = text.match(/allies?\s+\+(\d+)\s*\/\s*\+?(\d+)\s+permanent/i);
+    if (allyBuff) out.push({ trigger: "ON_SUMMON", op: "BUFF_ALLIES", attack: +allyBuff[1], health: +allyBuff[2], raw: text });
+  }
+
+  // 3. COMMANDER_SHIELD — "Enemies cannot attack your commander directly."
+  if (/enem(?:y|ies)\s+cannot\s+attack\s+(?:your\s+)?(?:commander|nexus)\s+directly/i.test(text)) {
+    out.push({ trigger: "PASSIVE", op: "COMMANDER_SHIELD", raw: text });
+  }
+
+  // 4. MIRROR_ATTACK — "On attack: mirror copy also attacks."
+  if (/mirror\s+copy\s+also\s+attacks|on\s+attack:\s*mirror/i.test(text)) {
+    out.push({ trigger: "ON_ATTACK", op: "MIRROR_ATTACK", raw: text });
+  }
+
+  // 5. AURA_COST_REDUCTION — "friendly units cost N less" (continuous).
+  const unitCost = text.match(/(?:friendly\s+)?units?\s+cost\s+(\d+)\s+less/i);
+  if (unitCost) {
+    out.push({ trigger: "PASSIVE", op: "AURA_COST_REDUCTION", amount: +unitCost[1], raw: text });
+  }
+
+  // 6. RESURRECT_AS_TOKEN — "raise a ... unit from your graveyard as a 1/1 X".
+  const raiseToken = text.match(/(?:raise|revive|resurrect)\b[^.]*\bgrave(?:yard)?\b[^.]*\bas\s+a\s+\d+\s*\/\s*\d+\s+([a-z][a-z ]*)/i);
+  if (raiseToken) {
+    const trig: EffectTrigger = /end of (?:your |each |the )?turn/i.test(text) ? "ON_TURN_END" : "ON_SUMMON";
+    out.push({
+      trigger: trig,
+      op: "RESURRECT_AS_TOKEN",
+      reviveKeyword: raiseToken[1].trim().toUpperCase().replace(/\s+/g, "_"),
+      raw: text,
+    });
+  }
+
+  // 7. SUMMON_ON_ANY_DEATH — "Any unit dies: place a N/M X ...".
+  const anyDeath = text.match(/any\s+unit\s+dies:\s*place\s+(?:a\s+|an\s+|one\s+)?(\d+)\s*\/\s*(\d+)\s+([a-z][a-z ]*?)(?:\s+in|\.|,|$)/i);
+  if (anyDeath) {
+    out.push({
+      trigger: "PASSIVE",
+      op: "SUMMON_ON_ANY_DEATH",
+      attack: +anyDeath[1],
+      health: +anyDeath[2],
+      token: anyDeath[3].trim(),
+      raw: text,
+    });
+  }
+
+  // 8. PASSIVE_FLOOR_HP — "Cannot be reduced below 1 HP by any single source."
+  if (/cannot\s+be\s+reduced\s+below\s+1\s+hp\b/i.test(text)) {
+    out.push({ trigger: "PASSIVE", op: "PASSIVE_FLOOR_HP", raw: text });
+  }
+
+  // 9. ONCEDEATH_REVIVE — "Once per match, return to the board at full HP on death."
+  if (/once\s+per\s+match[^.]*\breturn\s+to\s+the\s+board\b[^.]*\b(?:full\s+hp|on\s+death)/i.test(text)) {
+    out.push({ trigger: "ON_DEATH", op: "ONCEDEATH_REVIVE", raw: text });
+  }
+
+  // 10. SWAP_STATS_ALL_ENEMIES — "swap attack and health of all enemy units".
+  if (/swap\s+attack\s+and\s+health\s+of\s+all\s+enem/i.test(text)) {
+    out.push({ trigger: "ON_SUMMON", op: "SWAP_STATS_ALL_ENEMIES", raw: text });
+  }
+
+  // 11. DOUBLE_ATTACK — "Attacks twice per turn."
+  if (/attacks?\s+twice\s+per\s+turn/i.test(text)) {
+    out.push({ trigger: "PASSIVE", op: "DOUBLE_ATTACK", raw: text });
+  }
+
+  // 12. AURA_SPELL_COST — "Spells cost N less while ... on board."
+  const spellCost = text.match(/spells?\s+cost\s+(\d+)\s+less/i);
+  if (spellCost) {
+    out.push({ trigger: "PASSIVE", op: "AURA_SPELL_COST", amount: +spellCost[1], raw: text });
+  }
+
+  // 13. AURA_ABILITY_SILENCE — "Enemy units cannot trigger abilities while on board."
+  if (/enem(?:y|ies)\s+units?\s+cannot\s+trigger\s+abilit/i.test(text)) {
+    out.push({ trigger: "PASSIVE", op: "AURA_ABILITY_SILENCE", raw: text });
+  }
+
+  // ADAPTATIONS for burn-violating cards: script ONLY the allowed clause.
+  //  - "Healing received: you heal equal" (Good vs Evil) -> heal own nexus echo.
+  //    DROP the "enemy commander takes equal" clause (left UNKNOWN).
+  if (/healing\s+received:\s*you\s+heal\s+equal/i.test(text)) {
+    out.push({ trigger: "ON_DAMAGE", op: "HEAL_NEXUS", amount: 1, raw: text });
+  }
+  //  - Golden Samurai God: turn-start "heal 2" to own nexus; DROP enemy damage.
+  if (/turn\s+start:\s*heal\s+(\d+)/i.test(text) && /enemy\s+commander/i.test(text)) {
+    const h = text.match(/turn\s+start:\s*heal\s+(\d+)/i);
+    if (h) out.push({ trigger: "ON_TURN_START", op: "HEAL_NEXUS", amount: +h[1], raw: text });
+  }
+  //  - Mr LOL: conditional "destroy unit >=4 attack"; DROP the commander rider.
+  const lolGate = text.match(/destroy\s+unit\s*(?:with\s+)?(?:≥|>=)\s*(\d+)\s+attack/i);
+  if (lolGate) {
+    out.push({ trigger: "ON_DAMAGE", op: "DESTROY_ENEMY_SELECT", selector: "ATTACK_GATE", amount: +lolGate[1], raw: text });
+  }
+
+  return out;
+}
+
+/**
  * Compile a single ability string into its Effect IR.
  * `recognized` is true when the ability was classified with no UNKNOWN ops.
  */
@@ -868,6 +1010,27 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
     classified.push(...naturalRiders);
     for (let i = classified.length - naturalRiders.length - 1; i >= 0; i -= 1) {
       if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+    }
+  }
+
+  // 8. Bespoke named-mechanic ops (destroy-select, mirror, cost auras, silence,
+  //    once-death revive, ...). These have distinctive phrasing that the generic
+  //    keyword/aura templates above never match, so a clause carrying one would
+  //    otherwise be left UNKNOWN. Each emitted op is added only if an identical
+  //    (op,trigger) pair was not already classified, then any UNKNOWN is dropped.
+  const named = parseNamedMechanics(text);
+  if (named.length) {
+    const added: EffectSpec[] = [];
+    for (const ns of named) {
+      if (!classified.some((s) => s.op === ns.op && s.trigger === ns.trigger)) {
+        classified.push(ns);
+        added.push(ns);
+      }
+    }
+    if (added.length) {
+      for (let i = classified.length - added.length - 1; i >= 0; i -= 1) {
+        if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+      }
     }
   }
 
