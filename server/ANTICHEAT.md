@@ -78,13 +78,54 @@ durable log.
 
 ---
 
-## 3. What this design does NOT cover (scope honesty)
+## 3. Fog of war (information-leak defense) — IMPLEMENTED
 
-- **Hidden information / information leak:** the current scaffold returns full
-  `MatchState` on `getState`. A production server must send each client a
-  **fog-of-war view** (hide the opponent's hand/deck order) so a cheating client
-  cannot read hidden zones. The authoritative state stays whole server-side;
-  only the *projection* is redacted per seat.
+The authoritative `MatchState` is COMPLETE server-side (both hands, both deck
+orders) — that completeness is required for determinism and replay. But nothing
+hidden ever crosses the wire. Before any state leaves the server it is projected
+to a per-seat **redacted view** (`server/view.ts` → `projectViewForSeat`, wired
+through `AuthoritativeMatch.getViewForSeat(seat)` and the `*Authed` server
+methods):
+
+| Zone | Your own side | Opponent's side |
+|---|---|---|
+| Hand | full card ids (visible) | `handCount` only — the `hand` field is **omitted entirely** |
+| Deck | `deckCount` only (ORDER never sent) | `deckCount` only (ORDER never sent) |
+| Board / artifacts | full (public) | full (public) |
+| Nexus / energy | full | full |
+
+Key property: **redaction is a pure VIEW transform** over a clone. It reads the
+authoritative state and returns a fresh object; it never mutates the state the
+reducer folds or persists. Determinism and replay are untouched — a fresh
+`replayMatch(seed, actionLog)` still reproduces the COMPLETE state byte-for-byte.
+A spectator (authenticated non-participant) gets a view with BOTH hands redacted.
+Proven by `src/dev/runFogOfWarProof.ts`.
+
+## 3a. Session auth (identity proof) — IMPLEMENTED
+
+The scaffold's trust-the-header (`x-account-id`) stub is replaced by an
+HMAC-SHA-256 signed session token (`server/auth.ts`, Node built-in `crypto`, no
+new dependency). A token carries `{ sub: accountId, exp: epochMs }` and a
+signature over exactly those bytes, signed with a server secret from
+`CRYPT_SESSION_SECRET` (a clearly-marked dev default exists so in-process proofs
+need no env). Every request verifies signature (constant-time `timingSafeEqual`)
+**and** expiry BEFORE resolving a seat; a tampered, forged, or expired token is
+rejected (401). Seat ownership is still enforced after identity resolves, so a
+valid token for A can never act for B's seat (`seat-spoof`). Proven by
+`src/dev/runAuthProof.ts`.
+
+**What the real IdP handshake replaces:** `issueToken(accountId)` is the "mint a
+session bearer for an already-authenticated account" half of a real flow. In
+production the account is authenticated FIRST by an external identity proof — the
+SIWE wallet signature flow in `src/nft/gameSession.ts` (`/api/auth/nonce` →
+`personal_sign` → `/api/auth/verify`) or an OIDC/JWT IdP — and only then does the
+gateway call `issueToken`. The per-request `verifyToken` step (signature +
+expiry) stays exactly as-is; only the upstream "how we first decided this is
+account A" changes. The token itself grants ZERO economy authority (PERSISTENCE.md
+§4): at worst a stolen, unexpired token lets someone play your PvP turns.
+
+## 5. What this design does NOT cover (scope honesty)
+
 - **Timing / rate abuse:** add per-seat action-rate limits and turn timers at
   the gateway. The reducer is timing-agnostic by design (no `Date.now()`), so
   timers live outside it.
@@ -94,7 +135,7 @@ durable log.
 
 ---
 
-## 4. Summary
+## 6. Summary
 
 | Cheat attempt | Defense |
 |---|---|

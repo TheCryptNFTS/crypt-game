@@ -21,6 +21,7 @@ import { createMatch } from "../src/engine/setup";
 import { createMatchFromDecks } from "../src/engine/createMatchFromDecks";
 import type { MatchBootstrapInput } from "../src/types/matchBootstrap";
 import { PersistenceStore } from "./persistence";
+import { projectViewForSeat, type MatchView } from "./view";
 import type {
   Action,
   GameEvent,
@@ -31,6 +32,19 @@ import type {
   Seat,
   SubmitResult,
 } from "./types";
+
+/**
+ * One committed step's broadcast payload, indexed by `version`. `version` is the
+ * 1-based monotonic counter incremented per ACCEPTED action (== seq+1 of the
+ * entry that produced it), so `committedEvents[i]` carries the events emitted at
+ * version `i+1`. Used to answer `GET .../state?since=N` with only the events a
+ * client hasn't seen. Reconstructed from the durable log on rehydrate, so it
+ * survives a restart exactly like the action log it derives from.
+ */
+export interface CommittedStep {
+  version: number;
+  events: GameEvent[];
+}
 
 /**
  * A stable, order-sensitive structural hash of a MatchState. We use
@@ -91,6 +105,13 @@ export class AuthoritativeMatch {
   /** Optional durable backing. When set, every ACCEPTED action is appended to
    *  the store AFTER the in-memory append. Undefined => pure in-memory match. */
   private readonly store?: PersistenceStore;
+  /**
+   * Per-accepted-action broadcast events, indexed so `committedSteps[i]` is the
+   * step at `version === i+1`. Rebuilt on rehydrate by re-folding the durable
+   * log, so it is consistent across restarts. NOT itself persisted — it is a
+   * derivable cache of the events the reducer emitted for each logged action.
+   */
+  private readonly committedSteps: CommittedStep[] = [];
 
   constructor(
     matchId: string,
@@ -147,11 +168,15 @@ export class AuthoritativeMatch {
     // Preserve the original creation timestamp (audit metadata, excluded from
     // determinism — but we keep it stable across restarts anyway).
     m.record.createdAt = header.createdAt;
-    // Fold the persisted log in strict seq order, replacing the live cache.
+    // Fold the persisted log in strict seq order, replacing the live cache and
+    // rebuilding the derivable per-step event cache so `?since=N` works after a
+    // restart exactly as it did live.
     const ordered = [...persistedLog].sort((a, b) => a.seq - b.seq);
     for (const entry of ordered) {
-      m.state = applyAction(m.state, entry.action).state;
+      const { state: nextState, events } = applyAction(m.state, entry.action);
+      m.state = nextState;
       m.record.actionLog.push(entry);
+      m.committedSteps.push({ version: entry.seq + 1, events });
     }
     return m;
   }
@@ -163,6 +188,54 @@ export class AuthoritativeMatch {
 
   get seq(): number {
     return this.record.actionLog.length;
+  }
+
+  /**
+   * Monotonically increasing match version: incremented once per ACCEPTED
+   * action. Defined as `seq` (== number of committed actions). It survives a
+   * restart because the durable action log it counts is replayed on rehydrate,
+   * so a recovered match resumes at exactly the version it had before the crash.
+   */
+  get version(): number {
+    return this.seq;
+  }
+
+  /**
+   * THE outbound projection. Returns the REDACTED, per-seat `MatchView` of the
+   * current authoritative state: the requesting seat sees its own hand; the
+   * opponent's hand is count-only; neither deck's ORDER is revealed. This is a
+   * pure view transform over the complete authoritative state — it does NOT
+   * mutate or weaken the state the reducer folds/persists (determinism intact).
+   */
+  getViewForSeat(seat: Seat): MatchView {
+    return projectViewForSeat(this.record.matchId, this.state, seat);
+  }
+
+  /**
+   * Incremental update: everything a client at `since` needs to catch up.
+   * Returns the current `version`, the redacted view for `seat`, and the events
+   * committed strictly AFTER `since` (in version order). `stale` is true when the
+   * client is already current (`since >= version`) — the client can skip
+   * re-rendering. The view is always the LATEST (clients adopt full truth on
+   * adoption); the event delta is for the combat log / animations only.
+   */
+  getIncrementalForSeat(
+    seat: Seat,
+    since: number
+  ): { version: number; view: MatchView; events: GameEvent[]; stale: boolean } {
+    const version = this.version;
+    const stale = since >= version;
+    // Steps are indexed by (version-1); take every step with version > since.
+    const events: GameEvent[] = [];
+    for (const step of this.committedSteps) {
+      if (step.version > since) events.push(...step.events);
+    }
+    return {
+      version,
+      view: this.getViewForSeat(seat),
+      events,
+      stale,
+    };
   }
 
   /**
@@ -211,6 +284,9 @@ export class AuthoritativeMatch {
     };
     this.record.actionLog.push(entry);
     this.state = nextState;
+    // Record this step's events under its monotonic version (== seq+1) so an
+    // incremental client can fetch only what it hasn't seen.
+    this.committedSteps.push({ version: entry.seq + 1, events });
 
     // --- Durably append AFTER the in-memory append (only accepted actions
     //     ever reach here; rejects returned above never persist). The store's
