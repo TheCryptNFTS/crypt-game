@@ -279,3 +279,89 @@ export function factionOnTurnStart(
     player.deck = scryDeck(player.deck, costOf, depth);
   }
 }
+
+/**
+ * FACTION-EXCLUSIVE "OATH" PAYOFF LAYER (#8c) — the read-model that turns the five
+ * deck-legal "Oath of <Metal>" spells (spellCards.ts) into a true mono-faction
+ * REWARD. Each Oath spell is fair, honest value on its own (a Bless / Resurrect /
+ * Draw / Summon / Nexus-heal that compiles exactly as printed). This layer reports
+ * the EXTRA, threshold-gated payoff a player has EARNED by committing to that
+ * faction — "Oath of Stone: if you control 4+ Stone, your anthem rings louder".
+ *
+ * This is a PURE QUERY (no state mutation, no reducer call site added): it answers
+ * "is this controller's Oath payoff online right now?" so the UI / a future buff
+ * hook can read it. It deliberately rides the SAME invariants as the rest of this
+ * module:
+ *   - GATED: returns an inert (active:false, bonus 0/0) result unless
+ *     `state.rules.factionIdentities` is true — so vanilla / golden matches see
+ *     nothing and stay byte-identical.
+ *   - THRESHOLD-DRIVEN: the payoff only goes `active` once the controller commands
+ *     `ARCHETYPE_THRESHOLD[faction]`+ of their OWN faction's live units (recomputed
+ *     from the board every call — never a cached counter).
+ *   - MONO-FACTION ONLY: a controller whose commander isn't one of the five curated
+ *     faction commanders maps to NO faction -> inert. Off-faction splashes don't
+ *     count toward the threshold (countFactionUnits matches the unit's OWN faction).
+ *   - NO-BURN / DETERMINISTIC: every reported bonus is own-side stat/value only; the
+ *     query reads board counts and never touches an enemy nexus or any RNG.
+ */
+export interface OathPayoff {
+  /** The controller's faction, or null if their commander has no identity. */
+  faction: IdentityFaction | null;
+  /** True only when identities are enabled AND the faction threshold is met. */
+  active: boolean;
+  /** Live OWN-faction unit count (0 when board-less / off-faction). */
+  factionUnits: number;
+  /** The threshold this faction must reach for the Oath payoff to fire. */
+  threshold: number;
+  /** The earned bonus stat line (own-side, additive). Zeroed when inactive. */
+  bonus: { attack: number; health: number };
+}
+
+/**
+ * Per-faction Oath payoff stat line, mirroring each faction's identity axis:
+ *   STONE  durability   +0/+2   (a thicker wall)
+ *   SILVER tempo        +1/+0   (a sharper edge from insight)
+ *   BRONZE aggro        +1/+1   (the swarm hits harder)
+ *   IRON   arsenal      +1/+1   (geared offence + body)
+ *   GOLD   top-end      +0/+3   (premium staying power)
+ * These are REPORTED, additive, own-side numbers — no burn, no enemy interaction.
+ */
+const OATH_BONUS: Record<IdentityFaction, { attack: number; health: number }> = {
+  STONE_KEEPERS: { attack: 0, health: 2 },
+  SILVER_SENTINELS: { attack: 1, health: 0 },
+  BRONZE_GUARDIANS: { attack: 1, health: 1 },
+  IRON_DEFENDERS: { attack: 1, health: 1 },
+  GOLDEN_SOVEREIGNS: { attack: 0, health: 3 },
+};
+
+/**
+ * Compute the controller's current Oath payoff state. Pure, deterministic, no-burn.
+ * `factionOf` is the reducer's catalog lookup (cardId -> faction enum string), used
+ * to count the controller's live OWN-faction units. When identities are disabled,
+ * or the commander has no faction, the payoff is inert (active:false, bonus 0/0).
+ */
+export function oathPayoffFor(
+  state: MatchState,
+  controller: PlayerId,
+  factionOf: (cardId: string) => string | null | undefined
+): OathPayoff {
+  const faction = factionOfCommander(state, controller);
+  if (faction === null) {
+    return { faction: null, active: false, factionUnits: 0, threshold: 0, bonus: { attack: 0, health: 0 } };
+  }
+  const threshold = ARCHETYPE_THRESHOLD[faction];
+  if (!identitiesEnabled(state)) {
+    // Flag off -> always inert (vanilla byte-identical). Still report the faction +
+    // threshold so a UI can show "Oath dormant (identities off)".
+    return { faction, active: false, factionUnits: 0, threshold, bonus: { attack: 0, health: 0 } };
+  }
+  const factionUnits = countFactionUnits(state, controller, faction, factionOf);
+  const active = factionUnits >= threshold;
+  return {
+    faction,
+    active,
+    factionUnits,
+    threshold,
+    bonus: active ? { ...OATH_BONUS[faction] } : { attack: 0, health: 0 },
+  };
+}
