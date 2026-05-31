@@ -41,7 +41,8 @@ const FIRED_TRIGGERS = new Set<EffectTrigger>([
 //   PIERCE_ARMOR     -> passiveSpec(..., "PIERCE_ARMOR") at attack time
 //   RESTRICT_ATTACK  -> passiveSpec(..., "RESTRICT_ATTACK") (Fear, PASSIVE only)
 //   AURA_FACTION_STAT-> recomputeAuras()
-const CONSUMED_PASSIVE_OPS = new Set<EffectOp>(["PIERCE_ARMOR", "RESTRICT_ATTACK", "AURA_FACTION_STAT"]);
+//   MITIGATE_DAMAGE  -> mitigationFor() at applyCombatDamage time (combat math)
+const CONSUMED_PASSIVE_OPS = new Set<EffectOp>(["PIERCE_ARMOR", "RESTRICT_ATTACK", "AURA_FACTION_STAT", "MITIGATE_DAMAGE"]);
 
 // Active (non-no-op) ops. STAT_LINE/GRANT_KEYWORD/KEYWORD_WIRED/GLOBAL_UNPARSED/
 // UNKNOWN are no-ops. compiled.specs already excludes those, but we re-check op
@@ -65,6 +66,12 @@ const ACTIVE_OPS = new Set<EffectOp>([
   "PIERCE_ARMOR",
   "RESTRICT_ATTACK",
   "AURA_FACTION_STAT",
+  // Track A2: damage mitigation (consumed passive at combat time) + the two
+  // genuinely-triggered damage-window growers (turn-start undamaged / on-damage
+  // per-point). All three change real values at runtime.
+  "MITIGATE_DAMAGE",
+  "BUFF_IF_UNDAMAGED",
+  "BUFF_PER_DAMAGE_TAKEN",
   // Deck-manipulation ops (live via the SPELL archetype; resolved deterministically
   // against the controller's own deck on an ON_SUMMON/cast trigger).
   "TUTOR_FROM_DECK",

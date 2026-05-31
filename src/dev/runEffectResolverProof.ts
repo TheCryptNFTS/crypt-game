@@ -91,9 +91,13 @@ function firstSpec(ability: string) {
   check("HEAL caps at maxHealth (7 + 3 -> 8)", full.health === 8, full.health);
 }
 
-// --- BUFF_SELF: Taunt rider "gain +1/+1 for each ...". ------------------------
+// --- BUFF_SELF: Taunt rider "When takes damage, gain +1/+1." (FIXED buff). -----
+// NOTE: the per-point scaling variant ("...gain +1/+1 for each damage taken.")
+// now compiles to BUFF_PER_DAMAGE_TAKEN (Track A2), not a flat BUFF_SELF, and is
+// proven in dev:track-a2. This block uses the non-scaling phrasing, which is the
+// canonical fixed BUFF_SELF on ON_DAMAGE.
 {
-  const { spec } = firstSpec("Taunt. When this unit takes damage, gain +1/+1 for each damage taken.");
+  const { spec } = firstSpec("Taunt. When this unit takes damage, gain +1/+1.");
   const m = arena();
   const self = unit({ instanceId: "grow", attack: 2, health: 4, maxHealth: 4 });
   m.players.P1.board.front = [self];
