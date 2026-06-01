@@ -1,5 +1,6 @@
 import { getPlayableCardById } from "./cards";
 import { Faction, normalizeFaction } from "../types/faction";
+import { Format, DEFAULT_FORMAT, isCardLegalInFormat } from "./formats";
 const FACTION_CODE_TO_CANON_NAME: Record<string, string> = {
   STONE_KEEPERS: "Stone Keepers",
   IRON_DEFENDERS: "Iron Defenders",
@@ -61,6 +62,15 @@ export function validateDeck(
     deckSize?: number;
     maxCopies?: number;
     allowGodCards?: boolean;
+    /**
+     * FORMAT (PART 2) — curated legality filter. DEFAULTS to "Open", which is the historical
+     * behavior (the full 4129-card pool is legal), so EVERY existing caller — none of which
+     * pass `format` — validates exactly as before and the committed fixtures stay unmoved.
+     * When "Core", any card NOT in the curated Core set is rejected (in addition to the
+     * normal size / copy / faction rules). Open is the default precisely so Core is purely
+     * additive and opt-in.
+     */
+    format?: Format;
   }
 ): DeckValidationResult {
   const errors: string[] = [];
@@ -68,6 +78,7 @@ export function validateDeck(
   const expectedDeckSize = opts?.deckSize ?? 30;
   const maxCopies = opts?.maxCopies ?? 2;
   const allowGodCards = opts?.allowGodCards ?? true;
+  const format: Format = opts?.format ?? DEFAULT_FORMAT;
 
   if (!Array.isArray(deck)) {
     return {
@@ -113,6 +124,12 @@ export function validateDeck(
 
     if (!allowGodCards && faction === "GODS") {
       errors.push(`Card ${id} is a GOD card but GOD cards are not allowed in this deck.`);
+    }
+
+    // FORMAT legality (PART 2). In "Open" this is always true (no-op); in "Core" a card
+    // outside the curated Core set is rejected. Kept additive so the Open path is untouched.
+    if (!isCardLegalInFormat(id, format)) {
+      errors.push(`Card ${id} is not legal in the ${format} format.`);
     }
   }
 

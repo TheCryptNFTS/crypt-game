@@ -72,7 +72,15 @@ import { resolveEffect, resolveSpecs, addCardToHand, moveCardDeckToHand, resolve
 import { makeRng, shuffle as seededShuffle } from "./rng";
 
 export type Action =
-  | { type: "MULLIGAN"; player: PlayerId }
+  // OPENING MULLIGAN (PART 1). Two shapes, both replay-stable from (seed, actions):
+  //   - LEGACY (no `cards`): the historical P1-only full-hand bottom-cycle redraw. This
+  //     is what the committed "mulligan-then-end" golden scenario uses, so it MUST stay
+  //     byte-identical (no RNG draw, deterministic bottom rotation).
+  //   - SELECTIVE (`cards` present): Hearthstone-style — the chosen opening-hand indices
+  //     are returned to the deck, the deck is reshuffled with the SEEDED rng, and an equal
+  //     number of cards are drawn off the top. Either player may take it, exactly once,
+  //     while their side is `pending` in `state.mulligan`.
+  | { type: "MULLIGAN"; player: PlayerId; cards?: number[] }
   | { type: "PLAY_UNIT"; player: PlayerId; handIndex: number; lane: Lane; targetInstanceId?: string }
   | { type: "PLAY_ARTIFACT"; player: PlayerId; handIndex: number }
   | { type: "EQUIP"; player: PlayerId; handIndex: number; targetInstanceId: string }
@@ -134,6 +142,9 @@ export type GameEvent =
   // One or more armed SECRETS sprang on the defending `player` against the enemy
   // attacker (#2). Deterministic, no pause — see `fireArmedSecrets`.
   | { type: "SECRET_FIRED"; player: PlayerId; secretIds: string[]; againstInstanceId: string }
+  // OPENING MULLIGAN resolved for `player` (PART 1): `redrawn` is how many cards were
+  // returned-and-redrawn. Emitted by the phase path (`resolveMulligan`).
+  | { type: "MULLIGAN_RESOLVED"; player: PlayerId; redrawn: number }
   | { type: "REJECTED"; reason: string };
 
 export interface ApplyResult {
@@ -910,6 +921,96 @@ function resolvePendingChoice(
   return { state: next, events };
 }
 
+/**
+ * Resolve an OPENING MULLIGAN during an explicit mulligan phase (PART 1). Entered ONLY
+ * from the global mulligan gate, with `next` already cloned and `next.mulligan` present
+ * AND at least one side still `pending`. Either player may resolve their OWN side (the
+ * gate does not bind this to `activePlayer`), exactly once.
+ *
+ * Hearthstone-style selective redraw: the chosen opening-hand indices (`action.cards`)
+ * are removed from hand and returned to the deck; the deck is then RESHUFFLED with the
+ * match's SEEDED rng and an equal number of fresh cards are drawn off the top. The hand's
+ * non-mulliganed cards keep their original order; the redrawn cards are appended.
+ *
+ * DETERMINISM: the reshuffle uses ONLY `makeRng(state.seed)` fast-forwarded to
+ * `state.rngCursor` (mirroring effectResolver's `seededReshuffle` / `rngAt`), then advances
+ * `state.rngCursor` by exactly the draws Fisher-Yates consumed (`max(0, n-1)` for a deck
+ * of n>=2; ZERO for n<2). So the same seed yields the same post-mulligan deck+hand on
+ * every replay, and a no-op mulligan (empty `cards`, or `cards` omitted) consumes no RNG.
+ *
+ * Legality (state returned UNCHANGED on any reject): not-your-... is implicit (a side
+ * resolves its own seat); a side already `done` -> `mulligan-already-done`; an index out
+ * of range or duplicated -> `mulligan-bad-index`.
+ */
+function resolveMulligan(
+  next: MatchState,
+  action: { type: "MULLIGAN"; player: PlayerId; cards?: number[] },
+  original: MatchState,
+  events: GameEvent[]
+): ApplyResult {
+  const mull = next.mulligan!;
+  const seat = action.player;
+  if (mull[seat] !== "pending") {
+    return reject(original, "mulligan-already-done");
+  }
+  const player = next.players[seat];
+  const hand: string[] = Array.isArray(player.hand) ? player.hand : [];
+
+  // Normalize the chosen indices: an omitted `cards` (the "keep everything" mulligan) is
+  // an empty selection — a clean no-op redraw. Validate every index is a real, distinct
+  // hand slot BEFORE mutating, so a bad request rejects with state untouched.
+  const chosen = action.cards ?? [];
+  const seen = new Set<number>();
+  for (const idx of chosen) {
+    if (!Number.isInteger(idx) || idx < 0 || idx >= hand.length || seen.has(idx)) {
+      return reject(original, "mulligan-bad-index");
+    }
+    seen.add(idx);
+  }
+
+  // Partition the hand: kept cards retain original order; returned cards go back to deck.
+  const kept: string[] = [];
+  const returned: string[] = [];
+  for (let i = 0; i < hand.length; i += 1) {
+    if (seen.has(i)) returned.push(hand[i]);
+    else kept.push(hand[i]);
+  }
+
+  // Return the chosen cards to the deck, then reshuffle the WHOLE deck deterministically
+  // with the seeded stream (so returned cards are genuinely shuffled back in, not just
+  // bottom-stacked — a mulliganed card CAN legitimately be redrawn, Hearthstone-style),
+  // advancing rngCursor by exactly the draws consumed. An EMPTY selection returns nothing,
+  // so we SKIP the reshuffle entirely: zero RNG consumed and the deck/hand are untouched,
+  // making a no-op mulligan byte-identical to "no mulligan at all".
+  const redrawCount = returned.length;
+  let deck: string[] = [...(Array.isArray(player.deck) ? player.deck : []), ...returned];
+  const drawn: string[] = [];
+  if (redrawCount > 0) {
+    const n = deck.length;
+    if (n >= 2) {
+      const rng = makeRng(next.seed);
+      const cursor = next.rngCursor ?? 0;
+      for (let i = 0; i <= cursor; i += 1) rng();
+      deck = seededShuffle(deck, rng);
+      next.rngCursor = cursor + (n - 1);
+    }
+    // Redraw an equal number of cards off the (reshuffled) top.
+    for (let i = 0; i < redrawCount; i += 1) {
+      const c = deck.shift();
+      if (c) drawn.push(c);
+    }
+    player.deck = deck;
+    player.deckCount = deck.length;
+  }
+  player.hand = [...kept, ...drawn];
+
+  // Flip this side to done. The match "starts" once BOTH sides are done.
+  mull[seat] = "done";
+
+  events.push({ type: "MULLIGAN_RESOLVED", player: seat, redrawn: redrawCount });
+  return { state: next, events };
+}
+
 /** Shared start-of-turn draw. Mutates the cloned state. Returns false on
  *  deck-out (fatigue): sets `winner` to the opponent, exactly like the hook.
  *
@@ -1308,6 +1409,29 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
     return reject(state, "no-response-window");
   }
 
+  // GLOBAL MULLIGAN GATE (PART 1). Active ONLY when `state.mulligan` is present (an
+  // explicit opening-mulligan phase). While any side is still `pending`, the match has
+  // NOT started: the ONLY legal action is a `MULLIGAN` from a side that is still pending,
+  // and it is NOT bound by `activePlayer` (either player resolves their own opening hand,
+  // in any order). Every other action reject-softs `mulligan-pending`. A side that has
+  // already mulliganed reject-softs `mulligan-already-done`. Once BOTH sides are `done`
+  // the gate is inert and normal turn-ownership rules below take over. ABSENT (vanilla /
+  // legacy) this whole block is skipped, so the historical P1-only MULLIGAN action still
+  // flows through the active-player check and the golden fixtures stay byte-identical.
+  if (next.mulligan) {
+    const pendingExists = next.mulligan.P1 === "pending" || next.mulligan.P2 === "pending";
+    if (pendingExists) {
+      if (action.type !== "MULLIGAN") {
+        return reject(state, "mulligan-pending");
+      }
+      return resolveMulligan(next, action, state, events);
+    }
+    // Both sides resolved: a stray MULLIGAN after the phase closed is a clean no-op.
+    if (action.type === "MULLIGAN") {
+      return reject(state, "mulligan-already-done");
+    }
+  }
+
   // Turn ownership applies to every action.
   if (next.activePlayer !== action.player) {
     return reject(state, "not-your-turn");
@@ -1683,9 +1807,12 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
     }
 
     case "MULLIGAN": {
-      // One-time opening redraw. Lived rule: P1 only, before any action on
-      // turn 1. We reproduce the hook's exact reshuffle: return the hand to the
-      // BOTTOM of the library in order, then redraw OPENING_HAND_SIZE off the top.
+      // LEGACY opening redraw — reachable ONLY when there is NO explicit mulligan phase
+      // (`state.mulligan` absent); the phase path is handled by the global mulligan gate
+      // above via `resolveMulligan`. Lived rule: P1 only, before any action on turn 1. We
+      // reproduce the hook's exact reshuffle: return the hand to the BOTTOM of the library
+      // in order, then redraw OPENING_HAND_SIZE off the top. This is the byte-identical
+      // behavior the "mulligan-then-end" golden scenario pins, so it is left UNCHANGED.
       if (action.player !== "P1") return reject(state, "mulligan-p1-only");
       const p1 = next.players.P1;
       const returned: string[] = [...(p1.hand ?? [])];
