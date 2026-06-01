@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CRYPT">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a3028"/>
+      <stop offset="100%" stop-color="#0c0a08"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f0c56a"/>
+      <stop offset="100%" stop-color="#a67c24"/>
+    </linearGradient>
+  </defs>
+  <!-- full-bleed background so the icon is maskable (safe zone is the centre 80%) -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="147" fill="none" stroke="url(#gold)" stroke-width="22" opacity="0.92"/>
+  <circle cx="197" cy="227" r="18" fill="#ffcc4d" opacity="0.9"/>
+  <circle cx="315" cy="227" r="18" fill="#ffcc4d" opacity="0.9"/>
+  <path d="M168 328 Q256 392 344 328" fill="none" stroke="url(#gold)" stroke-width="15" stroke-linecap="round" opacity="0.75"/>
+</svg>

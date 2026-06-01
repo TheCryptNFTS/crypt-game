@@ -3645,6 +3645,29 @@ body {
   color: rgba(251, 191, 36, 0.9);
 }
 
+/* Deck builder · phone refinements (≤768px). The Tailwind grid already collapses
+ * to one column under 640px; this just trims panel padding and gives the inline
+ * Remove/Clear controls a tap-friendly target. Desktop unchanged. */
+@media (max-width: 768px) {
+  .crypt-deck-panel {
+    padding: 14px;
+  }
+
+  .crypt-deck-list-scroll {
+    max-height: 14rem;
+  }
+
+  .crypt-deck-list-row {
+    padding: 10px;
+  }
+
+  .crypt-deck-remove,
+  .crypt-deck-clear {
+    min-height: 36px;
+    padding: 8px 4px;
+  }
+}
+
 /* —— Match results · post-battle payoff —— */
 .crypt-result-shell {
   position: relative;
