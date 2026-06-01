@@ -254,4 +254,65 @@ export const liveSpells: SpellCard[] = [
   spell("spell_oath_silver", "Oath of Silver", "SILVER_SENTINELS", 3, "On play: draw 3 cards.", "safe"),
   spell("spell_oath_iron", "Oath of Iron", "IRON_DEFENDERS", 3, "On play: summon a 3/3 Wraith.", "safe"),
   spell("spell_oath_gold", "Oath of Gold", "GOLDEN_SOVEREIGNS", 3, "On play: restore 6 to your nexus.", "safe"),
+
+  // ==========================================================================
+  // PER-FACTION SPELL SUITE (2026.06.01) — give EVERY faction a complete kit
+  // across the four pillars (removal, draw, tempo, combat trick) and a sensible
+  // cost curve, so a mono-faction deck has real spell CHOICES at each point of
+  // the game (not just whatever archetype happened to be over-represented). All
+  // entries reuse the EXISTING resolver vocabulary (no new ops) and obey the
+  // locked constraints: NO-BURN (damage hits enemy UNITS only; nexus heals are the
+  // caster's OWN face), determinism, and "+X/+Y" lines compile to runtime BUFF.
+  //
+  // TIERING (mirrors the pool): pure own value / draw / tempo / single-ally trick
+  // = "safe" (auto-draftable into live decks); single-target removal / debuff /
+  // bounce = "restricted" (deck-legal but never auto-drafted until a matchup-sim
+  // balance gate exists). A "combat trick" is a cheap own-board pump (BUFF_SELF on
+  // a chosen ally) or an enemy attack-shave — the instant-speed tempo lever.
+  //
+  // COVERAGE FILLED (per the pre-suite audit):
+  //   STONE_KEEPERS    + draw, + combat trick, + curve-topping anthem, + removal
+  //   IRON_DEFENDERS   + draw, + combat trick, + a 4-5 top-end body/sweep
+  //   BRONZE_GUARDIANS + removal, + combat trick, + a real draw spell
+  //   SILVER_SENTINELS + combat trick, + tempo bounce, + a finisher-tier draw
+  //   GOLDEN_SOVEREIGNS+ draw, + tempo token, + combat trick, + a heal/value line
+  //   GODS             + draw, + a heal line, + tempo token, + combat trick
+  // ==========================================================================
+
+  // --- STONE KEEPERS: the wall that also thinks (draw + trick + top-end) ---
+  spell("spell_stone_study", "Quarry Study", "STONE_KEEPERS", 2, "On play: draw 2 cards.", "safe"),
+  spell("spell_stone_brace", "Brace", "STONE_KEEPERS", 1, "On play: gain +1/+3.", "safe"),
+  spell("spell_stone_resolve", "Stoneblood Resolve", "STONE_KEEPERS", 5, "Bless: allies gain +2 attack and +3 health.", "safe"),
+  spell("spell_stone_grind", "Grind Down", "STONE_KEEPERS", 2, "On play: an enemy loses 2 attack.", "restricted"),
+
+  // --- IRON DEFENDERS: the line holds, then advances (draw + trick + top) ---
+  spell("spell_iron_recon", "Recon Sweep", "IRON_DEFENDERS", 3, "On play: draw 2 cards.", "safe"),
+  spell("spell_iron_brace", "Set Shields", "IRON_DEFENDERS", 1, "On play: gain +1/+2.", "safe"),
+  spell("spell_iron_muster", "Muster the Wall", "IRON_DEFENDERS", 5, "On play: summon two 2/2 Wraiths.", "safe"),
+  spell("spell_iron_volley", "Volley", "IRON_DEFENDERS", 4, "On play: deal 6 damage.", "restricted"),
+
+  // --- BRONZE GUARDIANS: aggro that finally has answers (removal + draw + trick) ---
+  spell("spell_bronze_draw", "Plunder", "BRONZE_GUARDIANS", 2, "On play: draw 2 cards.", "safe"),
+  spell("spell_bronze_rage", "Bloodrage", "BRONZE_GUARDIANS", 1, "On play: gain +2/+1.", "safe"),
+  spell("spell_bronze_cutdown", "Cut Down", "BRONZE_GUARDIANS", 3, "On play: deal 4 damage.", "restricted"),
+  spell("spell_bronze_finish", "Finisher", "BRONZE_GUARDIANS", 4, "On play: destroy an enemy unit.", "restricted"),
+
+  // --- SILVER SENTINELS: vigilance + a tempo hand (trick + bounce + finisher draw) ---
+  spell("spell_silver_ploy", "Vanishing Ploy", "SILVER_SENTINELS", 1, "On play: gain +1/+1.", "safe"),
+  spell("spell_silver_overdraw", "Grand Vision", "SILVER_SENTINELS", 5, "On play: draw 4 cards.", "safe"),
+  spell("spell_silver_displace", "Displace", "SILVER_SENTINELS", 2, "On play: return an enemy unit to its owner's hand.", "restricted"),
+  spell("spell_silver_blind", "Blinding Watch", "SILVER_SENTINELS", 2, "On play: an enemy loses 3 attack.", "restricted"),
+
+  // --- GOLDEN SOVEREIGNS: the throne with a real economy (draw + token + trick) ---
+  spell("spell_gold_levy", "Royal Levy", "GOLDEN_SOVEREIGNS", 2, "On play: draw 2 cards.", "safe"),
+  spell("spell_gold_retinue", "Gilded Retinue", "GOLDEN_SOVEREIGNS", 3, "On play: summon two 2/2 Wraiths.", "safe"),
+  spell("spell_gold_decree", "Regal Decree", "GOLDEN_SOVEREIGNS", 1, "On play: gain +2/+2.", "safe"),
+  spell("spell_gold_treasury", "Treasury", "GOLDEN_SOVEREIGNS", 2, "On play: restore 5 to your nexus.", "safe"),
+  spell("spell_gold_dethrone", "Dethrone", "GOLDEN_SOVEREIGNS", 4, "On play: destroy an enemy unit.", "restricted"),
+
+  // --- GODS: divine kit beyond pure removal (draw + heal + token + trick) ---
+  spell("spell_god_revelation", "Revelation", "GODS", 3, "On play: draw 3 cards.", "safe"),
+  spell("spell_god_blessing", "Blessing", "GODS", 2, "On play: heal 5 health.", "safe"),
+  spell("spell_god_herald", "Herald", "GODS", 3, "On play: summon a 3/3 Wraith.", "safe"),
+  spell("spell_god_smite", "Divine Smite", "GODS", 2, "On play: gain +3/+1.", "safe"),
 ];
