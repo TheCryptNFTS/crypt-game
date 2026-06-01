@@ -23,6 +23,14 @@
  */
 
 export interface CardOverride {
+  /**
+   * Replaces the card's display NAME when present. Purely cosmetic — never affects
+   * stats, cost, compilation, legality, or determinism. Used to AUTHOR bespoke,
+   * collision-free names over the procedurally-generated catalog (e.g. dedupe four
+   * near-identical "Verdant Oath" cards, retire joke auto-names) so the cards a
+   * newcomer actually sees feel hand-crafted.
+   */
+  name?: string;
   /** Replaces the card's mana/energy cost when present. */
   cost?: number;
   /** Replaces base attack when present. */
@@ -123,8 +131,9 @@ export const cardOverrides: Record<string, CardOverride> = {
   // DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE (ON_SUMMON) via
   // parseNamedMechanics cost≤own-attack regex. Rush + Flying are wired keywords.
   tcg_101: {
+    name: "Ironclad Devastator",
     ability: "Rush, Flying. On play: destroy a random enemy unit with cost ≤ own attack.",
-    note: "Honesty fix: 'Start of combat' was the wrong trigger (engine fires once ON_PLAY) and 'random' is now WIRED — DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE with random:true picks a SEEDED-RANDOM victim among the highest-cost in-gate tier (deterministic when unique; identical seeds -> identical pick).",
+    note: "Honesty fix: 'Start of combat' was the wrong trigger (engine fires once ON_PLAY) and 'random' is now WIRED — DESTROY_ENEMY_SELECT selector:RANDOM_COST_GATE with random:true picks a SEEDED-RANDOM victim among the highest-cost in-gate tier (deterministic when unique; identical seeds -> identical pick). Authored name (was 'D'Vile One', a joke auto-name).",
   },
 
   // tcg_3420 "Walter": printed "Cannot be reduced below 1 HP by any single
@@ -459,7 +468,7 @@ export const cardOverrides: Record<string, CardOverride> = {
   tcg_3669: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
   tcg_3719: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
   tcg_3804: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
-  tcg_3852: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
+  tcg_3852: { name: "Relic of Verdant Roots", note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers. Authored name (was 'Relic of the Verdant Oath', one of four near-identical 'Verdant Oath' names)." },
   tcg_3895: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
   tcg_4006: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
   tcg_4020: { note: "Inert artifact: spec-less placeholder ability (\"Global effect active while in play.\") compiles to GLOBAL_UNPARSED (engine no-op — no fabricated behavior). NOT disabled: these 71 are the game’s ONLY artifacts and commander specs require minArtifacts>=1, so they stay legal inert deck-fillers." },
@@ -644,9 +653,10 @@ export const cardOverrides: Record<string, CardOverride> = {
   // BRONZE_GUARDIANS 8/9 c3 -> Deploy 1. Bruiser-midrange battlecry: pings the strongest
   // enemy on play, can soften a blocker or start a Deploy->Deathknell chain.
   tcg_1135: {
+    name: "Rootbound Vanguard",
     keywords: ["DEPLOY"],
     ability: "Deploy 1.",
-    note: "Expanded-pool archetype seed: generic Regrow text -> Deploy 1 (ON_SUMMON DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 8/9 c3. No-burn.",
+    note: "Expanded-pool archetype seed: generic Regrow text -> Deploy 1 (ON_SUMMON DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 8/9 c3. No-burn. Authored name (was 'Ledger Keeper of Roots').",
   },
   // GOLDEN_SOVEREIGNS 7/8 c3 -> Deploy 1. Premium-finisher battlecry opener.
   tcg_4277: {
@@ -684,7 +694,7 @@ export const cardOverrides: Record<string, CardOverride> = {
   // its evasion keyword (WARD/STEALTH/LIFESTEAL) so the identity reads through.
 
   // -- cost-1 sentinels: add GUARD, +0/+1 (stickier chump walls) --------------
-  tcg_1286: { attack: 2, health: 3, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/2 Ward -> 2/3 Ward+Guard. Nexus-defence body that trades; Ward kept." },
+  tcg_1286: { name: "Veilwatcher Initiate", attack: 2, health: 3, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/2 Ward -> 2/3 Ward+Guard. Nexus-defence body that trades; Ward kept. Authored name (was 'Watcher of the Veil', a duplicate)." },
   tcg_1499: { health: 2, keywords: ["GUARD"], ability: "Guard.", note: "SILVER balance: 1/1 Scry (combat-inert) -> 1/2 Guard. Chump wall on curve." },
   tcg_1747: { attack: 2, health: 2, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/1 Ward -> 2/2 Ward+Guard." },
   tcg_2201: { attack: 2, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 1/2 Stealth -> 2/3 Stealth+Guard. Evasive body that trades." },
@@ -702,8 +712,142 @@ export const cardOverrides: Record<string, CardOverride> = {
   tcg_1196: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
   tcg_1471: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
   tcg_1648: { attack: 3, health: 3, keywords: ["GUARD"], ability: "Guard.", note: "SILVER balance: 2/2 vague-Deathrattle -> 3/3 Guard (clean static)." },
-  tcg_1668: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
+  tcg_1668: { name: "Unblinking Arbiter", attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard. Authored name (was 'Watcher of Unblinking Judgement')." },
   tcg_188: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
+
+  // === AUTHORED NAMES (2026.06.02) — the newcomer-facing default deck ===========
+  // The 30 cards the curated CORE deck actually surfaces were procedurally named,
+  // with collisions (four "Verdant Oath" variants, repeated "Watcher of the Veil")
+  // and joke auto-names ("Mr LOL", "D'Vile One", "Octopus of Gilded Woe"). These
+  // are NAME-ONLY overrides: purely cosmetic, zero effect on stats / cost /
+  // compilation / legality / determinism (the reducer keys off card ids, so match
+  // replay + the equivalence golden are byte-identical). Names stay inside each
+  // faction's established aesthetic (Stone = geological/time, Iron = forge/martial,
+  // Bronze = verdant/oath/growth, Silver = veil/insight/judgment, Gold = gilded/
+  // sovereign). Cards already given good distinct names are deliberately left alone
+  // (tcg_1676 Unyielding Bastion, tcg_1199 Judge of Shattered Reflections, tcg_1223
+  // Scion of the Gilded Dawn, tcg_1243 Herald of the Scorpion Crown, tcg_3492
+  // Frostbound Grimoire). Five more cards in this deck are renamed via their
+  // existing balance/honesty entries above (tcg_1286, tcg_1668, tcg_101, tcg_1135,
+  // tcg_3852). Deeper per-card ability/stat authoring is a separate, balance-gated pass.
+
+  // -- STONE_KEEPERS -----------------------------------------------------------
+  tcg_1042: { name: "Warden of the First Stone", note: "Authored name (was 'Echo of the Eternal Stone')." },
+  tcg_1461: { name: "Quarried Stonechild", note: "Authored name (was 'Stonechild of Ten Count')." },
+  tcg_3710: { name: "Stoneward Brace", note: "Authored name (was 'Stonebound Resilience'); equipment." },
+  tcg_3759: { name: "Mantle of Stillness", note: "Authored name (was 'Echo of Stillness'); equipment." },
+  tcg_3781: { name: "Cairn of the Silent Stone", note: "Authored name (was 'Echo of the Silent Stone'); equipment." },
+  tcg_1854: { name: "Sentinel of the Silent Strata", note: "Authored name (was 'Sentinel of Silent Stones')." },
+  tcg_1038: { name: "Colossus of Eroded Time", note: "Authored name (was 'Sentinel of Eroded Time')." },
+
+  // -- IRON_DEFENDERS ----------------------------------------------------------
+  tcg_1388: { name: "Aegis of the Unbroken Line", note: "Authored name (was 'Aegis of Relentless Might')." },
+  tcg_1457: { name: "The Forgemaster's Aegis", note: "Authored name (was 'The Forged Aegis')." },
+  tcg_10: { name: "Warlord of the Last Horn", note: "Authored name (was 'Echo of the Last Horn')." },
+
+  // -- BRONZE_GUARDIANS --------------------------------------------------------
+  tcg_1871: { name: "Bronze Oathsworn", note: "Authored name (was 'Sentinel of Verdant Oath', one of four near-identical 'Verdant Oath' names)." },
+  tcg_1354: { name: "Grovekeeper of Returning Spring", note: "Authored name (was 'Warden of the Verdant Grove')." },
+  tcg_1281: { name: "Evergreen Reclaimer", note: "Authored name (was 'Keeper of Verdant Oaths')." },
+  tcg_2026: { name: "Verdant Executioner", note: "Authored name (was 'Mr LOL', a joke auto-name); keeps EXECUTE." },
+
+  // -- SILVER_SENTINELS --------------------------------------------------------
+  tcg_1477: { name: "Umbral Arbiter of Shadows", note: "Authored name (was 'Lunar Arbiter of Shadows')." },
+  tcg_1306: { name: "Keeper of the Eternal Archive", note: "Authored name (was 'Warden of the Eternal Archive')." },
+  tcg_1125: { name: "Paragon of Unveiled Truth", note: "Authored name (was 'Gleaming Paragon of Truth')." },
+
+  // -- GOLDEN_SOVEREIGNS -------------------------------------------------------
+  tcg_1198: { name: "Gilded Mourner", note: "Authored name (was 'Octopus of Gilded Woe', a joke auto-name); keeps DEATHRATTLE." },
+  tcg_1330: { name: "Sunspear Emissary", note: "Authored name (was 'Emissary of Shifting Sands')." },
+  tcg_1495: { name: "Sovereign Heir of Dusk", note: "Authored name (was 'Infernal Heir of Dusk')." },
+  tcg_2654: { name: "Gilded Tribute-Bearer", note: "Authored name (was '#2654', a bare token-number placeholder)." },
+
+  // ===========================================================================
+  // BALANCE PASS — over-statted commons (dev:grade-outliers, 2026.06.02)
+  // ===========================================================================
+  // The re-revealed catalog ships an authored on-chain Grade (≈0–100 power). The
+  // grade-outlier report (src/dev/runGradeOutlierReport.ts) flags cards whose
+  // on-board stat-sum is HIGH relative to that Grade vs their faction×rarity×cost
+  // peers: "over-statted" = disagreement (gradeZ − statZ) < 0 with |disagreement|
+  // > 2. These 68 COMMON-rarity cards carried no override and were over-statted.
+  //
+  // Each nerf trims ONLY attack/health (cost/keywords/abilities untouched),
+  // pulling the inflated stat toward the class PEER stat line (the Grade-implied
+  // target) — never below a 1/1 floor, never overcorrecting past the peer mean.
+  // Stats only; conservative + reversible. See per-card `note` for the z-shift.
+  //
+  // Scope: COMMON over-statted no-override cards only. The report also flags 4
+  // non-common over-statted bodies (tcg_3003/tcg_2164/tcg_2207 mythics, tcg_5739
+  // epic) and ~27 commons already at/below their peer line (false positives —
+  // power lives in ability text / Grade-z, not stat-sum); all are left untouched.
+  tcg_3182: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=2.2, dis=-9.82 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6654: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.8, dis=-6.68 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_6082: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.8, dis=-6.68 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_3361: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.8, dis=-6.68 vs peers); 1/4 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_6637: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=2.0, dis=-6.62 vs peers); 2/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_794: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.9, dis=-6.24 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_3438: { attack: 3, health: 4, note: "Balance: over-statted Grade-50 common (stat-sum z=0.7, dis=-5.98 vs peers); 3/5 -> 3/4, trimmed inflated stat toward class peer line 8 (stat-z -> 0.22)." },
+  tcg_6437: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.0, dis=-5.94 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_6115: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.0, dis=-5.94 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_3429: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.0, dis=-5.94 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_3358: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.0, dis=-5.94 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_1676: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.0, dis=-5.94 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_6644: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_6643: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_6087: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_5621: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_3337: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_2802: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_691: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=1.2, dis=-5.82 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_6385: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.1, dis=-5.48 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6326: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.1, dis=-5.48 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6234: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.1, dis=-5.48 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6131: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.1, dis=-5.48 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6019: { attack: 1, health: 2, note: "Balance: over-statted Grade-50 common (stat-sum z=1.1, dis=-5.48 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6341: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=1.4, dis=-5.42 vs peers); 4/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_5831: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.7, dis=-5.41 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.21)." },
+  tcg_3259: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.7, dis=-5.41 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.21)." },
+  tcg_5914: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=1.3, dis=-5.08 vs peers); 3/6 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_3057: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=0.4, dis=-5.03 vs peers); 1/2 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_2807: { attack: 1, health: 1, note: "Balance: over-statted Grade-50 common (stat-sum z=0.4, dis=-5.03 vs peers); 1/2 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_6356: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.89 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_3545: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.89 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_6621: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.61 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_6561: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.61 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_2062: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.61 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_949: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.61 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_909: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.61 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_94: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.8, dis=-4.61 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_5986: { attack: 2, health: 4, note: "Balance: over-statted Grade-50 common (stat-sum z=0.3, dis=-4.36 vs peers); 2/5 -> 2/4, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_3378: { attack: 3, health: 3, note: "Balance: over-statted Grade-50 common (stat-sum z=0.3, dis=-4.36 vs peers); 3/4 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_5629: { attack: 1, health: 1, note: "Balance: over-statted Grade-55 common (stat-sum z=2.0, dis=-4.19 vs peers); 2/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_1550: { attack: 2, health: 4, note: "Balance: over-statted Grade-50 common (stat-sum z=0.3, dis=-4.14 vs peers); 2/5 -> 2/4, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_6362: { attack: 1, health: 2, note: "Balance: over-statted Grade-55 common (stat-sum z=1.8, dis=-4.12 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_6373: { attack: 1, health: 1, note: "Balance: over-statted Grade-55 common (stat-sum z=1.2, dis=-3.39 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_5760: { attack: 1, health: 1, note: "Balance: over-statted Grade-55 common (stat-sum z=1.2, dis=-3.39 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_2810: { attack: 1, health: 1, note: "Balance: over-statted Grade-55 common (stat-sum z=1.2, dis=-3.39 vs peers); 1/3 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_3349: { attack: 1, health: 2, note: "Balance: over-statted Grade-55 common (stat-sum z=1.0, dis=-3.38 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.30)." },
+  tcg_6223: { attack: 1, health: 2, note: "Balance: over-statted Grade-55 common (stat-sum z=1.1, dis=-3.19 vs peers); 1/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_3384: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=1.3, dis=-3.03 vs peers); 3/6 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_3032: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=1.3, dis=-3.03 vs peers); 3/6 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_5927: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.7, dis=-2.95 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.21)." },
+  tcg_6420: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.8, dis=-2.72 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_6300: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.8, dis=-2.72 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_762: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.8, dis=-2.72 vs peers); 3/5 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_6530: { attack: 1, health: 1, note: "Balance: over-statted Grade-55 common (stat-sum z=0.4, dis=-2.60 vs peers); 1/2 -> 1/1, trimmed inflated stat toward class peer line 3 (stat-z -> -0.39)." },
+  tcg_3769: { attack: 2, health: 4, note: "Balance: over-statted Grade-55 common (stat-sum z=0.3, dis=-2.19 vs peers); 2/5 -> 2/4, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_3339: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.3, dis=-2.19 vs peers); 3/4 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_3304: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.3, dis=-2.19 vs peers); 3/4 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_1690: { attack: 3, health: 3, note: "Balance: over-statted Grade-55 common (stat-sum z=0.3, dis=-2.19 vs peers); 3/4 -> 3/3, trimmed inflated stat toward class peer line 7 (stat-z -> -0.22)." },
+  tcg_4334: { attack: 2, health: 4, note: "Balance: over-statted Grade-55 common (stat-sum z=0.3, dis=-2.10 vs peers); 2/5 -> 2/4, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_3111: { attack: 2, health: 4, note: "Balance: over-statted Grade-55 common (stat-sum z=0.3, dis=-2.10 vs peers); 2/5 -> 2/4, trimmed inflated stat toward class peer line 7 (stat-z -> -0.14)." },
+  tcg_6311: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_6096: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_5774: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 1/4 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_5647: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 2/3 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_5644: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 3/2 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_2662: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 3/2 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+  tcg_391: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 3/2 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
 };
 
 /**
@@ -718,6 +862,7 @@ export const cardOverrides: Record<string, CardOverride> = {
 export function applyCardOverride<
   T extends {
     id: string;
+    name?: string;
     cost: number;
     stats: { attack: number; health: number; speed: number; armor: number };
     keywords?: string[];
@@ -739,6 +884,7 @@ export function applyCardOverride<
 
   if (!ov) return next;
 
+  if (ov.name !== undefined) (next as { name?: string }).name = ov.name;
   if (ov.cost !== undefined) next.cost = ov.cost;
   if (ov.attack !== undefined) next.stats.attack = ov.attack;
   if (ov.health !== undefined) next.stats.health = ov.health;

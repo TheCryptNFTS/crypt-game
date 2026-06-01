@@ -77,6 +77,12 @@ export type EffectOp =
   | "MILL_FROM_DECK" // move the top N cards of the deck to the discard pile (no hand)
   // CHOICE primitive (mid-resolution player decision; see CHOICE_DESIGN.md):
   | "DISCOVER" // generate K seeded options the controller picks ONE of -> hand (PAUSES via pendingChoice)
+  // Five formerly-UNKNOWN authored mechanics, wired end-to-end:
+  | "GRANT_SELF_WARD" // on-summon: arm the source's one-shot WARD/shield absorb (tcg_938)
+  | "HEAL_ALLIES_FULL" // turn-start: heal the controller's OTHER allied units to full (tcg_3400)
+  // Two flagship MYTHIC ops, wired end-to-end (formerly recognized no-ops):
+  | "REVEAL_AND_CULL" // on-play: BOTH decks reveal top N; cost>=threshold return to deck (reshuffled, seeded), rest destroyed (tcg_3375)
+  | "RETURN_LAST_PLAYED" // once-per-match: bounce the last card played by either side to its owner's hand (tcg_3425)
   // Recognized-but-no-op classifications (so coverage can be measured):
   | "STAT_LINE" // static stat text, already in the card's stats
   | "GRANT_KEYWORD" // "Grants X" — keyword already on the tuple, descriptive
@@ -175,6 +181,16 @@ export interface EffectSpec {
    *  the reducer's DRAIN_ITERATION_CAP). An explicit ctx.target always wins over the
    *  selector, so targeted spell-style DEAL_DAMAGE is unaffected. */
   damageTarget?: "STRONGEST_ENEMY";
+  /** REVEAL_AND_CULL (tcg_3375): how many cards off each deck's top to reveal
+   *  (the "top N"). Defaults to 3 when absent. */
+  revealCount?: number;
+  /** REVEAL_AND_CULL (tcg_3375): the inclusive cost threshold at/above which a
+   *  revealed card is RETURNED to its deck (then reshuffled); cheaper cards are
+   *  destroyed. Defaults to 5 when absent. */
+  costGate?: number;
+  /** RETURN_LAST_PLAYED (tcg_3425): when true the effect may fire AT MOST ONCE per
+   *  match (the resolver/reducer guards it with a per-match used flag). */
+  oncePerMatch?: boolean;
   /** The source clause this spec was compiled from (for debugging/proofs). */
   raw: string;
 }
@@ -1065,6 +1081,82 @@ function parseDeckManipBody(body: string, trigger: EffectTrigger, raw: string): 
   return null;
 }
 
+// --- Five authored mechanics that no other template reaches --------------------
+//
+// Each of these has a distinctive printed phrasing that the generic keyword / aura
+// / deck-manip templates above never match, so without this pass the clause is
+// left UNKNOWN. parseMissingMechanics() classifies them; two compile to a real,
+// resolver-wired op and two are RECOGNIZED-NO-OP (the engine has no state slot for
+// "last card played" / a per-match flag, nor a both-decks reveal-cull primitive —
+// see the proof + agent report). All four are emitted at most once.
+//
+//   GRANT_SELF_WARD  (tcg_938)  — "When this unit is summoned, gain Ward until the
+//     end of your turn." WARD is the engine's one-shot spell/damage absorb flag
+//     (`shielded`, normally armed by initShield at summon). This re-arms it as an
+//     on-summon battlecry. REAL OP (ON_SUMMON).
+//   HEAL_ALLIES_FULL (tcg_3400) — "If you control another <X>, heal them to full
+//     at start of your turn." A turn-start heal of the controller's OTHER allied
+//     units to full, gated (in the resolver) on controlling at least one other
+//     ally. REAL OP (ON_TURN_START).
+//   REVEAL_AND_CULL  (tcg_3375) — "On play: both players reveal top 3. Units >=N
+//     cost return to deck; others destroyed." Operates on BOTH decks with a reveal
+//     window the state model has no representation for. RECOGNIZED NO-OP.
+//   RETURN_LAST_PLAYED (tcg_3425) — "Once per match: return the last card played by
+//     either side to owner's hand." Needs a "last card played" slot and a
+//     per-match used-flag that the state model lacks. RECOGNIZED NO-OP.
+const WARD_ON_SUMMON_RE =
+  /(?:when|whenever)\s+this unit (?:is summoned|enters play|is played)[^.]*\bgains?\s+ward\b/i;
+const HEAL_THEM_TO_FULL_TURN_START_RE =
+  /\bheal\s+them\s+to\s+full\b[^.]*\b(?:start|beginning)\s+of\s+(?:your\s+)?turn\b|\b(?:start|beginning)\s+of\s+(?:your\s+)?turn[^.]*\bheal\s+them\s+to\s+full\b/i;
+const REVEAL_TOP_CULL_RE =
+  /both players reveal top\s+(\d+)\b[^]*\b(?:return to deck|destroyed)\b/i;
+// Capture the cost gate ("Units >=N cost return to deck") so the threshold is
+// data-driven, not hard-coded. Defaults to 5 at compile when the number is absent.
+const REVEAL_CULL_GATE_RE = /(?:≥|>=)\s*(\d+)\s*cost|units?\s+(\d+)\s*cost\s+or\s+(?:more|greater)/i;
+const RETURN_LAST_PLAYED_RE =
+  /once per match[^.]*\breturn the last card played\b[^.]*\bto\b[^.]*\bhand\b/i;
+//   SCRY_DYNAMIC on "deals damage" (tcg_5592) — "When this unit deals damage, scry
+//     N. ..." The attacker's ON_DAMAGE trigger already fires in the reducer (combat
+//     hit), and SCRY_DYNAMIC is a live deck-smoothing op, so this is a REAL OP
+//     (ON_DAMAGE). The trailing "you may reveal the top card" is non-mutating
+//     flavor (a reveal is information-only). Note: the generic ON_DAMAGE templates
+//     key off "takes damage / is attacked", so the "deals damage" attacker form
+//     needs this explicit hook.
+const DEALS_DAMAGE_SCRY_RE =
+  /(?:when|whenever)\s+this unit deals damage[^.]*\bscry\s+(\d+)\b/i;
+
+/** Classify the five formerly-UNKNOWN authored abilities. Returns the matching
+ *  spec(s) or null when none of the five phrasings is present. */
+function parseMissingMechanics(text: string): EffectSpec[] | null {
+  const scryHit = text.match(DEALS_DAMAGE_SCRY_RE);
+  if (scryHit) {
+    return [{ trigger: "ON_DAMAGE", op: "SCRY_DYNAMIC", amount: +scryHit[1], raw: text }];
+  }
+  if (WARD_ON_SUMMON_RE.test(text)) {
+    return [{ trigger: "ON_SUMMON", op: "GRANT_SELF_WARD", raw: text }];
+  }
+  if (HEAL_THEM_TO_FULL_TURN_START_RE.test(text)) {
+    return [{ trigger: "ON_TURN_START", op: "HEAL_ALLIES_FULL", raw: text }];
+  }
+  const reveal = text.match(REVEAL_TOP_CULL_RE);
+  if (reveal) {
+    // REAL OP (ON_SUMMON): both decks reveal top N; cost>=gate return to deck
+    // (reshuffled with the seeded RNG), the rest are destroyed. Count + gate are
+    // data-driven from the text (defaults 3 / 5).
+    const gateM = text.match(REVEAL_CULL_GATE_RE);
+    const costGate = gateM ? +(gateM[1] ?? gateM[2]) : 5;
+    return [
+      { trigger: "ON_SUMMON", op: "REVEAL_AND_CULL", revealCount: +reveal[1] || 3, costGate, raw: text },
+    ];
+  }
+  if (RETURN_LAST_PLAYED_RE.test(text)) {
+    // REAL OP (ON_SUMMON, once-per-match): bounce the last card played by either
+    // side to its owner's hand. Guarded by a per-match used flag.
+    return [{ trigger: "ON_SUMMON", op: "RETURN_LAST_PLAYED", oncePerMatch: true, raw: text }];
+  }
+  return null;
+}
+
 /** Colon-trigger syntax: "On play: ...", "End of turn: ...", "Damage taken: ...". */
 function compileColonTrigger(text: string): EffectSpec[] | null {
   const m = text.match(/^([a-z][a-z ]+?):\s*(.+)$/i);
@@ -1587,6 +1679,28 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
     classified.push(...naturalRiders);
     for (let i = classified.length - naturalRiders.length - 1; i >= 0; i -= 1) {
       if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+    }
+  }
+
+  // 7.5. Five authored mechanics with bespoke phrasing no other template reaches
+  //      (SCRY-on-deals-damage, gain-Ward-on-summon, turn-start heal-allies-full,
+  //      both-decks reveal-cull, once-per-match return-last-played). Two compile to
+  //      a real resolver op; two are recognized no-ops (state lacks the slot). Each
+  //      is emitted only if an identical (op,trigger) was not already classified,
+  //      then any UNKNOWN it explains is dropped.
+  const missing = parseMissingMechanics(text);
+  if (missing) {
+    const added: EffectSpec[] = [];
+    for (const ms of missing) {
+      if (!classified.some((s) => s.op === ms.op && s.trigger === ms.trigger)) {
+        classified.push(ms);
+        added.push(ms);
+      }
+    }
+    if (added.length) {
+      for (let i = classified.length - added.length - 1; i >= 0; i -= 1) {
+        if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+      }
     }
   }
 

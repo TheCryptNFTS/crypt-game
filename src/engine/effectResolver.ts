@@ -22,7 +22,7 @@
 import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, ChoiceOption, ResponseEffectSpec } from "./state";
 import { EffectSpec } from "./abilityCompiler";
 import { scryDeck } from "./keywordEngine";
-import { makeRng } from "./rng";
+import { makeRng, shuffle } from "./rng";
 
 export interface EffectContext {
   /** The already-cloned state to mutate in place. */
@@ -48,6 +48,12 @@ export interface EffectContext {
    *  null lookup (no card matches a type) when absent, so those ops cleanly
    *  no-op rather than guessing. */
   cardTypeOf?: (cardId: string) => string | null | undefined;
+  /** Resolves a cardId to the stat line a graveyard record needs (attack /
+   *  maxHealth / keywords), injected by the reducer from cardMetaById. Required
+   *  only by REVEAL_AND_CULL, which destroys revealed deck cards (no live unit
+   *  exists to read stats from). Absent -> a conservative 0/1 record, so the op
+   *  still moves the card to the grave deterministically rather than dropping it. */
+  graveStatsOf?: (cardId: string) => { attack: number; maxHealth: number; keywords: string[] } | null | undefined;
 }
 
 /** Maps the faction NOUN as it appears in ability text ("Stone Keeper you
@@ -107,6 +113,13 @@ function buffUnit(unit: UnitInPlay, attack: number, health: number) {
 function alliedUnits(state: MatchState, controller: PlayerId): UnitInPlay[] {
   const b = state.players[controller].board;
   return [...(b?.front ?? []), ...(b?.back ?? [])];
+}
+
+/** A "Crypt Legend" is a MYTHIC-rarity card (Darius, Hokusai, Skeletor, Lucifer,
+ *  …). Rarity is stamped onto board units at summon (setup.ts); tokens and
+ *  fixtures with no rarity are never Legends. Used to gate HEAL_ALLIES_FULL. */
+function isCryptLegend(unit: UnitInPlay): boolean {
+  return (unit.rarity ?? "").toUpperCase() === "MYTHIC";
 }
 
 /** Deterministically pick ONE enemy board unit for a self-targeting triggered
@@ -292,6 +305,28 @@ export function seededDistinctPick(
     pool[j] = tmp;
   }
   return { indices: pool.slice(0, want), draws };
+}
+
+/**
+ * Deterministically RESHUFFLE a deck in place using the match's SEEDED rng stream
+ * (state.seed + state.rngCursor), advancing `state.rngCursor` by exactly the draws
+ * consumed so the reshuffle is replay-stable. Reuses the shared `shuffle`
+ * (Fisher-Yates), which draws once per i in [1, n) — exactly `max(0, n-1)` draws.
+ * We rebuild the stream and fast-forward to the absolute cursor (mirror rngAt: the
+ * value AT `cursor` is the (cursor+1)-th draw) so the first draw the shuffle takes
+ * is the value AT the current cursor, then bump the cursor by the draws consumed.
+ * A deck of <2 cards consumes ZERO draws (shuffle no-ops), so it is byte-identical
+ * to the non-shuffled path. Returns the reshuffled array.
+ */
+function seededReshuffle(state: MatchState, deck: string[]): string[] {
+  const n = deck.length;
+  if (n < 2) return deck.slice();
+  const rng = makeRng(state.seed);
+  const cursor = state.rngCursor ?? 0;
+  for (let i = 0; i <= cursor; i += 1) rng();
+  const out = shuffle(deck, rng);
+  state.rngCursor = cursor + (n - 1);
+  return out;
 }
 
 /**
@@ -880,6 +915,102 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
         options,
         resume: { op: "ADD_CARD_TO_HAND", source: "deck" },
       };
+      break;
+    }
+    case "GRANT_SELF_WARD": {
+      // tcg_938: "gain Ward until the end of your turn." Arm the source's
+      // one-shot WARD/DIVINE_SHIELD absorb (the same `shielded` flag initShield
+      // sets at summon and SHIELD_ALLY arms mid-combat) so the next damage
+      // instance the unit takes is voided DURING the turn, AND tag it as a
+      // this-turn-only ward so the reducer's turn-end hook expires it at the
+      // controller's turn end whether or not it absorbed a hit (mirrors the
+      // tempAtkDebuff until-EOT model). No source -> clean no-op.
+      if (ctx.source) {
+        (ctx.source as any).shielded = true;
+        (ctx.source as any).wardExpiresEot = true;
+      }
+      break;
+    }
+    case "HEAL_ALLIES_FULL": {
+      // tcg_3400: "If you control another Crypt Legend, heal them to full at start
+      // of your turn." A turn-start heal of the controller's OTHER allied Crypt
+      // Legends to full. "Crypt Legend" == a MYTHIC-rarity card; rarity is now
+      // stamped onto board units at summon (setup.ts), so the gate is reachable.
+      // Heal only OTHER allied units that are themselves Crypt Legends (mythic),
+      // and only when at least one such ally exists (the "another" clause).
+      // Deterministic, no RNG, no new state. No-op when no other Legend is in play.
+      const legends = alliedUnits(state, controller).filter(
+        (u) => u !== ctx.source && isCryptLegend(u)
+      );
+      if (legends.length > 0) {
+        for (const u of legends) healUnit(u, 0); // amount<=0 == "to full"
+      }
+      break;
+    }
+    case "REVEAL_AND_CULL": {
+      // tcg_3375 (Darius). ON_PLAY: BOTH players reveal the top `revealCount`
+      // (default 3) of their deck. Each revealed card whose play cost is >= the
+      // `costGate` (default 5) RETURNS to its owner's deck; the rest are DESTROYED
+      // (a graveyard record for that owner). A deck that returned at least one card
+      // is then RESHUFFLED with the match's seeded rng (deterministic, replay-safe;
+      // rngCursor advances in lockstep). Operates on P1 then P2 in a fixed order so
+      // the rng draws are consumed deterministically.
+      const gate = spec.costGate ?? 5;
+      const revealN = Math.max(0, spec.revealCount ?? 3);
+      const costFn = (id: string) => (ctx.costOf ? ctx.costOf(id) : 0);
+      for (const owner of ["P1", "P2"] as PlayerId[]) {
+        const player = state.players[owner];
+        const deck: string[] = Array.isArray(player.deck) ? player.deck : [];
+        if (deck.length === 0) continue;
+        const n = Math.min(revealN, deck.length);
+        const top = deck.slice(0, n);
+        const rest = deck.slice(n);
+        const kept: string[] = []; // cost >= gate: returns to deck
+        const grave = player.graveyard ?? (player.graveyard = []);
+        let returnedAny = false;
+        for (const id of top) {
+          if (costFn(id) >= gate) {
+            kept.push(id);
+            returnedAny = true;
+          } else {
+            // Destroyed: record a graveyard entry (mirrors reapAndEnqueue's record).
+            const gs = ctx.graveStatsOf ? ctx.graveStatsOf(id) : undefined;
+            grave.push({
+              cardId: id,
+              attack: Math.max(0, gs?.attack ?? 0),
+              maxHealth: Math.max(1, gs?.maxHealth ?? 1),
+              keywords: [...(gs?.keywords ?? [])],
+            });
+          }
+        }
+        // Rebuild the deck: the un-revealed remainder plus the returned cards. If any
+        // card returned, reshuffle the whole library deterministically (seeded). When
+        // nothing returned, the deck is just its untouched remainder (no reshuffle, no
+        // rng draw consumed) — byte-identical to the pre-effect tail order.
+        let nextDeck = returnedAny ? [...rest, ...kept] : rest;
+        if (returnedAny) nextDeck = seededReshuffle(state, nextDeck);
+        player.deck = nextDeck;
+        player.deckCount = nextDeck.length;
+      }
+      break;
+    }
+    case "RETURN_LAST_PLAYED": {
+      // tcg_3425 (Yesterday Is History). ONCE PER MATCH: bounce the last card played
+      // by EITHER side back to its OWNER's hand. Guarded by `returnLastPlayedUsed` so
+      // a second copy is a clean no-op. No-op when nothing has been played yet (no
+      // `lastCardPlayed` slot) or the slot holds a token (no card to return).
+      if (spec.oncePerMatch && state.returnLastPlayedUsed) break;
+      const last = state.lastCardPlayed;
+      if (!last || isTokenCard(last.cardId)) break;
+      const ownerPl = state.players[last.owner];
+      // Bounce semantics: the card returns to its owner's hand. We return the card
+      // object (its id) to hand, matching the engine's id-list hand model and the
+      // RETURN_FROM_GRAVE convention (hand is a string[] of cardIds, no cap enforced).
+      ownerPl.hand = [...(ownerPl.hand ?? []), last.cardId];
+      if (spec.oncePerMatch) state.returnLastPlayedUsed = true;
+      // Consume the slot so a second trigger (different copy) cannot re-bounce the
+      // same stale card.
+      state.lastCardPlayed = null;
       break;
     }
     // PASSIVE / STATIC / no-op classifications are resolved elsewhere or never.

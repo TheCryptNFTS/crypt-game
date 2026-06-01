@@ -60,12 +60,13 @@ const CMD_BY_FACTION: Record<string, string> = {
   GOLDEN_SOVEREIGNS: "cmd_golden_emperor",
 };
 
-/** Build a minimal match state. `enabled` toggles the rules gate. Each player has
- *  an empty board (front/back) so archetype threshold counting has live lanes to
- *  read; base-identity cases that never populate the board count 0 -> base only. */
-function makeState(commanderId: string, enabled: boolean): any {
+/** Build a minimal match state. `enabled` toggles the identity gate; `archetypes`
+ *  opts into the deepened threshold layer (OFF by default, mirroring the shipped
+ *  CORE ruleset, so base-identity cases stay flat). Each player has an empty board
+ *  (front/back) so archetype threshold counting has live lanes to read. */
+function makeState(commanderId: string, enabled: boolean, archetypes = false): any {
   return {
-    rules: enabled ? { factionIdentities: true } : undefined,
+    rules: enabled ? { factionIdentities: true, factionArchetypes: archetypes } : undefined,
     players: {
       P1: { commanderId, nexusHealth: 20, deck: [], board: { front: [], back: [] } },
       P2: { commanderId: "cmd_demo", nexusHealth: 20, deck: [], board: { front: [], back: [] } },
@@ -237,14 +238,14 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
 // === STONE archetype: at 3+ Stone live, Bedrock deepens to +2 Armor ===========
 {
   // BELOW threshold (2 Stone on board) -> base +1.
-  const below = makeState(CMD_BY_FACTION.STONE_KEEPERS, true);
+  const below = makeState(CMD_BY_FACTION.STONE_KEEPERS, true, true);
   fillBoard(below, "P1", STONE_CHEAP, 2);
   const u1 = makeUnit(STONE_CHEAP);
   factionOnUnitSummon(below, "P1", u1, factionOf, costOf);
   assert(u1.armor === 1, "STONE below threshold (2 units): base Bedrock +1 Armor only");
 
   // AT threshold (3 Stone on board, e.g. the just-summoned unit is on board) -> +2.
-  const at = makeState(CMD_BY_FACTION.STONE_KEEPERS, true);
+  const at = makeState(CMD_BY_FACTION.STONE_KEEPERS, true, true);
   fillBoard(at, "P1", STONE_CHEAP, 3);
   const u2 = makeUnit(STONE_CHEAP);
   factionOnUnitSummon(at, "P1", u2, factionOf, costOf);
@@ -255,14 +256,14 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
 // === BRONZE archetype: at 3+ Bronze live, Rush extends to cost<=3 =============
 {
   // BELOW threshold (2 Bronze on board): a cost-3 Bronze unit does NOT get Rush.
-  const below = makeState(CMD_BY_FACTION.BRONZE_GUARDIANS, true);
+  const below = makeState(CMD_BY_FACTION.BRONZE_GUARDIANS, true, true);
   fillBoard(below, "P1", BRONZE_CHEAP, 2);
   const mid1 = makeUnit(BRONZE_MID);
   factionOnUnitSummon(below, "P1", mid1, factionOf, costOf);
   assert(!mid1.keywords.includes("RUSH"), "BRONZE below threshold: cost-3 unit gets NO Rush (base <=2)");
 
   // AT threshold (3 Bronze on board): the cost-3 unit now gains Rush.
-  const at = makeState(CMD_BY_FACTION.BRONZE_GUARDIANS, true);
+  const at = makeState(CMD_BY_FACTION.BRONZE_GUARDIANS, true, true);
   fillBoard(at, "P1", BRONZE_CHEAP, 3);
   const mid2 = makeUnit(BRONZE_MID);
   factionOnUnitSummon(at, "P1", mid2, factionOf, costOf);
@@ -278,14 +279,14 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
 // === GOLD archetype: at 4+ Gold live, Largesse deepens to +1/+3 ===============
 {
   // BELOW threshold (3 Gold on board) -> base +0/+2.
-  const below = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true);
+  const below = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
   fillBoard(below, "P1", GOLD_BIG, 3);
   const b1 = makeUnit(GOLD_BIG);
   factionOnUnitSummon(below, "P1", b1, factionOf, costOf);
   assert(b1.attack === 2 && b1.health === 5, "GOLD below threshold (3 units): base +0/+2 only");
 
   // AT threshold (4 Gold on board) -> +1/+3.
-  const at = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true);
+  const at = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
   fillBoard(at, "P1", GOLD_BIG, 4);
   const b2 = makeUnit(GOLD_BIG);
   factionOnUnitSummon(at, "P1", b2, factionOf, costOf);
@@ -303,14 +304,14 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
 // === IRON archetype: at 3+ Iron live, equip ALSO grants +1 Attack =============
 {
   // BELOW threshold (2 Iron on board) -> equip gives +1 Armor only.
-  const below = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true);
+  const below = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true, true);
   fillBoard(below, "P1", IRON_CHEAP, 2);
   const u1 = makeUnit(IRON_CHEAP);
   factionOnEquip(below, "P1", u1, factionOf);
   assert(u1.armor === 1 && u1.attack === 2, "IRON below threshold: equip gives +1 Armor only");
 
   // AT threshold (3 Iron on board) -> equip gives +1 Armor AND +1 Attack.
-  const at = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true);
+  const at = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true, true);
   fillBoard(at, "P1", IRON_CHEAP, 3);
   const u2 = makeUnit(IRON_CHEAP);
   factionOnEquip(at, "P1", u2, factionOf);
@@ -328,7 +329,7 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
   const SILVER_CHEAP = "tcg_97"; // cost 2
 
   // BELOW threshold (2 Silver on board): base Scry 1.
-  const below = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true);
+  const below = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true, true);
   fillBoard(below, "P1", SILVER_CHEAP, 2);
   below.players.P1.deck = [STONE_BIG, STONE_BIG, SILVER_CHEAP];
   const beforeLen = below.players.P1.deck.length;
@@ -344,7 +345,7 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
   // AT threshold (3 Silver on board): Scry 2 — a deeper window. Use a deck where
   // the cost-2 card sits within the top-2 window so Scry 2 surfaces it but Scry 1
   // would not.
-  const at = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true);
+  const at = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true, true);
   fillBoard(at, "P1", SILVER_CHEAP, 3);
   at.players.P1.deck = [STONE_BIG, SILVER_CHEAP, STONE_BIG];
   factionOnTurnStart(at, "P1", costOf, factionOf);
@@ -374,7 +375,7 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
 // === DETERMINISM: identical setup twice -> byte-identical archetype result ====
 {
   function runGoldDeep(): any {
-    const s = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true);
+    const s = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
     fillBoard(s, "P1", GOLD_BIG, 4);
     const u = makeUnit(GOLD_BIG);
     factionOnUnitSummon(s, "P1", u, factionOf, costOf);

@@ -273,7 +273,10 @@ const BRONZE_UNIT = "tcg_93";
 
 function oathState(commanderId: string, enabled: boolean): MatchState {
   return {
-    rules: enabled ? { factionIdentities: true } : undefined,
+    // The Oath payoff rides the deep archetype layer, so opt into factionArchetypes
+    // here (the shipped CORE ruleset leaves it off -> Oath dormant). The GATED-OFF
+    // case below passes enabled=false, so it stays inert exactly as before.
+    rules: enabled ? { factionIdentities: true, factionArchetypes: true } : undefined,
     players: {
       P1: { commanderId, nexusHealth: 20, deck: [], board: { front: [], back: [] } },
       P2: { commanderId: "cmd_demo", nexusHealth: 20, deck: [], board: { front: [], back: [] } },

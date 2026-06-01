@@ -41,6 +41,15 @@ export interface UnitInPlay {
    */
   shielded?: boolean;
   /**
+   * "WARD until end of turn" bookkeeping (GRANT_SELF_WARD, tcg_938): true while a
+   * temporary, this-turn-only ward is in force. The `shielded` flag does the
+   * actual absorb; this marker tells the reducer's turn-end hook to EXPIRE the
+   * ward at the granting controller's turn end whether or not it absorbed a hit
+   * (mirrors the tempAtkDebuff until-EOT model). Cleared alongside `shielded` at
+   * that turn end. Optional so fixtures default to "no temporary ward".
+   */
+  wardExpiresEot?: boolean;
+  /**
    * STEALTH bookkeeping: while true the unit cannot be targeted by enemy
    * attacks. Set at summon for STEALTH units and cleared the moment the unit
    * attacks (it reveals itself). Optional so existing fixtures default to
@@ -114,6 +123,13 @@ export interface UnitInPlay {
    */
   damageTakenThisTurn?: number;
   lastDamageTaken?: number;
+  /**
+   * The card's catalog rarity ("COMMON" | "RARE" | "EPIC" | "LEGENDARY" |
+   * "MYTHIC"), stamped at summon from the playable catalog. MYTHIC == "Crypt
+   * Legend", which is what HEAL_ALLIES_FULL (tcg_3400) gates on. Optional so
+   * tokens and constructed fixtures default to undefined (non-legend).
+   */
+  rarity?: string;
 }
 
 /**
@@ -177,12 +193,18 @@ export interface ArmedSecret {
 export interface PlayerState {
   id: PlayerId;
   /**
-   * Face HP. `nexusHealth` is the LIVED value players experience (starts at 20)
-   * and is the value the live win-detector reads.
+   * Face HP. `nexusHealth` (starts at 20) is the ONLY live face pool: it is what
+   * players experience, what ATTACK_FACE depletes, and the only value the live
+   * win-detector reads (alongside deck-out).
    *
-   * `health` is still written by the live setup (createPlayer) and read/written
-   * by live unitAbilities (DEATH_BLAST / BATTLECRY_HERO_HIT win-affecting
-   * effects in cleanup), so it is NOT vestigial and must remain on the type.
+   * `health` (starts at 30) is a VESTIGE. Setup still initialises it, but NO live
+   * code path reads or mutates it. Every writer is dead code, NOT imported by the
+   * reducer: effects.ts `DAMAGE_PLAYER` (test-only), playArtifactFromHand.ts (no
+   * importer), and unitAbilities `applyDeathPassiveEffects`/`applyBattlecryEffects`
+   * (reached only through the orphaned cleanup.ts — the live death path is
+   * effectSystem.ts's cleanupDeadUnits). It is kept on the type only so existing
+   * serialised states/fixtures stay shape-compatible; it can be removed together
+   * with that dead-code chain in a dedicated cleanup pass.
    */
   nexusHealth: number;
   health: number;
@@ -364,6 +386,21 @@ export interface MatchState {
    * match, so fixtures are unmoved.
    */
   pendingResponse?: PendingResponse | null;
+  /**
+   * The LAST card played by either side (set whenever any PLAY_* action resolves a
+   * card from hand). Feeds RETURN_LAST_PLAYED (tcg_3425), which bounces it to its
+   * owner's hand. ABSENT by default — a match with no card played carries no field,
+   * so it survives structuredClone untouched and the reducer-equivalence golden JSON
+   * is byte-identical. Holds only plain data (cardId + owner).
+   */
+  lastCardPlayed?: { cardId: string; owner: PlayerId } | null;
+  /**
+   * Per-match used flag for RETURN_LAST_PLAYED (tcg_3425), whose text is "once per
+   * match". Set the first time that effect fires; once set, subsequent copies are a
+   * clean no-op. ABSENT by default (undefined === unused), so vanilla matches and
+   * fixtures are unmoved.
+   */
+  returnLastPlayedUsed?: boolean;
   players: {
     P1: PlayerState;
     P2: PlayerState;
@@ -493,4 +530,42 @@ export interface MatchRules {
    * structuredClone, and every identity hook is a clean no-op without this flag).
    */
   factionIdentities?: boolean;
+  /**
+   * FACTION ARCHETYPE DEPTH (#8b, tight-cut gated). When true, each faction's
+   * identity earns a deepened threshold payoff once the controller commands N+ of
+   * their OWN faction's live units (the Bedrock-to-+2, Onslaught-to-cost<=3, etc.
+   * snowball + the Oath payoff read-model in `factionIdentity.ts`). ABSENT/false by
+   * default so the shipped CORE ruleset plays FLAT — base identities only — which is
+   * the "approachable, easy to read" tight cut. Requires `factionIdentities` to do
+   * anything (the deep layer rides the same no-burn / no-op invariants). Setting it
+   * restores the full archetype game for an advanced/tournament ruleset.
+   */
+  factionArchetypes?: boolean;
+  /**
+   * TRAIT RESONANCE (#1 — the signature hook). When true, a unit you summon that
+   * shares a Keyword with another unit you already control enters RESONANT (+1/+1),
+   * via the additive, no-burn hook in `traitResonance.ts`. This is the headline
+   * "owned cards create emergent synergy" mechanic and ships ON in the CORE ruleset.
+   * ABSENT/false by default at the type level so a vanilla match WITHOUT the flag
+   * plays exactly as before and the reducer-equivalence golden JSON stays byte-
+   * identical (undefined survives structuredClone; the hook is a clean no-op).
+   */
+  traitResonance?: boolean;
 }
+
+/**
+ * The shipped DEFAULT ruleset (the "tight cut"). New live matches play this unless
+ * a caller explicitly overrides it. Deliberately MINIMAL for approachability:
+ *   - factionIdentities ON   — the five factions feel distinct (the brand), but
+ *   - factionArchetypes OFF  — FLAT identities, no threshold snowball to track,
+ *   - traitResonance ON      — the signature "shared-keyword units strengthen each
+ *                              other" hook: one legible rule that makes themed decks
+ *                              feel synergistic without anything extra to track,
+ *   - responseStack / alt-wins OFF — one win axis (nexus), no stack to learn.
+ * Everything omitted is `undefined` = vanilla, so this is purely additive and
+ * survives structuredClone. Advanced rulesets opt back into depth per-match.
+ */
+export const CORE_RULESET: MatchRules = {
+  factionIdentities: true,
+  traitResonance: true,
+};
