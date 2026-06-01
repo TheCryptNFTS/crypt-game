@@ -4,6 +4,7 @@ import SplashLoginPage from "./pages/SplashLoginPage";
 import TutorialPage from "./pages/TutorialPage";
 import HomePage from "./pages/HomePage";
 import PlayHubPage from "./pages/PlayHubPage";
+import PuzzlePage from "./pages/PuzzlePage";
 import LiveCryptMatchPage from "./pages/LiveCryptMatchPage";
 import DeckBuilderPage from "./pages/DeckBuilderPage";
 import CollectionPage from "./pages/CollectionPage";
@@ -34,6 +35,8 @@ export const router = createBrowserRouter([
     children: [
       { path: "/home", element: <HomePage /> },
       { path: "/play", element: <PlayHubPage /> },
+      // Solo puzzle / practice mode — ungated like /play (no opponent, no chain).
+      { path: "/puzzles", element: <PuzzlePage /> },
       { path: "/match", element: <LiveCryptMatchPage /> },
       { path: "/spectate", element: <SpectatePage /> },
       { path: "/draft", element: <DraftPage /> },
