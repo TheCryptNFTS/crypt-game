@@ -82,6 +82,10 @@ export default function AppShell() {
           <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--profile" aria-hidden />
           Profile
         </NavLink>
+        <NavLink to="/rewards" className={({ isActive }) => dockClass(isActive)}>
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--play" aria-hidden />
+          Rewards
+        </NavLink>
       </nav>
     </div>
   );
