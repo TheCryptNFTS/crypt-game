@@ -40,10 +40,10 @@ export const factionTheme: Record<
   },
   GOLD: {
     label: "Golden Sovereigns",
-    edge: "#f0d24f",
-    glow: "rgba(240, 210, 79, 0.4)",
-    chip: "rgba(240, 210, 79, 0.18)",
-    shadow: "0 0 30px rgba(240, 210, 79, 0.28)"
+    edge: "#FFD24A",
+    glow: "rgba(255, 210, 74, 0.4)",
+    chip: "rgba(255, 210, 74, 0.18)",
+    shadow: "0 0 30px rgba(255, 210, 74, 0.28)"
   },
   GOD: {
     label: "Gods",
@@ -77,15 +77,15 @@ export const syncTheme: Record<
   },
   exact: {
     label: "Exact Match",
-    tone: "#f0d24f",
-    bg: "rgba(240,210,79,0.14)",
-    border: "rgba(240,210,79,0.38)"
+    tone: "#E9C984",
+    bg: "rgba(233,201,132,0.14)",
+    border: "rgba(233,201,132,0.38)"
   },
   legendary: {
     label: "Legendary Aura",
-    tone: "#f0d24f",
-    bg: "rgba(240,210,79,0.16)",
-    border: "rgba(240,210,79,0.44)"
+    tone: "#E9C984",
+    bg: "rgba(233,201,132,0.16)",
+    border: "rgba(233,201,132,0.44)"
   },
   oneOfOne: {
     label: "One of One",

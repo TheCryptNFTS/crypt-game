@@ -1,23 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand: warm obsidian + prestige gold + cold cyan (interactive only) */
-  --font-surface: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-brand: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  --color-crypt-bg: #0a0808;
-  --color-crypt-obsidian: #060504;
-  --color-crypt-panel: #0e0c0d;
-  --color-crypt-graphite: #141218;
-  --color-crypt-border: rgba(212, 168, 75, 0.2);
-  --color-crypt-border-strong: rgba(230, 190, 110, 0.42);
-  --color-crypt-accent: #d4a84b;
-  --color-crypt-accent-dim: rgba(212, 168, 75, 0.38);
-  --color-crypt-ember: #e7bc6a;
-  --color-crypt-ice: #5fd4f0;
-  --color-crypt-ice-dim: rgba(95, 212, 240, 0.24);
-  --color-crypt-text: #ebe8e4;
-  --color-crypt-muted: #7a7370;
+  /* FREELON CITY brand: warm near-black + prestige gold + void-purple accent */
+  /* Display fonts loaded via index.html <link> (Fontshare + Google Fonts) */
+  --font-display: "Clash Display", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-label: "Clash Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-surface: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-brand: "Clash Display", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  --color-crypt-bg: #0B0B0D;
+  --color-crypt-obsidian: #060507;
+  --color-crypt-panel: #141417;
+  --color-crypt-graphite: #1A1A1F;
+  --color-crypt-border: rgba(245, 242, 232, 0.09);
+  --color-crypt-border-strong: rgba(245, 242, 232, 0.16);
+  --color-crypt-accent: #E9C984;
+  --color-crypt-accent-dim: rgba(233, 201, 132, 0.38);
+  --color-crypt-ember: #C8A75D;
+  --color-crypt-ice: #8D5CFF;
+  --color-crypt-ice-dim: rgba(141, 92, 255, 0.24);
+  --color-crypt-text: #F5F2E8;
+  --color-crypt-muted: rgba(245, 242, 232, 0.66);
+  /* Tailwind utility tokens mapped to the city palette */
+  --color-crypt-ink: #F5F2E8;
+  --color-crypt-surface: #141417;
+  --color-crypt-gold-bright: #E9C984;
+  --color-crypt-purple: #8D5CFF;
   --shadow-card-edge: 0 0 0 1px rgba(212, 175, 55, 0.12),
     0 0 24px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-commander: 0 0 0 1px rgba(212, 175, 55, 0.28),
@@ -41,14 +50,121 @@ body,
 
 body {
   margin: 0;
-  font-family: var(--font-surface);
+  font-family: var(--font-body);
   color: var(--color-crypt-text);
   background-color: var(--color-crypt-bg);
   background-image:
-    radial-gradient(ellipse 100% 80% at 50% -30%, rgba(212, 168, 75, 0.09) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 40% at 100% 40%, rgba(95, 212, 240, 0.04) 0%, transparent 45%);
+    radial-gradient(ellipse 100% 80% at 50% -30%, rgba(233, 201, 132, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 40%, rgba(200, 110, 60, 0.06) 0%, transparent 48%),
+    linear-gradient(180deg, rgba(11, 11, 13, 0.88), rgba(11, 11, 13, 0.93)),
+    url("/crypt-assets/app-bg.png");
+  background-size: auto, auto, auto, cover;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
+}
+
+/* FREELON CITY type system */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-crypt-accent);
+}
+
+.kicker::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-crypt-accent));
+}
+
+/* City button system — shared metallic primary + glass secondary + ghost */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-crypt-border);
+  border-radius: 999px;
+  padding: 11px 20px;
+  font-family: var(--font-label);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-crypt-text);
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #F5F2E8, #CFC6AA);
+  color: #0B0B0D;
+  border-color: rgba(245, 242, 232, 0.16);
+  box-shadow: 0 1px 0 rgba(245, 242, 232, 0.4) inset, 0 12px 30px -12px rgba(0, 0, 0, 0.8);
+}
+
+/* Glint sweep on hover (city signature) */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 600ms var(--ease-premium, ease);
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-crypt-text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-crypt-border-strong);
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  color: var(--color-crypt-muted);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--color-crypt-text);
 }
 
 .crypt-app-root {
@@ -1067,22 +1183,40 @@ body {
 .crypt-card-art img {
   width: 100%;
   height: 100%;
+  /* Source art is 500x500 square inside a square frame, so cover == contain:
+     a centered image fills the box with zero crop. */
   object-fit: cover;
-  object-position: center 18%;
+  object-position: center center;
   transition: transform var(--duration-art) var(--ease-premium);
 }
 
-.crypt-card-art-commander-aspect {
-  aspect-ratio: 10 / 13;
-}
-
 .crypt-card-art-commander img {
-  object-position: center 6%;
-  transform: scale(1.045);
+  object-position: center center;
 }
 
 .crypt-card-interactive:hover .crypt-card-art img {
   transform: scale(1.05);
+}
+
+/* Card juice — premium lift + gold rim on hover for interactive cards. */
+.crypt-card-interactive {
+  transition:
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms ease,
+    filter 180ms ease;
+  will-change: transform;
+}
+.crypt-card-interactive:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 20px 44px -14px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(233, 201, 132, 0.35),
+    0 0 22px -4px rgba(141, 92, 255, 0.25);
+  filter: saturate(1.05);
+  z-index: 5;
+}
+.crypt-card-interactive:active {
+  transform: translateY(-2px) scale(0.99);
 }
 
 

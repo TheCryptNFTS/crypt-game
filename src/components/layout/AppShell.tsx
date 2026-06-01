@@ -21,7 +21,16 @@ export default function AppShell() {
             to="/home"
             className="crypt-brand-lockup flex items-center gap-3 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-crypt-ice)]"
           >
-            <span className="crypt-brand-icon crypt-brand-icon--header" aria-hidden />
+            <img
+              src="https://i2c.seadn.io/ethereum/192f08c7d2ea47f5b65fe12db4c4f64d/9a37a8aaa8bf49f2b9ed9c4fd24770/e19a37a8aaa8bf49f2b9ed9c4fd24770.png"
+              alt="Crypt"
+              width={30}
+              height={30}
+              loading="eager"
+              decoding="async"
+              className="crypt-brand-icon--header"
+              style={{ width: 30, height: 30, borderRadius: 8, objectFit: "cover", display: "block", flexShrink: 0 }}
+            />
             <span className="flex min-w-0 flex-col items-center md:items-start">
               <span className="crypt-wordmark crypt-wordmark--header">CRYPT</span>
               <span className="crypt-brand-tagline">Crypt Legends · dark TCG</span>

@@ -1,14 +1,14 @@
 :root {
-  --crypt-bg: #050608;
-  --crypt-panel: rgba(14, 16, 22, 0.88);
-  --crypt-panel-2: rgba(18, 22, 30, 0.92);
-  --crypt-line: rgba(255, 255, 255, 0.08);
-  --crypt-text: #eef2f8;
-  --crypt-muted: #93a0b5;
-  --crypt-chip: rgba(255, 255, 255, 0.06);
+  --crypt-bg: #0B0B0D;
+  --crypt-panel: #141417;
+  --crypt-panel-2: #1A1A1F;
+  --crypt-line: rgba(245, 242, 232, 0.09);
+  --crypt-text: #F5F2E8;
+  --crypt-muted: rgba(245, 242, 232, 0.66);
+  --crypt-chip: rgba(245, 242, 232, 0.06);
   --crypt-danger: #ff6b6b;
-  --crypt-radius: 22px;
-  --crypt-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+  --crypt-radius: 14px;
+  --crypt-shadow: 0 1px 0 rgba(245, 242, 232, 0.04) inset, 0 24px 60px -18px rgba(0, 0, 0, 0.75);
 }
 
 * {
@@ -20,7 +20,7 @@ body {
   background: var(--crypt-bg);
   color: var(--crypt-text);
   font-family:
-    Inter,
+    "Satoshi",
     ui-sans-serif,
     system-ui,
     -apple-system,
@@ -38,17 +38,17 @@ button {
   min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 0%, rgba(113, 201, 255, 0.08), transparent 26%),
-    radial-gradient(circle at 80% 10%, rgba(240, 210, 79, 0.06), transparent 24%),
-    linear-gradient(180deg, #050608 0%, #090c12 100%);
+    radial-gradient(circle at 50% 0%, rgba(233, 201, 132, 0.08), transparent 26%),
+    radial-gradient(circle at 80% 10%, rgba(200, 110, 60, 0.06), transparent 24%),
+    linear-gradient(180deg, #0B0B0D 0%, #060507 100%);
 }
 
 .crypt-shell__bg {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 20% 30%, rgba(100, 255, 210, 0.05), transparent 20%),
-    radial-gradient(circle at 80% 20%, rgba(174, 119, 255, 0.05), transparent 18%);
+    radial-gradient(circle at 20% 30%, rgba(233, 201, 132, 0.05), transparent 20%),
+    radial-gradient(circle at 80% 20%, rgba(141, 92, 255, 0.05), transparent 18%);
   pointer-events: none;
 }
 
@@ -113,6 +113,9 @@ button {
 
 .crypt-commander-hero__image {
   width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center center;
   display: block;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -134,7 +137,7 @@ button {
 
 .crypt-rarity--standard {
   background: rgba(255, 255, 255, 0.08);
-  color: #dbe4f0;
+  color: #F5F2E8;
 }
 
 .crypt-rarity--legendary {
@@ -199,7 +202,7 @@ button {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #c9d2df;
+  color: rgba(245,242,232,0.82);
 }
 
 .crypt-commander-hero__traits,
@@ -226,7 +229,7 @@ button {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #8ea0b6;
+  color: rgba(245,242,232,0.66);
 }
 
 .crypt-trait-chip__v {
@@ -277,7 +280,7 @@ button {
   overflow: hidden;
   border-radius: 20px;
   border: 1px solid var(--crypt-line);
-  background: #080a0f;
+  background: #0B0B0D;
   transition:
     transform 160ms ease,
     box-shadow 160ms ease,
@@ -299,16 +302,27 @@ button {
   padding: 0;
 }
 
-.crypt-card__frame,
-.crypt-card__image {
+.crypt-card__frame {
   width: 100%;
   height: 100%;
 }
 
+/* Card art is a 500x500 square NFT — render it in a square region so nothing
+   is cropped. The card body stays tall; art sits square at the top. */
 .crypt-card__image {
   display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
   object-fit: cover;
   background: #000;
+}
+
+/* In board mode the image is a direct child of the card; pin the square art to
+   the top so the overlaid stat blocks fall below it. */
+.crypt-card--board .crypt-card__image {
+  position: absolute;
+  inset: 0 0 auto 0;
 }
 
 .crypt-card__scrim {
@@ -376,7 +390,7 @@ button {
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 10px;
-  color: #d9e3f1;
+  color: #F5F2E8;
   font-size: 12px;
 }
 
@@ -461,7 +475,7 @@ button {
 
 .crypt-badge--rarity {
   background: rgba(255, 255, 255, 0.06);
-  color: #d8e2ef;
+  color: #F5F2E8;
   border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -509,6 +523,9 @@ button {
 
 .crypt-inspect__image {
   width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center center;
   display: block;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -541,7 +558,7 @@ button {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #c3cfdf;
+  color: rgba(245,242,232,0.82);
 }
 
 @media (max-width: 1200px) {

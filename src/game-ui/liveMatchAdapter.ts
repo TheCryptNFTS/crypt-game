@@ -38,7 +38,10 @@ function pickSyncLevel(modifier: any) {
   if ((modifier.reasons ?? modifier.audit?.reasons ?? []).some((r: string) => /One of One/i.test(r))) {
     return { level: "oneOfOne" as const, label: "One of One" };
   }
-  return { level: "category" as const, label: "Commander Sync" };
+  // A commander modifier exists but matched no traits/reasons — that is NOT a
+  // synergy, so don't flag it (was incorrectly labelling EVERY card "Commander
+  // Sync"). The badge only shows for a real match below.
+  return { level: "none" as const, label: "No Sync" };
 }
 
 function getCardMeta(cardId: string) {

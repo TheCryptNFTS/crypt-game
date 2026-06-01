@@ -49,7 +49,7 @@ export function MatchTopBar({
         </div>
 
         <div
-          className={`live-topbar__pill ${ownNexusHit ? "mm-nexus-hit" : ""}`}
+          className={`live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-own ${ownNexusHit ? "mm-nexus-hit" : ""}`}
           key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
         >
           <span className="live-topbar__label">Your Nexus</span>
@@ -58,7 +58,7 @@ export function MatchTopBar({
         </div>
 
         <div
-          className={`live-topbar__pill ${enemyNexusHit ? "mm-nexus-hit" : ""}`}
+          className={`live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-enemy ${enemyNexusHit ? "mm-nexus-hit" : ""}`}
           key={`enemy-nexus-${enemyNexusHit?.key ?? "idle"}`}
         >
           <span className="live-topbar__label">Enemy Nexus</span>
@@ -66,7 +66,7 @@ export function MatchTopBar({
           {enemyNexusHit ? <span className="mm-float-dmg mm-float-dmg--nexus">{enemyNexusHit.damage}</span> : null}
         </div>
 
-        <div className="live-topbar__pill live-topbar__pill--active">
+        <div className="live-topbar__pill live-topbar__pill--energy">
           <span className="live-topbar__label">Energy</span>
           <strong>{energy} / {maxEnergy}</strong>
         </div>

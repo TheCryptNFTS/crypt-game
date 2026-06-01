@@ -18,6 +18,8 @@ type CombatLogEntry = {
 
 /** P1 is the human, P2 the simulated opponent — the log reads from your seat. */
 const DISPLAY_NAME: Record<PlayerId, string> = { P1: "You", P2: "Opponent" };
+// Possessive form — "You" → "Your", otherwise append 's (avoids "You's turn").
+const POSSESSIVE: Record<PlayerId, string> = { P1: "Your", P2: "Opponent's" };
 
 /** Signal-civilization framing for a decided match (P1 = your perspective). */
 function winLine(w: PlayerId): string {
@@ -133,9 +135,9 @@ function eventToLogText(ev: GameEvent): string | null {
     case "ATTACK":
       return `${DISPLAY_NAME[ev.player]} struck for ${ev.outgoing} raw / ${ev.mitigated} final. Counter: ${ev.counter}.`;
     case "NEXUS_DAMAGE":
-      return `${DISPLAY_NAME[ev.player]} struck ${DISPLAY_NAME[ev.targetPlayer]}'s nexus for ${ev.damage}.`;
+      return `${DISPLAY_NAME[ev.player]} struck ${POSSESSIVE[ev.targetPlayer]} nexus for ${ev.damage}.`;
     case "TURN_START":
-      return `${DISPLAY_NAME[ev.player]}'s turn. Energy ${ev.energy}/${ev.maxEnergy}.`;
+      return `${POSSESSIVE[ev.player]} turn. Energy ${ev.energy}/${ev.maxEnergy}.`;
     case "DECK_OUT":
       return `${DISPLAY_NAME[ev.player]} decked out.`;
     case "WIN":

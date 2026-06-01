@@ -116,6 +116,34 @@ export default function HomePage() {
         <section className="crypt-home-m-hero" aria-label="Home">
           <div className="crypt-home-m-hero-accent" aria-hidden />
           <div className="crypt-home-m-hero-inner">
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "1500 / 500",
+                borderRadius: 14,
+                overflow: "hidden",
+                marginBottom: "var(--s-4, 16px)",
+                border: "1px solid rgba(245,242,232,.09)",
+              }}
+            >
+              <img
+                src="https://i2c.seadn.io/ethereum/192f08c7d2ea47f5b65fe12db4c4f64d/bfb7aa5176037505033842cf11db3a/fabfb7aa5176037505033842cf11db3a.png"
+                alt="Crypt Digital Trading Cards"
+                loading="eager"
+                decoding="async"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
+              />
+              <span
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(180deg, rgba(11,11,13,0) 40%, rgba(11,11,13,0.55) 100%)",
+                }}
+              />
+            </div>
             <p className="crypt-home-m-kicker">{t("home.hero.kicker")}</p>
             <h1 className="crypt-home-m-headline">
               {t("home.hero.headline")}

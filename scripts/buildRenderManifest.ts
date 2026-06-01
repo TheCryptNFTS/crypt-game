@@ -53,6 +53,24 @@ const commanders = commandersRaw as Array<{ id: string; name?: string; faction?:
 const openseaAssets = openseaAssetsRaw as { commanders?: Asset[]; cards?: Asset[] };
 const commanderImageMap = commanderImageMapRaw as Record<string, string>;
 
+// commanders.json carries no faction. Assign by name/lore so the Vault no longer
+// labels every commander "GODS". The four named 1/1s (Anunnaki/Harley/Lucifer/
+// Satoshi) genuinely ARE Gods; the rest are spread across the civ factions.
+const COMMANDER_FACTION: Record<string, string> = {
+  cmd_stone_warden: "STONE_KEEPERS",
+  cmd_bronze_raider: "BRONZE_GUARDIANS",
+  cmd_void_priest: "SILVER_SENTINELS",
+  cmd_hell_judge: "IRON_DEFENDERS",
+  cmd_clockwork_king: "GOLDEN_SOVEREIGNS",
+  cmd_grave_oracle: "SILVER_SENTINELS",
+  cmd_skull_emperor: "GOLDEN_SOVEREIGNS",
+  cmd_tempus_rex: "IRON_DEFENDERS",
+  cmd_anunnaki_prime: "GODS",
+  cmd_harley_one: "GODS",
+  cmd_lucifer_one: "GODS",
+  cmd_satoshi_one: "GODS",
+};
+
 const commanderAssetIndex = makeIndex(openseaAssets.commanders);
 
 function pickCommanderAsset(item: { id: string; name?: string }): Asset | null {
@@ -87,10 +105,8 @@ const manifest = {
       id: card.id,
       name: card.name ?? card.id,
       role: "commander" as const,
-      // commanders.json carries no faction; fall back to the canonical "GODS" code
-      // (matches the Faction enum the engine + playable cards use) so the Vault's
-      // faction filter doesn't show a duplicate "GOD" / "GODS" pair.
-      faction: card.faction ?? "GODS",
+      // Faction from the lore map above; "GODS" only as a last-resort fallback.
+      faction: card.faction ?? COMMANDER_FACTION[card.id] ?? "GODS",
       rarity: "commander",
       cost: undefined,
       keywords: [] as string[],

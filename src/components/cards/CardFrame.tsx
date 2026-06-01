@@ -43,8 +43,8 @@ export default function CardFrame({
       />
       <div
         className={[
-          "crypt-card-art relative w-full shrink-0",
-          commander ? "crypt-card-art-commander crypt-card-art-commander-aspect" : "aspect-[3/4]",
+          "crypt-card-art relative aspect-square w-full shrink-0",
+          commander ? "crypt-card-art-commander" : "",
         ]
           .filter(Boolean)
           .join(" ")}

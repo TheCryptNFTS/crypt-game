@@ -9,6 +9,19 @@ import type { RenderManifestEntry } from "../types/renderManifest";
 
 type Filter = "all" | string;
 
+const FACTION_SIGIL: Record<string, string> = {
+  STONE_KEEPERS: "stone",
+  IRON_DEFENDERS: "iron",
+  BRONZE_GUARDIANS: "bronze",
+  SILVER_SENTINELS: "silver",
+  GOLDEN_SOVEREIGNS: "gold",
+  GODS: "gods",
+};
+function sigilSrc(f: string): string | null {
+  const k = FACTION_SIGIL[f.toUpperCase().replace(/\s+/g, "_")];
+  return k ? `/crypt-assets/sigil-${k}.png` : null;
+}
+
 export default function CollectionPage() {
   const { commanders, playable, loading, error, ready } = useRenderManifest();
   const [selected, setSelected] = useState<RenderManifestEntry | null>(null);
@@ -60,13 +73,22 @@ export default function CollectionPage() {
                 type="button"
                 onClick={() => setFaction(f)}
                 className={[
-                  "rounded-sm border px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em]",
+                  "inline-flex items-center gap-1.5 rounded-sm border px-2.5 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em]",
                   faction === f
                     ? "border-[color:var(--color-crypt-ice-dim)] text-[color:var(--color-crypt-ice)]"
                     : "border-white/[0.08] text-[color:var(--color-crypt-muted)] hover:text-[color:var(--color-crypt-text)]",
                 ].join(" ")}
               >
-                {f}
+                {sigilSrc(f) && (
+                  <img
+                    src={sigilSrc(f)!}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    className="h-4 w-4 object-contain"
+                  />
+                )}
+                {f.replace(/_/g, " ")}
               </button>
             ))}
           </div>

@@ -29,6 +29,8 @@ type SyncBadgeProps = {
 };
 
 export function SyncBadge({ level, label }: SyncBadgeProps) {
+  // No real commander synergy → no badge (keeps the badge meaningful).
+  if (level === "none") return null;
   const theme = syncTheme[level];
 
   return (

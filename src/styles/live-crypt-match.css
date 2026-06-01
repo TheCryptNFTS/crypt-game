@@ -4,6 +4,26 @@
   padding: 18px;
 }
 
+/* Atmospheric battlefield — generated obsidian arena (gold + purple nexus cores,
+   hex grid). Heavily darkened so foreground cards/text stay fully legible. */
+.live-match-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(180deg, rgba(11, 11, 13, 0.78), rgba(11, 11, 13, 0.86)),
+    url("/crypt-assets/battlefield.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.live-match-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
 .live-grid {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr) 360px;
@@ -32,7 +52,7 @@
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   background:
-    linear-gradient(180deg, rgba(11,15,22,0.94), rgba(8,11,17,0.98));
+    linear-gradient(180deg, rgba(20,20,23,0.96), rgba(11,11,13,0.99));
   box-shadow: 0 18px 50px rgba(0,0,0,0.35);
 }
 
@@ -46,31 +66,92 @@
  * a quiet hint, not a pill, so it doesn't compete with the live HUD. */
 .live-deckhint {
   margin: 10px 2px 0;
-  color: #8fa0b6;
+  color: rgba(245,242,232,0.66);
   font-size: 12px;
   line-height: 1.5;
 }
 
 .live-topbar__pill {
-  min-width: 108px;
-  padding: 10px 12px;
-  border-radius: 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  min-width: 96px;
+  padding: 9px 14px 10px;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(245,242,232,0.05), rgba(255,255,255,0.015));
+  border: 1px solid rgba(245,242,232,0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(245,242,232,0.05),
+    0 6px 18px -10px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+/* hairline accent across the top of each pill */
+.live-topbar__pill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(233,201,132,0.5), transparent);
+}
+.live-topbar__pill strong {
+  display: block;
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #F5F2E8;
+  font-variant-numeric: tabular-nums;
 }
 
 .live-topbar__pill--active {
+  border-color: rgba(141,92,255,0.32);
+  box-shadow:
+    inset 0 0 0 1px rgba(141,92,255,0.16),
+    inset 0 1px 0 rgba(245,242,232,0.05),
+    0 6px 18px -10px rgba(0,0,0,0.8);
+}
+
+/* Nexus = health. Own glows gold, enemy glows red. */
+.live-topbar__pill--nexus::before {
+  background: linear-gradient(90deg, transparent, rgba(233,201,132,0.6), transparent);
+}
+.live-topbar__pill--nexus-own strong {
+  color: #E9C984;
+  text-shadow: 0 0 16px rgba(233,201,132,0.35);
+}
+.live-topbar__pill--nexus-enemy {
+  border-color: rgba(255,77,77,0.22);
+}
+.live-topbar__pill--nexus-enemy::before {
+  background: linear-gradient(90deg, transparent, rgba(255,77,77,0.55), transparent);
+}
+.live-topbar__pill--nexus-enemy strong {
+  color: #ff8a8a;
+  text-shadow: 0 0 16px rgba(255,77,77,0.3);
+}
+/* Energy = void-purple */
+.live-topbar__pill--energy {
   border-color: rgba(141,92,255,0.28);
-  box-shadow: inset 0 0 0 1px rgba(141,92,255,0.14);
+}
+.live-topbar__pill--energy::before {
+  background: linear-gradient(90deg, transparent, rgba(141,92,255,0.6), transparent);
+}
+.live-topbar__pill--energy strong {
+  color: #b79bff;
+  text-shadow: 0 0 16px rgba(141,92,255,0.3);
 }
 
 .live-topbar__label {
   display: block;
-  margin-bottom: 4px;
-  color: #93a0b5;
-  font-size: 10px;
+  margin-bottom: 5px;
+  color: rgba(245,242,232,0.55);
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 9px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
 }
 
 .live-topbar__meta {
@@ -111,10 +192,16 @@
 }
 
 .live-btn {
-  border-radius: 14px;
-  padding: 11px 15px;
-  font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  padding: 11px 18px;
+  font-family: var(--font-label, "Clash Grotesk", sans-serif);
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid rgba(245,242,232,0.12);
   cursor: pointer;
   transition: 140ms ease;
 }
@@ -129,20 +216,36 @@
 }
 
 .live-btn--ghost {
-  background: rgba(255,255,255,0.05);
-  color: #e7eef8;
+  background: rgba(245,242,232,0.05);
+  color: #F5F2E8;
 }
 
+/* Metallic primary with city glint sweep */
 .live-btn--primary {
-  background: linear-gradient(180deg, rgba(141,92,255,0.2), rgba(141,92,255,0.12));
-  color: #E9C984;
-  border-color: rgba(141,92,255,0.26);
-  box-shadow: 0 0 20px rgba(141,92,255,0.12);
+  background: linear-gradient(180deg, #F5F2E8, #CFC6AA);
+  color: #0B0B0D;
+  border-color: rgba(245,242,232,0.16);
+  box-shadow: 0 1px 0 rgba(245,242,232,0.4) inset, 0 12px 30px -12px rgba(0,0,0,0.8);
+}
+
+.live-btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.live-btn--primary:hover:not(:disabled)::after {
+  transform: translateX(120%);
 }
 
 .live-btn--secondary {
-  background: rgba(255,255,255,0.06);
-  color: #eef2f8;
+  background: rgba(245,242,232,0.045);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #F5F2E8;
 }
 
 .live-btn--danger {
@@ -169,7 +272,7 @@
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 20px;
   background:
-    linear-gradient(180deg, rgba(14,18,24,0.92), rgba(9,12,18,0.98));
+    linear-gradient(180deg, rgba(20,20,23,0.96), rgba(11,11,13,0.99));
   box-shadow: 0 18px 50px rgba(0,0,0,0.35);
 }
 
@@ -199,7 +302,7 @@
 .live-hand__header span,
 .live-actionbar__header p {
   margin: 0;
-  color: #8fa0b6;
+  color: rgba(245,242,232,0.66);
   font-size: 12px;
 }
 
@@ -222,7 +325,7 @@
   gap: 10px;
   min-height: 58px;
   padding: 0 10px;
-  color: #8190a5;
+  color: rgba(245,242,232,0.5);
   border: 1px dashed rgba(255,255,255,0.08);
   border-radius: 14px;
   background: rgba(255,255,255,0.02);
@@ -270,7 +373,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(4, 6, 10, 0.72);
+  background: rgba(11, 11, 13, 0.72);
   backdrop-filter: blur(4px);
 }
 
@@ -282,7 +385,7 @@
   text-align: center;
   border: 1px solid rgba(141, 92, 255, 0.24);
   border-radius: 22px;
-  background: linear-gradient(180deg, rgba(14, 18, 24, 0.96), rgba(9, 12, 18, 0.99));
+  background: linear-gradient(180deg, rgba(20,20,23,0.98), rgba(11,11,13,0.99));
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
 }
 
@@ -294,7 +397,7 @@
 
 .live-gameover__sub {
   margin: 0;
-  color: #8fa0b6;
+  color: rgba(245,242,232,0.66);
   font-size: 14px;
 }
 
@@ -309,7 +412,7 @@
 .live-actionbar__group-label {
   display: block;
   margin-bottom: 8px;
-  color: #93a0b5;
+  color: rgba(245,242,232,0.66);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -330,7 +433,7 @@
   border-radius: 14px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.06);
-  color: #cdd7e5;
+  color: rgba(245,242,232,0.82);
   line-height: 1.45;
 }
 
@@ -372,7 +475,7 @@
   border-radius: 18px;
   padding: 20px;
   margin: 0 0 16px;
-  background: linear-gradient(180deg, rgba(141, 92, 255, 0.12), rgba(13, 16, 26, 0.6));
+  background: linear-gradient(180deg, rgba(141, 92, 255, 0.12), rgba(11, 11, 13, 0.6));
   box-shadow: 0 0 28px rgba(141, 92, 255, 0.14);
 }
 
@@ -404,7 +507,7 @@
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.05);
-  color: #e7eef8;
+  color: #F5F2E8;
   cursor: pointer;
   text-align: left;
   transition: 140ms ease;
