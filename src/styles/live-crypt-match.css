@@ -365,3 +365,99 @@
     flex-wrap: wrap;
   }
 }
+
+/* OPENING MULLIGAN screen (PART 1, UI) ----------------------------------- */
+.mulligan-screen {
+  border: 1px solid rgba(141, 92, 255, 0.26);
+  border-radius: 18px;
+  padding: 20px;
+  margin: 0 0 16px;
+  background: linear-gradient(180deg, rgba(141, 92, 255, 0.12), rgba(13, 16, 26, 0.6));
+  box-shadow: 0 0 28px rgba(141, 92, 255, 0.14);
+}
+
+.mulligan-screen__title {
+  margin: 0 0 6px;
+  color: #e9c984;
+  font-weight: 800;
+}
+
+.mulligan-screen__prompt {
+  margin: 0 0 16px;
+  color: rgba(231, 238, 248, 0.78);
+  max-width: 56ch;
+}
+
+.mulligan-screen__rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mulligan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 116px;
+  min-height: 150px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e7eef8;
+  cursor: pointer;
+  text-align: left;
+  transition: 140ms ease;
+}
+
+.mulligan-card:hover {
+  transform: translateY(-2px);
+}
+
+.mulligan-card--redraw {
+  border-color: rgba(255, 107, 107, 0.55);
+  background: rgba(255, 107, 107, 0.12);
+  box-shadow: 0 0 16px rgba(255, 107, 107, 0.2);
+}
+
+.mulligan-card__cost {
+  align-self: flex-start;
+  font-weight: 800;
+  color: #e9c984;
+}
+
+.mulligan-card__name {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mulligan-card__kind {
+  margin-top: auto;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(231, 238, 248, 0.55);
+}
+
+.mulligan-card__flag {
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.mulligan-card--redraw .mulligan-card__flag {
+  color: #ffc4c4;
+}
+
+.mulligan-screen__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.mulligan-screen__count {
+  color: rgba(231, 238, 248, 0.72);
+  font-weight: 600;
+}

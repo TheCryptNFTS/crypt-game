@@ -4,6 +4,7 @@ import { allCommanders } from "../engine/commanders";
 import { allPlayableCards } from "../engine/cards";
 import { applyAction, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
+import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
 import { planP2Turn, planP2Plays, planP2Combat } from "./cryptMatchAI";
 
@@ -83,6 +84,14 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
     match.players.P2.nexusHealth = options.opponentNexusHealth;
   }
 
+  // OPENING MULLIGAN (PART 1) — open the phase for the HUMAN (P1) only. Passing
+  // a single side marks the OTHER side (P2, the AI) `done` automatically, so the
+  // opponent silently keeps its opening hand and play can proceed the instant the
+  // player confirms their own mulligan. While P1 is `pending` the reducer's global
+  // gate reject-softs every non-MULLIGAN action, so the board is inert behind the
+  // mulligan screen until the player keeps or redraws.
+  beginMulliganPhase(match, ["P1"]);
+
   return match;
 }
 
@@ -159,6 +168,12 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   const aiRunningRef = useRef(false);
 
   const winner: PlayerId | null = detectWinner(match);
+
+  // OPENING MULLIGAN (PART 1): the explicit phase is OPEN while P1 is still
+  // `pending`. The dedicated mulligan screen renders off this flag; the normal
+  // board stays mounted but inert (the reducer gate rejects every other action).
+  const mulliganPhaseActive: boolean = requireMulligan(match);
+  const mulliganHand: string[] = mulliganPhaseActive ? (match.players.P1.hand ?? []) : [];
 
   const activePlayer: PlayerId = match.activePlayer === "P2" ? "P2" : "P1";
   const inactivePlayer: PlayerId = activePlayer === "P1" ? "P2" : "P1";
@@ -262,6 +277,28 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     setSelectedHandId(null);
     setMatch(nextState);
     appendLog("Hand recalibrated — opening signal redrawn.");
+  };
+
+  /**
+   * OPENING MULLIGAN (PART 1) — resolve P1's opening hand during the explicit
+   * phase. `indices` are the opening-hand slots the player chose to REDRAW (empty
+   * = keep everything). We dispatch the phase-aware `MULLIGAN { cards }` action;
+   * because the phase was opened for P1 only, P2 is already `done`, so this single
+   * resolution closes the gate and normal play begins. The once-only legacy
+   * "Recalibrate Hand" button is spent here too so the player can't double-dip.
+   */
+  const resolveMulligan = (indices: number[]) => {
+    if (!mulliganPhaseActive) return;
+    const { state: nextState, events } = applyAction(match, { type: "MULLIGAN", player: "P1", cards: indices });
+    if (events.some((e) => e.type === "REJECTED")) return;
+    setMulliganAvailable(false);
+    setSelectedHandId(null);
+    setMatch(nextState);
+    appendLog(
+      indices.length > 0
+        ? `Opening hand recalibrated — ${indices.length} card${indices.length === 1 ? "" : "s"} redrawn.`
+        : "Opening hand kept — signal locked."
+    );
   };
 
   const resetMatch = () => {
@@ -387,6 +424,8 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     selectedHandCard,
     selectedHandIndex,
     mulliganAvailable,
+    mulliganPhaseActive,
+    mulliganHand,
     energy: match.players[activePlayer].energy ?? 0,
     maxEnergy: match.players[activePlayer].maxEnergy ?? BASE_MAX_ENERGY,
     affordableCostFor: (cardId: string) => costOf(cardId) <= (match.players[activePlayer].energy ?? 0),
@@ -400,6 +439,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     attackUnit,
     attackFace,
     mulligan,
+    resolveMulligan,
     resetMatch
   };
 }
