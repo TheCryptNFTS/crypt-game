@@ -23,6 +23,8 @@
     "dev:regression": "tsx src/dev/runRegressionSuite.ts",
     "dev:determinism": "tsx src/dev/runDeterminismProof.ts",
     "dev:reducer-equivalence": "tsx src/dev/runReducerEquivalenceProof.ts",
+    "dev:telemetry": "tsx src/dev/runTelemetryReport.ts",
+    "dev:share": "tsx src/dev/runShareCodecProof.ts",
     "dev:mulligan": "tsx src/dev/runMulliganProof.ts",
     "dev:format": "tsx src/dev/runFormatProof.ts",
     "dev:enrichment": "CRYPT_ENRICHMENT=1 tsx src/dev/runEnrichmentReport.ts",
