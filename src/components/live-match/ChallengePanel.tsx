@@ -35,6 +35,10 @@ export type EnteredMatch = {
 type Props = {
   /** Enter the live PvP match — identical handoff to Find Match's path. */
   onEnterMatch: (m: EnteredMatch) => void;
+  /** Optional pre-filled join code (e.g. routed in from the Friends page's
+   *  "Challenge" action). When present the panel opens in Join mode with the
+   *  code already in the field, ready to submit. */
+  initialJoinCode?: string;
 };
 
 type Mode = "create" | "join";
@@ -73,8 +77,8 @@ async function resolveMatch(matchId: string): Promise<EnteredMatch | null> {
 
 const POLL_MS = 2000;
 
-export function ChallengePanel({ onEnterMatch }: Props) {
-  const [mode, setMode] = useState<Mode>("create");
+export function ChallengePanel({ onEnterMatch, initialJoinCode }: Props) {
+  const [mode, setMode] = useState<Mode>(initialJoinCode ? "join" : "create");
 
   // CREATE state.
   const [code, setCode] = useState<string | null>(null);
@@ -84,7 +88,7 @@ export function ChallengePanel({ onEnterMatch }: Props) {
   const [createMsg, setCreateMsg] = useState<string>("");
 
   // JOIN state.
-  const [joinCode, setJoinCode] = useState("");
+  const [joinCode, setJoinCode] = useState(initialJoinCode ?? "");
   const [joining, setJoining] = useState(false);
   const [joinMsg, setJoinMsg] = useState<string>("");
 
@@ -104,6 +108,15 @@ export function ChallengePanel({ onEnterMatch }: Props) {
       stopPolling();
     };
   }, [stopPolling]);
+
+  // If a join code is routed in (e.g. from the Friends page) after mount, open
+  // Join mode and pre-fill it so the player just hits "Join".
+  useEffect(() => {
+    if (initialJoinCode) {
+      setMode("join");
+      setJoinCode(initialJoinCode);
+    }
+  }, [initialJoinCode]);
 
   // ---- CREATE -------------------------------------------------------------
   const startCreate = useCallback(async () => {
