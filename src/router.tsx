@@ -8,6 +8,7 @@ import LiveCryptMatchPage from "./pages/LiveCryptMatchPage";
 import DeckBuilderPage from "./pages/DeckBuilderPage";
 import CollectionPage from "./pages/CollectionPage";
 import ShopPage from "./pages/ShopPage";
+import MarketplacePage from "./pages/MarketplacePage";
 import ProfilePage from "./pages/ProfilePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import SpectatePage from "./pages/SpectatePage";
@@ -62,6 +63,14 @@ export const router = createBrowserRouter([
         element: (
           <OnboardingGate>
             <ShopPage />
+          </OnboardingGate>
+        ),
+      },
+      {
+        path: "/market",
+        element: (
+          <OnboardingGate>
+            <MarketplacePage />
           </OnboardingGate>
         ),
       },
