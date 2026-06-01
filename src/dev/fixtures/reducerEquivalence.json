@@ -16,7 +16,7 @@
           "maxEnergy": 3,
           "commanderId": "cmd_stone_warden",
           "deck": [
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1461",
             "tcg_3710",
             "tcg_1477",
@@ -26,11 +26,11 @@
             "tcg_1199",
             "tcg_1330",
             "tcg_1281",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1354",
             "tcg_1286",
-            "tcg_3781",
-            "tcg_3492",
+            "spell_grave_dig",
+            "spell_regrow",
             "tcg_101",
             "tcg_1125",
             "tcg_1306",
@@ -505,67 +505,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -584,7 +560,7 @@
             "tcg_1199",
             "tcg_1330",
             "tcg_1871",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1135",
             "tcg_2026",
             "tcg_1457",
@@ -598,7 +574,7 @@
             "tcg_1286",
             "tcg_1038",
             "tcg_1354",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_10",
             "tcg_1306",
             "tcg_1854"
@@ -606,11 +582,11 @@
           "hand": [
             "tcg_1243",
             "tcg_1676",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1495",
             "tcg_1281",
             "tcg_1461",
-            "tcg_3759"
+            "spell_farsight"
           ],
           "discard": [],
           "graveyard": [],
@@ -1069,67 +1045,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -1172,7 +1124,7 @@
             "tcg_1461",
             "tcg_2026",
             "tcg_1668",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1042",
             "tcg_1871",
             "tcg_1495",
@@ -1180,7 +1132,7 @@
             "tcg_1125",
             "tcg_1388",
             "tcg_1135",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1477",
             "tcg_1330",
             "tcg_1354",
@@ -1189,12 +1141,12 @@
             "tcg_1199",
             "tcg_1676",
             "tcg_1223",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_101",
             "tcg_1243"
           ],
           "hand": [
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1306",
             "tcg_1038",
             "tcg_1198",
@@ -1657,67 +1609,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -1741,8 +1669,8 @@
             "tcg_1477",
             "tcg_1038",
             "tcg_1286",
-            "tcg_3759",
-            "tcg_3852",
+            "spell_farsight",
+            "spell_salvage",
             "tcg_2026",
             "tcg_1243",
             "tcg_1457",
@@ -1759,9 +1687,9 @@
             "tcg_1495",
             "tcg_1198",
             "tcg_1306",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1854",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1871"
           ],
           "discard": [],
@@ -2221,67 +2149,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -2328,19 +2232,19 @@
             "tcg_1286",
             "tcg_1668",
             "tcg_1495",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1457",
             "tcg_1199",
             "tcg_1125",
             "tcg_1854",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1461",
             "tcg_2026",
             "tcg_10",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1243",
             "tcg_1306",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_3710",
             "tcg_1676",
             "tcg_1330"
@@ -2857,67 +2761,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -2942,7 +2822,7 @@
             "tcg_1388",
             "tcg_1135",
             "tcg_1495",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1223",
             "tcg_1286",
             "tcg_3710",
@@ -2951,15 +2831,15 @@
             "tcg_10",
             "tcg_1871",
             "tcg_1854",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1042",
-            "tcg_3781"
+            "spell_grave_dig"
           ],
           "hand": [
             "tcg_101",
             "tcg_1199",
             "tcg_1457",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1668",
             "tcg_1125",
             "tcg_2026"
@@ -3421,67 +3301,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -3543,11 +3399,11 @@
             "tcg_1125",
             "tcg_2026",
             "tcg_1495",
-            "tcg_3852",
-            "tcg_3759",
+            "spell_salvage",
+            "spell_farsight",
             "tcg_1135",
             "tcg_3710",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1042",
             "tcg_1306",
             "tcg_1854",
@@ -3561,7 +3417,7 @@
             "tcg_1330",
             "tcg_1457",
             "tcg_1243",
-            "tcg_3492"
+            "spell_regrow"
           ],
           "discard": [],
           "graveyard": [],
@@ -4019,67 +3875,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -4095,12 +3927,12 @@
           "deck": [
             "tcg_1135",
             "tcg_1281",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1457",
             "tcg_1223",
             "tcg_1354",
             "tcg_1199",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1871",
             "tcg_1477",
             "tcg_1125",
@@ -4119,9 +3951,9 @@
           ],
           "hand": [
             "tcg_1198",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1495",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_2026",
             "tcg_1306",
             "tcg_1243"
@@ -4583,67 +4415,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -4690,13 +4498,13 @@
             "tcg_1306",
             "tcg_3710",
             "tcg_1330",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1388",
             "tcg_1676",
             "tcg_1198",
             "tcg_1286",
-            "tcg_3759",
-            "tcg_3492",
+            "spell_farsight",
+            "spell_regrow",
             "tcg_1243",
             "tcg_10",
             "tcg_1495",
@@ -4706,7 +4514,7 @@
             "tcg_1668",
             "tcg_1135",
             "tcg_1038",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1457",
             "tcg_1199",
             "tcg_1477"
@@ -5175,67 +4983,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -5250,17 +5034,17 @@
           "commanderId": "cmd_bronze_raider",
           "deck": [
             "tcg_1477",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1223",
             "tcg_1388",
             "tcg_1125",
             "tcg_2026",
             "tcg_1668",
             "tcg_1199",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1854",
             "tcg_1243",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_10",
             "tcg_1871",
             "tcg_1286",
@@ -5271,7 +5055,7 @@
             "tcg_1330",
             "tcg_1038",
             "tcg_3710",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1676"
           ],
           "hand": [
@@ -5739,67 +5523,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -5833,9 +5593,9 @@
           "deck": [
             "tcg_1306",
             "tcg_101",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1199",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1281",
             "tcg_1125",
             "tcg_1286",
@@ -5851,8 +5611,8 @@
             "tcg_1388",
             "tcg_2026",
             "tcg_10",
-            "tcg_3781",
-            "tcg_3759",
+            "spell_grave_dig",
+            "spell_farsight",
             "tcg_1676",
             "tcg_1330"
           ],
@@ -6320,67 +6080,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -6397,7 +6133,7 @@
             "tcg_1306",
             "tcg_3710",
             "tcg_1676",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_10",
             "tcg_1135",
             "tcg_1461",
@@ -6408,19 +6144,19 @@
             "tcg_1281",
             "tcg_1199",
             "tcg_1038",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1243",
             "tcg_1668",
             "tcg_1042",
             "tcg_1125",
             "tcg_1388",
             "tcg_101",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1286",
             "tcg_1854"
           ],
           "hand": [
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1495",
             "tcg_1354",
             "tcg_1198",
@@ -6884,67 +6620,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -6982,7 +6694,7 @@
             "tcg_1125",
             "tcg_1457",
             "tcg_1676",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1477",
             "tcg_1854",
             "tcg_1223",
@@ -6999,13 +6711,13 @@
             "tcg_1354",
             "tcg_1461",
             "tcg_1871",
-            "tcg_3759"
+            "spell_farsight"
           ],
           "hand": [
             "tcg_1330",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1038",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1243",
             "tcg_1668"
           ],
@@ -7484,67 +7196,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -7559,7 +7247,7 @@
           "commanderId": "cmd_bronze_raider",
           "deck": [
             "tcg_1286",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1243",
             "tcg_1198",
             "tcg_1477",
@@ -7570,7 +7258,7 @@
             "tcg_1871",
             "tcg_10",
             "tcg_101",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1461",
             "tcg_1457",
             "tcg_1125",
@@ -7580,7 +7268,7 @@
             "tcg_3710",
             "tcg_1038",
             "tcg_1388",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1199"
           ],
           "hand": [
@@ -7588,7 +7276,7 @@
             "tcg_1854",
             "tcg_1330",
             "tcg_1495",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_2026"
           ],
           "discard": [],
@@ -8048,67 +7736,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -8157,7 +7821,7 @@
             "tcg_1854",
             "tcg_10",
             "tcg_1281",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1042",
             "tcg_1388",
             "tcg_1457",
@@ -8166,9 +7830,9 @@
             "tcg_1125",
             "tcg_1135",
             "tcg_1198",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1354",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1306",
             "tcg_1243",
             "tcg_101"
@@ -8179,7 +7843,7 @@
             "tcg_1223",
             "tcg_1495",
             "tcg_1038",
-            "tcg_3759"
+            "spell_farsight"
           ],
           "discard": [],
           "graveyard": [],
@@ -8659,67 +8323,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -8742,12 +8382,12 @@
             "tcg_10",
             "tcg_1388",
             "tcg_1198",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1457",
             "tcg_1281",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1330",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1495",
             "tcg_1871",
             "tcg_1854",
@@ -8764,7 +8404,7 @@
             "tcg_1676",
             "tcg_1461",
             "tcg_3710",
-            "tcg_3781"
+            "spell_grave_dig"
           ],
           "discard": [],
           "graveyard": [
@@ -9230,67 +8870,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -9331,7 +8947,7 @@
             "tcg_1477",
             "tcg_1125",
             "tcg_1223",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1854",
             "tcg_1306",
             "tcg_101",
@@ -9347,14 +8963,14 @@
             "tcg_1135",
             "tcg_1457",
             "tcg_1871",
-            "tcg_3492",
-            "tcg_3781",
+            "spell_regrow",
+            "spell_grave_dig",
             "tcg_1354",
             "tcg_1038",
             "tcg_1199"
           ],
           "hand": [
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1495",
             "tcg_1243",
             "tcg_1198",
@@ -9824,67 +9440,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -9909,16 +9501,16 @@
             "tcg_1135",
             "tcg_1388",
             "tcg_3710",
-            "tcg_3759",
-            "tcg_3852",
+            "spell_farsight",
+            "spell_salvage",
             "tcg_1477",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1125",
             "tcg_1330",
             "tcg_1286",
             "tcg_10",
             "tcg_1038",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_2026",
             "tcg_1223",
             "tcg_1199"
@@ -10395,67 +9987,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -10502,12 +10070,12 @@
             "tcg_1388",
             "tcg_1198",
             "tcg_1199",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1330",
-            "tcg_3492",
-            "tcg_3781",
+            "spell_regrow",
+            "spell_grave_dig",
             "tcg_1871",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1354",
             "tcg_1243",
             "tcg_1286",
@@ -10996,67 +10564,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -11070,13 +10614,13 @@
           "maxEnergy": 3,
           "commanderId": "cmd_bronze_raider",
           "deck": [
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1388",
             "tcg_1135",
             "tcg_1243",
             "tcg_1330",
             "tcg_1198",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1223",
             "tcg_1354",
             "tcg_1281",
@@ -11085,7 +10629,7 @@
             "tcg_1038",
             "tcg_1042",
             "tcg_3710",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1495",
             "tcg_1854",
             "tcg_2026",
@@ -11097,7 +10641,7 @@
           ],
           "hand": [
             "tcg_101",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1477",
             "tcg_1306",
             "tcg_1457",
@@ -11560,67 +11104,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -11652,10 +11172,10 @@
           "maxEnergy": 3,
           "commanderId": "cmd_stone_warden",
           "deck": [
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1388",
             "tcg_2026",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1038",
             "tcg_1676",
             "tcg_1457",
@@ -11675,11 +11195,11 @@
             "tcg_1243",
             "tcg_3710",
             "tcg_1125",
-            "tcg_3852"
+            "spell_salvage"
           ],
           "hand": [
             "tcg_1286",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1306",
             "tcg_1495",
             "tcg_1354",
@@ -12141,67 +11661,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -12217,9 +11713,9 @@
           "deck": [],
           "hand": [
             "tcg_1871",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1243",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1388",
             "tcg_1281"
           ],
@@ -12680,67 +12176,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -12788,15 +12260,15 @@
             "tcg_1871",
             "tcg_1199",
             "tcg_1854",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1243",
             "tcg_1286",
             "tcg_1042",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1306",
             "tcg_1354",
             "tcg_1388",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1198",
             "tcg_1676",
             "tcg_1223",
@@ -12810,7 +12282,7 @@
             "tcg_1461",
             "tcg_1330",
             "tcg_1125",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1668",
             "tcg_1477"
           ],
@@ -13291,67 +12763,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -13366,13 +12814,13 @@
           "commanderId": "cmd_bronze_raider",
           "deck": [
             "tcg_1457",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1281",
             "tcg_1042",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1198",
-            "tcg_3781",
-            "tcg_3759",
+            "spell_grave_dig",
+            "spell_farsight",
             "tcg_1477",
             "tcg_1495",
             "tcg_1854",
@@ -13855,67 +13303,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -13963,7 +13387,7 @@
           "deck": [
             "tcg_1676",
             "tcg_101",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1871",
             "tcg_1854",
             "tcg_1038",
@@ -13974,7 +13398,7 @@
             "tcg_1330",
             "tcg_1388",
             "tcg_2026",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1306",
             "tcg_1457",
             "tcg_1281",
@@ -13992,8 +13416,8 @@
             "tcg_1354",
             "tcg_1495",
             "tcg_1243",
-            "tcg_3852",
-            "tcg_3781"
+            "spell_salvage",
+            "spell_grave_dig"
           ],
           "discard": [],
           "graveyard": [],
@@ -14451,67 +13875,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -14527,7 +13927,7 @@
           "deck": [
             "tcg_1306",
             "tcg_101",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_10",
             "tcg_1125",
             "tcg_1243",
@@ -14535,14 +13935,14 @@
             "tcg_1135",
             "tcg_1198",
             "tcg_3710",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1199",
             "tcg_1281",
             "tcg_1286",
             "tcg_1871",
             "tcg_1477",
             "tcg_1042",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1854",
             "tcg_1457",
             "tcg_2026",
@@ -14553,7 +13953,7 @@
           "hand": [
             "tcg_1676",
             "tcg_1495",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1668",
             "tcg_1388",
             "tcg_1038"
@@ -15029,67 +14429,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -15121,7 +14497,7 @@
           "maxEnergy": 3,
           "commanderId": "cmd_stone_warden",
           "deck": [
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1125",
             "tcg_1461",
             "tcg_1457",
@@ -15130,8 +14506,8 @@
             "tcg_1286",
             "tcg_1223",
             "tcg_1871",
-            "tcg_3781",
-            "tcg_3759",
+            "spell_grave_dig",
+            "spell_farsight",
             "tcg_1243",
             "tcg_1676",
             "tcg_1042",
@@ -15139,7 +14515,7 @@
             "tcg_1306",
             "tcg_1477",
             "tcg_1135",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1495",
             "tcg_3710",
             "tcg_2026",
@@ -15627,67 +15003,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -15716,14 +15068,14 @@
             "tcg_1281",
             "tcg_1243",
             "tcg_1135",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1330",
             "tcg_3710",
             "tcg_1354",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1495",
             "tcg_1223",
-            "tcg_3759"
+            "spell_farsight"
           ],
           "hand": [
             "tcg_1871",
@@ -15732,7 +15084,7 @@
             "tcg_1477",
             "tcg_1461",
             "tcg_1676",
-            "tcg_3852"
+            "spell_salvage"
           ],
           "discard": [],
           "graveyard": [],
@@ -16191,67 +15543,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -16309,19 +15637,19 @@
             "tcg_101",
             "tcg_1306",
             "tcg_1354",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1461",
             "tcg_1286",
             "tcg_1388",
             "tcg_1198",
             "tcg_1495",
             "tcg_1668",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1854",
             "tcg_1676",
             "tcg_1243",
             "tcg_1330",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1871"
           ],
           "hand": [
@@ -16330,7 +15658,7 @@
             "tcg_1477",
             "tcg_1135",
             "tcg_1457",
-            "tcg_3759"
+            "spell_farsight"
           ],
           "discard": [],
           "graveyard": [],
@@ -16788,67 +16116,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -16867,12 +16171,12 @@
             "tcg_1306",
             "tcg_2026",
             "tcg_1198",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1495",
             "tcg_1243",
             "tcg_1042",
             "tcg_1330",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1461",
             "tcg_1854",
             "tcg_1477",
@@ -16880,9 +16184,9 @@
             "tcg_1038",
             "tcg_1871",
             "tcg_3710",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1354",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1388",
             "tcg_1676",
             "tcg_1668"
@@ -17352,67 +16656,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -17463,11 +16743,11 @@
             "tcg_1243",
             "tcg_1495",
             "tcg_2026",
-            "tcg_3759",
-            "tcg_3781",
+            "spell_farsight",
+            "spell_grave_dig",
             "tcg_1871",
-            "tcg_3492",
-            "tcg_3852"
+            "spell_regrow",
+            "spell_salvage"
           ],
           "hand": [
             "tcg_1286",
@@ -17933,67 +17213,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -18024,19 +17280,19 @@
             "tcg_1871",
             "tcg_1854",
             "tcg_1668",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1199",
             "tcg_1243",
             "tcg_1495",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1306",
             "tcg_2026"
           ],
           "hand": [
             "tcg_1354",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1286",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_3710",
             "tcg_1330"
           ],
@@ -18497,67 +17753,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -18593,7 +17825,7 @@
             "tcg_1198",
             "tcg_1495",
             "tcg_1281",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1388",
             "tcg_1854",
             "tcg_1306",
@@ -18604,10 +17836,10 @@
             "tcg_1477",
             "tcg_1042",
             "tcg_1038",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1199",
             "tcg_1330",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1354",
             "tcg_2026",
             "tcg_1286",
@@ -18615,7 +17847,7 @@
             "tcg_1676"
           ],
           "hand": [
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1871",
             "tcg_1461",
             "tcg_10",
@@ -19115,67 +18347,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -19195,14 +18403,14 @@
             "tcg_1676",
             "tcg_1354",
             "tcg_1199",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1461",
             "tcg_3710",
             "tcg_1286",
             "tcg_1457",
             "tcg_10",
             "tcg_1042",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1495",
             "tcg_2026",
             "tcg_1198",
@@ -19212,13 +18420,13 @@
             "tcg_1330",
             "tcg_1038",
             "tcg_1388",
-            "tcg_3781"
+            "spell_grave_dig"
           ],
           "hand": [
             "tcg_101",
             "tcg_1668",
             "tcg_1306",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1477",
             "tcg_1281"
           ],
@@ -19679,67 +18887,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -19784,14 +18968,14 @@
           "deck": [
             "tcg_1854",
             "tcg_1198",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1135",
             "tcg_1199",
             "tcg_1038",
             "tcg_3710",
             "tcg_1354",
             "tcg_101",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1495",
             "tcg_1668",
             "tcg_1223",
@@ -19799,9 +18983,9 @@
             "tcg_10",
             "tcg_1871",
             "tcg_1281",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1477",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1457",
             "tcg_1330",
             "tcg_2026",
@@ -20294,67 +19478,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -20373,14 +19533,14 @@
             "tcg_1306",
             "tcg_101",
             "tcg_1199",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_2026",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1281",
             "tcg_3710",
             "tcg_1198",
-            "tcg_3852",
-            "tcg_3492",
+            "spell_salvage",
+            "spell_regrow",
             "tcg_1354",
             "tcg_1388",
             "tcg_10",
@@ -20878,67 +20038,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -20966,7 +20102,7 @@
       "winner": "P2",
       "seed": 2001,
       "idCounter": 14,
-      "rngCursor": 0,
+      "rngCursor": 3,
       "players": {
         "P1": {
           "id": "P1",
@@ -20983,7 +20119,6 @@
             "tcg_1676",
             "tcg_1668",
             "tcg_1854",
-            "tcg_3781",
             "tcg_1871",
             "tcg_1243",
             "tcg_101",
@@ -20998,55 +20133,17 @@
             "tcg_1198"
           ],
           "hand": [
-            "tcg_3852",
-            "tcg_3759",
+            "spell_grave_dig",
             "tcg_1461"
           ],
-          "discard": [],
-          "graveyard": [],
-          "deckCount": 20,
-          "artifacts": [
-            {
-              "cardId": "tcg_3492",
-              "name": "Frostbound Grimoire",
-              "effectTags": [],
-              "rarity": "COMMON",
-              "faction": "STONE_KEEPERS",
-              "attack": 0,
-              "health": 1,
-              "speed": 0,
-              "armor": 0,
-              "crit": 0,
-              "utility": 1,
-              "commanderTags": [],
-              "passives": [],
-              "modifiers": {
-                "commander": {
-                  "stats": {
-                    "attack": 0,
-                    "health": 0,
-                    "armor": 0,
-                    "speed": 0,
-                    "crit": 0,
-                    "utility": 1
-                  },
-                  "commanderTags": [],
-                  "passives": [],
-                  "audit": {
-                    "reasons": [
-                      "Shared category: Keyword"
-                    ],
-                    "exactTraitMatches": [],
-                    "categoryMatches": [
-                      "Keyword"
-                    ],
-                    "nameMatch": false,
-                    "factionMatch": false
-                  }
-                }
-              }
-            }
+          "discard": [
+            "spell_regrow",
+            "spell_salvage",
+            "spell_farsight"
           ],
+          "graveyard": [],
+          "deckCount": 19,
+          "artifacts": [],
           "board": {
             "front": [
               {
@@ -21809,67 +20906,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -21887,26 +20960,26 @@
             "tcg_1330",
             "tcg_1871",
             "tcg_1354",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1042",
             "tcg_1135",
             "tcg_1668",
             "tcg_2026",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1198",
             "tcg_1038",
             "tcg_1457",
             "tcg_1495",
             "tcg_101",
             "tcg_1286",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1306",
             "tcg_3710"
           ],
           "hand": [
             "tcg_1676",
             "tcg_1854",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1477"
           ],
           "discard": [],
@@ -22710,67 +21783,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -22781,13 +21830,39 @@
       "lastCardPlayed": {
         "cardId": "tcg_1223",
         "owner": "P2"
-      }
+      },
+      "pendingChoice": null
     },
     "events": [
       {
-        "type": "ARTIFACT_PLAYED",
+        "type": "SPELL_PLAYED",
         "player": "P1",
-        "cardId": "tcg_3492"
+        "cardId": "spell_regrow"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_salvage"
+      },
+      {
+        "type": "CHOICE_OPENED",
+        "player": "P1",
+        "kind": "DISCOVER",
+        "options": [
+          "spell_grave_dig",
+          "tcg_1871",
+          "tcg_3710"
+        ]
+      },
+      {
+        "type": "CHOICE_RESOLVED",
+        "player": "P1",
+        "optionId": "spell_grave_dig"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_farsight"
       },
       {
         "type": "TURN_END",
@@ -23020,14 +22095,14 @@
       "activePlayer": "P2",
       "winner": "P2",
       "seed": 2002,
-      "idCounter": 25,
-      "rngCursor": 1,
+      "idCounter": 26,
+      "rngCursor": 5,
       "players": {
         "P1": {
           "id": "P1",
           "health": 30,
           "nexusHealth": 0,
-          "energy": 6,
+          "energy": 2,
           "maxEnergy": 10,
           "commanderId": "cmd_stone_warden",
           "deck": [
@@ -23043,15 +22118,15 @@
             "tcg_1495",
             "tcg_1286",
             "tcg_1243",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1871",
-            "tcg_101",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1135"
           ],
           "hand": [],
           "discard": [
-            "tcg_3759",
+            "spell_salvage",
+            "spell_farsight",
             "tcg_3710"
           ],
           "graveyard": [
@@ -23061,6 +22136,14 @@
               "maxHealth": 4,
               "keywords": [
                 "GUARD"
+              ]
+            },
+            {
+              "cardId": "tcg_101",
+              "attack": 6,
+              "maxHealth": 5,
+              "keywords": [
+                "RUSH"
               ]
             },
             {
@@ -23080,49 +22163,8 @@
               ]
             }
           ],
-          "deckCount": 17,
-          "artifacts": [
-            {
-              "cardId": "tcg_3852",
-              "name": "Relic of the Verdant Oath",
-              "effectTags": [],
-              "rarity": "COMMON",
-              "faction": "BRONZE_GUARDIANS",
-              "attack": 0,
-              "health": 1,
-              "speed": 0,
-              "armor": 0,
-              "crit": 0,
-              "utility": 1,
-              "commanderTags": [],
-              "passives": [],
-              "modifiers": {
-                "commander": {
-                  "stats": {
-                    "attack": 0,
-                    "health": 0,
-                    "armor": 0,
-                    "speed": 0,
-                    "crit": 0,
-                    "utility": 1
-                  },
-                  "commanderTags": [],
-                  "passives": [],
-                  "audit": {
-                    "reasons": [
-                      "Shared category: Keyword"
-                    ],
-                    "exactTraitMatches": [],
-                    "categoryMatches": [
-                      "Keyword"
-                    ],
-                    "nameMatch": false,
-                    "factionMatch": false
-                  }
-                }
-              }
-            }
-          ],
+          "deckCount": 16,
+          "artifacts": [],
           "board": {
             "front": [
               {
@@ -23177,12 +22219,7 @@
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 4,
-                "baseHealth": 5,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "lastDamageTaken": 0
               },
               {
                 "instanceId": "unit_2002_5",
@@ -23236,20 +22273,15 @@
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 1,
-                "baseHealth": 1,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "lastDamageTaken": 0
               },
               {
                 "instanceId": "unit_2002_7",
                 "cardId": "tcg_2026",
                 "lane": "front",
                 "attack": 5,
-                "health": 8,
-                "maxHealth": 8,
+                "health": 7,
+                "maxHealth": 7,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
@@ -23259,7 +22291,7 @@
                 "summoningSick": true,
                 "rarity": "MYTHIC",
                 "crit": 0,
-                "utility": 2,
+                "utility": 1,
                 "commanderTags": [],
                 "passives": [],
                 "modifiers": {
@@ -23294,29 +22326,6 @@
                         "armor": 0,
                         "speed": 0,
                         "crit": 0,
-                        "utility": 1
-                      },
-                      "commanderTags": [],
-                      "passives": [],
-                      "audit": {
-                        "reasons": [
-                          "Shared category: Keyword"
-                        ],
-                        "exactTraitMatches": [],
-                        "categoryMatches": [
-                          "Keyword"
-                        ],
-                        "nameMatch": false,
-                        "factionMatch": false
-                      }
-                    },
-                    {
-                      "stats": {
-                        "attack": 0,
-                        "health": 0,
-                        "armor": 0,
-                        "speed": 0,
-                        "crit": 0,
                         "utility": 0
                       },
                       "commanderTags": [],
@@ -23338,12 +22347,7 @@
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 5,
-                "baseHealth": 7,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "lastDamageTaken": 0
               },
               {
                 "instanceId": "unit_2002_9",
@@ -23396,15 +22400,10 @@
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 5,
-                "baseHealth": 4,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_13",
+                "instanceId": "unit_2002_12",
                 "cardId": "tcg_1477",
                 "lane": "front",
                 "attack": 4,
@@ -23450,11 +22449,6 @@
                 "auraAtk": 0,
                 "auraHp": 0,
                 "auraKeywords": [],
-                "baseAttack": 4,
-                "baseHealth": 3,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": [],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
@@ -23462,12 +22456,12 @@
                 "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_18",
+                "instanceId": "unit_2002_23",
                 "cardId": "tcg_1854",
                 "lane": "front",
-                "attack": 4,
-                "health": 6,
-                "maxHealth": 6,
+                "attack": 3,
+                "health": 5,
+                "maxHealth": 5,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
@@ -23507,20 +22501,10 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
-                "baseAttack": 3,
-                "baseHealth": 5,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
+                "auraKeywords": []
               },
               {
-                "instanceId": "unit_2002_23",
+                "instanceId": "unit_2002_24",
                 "cardId": "tcg_1354",
                 "lane": "front",
                 "attack": 4,
@@ -24018,67 +23002,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -24097,21 +23057,22 @@
             "tcg_1676",
             "tcg_1477",
             "tcg_1668",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1243",
             "tcg_3710",
             "tcg_1125",
             "tcg_1388",
             "tcg_1495",
             "tcg_1135",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1199",
             "tcg_1198",
             "tcg_1871"
           ],
           "hand": [],
           "discard": [
-            "tcg_3759"
+            "spell_farsight",
+            "spell_regrow"
           ],
           "graveyard": [
             {
@@ -24121,51 +23082,26 @@
               "keywords": [
                 "RUSH"
               ]
+            },
+            {
+              "cardId": "tcg_2026",
+              "attack": 5,
+              "maxHealth": 6,
+              "keywords": [
+                "EXECUTE"
+              ]
+            },
+            {
+              "cardId": "tcg_1038",
+              "attack": 6,
+              "maxHealth": 5,
+              "keywords": [
+                "GUARD"
+              ]
             }
           ],
           "deckCount": 16,
-          "artifacts": [
-            {
-              "cardId": "tcg_3492",
-              "name": "Frostbound Grimoire",
-              "effectTags": [],
-              "rarity": "COMMON",
-              "faction": "STONE_KEEPERS",
-              "attack": 0,
-              "health": 1,
-              "speed": 0,
-              "armor": 0,
-              "crit": 0,
-              "utility": 1,
-              "commanderTags": [],
-              "passives": [],
-              "modifiers": {
-                "commander": {
-                  "stats": {
-                    "attack": 0,
-                    "health": 0,
-                    "armor": 0,
-                    "speed": 0,
-                    "crit": 0,
-                    "utility": 1
-                  },
-                  "commanderTags": [],
-                  "passives": [],
-                  "audit": {
-                    "reasons": [
-                      "Shared category: Keyword"
-                    ],
-                    "exactTraitMatches": [],
-                    "categoryMatches": [
-                      "Keyword"
-                    ],
-                    "nameMatch": false,
-                    "factionMatch": false
-                  }
-                }
-              }
-            }
-          ],
+          "artifacts": [],
           "board": {
             "front": [
               {
@@ -24173,8 +23109,8 @@
                 "cardId": "tcg_1854",
                 "lane": "front",
                 "attack": 10,
-                "health": 13,
-                "maxHealth": 13,
+                "health": 12,
+                "maxHealth": 12,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
@@ -24183,89 +23119,6 @@
                 "exhausted": false,
                 "summoningSick": true,
                 "rarity": "COMMON",
-                "crit": 0,
-                "utility": 2,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  },
-                  "equipment": [
-                    {
-                      "stats": {
-                        "attack": 0,
-                        "health": 0,
-                        "armor": 0,
-                        "speed": 0,
-                        "crit": 0,
-                        "utility": 1
-                      },
-                      "commanderTags": [],
-                      "passives": [],
-                      "audit": {
-                        "reasons": [
-                          "Shared category: Keyword"
-                        ],
-                        "exactTraitMatches": [],
-                        "categoryMatches": [
-                          "Keyword"
-                        ],
-                        "nameMatch": false,
-                        "factionMatch": false
-                      }
-                    }
-                  ]
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 8,
-                "baseHealth": 11,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
-              },
-              {
-                "instanceId": "unit_2002_3",
-                "cardId": "tcg_1038",
-                "lane": "front",
-                "attack": 6,
-                "health": 5,
-                "maxHealth": 5,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "GUARD"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "EPIC",
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -24302,12 +23155,7 @@
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 6,
-                "baseHealth": 5,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "lastDamageTaken": 0
               },
               {
                 "instanceId": "unit_2002_8",
@@ -24360,28 +23208,77 @@
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 7,
-                "baseHealth": 7,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_11",
-                "cardId": "tcg_2026",
+                "instanceId": "unit_2002_15",
+                "cardId": "tcg_1306",
                 "lane": "front",
-                "attack": 5,
-                "health": 6,
-                "maxHealth": 6,
+                "attack": 4,
+                "health": 5,
+                "maxHealth": 5,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "EXECUTE"
+                  "WARD"
                 ],
                 "exhausted": false,
                 "summoningSick": true,
-                "rarity": "MYTHIC",
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "shielded": true,
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_16",
+                "cardId": "tcg_1223",
+                "lane": "front",
+                "attack": 3,
+                "health": 1,
+                "maxHealth": 4,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": true,
+                "summoningSick": false,
+                "rarity": "RARE",
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -24415,18 +23312,14 @@
                 "auraHp": 0,
                 "auraKeywords": [],
                 "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "baseAttack": 5,
-                "baseHealth": 6,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
+                "attacksThisTurn": 1,
+                "tookDamageThisTurn": true,
+                "damageTakenThisTurn": 1,
+                "lastDamageTaken": 1,
+                "stealthed": false
               },
               {
-                "instanceId": "unit_2002_12",
+                "instanceId": "unit_2002_17",
                 "cardId": "tcg_1042",
                 "lane": "front",
                 "attack": 1,
@@ -24474,134 +23367,11 @@
                 "auraAtk": 0,
                 "auraHp": 0,
                 "auraKeywords": [],
-                "attacksThisTurn": 1,
-                "stealthed": false,
                 "windfuryStruck": false,
+                "attacksThisTurn": 1,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
                 "lastDamageTaken": 0,
-                "baseAttack": 1,
-                "baseHealth": 1,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": []
-              },
-              {
-                "instanceId": "unit_2002_16",
-                "cardId": "tcg_1306",
-                "lane": "front",
-                "attack": 4,
-                "health": 5,
-                "maxHealth": 5,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "WARD"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "COMMON",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "shielded": true,
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "baseAttack": 4,
-                "baseHealth": 5,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2002_17",
-                "cardId": "tcg_1223",
-                "lane": "front",
-                "attack": 3,
-                "health": 1,
-                "maxHealth": 4,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "RUSH"
-                ],
-                "exhausted": true,
-                "summoningSick": false,
-                "rarity": "RARE",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "baseAttack": 3,
-                "baseHealth": 4,
-                "baseArmor": 0,
-                "baseSpeed": 0,
-                "attachedEquipment": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 1,
-                "tookDamageThisTurn": true,
-                "damageTakenThisTurn": 1,
-                "lastDamageTaken": 1,
                 "stealthed": false
               },
               {
@@ -24766,7 +23536,7 @@
                 "windfuryStruck": false
               },
               {
-                "instanceId": "unit_2002_24",
+                "instanceId": "unit_2002_25",
                 "cardId": "tcg_1461",
                 "lane": "front",
                 "attack": 1,
@@ -24778,7 +23548,7 @@
                   "ARMORED",
                   "RUSH"
                 ],
-                "exhausted": false,
+                "exhausted": true,
                 "summoningSick": true,
                 "rarity": "COMMON",
                 "crit": 0,
@@ -24812,7 +23582,9 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": []
+                "auraKeywords": [],
+                "attacksThisTurn": 1,
+                "stealthed": false
               }
             ],
             "back": []
@@ -25266,67 +24038,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -25337,7 +24085,8 @@
       "lastCardPlayed": {
         "cardId": "tcg_1461",
         "owner": "P2"
-      }
+      },
+      "pendingChoice": null
     },
     "events": [
       {
@@ -25474,10 +24223,9 @@
         "lane": "front"
       },
       {
-        "type": "EQUIPPED",
+        "type": "SPELL_PLAYED",
         "player": "P2",
-        "cardId": "tcg_3759",
-        "targetInstanceId": "unit_2002_1"
+        "cardId": "spell_farsight"
       },
       {
         "type": "NEXUS_DAMAGE",
@@ -25525,10 +24273,9 @@
         "lane": "front"
       },
       {
-        "type": "UNIT_PLAYED",
+        "type": "SPELL_PLAYED",
         "player": "P2",
-        "cardId": "tcg_1042",
-        "lane": "front"
+        "cardId": "spell_regrow"
       },
       {
         "type": "NEXUS_DAMAGE",
@@ -25536,13 +24283,6 @@
         "targetPlayer": "P1",
         "attackerInstanceId": "unit_2002_6",
         "damage": 6
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_12",
-        "damage": 1
       },
       {
         "type": "TURN_END",
@@ -25573,10 +24313,24 @@
         "lane": "front"
       },
       {
-        "type": "EQUIPPED",
+        "type": "SPELL_PLAYED",
         "player": "P1",
-        "cardId": "tcg_3759",
-        "targetInstanceId": "unit_2002_7"
+        "cardId": "spell_salvage"
+      },
+      {
+        "type": "CHOICE_OPENED",
+        "player": "P1",
+        "kind": "DISCOVER",
+        "options": [
+          "tcg_101",
+          "tcg_1038",
+          "spell_grave_dig"
+        ]
+      },
+      {
+        "type": "CHOICE_RESOLVED",
+        "player": "P1",
+        "optionId": "tcg_101"
       },
       {
         "type": "TURN_END",
@@ -25601,15 +24355,16 @@
         "lane": "front"
       },
       {
-        "type": "ARTIFACT_PLAYED",
+        "type": "UNIT_PLAYED",
         "player": "P2",
-        "cardId": "tcg_3492"
+        "cardId": "tcg_1042",
+        "lane": "front"
       },
       {
         "type": "ATTACK",
         "player": "P2",
         "attackerInstanceId": "unit_2002_6",
-        "defenderInstanceId": "unit_2002_14",
+        "defenderInstanceId": "unit_2002_13",
         "outgoing": 6,
         "mitigated": 6,
         "counter": 1
@@ -25635,7 +24390,7 @@
       {
         "type": "UNIT_PLAYED",
         "player": "P1",
-        "cardId": "tcg_1854",
+        "cardId": "tcg_101",
         "lane": "front"
       },
       {
@@ -25645,9 +24400,18 @@
         "lane": "front"
       },
       {
-        "type": "ARTIFACT_PLAYED",
+        "type": "SPELL_PLAYED",
         "player": "P1",
-        "cardId": "tcg_3852"
+        "cardId": "spell_farsight"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2002_18",
+        "defenderInstanceId": "unit_2002_3",
+        "outgoing": 6,
+        "mitigated": 6,
+        "counter": 6
       },
       {
         "type": "TURN_END",
@@ -25678,20 +24442,20 @@
         "lane": "front"
       },
       {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_12",
-        "damage": 1
-      },
-      {
         "type": "ATTACK",
         "player": "P2",
-        "attackerInstanceId": "unit_2002_17",
+        "attackerInstanceId": "unit_2002_16",
         "defenderInstanceId": "unit_2002_19",
         "outgoing": 3,
         "mitigated": 3,
         "counter": 2
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2002_17",
+        "damage": 1
       },
       {
         "type": "REJECTED",
@@ -25715,6 +24479,12 @@
         "player": "P1",
         "energy": 10,
         "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1854",
+        "lane": "front"
       },
       {
         "type": "UNIT_PLAYED",
@@ -25745,20 +24515,20 @@
         "lane": "front"
       },
       {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_12",
-        "damage": 1
-      },
-      {
         "type": "ATTACK",
         "player": "P2",
-        "attackerInstanceId": "unit_2002_17",
-        "defenderInstanceId": "unit_2002_15",
+        "attackerInstanceId": "unit_2002_16",
+        "defenderInstanceId": "unit_2002_14",
         "outgoing": 3,
         "mitigated": 3,
         "counter": 1
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2002_17",
+        "damage": 1
       },
       {
         "type": "REJECTED",
@@ -25770,6 +24540,13 @@
         "targetPlayer": "P1",
         "attackerInstanceId": "unit_2002_22",
         "damage": 5
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2002_25",
+        "damage": 1
       },
       {
         "type": "WIN",
@@ -25804,19 +24581,19 @@
             "tcg_1495",
             "tcg_2026",
             "tcg_1854",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1042",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1306",
             "tcg_1457",
             "tcg_1477",
             "tcg_1281",
             "tcg_1388",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1461",
             "tcg_1871",
             "tcg_1243",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1286"
           ],
           "hand": [
@@ -26331,67 +25108,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }
@@ -26414,14 +25167,14 @@
             "tcg_1243",
             "tcg_1668",
             "tcg_1495",
-            "tcg_3781",
+            "spell_grave_dig",
             "tcg_1135",
-            "tcg_3759",
+            "spell_farsight",
             "tcg_1330",
             "tcg_1042",
             "tcg_1354",
             "tcg_1461",
-            "tcg_3492",
+            "spell_regrow",
             "tcg_1854",
             "tcg_1038",
             "tcg_1286",
@@ -26432,7 +25185,7 @@
           ],
           "hand": [
             "tcg_1871",
-            "tcg_3852",
+            "spell_salvage",
             "tcg_1199",
             "tcg_1388",
             "tcg_1281",
@@ -26895,67 +25648,43 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3759": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3781": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_3852": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
               "extraTags": [],
               "extraPassives": [],
               "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
+              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             }

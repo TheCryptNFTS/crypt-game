@@ -21,9 +21,32 @@
  * would give false security anyway. Instead the source is surfaced honestly.
  */
 import { allPlayableCards } from "../engine/cards";
+import { liveSpells } from "../engine/spellCards";
 import curatedCoreSetV2 from "../data/curatedCoreSetV2.json";
 
 export const DECK_SIZE = 30;
+
+/**
+ * Spell deck-legality for the LIVE match path (#10). `liveSpells` are engine-legal
+ * (merged into allPlayableCards, resolved by PLAY_SPELL) but `composeDeck` — the
+ * single source of truth for the live local match (useLocalCryptMatch) AND the
+ * owned/demo deck preview — historically only ever bucketed unit/equipment/artifact,
+ * so a spell could never enter a real match's deck, never be drawn, and PLAY_SPELL
+ * never fired in actual play (Hokusai's AURA_SPELL_COST discount was unobservable).
+ *
+ * We now reserve a small, capped set of SAFE-tier spell slots in the FLEX above the
+ * unit core, exactly mirroring buildCuratedDeck's policy: only "safe" spells are ever
+ * auto-included (no removal / face-burn), the unit core is never starved, and the
+ * deck stays the same size. Deterministic: cheapest-then-id ordering.
+ */
+export const MAX_SPELLS = 4;
+
+/** Deterministic, capped list of SAFE live spells (cheapest-then-id). The live
+ *  decks draft from this; restricted (removal/burn) spells are never auto-drafted. */
+const SAFE_SPELLS: any[] = liveSpells
+  .filter((s) => (s as { tier?: string }).tier === "safe")
+  .slice()
+  .sort((a, b) => (a.cost ?? 0) - (b.cost ?? 0) || String(a.id).localeCompare(String(b.id)));
 /** Equipment with no unit to equip is a dead hand; artifacts are powerful but
  *  situational — so non-units are capped to keep the deck playable. */
 export const MAX_EQUIPMENT = 8;
@@ -79,11 +102,20 @@ function composeDeck(pool: any[]): string[] | null {
   if (units.length === 0) return null;
   const equipment = pool.filter((c) => c.type === "equipment").sort(byCurve);
   const artifacts = pool.filter((c) => c.type === "artifact").sort(byCurve);
+  // SAFE spells eligible to draft: those present in the pool (so an owned deck only
+  // includes spells you were given), cheapest-then-id, capped at MAX_SPELLS. These
+  // ride the FLEX above the unit core — reserved BEFORE filling so the curve isn't
+  // starved — making spells deck-legal in the live match path (PLAY_SPELL reachable).
+  const poolIds = new Set(pool.map((c) => c.id));
+  const spells = SAFE_SPELLS.filter((s) => poolIds.has(s.id)).slice(0, MAX_SPELLS);
+  // Reserve `spells.length` flex slots: the non-spell fill is capped at this budget
+  // so the unit/equip/artifact core is drafted normally, then spells take the tail.
+  const nonSpellBudget = DECK_SIZE - spells.length;
 
   const deck: string[] = [];
   const used = new Set<string>();
   const add = (c: any): void => {
-    if (used.has(c.id) || deck.length >= DECK_SIZE) return;
+    if (used.has(c.id) || deck.length >= nonSpellBudget) return;
     used.add(c.id);
     deck.push(c.id);
   };
@@ -108,8 +140,17 @@ function composeDeck(pool: any[]): string[] | null {
   //    owned pool), cheapest-first and units-preferred, until the deck reaches 30 or
   //    the pool is exhausted.
   for (const c of [...units, ...equipment, ...artifacts]) {
-    if (deck.length >= DECK_SIZE) break;
+    if (deck.length >= nonSpellBudget) break;
     add(c);
+  }
+  // 4) Fill the reserved tail with the SAFE spells present in the pool. Spells are
+  //    engine-legal (allPlayableCards / PLAY_SPELL) — this is what finally makes them
+  //    DRAWABLE in the live match path so PLAY_SPELL fires in real play.
+  for (const s of spells) {
+    if (deck.length >= DECK_SIZE) break;
+    if (used.has(s.id)) continue;
+    used.add(s.id);
+    deck.push(s.id);
   }
   return deck;
 }
@@ -121,9 +162,15 @@ function composeDeck(pool: any[]): string[] | null {
  * readable — the single biggest lever on "too much stuff to understand" — while
  * the full catalog stays available for owned decks and the engine's lookups.
  */
-const CORE_POOL: any[] = (curatedCoreSetV2.primaryCardIds as string[])
-  .map((id) => CARD_BY_ID.get(id))
-  .filter((c): c is any => !!c);
+const CORE_POOL: any[] = [
+  ...(curatedCoreSetV2.primaryCardIds as string[])
+    .map((id) => CARD_BY_ID.get(id))
+    .filter((c): c is any => !!c),
+  // Safe spells are not in primaryCardIds (they're a separate, non-NFT category),
+  // so add them to the demo pool — composeDeck reserves the spell tail from these,
+  // making the default match's deck actually contain (and draw, and cast) spells.
+  ...SAFE_SPELLS.map((s) => CARD_BY_ID.get(s.id)).filter((c): c is any => !!c),
+];
 
 const DEMO_DECK = composeDeck(CORE_POOL) ?? [];
 
@@ -132,9 +179,15 @@ export function buildPlayerDeck(ownedCardIds?: string[]): BuiltDeck {
     return { deck: DEMO_DECK, source: "demo" };
   }
 
-  const owned = [...new Set(ownedCardIds)]
-    .map((id) => CARD_BY_ID.get(id))
-    .filter((c): c is any => !!c);
+  const owned = [
+    ...[...new Set(ownedCardIds)]
+      .map((id) => CARD_BY_ID.get(id))
+      .filter((c): c is any => !!c),
+    // Spells are a granted category, not NFT-owned, so make the SAFE pool available
+    // to every owned deck too (composeDeck still only drafts MAX_SPELLS of them into
+    // the reserved tail, and only if the deck has a unit core).
+    ...SAFE_SPELLS.map((s) => CARD_BY_ID.get(s.id)).filter((c): c is any => !!c),
+  ];
 
   const deck = composeDeck(owned);
   if (deck === null) return { deck: DEMO_DECK, source: "demo" };
