@@ -132,7 +132,26 @@ export default function HomePage() {
                 alt="Crypt Digital Trading Cards"
                 loading="eager"
                 decoding="async"
-                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  display: "block",
+                  // Pull the raw cyan toward brand: desaturate + warm the hue.
+                  filter: "saturate(0.55) hue-rotate(-22deg) brightness(0.92)",
+                }}
+              />
+              {/* Duotone wash: faint gold (top-left) → purple (bottom-right) over a dark base, so the banner reads on-brand instead of raw cyan. */}
+              <span
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(135deg, rgba(233,201,132,0.30) 0%, rgba(11,11,13,0.45) 48%, rgba(141,92,255,0.32) 100%)",
+                  mixBlendMode: "overlay",
+                }}
               />
               <span
                 aria-hidden
@@ -140,7 +159,7 @@ export default function HomePage() {
                   position: "absolute",
                   inset: 0,
                   background:
-                    "linear-gradient(180deg, rgba(11,11,13,0) 40%, rgba(11,11,13,0.55) 100%)",
+                    "linear-gradient(180deg, rgba(11,11,13,0.10) 30%, rgba(11,11,13,0.62) 100%)",
                 }}
               />
             </div>
@@ -183,6 +202,91 @@ export default function HomePage() {
               <span> — preview only. No cart, no mint claims.</span>
             </p>
           </div>
+        </section>
+
+        <section className="crypt-home-m-featured" aria-label="Quick enter">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+              gap: "10px",
+            }}
+          >
+            {[
+              {
+                to: "/play",
+                kicker: "Enter",
+                label: "Play",
+                hint: "Open a duel",
+                accent: "var(--color-crypt-accent, #E9C984)",
+              },
+              {
+                to: "/ladder",
+                kicker: "Climb",
+                label: "Ladder",
+                hint: "Ranked ascent",
+                accent: "var(--color-crypt-purple, #8D5CFF)",
+              },
+              {
+                to: "/deck",
+                kicker: "Forge",
+                label: "Vault",
+                hint: "Your loadout",
+                accent: "var(--color-crypt-accent, #E9C984)",
+              },
+            ].map((q) => (
+              <Link
+                key={q.to}
+                to={q.to}
+                className="crypt-home-m-panel"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "4px",
+                  padding: "12px 12px 14px",
+                  textDecoration: "none",
+                  borderTop: `2px solid ${q.accent}`,
+                }}
+              >
+                <span
+                  className="crypt-home-m-panel-kicker"
+                  style={{ color: q.accent }}
+                >
+                  {q.kicker}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-display, inherit)",
+                    fontSize: 18,
+                    lineHeight: 1.1,
+                    color: "var(--color-crypt-fg, #f5f2e8)",
+                  }}
+                >
+                  {q.label}
+                </span>
+                <span
+                  style={{
+                    fontSize: 11,
+                    color: "var(--color-crypt-muted, rgba(245,242,232,.6))",
+                  }}
+                >
+                  {q.hint}
+                </span>
+              </Link>
+            ))}
+          </div>
+          <p
+            style={{
+              margin: "12px 0 0",
+              fontFamily: "var(--font-mono, monospace)",
+              fontSize: 9,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "var(--color-crypt-muted, rgba(245,242,232,.5))",
+            }}
+          >
+            ⬡ Closed alpha — progress is device-local until seasons ship.
+          </p>
         </section>
 
         <section className="crypt-home-m-rhythm" aria-label="Today in the Crypt">
