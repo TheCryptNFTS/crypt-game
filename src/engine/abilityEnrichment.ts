@@ -273,14 +273,179 @@ const FACTION_ENRICHERS: Record<Faction, (card: EnrichableCard, kw: Set<string>)
   GODS: enrichGods,
 };
 
+/* ===========================================================================
+ * ENRICHMENT V2 — DEPTH on the rare -> epic -> legendary band (Grade-keyed).
+ *
+ * WHY A SECOND TIER. V1 (above) raises the FLOOR for vanilla bodies with a single
+ * +1 chip — value, but not a DECISION. The bottom-tier commons want exactly that
+ * (read-and-go bodies). But a vanilla RARE / EPIC / LEGENDARY body is a wasted
+ * slot: its Grade implies a card that should change how a turn is played. V2 keys
+ * off the authored GRADE BAND and grants DECISION-creating effects — interactions
+ * whose value depends on BOARD STATE and SEQUENCING (when to play it, which lane,
+ * whether you've gone wide) rather than a flat stat bump.
+ *
+ * HARD INVARIANTS (inherit V1's spine; the differences are scoped & explicit):
+ *   - SAME FLAG. V2 rides the SAME `ENABLE_ENRICHMENT` master flag. Flag OFF ->
+ *     `enrichmentSpecsFor` returns [] for EVERY card (V1 and V2 alike), so the
+ *     reducer IR is byte-identical to today (the isolation gate is unmoved).
+ *   - REUSES EXISTING OPS ONLY. Every V2 spec is an op the reducer ALREADY
+ *     resolves — and, crucially, one that resolves WITHOUT an explicitly
+ *     hand-picked target when fired as a unit trigger (ON_SUMMON/ON_DEATH carry no
+ *     ctx.target). So V2 uses only the AUTO-SELECTING / CONTROLLER-SOURCED ops:
+ *       DEAL_DAMAGE + damageTarget:STRONGEST_ENEMY  (auto-picks the top threat)
+ *       DAMAGE_ADJACENT_ENEMIES (allAdjacent)       (lane-PLACEMENT decision)
+ *       DEBUFF_ALL_ENEMIES                           (board-wide tempo blunt)
+ *       DESTROY_ENEMY_SELECT + selector:HIGHEST_COST (premium auto-removal)
+ *       BUFF_ALLIES                                  (anthem; go-wide payoff)
+ *       BUFF_SELF/BUFF_ALLIES + condition:ALLY_COUNT_GTE (combo payoff)
+ *     A spec that needed a manual target (raw DEAL_DAMAGE / DEBUFF_ENEMY /
+ *     DESTROY_UNIT / RETURN_TO_HAND) would silently no-op as a unit trigger, so
+ *     V2 deliberately never emits one. No new runtime op is invented.
+ *   - POWER PROPORTIONAL TO GRADE, capped per BAND. V1's flat 1-point cap is
+ *     replaced by a BAND-SCALED cap (`bandValueCap`): rare=2, epic=3, legendary=4
+ *     effective stat-points. Each V2 branch is authored to sit AT or BELOW its
+ *     band cap — so a rare gets a rare-sized decision, never an epic's. The report
+ *     asserts this per-card (no V2 card exceeds its own band's cap).
+ *   - DETERMINISTIC. Pure function of static fields (faction + keyword priority +
+ *     Grade band). The auto-selectors the ops use are themselves deterministic
+ *     (highest-attack / highest-cost, board-scan tie-break); no RNG is requested.
+ *
+ * BANDING. The band is the authored GRADE (not rarity string), so it tracks the
+ * real power curve and stays correct if a card's rarity label drifts:
+ *   GRADE >= 80  -> "legendary"  (LEGENDARY 80-89 / MYTHIC 80-99 vanilla units)
+ *   GRADE >= 70  -> "epic"       (EPIC 70-79 vanilla units)
+ *   GRADE >= 65  -> "rare"       (the upper half of the RARE 60-69 vanilla band)
+ *   GRADE <  65  -> null         (commons + low rares keep the V1 chip — no V2)
+ * The 65 floor deliberately leaves the bottom of the rare band on V1 chips (those
+ * are statistically common-adjacent), so V2 lands on cards whose Grade genuinely
+ * implies a decision. */
+export type EnrichmentBand = "rare" | "epic" | "legendary";
+
+/** Map a card's authored Grade onto a V2 band, or null (-> keep the V1 chip). */
+export function enrichmentBandOf(card: EnrichableCard): EnrichmentBand | null {
+  const g = gradeOf(card);
+  if (g >= 80) return "legendary";
+  if (g >= 70) return "epic";
+  if (g >= 65) return "rare";
+  return null;
+}
+
+/** Per-band effective stat-point cap. Scales V1's discipline up by band — power
+ *  proportional to Grade, never crossing into the next band's budget. */
+export const BAND_VALUE_CAP: Record<EnrichmentBand, number> = {
+  rare: 2,
+  epic: 3,
+  legendary: 4,
+};
+export function bandValueCap(band: EnrichmentBand): number {
+  return BAND_VALUE_CAP[band];
+}
+
+/**
+ * V2 DECISION TABLES — one per band, sharing V1's keyword-priority structure but
+ * emitting BOARD-DEPENDENT, SEQUENCING-RELEVANT effects (every branch at/below the
+ * band cap). All ops auto-resolve as unit triggers (no manual target) and never
+ * touch an enemy nexus (locked no-burn).
+ *
+ * RARE (cap 2) — a single small decision: a targeted on-play poke OR a go-wide
+ *   combo chip. The poke auto-hits the STRONGEST enemy (so WHEN you drop it, and
+ *   into WHICH board, matters); the combo line pays off only once you've committed
+ *   bodies (ALLY_COUNT_GTE).
+ * EPIC (cap 3) — a board-shaping decision: lane-splash (placement choice), a
+ *   bigger targeted poke, an anthem, or a board-wide attack blunt.
+ * LEGENDARY (cap 4) — a game-swinging decision: premium auto-removal of the
+ *   costliest enemy, a strong anthem, a deathrattle revenge burst, or a wide
+ *   tempo sweep — all still deterministic & no-burn.
+ */
+function tag(card: EnrichableCard, raw: string): string {
+  return `[enrichV2:${card.id}] ${raw}`;
+}
+
+/** RARE band table (cap 2 pts). */
+function enrichRare(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  if (kw.has("RUSH") || kw.has("STEALTH"))
+    // On-play poke: auto-strikes the top enemy threat (2 dmg). Decision = WHEN
+    // and into WHICH board you deploy it.
+    return [{ trigger: "ON_SUMMON", op: "DEAL_DAMAGE", amount: 2, damageTarget: "STRONGEST_ENEMY", raw: tag(card, "Rare: opening strike — on play, deal 2 to the strongest enemy.") }];
+  if (kw.has("DEATHRATTLE"))
+    // Revenge poke on death (chains into the trigger queue).
+    return [{ trigger: "ON_DEATH", op: "DEAL_DAMAGE", amount: 2, damageTarget: "STRONGEST_ENEMY", raw: tag(card, "Rare: dying blow — on death, deal 2 to the strongest enemy.") }];
+  if (kw.has("GUARD") || kw.has("ARMORED") || kw.has("WARD"))
+    // Combo payoff: a held-line buff that only lands once you've gone wide.
+    return [{ trigger: "ON_SUMMON", op: "BUFF_SELF", attack: 0, health: 2, condition: { kind: "ALLY_COUNT_GTE", value: 3 }, raw: tag(card, "Rare: phalanx — enters +0/+2 if you already control 3+ allies.") }];
+  // Default: small anthem — buffs OTHER allies, rewarding a developed board.
+  return [{ trigger: "ON_SUMMON", op: "BUFF_ALLIES", attack: 1, health: 1, raw: tag(card, "Rare: rally — on play, other allies gain +1/+1.") }];
+}
+
+/** EPIC band table (cap 3 pts). */
+function enrichEpic(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  if (kw.has("RUSH") || kw.has("STEALTH") || kw.has("CRUSH"))
+    // Lane splash: hits every adjacent enemy in the source's lane — the LANE you
+    // place it in (and how the enemy clustered) decides the value.
+    return [{ trigger: "ON_SUMMON", op: "DAMAGE_ADJACENT_ENEMIES", amount: 2, allAdjacent: true, raw: tag(card, "Epic: shockwave — on play, deal 2 to all adjacent enemies (placement matters).") }];
+  if (kw.has("DEATHRATTLE"))
+    return [{ trigger: "ON_DEATH", op: "DEAL_DAMAGE", amount: 3, damageTarget: "STRONGEST_ENEMY", raw: tag(card, "Epic: martyr's blast — on death, deal 3 to the strongest enemy.") }];
+  if (kw.has("GUARD") || kw.has("ARMORED") || kw.has("WARD"))
+    // Board-wide attack blunt this turn — a defensive tempo decision.
+    return [{ trigger: "ON_SUMMON", op: "DEBUFF_ALL_ENEMIES", amount: 1, raw: tag(card, "Epic: bulwark cry — on play, all enemies -1 attack this turn.") }];
+  if (kw.has("LIFESTEAL") || kw.has("REGROW"))
+    return [{ trigger: "ON_SUMMON", op: "DEAL_DAMAGE", amount: 3, damageTarget: "STRONGEST_ENEMY", raw: tag(card, "Epic: reaping strike — on play, deal 3 to the strongest enemy.") }];
+  // Default: a real anthem (+1/+2 to other allies) — a go-wide payoff.
+  return [{ trigger: "ON_SUMMON", op: "BUFF_ALLIES", attack: 1, health: 2, raw: tag(card, "Epic: war hymn — on play, other allies gain +1/+2.") }];
+}
+
+/** LEGENDARY band table (cap 4 pts). */
+function enrichLegendary(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  if (kw.has("EXECUTE") || kw.has("STEALTH") || kw.has("RUSH"))
+    // Premium auto-removal: destroy the costliest enemy unit. Deterministic
+    // (highest-cost, board-scan tie-break); the DECISION is whether to hold it for
+    // the enemy's bomb or spend it now for tempo.
+    return [{ trigger: "ON_SUMMON", op: "DESTROY_ENEMY_SELECT", selector: "HIGHEST_COST", raw: tag(card, "Legendary: decapitate — on play, destroy the highest-cost enemy unit.") }];
+  if (kw.has("DEATHRATTLE"))
+    return [{ trigger: "ON_DEATH", op: "DESTROY_ENEMY_SELECT", selector: "HIGHEST_COST", raw: tag(card, "Legendary: final judgment — on death, destroy the highest-cost enemy unit.") }];
+  if (kw.has("GUARD") || kw.has("ARMORED") || kw.has("WARD"))
+    return [{ trigger: "ON_SUMMON", op: "DEBUFF_ALL_ENEMIES", amount: 2, raw: tag(card, "Legendary: aegis edict — on play, all enemies -2 attack this turn.") }];
+  if (kw.has("LIFESTEAL") || kw.has("CRUSH") || kw.has("REGROW"))
+    return [{ trigger: "ON_SUMMON", op: "DAMAGE_ADJACENT_ENEMIES", amount: 3, allAdjacent: true, raw: tag(card, "Legendary: cataclysm — on play, deal 3 to all adjacent enemies (placement matters).") }];
+  // Default: a commanding anthem (+2/+2 to other allies) — the top go-wide payoff.
+  return [{ trigger: "ON_SUMMON", op: "BUFF_ALLIES", attack: 2, health: 2, raw: tag(card, "Legendary: sovereign anthem — on play, other allies gain +2/+2.") }];
+}
+
+const BAND_ENRICHERS: Record<EnrichmentBand, (card: EnrichableCard, kw: Set<string>) => EffectSpec[]> = {
+  rare: enrichRare,
+  epic: enrichEpic,
+  legendary: enrichLegendary,
+};
+
+/**
+ * V2 dispatch: derive the band's decision specs for a card, but ONLY keep them if
+ * their effective value fits the band cap (a hard, self-checked discipline — a
+ * mis-authored over-budget branch falls back to the V1 chip rather than ship a
+ * power-creep). Returns [] when the card has no V2 band (-> caller uses V1).
+ */
+export function enrichmentV2SpecsFor(card: EnrichableCard): EffectSpec[] {
+  const band = enrichmentBandOf(card);
+  if (!band) return [];
+  const specs = BAND_ENRICHERS[band](card, keywordSet(card));
+  if (specs.length === 0) return [];
+  // Self-enforce the band cap: if a branch somehow exceeds it, drop V2 (the caller
+  // then emits the V1 floor chip) — V2 must never out-power its band.
+  if (enrichmentValuePoints(specs) > bandValueCap(band)) return [];
+  return specs;
+}
+
 /**
  * Derive the enrichment EffectSpec set for a single card. Returns [] when:
  *   - the master flag is OFF, OR
  *   - the card's faction is not in the enrichment set, OR
  *   - the card is not a unit body, OR
  *   - the card is not a vanilla body (its authored ability already does something).
- * Otherwise returns exactly ONE spec (the highest-priority keyword match for the
- * card's faction). Pure and deterministic — a function of static fields only.
+ * Otherwise:
+ *   - if the card's GRADE puts it in a V2 band (rare+/higher Grade), return the
+ *     band's DECISION-creating spec(s) (Enrichment V2);
+ *   - else return the single V1 floor chip (the highest-priority keyword match for
+ *     the card's faction).
+ * Pure and deterministic — a function of static fields only.
  */
 export function enrichmentSpecsFor(card: EnrichableCard): EffectSpec[] {
   if (!ENABLE_ENRICHMENT) return [];
@@ -290,18 +455,38 @@ export function enrichmentSpecsFor(card: EnrichableCard): EffectSpec[] {
   if (!isUnitCard(card)) return [];
   if (!compiledIsVanilla(card)) return [];
 
+  // V2 first: a rare+/higher-Grade vanilla body earns a DECISION (board-dependent,
+  // band-capped). Commons and sub-65-Grade rares fall through to the V1 chip.
+  const v2 = enrichmentV2SpecsFor(card);
+  if (v2.length > 0) return v2;
+
   const kw = keywordSet(card);
   const enricher = FACTION_ENRICHERS[card.faction];
   return enricher ? enricher(card, kw) : [];
 }
 
 /**
- * POWER SANITY — the maximum "effective value" a single enrichment adds, in
- * stat-points. Used by the report to assert no enrichment pushes a card above its
- * Grade-implied class-peer ceiling. A +1 stat or a 0/1 token = 1 point; that is
- * the cap by construction (every branch emits exactly one such unit of value).
+ * POWER SANITY (V1 FLOOR cap) — the maximum "effective value" a single V1 floor
+ * enrichment adds, in stat-points. A +1 stat or a 0/1 token = 1 point; that is the
+ * cap by construction for the V1 chip path (every V1 branch emits exactly one such
+ * unit of value). V2 (rare+/higher Grade) is NOT bound by this flat cap — it is
+ * bound by the per-band cap (`bandValueCap` / `BAND_VALUE_CAP`), which scales power
+ * proportional to Grade (rare 2 / epic 3 / legendary 4). The report applies the
+ * right cap per card: V1 cards -> this flat cap; V2 cards -> their band cap.
  */
 export const ENRICHMENT_MAX_VALUE_POINTS = 1;
+
+/**
+ * The effective per-card value cap that APPLIES to a given card: the band cap when
+ * the card is in a V2 band (and actually got V2 specs), else the V1 flat floor.
+ * The report uses this so a band-scaled V2 decision isn't flagged against the V1
+ * floor (and a V1 chip isn't given a band's slack).
+ */
+export function effectiveValueCapFor(card: EnrichableCard): number {
+  const band = enrichmentBandOf(card);
+  if (band && enrichmentV2SpecsFor(card).length > 0) return bandValueCap(band);
+  return ENRICHMENT_MAX_VALUE_POINTS;
+}
 
 /**
  * Reduce a derived spec set to its conservative effective stat-point value, for

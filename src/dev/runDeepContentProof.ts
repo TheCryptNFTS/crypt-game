@@ -88,7 +88,10 @@ const INERT_OPS = new Set<EffectOp>([
 // =============================================================================
 {
   check(`liveSpells roughly doubled again (>= 40, got ${liveSpells.length})`, liveSpells.length >= 40, liveSpells.length);
-  check(`liveSpells within target band (<= 50, got ${liveSpells.length})`, liveSpells.length <= 50, liveSpells.length);
+  // Band raised 50 -> 80 (2026.06.01): the per-faction spell SUITE adds a complete
+  // removal/draw/tempo/combat-trick kit to every faction (~25 cards). The ceiling
+  // still guards against unbounded growth.
+  check(`liveSpells within target band (<= 80, got ${liveSpells.length})`, liveSpells.length <= 80, liveSpells.length);
 
   // Unique ids (a collision would silently shadow a real card in cardMetaById).
   const ids = new Set(liveSpells.map((s) => s.id));
