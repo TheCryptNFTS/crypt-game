@@ -4,7 +4,7 @@ import units from "../data/units.json";
 import { getLoadedCommanderById } from "../data/loadCommanders";
 import { getLoadedUnitById } from "../data/loadAllUnits";
 import { emitEvent } from "./events";
-import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay, STARTING_NEXUS_HEALTH } from "./state";
+import { MatchState, PlayerId, PlayerState, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MulliganState } from "./state";
 
 import { getPlayableCardById, assertNoDisabledCards } from "./cards";
 import { applyCardOverride } from "./cardOverrides";
@@ -118,6 +118,40 @@ export function createMatch(seed: number = Date.now()): MatchState {
  */
 export function createSandboxMatch(seed?: number): MatchState {
   return createMatch(seed);
+}
+
+/**
+ * OPENING MULLIGAN phase (PART 1). Attach an explicit mulligan phase to a freshly created
+ * match so the match "cannot start until mulligan resolves": every side is marked
+ * `pending`, and the reducer's global mulligan gate then accepts ONLY a single `MULLIGAN`
+ * per pending side (in any order, not bound to `activePlayer`) until both are `done`.
+ *
+ * Pure and additive: it ONLY sets `match.mulligan`. A match created WITHOUT this helper has
+ * `mulligan === undefined` and behaves exactly as before (legacy P1-only MULLIGAN action,
+ * golden fixtures unmoved). `sides` lets a caller open the phase for one seat only (e.g.
+ * the on-the-play player) — omitted, both sides are pending. Returns the same match for
+ * chaining.
+ */
+export function beginMulliganPhase(
+  match: MatchState,
+  sides: PlayerId[] = ["P1", "P2"]
+): MatchState {
+  const phase: MulliganState = { P1: "done", P2: "done" };
+  for (const s of sides) phase[s] = "pending";
+  match.mulligan = phase;
+  return match;
+}
+
+/**
+ * True while an explicit mulligan phase is OPEN — i.e. at least one side is still
+ * `pending`. The match has not started; a driver should resolve every pending side
+ * (submit its MULLIGAN) before issuing any other action. False when there is no phase
+ * (legacy mode) or every side is already `done`.
+ */
+export function requireMulligan(match: MatchState): boolean {
+  const m = match.mulligan;
+  if (!m) return false;
+  return m.P1 === "pending" || m.P2 === "pending";
 }
 
 export function createFixedTestMatch(): MatchState {
