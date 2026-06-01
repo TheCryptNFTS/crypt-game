@@ -5,7 +5,7 @@ import { allPlayableCards } from "../engine/cards";
 import { applyAction, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE } from "../engine/state";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
-import { planP2Turn } from "./cryptMatchAI";
+import { planP2Turn, planP2Plays, planP2Combat } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
 type Lane = "front" | "back";
@@ -56,7 +56,10 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
     p1: { commanderId: p1Commander.id, deck: p1Deck },
     p2: { commanderId: p2Commander.id, deck: p2Deck },
     seed: Date.now(),
-    openingHandSize: OPENING_HAND_SIZE
+    openingHandSize: OPENING_HAND_SIZE,
+    // Live play opts into faction identities so deck/faction choice is
+    // mechanically meaningful (Bedrock/Insight/Onslaught/Tempered/Largesse).
+    rules: { factionIdentities: true }
   });
 
   match.activePlayer = match.activePlayer ?? "P1";
@@ -315,27 +318,40 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         }
       };
 
+      const runAiAction = (a: ReturnType<typeof planP2Turn>[number]) => {
+        if (a.kind === "playUnit") {
+          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
+          if (idx < 0) return;
+          run({ type: "PLAY_UNIT", player: "P2", handIndex: idx, lane: a.lane });
+        } else if (a.kind === "playArtifact") {
+          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
+          if (idx < 0) return;
+          run({ type: "PLAY_ARTIFACT", player: "P2", handIndex: idx });
+        } else if (a.kind === "playSpell") {
+          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
+          if (idx < 0) return;
+          run({ type: "PLAY_SPELL", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId });
+        } else if (a.kind === "equip") {
+          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
+          if (idx < 0) return;
+          run({ type: "EQUIP", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId });
+        } else if (a.kind === "attackUnit") {
+          run({ type: "ATTACK_UNIT", player: "P2", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId });
+        } else if (a.kind === "attackFace") {
+          run({ type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId });
+        }
+      };
+
       try {
-        const plan = planP2Turn(work);
-        for (const a of plan) {
+        // Two-phase: apply all plays first, THEN plan combat off the post-play
+        // board so a freshly-summoned RUSH unit (now live) can actually swing.
+        for (const a of planP2Plays(work)) {
           if (work.winner) break;
-          if (a.kind === "playUnit") {
-            const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-            if (idx < 0) continue;
-            run({ type: "PLAY_UNIT", player: "P2", handIndex: idx, lane: a.lane });
-          } else if (a.kind === "playArtifact") {
-            const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-            if (idx < 0) continue;
-            run({ type: "PLAY_ARTIFACT", player: "P2", handIndex: idx });
-          } else if (a.kind === "equip") {
-            const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-            if (idx < 0) continue;
-            run({ type: "EQUIP", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId });
-          } else if (a.kind === "attackUnit") {
-            run({ type: "ATTACK_UNIT", player: "P2", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId });
-          } else if (a.kind === "attackFace") {
-            run({ type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId });
-          }
+          runAiAction(a);
+        }
+        for (const a of planP2Combat(work)) {
+          if (work.winner) break;
+          runAiAction(a);
         }
       } catch {
         // Planning failed — fall through to ending the turn safely.

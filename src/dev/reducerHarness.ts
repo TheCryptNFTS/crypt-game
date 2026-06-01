@@ -14,7 +14,7 @@ import { allCommanders } from "../engine/commanders";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
 import { applyAction, autoPickOption, Action, GameEvent } from "../engine/reducer";
 import { MatchState, BASE_MAX_ENERGY, STARTING_NEXUS_HEALTH } from "../engine/state";
-import { planP2Turn } from "../game-ui/cryptMatchAI";
+import { planP2Plays, planP2Combat, type AiAction } from "../game-ui/cryptMatchAI";
 
 /** Build a deterministic match seeded exactly like the live hook does. */
 export function makeSeededMatch(seed: number): MatchState {
@@ -94,62 +94,60 @@ export function playAiMatch(seed: number, maxTurns = 60): { actions: Action[]; r
   const actions: Action[] = [];
   const events: GameEvent[] = [];
 
+  /** Map a planner action addressed to "P2" onto the real seat, apply + drain. */
+  const runAiAction = (a: AiAction, seat: "P1" | "P2"): void => {
+    if (state.winner) return;
+    const hand = state.players[seat].hand;
+    let action: Action | null = null;
+    if (a.kind === "playUnit") {
+      const idx = hand.indexOf(a.cardId);
+      if (idx < 0) return;
+      action = { type: "PLAY_UNIT", player: seat, handIndex: idx, lane: a.lane };
+    } else if (a.kind === "playArtifact") {
+      const idx = hand.indexOf(a.cardId);
+      if (idx < 0) return;
+      action = { type: "PLAY_ARTIFACT", player: seat, handIndex: idx };
+    } else if (a.kind === "playSpell") {
+      const idx = hand.indexOf(a.cardId);
+      if (idx < 0) return;
+      action = { type: "PLAY_SPELL", player: seat, handIndex: idx, targetInstanceId: a.targetInstanceId };
+    } else if (a.kind === "equip") {
+      const idx = hand.indexOf(a.cardId);
+      if (idx < 0) return;
+      action = { type: "EQUIP", player: seat, handIndex: idx, targetInstanceId: a.targetInstanceId };
+    } else if (a.kind === "attackUnit") {
+      action = { type: "ATTACK_UNIT", player: seat, attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId };
+    } else if (a.kind === "attackFace") {
+      action = { type: "ATTACK_FACE", player: seat, attackerInstanceId: a.attackerInstanceId };
+    }
+    if (!action) return;
+    state = applyAndDrain(state, action, actions, events);
+  };
+
+  // The planner reasons about "P2"; for a P1 turn we present P1 as "P2" in the
+  // view. Two-phase (plays, then combat off the post-play board) so a freshly
+  // summoned RUSH unit can swing — re-derive the view from CURRENT state each
+  // phase so combat sees the new bodies.
   const runHumanGreedy = () => {
-    // A simple but real P1 policy: reuse the AI planner for P1 too, so the e2e
-    // match is fully scripted and deterministic with no human input.
-    const p1View = { ...state, players: { P1: state.players.P2, P2: state.players.P1 } } as any;
-    void p1View;
-    // Use the planner directly on P1 by temporarily presenting P1 as "P2".
-    const plan = planP2Turn({ ...state, players: { P2: state.players.P1, P1: state.players.P2 } });
-    for (const a of plan) {
+    const viewP1 = (): any => ({ ...state, players: { P2: state.players.P1, P1: state.players.P2 } });
+    for (const a of planP2Plays(viewP1())) {
       if (state.winner) break;
-      let action: Action | null = null;
-      if (a.kind === "playUnit") {
-        const idx = state.players.P1.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
-        action = { type: "PLAY_UNIT", player: "P1", handIndex: idx, lane: a.lane };
-      } else if (a.kind === "playArtifact") {
-        const idx = state.players.P1.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
-        action = { type: "PLAY_ARTIFACT", player: "P1", handIndex: idx };
-      } else if (a.kind === "equip") {
-        const idx = state.players.P1.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
-        action = { type: "EQUIP", player: "P1", handIndex: idx, targetInstanceId: a.targetInstanceId };
-      } else if (a.kind === "attackUnit") {
-        action = { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId };
-      } else if (a.kind === "attackFace") {
-        action = { type: "ATTACK_FACE", player: "P1", attackerInstanceId: a.attackerInstanceId };
-      }
-      if (!action) continue;
-      state = applyAndDrain(state, action, actions, events);
+      runAiAction(a, "P1");
+    }
+    for (const a of planP2Combat(viewP1())) {
+      if (state.winner) break;
+      runAiAction(a, "P1");
     }
   };
 
   const runAi = () => {
-    const plan = planP2Turn(state);
-    for (const a of plan) {
+    for (const a of planP2Plays(state)) {
       if (state.winner) break;
-      let action: Action | null = null;
-      if (a.kind === "playUnit") {
-        const idx = state.players.P2.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
-        action = { type: "PLAY_UNIT", player: "P2", handIndex: idx, lane: a.lane };
-      } else if (a.kind === "playArtifact") {
-        const idx = state.players.P2.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
-        action = { type: "PLAY_ARTIFACT", player: "P2", handIndex: idx };
-      } else if (a.kind === "equip") {
-        const idx = state.players.P2.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
-        action = { type: "EQUIP", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId };
-      } else if (a.kind === "attackUnit") {
-        action = { type: "ATTACK_UNIT", player: "P2", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId };
-      } else if (a.kind === "attackFace") {
-        action = { type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId };
-      }
-      if (!action) continue;
-      state = applyAndDrain(state, action, actions, events);
+      runAiAction(a, "P2");
+    }
+    for (const a of planP2Combat(state)) {
+      if (state.winner) break;
+      runAiAction(a, "P2");
     }
   };
 

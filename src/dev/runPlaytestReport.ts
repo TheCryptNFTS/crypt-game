@@ -31,7 +31,7 @@ import { allCommanders } from "../engine/commanders";
 import { createMatchFromDecks } from "../engine/createMatchFromDecks";
 import { applyAction, autoPickOption, Action, GameEvent } from "../engine/reducer";
 import { MatchState, BASE_MAX_ENERGY, STARTING_NEXUS_HEALTH, PlayerId } from "../engine/state";
-import { planP2Turn } from "../game-ui/cryptMatchAI";
+import { planP2Plays, planP2Combat, type AiAction } from "../game-ui/cryptMatchAI";
 import { compileAbility } from "../engine/abilityCompiler";
 import { Faction } from "../types/faction";
 
@@ -118,11 +118,15 @@ function buildFactionDeck(faction: Faction): string[] {
   if (cached) return cached;
 
   const pool = (allPlayableCards as any[]).filter(
-    (c) => c.faction === faction && c.disabled !== true && c.type !== "spell"
+    (c) => c.faction === faction && c.disabled !== true
   );
   const units = pool.filter((c) => c.type === "unit").sort(byCurveThenKeyword);
   const equip = pool.filter((c) => c.type === "equipment").sort(byCurveThenKeyword);
   const arti = pool.filter((c) => c.type === "artifact").sort(byCurveThenKeyword);
+  // Spells now that the planner can cast them (removal/burn/heal/value). Including
+  // a measured allotment lets the report credit interaction-based plans (aggro
+  // reach, control removal) instead of a units-only board-stall meta.
+  const spells = pool.filter((c) => c.type === "spell").sort(byCurveThenKeyword);
 
   const deck: string[] = [];
   const counts = new Map<string, number>();
@@ -147,6 +151,24 @@ function buildFactionDeck(faction: Faction): string[] {
     .sort((a, b) => String(a.id).localeCompare(String(b.id)))
     .slice(0, 2);
   for (const c of carriers) tryAdd(c.id);
+
+  // A measured spell allotment (cheap-first, up to SPELL_TARGET cards) so the
+  // report exercises interaction. Reserved up front so the unit curve fills
+  // AROUND it; still fully legal (<=2 copies, deterministic order).
+  const SPELL_TARGET = Math.min(6, spells.length * MAX_COPIES);
+  let spellsAdded = 0;
+  for (const c of spells) {
+    if (spellsAdded >= SPELL_TARGET) break;
+    const before = deck.length;
+    tryAdd(c.id);
+    if (deck.length > before) spellsAdded += 1;
+  }
+  for (const c of spells) {
+    if (spellsAdded >= SPELL_TARGET) break;
+    const before = deck.length;
+    tryAdd(c.id); // second copy to reach the allotment
+    if (deck.length > before) spellsAdded += 1;
+  }
 
   // Units fill most of the deck (curve), capped so equipment/artifacts get in too.
   const unitTarget = Math.min(DECK_SIZE - 5, Math.max(18, DECK_SIZE - equip.length - arti.length));
@@ -250,6 +272,9 @@ function runMatch(
     p2: { commanderId: side2.commanderId, deck: buildFactionDeck(side2.faction) },
     seed,
     openingHandSize: OPENING_HAND,
+    // Mirror live play: faction identities are ON in solo + server matches, so
+    // the balance report must measure the same conditions the player sees.
+    rules: { factionIdentities: true },
   });
   match.activePlayer = firstPlayer;
   match.turn = match.turn ?? 1;
@@ -356,28 +381,33 @@ function runMatch(
     // Plan via the greedy planner. For P1 we present the flipped view so the
     // planner (which reasons about "P2") plans for the real P1, then we translate
     // the plan back to P1-addressed actions. For P2 the view is the live state.
-    const planView =
+    // The view is re-derived from CURRENT state each time it's needed, so the
+    // combat phase sees the post-play board (fresh RUSH units included).
+    const viewOf = (s: MatchState): any =>
       active === "P2"
-        ? state
-        : ({ ...state, players: { P2: state.players.P1, P1: state.players.P2 } } as any);
-    const plan = planP2Turn(planView);
+        ? s
+        : ({ ...s, players: { P2: s.players.P1, P1: s.players.P2 } } as any);
 
     let boardActionTaken = false;
-    for (const a of plan) {
-      if (state.winner) break;
+    const runAiAction = (a: AiAction): void => {
+      if (state.winner) return;
       const me = state.players[active];
       let action: Action | null = null;
       if (a.kind === "playUnit") {
         const idx = me.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
+        if (idx < 0) return;
         action = { type: "PLAY_UNIT", player: active, handIndex: idx, lane: a.lane };
       } else if (a.kind === "playArtifact") {
         const idx = me.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
+        if (idx < 0) return;
         action = { type: "PLAY_ARTIFACT", player: active, handIndex: idx };
+      } else if (a.kind === "playSpell") {
+        const idx = me.hand.indexOf(a.cardId);
+        if (idx < 0) return;
+        action = { type: "PLAY_SPELL", player: active, handIndex: idx, targetInstanceId: a.targetInstanceId };
       } else if (a.kind === "equip") {
         const idx = me.hand.indexOf(a.cardId);
-        if (idx < 0) continue;
+        if (idx < 0) return;
         action = { type: "EQUIP", player: active, handIndex: idx, targetInstanceId: a.targetInstanceId };
       } else if (a.kind === "attackUnit") {
         action = {
@@ -389,14 +419,23 @@ function runMatch(
       } else if (a.kind === "attackFace") {
         action = { type: "ATTACK_FACE", player: active, attackerInstanceId: a.attackerInstanceId };
       }
-      if (!action) continue;
+      if (!action) return;
       const energyBefore = state.players[active].energy ?? 0;
       apply(action);
       const energyAfter = state.players[active].energy ?? 0;
-      const spent = Math.max(0, energyBefore - energyAfter);
-      res.energySpent += spent;
+      res.energySpent += Math.max(0, energyBefore - energyAfter);
       boardActionTaken = true;
+    };
+
+    // Two-phase: apply all plays first, then plan combat off the post-play board
+    // so a freshly-summoned RUSH unit can actually swing this turn (mirrors live).
+    for (const a of planP2Plays(viewOf(state))) {
       if (state.winner) break;
+      runAiAction(a);
+    }
+    for (const a of planP2Combat(viewOf(state))) {
+      if (state.winner) break;
+      runAiAction(a);
     }
 
     // "Stuck": had >=1 energy at the top of the turn but took no board action.

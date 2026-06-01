@@ -16,24 +16,42 @@
  */
 
 import { allPlayableCards } from "../engine/cards";
+import { compileAbility } from "../engine/abilityCompiler";
 
 // Plays reference a card by id (not hand index): the hook re-finds the card's
 // CURRENT index in P2's live hand at apply time, so plans stay correct even as
-// earlier plays splice the hand.
+// earlier plays splice the hand. Spell targets reference an instanceId that
+// exists at plan time (an EXISTING board unit), so they survive hand churn too.
 export type AiAction =
   | { kind: "playUnit"; cardId: string; lane: "front" | "back" }
   | { kind: "playArtifact"; cardId: string }
+  | { kind: "playSpell"; cardId: string; targetInstanceId?: string }
   | { kind: "equip"; cardId: string; targetInstanceId: string }
   | { kind: "attackUnit"; attackerInstanceId: string; defenderInstanceId: string }
   | { kind: "attackFace"; attackerInstanceId: string };
 
 type CardMeta = {
   id: string;
-  type: "unit" | "equipment" | "artifact";
+  type: "unit" | "equipment" | "artifact" | "spell";
   cost: number;
   attack: number;
   health: number;
+  /** Spell targeting (mirrors the reducer's PLAY_SPELL classification). */
+  spell?: { needsTarget: boolean; wantsEnemy: boolean };
 };
+
+// Mirror the reducer's PLAY_SPELL target classification (reducer.ts): damage /
+// debuff / destroy / bounce want an ENEMY unit; heal / self-buff want an ALLY;
+// everything else needs no target.
+const SPELL_ENEMY_OPS = ["DEAL_DAMAGE", "DEBUFF_ENEMY", "DESTROY_UNIT", "RETURN_TO_HAND"];
+const SPELL_ALLY_OPS = ["HEAL", "BUFF_SELF"];
+
+function classifySpell(card: any): { needsTarget: boolean; wantsEnemy: boolean } {
+  const specs = (compileAbility(card?.rawTraits?.Ability).specs ?? []) as any[];
+  const wantsEnemy = specs.some((s) => SPELL_ENEMY_OPS.includes(s.op));
+  const wantsAlly = specs.some((s) => SPELL_ALLY_OPS.includes(s.op));
+  return { needsTarget: wantsEnemy || wantsAlly, wantsEnemy };
+}
 
 const META = new Map<string, CardMeta>(
   (allPlayableCards as any[]).map((c) => [
@@ -44,6 +62,7 @@ const META = new Map<string, CardMeta>(
       cost: c.cost ?? 0,
       attack: c.stats?.attack ?? 0,
       health: c.stats?.health ?? 0,
+      spell: c.type === "spell" ? classifySpell(c) : undefined,
     } as CardMeta,
   ])
 );
@@ -61,8 +80,25 @@ function lanesOf(player: any): any[] {
  * `match`. The caller applies them one at a time; if any individual primitive
  * rejects (energy/illegal), it can simply skip that action — the list is a
  * plan, not a guarantee.
+ *
+ * SINGLE-SHOT (legacy) path: plays then combat are planned off the SAME
+ * pre-play board, so a unit summoned THIS turn is never planned as an attacker
+ * (its instanceId doesn't exist yet) — even one with RUSH. Callers that want a
+ * freshly-summoned RUSH unit to swing should instead run the two phases against
+ * a re-derived board: apply `planP2Plays(match)`, then plan `planP2Combat` on
+ * the POST-play state (where the new unit is live, has a real instanceId, and
+ * `summoningSick` is already false for RUSH).
  */
 export function planP2Turn(match: any): AiAction[] {
+  if (!match || match.winner) return [];
+  return [...planP2Plays(match), ...planP2Combat(match)];
+}
+
+/**
+ * PHASE 1 — the play/equip/artifact plan for P2 (no combat). Pure; reads the
+ * pre-play board to size an energy budget and choose targets.
+ */
+export function planP2Plays(match: any): AiAction[] {
   if (!match || match.winner) return [];
 
   const actions: AiAction[] = [];
@@ -141,13 +177,74 @@ export function planP2Turn(match: any): AiAction[] {
     }
   }
 
-  // --- 2. Combat: each ready (non-exhausted) P2 unit attacks. ---
-  // We approximate the post-play board: units just played this turn count as
-  // attackers too (the hook doesn't impose summoning sickness on attacks),
-  // but to stay safe we only plan attacks for units already on the board at
-  // planning time — freshly-played ones simply attack next turn. This keeps
-  // the plan robust against board churn.
-  const attackers = lanesOf(match.players?.P2).filter((u) => !u.exhausted);
+  // --- Cast spells with leftover energy. Cheapest-first so we squeeze several
+  // small spells out of the turn. Removal/burn (enemy-target) hits the strongest
+  // enemy threat; heal/self-buff lands on our strongest body; no-target value
+  // spells (draw / summon / AoE / nexus heal) fire directly. A spell with NO
+  // legal target is skipped (e.g. a removal spell vs an empty enemy board), which
+  // mirrors the reducer rejecting a missing target. Targets reference EXISTING
+  // board units (real instanceIds), so the plan survives hand churn. ---
+  const enemyForSpell = lanesOf(match.players?.P1).filter((u) => (u.health ?? 0) > 0);
+  const allyForSpell = lanesOf(match.players?.P2).filter((u) => (u.health ?? 0) > 0);
+  const strongest = (us: any[]) =>
+    us.length ? [...us].sort((a, b) => (b.attack ?? 0) - (a.attack ?? 0))[0] : null;
+  // A few casts max, re-scanning `working` cheapest-first each pass.
+  for (let cast = 0; cast < 4; cast += 1) {
+    let bestPos = -1;
+    let bestCost = Infinity;
+    for (let i = 0; i < working.length; i += 1) {
+      const m = meta(working[i].cardId);
+      if (!m || m.type !== "spell" || !m.spell) continue;
+      if (m.cost > energy) continue;
+      if (m.cost < bestCost) {
+        bestCost = m.cost;
+        bestPos = i;
+      }
+    }
+    if (bestPos < 0) break;
+    const m = meta(working[bestPos].cardId)!;
+    const info = m.spell!;
+    let targetInstanceId: string | undefined;
+    if (info.needsTarget) {
+      const target = info.wantsEnemy ? strongest(enemyForSpell) : strongest(allyForSpell);
+      if (!target?.instanceId) {
+        // No legal target this turn — drop this spell from consideration and retry.
+        working.splice(bestPos, 1);
+        continue;
+      }
+      targetInstanceId = target.instanceId;
+    }
+    energy -= m.cost;
+    actions.push({ kind: "playSpell", cardId: working[bestPos].cardId, targetInstanceId });
+    working.splice(bestPos, 1);
+  }
+
+  return actions;
+}
+
+/**
+ * PHASE 2 — the combat plan for P2, read off the CURRENT board. Pure. Callers
+ * that planned + applied PHASE 1 should call this on the post-play state so a
+ * freshly-summoned RUSH unit (now live, real instanceId, `summoningSick` false)
+ * is planned as an attacker.
+ */
+export function planP2Combat(match: any): AiAction[] {
+  if (!match || match.winner) return [];
+
+  const actions: AiAction[] = [];
+
+  // --- Combat: each ready P2 unit attacks. ---
+  // A unit can attack iff it is not exhausted AND not summoning-sick (unless it
+  // has RUSH — mirrors engine `unitCanAttack`). Reading the live board means a
+  // RUSH unit summoned earlier THIS turn is included; an ordinary fresh unit
+  // (summoningSick=true) is correctly excluded so we never plan an illegal swing.
+  const attackers = lanesOf(match.players?.P2).filter(
+    (u) =>
+      !u.exhausted &&
+      (!u.summoningSick ||
+        (Array.isArray(u?.keywords) && u.keywords.includes("RUSH")) ||
+        (Array.isArray(u?.auraKeywords) && u.auraKeywords.includes("RUSH")))
+  );
   const enemyUnits = lanesOf(match.players?.P1);
   const hasKw = (u: any, k: string) =>
     (Array.isArray(u?.keywords) && u.keywords.includes(k)) ||
