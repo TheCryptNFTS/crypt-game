@@ -231,10 +231,17 @@ export default function ProfilePage() {
           )}
           <p className="crypt-profile-secondary">
             <Link
+              to="/ladder"
+              className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
+            >
+              View your ranked ladder →
+            </Link>
+            {"  ·  "}
+            <Link
               to="/leaderboard"
               className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
             >
-              View season ladder →
+              Season standings →
             </Link>
           </p>
         </section>

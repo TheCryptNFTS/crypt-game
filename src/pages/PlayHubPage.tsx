@@ -362,6 +362,12 @@ export default function PlayHubPage() {
               <span className="crypt-play-mode-quick-meta">Learn the table at your own pace, no opponent needed</span>
             </Link>
 
+            <Link to="/ladder" className="crypt-play-mode-quick">
+              <span className="crypt-play-mode-quick-kicker">Tier 1 · Your ascent</span>
+              <span className="crypt-play-mode-quick-title">⬡ Ranked ladder</span>
+              <span className="crypt-play-mode-quick-meta">Your rank, MMR, level, and season stars</span>
+            </Link>
+
             <Link to="/leaderboard" className="crypt-play-mode-quick">
               <span className="crypt-play-mode-quick-kicker">Tier 2 · The Season</span>
               <span className="crypt-play-mode-quick-title">⬡ Season ladder</span>
