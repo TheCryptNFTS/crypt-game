@@ -262,7 +262,21 @@
 
 .live-board-stack {
   display: grid;
-  gap: 14px;
+  gap: 8px;
+}
+
+/* Tighter lanes for the single-screen battlefield. */
+.live-board-stack .live-lane {
+  padding: 8px 12px;
+}
+.live-board-stack .live-lane__header {
+  margin-bottom: 6px;
+}
+.live-board-stack .live-lane__header h2 {
+  font-size: 13px;
+}
+.live-board-stack .live-lane__empty {
+  min-height: 30px;
 }
 
 .live-lane,
@@ -308,15 +322,17 @@
 
 .live-lane__cards {
   display: flex;
-  gap: 14px;
+  gap: 10px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding-bottom: 2px;
 }
 
+/* Compact board minions so the whole battlefield (4 lanes + HUD) fits on one
+   screen without scrolling — closer to how the majors present a shared field. */
 .live-lane__cards .crypt-card--board {
-  min-width: 220px;
-  width: 220px;
-  min-height: 320px;
+  min-width: 116px;
+  width: 116px;
+  min-height: auto;
 }
 
 .live-lane__empty {

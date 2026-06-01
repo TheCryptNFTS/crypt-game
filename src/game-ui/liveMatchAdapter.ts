@@ -3,6 +3,16 @@ import { allPlayableCards } from "../engine/cards";
 import { fallbackAsset } from "./fallbackAsset";
 import { CommanderVM, PlayCardVM } from "../ui/cryptTypes";
 import { getCommanderImageUrl, getCardImageUrl } from "../data/openseaImageIndex";
+import generatedTcgCards from "../data/generatedTcgCards.json";
+
+// Real reveal art keyed by engine card id (tcg_*). allPlayableCards (the match's
+// card source) carries NO imageUrl, so in-match cards were falling back to the
+// "CRYPT" placeholder while the Vault showed full art. This map (same data the
+// Vault uses, already bundled via cards.ts so zero extra weight) fixes that.
+const cardArtById = new Map<string, string>();
+for (const c of generatedTcgCards as Array<{ id?: string; imageUrl?: string | null }>) {
+  if (c.id && c.imageUrl) cardArtById.set(c.id, c.imageUrl);
+}
 
 const factionMap: Record<string, "STONE" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "GOD"> = {
   STONE_KEEPERS: "STONE",
@@ -63,6 +73,7 @@ function resolveCommanderImage(raw: any) {
 
 function resolvePlayableCardImage(card: any) {
   return (
+    (card?.id && cardArtById.get(card.id)) ||
     getCardImageUrl({
       tokenId: card?.tokenId,
       name: card?.name,
