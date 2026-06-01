@@ -47,6 +47,46 @@ async function authedPost<T>(path: string, body?: unknown): Promise<{ status: nu
   }
 }
 
+async function authedGet<T>(path: string): Promise<{ status: number; data: T | null }> {
+  try {
+    const res = await fetch(`${CITY_BASE()}${path}`, {
+      headers: { accept: "application/json", ...getAuthHeader() },
+    });
+    let data: T | null = null;
+    try {
+      data = (await res.json()) as T;
+    } catch {
+      data = null;
+    }
+    return { status: res.status, data };
+  } catch {
+    return { status: 0, data: null };
+  }
+}
+
+/** localStorage key under which the active match id is remembered so a dropped
+ *  player can RECONNECT to it after a refresh. Cleared when the match ends. */
+const ACTIVE_MATCH_KEY = "crypt:activeMatchId";
+
+/** Remember / forget the active match id for reconnect-after-refresh. Guarded so
+ *  it is a no-op where localStorage is unavailable (SSR / privacy mode). */
+export function rememberActiveMatch(matchId: string | null): void {
+  try {
+    if (matchId) window.localStorage.setItem(ACTIVE_MATCH_KEY, matchId);
+    else window.localStorage.removeItem(ACTIVE_MATCH_KEY);
+  } catch {
+    /* ignore: storage may be disabled */
+  }
+}
+
+function readActiveMatch(): string | null {
+  try {
+    return window.localStorage.getItem(ACTIVE_MATCH_KEY);
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Minimal PvP entry: sign in with the wallet, then Find Match (queue) or
  * Create / Join by code. On-theme (purple/gold) and built from existing
@@ -59,6 +99,8 @@ export function PvpLobby({ walletAddress, onEnterMatch, onCancel }: Props) {
   const [status, setStatus] = useState<string>("");
   const [joinCode, setJoinCode] = useState("");
   const [createdCode, setCreatedCode] = useState<string | null>(null);
+  // A previously-active match id (from localStorage) the player can rejoin.
+  const [resumableMatchId, setResumableMatchId] = useState<string | null>(null);
 
   // Queue polling lifecycle guard.
   const queueTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -70,6 +112,13 @@ export function PvpLobby({ walletAddress, onEnterMatch, onCancel }: Props) {
       if (queueTimer.current) clearTimeout(queueTimer.current);
     };
   }, []);
+
+  // On mount (once signed in), surface any remembered match so the player can
+  // RECONNECT after a refresh / dropped connection.
+  useEffect(() => {
+    if (!signedIn) return;
+    setResumableMatchId(readActiveMatch());
+  }, [signedIn]);
 
   const handleSignIn = async () => {
     setBusy(true);
@@ -103,7 +152,32 @@ export function PvpLobby({ walletAddress, onEnterMatch, onCancel }: Props) {
   const enter = (m: EnteredMatch) => {
     queuing.current = false;
     if (queueTimer.current) clearTimeout(queueTimer.current);
+    // Remember the match so a refresh/drop can reconnect to it by id.
+    rememberActiveMatch(m.matchId);
     onEnterMatch(m);
+  };
+
+  /**
+   * RECONNECT to an in-progress match by id. Fetches the replay-verified
+   * authoritative payload ({ matchId, seat, version, view }) and re-mounts the
+   * board exactly like a fresh claim. A 404 means the match ended/vanished — we
+   * forget it so the prompt clears.
+   */
+  const handleReconnect = async (matchId: string) => {
+    setBusy(true);
+    setStatus("Reconnecting to your match...");
+    const { status: code, data } = await authedGet<any>(
+      `/api/match/${encodeURIComponent(matchId)}/resume`,
+    );
+    setBusy(false);
+    if (code === 200 && data?.matchId && data?.view) {
+      enter({ matchId: data.matchId, version: data.version, view: data.view, mySeat: data.seat ?? data.mySeat });
+      return;
+    }
+    // Gone or unauthorized — forget it and clear the prompt.
+    rememberActiveMatch(null);
+    setResumableMatchId(null);
+    setStatus(code === 404 ? "That match has ended." : "Could not reconnect.");
   };
 
   const handleFindMatch = async () => {
@@ -204,6 +278,27 @@ export function PvpLobby({ walletAddress, onEnterMatch, onCancel }: Props) {
             <p className="live-deckhint">
               Signed in as <strong>{address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "wallet"}</strong>.
             </p>
+
+            {resumableMatchId ? (
+              <div className="live-quick-buttons" style={{ marginBottom: 16 }}>
+                <button
+                  className="live-btn live-btn--primary"
+                  disabled={busy}
+                  onClick={() => void handleReconnect(resumableMatchId)}
+                >
+                  Reconnect to Match
+                </button>
+                <button
+                  className="live-btn live-btn--ghost"
+                  onClick={() => {
+                    rememberActiveMatch(null);
+                    setResumableMatchId(null);
+                  }}
+                >
+                  Dismiss
+                </button>
+              </div>
+            ) : null}
 
             <div className="live-quick-buttons">
               <button className="live-btn live-btn--primary" disabled={busy} onClick={handleFindMatch}>
