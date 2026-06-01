@@ -7,6 +7,39 @@ import { useRenderManifest } from "../hooks/useRenderManifest";
 import { clearSessionStub, getSessionStub } from "../lib/appSession";
 import { loadStoredCommanderId } from "../lib/deckBuilderStorage";
 import { getProgressSnapshot } from "../lib/localProgress";
+import {
+  fetchCosmetics,
+  fetchMatchHistory,
+  fetchMyRanking,
+  rankLabelForRating,
+  type CosmeticUnlock,
+  type MatchHistoryEntry,
+  type MyRanking,
+} from "../services/ladderApi";
+
+/** Presentation labels for the known tier-frame cosmetic ids. */
+const COSMETIC_LABELS: Record<string, string> = {
+  frame_awakened: "Awakened frame",
+  frame_ascendant: "Ascendant frame",
+  frame_mythic: "Mythic frame",
+  frame_sovereign: "Sovereign frame",
+};
+
+function cosmeticLabel(id: string): string {
+  return COSMETIC_LABELS[id] ?? id.replace(/^frame_/, "").replace(/_/g, " ");
+}
+
+/** Compact relative time like "just now" / "2h ago" / "3d ago". */
+function relativeTime(then: number, now: number): string {
+  const s = Math.max(0, Math.floor((now - then) / 1000));
+  if (s < 60) return "just now";
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  const d = Math.floor(h / 24);
+  return `${d}d ago`;
+}
 
 /**
  * Pilot dossier — closed alpha: identity, local ledger; no wallet verification in this build.
@@ -18,6 +51,25 @@ export default function ProfilePage() {
   const commanderEntry = entryById.get(commanderId);
   const session = getSessionStub();
   const [tick, setTick] = useState(0);
+  const [ranking, setRanking] = useState<MyRanking | null>(null);
+  const [cosmetics, setCosmetics] = useState<CosmeticUnlock[] | null>(null);
+  const [history, setHistory] = useState<MatchHistoryEntry[] | null>(null);
+
+  useEffect(() => {
+    let live = true;
+    fetchMyRanking().then((r) => {
+      if (live) setRanking(r);
+    });
+    fetchCosmetics().then((c) => {
+      if (live) setCosmetics(c);
+    });
+    fetchMatchHistory(10).then((h) => {
+      if (live) setHistory(h);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
 
   useEffect(() => {
     const id = window.setInterval(() => setTick((t) => t + 1), 4000);
@@ -62,9 +114,34 @@ export default function ProfilePage() {
           Your legend grows in the dark—progress stays on this device until the vault shares it.
         </p>
 
-        <section className="crypt-profile-section" aria-label="Recent duel">
-          <div className="crypt-profile-section-label">Last verdict</div>
-          {snap.lastMatchSummary ? (
+        <section className="crypt-profile-section" aria-label="Recent duels">
+          <div className="crypt-profile-section-label">Recent duels</div>
+          {history && history.length > 0 ? (
+            <ul className="crypt-duel-list">
+              {history.map((h) => {
+                const win = h.result.toLowerCase() === "win";
+                const up = h.ratingDelta >= 0;
+                return (
+                  <li key={h.matchId} className="crypt-duel-row">
+                    <span
+                      className={["crypt-duel-result", win ? "crypt-duel-result--win" : "crypt-duel-result--loss"]
+                        .join(" ")}
+                    >
+                      {win ? "WIN" : "LOSS"}
+                    </span>
+                    <span
+                      className={["crypt-duel-delta", up ? "crypt-duel-delta--up" : "crypt-duel-delta--down"]
+                        .join(" ")}
+                    >
+                      {up ? "+" : "−"}
+                      {Math.abs(h.ratingDelta)}
+                    </span>
+                    <span className="crypt-duel-time">{relativeTime(h.createdAt, Date.now())}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : snap.lastMatchSummary ? (
             <p className="crypt-profile-recent-match">{snap.lastMatchSummary}</p>
           ) : (
             <p className="crypt-profile-secondary">No verdict yet—claim a duel from Play.</p>
@@ -136,14 +213,45 @@ export default function ProfilePage() {
 
         <section className="crypt-profile-section" aria-label="Rank">
           <div className="crypt-profile-section-label">Rank · competitive</div>
-          <div className="crypt-profile-placeholder">
-            Ladder sealed until MMR, seasons, and server truth exist
-          </div>
+          {ranking ? (
+            <div className="crypt-profile-rank-row">
+              <div className="crypt-profile-rank-main">
+                <span className="crypt-profile-rank-tier">{rankLabelForRating(ranking.rating)}</span>
+                <span className="crypt-profile-rank-rating">{ranking.rating} MMR</span>
+              </div>
+              <p className="crypt-profile-secondary">
+                #{ranking.position} on the ladder · {ranking.wins}W–{ranking.losses}L
+                {ranking.currentStreak > 1 ? ` · ⬡ STREAK ${ranking.currentStreak}` : ""}
+              </p>
+            </div>
+          ) : (
+            <div className="crypt-profile-placeholder">
+              Play a ranked duel to enter the ladder
+            </div>
+          )}
+          <p className="crypt-profile-secondary">
+            <Link
+              to="/leaderboard"
+              className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
+            >
+              View season ladder →
+            </Link>
+          </p>
         </section>
 
-        <section className="crypt-profile-section" aria-label="Achievements">
-          <div className="crypt-profile-section-label">Achievements</div>
-          <div className="crypt-profile-placeholder">Badges sync when server progress ships</div>
+        <section className="crypt-profile-section" aria-label="Cosmetic unlocks">
+          <div className="crypt-profile-section-label">Cosmetics · unlocked</div>
+          {cosmetics && cosmetics.length > 0 ? (
+            <div className="crypt-profile-cosmetic-strip">
+              {cosmetics.map((c) => (
+                <span key={c.cosmeticId} className="crypt-profile-cosmetic-chip">
+                  ⬡ {cosmeticLabel(c.cosmeticId)}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <div className="crypt-profile-placeholder">Badges sync when server progress ships</div>
+          )}
         </section>
 
         <div className="crypt-profile-signout">

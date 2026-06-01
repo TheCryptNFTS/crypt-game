@@ -1,12 +1,17 @@
 import { Suspense } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import CryptRouteFallback from "../CryptRouteFallback";
+import { isOnboarded } from "../../lib/localProgress";
 
 const dockClass = (isActive: boolean) =>
   ["crypt-mobile-dock-link", isActive ? "crypt-mobile-dock-link--active" : ""].filter(Boolean).join(" ");
 
 export default function AppShell() {
   const { pathname } = useLocation();
+  // Keep the first-run surface minimal: a brand-new pilot only sees Home, Play,
+  // and Profile. Vault (full collection) and Deck (forge) appear once onboarded
+  // (tutorial done OR first win) — matching the router-level route guards.
+  const onboarded = isOnboarded();
 
   return (
     <div className="flex min-h-full flex-col bg-[color:var(--color-crypt-bg)] crypt-app-root">
@@ -49,14 +54,18 @@ export default function AppShell() {
           <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--play" aria-hidden />
           Play
         </NavLink>
-        <NavLink to="/collection" className={({ isActive }) => dockClass(isActive)}>
-          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--catalog" aria-hidden />
-          Vault
-        </NavLink>
-        <NavLink to="/deck" className={({ isActive }) => dockClass(isActive)}>
-          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--deck" aria-hidden />
-          Deck
-        </NavLink>
+        {onboarded ? (
+          <NavLink to="/collection" className={({ isActive }) => dockClass(isActive)}>
+            <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--catalog" aria-hidden />
+            Vault
+          </NavLink>
+        ) : null}
+        {onboarded ? (
+          <NavLink to="/deck" className={({ isActive }) => dockClass(isActive)}>
+            <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--deck" aria-hidden />
+            Deck
+          </NavLink>
+        ) : null}
         <NavLink to="/profile" className={({ isActive }) => dockClass(isActive)}>
           <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--profile" aria-hidden />
           Profile

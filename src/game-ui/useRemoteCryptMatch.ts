@@ -358,6 +358,39 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     void sendAction({ type: "MULLIGAN", player: mySeat }, "You recalibrate your hand.");
   }, [myTurn, mySeat, sendAction]);
 
+  /**
+   * Concede the match (forfeit → opponent wins). Server-authoritative: we POST
+   * the concede and adopt the returned decided view. The match is terminal after
+   * this; the poll loop will keep showing the ended state. Safe to call once.
+   */
+  const concede = useCallback(async () => {
+    if (winner) return;
+    appendLog("You concede the match.");
+    try {
+      const res = await fetch(`${CITY_BASE()}/api/match/${matchId}/concede`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+          ...getAuthHeader(),
+        },
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { version: number; view: MatchView };
+        if (!mountedRef.current) return;
+        setView(data.view);
+        setVersion(data.version);
+        setConnectionState("ended");
+      } else {
+        await refetch();
+      }
+    } catch {
+      if (mountedRef.current) await refetch();
+    }
+    // refetch is stable (useCallback); appendLog stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matchId, winner, appendLog]);
+
   // resetMatch in PvP has NO local re-shuffle authority — it leaves the match
   // and returns to the lobby (the server owns match lifecycle).
   const resetMatch = useCallback(() => {
@@ -424,6 +457,7 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     attackFace,
     mulligan,
     resetMatch,
+    concede,
     // Extra PvP-only fields (page can ignore; lobby/status may use them).
     mySeat,
     version,

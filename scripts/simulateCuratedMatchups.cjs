@@ -3,7 +3,10 @@ const path = require("path");
 
 const core = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), "src/data/curatedCoreSetV2.json"), "utf8"));
 
-const factions = ["STONE", "IRON", "BRONZE", "SILVER", "GOLD"];
+// Canonical long-form faction enum (matches curatedCoreSetV2.json `faction`
+// values after the on-chain reveal rename). The old short codes ("STONE"...)
+// matched nothing, so draftFactionDeck() returned empty pools and the sim crashed.
+const factions = ["STONE_KEEPERS", "IRON_DEFENDERS", "BRONZE_GUARDIANS", "SILVER_SENTINELS", "GOLDEN_SOVEREIGNS"];
 
 function rng(seed) {
   let x = seed || 123456789;

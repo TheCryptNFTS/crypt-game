@@ -52,7 +52,7 @@ export interface CardOverride {
 }
 
 /** Patch version stamp. A literal string — never a runtime date. */
-export const CARD_OVERRIDES_VERSION = "2026.05.31";
+export const CARD_OVERRIDES_VERSION = "2026.06.02";
 
 /**
  * The live balance patch. Keyed by `cardId`. Only a few illustrative entries
@@ -524,7 +524,23 @@ export const cardOverrides: Record<string, CardOverride> = {
   // rawTraits.Ability is null/empty — the card has no ability spec at all. Same
   // honesty treatment: stay disabled, never fabricate behavior.
   tcg_152: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
-  tcg_1545: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
+  // === COMBAT-DEPTH keyword revival (item #12, 2026.06.01) ===
+  // Three previously soft-banned, ability-less units are REVIVED by giving them a
+  // real, deck-legal ability built on the new chain-reaction keywords (Deathknell /
+  // Deploy). Stats are LEFT UNCHANGED (no balance-report stat shift) and `disabled`
+  // is dropped (they now carry a functional ability, so the honesty soft-ban no
+  // longer applies). None of these ids appear in any curated/default/owned deck or
+  // golden fixture, so reviving them disturbs no existing balance fixture — it only
+  // adds three exercisable keyword carriers. See keywordDescriptions.ts for text.
+  //
+  // tcg_1545 "Bronze 5/3" -> Deathknell 2. A fragile (5/3) trader whose death pings
+  // the strongest enemy — modest, no-burn (enemy units only). 5 attack / 3 health
+  // is below the 5-drop curve, so the on-death ping is a fair rider, not a buff.
+  tcg_1545: {
+    keywords: ["DEATHKNELL"],
+    ability: "Deathknell 2.",
+    note: "Combat-depth revival: was soft-banned (empty ability). Now Deathknell 2 (ON_DEATH DEAL_DAMAGE 2 -> strongest enemy, damageTarget:STRONGEST_ENEMY). Chain primitive. No-burn (enemy units only). Stats unchanged 5/3; deck-legal again.",
+  },
   tcg_1636: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_2020: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_2146: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
@@ -541,9 +557,25 @@ export const cardOverrides: Record<string, CardOverride> = {
   tcg_3974: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_4175: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_4187: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
-  tcg_4210: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
+  // tcg_4210 "Stone 4/3" -> Deathknell 3. A heavier on-death pinger; 4/3 is a soft
+  // 3-drop body, so a 3-damage knell on death is in-line with a 3-cost effect-rider.
+  // Pairs with tcg_1545 to demonstrate a Deathknell -> Deathknell CHAIN.
+  tcg_4210: {
+    keywords: ["DEATHKNELL"],
+    ability: "Deathknell 3.",
+    note: "Combat-depth revival: was soft-banned (empty ability). Now Deathknell 3 (ON_DEATH DEAL_DAMAGE 3 -> strongest enemy). Chain primitive; a 3-dmg knell can kill another Deathknell unit and chain its ON_DEATH (bounded by DRAIN_ITERATION_CAP). No-burn. Stats unchanged 4/3; deck-legal again.",
+  },
   tcg_426: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
-  tcg_4371: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
+  // tcg_4371 "Iron 2/4 Armored" -> Deploy 2. A defensive Iron body whose Deploy
+  // (battlecry) pings the strongest enemy on play. Low attack (2) keeps it a
+  // value/control card, not aggro; Armored is retained (summon-hook, composes
+  // cleanly). A Deploy ping can kill a wounded Deathknell unit and start a chain
+  // through the SAME ON_SUMMON -> resolveDeaths path.
+  tcg_4371: {
+    keywords: ["DEPLOY", "ARMORED"],
+    ability: "Armored. Deploy 2.",
+    note: "Combat-depth revival: was soft-banned (empty ability). Now Armored + Deploy 2 (ON_SUMMON DEAL_DAMAGE 2 -> strongest enemy). Deploy can start a chain by killing a wounded Deathknell unit. No-burn (enemy units only). Stats unchanged 2/4; deck-legal again.",
+  },
   tcg_4397: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_4711: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_4924: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
@@ -559,6 +591,119 @@ export const cardOverrides: Record<string, CardOverride> = {
   tcg_741: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_772: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
   tcg_914: { disabled: true, note: "Soft-ban: null/empty ability text — no spec to compile; kept inert per honesty rule." },
+
+  // === SOFT-BAN: ability present but compiles to NO live op AND no functional keyword (2026.05.31) ===
+  // Same honesty rule as the 36 blank-ability bans above, applied to the cards
+  // whose Ability TEXT exists but yields zero real op when compiled
+  // (compileAbility().specs is empty — only UNKNOWN/GLOBAL_UNPARSED/KEYWORD_WIRED
+  // classifications) AND that carry no functional keyword in the live engine
+  // keyword set (GUARD/RUSH/CRUSH/FLYING/RANGED/WARD/DIVINE_SHIELD/SHIELD/WINDFURY/
+  // LIFESTEAL/STEALTH/ARMORED/DEATHRATTLE/REGROW/EXECUTE/SCRY/MYTHIC/COMMAND/
+  // QUICKSTEP/RELIC/RITUAL/FEAR/OATH). With the live engine keyword wiring, exactly
+  // ONE non-blank unit meets this bar (the other 23 measured dead units are already
+  // covered by the null/empty-ability bans above), so the full dead set is inert.
+  // tcg_3375 "Darius": "On play: both players reveal top 3. Units ≥5 cost return
+  // to deck; others destroyed." — bespoke long-tail text the compiler leaves as
+  // UNKNOWN (no live op) with no functional keyword; kept inert, never fabricated.
+  tcg_3375: { disabled: true, note: "Soft-ban: ability text present but compiles to no live op (UNKNOWN) and carries no functional keyword — deck-illegal, kept inert per honesty rule." },
+
+  // === EXPANDED-POOL ARCHETYPE SEEDS: Tier-3 keywords on newly-curated units (2026.06.01) ===
+  // The curated core set was expanded from ~98 to ~231 cards (buildCuratedCoreSetV2.cjs
+  // now surfaces ~36 units/faction). To give the larger pool real deathrattle /
+  // battlecry archetypes, five newly-surfaced, on-curve curated units (one per mortal
+  // faction) are retext to the Tier-3 chain keywords DEATHKNELL / DEPLOY, replacing a
+  // vague placeholder ability ("Deathrattle. Trigger effect when this unit is
+  // destroyed." / generic summon/regrow text) with a CONCRETE, wired effect. Each is a
+  // 3-cost ~7-8 / ~8-9 body, so a Deathknell 1 / Deploy 1 rider (1 dmg to the strongest
+  // enemy) is a fair, on-curve addition — not a stat buff (stats are UNCHANGED). None of
+  // these ids appears in any golden/balance fixture, default/owned deck, or the curated
+  // ALPHA gate band (all cost 3, so the cost<=2 ratio gate cannot flag them), and the
+  // outlier sweep reads the unbounded source JSON (not overrides), so all balance gates
+  // are undisturbed. See keywordDescriptions.ts for DEATHKNELL / DEPLOY text.
+
+  // STONE_KEEPERS 7/9 c3 -> Deathknell 1. Was the vague "Deathrattle. Trigger effect..."
+  // placeholder; now a concrete on-death ping. Endurance-wall body that trades up on death.
+  tcg_5157: {
+    keywords: ["DEATHKNELL"],
+    ability: "Deathknell 1.",
+    note: "Expanded-pool archetype seed: vague placeholder Deathrattle -> Deathknell 1 (ON_DEATH DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 7/9 c3. No-burn (enemy units only).",
+  },
+  // SILVER_SENTINELS 8/8 c3 -> Deathknell 1. Tempo body whose death still extracts value.
+  tcg_5648: {
+    keywords: ["DEATHKNELL"],
+    ability: "Deathknell 1.",
+    note: "Expanded-pool archetype seed: vague placeholder Deathrattle -> Deathknell 1 (ON_DEATH DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 8/8 c3. No-burn.",
+  },
+  // IRON_DEFENDERS 6/7 c3 (Flying) -> Flying + Deathknell 1. Keeps its wired Flying; adds an
+  // on-death ping so a fortress trade still chips the strongest attacker.
+  tcg_2073: {
+    keywords: ["FLYING", "DEATHKNELL"],
+    ability: "Flying. Deathknell 1.",
+    note: "Expanded-pool archetype seed: Flying retained + Deathknell 1 (ON_DEATH DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 6/7 c3. No-burn.",
+  },
+  // BRONZE_GUARDIANS 8/9 c3 -> Deploy 1. Bruiser-midrange battlecry: pings the strongest
+  // enemy on play, can soften a blocker or start a Deploy->Deathknell chain.
+  tcg_1135: {
+    keywords: ["DEPLOY"],
+    ability: "Deploy 1.",
+    note: "Expanded-pool archetype seed: generic Regrow text -> Deploy 1 (ON_SUMMON DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 8/9 c3. No-burn.",
+  },
+  // GOLDEN_SOVEREIGNS 7/8 c3 -> Deploy 1. Premium-finisher battlecry opener.
+  tcg_4277: {
+    keywords: ["DEPLOY"],
+    ability: "Deploy 1.",
+    note: "Expanded-pool archetype seed: generic Summon text -> Deploy 1 (ON_SUMMON DEAL_DAMAGE 1 -> strongest enemy). Stats unchanged 7/8 c3. No-burn.",
+  },
+
+  // ==========================================================================
+  // SILVER_SENTINELS faction-balance pass (2026.06.02)
+  // --------------------------------------------------------------------------
+  // WHY: SILVER was the weakest faction in playtest (6.3% non-mirror WR). Root
+  // cause is STRUCTURAL, not stats — SILVER's stat efficiency matches every
+  // faction (2.21), but its cheap curve is built almost entirely from combat-
+  // INERT keywords: WARD (anti-spell only), STEALTH (defensive evasion), SCRY
+  // (deck-smoothing). It carries the LOWEST GUARD density of any faction (30 vs
+  // STONE 445 / IRON 229 / BRONZE 196), so it can neither wall its own nexus nor
+  // trade up — it simply gets ground out. (The faction-identity "Insight/Scry"
+  // payoff is dormant in all live play + the harness, so it offers no offset.)
+  //
+  // FIX: turn the "Sentinels" into actual sentinels. Grant GUARD (real nexus
+  // defence — the exact axis SILVER lacks) to its cheap watchers and bump bodies
+  // a modest +1/+1, while KEEPING each card's existing evasion keyword
+  // (WARD/STEALTH/LIFESTEAL) so the faction's identity reads through. One RUSH
+  // skirmisher (tcg_2371, already Rush) is bumped for tempo flavour. SILVER-only,
+  // no-burn (GUARD/STEALTH/WARD are static, never touch an enemy nexus), and
+  // deterministic. These are the lowest-id cheap units the deck builders field
+  // first, so the curve actually changes in play.
+  // ==========================================================================
+
+  // Calibration: keyword-only GUARD (original stats) left SILVER at 30.2%; a full
+  // +1/+1 on top overshot to 66.7% (top faction, crushed aggro). The shipped buff
+  // is the middle ground — GUARD + a MODEST stat bump: cost-1 chumps gain +0/+1
+  // (stickier walls, same offence) and cost-2 bodies gain +1/+1. Each card keeps
+  // its evasion keyword (WARD/STEALTH/LIFESTEAL) so the identity reads through.
+
+  // -- cost-1 sentinels: add GUARD, +0/+1 (stickier chump walls) --------------
+  tcg_1286: { attack: 2, health: 3, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/2 Ward -> 2/3 Ward+Guard. Nexus-defence body that trades; Ward kept." },
+  tcg_1499: { health: 2, keywords: ["GUARD"], ability: "Guard.", note: "SILVER balance: 1/1 Scry (combat-inert) -> 1/2 Guard. Chump wall on curve." },
+  tcg_1747: { attack: 2, health: 2, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/1 Ward -> 2/2 Ward+Guard." },
+  tcg_2201: { attack: 2, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 1/2 Stealth -> 2/3 Stealth+Guard. Evasive body that trades." },
+  tcg_2371: { keywords: ["RUSH"], ability: "Rush.", note: "SILVER balance: 1/2 Rush kept (tempo skirmisher flavour); no stat change." },
+  tcg_2793: { health: 2, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 1/1 Stealth -> 1/2 Stealth+Guard." },
+  tcg_3145: { health: 2, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 1/1 Stealth -> 1/2 Stealth+Guard." },
+  tcg_3282: { health: 2, keywords: ["LIFESTEAL", "GUARD"], ability: "Lifesteal. Guard.", note: "SILVER balance: 1/1 Lifesteal -> 1/2 Lifesteal+Guard. Sustain chump." },
+  tcg_3294: { attack: 2, health: 3, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/2 Ward -> 2/3 Ward+Guard." },
+  tcg_331: { attack: 2, health: 3, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 1/2 Ward -> 2/3 Ward+Guard." },
+  tcg_464: { health: 2, keywords: ["GUARD"], ability: "Guard.", note: "SILVER balance: 1/1 vague-Deathrattle -> 1/2 Guard (clean static)." },
+  tcg_5557: { health: 2, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 1/1 Stealth -> 1/2 Stealth+Guard." },
+
+  // -- cost-2 sentinels: add GUARD, +1/+1 -------------------------------------
+  tcg_1897: { attack: 3, health: 4, keywords: ["WARD", "GUARD"], ability: "Ward. Guard.", note: "SILVER balance: 2/3 Ward -> 3/4 Ward+Guard." },
+  tcg_1196: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
+  tcg_1471: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
+  tcg_1648: { attack: 3, health: 3, keywords: ["GUARD"], ability: "Guard.", note: "SILVER balance: 2/2 vague-Deathrattle -> 3/3 Guard (clean static)." },
+  tcg_1668: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
+  tcg_188: { attack: 3, health: 3, keywords: ["STEALTH", "GUARD"], ability: "Stealth. Guard.", note: "SILVER balance: 2/2 Stealth -> 3/3 Stealth+Guard." },
 };
 
 /**

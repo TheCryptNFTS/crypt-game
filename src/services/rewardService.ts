@@ -1,5 +1,12 @@
 import { BattleResult, GameAppState, RewardLedgerEntry } from "../domain/types";
 import { applyCardXp, applyCommanderXp } from "./progressionService";
+import {
+  claimServerQuest,
+  fetchMyRanking,
+  fetchQuestsToday,
+  rankLabelForRating,
+  DAILY_LOGIN_QUEST_ID,
+} from "./ladderApi";
 
 function makeLedgerEntry(
   source: RewardLedgerEntry["source"],
@@ -168,6 +175,107 @@ export function applyBattleResult(state: GameAppState, result: BattleResult) {
     )
   );
 
+  return next;
+}
+
+// ---------------------------------------------------------------------------
+// SERVER-AUTHORITATIVE variants. The authoritative server (server/server.ts) is
+// now the source of truth for ranked rating and per-UTC-day quest/login claims,
+// so progress survives across devices and can't be re-opened by clearing
+// localStorage. These async wrappers ask the server FIRST and only apply the
+// local grant when the server confirms the claim was actually performed. When
+// offline / unauthenticated the server call returns null and we transparently
+// fall back to the existing local-only logic, so the prototype still works.
+//
+// HEX-SAFETY: the grants applied here are game-internal XP + soft currency. No
+// path mints or moves real on-chain hex — neither client nor server has one.
+// ---------------------------------------------------------------------------
+
+/**
+ * Pull the caller's authoritative ladder standing and write it into
+ * `profile.rank` (+ accountXp/cryptBalance are NOT overwritten — rating is its
+ * own ledger). Returns the next state; a no-op clone when offline.
+ */
+export async function syncRankFromServer(state: GameAppState): Promise<GameAppState> {
+  const ranking = await fetchMyRanking();
+  if (!ranking) return state;
+  const next = structuredClone(state);
+  const label = rankLabelForRating(ranking.rating);
+  next.profile.rank =
+    ranking.position > 0
+      ? `${label} · #${ranking.position} · ${ranking.rating}`
+      : `${label} · ${ranking.rating}`;
+  return next;
+}
+
+/**
+ * Daily login, server-authoritative. Asks the server to claim the once-per-UTC-
+ * day login bonus; only on a server-confirmed FIRST claim do we apply the local
+ * streak/XP/crypt grant. If the server says it was already claimed today, we
+ * skip the grant (no double-dip across devices). Falls back to the local-only
+ * `claimDailyLogin` when offline.
+ */
+export async function claimDailyLoginServer(state: GameAppState): Promise<GameAppState> {
+  const res = await claimServerQuest(DAILY_LOGIN_QUEST_ID);
+  if (res === null) {
+    // Offline / unauthenticated — preserve prototype behaviour.
+    return claimDailyLogin(state);
+  }
+  if (!res.claimed) {
+    // Server already recorded today's login claim — no local grant.
+    return state;
+  }
+  // Server performed the claim: apply the local-side bookkeeping once.
+  return claimDailyLogin(state);
+}
+
+/**
+ * Claim a daily quest, server-authoritative. The server validates and records
+ * the per-UTC-day claim; we apply the local grant only on a confirmed first
+ * claim. Falls back to local-only `claimQuest` when offline. Weekly quests have
+ * no server claim yet and always go through the local path.
+ */
+export async function claimQuestServer(
+  state: GameAppState,
+  questId: string
+): Promise<GameAppState> {
+  const isDaily = state.dailyQuests.some((q) => q.id === questId);
+  if (!isDaily) {
+    // Weekly (or unknown) — local-only path, unchanged.
+    return claimQuest(state, questId);
+  }
+  const res = await claimServerQuest(questId);
+  if (res === null) {
+    // Offline / unauthenticated — preserve prototype behaviour.
+    return claimQuest(state, questId);
+  }
+  if (!res.claimed) {
+    // Already claimed today on the server — just mark it claimed locally so the
+    // UI reflects authoritative truth, without re-granting XP/crypt.
+    const next = structuredClone(state);
+    const q = next.dailyQuests.find((x) => x.id === questId);
+    if (q) q.claimed = true;
+    return next;
+  }
+  // Server performed the claim — apply the local grant once.
+  return claimQuest(state, questId);
+}
+
+/**
+ * Reconcile the client's daily-quest `claimed` flags with the server's durable
+ * per-UTC-day record on load, so a player who claimed on another device sees
+ * those quests as claimed here too (and can't re-claim). No grants applied.
+ */
+export async function syncQuestClaimsFromServer(
+  state: GameAppState
+): Promise<GameAppState> {
+  const today = await fetchQuestsToday();
+  if (!today) return state;
+  const claimedIds = new Set(today.quests.filter((q) => q.claimed).map((q) => q.id));
+  const next = structuredClone(state);
+  for (const q of next.dailyQuests) {
+    if (claimedIds.has(q.id)) q.claimed = true;
+  }
   return next;
 }
 

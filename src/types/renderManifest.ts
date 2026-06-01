@@ -8,6 +8,8 @@ export type RenderManifestEntry = {
   rarity?: string;
   cost?: number;
   keywords?: string[];
+  /** Human-readable rules text (rawTraits.Ability) — what the card actually does. */
+  ability?: string;
   imageUrl?: string | null;
   animationUrl?: string | null;
   externalUrl?: string | null;

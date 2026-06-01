@@ -175,6 +175,19 @@ export default function PlayableCard({
           ))}
         </div>
       )}
+      {ui.ability && (
+        <p
+          className={[
+            "mt-1.5 border-l border-[color:var(--color-crypt-accent)]/40 pl-1.5 leading-snug text-[color:var(--color-crypt-text)]/85",
+            mode === "modal" ? "text-[11px]" : "text-[9px]",
+          ].join(" ")}
+        >
+          <span aria-hidden className="mr-1 text-[color:var(--color-crypt-accent)]">
+            &#x2B22;
+          </span>
+          {ui.ability}
+        </p>
+      )}
     </div>
   );
 

@@ -164,6 +164,17 @@ export interface EffectSpec {
    *  single hit ("gain +1/+1 for each damage taken up to 3"). When set, the buff
    *  multiplier is min(damageJustTaken, cap). Absent = no cap. */
   cap?: number;
+  /** DEAL_DAMAGE: when a triggered DEAL_DAMAGE has no explicit ctx.target (e.g. an
+   *  ON_DEATH "Deathknell" or ON_SUMMON "Deploy" rider — the trigger fires without
+   *  a hand-picked victim), the resolver auto-selects ONE enemy board unit by this
+   *  deterministic selector instead of no-opping:
+   *   - STRONGEST_ENEMY — the highest-attack enemy unit (tie-break: front-then-back
+   *                       ascending board-scan order, i.e. first-seen). No RNG.
+   *  This is the chain-reaction primitive: a Deathknell hit can kill another
+   *  Deathknell unit, whose ON_DEATH then re-enters the trigger queue (bounded by
+   *  the reducer's DRAIN_ITERATION_CAP). An explicit ctx.target always wins over the
+   *  selector, so targeted spell-style DEAL_DAMAGE is unaffected. */
+  damageTarget?: "STRONGEST_ENEMY";
   /** The source clause this spec was compiled from (for debugging/proofs). */
   raw: string;
 }
@@ -251,6 +262,28 @@ const REGROW_RETURN_RE =
   /\b(?:return|restore|recall)\b[^.]*\b(?:it|this unit)\b[^.]*\bto\s+your\s+hand\b/i;
 const DECAY_RE = /(?:reduce[s]?\s+(?:the\s+target's\s+)?attack\s+by|loses?\s+)(\d+)\s*attack/i;
 const DRAW_RE = /draw\s+(?:a\s+card|(\d+)\s+cards?)/i;
+
+// --- COMBAT-DEPTH keywords (item #12): the chain-reaction primitives -----------
+//
+// DEATHKNELL N  (deathrattle-style): "When this unit dies, deal N damage to the
+//   strongest enemy unit." Emitted as { ON_DEATH, DEAL_DAMAGE, amount:N,
+//   damageTarget:STRONGEST_ENEMY }. This is the core CHAIN primitive — the
+//   ON_DEATH burst can finish another enemy unit, whose own ON_DEATH then re-enters
+//   the reducer's trigger queue (bounded by DRAIN_ITERATION_CAP), so "X dies ->
+//   damages Y -> Y dies -> its Deathknell fires" resolves in ONE action, FIFO,
+//   identically on every replay.
+//
+// DEPLOY N  (battlecry-style): "When this unit is played, deal N damage to the
+//   strongest enemy unit." Emitted as { ON_SUMMON, DEAL_DAMAGE, amount:N,
+//   damageTarget:STRONGEST_ENEMY }. A Deploy hit can kill a Deathknell unit and
+//   start a chain through the SAME queue, reusing the existing ON_SUMMON wiring.
+//
+// Both are NO-BURN: the selector targets enemy BOARD units only, never the nexus.
+// The magnitude is the explicit number after the keyword; absent -> default 1.
+const DEATHKNELL_RE = /\bdeathknell(?:\s+(\d+))?\b/i;
+const DEPLOY_RE = /\bdeploy(?:\s+(\d+))?\b/i;
+const DEATHKNELL_DEPLOY_DEFAULT = 1;
+
 // On-death trigger phrasing. Covers the natural-language variants the corpus
 // actually uses: "When/Whenever this unit dies/is destroyed/falls", "When/If it
 // dies/is destroyed", "If destroyed/defeated/killed", and "Upon/On death". The
@@ -1388,6 +1421,41 @@ export function compileAbility(ability: string | null | undefined): CompiledAbil
       classified.push(body);
       // The on-death summon fully accounts for an otherwise-UNKNOWN clause that
       // had no leading keyword (e.g. "When this unit dies, summon a 1/1 X").
+      for (let i = classified.length - 2; i >= 0; i -= 1) {
+        if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+      }
+    }
+  }
+
+  // 5d/6d. COMBAT-DEPTH riders (item #12): DEATHKNELL (death-triggered) and DEPLOY
+  //   (deploy-triggered) auto-targeted bursts. Both are leading-keyword reminders
+  //   that compile to a self-selecting DEAL_DAMAGE — the chain-reaction primitive.
+  //   They ride independently of firstKeyword so they compose with a co-printed
+  //   wired keyword (e.g. "Guard. Deathknell 3."), and they retire any trailing
+  //   UNKNOWN they fully account for. Each is emitted at most once.
+  {
+    const dk = text.match(DEATHKNELL_RE);
+    if (dk && !classified.some((s) => s.trigger === "ON_DEATH" && s.op === "DEAL_DAMAGE")) {
+      classified.push({
+        trigger: "ON_DEATH",
+        op: "DEAL_DAMAGE",
+        amount: dk[1] !== undefined ? +dk[1] : DEATHKNELL_DEPLOY_DEFAULT,
+        damageTarget: "STRONGEST_ENEMY",
+        raw: text,
+      });
+      for (let i = classified.length - 2; i >= 0; i -= 1) {
+        if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
+      }
+    }
+    const dep = text.match(DEPLOY_RE);
+    if (dep && !classified.some((s) => s.trigger === "ON_SUMMON" && s.op === "DEAL_DAMAGE")) {
+      classified.push({
+        trigger: "ON_SUMMON",
+        op: "DEAL_DAMAGE",
+        amount: dep[1] !== undefined ? +dep[1] : DEATHKNELL_DEPLOY_DEFAULT,
+        damageTarget: "STRONGEST_ENEMY",
+        raw: text,
+      });
       for (let i = classified.length - 2; i >= 0; i -= 1) {
         if (classified[i].op === "UNKNOWN") classified.splice(i, 1);
       }

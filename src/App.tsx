@@ -1,6 +1,6 @@
-import React from "react";
-import AppShell from "./app-shell/AppShell";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router";
 
 export default function App() {
-  return <AppShell />;
+  return <RouterProvider router={router} />;
 }

@@ -109,6 +109,36 @@ function alliedUnits(state: MatchState, controller: PlayerId): UnitInPlay[] {
   return [...(b?.front ?? []), ...(b?.back ?? [])];
 }
 
+/** Deterministically pick ONE enemy board unit for a self-targeting triggered
+ *  DEAL_DAMAGE (DEATHKNELL / DEPLOY). No RNG — the choice depends only on state:
+ *
+ *   STRONGEST_ENEMY — the LIVING enemy unit with the highest `attack`. Ties break
+ *                     by the canonical front-then-back ascending board-scan order
+ *                     (first-seen), the same stable order used everywhere else in
+ *                     the engine. Already-dead corpses (health <= 0, e.g. a unit
+ *                     killed earlier in the same chain that has not yet been reaped)
+ *                     are skipped so a burst never "wastes" on a corpse mid-chain.
+ *
+ *  Returns undefined when the enemy board is empty (or all corpses) — a clean
+ *  no-op, identical on every replay. */
+function selectDamageTarget(
+  ctx: EffectContext,
+  selector: NonNullable<EffectSpec["damageTarget"]>
+): UnitInPlay | undefined {
+  const enemy: PlayerId = ctx.controller === "P1" ? "P2" : "P1";
+  const foes = alliedUnits(ctx.state, enemy).filter((u) => (u.health ?? 0) > 0);
+  if (foes.length === 0) return undefined;
+  if (selector === "STRONGEST_ENEMY") {
+    let best = foes[0];
+    for (const u of foes) {
+      // Strictly-greater keeps the FIRST-seen unit on a tie (board-scan order).
+      if ((u.attack ?? 0) > (best.attack ?? 0)) best = u;
+    }
+    return best;
+  }
+  return undefined;
+}
+
 function mintToken(ctx: EffectContext, spec: EffectSpec): UnitInPlay | undefined {
   const { state, controller } = ctx;
   const lane: Lane = ctx.lane ?? ctx.source?.lane ?? "front";
@@ -340,8 +370,14 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
   switch (spec.op) {
     case "DEAL_DAMAGE": {
       // `self` ops (end-of-turn decay) target the source unit; otherwise an
-      // explicit target must be supplied by the caller.
-      const tgt = spec.self ? ctx.source : ctx.target;
+      // explicit target must be supplied by the caller. When the spec carries a
+      // `damageTarget` selector AND no explicit target was passed (a triggered
+      // DEATHKNELL/DEPLOY burst, which fires with no hand-picked victim), the
+      // resolver auto-selects ONE enemy board unit deterministically. An explicit
+      // ctx.target always wins, so targeted spell-style DEAL_DAMAGE is unchanged.
+      const tgt = spec.self
+        ? ctx.source
+        : ctx.target ?? (spec.damageTarget ? selectDamageTarget(ctx, spec.damageTarget) : undefined);
       if (tgt) damageUnit(tgt, spec.amount ?? 0);
       break;
     }

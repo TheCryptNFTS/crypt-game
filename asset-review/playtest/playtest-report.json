@@ -1,0 +1,660 @@
+{
+  "meta": {
+    "generatedAt": "2026-06-01T16:28:40.314Z",
+    "tool": "dev:playtest (runPlaytestReport.ts)",
+    "readOnly": true,
+    "matches": 300,
+    "maxTurns": 60,
+    "deckSize": 30,
+    "openingHand": 6,
+    "poolPlayableCards": 4129,
+    "poolTotalCards": 4178,
+    "factionsTested": [
+      "STONE",
+      "IRON",
+      "BRONZE",
+      "SILVER",
+      "GOLD"
+    ],
+    "baseline": true,
+    "note": "BASELINE on the pool present at run time. A parallel agent is expanding the card pool; re-run `npm run dev:playtest` after that lands to refresh every metric."
+  },
+  "matchLength": {
+    "avgTurns": 17.38,
+    "medianTurns": 16,
+    "p90Turns": 26,
+    "minTurns": 7,
+    "maxTurns": 50,
+    "turnCapHits": 0,
+    "turnCapHitPct": 0
+  },
+  "firstPlayer": {
+    "decidedGames": 300,
+    "firstPlayerWins": 151,
+    "firstPlayerWinRate": 50.3
+  },
+  "factionBalance": [
+    {
+      "faction": "STONE_KEEPERS",
+      "label": "STONE",
+      "games": 96,
+      "wins": 59,
+      "winRate": 61.5
+    },
+    {
+      "faction": "GOLDEN_SOVEREIGNS",
+      "label": "GOLD",
+      "games": 96,
+      "wins": 58,
+      "winRate": 60.4
+    },
+    {
+      "faction": "SILVER_SENTINELS",
+      "label": "SILVER",
+      "games": 96,
+      "wins": 50,
+      "winRate": 52.1
+    },
+    {
+      "faction": "IRON_DEFENDERS",
+      "label": "IRON",
+      "games": 96,
+      "wins": 37,
+      "winRate": 38.5
+    },
+    {
+      "faction": "BRONZE_GUARDIANS",
+      "label": "BRONZE",
+      "games": 96,
+      "wins": 36,
+      "winRate": 37.5
+    }
+  ],
+  "mirrorGames": 60,
+  "decisiveness": {
+    "nexusKill": 299,
+    "nexusKillPct": 99.7,
+    "deckOut": 1,
+    "deckOutPct": 0.3,
+    "timeoutStalemate": 0,
+    "timeoutPct": 0
+  },
+  "tempo": {
+    "avgEnergyAvailablePerTurn": 7.24,
+    "avgEnergySpentPerTurn": 2.18,
+    "energyUtilizationPct": 30.2,
+    "stuckTurnPct": 1.4
+  },
+  "keywords": {
+    "pool": {
+      "deathknellCards": 5,
+      "deployCards": 3,
+      "deathknellPoolPct": 0.1,
+      "deployPoolPct": 0.1
+    },
+    "triggers": {
+      "deployTriggers": 146,
+      "deathknellTriggers": 116,
+      "deployTriggersPerMatch": 0.49,
+      "deathknellTriggersPerMatch": 0.39
+    },
+    "deckPerformance": {
+      "deathknellCarrier": {
+        "games": 96,
+        "wins": 38,
+        "winRate": 39.6
+      },
+      "deployCarrier": {
+        "games": 144,
+        "wins": 59,
+        "winRate": 41
+      }
+    },
+    "maxCascadeDeathsInOneAction": 4
+  },
+  "cardPerformance": {
+    "distinctCardsPlayed": 90,
+    "topCardsByAppearance": [
+      {
+        "id": "tcg_100",
+        "name": "Herald of the Gilded Oath",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "appearances": 84,
+        "appearanceRate": 28
+      },
+      {
+        "id": "tcg_5648",
+        "name": "Sentinel of the Judged",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 71,
+        "appearanceRate": 23.7
+      },
+      {
+        "id": "tcg_3294",
+        "name": "Echo of the Shrouded",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 68,
+        "appearanceRate": 22.7
+      },
+      {
+        "id": "tcg_1889",
+        "name": "Scales of Stone",
+        "faction": "STONE_KEEPERS",
+        "appearances": 66,
+        "appearanceRate": 22
+      },
+      {
+        "id": "tcg_5624",
+        "name": "Reflection of the Unblinking",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 66,
+        "appearanceRate": 22
+      },
+      {
+        "id": "tcg_3618",
+        "name": "Mask of the Verdant Veil",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 65,
+        "appearanceRate": 21.7
+      },
+      {
+        "id": "tcg_1286",
+        "name": "Watcher of the Veil",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 63,
+        "appearanceRate": 21
+      },
+      {
+        "id": "tcg_4210",
+        "name": "Sentinel of Mournful Winds",
+        "faction": "STONE_KEEPERS",
+        "appearances": 62,
+        "appearanceRate": 20.7
+      },
+      {
+        "id": "tcg_2417",
+        "name": "Emberroot Sentinel",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 62,
+        "appearanceRate": 20.7
+      },
+      {
+        "id": "tcg_5634",
+        "name": "The Shade's Page",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 62,
+        "appearanceRate": 20.7
+      },
+      {
+        "id": "tcg_1499",
+        "name": "Watcher of the Veil",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 62,
+        "appearanceRate": 20.7
+      },
+      {
+        "id": "tcg_3282",
+        "name": "Watcher of the Waning Light",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 62,
+        "appearanceRate": 20.7
+      },
+      {
+        "id": "tcg_1691",
+        "name": "Warden of Erosion",
+        "faction": "STONE_KEEPERS",
+        "appearances": 61,
+        "appearanceRate": 20.3
+      },
+      {
+        "id": "tcg_2815",
+        "name": "Warden of Verdant Oaths",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 61,
+        "appearanceRate": 20.3
+      },
+      {
+        "id": "tcg_1545",
+        "name": "Keeper of the Verdant Oath",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 61,
+        "appearanceRate": 20.3
+      },
+      {
+        "id": "tcg_3620",
+        "name": "Guardian of the Old Grove",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 60,
+        "appearanceRate": 20
+      },
+      {
+        "id": "tcg_271",
+        "name": "Scion of Shattered Skies",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "appearances": 60,
+        "appearanceRate": 20
+      },
+      {
+        "id": "tcg_5652",
+        "name": "Eminence of the Ashen Veil",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "appearances": 60,
+        "appearanceRate": 20
+      },
+      {
+        "id": "tcg_1135",
+        "name": "Ledger Keeper of Roots",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 60,
+        "appearanceRate": 20
+      },
+      {
+        "id": "tcg_1476",
+        "name": "Watcher of the Dying Flame",
+        "faction": "STONE_KEEPERS",
+        "appearances": 59,
+        "appearanceRate": 19.7
+      },
+      {
+        "id": "tcg_139",
+        "name": "Stoneward's Silent Watcher",
+        "faction": "STONE_KEEPERS",
+        "appearances": 59,
+        "appearanceRate": 19.7
+      },
+      {
+        "id": "tcg_1532",
+        "name": "Verdant Sentinel's Watch",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 59,
+        "appearanceRate": 19.7
+      },
+      {
+        "id": "tcg_464",
+        "name": "Watcher of the Veiled Truth",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 59,
+        "appearanceRate": 19.7
+      },
+      {
+        "id": "tcg_1713",
+        "name": "Warden of Silent Stones",
+        "faction": "STONE_KEEPERS",
+        "appearances": 58,
+        "appearanceRate": 19.3
+      },
+      {
+        "id": "tcg_1486",
+        "name": "Warden of the Silent Watch",
+        "faction": "STONE_KEEPERS",
+        "appearances": 58,
+        "appearanceRate": 19.3
+      }
+    ],
+    "deadCards": [
+      {
+        "id": "tcg_1055",
+        "name": "Scale of Silent Judgement",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1066",
+        "name": "Mantle of the Silent Vale",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1074",
+        "name": "Echoes of Stone",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1151",
+        "name": "Cloak of Erosion",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1170",
+        "name": "Cairn of Eternal Breath",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1207",
+        "name": "Glimmering Stone Ward",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1392",
+        "name": "Shard of Silent Balance",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_142",
+        "name": "Crown of Endless Patience",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1453",
+        "name": "Scales of Eternal Vigilance",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1466",
+        "name": "Erosion's Embrace",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_3492",
+        "name": "Frostbound Grimoire",
+        "faction": "STONE_KEEPERS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_3536",
+        "name": "Epitaph of the Ancients",
+        "faction": "STONE_KEEPERS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_1096",
+        "name": "Emberlit Shield",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1097",
+        "name": "Warding of the Rustforge",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1145",
+        "name": "Emberforge Shield",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1147",
+        "name": "Aegis of Stalwart Resolve",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1186",
+        "name": "Emberforged Chestplate",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1257",
+        "name": "Worn Vigil's Embrace",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1373",
+        "name": "Sonic Hammer of Valor",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1386",
+        "name": "Eternal Sentinel's Brand",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1406",
+        "name": "Unyielding Grasp",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1480",
+        "name": "Armor of the Vigilant",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_4006",
+        "name": "Defender's Resonance Stone",
+        "faction": "IRON_DEFENDERS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_4495",
+        "name": "Horn of Forgotten Oaths",
+        "faction": "IRON_DEFENDERS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_130",
+        "name": "The Breath of Roots",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1313",
+        "name": "Emblem of Verdant Vigil",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_141",
+        "name": "Emblem of Verdant Balance",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1436",
+        "name": "Emblem of Eternal Boughs",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1454",
+        "name": "Crown of Verdant Vows",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1649",
+        "name": "Crest of Verdant Oath",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1833",
+        "name": "Verdant Oathkeeper",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1884",
+        "name": "Emblem of Ancient Vows",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_2109",
+        "name": "Sovereign's Embrace",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_2110",
+        "name": "Verdant Judge's Embrace",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_3852",
+        "name": "Relic of the Verdant Oath",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_4240",
+        "name": "Verdict of the Grove",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_1079",
+        "name": "Echo of the Eternal Night",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1103",
+        "name": "Blade of the Forgotten Echo",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1544",
+        "name": "Veil of Eternal Gaze",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1568",
+        "name": "Veil of the Fallen",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1770",
+        "name": "Aegis of Eternal Vigil",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1812",
+        "name": "Judgment's Embrace",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_2399",
+        "name": "Lunar Shroud of Vigilance",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_2468",
+        "name": "Veil of the Unblinking",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_25",
+        "name": "Veil of Eternal Vigilance",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_2706",
+        "name": "Veil of Eternal Reflection",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_6449",
+        "name": "Eternal Echo of Judgment",
+        "faction": "SILVER_SENTINELS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_5728",
+        "name": "Gaze of the Silent Watcher",
+        "faction": "SILVER_SENTINELS",
+        "cost": 3
+      },
+      {
+        "id": "tcg_2775",
+        "name": "Regal Aegis of Judgment",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_3949",
+        "name": "Aegis of Radiant Dominion",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_4458",
+        "name": "Crown of Celestial Decree",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_5399",
+        "name": "Gilded Glimmering Blade",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_5673",
+        "name": "Crown of Unyielding Light",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 1
+      },
+      {
+        "id": "tcg_1828",
+        "name": "Crown of the Fallen Storm",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_247",
+        "name": "Sunlit Blade of Dominion",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_2694",
+        "name": "Judgment of the Radiant",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_3688",
+        "name": "Crown of Eternal Light",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_4002",
+        "name": "Wand of Celestial Might",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
+        "id": "tcg_4584",
+        "name": "Judgment of the High Sun",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 5
+      }
+    ]
+  },
+  "flags": [
+    "Faction STONE win-rate out of band: 61.5% (sane ~40-60%).",
+    "Faction GOLD win-rate out of band: 60.4% (sane ~40-60%).",
+    "Faction IRON win-rate out of band: 38.5% (sane ~40-60%).",
+    "Faction BRONZE win-rate out of band: 37.5% (sane ~40-60%).",
+    "59 DEAD card(s) (in a deck but never played).",
+    "DEATHKNELL-carrying decks warp win-rate: 39.6%.",
+    "Chain-reaction cascades terminate: all 300 matches completed; deepest single-action death cascade = 4."
+  ]
+}

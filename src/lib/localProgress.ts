@@ -1,6 +1,12 @@
 /**
- * Closed-alpha / prototype progression — all localStorage.
- * TODO: replace with server ledger when accounts exist.
+ * Closed-alpha / prototype progression — localStorage.
+ *
+ * The authoritative ranked ladder + per-UTC-day daily-quest/login claims now
+ * live SERVER-SIDE (see server/server.ts + src/services/ladderApi.ts). That
+ * server is the source of truth for rating and quest claims. THIS module remains
+ * the OFFLINE FALLBACK device-local cache (and the pre-account onboarding gates
+ * `firstWin`/`tutorialDone`): it is consulted when no session is signed in or
+ * the server is unreachable. It never sources real hex — game-internal only.
  */
 
 const K = {
@@ -10,6 +16,12 @@ const K = {
   lastDailyClaimMs: "crypt.progress.lastDailyClaimMs",
   dailyPackClaims: "crypt.progress.dailyPackClaims",
   lastMatchSummary: "crypt.progress.lastMatchSummary",
+  // New-player onboarding flags. The forced first-time tutorial reads these to
+  // decide whether to coach a brand-new pilot, and the router/nav reads them to
+  // keep advanced surfaces (deck builder, full collection, shop) hidden until a
+  // newcomer has finished the tutorial or banked their first win.
+  tutorialDone: "crypt.progress.tutorialDone",
+  firstWin: "crypt.progress.firstWin",
 } as const;
 
 export const DAILY_PACK_COOLDOWN_MS = 24 * 60 * 60 * 1000;
@@ -28,6 +40,23 @@ function readNum(key: string, fallback: number): number {
 function writeNum(key: string, n: number) {
   try {
     localStorage.setItem(key, String(Math.max(0, Math.floor(n))));
+  } catch {
+    /* ignore */
+  }
+}
+
+function readFlag(key: string): boolean {
+  try {
+    return localStorage.getItem(key) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function writeFlag(key: string, on: boolean) {
+  try {
+    if (on) localStorage.setItem(key, "1");
+    else localStorage.removeItem(key);
   } catch {
     /* ignore */
   }
@@ -68,6 +97,10 @@ export function applyMatchRewards(input: MatchOutcomeInput): MatchRewardBreakdow
   const balance = readNum(K.balance, 0) + cryptDelta;
   const passXp = readNum(K.passXp, 0) + passXpDelta;
   const matchesTotal = readNum(K.matchesTotal, 0) + 1;
+
+  // First win is a one-way onboarding gate: once a newcomer wins a single match
+  // the advanced surfaces unlock even if they skipped/lost the tutorial.
+  if (won) writeFlag(K.firstWin, true);
 
   writeNum(K.balance, balance);
   writeNum(K.passXp, passXp);
@@ -136,6 +169,29 @@ export function claimDailyPack(now = Date.now()): DailyClaimResult {
 
 export function hasCompletedAnyMatch() {
   return readNum(K.matchesTotal, 0) >= 1;
+}
+
+/**
+ * ONBOARDING GATE. A pilot is "onboarded" once they finish the forced first-time
+ * tutorial OR bank their first real win. Until then the router/nav keep the
+ * advanced surfaces (deck builder, full 10k collection, shop) hidden so a brand-
+ * new player only ever sees Play + the tutorial. One-way: never resets itself.
+ */
+export function hasCompletedTutorial() {
+  return readFlag(K.tutorialDone);
+}
+
+export function markTutorialComplete() {
+  writeFlag(K.tutorialDone, true);
+}
+
+export function hasFirstWin() {
+  return readFlag(K.firstWin);
+}
+
+/** True once the newcomer has cleared onboarding by either path. */
+export function isOnboarded() {
+  return hasCompletedTutorial() || hasFirstWin();
 }
 
 export function hasClaimedDailyPackToday(now = Date.now()) {

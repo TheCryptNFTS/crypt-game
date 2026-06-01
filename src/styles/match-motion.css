@@ -286,6 +286,242 @@
   100% { background-position: -40% 0; opacity: 0; }
 }
 
+/* ---- Match-end ceremony (VICTORY / DEFEAT + RANK-UP) --------------------- */
+/* A short full-screen beat surfaced by MatchCeremony when a match resolves.
+ * Punchy by design: one animated beat, then dismiss. Reduced-motion strips the
+ * animation but keeps the (instant) result readable. */
+.mc-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 6, 10, 0.74);
+  backdrop-filter: blur(4px);
+  animation: mm-overlay-fade 280ms ease-out both;
+}
+
+.mc-shell--rankup {
+  background: rgba(6, 5, 12, 0.82);
+}
+
+.mc-panel {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 36px 48px;
+  text-align: center;
+  border-radius: 22px;
+  border: 1px solid rgba(141, 92, 255, 0.24);
+  background: linear-gradient(180deg, rgba(14, 18, 24, 0.96), rgba(9, 12, 18, 0.99));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
+  animation: mm-win-panel 520ms cubic-bezier(0.16, 0.84, 0.3, 1) both;
+}
+
+.mc-panel--win {
+  border-color: rgba(233, 201, 132, 0.4);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 50px rgba(233, 201, 132, 0.18);
+}
+
+.mc-panel--loss {
+  border-color: rgba(120, 130, 150, 0.28);
+}
+
+/* Gold sheen sweep on a victory panel. */
+.mc-panel--win::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 35%, rgba(240, 210, 79, 0.2) 50%, transparent 65%);
+  background-size: 240% 100%;
+  animation: mm-sheen 1500ms ease-out 220ms both;
+}
+
+.mc-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #93a0b5;
+}
+
+.mc-kicker--gold {
+  color: #E9C984;
+}
+
+.mc-title {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  animation: mm-win-title 760ms ease-out both;
+}
+
+.mc-title--win {
+  color: #E9C984;
+  text-shadow: 0 0 30px rgba(233, 201, 132, 0.4);
+}
+
+.mc-title--loss {
+  color: #aab4c4;
+}
+
+/* Animated rating delta chip (+25 / −20). */
+.mc-delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(141, 92, 255, 0.3);
+  background: rgba(141, 92, 255, 0.08);
+  animation: mm-delta-pop 620ms cubic-bezier(0.2, 0.8, 0.2, 1) 180ms both;
+}
+
+.mc-delta__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #93a0b5;
+}
+
+.mc-delta__value {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.mc-delta--up {
+  border-color: rgba(233, 201, 132, 0.42);
+  background: rgba(233, 201, 132, 0.1);
+}
+
+.mc-delta--up .mc-delta__value {
+  color: #E9C984;
+}
+
+.mc-delta--down {
+  border-color: rgba(255, 106, 106, 0.32);
+  background: rgba(255, 106, 106, 0.08);
+}
+
+.mc-delta--down .mc-delta__value {
+  color: #ff9d9d;
+}
+
+@keyframes mm-delta-pop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.85); }
+  60% { opacity: 1; transform: translateY(0) scale(1.08); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* The bigger, distinct rank-up celebration. */
+.mc-panel--rankup {
+  gap: 14px;
+  padding: 44px 56px;
+  border-color: rgba(233, 201, 132, 0.55);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.65), 0 0 70px rgba(233, 201, 132, 0.28);
+  animation: mm-rankup-panel 640ms cubic-bezier(0.16, 0.84, 0.3, 1) both;
+}
+
+.mc-rankup-glyph {
+  font-size: 56px;
+  line-height: 1;
+  color: #E9C984;
+  text-shadow: 0 0 34px rgba(233, 201, 132, 0.6);
+  animation: mm-rankup-glyph 1100ms ease-out both;
+}
+
+.mc-rankup-tier {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #E9C984;
+  text-shadow: 0 0 28px rgba(233, 201, 132, 0.45);
+  animation: mm-win-title 820ms ease-out both;
+}
+
+.mc-rankup-sub {
+  margin: 0;
+  font-size: 14px;
+  color: #c8b9e8;
+}
+
+@keyframes mm-rankup-panel {
+  0% { opacity: 0; transform: translateY(26px) scale(0.9); }
+  55% { opacity: 1; transform: translateY(-6px) scale(1.03); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes mm-rankup-glyph {
+  0% { opacity: 0; transform: scale(0.4) rotate(-12deg); filter: brightness(2); }
+  55% { opacity: 1; transform: scale(1.15) rotate(4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); filter: brightness(1); }
+}
+
+/* ---- Selection affordances: light valid deploy / attack lanes ------------ */
+/* Driven by the current selection (see CryptMatchBoard): a unit card in hand
+ * lights your lanes as "Play here"; a selected attacker lights enemy lanes as
+ * "Attackable". This teaches the deploy/attack loop without trial-and-error. */
+.live-lane--deploy,
+.live-lane--target {
+  position: relative;
+}
+
+.live-lane--deploy {
+  border-color: rgba(141, 92, 255, 0.55) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(141, 92, 255, 0.35) inset,
+    0 0 26px rgba(141, 92, 255, 0.28) !important;
+  animation: mm-lane-deploy 1500ms ease-in-out infinite;
+}
+
+.live-lane--target {
+  border-color: rgba(255, 106, 106, 0.5) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 106, 106, 0.32) inset,
+    0 0 26px rgba(255, 106, 106, 0.26) !important;
+  animation: mm-lane-target 1400ms ease-in-out infinite;
+}
+
+@keyframes mm-lane-deploy {
+  0%, 100% { box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(141, 92, 255, 0.3) inset, 0 0 18px rgba(141, 92, 255, 0.2); }
+  50% { box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(141, 92, 255, 0.5) inset, 0 0 30px rgba(141, 92, 255, 0.34); }
+}
+
+@keyframes mm-lane-target {
+  0%, 100% { box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 106, 106, 0.28) inset, 0 0 18px rgba(255, 106, 106, 0.18); }
+  50% { box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 106, 106, 0.46) inset, 0 0 30px rgba(255, 106, 106, 0.32); }
+}
+
+/* The header call-to-action pill ("▸ Play here" / "▸ Attackable"). */
+.live-lane__hint {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.live-lane--deploy .live-lane__hint {
+  color: #d8c7ff;
+  background: rgba(141, 92, 255, 0.16);
+  border: 1px solid rgba(141, 92, 255, 0.4);
+}
+
+.live-lane--target .live-lane__hint {
+  color: #ffc2c2;
+  background: rgba(255, 106, 106, 0.14);
+  border: 1px solid rgba(255, 106, 106, 0.4);
+}
+
 /* ---- Active-turn pulse on the "Active" pill ------------------------------ */
 .live-topbar__pill--active.mm-your-turn {
   animation: mm-turn-pulse 1600ms ease-in-out infinite;
@@ -294,6 +530,260 @@
 @keyframes mm-turn-pulse {
   0%, 100% { box-shadow: inset 0 0 0 1px rgba(141, 92, 255, 0.14); }
   50% { box-shadow: inset 0 0 0 1px rgba(141, 92, 255, 0.4), 0 0 18px rgba(141, 92, 255, 0.22); }
+}
+
+/* ---- Card-draw drama (item #11) ----------------------------------------- */
+/* A freshly-drawn card slides up from the deck edge with a quick flip + gold
+ * glow, then settles. One beat, legible — not a constant shimmer. The class is
+ * added only while the card is "new" (see CryptMatchBoard draw diff). */
+@keyframes mm-hand-draw {
+  0% {
+    opacity: 0;
+    transform: translateY(26px) rotateX(38deg) scale(0.9);
+    filter: brightness(1.7);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-4px) rotateX(0deg) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg) scale(1);
+    filter: brightness(1);
+  }
+}
+
+.live-hand__item.mm-hand-draw {
+  position: relative;
+  animation: mm-hand-draw 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  transform-origin: bottom center;
+  z-index: 5;
+}
+
+/* A short gold draw-glow ring sweeping out from the new card. */
+.live-hand__item.mm-hand-draw::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 14px;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.55), 0 0 22px rgba(233, 201, 132, 0.35);
+  animation: mm-draw-glow 560ms ease-out both;
+  z-index: 6;
+}
+
+@keyframes mm-draw-glow {
+  0% { opacity: 0.9; transform: scale(0.97); }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+
+/* ---- Extra impact juice (item #12) -------------------------------------- */
+/* Make the existing damage/death beats land with a touch more weight — a
+ * brief white impact flash on the struck card. CSS-only, particle-free, and
+ * short, so the board reads CLEARER (a clear hit), not noisier. */
+.crypt-card--board.mm-damage::after,
+.mm-death-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.6);
+  mix-blend-mode: screen;
+  animation: mm-impact-flash 220ms ease-out both;
+  z-index: 4;
+}
+
+.mm-death-wrap::after {
+  background: rgba(255, 106, 106, 0.55);
+  animation-duration: 300ms;
+}
+
+@keyframes mm-impact-flash {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---- Sound mute toggle ---------------------------------------------------- */
+.live-hand__header-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.live-sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  color: #d8c7ff;
+  background: rgba(141, 92, 255, 0.12);
+  border: 1px solid rgba(141, 92, 255, 0.36);
+  transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.live-sound-toggle:hover {
+  background: rgba(141, 92, 255, 0.2);
+  border-color: rgba(141, 92, 255, 0.55);
+}
+
+.live-sound-toggle__glyph {
+  font-size: 14px;
+}
+
+.live-sound-toggle__state {
+  font-size: 13px;
+  font-weight: 800;
+  opacity: 0.9;
+}
+
+.live-sound-toggle--muted {
+  color: #93a0b5;
+  background: rgba(120, 130, 150, 0.1);
+  border-color: rgba(120, 130, 150, 0.3);
+}
+
+.live-sound-toggle--muted .live-sound-toggle__glyph {
+  opacity: 0.55;
+}
+
+/* The two audio controls (mute + ambient bed) sit together. */
+.live-sound-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Ambient-bed toggle: off = ghosted, on = gold-tinted to read "soundtrack". */
+.live-sound-toggle--ambience {
+  padding: 4px 8px;
+  color: #93a0b5;
+  background: rgba(120, 130, 150, 0.1);
+  border-color: rgba(120, 130, 150, 0.3);
+}
+
+.live-sound-toggle--ambience .live-sound-toggle__glyph {
+  font-size: 15px;
+}
+
+.live-sound-toggle--ambience-on {
+  color: #E9C984;
+  background: rgba(233, 201, 132, 0.12);
+  border-color: rgba(233, 201, 132, 0.45);
+}
+
+/* -------------------------------------------------------------------------- */
+/* VISUAL SPECTACLE: particle canvas + lane anchors + ceremony light rays.
+ * All additive overlays; none intercept pointer events or shift layout. */
+
+/* Full-shell particle overlay. Pinned over the board, never blocks clicks. */
+.live-match-shell {
+  position: relative;
+}
+
+.mm-fx-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 55; /* above board, below turn banner (60) + ceremony (70) */
+}
+
+/* Lane FX wrapper: a transparent grid cell holding one lane + a centered anchor
+ * the canvas aims bursts at. Layout-neutral (same vertical order + grid gap). */
+.mm-lane-fx {
+  position: relative;
+  min-width: 0;
+}
+
+.mm-lane-fx__anchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Ceremony backdrop light rays + halo (behind the panel). */
+.mc-rays {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(233, 201, 132, 0.22), rgba(233, 201, 132, 0) 55%);
+  opacity: 0;
+  animation: mc-rays-in 900ms ease-out 120ms both;
+}
+
+.mc-rays::before {
+  /* Slowly rotating conic "god rays" raking out from the result. */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 160vmax;
+  height: 160vmax;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    from 0deg,
+    rgba(233, 201, 132, 0) 0deg,
+    rgba(233, 201, 132, 0.12) 6deg,
+    rgba(233, 201, 132, 0) 14deg,
+    rgba(233, 201, 132, 0) 30deg,
+    rgba(233, 201, 132, 0.1) 36deg,
+    rgba(233, 201, 132, 0) 44deg,
+    rgba(233, 201, 132, 0) 90deg
+  );
+  opacity: 0.6;
+  animation: mc-rays-spin 22s linear infinite;
+}
+
+.mc-rays--loss {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(141, 92, 255, 0.18), rgba(141, 92, 255, 0) 55%);
+}
+
+.mc-rays--loss::before {
+  background: conic-gradient(
+    from 0deg,
+    rgba(141, 92, 255, 0) 0deg,
+    rgba(141, 92, 255, 0.1) 6deg,
+    rgba(141, 92, 255, 0) 14deg,
+    rgba(141, 92, 255, 0) 30deg,
+    rgba(141, 92, 255, 0.08) 36deg,
+    rgba(141, 92, 255, 0) 44deg,
+    rgba(141, 92, 255, 0) 90deg
+  );
+  opacity: 0.45;
+}
+
+@keyframes mc-rays-in {
+  0% { opacity: 0; transform: scale(0.86); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes mc-rays-spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* On a win, give the title a brighter slam + a held glow pulse. */
+.mc-title--win {
+  animation: mm-win-title 760ms ease-out both, mc-title-glow 2200ms ease-in-out 760ms infinite;
+}
+
+@keyframes mc-title-glow {
+  0%, 100% { text-shadow: 0 0 30px rgba(233, 201, 132, 0.4); }
+  50% { text-shadow: 0 0 46px rgba(233, 201, 132, 0.7), 0 0 12px rgba(255, 255, 255, 0.4); }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -311,15 +801,127 @@
   .live-gameover__panel,
   .live-gameover__title,
   .live-topbar__pill--active.mm-your-turn,
-  .mm-float-dmg {
+  .live-lane--deploy,
+  .live-lane--target,
+  .mm-float-dmg,
+  .mc-shell,
+  .mc-panel,
+  .mc-panel--rankup,
+  .mc-title,
+  .mc-delta,
+  .mc-rankup-tier,
+  .mc-rankup-glyph,
+  .live-hand__item.mm-hand-draw,
+  .mc-rays,
+  .mc-rays::before,
+  .mc-title--win {
     animation: none !important;
   }
 
   .mm-death-wrap { opacity: 0; }
   .mm-float-dmg { display: none; }
+  /* The particle canvas is already a JS no-op under reduced motion; hiding it
+   * here is belt-and-suspenders so no stray pixels ever paint. */
+  .mm-fx-canvas { display: none; }
+  .mc-rays,
   .crypt-card--board.mm-enter::after,
   .crypt-card--board.mm-damage::before,
-  .live-gameover__panel--win::before {
+  .crypt-card--board.mm-damage::after,
+  .mm-death-wrap::after,
+  .live-hand__item.mm-hand-draw::after,
+  .live-gameover__panel--win::before,
+  .mc-rays::before,
+  .mc-panel--win::before {
     display: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* EMOTE BAR (PvP only) — sits unobtrusively in the hand header; bubbles are a
+ * fixed overlay anchored to the screen edges so they never block the play area.
+ * Prefix: .emotebar*. Theme purple #8D5CFF / gold #E9C984. */
+.emotebar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.emotebar__btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  color: #d9d3ef;
+  background: rgba(141, 92, 255, 0.12);
+  border: 1px solid rgba(141, 92, 255, 0.35);
+  border-radius: 7px;
+  padding: 5px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s ease, border-color 0.12s ease, opacity 0.12s ease;
+}
+
+.emotebar__btn:hover:not(:disabled) {
+  background: rgba(141, 92, 255, 0.22);
+  border-color: rgba(141, 92, 255, 0.6);
+  color: #fff;
+}
+
+.emotebar__btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Auto-fading incoming-emote callouts. Fixed overlay, stacked at the bottom
+ * corners so the board stays unobstructed. Mine = right, theirs = left. */
+.emotebar-bubbles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+
+.emotebar-bubble {
+  position: absolute;
+  bottom: 96px;
+  max-width: 60vw;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #1a1530;
+  background: #E9C984;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  animation: emotebar-pop 3200ms ease forwards;
+}
+
+.emotebar-bubble--mine {
+  right: 24px;
+  background: #E9C984;
+}
+
+.emotebar-bubble--theirs {
+  left: 24px;
+  color: #ece8ff;
+  background: #6a4bd6;
+  border-color: rgba(141, 92, 255, 0.6);
+}
+
+@keyframes emotebar-pop {
+  0% { opacity: 0; transform: translateY(8px) scale(0.94); }
+  8% { opacity: 1; transform: translateY(0) scale(1); }
+  82% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-6px) scale(0.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Instant show, no fade/slide — JS still removes bubbles on its timer. */
+  .emotebar-bubble {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
   }
 }

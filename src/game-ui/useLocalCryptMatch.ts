@@ -27,10 +27,25 @@ function findCommander(preferredName: string) {
   return allCommanders.find((c: any) => c.name === preferredName) ?? allCommanders[0];
 }
 
-function makeInitialMatch(ownedCardIds?: string[]) {
+/**
+ * Additive, opt-in config so the new-player TUTORIAL can run the normal local
+ * match but with (a) an explicit fixed starter deck for P1 and (b) a weakened
+ * opponent. Both fields are optional and unused by the default `/match` flow, so
+ * returning-player behavior is byte-identical when no options are passed.
+ */
+export type LocalMatchOptions = {
+  /** Force P1's deck to this exact card-id list (the curated starter deck). */
+  p1Deck?: string[];
+  /** Tutorial easy-mode: start the opponent nexus low so a newcomer can win. */
+  opponentNexusHealth?: number;
+};
+
+function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
   const p1Commander = findCommander("Crypt #6600");
   const p2Commander = allCommanders.find((c: any) => c.traits?.Legendary === "Legendary" && c.id !== p1Commander.id) ?? allCommanders[1] ?? p1Commander;
-  const p1Deck = buildPlayerDeck(ownedCardIds).deck;
+  const p1Deck = options?.p1Deck && options.p1Deck.length > 0
+    ? options.p1Deck
+    : buildPlayerDeck(ownedCardIds).deck;
   const p2Deck = buildPlayerDeck().deck;
 
   // The engine is now seedable/deterministic. Single-player picks a fresh seed
@@ -57,6 +72,12 @@ function makeInitialMatch(ownedCardIds?: string[]) {
 
   match.players.P1.nexusHealth = match.players.P1.nexusHealth ?? 20;
   match.players.P2.nexusHealth = match.players.P2.nexusHealth ?? 20;
+
+  // Tutorial easy-mode: a lower opponent nexus lets a first-time pilot close out
+  // a real game quickly. Only applied when explicitly requested.
+  if (typeof options?.opponentNexusHealth === "number") {
+    match.players.P2.nexusHealth = options.opponentNexusHealth;
+  }
 
   return match;
 }
@@ -113,8 +134,8 @@ function eventToLogText(ev: GameEvent): string | null {
   }
 }
 
-export function useLocalCryptMatch(ownedCardIds?: string[]) {
-  const [match, setMatch] = useState<any>(() => makeInitialMatch(ownedCardIds));
+export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
+  const [match, setMatch] = useState<any>(() => makeInitialMatch(ownedCardIds, options));
   const [selectedHandId, setSelectedHandId] = useState<string | null>(null);
   const [selectedBoardId, setSelectedBoardId] = useState<string | null>(null);
   const [inspectId, setInspectId] = useState<string | null>(null);
@@ -240,7 +261,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[]) {
   };
 
   const resetMatch = () => {
-    setMatch(makeInitialMatch(ownedCardIds));
+    setMatch(makeInitialMatch(ownedCardIds, options));
     setSelectedHandId(null);
     setSelectedBoardId(null);
     setInspectId(null);
@@ -256,7 +277,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[]) {
     const nextKey = (ownedCardIds ?? []).join(",");
     if (nextKey === loadedOwnedKey.current) return;
     loadedOwnedKey.current = nextKey;
-    setMatch(makeInitialMatch(ownedCardIds));
+    setMatch(makeInitialMatch(ownedCardIds, options));
     setSelectedHandId(null);
     setSelectedBoardId(null);
     setInspectId(null);

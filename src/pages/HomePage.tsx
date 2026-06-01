@@ -12,6 +12,14 @@ import {
 } from "../lib/localProgress";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
 import { useRenderManifest } from "../hooks/useRenderManifest";
+import {
+  claimServerQuest,
+  claimStreakReward,
+  fetchQuestsToday,
+  fetchStreakReward,
+  type StreakReward,
+  type TodayQuests,
+} from "../services/ladderApi";
 
 const PASS_TIER_XP = 800;
 
@@ -23,6 +31,8 @@ export default function HomePage() {
   const { commanders, playable, entryById, loading, error, ready } = useRenderManifest();
   const [tick, setTick] = useState(0);
   const [claimMsg, setClaimMsg] = useState<string | null>(null);
+  const [serverQuests, setServerQuests] = useState<TodayQuests | null>(null);
+  const [streak, setStreak] = useState<StreakReward | null>(null);
 
   useEffect(() => {
     const id = window.setInterval(() => setTick((t) => t + 1), 1000);
@@ -32,6 +42,36 @@ export default function HomePage() {
       window.clearInterval(id);
       window.removeEventListener("focus", onFocus);
     };
+  }, []);
+
+  useEffect(() => {
+    let live = true;
+    fetchQuestsToday().then((q) => {
+      if (live) setServerQuests(q);
+    });
+    fetchStreakReward().then((s) => {
+      if (live) setStreak(s);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  const onClaimQuest = useCallback((questId: string) => {
+    claimServerQuest(questId).then((res) => {
+      if (res?.ok) {
+        // Re-pull authoritative quest state after a successful claim.
+        fetchQuestsToday().then(setServerQuests);
+      }
+    });
+  }, []);
+
+  const onClaimStreak = useCallback(() => {
+    claimStreakReward().then((res) => {
+      if (res?.claimed) {
+        fetchStreakReward().then(setStreak);
+      }
+    });
   }, []);
 
   const snap = useMemo(() => getProgressSnapshot(Date.now()), [tick]);
@@ -81,9 +121,7 @@ export default function HomePage() {
               <span className="crypt-home-m-headline-sub"> the archive</span>
             </h1>
             <p className="crypt-home-m-deck">
-              Legends do not stay buried. Sacred commanders and Crypt Digital Trading Cards clash in Cryptopia on one
-              tactical field—gods, monsters, and heroes in play—while duels run on device; ranked seasons and five-faction
-              territory ship with the live vault.
+              Build a deck, lead a commander, and duel on one tactical field. Gods, monsters, and heroes in play.
             </p>
 
             <div className="crypt-home-m-ledger" role="group" aria-label="Field ledger">
@@ -108,7 +146,7 @@ export default function HomePage() {
 
             <Link to="/play" className="crypt-home-m-play">
               <span className="crypt-home-m-play-label">Play</span>
-              <span className="crypt-home-m-play-meta">Build your legend · quick duel</span>
+              <span className="crypt-home-m-play-meta">Jump into a match</span>
             </Link>
 
             <p className="crypt-home-m-more-nav">
@@ -117,24 +155,6 @@ export default function HomePage() {
               </Link>
               <span> — preview only. No cart, no mint claims.</span>
             </p>
-          </div>
-        </section>
-
-        <section className="crypt-home-m-fw" aria-labelledby="crypt-fw-title">
-          <div className="crypt-home-m-fw-inner">
-            <div className="crypt-home-m-fw-copy">
-              <p className="crypt-home-m-fw-kicker">Five factions · reserved</p>
-              <h2 id="crypt-fw-title" className="crypt-home-m-fw-title">
-                Faction conflict
-              </h2>
-              <p className="crypt-home-m-fw-lead">
-                From Mid World dust to Aqualon's deep—the five factions wait on real territory rules. Not a queue yet;
-                this banner seals until live seasons ship.
-              </p>
-            </div>
-            <button type="button" className="crypt-home-m-fw-cta" disabled>
-              War table sealed
-            </button>
           </div>
         </section>
 
@@ -166,20 +186,46 @@ export default function HomePage() {
 
             <div className="crypt-home-m-panel crypt-home-m-panel--quests">
               <span className="crypt-home-m-panel-kicker">Daily rites</span>
-              <ul className="crypt-home-m-questlist">
-                <li className={matchQuestDone ? "is-done" : ""}>
-                  <span className="crypt-home-m-quest-mark" aria-hidden />
-                  Close a duel
-                </li>
-                <li className={dailyQuestDone ? "is-done" : ""}>
-                  <span className="crypt-home-m-quest-mark" aria-hidden />
-                  Open the daily vault
-                </li>
-                <li className="crypt-home-m-questlist-locked">
-                  <span className="crypt-home-m-quest-mark" aria-hidden />
-                  Faction sorties
-                </li>
-              </ul>
+              {serverQuests && serverQuests.quests.length > 0 ? (
+                <ul className="crypt-home-m-questlist">
+                  {serverQuests.quests.map((q) => (
+                    <li key={q.id} className={q.claimed ? "is-done" : ""}>
+                      <span className="crypt-home-m-quest-mark" aria-hidden />
+                      <span className="crypt-rites-quest-title">{q.title}</span>
+                      {q.claimed ? (
+                        <span className="crypt-rites-quest-state">Claimed</span>
+                      ) : (
+                        <button
+                          type="button"
+                          className="crypt-rites-claim-btn"
+                          onClick={() => onClaimQuest(q.id)}
+                        >
+                          Claim +{q.xp} XP
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <ul className="crypt-home-m-questlist">
+                  <li className={matchQuestDone ? "is-done" : ""}>
+                    <span className="crypt-home-m-quest-mark" aria-hidden />
+                    Close a duel
+                  </li>
+                  <li className={dailyQuestDone ? "is-done" : ""}>
+                    <span className="crypt-home-m-quest-mark" aria-hidden />
+                    Open the daily vault
+                  </li>
+                </ul>
+              )}
+              {streak && streak.claimable && (
+                <div className="crypt-rites-streak">
+                  <span className="crypt-rites-streak-label">⬡ STREAK {streak.streak}</span>
+                  <button type="button" className="crypt-rites-claim-btn" onClick={onClaimStreak}>
+                    Claim +{streak.amount} $CRYPT
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="crypt-home-m-panel crypt-home-m-panel--season">
