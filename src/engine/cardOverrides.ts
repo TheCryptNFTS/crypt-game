@@ -848,6 +848,46 @@ export const cardOverrides: Record<string, CardOverride> = {
   tcg_5644: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 3/2 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
   tcg_2662: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 3/2 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
   tcg_391: { attack: 1, health: 2, note: "Balance: over-statted Grade-60 common (stat-sum z=2.2, dis=-2.07 vs peers); 3/2 -> 1/2, trimmed inflated stat toward class peer line 4 (stat-z -> 0.37)." },
+
+  // ===========================================================================
+  // BALANCE PASS v2 — full-surface Grade-anchored sweep (2026-06-01).
+  //
+  // v1 (above) tuned 68 over-statted COMMONS. v2 extends coverage to ALL bands &
+  // factions via runGradeOutlierReport.ts (|z|>2 within faction×rarity×cost-band).
+  //
+  // Method recap for this block: a card is auto-nerfed ONLY when its ON-BOARD
+  // stat-sum z is genuinely positive (real inflation to trim) — not merely when its
+  // authored Grade z is low. Cards flagged purely by a LOW Grade but sitting AT/below
+  // their peer stat line (stat-z <= ~0) are UNDER-GRADED, not over-statted: there is
+  // no inflated stat to shave without breaching the floor, so they are intentionally
+  // left untouched. We also SKIP, by design:
+  //   - 0/0 and "+X Attack / +Y Health / Grants ..." EQUIPMENT/relic cards: their
+  //     power lives in TEXT, so a low printed stat line is a false positive.
+  //   - any id that already carries an override (purely additive pass).
+  //   - PREMIER cards (MYTHIC / LEGENDARY / 1-of-1s): flagged in the report, NOT
+  //     auto-tuned — see the "FLAGGED, NOT TOUCHED" notes at the end of this block.
+  //
+  // After this sweep the ONLY genuinely over-statted (stat-z>2) real minion in the
+  // whole 4129-card surface that lacked an override was tcg_5739; it is patched here.
+  // ---------------------------------------------------------------------------
+
+  // --- EPIC body nerf: the lone over-statted non-equipment minion left un-tuned ---
+  tcg_5739: {
+    attack: 4,
+    health: 4,
+    note: "Balance v2: over-statted Silver Sentinels EPIC 3-4 Deathrattle (stat-sum z=+2.12, dis=-2.12 vs class peer line 7.6). 5/5 -> 4/4, trimmed inflated stat toward peers while staying a premium EPIC above the line (stat-z -> ~+0.86, |dis| now < 2 flag). Cost/keyword/ability untouched.",
+  },
+
+  // --- FLAGGED, NOT TOUCHED (premier — report-only, per extra-conservative rule) ---
+  // The following MYTHIC 10-drops read slightly above their Grade-90 class stat line
+  // but remain within a sane premium-mythic envelope; per the premier-card rule they
+  // are FLAGGED here for human review, NOT auto-nerfed:
+  //   tcg_2207 "Legion of the Scorched"   Iron Defenders MYTHIC 7+  15/12@10  stat-z=+1.49  dis=-2.17
+  //   tcg_3003 "Eternal Watcher of Heights" Stone Keepers MYTHIC 7+ 16/10@10  stat-z=+1.37  dis=-2.25
+  //   tcg_2164 "Eternal Echo of Silence"   Stone Keepers MYTHIC 7+  14/12@10  stat-z=+1.37  dis=-2.25
+  // Several MYTHIC/LEGENDARY cards also flag UNDER-statted (e.g. tcg_2949 "The Dragon
+  // Master" 4/6@7 G100, dis=+3.80) but carry heavy on-play text (summons/copies); their
+  // low stat line is intentional, so they are likewise left for human review, not buffed.
 };
 
 /**
