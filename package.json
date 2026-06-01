@@ -22,6 +22,8 @@
     "dev:regression": "tsx src/dev/runRegressionSuite.ts",
     "dev:determinism": "tsx src/dev/runDeterminismProof.ts",
     "dev:reducer-equivalence": "tsx src/dev/runReducerEquivalenceProof.ts",
+    "dev:enrichment": "CRYPT_ENRICHMENT=1 tsx src/dev/runEnrichmentReport.ts",
+    "dev:enrichment-proof": "tsx src/dev/runEnrichmentProof.ts",
     "dev:commander": "tsx src/dev/runCommanderPassiveProof.ts",
     "dev:card-outlier-sweep": "tsx src/dev/runCardOutlierSweep.ts",
     "dev:deck-legal-spells": "tsx src/dev/runDeckLegalSpellsProof.ts",
