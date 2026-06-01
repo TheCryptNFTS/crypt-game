@@ -34,10 +34,14 @@
  *     fields (faction + keyword priority). No RNG, no clock, no board state — so
  *     two builds of the same catalog produce identical enrichment.
  *
- * VERTICAL SLICE (this drop): the generator is GENERAL, but the catalog seam in
- * cards.ts applies it ONLY to STONE KEEPERS vanilla commons — the largest faction
- * — as a demonstrable slice. Other factions are intentionally left un-enriched
- * for human review before the flag is widened.
+ * ROLLOUT (this drop): the generator now maps ALL SIX factions, each with a
+ * DISTINCT thematic enrichment table (same per-keyword priority structure, same
+ * 1-stat-point cap, same vanilla-only / units-only discipline). The master flag is
+ * now DEFAULT ON, so enrichment is the live baseline (the env override
+ * `CRYPT_ENRICHMENT=0` still cleanly disables it for an isolation run). Note:
+ * GOLDEN_SOVEREIGNS and GODS ship with ZERO commons in the current catalog, so
+ * their tables are defined for completeness/forward-compat but enrich nothing
+ * today — a fact the report surfaces.
  */
 
 import type { EffectSpec } from "./abilityCompiler";
@@ -45,16 +49,31 @@ import { compileAbility } from "./abilityCompiler";
 import type { Faction } from "../types/faction";
 
 /**
- * MASTER FLAG. Default OFF so live play is unchanged. A report/proof run may flip
- * it via `CRYPT_ENRICHMENT=1` in the environment (read once at module load — the
- * catalog is built once, so this is a build-time switch, not a per-action one).
+ * MASTER FLAG. Default ON — enrichment is the live baseline now that the rollout
+ * is owner-approved. The env override still works BOTH ways (read once at module
+ * load, a build-time switch since the catalog is built once):
+ *   - `CRYPT_ENRICHMENT=0` (or "false"/"off") force-DISABLES — the isolation run
+ *     that pins the reducer-equivalence golden's flag-OFF byte-identity.
+ *   - `CRYPT_ENRICHMENT=1` (or anything else / unset) leaves it ON.
  */
-export const ENABLE_ENRICHMENT: boolean =
-  String(process.env.CRYPT_ENRICHMENT ?? "").trim() === "1";
+export const ENABLE_ENRICHMENT: boolean = (() => {
+  const v = String(process.env.CRYPT_ENRICHMENT ?? "").trim().toLowerCase();
+  if (v === "0" || v === "false" || v === "off" || v === "no") return false;
+  return true;
+})();
 
-/** The factions this slice is allowed to enrich. Stone Keepers only, for now. */
+/**
+ * The factions this layer enriches. ALL SIX now — each carries a distinct
+ * thematic table in `enrichmentSpecsFor`. (Golden Sovereigns / Gods currently have
+ * no commons, so their entries here are forward-compat; they match nothing today.)
+ */
 export const ENRICHMENT_FACTIONS: ReadonlySet<Faction> = new Set<Faction>([
   "STONE_KEEPERS",
+  "IRON_DEFENDERS",
+  "BRONZE_GUARDIANS",
+  "SILVER_SENTINELS",
+  "GOLDEN_SOVEREIGNS",
+  "GODS",
 ]);
 
 /** Minimal read-only view of a card this layer needs. Matches PlayableCard. */
@@ -109,114 +128,165 @@ export function gradeOf(card: EnrichableCard): number {
 }
 
 /**
- * DESIGN MAPPING — Stone Keepers' identity is BEDROCK / ENDURANCE / "we outlast".
- * Each vanilla common earns exactly ONE minor, on-theme interaction, chosen by a
- * fixed keyword PRIORITY so the derivation is deterministic and every card gets a
- * single enrichment (no stacking). Power is deliberately tiny (one +1 / a 0/1
- * token), well under the Grade-50-60 class peer.
+ * DESIGN MAPPING — every faction has a DISTINCT thematic table, but they all share
+ * the SAME machinery: a vanilla common earns exactly ONE minor, on-theme
+ * interaction chosen by a fixed keyword PRIORITY (deterministic, single enrichment
+ * per card, no stacking). Every branch emits ONE unit of value (a single +1 stat,
+ * a 0/1 token, one self-heal-1, or one minor keyword grant) — strictly below the
+ * Grade-50-60 class peer. All effects are own-side; none touches an enemy nexus
+ * (no burn). Only ops the reducer ALREADY executes are used:
+ *   - ON_SUMMON / ON_ATTACK BUFF_SELF              (effectResolver)
+ *   - ON_TURN_START BUFF_IF_UNDAMAGED              (effectResolver)
+ *   - ON_TURN_END HEAL self                        (effectResolver)
+ *   - ON_DEATH SUMMON_TOKEN                        (effectResolver)
+ *   - PASSIVE AURA_KEYWORD (one-shot shield / keyword grant via recomputeAuras)
  *
- * priority  keyword present   theme                         enrichment
- * --------  ----------------  ----------------------------  ----------------------------------
- *    1      DEATHRATTLE       "rubble remains"              ON_DEATH  SUMMON_TOKEN 0/1 "Rubble"
- *    2      WARD / PATIENT    "eroded but enduring"         ON_TURN_START BUFF_IF_UNDAMAGED +0/+1
- *    3      REGROW            "the stone reknits"           ON_TURN_END  HEAL self +1
- *    4      LIFESTEAL         "drains the quarry"           ON_SUMMON  BUFF_SELF +1/+0
- *    5      GUARD / ARMORED   "the wall holds"              ON_SUMMON  BUFF_SELF +0/+1
- *    6      (any other kw)    "sturdy footing"              ON_SUMMON  BUFF_SELF +0/+1
+ * STONE KEEPERS — BEDROCK / ENDURANCE ("we outlast"):
+ *   1 DEATHRATTLE   ON_DEATH SUMMON_TOKEN 0/1 "Rubble"        (rubble remains)
+ *   2 WARD|PATIENT  ON_TURN_START BUFF_IF_UNDAMAGED +0/+1     (eroded but enduring)
+ *   3 REGROW        ON_TURN_END HEAL self +1                  (the stone reknits)
+ *   4 LIFESTEAL     ON_SUMMON BUFF_SELF +1/+0                 (drains the quarry)
+ *   5 *             ON_SUMMON BUFF_SELF +0/+1                 (the wall holds)
  *
- * Notes:
- *  - DEATHRATTLE cards already fire ON_DEATH in the reducer; adding a 0/1 token
- *    body is the smallest possible "death leaves something behind" — pure board
- *    presence, no burn.
- *  - WARD/PATIENT (already a durability identity) grows ONLY on undamaged turns:
- *    a slow, conditional +0/+1 that rewards keeping the wall intact.
- *  - All BUFF_SELF / HEAL are own-side and never touch an enemy nexus (no-burn).
+ * IRON DEFENDERS — ARMOR / GUARD RESILIENCE ("the line holds"):
+ *   1 DEATHRATTLE   ON_DEATH SUMMON_TOKEN 0/1 "Scrap"         (broken plate remains)
+ *   2 GUARD|ARMORED ON_SUMMON BUFF_SELF +0/+1                 (reinforced plating)
+ *   3 WARD          ON_TURN_START BUFF_IF_UNDAMAGED +0/+1     (bulwark, untested holds)
+ *   4 RUSH          ON_ATTACK BUFF_SELF +1/+0                 (charge gathers momentum)
+ *   5 *             ON_SUMMON BUFF_SELF +0/+1                 (drilled discipline)
+ *
+ * BRONZE GUARDIANS — AGGRO / RUSH CHIP ("strike first"):
+ *   1 RUSH          ON_ATTACK BUFF_SELF +1/+0                 (warband momentum)
+ *   2 LIFESTEAL     ON_SUMMON BUFF_SELF +1/+0                 (blooded blade)
+ *   3 REGROW        ON_TURN_END HEAL self +1                  (bronze tempers)
+ *   4 GUARD|ARMORED ON_SUMMON BUFF_SELF +0/+1                 (shield-bearer)
+ *   5 *             ON_SUMMON BUFF_SELF +1/+0                 (eager skirmisher)
+ *
+ * SILVER SENTINELS — VIGILANCE / CONTROL ("nothing passes unseen"):
+ *   1 STEALTH       ON_SUMMON BUFF_SELF +1/+0                 (silent edge)
+ *   2 WARD          PASSIVE AURA_KEYWORD WARD self only       (warded vigil)
+ *   3 SCRY          ON_TURN_START BUFF_IF_UNDAMAGED +0/+1     (watchful, unbroken)
+ *   4 GUARD         ON_SUMMON BUFF_SELF +0/+1                 (sentry stance)
+ *   5 *             ON_SUMMON BUFF_SELF +0/+1                 (standing watch)
+ *
+ * GOLDEN SOVEREIGNS — COMMAND / ROYALTY ("rule, and be reinforced"):
+ *   1 GUARD|ARMORED ON_SUMMON BUFF_SELF +0/+1                 (gilded guard)
+ *   2 LIFESTEAL     ON_SUMMON BUFF_SELF +1/+0                 (sovereign tithe)
+ *   3 WARD          PASSIVE AURA_KEYWORD WARD self only       (crown's aegis)
+ *   4 *             ON_SUMMON BUFF_SELF +0/+1                 (regal bearing)
+ *   (no commons in the current catalog — forward-compat only)
+ *
+ * GODS — MINOR DIVINE ON-SUMMON ("a small blessing"). Conservative; few/no vanilla:
+ *   1 DIVINE_SHIELD PASSIVE AURA_KEYWORD DIVINE_SHIELD self   (rekindled halo)
+ *   2 LIFESTEAL     ON_SUMMON BUFF_SELF +1/+0                 (sacred draught)
+ *   3 *             ON_SUMMON BUFF_SELF +0/+1                 (divine favor)
+ *   (no commons in the current catalog — forward-compat only)
  */
 const RUBBLE_TOKEN = "Rubble";
+const SCRAP_TOKEN = "Scrap";
+
+/** ON_SUMMON BUFF_SELF helper — the most common single-point body buff. */
+function buffSelf(card: EnrichableCard, attack: number, health: number, theme: string, trigger: EffectSpec["trigger"] = "ON_SUMMON"): EffectSpec[] {
+  return [{ trigger, op: "BUFF_SELF", attack, health, raw: `[enrich:${card.id}] ${theme}` }];
+}
+
+/** Stone Keepers table — endurance / bedrock. */
+function enrichStoneKeepers(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  const tag = (raw: string) => `[enrich:${card.id}] ${raw}`;
+  if (kw.has("DEATHRATTLE"))
+    return [{ trigger: "ON_DEATH", op: "SUMMON_TOKEN", attack: 0, health: 1, token: RUBBLE_TOKEN, count: 1, raw: tag("Bedrock: rubble remains — summon a 0/1 Rubble on death.") }];
+  if (kw.has("WARD") || kw.has("PATIENT"))
+    return [{ trigger: "ON_TURN_START", op: "BUFF_IF_UNDAMAGED", attack: 0, health: 1, raw: tag("Bedrock: eroded but enduring — +0/+1 each turn it takes no damage.") }];
+  if (kw.has("REGROW"))
+    return [{ trigger: "ON_TURN_END", op: "HEAL", amount: 1, self: true, raw: tag("Bedrock: the stone reknits — heal 1 to itself at turn end.") }];
+  if (kw.has("LIFESTEAL")) return buffSelf(card, 1, 0, "Bedrock: drains the quarry — enters with +1/+0.");
+  return buffSelf(card, 0, 1, "Bedrock: the wall holds — enters with +0/+1.");
+}
+
+/** Iron Defenders table — armor / guard resilience. */
+function enrichIronDefenders(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  const tag = (raw: string) => `[enrich:${card.id}] ${raw}`;
+  if (kw.has("DEATHRATTLE"))
+    return [{ trigger: "ON_DEATH", op: "SUMMON_TOKEN", attack: 0, health: 1, token: SCRAP_TOKEN, count: 1, raw: tag("Iron: broken plate remains — summon a 0/1 Scrap on death.") }];
+  if (kw.has("GUARD") || kw.has("ARMORED")) return buffSelf(card, 0, 1, "Iron: reinforced plating — enters with +0/+1.");
+  if (kw.has("WARD"))
+    return [{ trigger: "ON_TURN_START", op: "BUFF_IF_UNDAMAGED", attack: 0, health: 1, raw: tag("Iron: the bulwark, untested, holds — +0/+1 on an undamaged turn.") }];
+  if (kw.has("RUSH")) return buffSelf(card, 1, 0, "Iron: the charge gathers momentum — +1/+0 on attack.", "ON_ATTACK");
+  return buffSelf(card, 0, 1, "Iron: drilled discipline — enters with +0/+1.");
+}
+
+/** Bronze Guardians table — aggro / rush chip. */
+function enrichBronzeGuardians(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  const tag = (raw: string) => `[enrich:${card.id}] ${raw}`;
+  if (kw.has("RUSH")) return buffSelf(card, 1, 0, "Bronze: warband momentum — +1/+0 on attack.", "ON_ATTACK");
+  if (kw.has("LIFESTEAL")) return buffSelf(card, 1, 0, "Bronze: blooded blade — enters with +1/+0.");
+  if (kw.has("REGROW"))
+    return [{ trigger: "ON_TURN_END", op: "HEAL", amount: 1, self: true, raw: tag("Bronze: the metal tempers — heal 1 to itself at turn end.") }];
+  if (kw.has("GUARD") || kw.has("ARMORED")) return buffSelf(card, 0, 1, "Bronze: shield-bearer — enters with +0/+1.");
+  return buffSelf(card, 1, 0, "Bronze: eager skirmisher — enters with +1/+0.");
+}
+
+/** Silver Sentinels table — vigilance / control. */
+function enrichSilverSentinels(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  const tag = (raw: string) => `[enrich:${card.id}] ${raw}`;
+  if (kw.has("STEALTH")) return buffSelf(card, 1, 0, "Silver: the silent edge — enters with +1/+0.");
+  if (kw.has("WARD"))
+    return [{ trigger: "PASSIVE", op: "AURA_KEYWORD", keyword: "WARD", includeSelf: true, raw: tag("Silver: warded vigil — a one-shot ward shields itself.") }];
+  if (kw.has("SCRY"))
+    return [{ trigger: "ON_TURN_START", op: "BUFF_IF_UNDAMAGED", attack: 0, health: 1, raw: tag("Silver: watchful, unbroken — +0/+1 on an undamaged turn.") }];
+  if (kw.has("GUARD")) return buffSelf(card, 0, 1, "Silver: sentry stance — enters with +0/+1.");
+  return buffSelf(card, 0, 1, "Silver: standing watch — enters with +0/+1.");
+}
+
+/** Golden Sovereigns table — command / royalty. (No commons today.) */
+function enrichGoldenSovereigns(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  const tag = (raw: string) => `[enrich:${card.id}] ${raw}`;
+  if (kw.has("GUARD") || kw.has("ARMORED")) return buffSelf(card, 0, 1, "Gold: the gilded guard — enters with +0/+1.");
+  if (kw.has("LIFESTEAL")) return buffSelf(card, 1, 0, "Gold: the sovereign's tithe — enters with +1/+0.");
+  if (kw.has("WARD"))
+    return [{ trigger: "PASSIVE", op: "AURA_KEYWORD", keyword: "WARD", includeSelf: true, raw: tag("Gold: the crown's aegis — a one-shot ward shields itself.") }];
+  return buffSelf(card, 0, 1, "Gold: regal bearing — enters with +0/+1.");
+}
+
+/** Gods table — minor divine on-summon. Conservative. (No commons today.) */
+function enrichGods(card: EnrichableCard, kw: Set<string>): EffectSpec[] {
+  const tag = (raw: string) => `[enrich:${card.id}] ${raw}`;
+  if (kw.has("DIVINE_SHIELD"))
+    return [{ trigger: "PASSIVE", op: "AURA_KEYWORD", keyword: "DIVINE_SHIELD", includeSelf: true, raw: tag("Divine: the rekindled halo — a one-shot divine shield on itself.") }];
+  if (kw.has("LIFESTEAL")) return buffSelf(card, 1, 0, "Divine: the sacred draught — enters with +1/+0.");
+  return buffSelf(card, 0, 1, "Divine: a small favor — enters with +0/+1.");
+}
+
+/** Per-faction dispatch table. */
+const FACTION_ENRICHERS: Record<Faction, (card: EnrichableCard, kw: Set<string>) => EffectSpec[]> = {
+  STONE_KEEPERS: enrichStoneKeepers,
+  IRON_DEFENDERS: enrichIronDefenders,
+  BRONZE_GUARDIANS: enrichBronzeGuardians,
+  SILVER_SENTINELS: enrichSilverSentinels,
+  GOLDEN_SOVEREIGNS: enrichGoldenSovereigns,
+  GODS: enrichGods,
+};
 
 /**
  * Derive the enrichment EffectSpec set for a single card. Returns [] when:
  *   - the master flag is OFF, OR
- *   - the card's faction is not in the enrichment slice, OR
+ *   - the card's faction is not in the enrichment set, OR
+ *   - the card is not a unit body, OR
  *   - the card is not a vanilla body (its authored ability already does something).
- * Otherwise returns exactly ONE spec (the highest-priority keyword match). Pure
- * and deterministic — a function of the card's static fields only.
+ * Otherwise returns exactly ONE spec (the highest-priority keyword match for the
+ * card's faction). Pure and deterministic — a function of static fields only.
  */
 export function enrichmentSpecsFor(card: EnrichableCard): EffectSpec[] {
   if (!ENABLE_ENRICHMENT) return [];
   if (!ENRICHMENT_FACTIONS.has(card.faction)) return [];
   // UNITS ONLY: equipment/artifacts never fire the unit triggers we emit, so an
-  // enrichment on them would be inert. Keep the slice precise (and honest).
+  // enrichment on them would be inert. Keep the layer precise (and honest).
   if (!isUnitCard(card)) return [];
   if (!compiledIsVanilla(card)) return [];
 
   const kw = keywordSet(card);
-  const tag = (raw: string): string => `[enrich:${card.id}] ${raw}`;
-
-  // Priority 1 — DEATHRATTLE: leave a 0/1 Rubble token behind on death.
-  if (kw.has("DEATHRATTLE")) {
-    return [
-      {
-        trigger: "ON_DEATH",
-        op: "SUMMON_TOKEN",
-        attack: 0,
-        health: 1,
-        token: RUBBLE_TOKEN,
-        count: 1,
-        raw: tag("Bedrock: rubble remains — summon a 0/1 Rubble on death."),
-      },
-    ];
-  }
-
-  // Priority 2 — WARD / PATIENT: +0/+1 each turn it goes undamaged (endurance).
-  if (kw.has("WARD") || kw.has("PATIENT")) {
-    return [
-      {
-        trigger: "ON_TURN_START",
-        op: "BUFF_IF_UNDAMAGED",
-        attack: 0,
-        health: 1,
-        raw: tag("Bedrock: eroded but enduring — +0/+1 each turn it takes no damage."),
-      },
-    ];
-  }
-
-  // Priority 3 — REGROW: heal 1 to itself at end of turn (the stone reknits).
-  if (kw.has("REGROW")) {
-    return [
-      {
-        trigger: "ON_TURN_END",
-        op: "HEAL",
-        amount: 1,
-        self: true,
-        raw: tag("Bedrock: the stone reknits — heal 1 to itself at turn end."),
-      },
-    ];
-  }
-
-  // Priority 4 — LIFESTEAL: a touch of bite on arrival (+1/+0).
-  if (kw.has("LIFESTEAL")) {
-    return [
-      {
-        trigger: "ON_SUMMON",
-        op: "BUFF_SELF",
-        attack: 1,
-        health: 0,
-        raw: tag("Bedrock: drains the quarry — enters with +1/+0."),
-      },
-    ];
-  }
-
-  // Priority 5/6 — GUARD / ARMORED, or any remaining keyword: a sturdier body.
-  return [
-    {
-      trigger: "ON_SUMMON",
-      op: "BUFF_SELF",
-      attack: 0,
-      health: 1,
-      raw: tag("Bedrock: the wall holds — enters with +0/+1."),
-    },
-  ];
+  const enricher = FACTION_ENRICHERS[card.faction];
+  return enricher ? enricher(card, kw) : [];
 }
 
 /**
@@ -247,6 +317,11 @@ export function enrichmentValuePoints(specs: EffectSpec[]): number {
         break;
       case "SUMMON_TOKEN":
         pts += (Math.abs(s.attack ?? 0) + Math.abs(s.health ?? 0)) * Math.max(1, s.count ?? 1);
+        break;
+      case "AURA_KEYWORD":
+        // A single minor keyword grant (a one-shot self-ward / self divine-shield)
+        // is worth ~1 stat-point of floor — on par with a +0/+1 body buff.
+        pts += 1;
         break;
       default:
         // Any other op would be off-design for this floor-raising layer; count it
