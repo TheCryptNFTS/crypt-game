@@ -3368,6 +3368,368 @@ body {
   color: rgba(141, 92, 255, 0.9);
 }
 
+/* ---------------------------------------------------------------------------
+   WS3 · RANKED LADDER (RankLadderPage) — visualizes the meta progression engine.
+   --------------------------------------------------------------------------- */
+.crypt-rank-season {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border-strong);
+  background: linear-gradient(120deg, rgba(212, 168, 75, 0.12), rgba(6, 5, 4, 0.7));
+}
+
+.crypt-rank-season-kicker {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-crypt-accent);
+}
+
+.crypt-rank-season-id {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--color-crypt-text);
+}
+
+.crypt-rank-season-stars {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #e9c984;
+}
+
+.crypt-rank-badge-row {
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+}
+
+.crypt-rank-badge {
+  flex-shrink: 0;
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border-radius: 4px;
+  border: 2px solid #e9c984;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.08), rgba(6, 5, 4, 0.6));
+  text-align: center;
+}
+
+.crypt-rank-badge-tier {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.crypt-rank-badge-div {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+
+.crypt-rank-badge-meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.crypt-rank-badge-label {
+  margin: 0;
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 19px;
+  letter-spacing: 0.03em;
+  color: var(--color-crypt-text);
+}
+
+.crypt-rank-badge-mmr {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-rank-bar {
+  height: 8px;
+  border-radius: 99px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.crypt-rank-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: #e9c984;
+  transition: width 0.5s var(--ease-out-expo, ease);
+}
+
+.crypt-rank-bar-fill--xp {
+  background: linear-gradient(90deg, #8d5cff, #5fd4f0);
+}
+
+.crypt-rank-bar-meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-rank-level-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.crypt-rank-level-num {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 16px;
+  color: var(--color-crypt-text);
+}
+
+.crypt-rank-level-xp {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-rank-level .crypt-rank-bar-meta {
+  margin-top: 8px;
+}
+
+.crypt-rank-record {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.crypt-rank-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border);
+  background: rgba(6, 5, 4, 0.5);
+}
+
+.crypt-rank-stat-val {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 24px;
+  color: var(--color-crypt-text);
+}
+
+.crypt-rank-stat-val--win {
+  color: #6fd98a;
+}
+
+.crypt-rank-stat-val--loss {
+  color: #e0746a;
+}
+
+.crypt-rank-stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   WS5 · ONBOARDING / NPE (OnboardingPage) — guided first-run on-ramp.
+   --------------------------------------------------------------------------- */
+.crypt-npe-steps {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.crypt-npe-steps li {
+  flex: 1 1 0;
+  min-width: 100px;
+  padding: 8px 10px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border);
+  background: rgba(6, 5, 4, 0.5);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+  text-align: center;
+}
+
+.crypt-npe-steps li.is-active {
+  border-color: var(--color-crypt-border-strong);
+  color: var(--color-crypt-accent);
+  background: linear-gradient(180deg, rgba(212, 168, 75, 0.12), rgba(6, 5, 4, 0.5));
+}
+
+.crypt-npe-steps li.is-done {
+  color: #6fd98a;
+  border-color: rgba(111, 217, 138, 0.32);
+}
+
+.crypt-npe-picks {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .crypt-npe-picks {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.crypt-npe-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--color-crypt-border);
+  background: linear-gradient(170deg, rgba(16, 12, 13, 0.95), rgba(8, 6, 6, 0.9));
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  transition: transform 0.18s var(--ease-out-expo, ease), box-shadow 0.18s ease;
+}
+
+.crypt-npe-pick:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.crypt-npe-pick-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.crypt-npe-pick-name {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  color: var(--color-crypt-text);
+}
+
+.crypt-npe-pick-blurb {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-npe-pick-passive {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: rgba(122, 115, 112, 0.85);
+  padding-top: 6px;
+  border-top: 1px solid var(--color-crypt-border);
+}
+
+.crypt-npe-pick-cta {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.crypt-npe-ready-card {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 28px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--color-crypt-border-strong);
+  background: linear-gradient(180deg, rgba(20, 15, 28, 0.95), rgba(8, 6, 10, 0.95));
+  text-align: center;
+}
+
+.crypt-npe-ready-kicker {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e9c984;
+}
+
+.crypt-npe-ready-name {
+  margin: 8px 0 12px;
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 26px;
+  color: var(--color-crypt-text);
+}
+
+.crypt-npe-ready-copy {
+  margin: 0 0 22px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-npe-ready-cta {
+  display: block;
+  width: 100%;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-surface);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background: linear-gradient(135deg, #8d5cff, #6e3ce0);
+}
+
+.crypt-npe-ready-back {
+  margin-top: 12px;
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-npe-ready-back:hover {
+  color: var(--color-crypt-text);
+}
+
 /* Server-driven Daily rites + streak (HomePage) */
 .crypt-rites-quest-title {
   flex: 1 1 auto;
