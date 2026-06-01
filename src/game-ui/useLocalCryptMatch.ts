@@ -3,7 +3,7 @@ import { createMatchFromDecks } from "../engine/createMatchFromDecks";
 import { allCommanders } from "../engine/commanders";
 import { allPlayableCards } from "../engine/cards";
 import { applyAction, Action, GameEvent } from "../engine/reducer";
-import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE } from "../engine/state";
+import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
 import { planP2Turn, planP2Plays, planP2Combat } from "./cryptMatchAI";
 
@@ -57,9 +57,10 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
     p2: { commanderId: p2Commander.id, deck: p2Deck },
     seed: Date.now(),
     openingHandSize: OPENING_HAND_SIZE,
-    // Live play opts into faction identities so deck/faction choice is
-    // mechanically meaningful (Bedrock/Insight/Onslaught/Tempered/Largesse).
-    rules: { factionIdentities: true }
+    // Live play ships the CORE ruleset: FLAT faction identities (Bedrock/Insight/
+    // Onslaught/Tempered/Largesse) so deck/faction choice is mechanically
+    // meaningful, but no archetype-threshold depth or response stack to learn.
+    rules: CORE_RULESET
   });
 
   match.activePlayer = match.activePlayer ?? "P1";

@@ -330,7 +330,8 @@ export function playUnitFromHand(
     armor: unitCard.stats.armor,
     keywords: [...unitCard.keywords],
     exhausted: false,
-    summoningSick: !unitCard.keywords.includes("RUSH")
+    summoningSick: !unitCard.keywords.includes("RUSH"),
+    rarity: unitCard.rarity
   };
 
   applyModifierToUnitLike(instance, commanderModifier);

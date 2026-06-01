@@ -91,6 +91,31 @@ function firstSpec(ability: string) {
   check("HEAL caps at maxHealth (7 + 3 -> 8)", full.health === 8, full.health);
 }
 
+// --- HEAL_NEXUS: "restore N to your nexus" — heals own face, capped at start HP.
+{
+  const { spec } = firstSpec("On play: restore 5 to your nexus.");
+  check("HEAL_NEXUS compiled to op (amount 5)", spec?.op === "HEAL_NEXUS" && spec?.amount === 5, spec);
+
+  // A damaged nexus is restored by exactly the heal amount.
+  const m = arena();
+  m.players.P1.nexusHealth = 12; // starting HP is 20 (set in arena)
+  resolveEffect(spec, ctx(m, "P1"));
+  check("HEAL_NEXUS restores own nexus by amount (12 -> 17)", m.players.P1.nexusHealth === 17, m.players.P1.nexusHealth);
+
+  // Capped at starting HP (20): a heal that would overshoot clamps, never overheals.
+  const m2 = arena();
+  m2.players.P1.nexusHealth = 18;
+  resolveEffect(spec, ctx(m2, "P1"));
+  check("HEAL_NEXUS caps at starting HP (18 + 5 -> 20, not 23)", m2.players.P1.nexusHealth === 20, m2.players.P1.nexusHealth);
+
+  // Heals only the CONTROLLER's nexus, never the opponent's.
+  const m3 = arena();
+  m3.players.P1.nexusHealth = 10;
+  m3.players.P2.nexusHealth = 10;
+  resolveEffect(spec, ctx(m3, "P1"));
+  check("HEAL_NEXUS leaves the enemy nexus untouched (P2 stays 10)", m3.players.P2.nexusHealth === 10, m3.players.P2.nexusHealth);
+}
+
 // --- BUFF_SELF: Taunt rider "When takes damage, gain +1/+1." (FIXED buff). -----
 // NOTE: the per-point scaling variant ("...gain +1/+1 for each damage taken.")
 // now compiles to BUFF_PER_DAMAGE_TAKEN (Track A2), not a flat BUFF_SELF, and is

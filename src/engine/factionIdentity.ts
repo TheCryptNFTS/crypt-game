@@ -40,8 +40,9 @@
  *   GOLD   4+ Gold units   -> Largesse cost>=5 bonus deepens to +1/+3 (top-end payoff)
  *
  * The thresholds are RECOMPUTED from the live board at every trigger moment (never a
- * cached counter that could desync replay), share the SAME `rules.factionIdentities`
- * gate as the base hooks (so vanilla stays byte-identical), and remain NO-BURN:
+ * cached counter that could desync replay), ride a SECOND `rules.factionArchetypes`
+ * gate ON TOP of `factionIdentities` (so the shipped CORE ruleset plays FLAT — base
+ * identities only — and vanilla stays byte-identical), and remain NO-BURN:
  * every payoff only adds armor / attack / health / a keyword / deck smoothing to the
  * controller's OWN side, never touching the enemy nexus.
  */
@@ -153,14 +154,23 @@ function countFactionUnits(
   return n;
 }
 
-/** True when the controller commands enough OWN-faction units for the deepened
- *  archetype payoff to fire (live board count >= the faction's threshold). */
+/** True only when a match has explicitly opted into the deepened archetype layer.
+ *  The shipped CORE ruleset leaves this OFF, so identities play FLAT (base only). */
+function archetypesEnabled(state: MatchState): boolean {
+  return state.rules?.factionArchetypes === true;
+}
+
+/** True when the deep archetype layer is enabled AND the controller commands enough
+ *  OWN-faction units for the deepened payoff to fire (live board count >= the
+ *  faction's threshold). With `factionArchetypes` absent (CORE default) this is
+ *  always false, so every deepened branch falls back to the flat base identity. */
 function archetypeActive(
   state: MatchState,
   controller: PlayerId,
   faction: IdentityFaction,
   factionOf: (cardId: string) => string | null | undefined
 ): boolean {
+  if (!archetypesEnabled(state)) return false;
   return countFactionUnits(state, controller, faction, factionOf) >= ARCHETYPE_THRESHOLD[faction];
 }
 
@@ -355,8 +365,10 @@ export function oathPayoffFor(
     // threshold so a UI can show "Oath dormant (identities off)".
     return { faction, active: false, factionUnits: 0, threshold, bonus: { attack: 0, health: 0 } };
   }
+  // CORE default plays flat: the Oath payoff only comes online when the deep
+  // archetype layer is explicitly enabled (mirrors archetypeActive's gate).
   const factionUnits = countFactionUnits(state, controller, faction, factionOf);
-  const active = factionUnits >= threshold;
+  const active = archetypesEnabled(state) && factionUnits >= threshold;
   return {
     faction,
     active,

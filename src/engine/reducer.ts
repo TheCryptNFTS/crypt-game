@@ -64,6 +64,7 @@ import {
   factionOnEquip,
   factionOnTurnStart,
 } from "./factionIdentity";
+import { resonanceOnUnitSummon } from "./traitResonance";
 import { allPlayableCards } from "./cards";
 import { spellCards } from "./spellCards";
 import { compileAbility, CompiledAbility, EffectTrigger, EffectOp } from "./abilityCompiler";
@@ -158,6 +159,19 @@ function cardTypeOf(cardId: string): string | null {
   return cardMetaById.get(cardId)?.type ?? null;
 }
 
+/** Resolve a cardId to the stat line a GRAVEYARD record needs (attack / maxHealth
+ *  / keywords). Used by REVEAL_AND_CULL (tcg_3375 Darius), which destroys revealed
+ *  DECK cards for which no live unit exists to read stats from. Mirrors costOf /
+ *  cardTypeOf: a missing card yields a conservative 0/1 record. */
+function graveStatsOf(cardId: string): { attack: number; maxHealth: number; keywords: string[] } {
+  const meta = cardMetaById.get(cardId);
+  return {
+    attack: meta?.stats?.attack ?? 0,
+    maxHealth: meta?.stats?.health ?? 1,
+    keywords: Array.isArray(meta?.keywords) ? meta.keywords : [],
+  };
+}
+
 function opponentOf(playerId: PlayerId): PlayerId {
   return playerId === "P1" ? "P2" : "P1";
 }
@@ -206,6 +220,9 @@ function fireTrigger(
       // catalog lookup so the option pool is built honestly (absent -> empty pool
       // -> clean no-op, never a fake choice).
       cardTypeOf,
+      // REVEAL_AND_CULL (Darius) destroys revealed DECK cards: supply the stat-line
+      // lookup so each destroyed card gets a faithful graveyard record.
+      graveStatsOf,
     });
   }
 }
@@ -1380,7 +1397,18 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
           (id: string) => cardMetaById.get(id)?.faction ?? null,
           costOf
         );
+        // Trait Resonance summon hook (the signature mechanic): if the summoned
+        // unit shares a Keyword with another unit the controller already commands,
+        // it enters RESONANT (+1/+1). Gated by rules.traitResonance; a clean no-op
+        // otherwise, so vanilla matches stay byte-identical. Reads the live board
+        // keywords directly (no catalog lookup) and stacks on a distinct axis from
+        // the faction identity above (faction vs. keyword overlap).
+        resonanceOnUnitSummon(played, action.player, summoned);
       }
+      // LAST-CARD-PLAYED slot (feeds RETURN_LAST_PLAYED / tcg_3425). Recorded AFTER
+      // this unit's own ON_SUMMON fired, so a played "Yesterday Is History" bounces
+      // the PREVIOUS card — not itself.
+      played.lastCardPlayed = { cardId, owner: action.player };
       // A battlecry may have raised a mid-resolution CHOICE (Discover). If so the
       // action ENDS here with `pendingChoice` set: emit UNIT_PLAYED + CHOICE_OPENED
       // and short-circuit WITHOUT reaping deaths / checking the win. The board is in
@@ -1407,6 +1435,7 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       if (cardTypeOf(cardId) !== "artifact") return reject(state, "not-an-artifact");
       if (costOf(cardId) > (player.energy ?? 0)) return reject(state, "not-enough-energy");
       const played = playArtifactCard(next, action.player, action.handIndex) as MatchState;
+      played.lastCardPlayed = { cardId, owner: action.player };
       events.push({ type: "ARTIFACT_PLAYED", player: action.player, cardId });
       return { state: played, events };
     }
@@ -1435,6 +1464,7 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
           equipped.unit,
           (id: string) => cardMetaById.get(id)?.faction ?? null
         );
+      played.lastCardPlayed = { cardId, owner: action.player };
       events.push({ type: "EQUIPPED", player: action.player, cardId, targetInstanceId: action.targetInstanceId });
       return { state: played, events };
     }
@@ -1540,6 +1570,21 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
               unit.attack += unit.tempAtkDebuff;
               unit.tempAtkDebuff = 0;
             }
+          }
+        }
+      }
+
+      // "WARD until end of turn" expiry (GRANT_SELF_WARD, tcg_938): a ward granted
+      // this turn lasts only until the granting controller's turn ends. Clear the
+      // shield AND the marker now, at this turn's end, on the ENDING player's units
+      // (the granter), whether or not the ward already absorbed a hit. A ward that
+      // absorbed earlier already cleared `shielded` via absorbDamage; this also
+      // clears the stale marker so it never carries past the turn.
+      for (const lane of ["front", "back"] as Lane[]) {
+        for (const unit of next.players[ending].board?.[lane] ?? []) {
+          if (unit.wardExpiresEot) {
+            unit.shielded = false;
+            unit.wardExpiresEot = false;
           }
         }
       }
@@ -1703,6 +1748,10 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       });
       player.hand = [...player.hand.slice(0, action.handIndex), ...player.hand.slice(action.handIndex + 1)];
       player.discard = [...(player.discard ?? []), cardId];
+      // LAST-CARD-PLAYED slot (feeds RETURN_LAST_PLAYED / tcg_3425). Recorded AFTER
+      // the spell's own specs resolved, so a cast that bounces the last card targets
+      // the PREVIOUS card, not this spell.
+      next.lastCardPlayed = { cardId, owner: action.player };
 
       // A cast may have raised a mid-resolution CHOICE (Discover spell). The action
       // ENDS here with `pendingChoice` set: emit SPELL_PLAYED + CHOICE_OPENED and

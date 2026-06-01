@@ -20,6 +20,7 @@ import crypto from "node:crypto";
 import { applyAction } from "../src/engine/reducer";
 import { createMatch } from "../src/engine/setup";
 import { createMatchFromDecks } from "../src/engine/createMatchFromDecks";
+import { CORE_RULESET } from "../src/engine/state";
 import type { MatchBootstrapInput, DeckBootstrapInput } from "../src/types/matchBootstrap";
 import { PersistenceStore } from "./persistence";
 import { projectViewForSeat, projectSpectatorView, type MatchView } from "./view";
@@ -101,7 +102,7 @@ function buildInitialState(
     return createMatchFromDecks({
       ...bootstrap,
       seed,
-      rules: bootstrap.rules ?? { factionIdentities: true },
+      rules: bootstrap.rules ?? CORE_RULESET,
     }) as MatchState;
   }
   return createMatch(seed);

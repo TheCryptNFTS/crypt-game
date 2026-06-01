@@ -130,6 +130,26 @@ function arena(seed = 7777): MatchState {
   );
 }
 
+// --- (a2) NAME override is cosmetic-only -------------------------------------
+{
+  // An authored name propagates to the catalog card...
+  const renamed = byId("tcg_2026");
+  check("tcg_2026 authored name applied in catalog", renamed.name === "Verdant Executioner", renamed.name);
+  // ...and a NAME-ONLY override leaves stats / cost untouched (purely cosmetic).
+  const raw = (runtimeMatchPlayableCards as any[]).find((t) => t[0] === "tcg_2026");
+  check(
+    "name-only override does NOT change cost",
+    raw ? renamed.cost === raw[2] : true,
+    { name: renamed.name, cost: renamed.cost }
+  );
+  // No retired joke auto-name survives anywhere in the catalog (regression guard).
+  const joke = allPlayableCards.filter((c) => /\bMr LOL\b|D'Vile One|Octopus of Gilded Woe/i.test(c.name));
+  check("no retired joke auto-names remain in the catalog", joke.length === 0, joke.map((c) => c.id));
+  // No bare token-number placeholder name (e.g. "#2654") survives in the catalog.
+  const placeholderNamed = allPlayableCards.filter((c) => /^#\d+$/.test(c.name.trim()));
+  check("no bare '#NNNN' placeholder names remain in the catalog", placeholderNamed.length === 0, placeholderNamed.map((c) => c.id));
+}
+
 // --- (b) ability override RECOMPILES -----------------------------------------
 {
   const retext = byId("tcg_86");
