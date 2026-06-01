@@ -401,10 +401,44 @@ export interface MatchState {
    * fixtures are unmoved.
    */
   returnLastPlayedUsed?: boolean;
+  /**
+   * OPENING MULLIGAN bookkeeping (PART 1 — Hearthstone-style opening redraw). ABSENT
+   * by default so a match created without an explicit mulligan phase plays exactly as
+   * before and every committed fixture / reducer-equivalence golden stays byte-identical
+   * (undefined survives structuredClone; every mulligan hook is a clean no-op without it).
+   *
+   * When present, it gates the match: while any side is `pending`, that side may issue at
+   * most ONE `MULLIGAN` action (selecting a subset of its opening hand to reshuffle and
+   * redraw an equal number), and the match "cannot start" — `requireMulligan(state)` is
+   * true and a caller/harness must resolve every pending side before normal play. Each
+   * side's flag flips to `done` the instant it submits its single MULLIGAN, so a second
+   * MULLIGAN from the same side reject-softs (`mulligan-already-done`).
+   *
+   * Determinism: the reshuffle of returned cards uses ONLY the match's seeded mulberry32
+   * stream (`state.seed` + `state.rngCursor`) — never Math.random — and advances
+   * `rngCursor` by exactly the draws consumed, so `(seed, actions)` fully determines the
+   * result and two runs on the same seed produce identical hands.
+   */
+  mulligan?: MulliganState | null;
   players: {
     P1: PlayerState;
     P2: PlayerState;
   };
+}
+
+/**
+ * Per-side opening-mulligan status (PART 1). `"pending"` = this side has NOT yet taken
+ * its single opening redraw and the match is gated on it; `"done"` = this side has
+ * resolved its mulligan (either by submitting a MULLIGAN or because it was never pending).
+ * Absent entirely (the whole `MatchState.mulligan` field undefined) means the legacy
+ * "no mulligan phase" mode, in which the historical P1-only `MULLIGAN` action still works
+ * exactly as before and the golden fixtures are unmoved.
+ */
+export type MulliganStatus = "pending" | "done";
+
+export interface MulliganState {
+  P1: MulliganStatus;
+  P2: MulliganStatus;
 }
 
 /**
