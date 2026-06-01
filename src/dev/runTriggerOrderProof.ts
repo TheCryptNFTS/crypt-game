@@ -82,7 +82,14 @@ function arena(seed = 9123): MatchState {
     JSON.stringify(grave) === JSON.stringify(["tcg_71", "tcg_72", "tcg_84"]),
     grave
   );
-  check("all three P2.front units were reaped in one action", r.state.players.P2.board.front.length === 0, r.state.players.P2.board.front.map((u) => u.instanceId));
+  // The three ORIGINAL units are reaped. (Under the raise-the-floor enrichment,
+  // these DEATHRATTLE bodies also leave a 0/1 Rubble/Scrap token on death — a
+  // deterministic ON_DEATH SUMMON_TOKEN — so the board is no longer literally
+  // empty. Assert the three named units are gone, ignoring any enrichment tokens.)
+  const survivingOriginals = r.state.players.P2.board.front.filter((u) =>
+    ["L", "M", "R"].includes(u.instanceId)
+  );
+  check("all three P2.front units were reaped in one action", survivingOriginals.length === 0, r.state.players.P2.board.front.map((u) => u.instanceId));
   // 3 deathrattle bursts of 2 each land on the dead units' enemy (P1): 20 -> 14.
   check("each dead unit's DEATHRATTLE fired exactly once (3 x 2 = 6 to P1 nexus, 20 -> 14)", r.state.players.P1.nexusHealth === 14, r.state.players.P1.nexusHealth);
 }
