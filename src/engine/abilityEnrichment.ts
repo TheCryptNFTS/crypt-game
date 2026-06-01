@@ -57,7 +57,13 @@ import type { Faction } from "../types/faction";
  *   - `CRYPT_ENRICHMENT=1` (or anything else / unset) leaves it ON.
  */
 export const ENABLE_ENRICHMENT: boolean = (() => {
-  const v = String(process.env.CRYPT_ENRICHMENT ?? "").trim().toLowerCase();
+  // Browser-safe: `process` is undefined under Vite/the browser, where the flag
+  // simply defaults ON. The env override only applies in Node (tsx isolation runs).
+  const raw =
+    typeof process !== "undefined" && process.env
+      ? process.env.CRYPT_ENRICHMENT
+      : undefined;
+  const v = String(raw ?? "").trim().toLowerCase();
   if (v === "0" || v === "false" || v === "off" || v === "no") return false;
   return true;
 })();
