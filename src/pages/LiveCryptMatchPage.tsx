@@ -6,6 +6,7 @@ import { PvpLobby, EnteredMatch } from "../components/live-match/PvpLobby";
 import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
 import { useLocalCryptMatch, LocalMatchOptions } from "../game-ui/useLocalCryptMatch";
 import { TutorialCoach } from "../components/tutorial/TutorialCoach";
+import { useMatchProgression } from "../meta/useMatchProgression";
 
 type Props = {
   /** Card ids (`tcg_<tokenId>`) the connected wallet owns. When present, they
@@ -47,6 +48,13 @@ export default function LiveCryptMatchPage({
   // Single-player engine. Always instantiated so solo stays the live default;
   // the hook is cheap and only its UI is hidden while in PvP.
   const local = useLocalCryptMatch(ownedCardIds, localMatchOptions);
+
+  // META PROGRESSION (post-match, OUTSIDE the reducer). Observes the decided
+  // `winner` and updates the local PlayerProfile (MMR/XP/level/stars) exactly
+  // once per match. The per-match `seed` (set to Date.now() at match creation)
+  // is a stable key that changes on every reset, re-arming the once-per-match
+  // guard. In-game-only: this never sources hex or touches the wallet.
+  useMatchProgression(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
 
   // Tutorial only: report the verdict exactly once when the match decides.
   const [reported, setReported] = useState(false);
