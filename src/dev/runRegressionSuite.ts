@@ -52,6 +52,7 @@ const commands = [
   "npm run dev:server-persistence",
   "npm run dev:server-fog",
   "npm run dev:server-auth",
+  "npm run dev:server-matchmaking",
   "npm run dev:seeded-random",
   "npm run dev:expanded-spells",
   "npm run dev:deep-content",

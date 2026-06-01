@@ -73,6 +73,19 @@ function toCardId(card: unknown): string {
 
 const FACE_DOWN_PREFIX = "facedown_";
 
+/** localStorage key (shared with PvpLobby) under which the active match id is
+ *  remembered for reconnect-after-refresh. Cleared once the match ends/leaves so
+ *  the lobby stops offering to reconnect to a finished match. */
+const ACTIVE_MATCH_KEY = "crypt:activeMatchId";
+
+function forgetActiveMatch(): void {
+  try {
+    window.localStorage.removeItem(ACTIVE_MATCH_KEY);
+  } catch {
+    /* ignore: storage may be disabled */
+  }
+}
+
 /**
  * Adapt the redacted server `view` into the loose `match`-ish shape the page +
  * `liveMatchAdapter` VMs read: `match.players.{P1,P2}.{hand,board,artifacts,
@@ -392,10 +405,18 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
   }, [matchId, winner, appendLog]);
 
   // resetMatch in PvP has NO local re-shuffle authority — it leaves the match
-  // and returns to the lobby (the server owns match lifecycle).
+  // and returns to the lobby (the server owns match lifecycle). Leaving also
+  // forgets the remembered match so the lobby won't offer to reconnect to it.
   const resetMatch = useCallback(() => {
+    forgetActiveMatch();
     opts.onLeave?.();
   }, [opts]);
+
+  // Once the match is decided, forget the remembered id so the reconnect prompt
+  // never points at a finished match.
+  useEffect(() => {
+    if (winner) forgetActiveMatch();
+  }, [winner]);
 
   // --- Poll loop. Cadence: brisk while it's the OPPONENT's turn (we're waiting
   // on them), relaxed while it's OUR turn (our own actions already update us).
