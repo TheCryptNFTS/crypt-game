@@ -7,9 +7,10 @@ import { ensureStarterDeckEquipped } from "../lib/starterDeck";
 
 /**
  * Game entry — CRYPT client, not a dashboard.
- * A brand-new pilot is sent straight into the forced first-time tutorial; a
- * returning (onboarded) pilot lands on /home. Either way we auto-equip the
- * curated starter deck so "Play" works with zero deckbuilding.
+ * A brand-new pilot is sent into the guided onboarding on-ramp (/onboarding:
+ * pick a starter deck -> first match); a returning (onboarded) pilot lands on
+ * /home. Either way we auto-equip the curated starter deck so "Play" works with
+ * zero deckbuilding even if they skip the picker.
  * TODO: wire Sign in / Create account / Wallet when auth APIs exist.
  */
 export default function SplashLoginPage() {
@@ -17,8 +18,9 @@ export default function SplashLoginPage() {
   const session = useAppSessionStubSnapshot();
   const [soonKind, setSoonKind] = useState<"account" | "wallet" | null>(null);
 
-  // First entry (no tutorial flag, no first win) → tutorial; otherwise → home.
-  const entryRoute = () => (isOnboarded() ? "/home" : "/tutorial");
+  // First entry (no tutorial flag, no first win) → guided onboarding on-ramp;
+  // otherwise → home.
+  const entryRoute = () => (isOnboarded() ? "/home" : "/onboarding");
 
   useEffect(() => {
     if (session === "guest") {

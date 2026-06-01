@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import AppShell from "./components/layout/AppShell";
 import SplashLoginPage from "./pages/SplashLoginPage";
 import TutorialPage from "./pages/TutorialPage";
+import OnboardingPage from "./pages/OnboardingPage";
 import HomePage from "./pages/HomePage";
 import PlayHubPage from "./pages/PlayHubPage";
 import LiveCryptMatchPage from "./pages/LiveCryptMatchPage";
@@ -11,6 +12,7 @@ import ShopPage from "./pages/ShopPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import ProfilePage from "./pages/ProfilePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import RankLadderPage from "./pages/RankLadderPage";
 import SpectatePage from "./pages/SpectatePage";
 import DraftPage from "./pages/DraftPage";
 import DailyPackPage from "./pages/DailyPackPage";
@@ -29,6 +31,7 @@ import { OnboardingGate } from "./components/OnboardingGate";
  */
 export const router = createBrowserRouter([
   { path: "/", element: <SplashLoginPage /> },
+  { path: "/onboarding", element: <OnboardingPage /> },
   { path: "/tutorial", element: <TutorialPage /> },
   {
     element: <AppShell />,
@@ -41,6 +44,7 @@ export const router = createBrowserRouter([
       { path: "/profile", element: <ProfilePage /> },
       { path: "/friends", element: <FriendsPage /> },
       { path: "/leaderboard", element: <LeaderboardPage /> },
+      { path: "/ladder", element: <RankLadderPage /> },
       { path: "/daily-pack", element: <DailyPackPage /> },
       { path: "/match-results", element: <MatchResultsPage /> },
       { path: "/rewards", element: <RewardsPage /> },
