@@ -6,6 +6,7 @@ import { PvpLobby, EnteredMatch } from "../components/live-match/PvpLobby";
 import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
 import { useLocalCryptMatch, LocalMatchOptions } from "../game-ui/useLocalCryptMatch";
 import { TutorialCoach } from "../components/tutorial/TutorialCoach";
+import { MulliganScreen } from "../components/live-match/MulliganScreen";
 
 type Props = {
   /** Card ids (`tcg_<tokenId>`) the connected wallet owns. When present, they
@@ -128,6 +129,17 @@ export default function LiveCryptMatchPage({
             (local.match.players?.P1?.board?.back ?? []).length
           }
           winner={local.winner}
+        />
+      ) : null}
+      {/* OPENING MULLIGAN (PART 1): while the explicit phase is open the player
+          keeps or redraws their opening hand here BEFORE the board is playable.
+          The board stays mounted below (inert — the reducer rejects every
+          non-MULLIGAN action), and the match proceeds the instant they confirm. */}
+      {local.mulliganPhaseActive ? (
+        <MulliganScreen
+          hand={local.mulliganHand}
+          match={local.match}
+          onResolve={local.resolveMulligan}
         />
       ) : null}
       <CryptMatchBoard
