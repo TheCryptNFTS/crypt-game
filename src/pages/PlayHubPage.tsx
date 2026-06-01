@@ -87,6 +87,13 @@ export default function PlayHubPage() {
 
   const previewSample = useMemo(() => mainDeck.slice(0, 6), [mainDeck]);
 
+  // A friend "Challenge" from the Friends page routes here with their private
+  // code in navigation state; hand it to the ChallengePanel to pre-fill Join.
+  const challengeCode = useMemo(() => {
+    const state = location.state as { challengeCode?: unknown } | null;
+    return typeof state?.challengeCode === "string" ? state.challengeCode : undefined;
+  }, [location.state]);
+
   /** The deck bootstrap we enqueue with: the locally-stored loadout. */
   const myDeckBootstrap = useMemo(
     () => ({ commanderId: loadStoredCommanderId(), deck: loadStoredMainDeckCardIds() }),
@@ -347,7 +354,7 @@ export default function PlayHubPage() {
 
             {/* CHALLENGE A FRIEND — private code-based duel, enters the same
                 server-authoritative PvP match as Find Match. */}
-            <ChallengePanel onEnterMatch={enterMatch} />
+            <ChallengePanel onEnterMatch={enterMatch} initialJoinCode={challengeCode} />
 
             <Link to="/match" className="crypt-play-mode-quick">
               <span className="crypt-play-mode-quick-kicker">Practice</span>

@@ -14,6 +14,7 @@ import SpectatePage from "./pages/SpectatePage";
 import DraftPage from "./pages/DraftPage";
 import DailyPackPage from "./pages/DailyPackPage";
 import MatchResultsPage from "./pages/MatchResultsPage";
+import FriendsPage from "./pages/FriendsPage";
 import { OnboardingGate } from "./components/OnboardingGate";
 
 /**
@@ -36,6 +37,7 @@ export const router = createBrowserRouter([
       { path: "/spectate", element: <SpectatePage /> },
       { path: "/draft", element: <DraftPage /> },
       { path: "/profile", element: <ProfilePage /> },
+      { path: "/friends", element: <FriendsPage /> },
       { path: "/leaderboard", element: <LeaderboardPage /> },
       { path: "/daily-pack", element: <DailyPackPage /> },
       { path: "/match-results", element: <MatchResultsPage /> },
