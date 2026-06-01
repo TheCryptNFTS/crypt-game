@@ -87,6 +87,8 @@
     "dev:marquee-aura": "tsx src/dev/runMarqueeAuraProof.ts",
     "dev:marquee-redteam": "tsx src/dev/runMarqueeRedTeamProof.ts",
     "dev:red-team-fix": "tsx src/dev/runRedTeamFixProof.ts",
+    "dev:puzzle": "tsx src/dev/runPuzzleProof.ts",
+    "dev:seasons": "tsx src/dev/runSeasonProof.ts",
     "check:alpha": "npx tsc --noEmit && npm run build:coreset:v2 && npm run dev:curateddecks && npm run report:coreset:v2 && node scripts/checkCuratedAlphaBalance.cjs && npm run dev:regression && npm run dev:turncombat",
     "health": "npx tsc --noEmit && npm run dev:backend-sanity && npm run dev:legality && npm run dev:assets && npm run dev:e2e && npm run dev:regression && npm run dev:turncombat && npm run check:alpha",
     "dev:backend-sanity": "tsx src/dev/runBackendSanityCheck.ts",
