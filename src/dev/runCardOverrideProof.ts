@@ -52,17 +52,16 @@ console.log(`\n=== CARD OVERRIDE PROOF (version ${CARD_OVERRIDES_VERSION}) ===`)
     allPlayableCards.length === baseCount,
     { catalog: allPlayableCards.length, raw: (runtimeMatchPlayableCards as unknown[]).length, liveSpells: liveSpells.length }
   );
-  // Pin the live SPELL archetype size: 24 from the earlier drops (10 original +
-  // 14 first content-expansion) PLUS the 2026.05.31 Deep-Content wave (+25 across
-  // draw/dig, tutor, discover, go-wide BUFF_ALLIES, token, graveyard, board-wide
-  // control, premium removal, and 5 faction-exclusive "Oath" payoff spells) = 49
-  // total. (A 26th, a DAMAGE_LANE sweep, was held back: the behavioral-coverage
-  // ACTIVE_OPS allow-list doesn't yet recognize DAMAGE_LANE, so a live one would
-  // read as a text/behavior mismatch.) If a spell is added/removed this must be
-  // updated in lockstep with the catalog count above.
+  // Pin the live SPELL archetype size: 49 from the earlier drops (10 original + 14
+  // first content-expansion + 25 Deep-Content wave) PLUS the 2026.06.01 per-faction
+  // SPELL SUITE (+25: a complete removal/draw/tempo/combat-trick kit for each of the
+  // six factions) = 74 total. (A DAMAGE_LANE sweep is still held back: the
+  // behavioral-coverage ACTIVE_OPS allow-list doesn't yet recognize DAMAGE_LANE, so
+  // a live one would read as a text/behavior mismatch.) If a spell is added/removed
+  // this must be updated in lockstep with the catalog count above.
   check(
-    "liveSpells length is 49 (24 prior + 25 deep-content wave)",
-    liveSpells.length === 49,
+    "liveSpells length is 74 (49 prior + 25 per-faction suite)",
+    liveSpells.length === 74,
     liveSpells.length
   );
   // ZERO duplicate ids across the ENTIRE catalog (raw tuples + live spells). A

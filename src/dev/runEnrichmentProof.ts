@@ -29,7 +29,14 @@
 import { applyAction } from "../engine/reducer";
 import { makeSeededMatch } from "./reducerHarness";
 import { getPlayableCardById } from "../engine/cards";
-import { ENABLE_ENRICHMENT } from "../engine/abilityEnrichment";
+import {
+  ENABLE_ENRICHMENT,
+  enrichmentBandOf,
+  enrichmentV2SpecsFor,
+  bandValueCap,
+  enrichmentValuePoints,
+  type EnrichableCard,
+} from "../engine/abilityEnrichment";
 import { MatchState, UnitInPlay } from "../engine/state";
 
 let failures = 0;
@@ -143,6 +150,106 @@ if (ENABLE_ENRICHMENT) {
     check("enriched DEATHRATTLE corpse is cleared", corpse === undefined, p2front.map((u) => u.cardId));
     check("enriched DEATHRATTLE leaves a Rubble token on death", !!token, p2front.map((u) => u.cardId));
     check("Rubble token is a 0/1 body", token?.attack === 0 && token?.health === 1, token);
+  }
+
+  // ====================================================================
+  // ENRICHMENT V2 — DECISION-creating effects on the rare+/higher-Grade band.
+  // These prove a V2 spec RESOLVES end-to-end (board-dependent), and that the
+  // per-band power cap holds for every V2 card.
+  // ====================================================================
+  const RARE_POKE_ID = "tcg_5864"; // RUSH rare 6/5 -> ON_SUMMON DEAL_DAMAGE 2 (STRONGEST_ENEMY)
+  const LEGEND_DESTROY_ID = "tcg_5391"; // RUSH legendary -> ON_SUMMON DESTROY_ENEMY_SELECT HIGHEST_COST
+  const LEGEND_DEBUFF_ID = "tcg_6664"; // GUARD legendary -> ON_SUMMON DEBUFF_ALL_ENEMIES 2
+
+  // ---- (A4) catalog carries the V2 decision specs (not a V1 chip) -------------
+  {
+    const poke = getPlayableCardById(RARE_POKE_ID) as any;
+    const destroy = getPlayableCardById(LEGEND_DESTROY_ID) as any;
+    check(
+      `${RARE_POKE_ID} catalog carries an ON_SUMMON DEAL_DAMAGE (STRONGEST_ENEMY) V2 spec`,
+      Array.isArray(poke?.enrichmentSpecs) &&
+        poke.enrichmentSpecs.some((s: any) => s.op === "DEAL_DAMAGE" && s.damageTarget === "STRONGEST_ENEMY"),
+      poke?.enrichmentSpecs
+    );
+    check(
+      `${LEGEND_DESTROY_ID} catalog carries an ON_SUMMON DESTROY_ENEMY_SELECT(HIGHEST_COST) V2 spec`,
+      Array.isArray(destroy?.enrichmentSpecs) &&
+        destroy.enrichmentSpecs.some((s: any) => s.op === "DESTROY_ENEMY_SELECT" && s.selector === "HIGHEST_COST"),
+      destroy?.enrichmentSpecs
+    );
+  }
+
+  // ---- (A5) rare poke RESOLVES: on play, auto-hits the strongest enemy --------
+  {
+    const m = arena();
+    m.players.P2.board.front = [
+      unit({ instanceId: "weak", cardId: "tcg_a", attack: 1, health: 9, maxHealth: 9 }),
+      unit({ instanceId: "strong", cardId: "tcg_b", attack: 7, health: 9, maxHealth: 9 }),
+    ];
+    m.players.P1.hand = [RARE_POKE_ID];
+    const r = applyAction(m, { type: "PLAY_UNIT", player: "P1", handIndex: 0, lane: "front" });
+    const strong = r.state.players.P2.board.front.find((u) => u.instanceId === "strong");
+    const weak = r.state.players.P2.board.front.find((u) => u.instanceId === "weak");
+    check("V2 rare poke hits the STRONGEST enemy for 2 (9 -> 7)", strong?.health === 7, strong);
+    check("V2 rare poke leaves the weaker enemy untouched (9)", weak?.health === 9, weak);
+  }
+
+  // ---- (A6) legendary removal RESOLVES: destroys the highest-cost enemy -------
+  {
+    const m = arena();
+    const cheap = getPlayableCardById("tcg_6568")?.id ?? "tcg_6568"; // a low-cost catalog unit
+    // Two enemies; the costlier must be the one reaped. Use catalog ids so costOf
+    // resolves a real cost; tcg_5391 (Poseidon, cost high) sits opposite as victim.
+    m.players.P2.board.front = [
+      unit({ instanceId: "cheapU", cardId: cheap, attack: 1, health: 3, maxHealth: 3 }),
+      unit({ instanceId: "bombU", cardId: "tcg_5181", attack: 8, health: 8, maxHealth: 8 }), // Zeus, high cost
+    ];
+    m.players.P1.hand = [LEGEND_DESTROY_ID];
+    const r = applyAction(m, { type: "PLAY_UNIT", player: "P1", handIndex: 0, lane: "front" });
+    const survivors = r.state.players.P2.board.front.map((u) => u.instanceId);
+    const bombGone = !survivors.includes("bombU");
+    check("V2 legendary removal destroys the highest-cost enemy (bomb)", bombGone, survivors);
+  }
+
+  // ---- (A7) legendary board debuff RESOLVES: all enemies -2 attack this turn --
+  {
+    const m = arena();
+    m.players.P2.board.front = [
+      unit({ instanceId: "e1", cardId: "tcg_a", attack: 5, health: 9, maxHealth: 9 }),
+      unit({ instanceId: "e2", cardId: "tcg_b", attack: 3, health: 9, maxHealth: 9 }),
+    ];
+    m.players.P1.hand = [LEGEND_DEBUFF_ID];
+    const r = applyAction(m, { type: "PLAY_UNIT", player: "P1", handIndex: 0, lane: "front" });
+    const e1 = r.state.players.P2.board.front.find((u) => u.instanceId === "e1");
+    const e2 = r.state.players.P2.board.front.find((u) => u.instanceId === "e2");
+    check("V2 legendary debuff drops enemy e1 attack 5 -> 3", e1?.attack === 3, e1);
+    check("V2 legendary debuff drops enemy e2 attack 3 -> 1", e2?.attack === 1, e2);
+  }
+
+  // ---- (A8) per-band power cap holds for EVERY V2 card in the catalog ---------
+  {
+    const raw = require("../data/generatedTcgCards.json") as any[];
+    const { normalizeFaction } = require("../types/faction");
+    let overCap = 0;
+    let v2count = 0;
+    for (const c of raw) {
+      const card: EnrichableCard = {
+        id: c.id,
+        faction: normalizeFaction(c.faction ?? "STONE_KEEPERS"),
+        rarity: String(c.rarity ?? "COMMON"),
+        keywords: c.keywords ?? [],
+        rawTraits: c.rawTraits ?? {},
+        sourceCardClass: c.cardClass ?? null,
+        sourceSubtype: c.subtype ?? null,
+      };
+      const specs = enrichmentV2SpecsFor(card);
+      if (specs.length === 0) continue;
+      v2count += 1;
+      const band = enrichmentBandOf(card)!;
+      if (enrichmentValuePoints(specs) > bandValueCap(band)) overCap += 1;
+    }
+    check(`V2 catalog has decision cards (${v2count} > 0)`, v2count > 0, v2count);
+    check(`every V2 card respects its band value cap (${overCap} over-cap)`, overCap === 0, overCap);
   }
 } else {
   // ---- (B1) NO enrichment leaks into the catalog with the flag OFF ------------

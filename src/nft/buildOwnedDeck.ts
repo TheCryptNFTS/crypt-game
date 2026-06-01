@@ -38,8 +38,16 @@ export const DECK_SIZE = 30;
  * unit core, exactly mirroring buildCuratedDeck's policy: only "safe" spells are ever
  * auto-included (no removal / face-burn), the unit core is never starved, and the
  * deck stays the same size. Deterministic: cheapest-then-id ordering.
+ *
+ * SPELL ALLOTMENT (2026.06.01): now that there is a real per-faction spell SUITE
+ * (removal/draw/tempo/combat-trick across the curve, see spellCards.ts), 4 slots
+ * was too few to express a spell game-plan — a deck would draft only the four
+ * cheapest safe spells and never see a faction's draw/anthem/tempo mix. Raised to
+ * 6 so decks carry a real spell sub-package while the 25-card unit curve (which the
+ * spell tail is reserved ABOVE, so it is never starved) stays intact. Still capped,
+ * still SAFE-only (no auto-drafted removal), still deterministic.
  */
-export const MAX_SPELLS = 4;
+export const MAX_SPELLS = 6;
 
 /** Deterministic, capped list of SAFE live spells (cheapest-then-id). The live
  *  decks draft from this; restricted (removal/burn) spells are never auto-drafted. */
