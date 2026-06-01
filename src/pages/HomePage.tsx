@@ -20,6 +20,7 @@ import {
   type StreakReward,
   type TodayQuests,
 } from "../services/ladderApi";
+import { t } from "../i18n";
 
 const PASS_TIER_XP = 800;
 
@@ -115,14 +116,12 @@ export default function HomePage() {
         <section className="crypt-home-m-hero" aria-label="Home">
           <div className="crypt-home-m-hero-accent" aria-hidden />
           <div className="crypt-home-m-hero-inner">
-            <p className="crypt-home-m-kicker">CRYPT · Crypt Legends · closed alpha</p>
+            <p className="crypt-home-m-kicker">{t("home.hero.kicker")}</p>
             <h1 className="crypt-home-m-headline">
-              Command
-              <span className="crypt-home-m-headline-sub"> the archive</span>
+              {t("home.hero.headline")}
+              <span className="crypt-home-m-headline-sub">{t("home.hero.headlineSub")}</span>
             </h1>
-            <p className="crypt-home-m-deck">
-              Build a deck, lead a commander, and duel on one tactical field. Gods, monsters, and heroes in play.
-            </p>
+            <p className="crypt-home-m-deck">{t("home.hero.deck")}</p>
 
             <div className="crypt-home-m-ledger" role="group" aria-label="Field ledger">
               <div className="crypt-home-m-ledger-row">
@@ -145,8 +144,8 @@ export default function HomePage() {
             )}
 
             <Link to="/play" className="crypt-home-m-play">
-              <span className="crypt-home-m-play-label">Play</span>
-              <span className="crypt-home-m-play-meta">Jump into a match</span>
+              <span className="crypt-home-m-play-label">{t("home.hero.playLabel")}</span>
+              <span className="crypt-home-m-play-meta">{t("home.hero.playMeta")}</span>
             </Link>
 
             <p className="crypt-home-m-more-nav">

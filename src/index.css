@@ -4950,3 +4950,91 @@ body {
   line-height: 1.4;
   color: #E9C984;
 }
+
+/* === A9 Puzzle / Solo mode + A6 a11y palette toggle ======================= */
+.crypt-puzzle-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 18px;
+}
+.crypt-a11y-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-crypt-text);
+  cursor: pointer;
+  padding: 8px 12px;
+  border: 1px solid var(--color-crypt-border);
+  border-radius: 10px;
+  background: var(--color-crypt-panel);
+}
+.crypt-a11y-toggle input { accent-color: var(--color-crypt-ice); width: 16px; height: 16px; }
+
+.crypt-puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+.crypt-puzzle-card {
+  border: 1px solid var(--color-crypt-border);
+  border-radius: 14px;
+  background: var(--color-crypt-panel);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.crypt-puzzle-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.crypt-puzzle-card-title { margin: 0; font-size: 16px; color: var(--color-crypt-text); font-family: var(--font-brand); }
+.crypt-puzzle-diff {
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--color-crypt-accent); border: 1px solid var(--color-crypt-accent-dim);
+  padding: 2px 8px; border-radius: 999px;
+}
+.crypt-puzzle-objective { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--color-crypt-text); }
+.crypt-puzzle-objective-label { color: var(--color-crypt-muted); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+
+.crypt-puzzle-board {
+  display: flex; flex-direction: column; gap: 8px;
+  border: 1px solid var(--color-crypt-border); border-radius: 10px;
+  padding: 10px; background: var(--color-crypt-obsidian);
+}
+.crypt-puzzle-divider { height: 1px; background: var(--color-crypt-border); }
+.crypt-puzzle-side { display: flex; flex-direction: column; gap: 6px; }
+.crypt-puzzle-side-head { display: flex; align-items: center; justify-content: space-between; }
+.crypt-puzzle-side-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-crypt-muted); }
+/* Enemy / You nexus hues — overridden by the colorblind-safe palette below. */
+.crypt-puzzle-side[aria-label^="Enemy"] .crypt-puzzle-nexus { color: var(--cb-enemy, #e7666a); }
+.crypt-puzzle-side[aria-label^="You"] .crypt-puzzle-nexus { color: var(--cb-ally, #5fd4f0); }
+.crypt-puzzle-nexus { font-family: var(--font-brand); font-size: 13px; }
+.crypt-puzzle-lane { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: center; }
+.crypt-puzzle-empty { font-size: 11px; color: var(--color-crypt-muted); }
+.crypt-puzzle-unit {
+  display: inline-flex; align-items: center; gap: 3px;
+  border: 1px solid var(--color-crypt-border-strong); border-radius: 8px;
+  padding: 4px 8px; font-family: var(--font-brand); font-size: 12px; color: var(--color-crypt-text);
+  background: var(--color-crypt-graphite);
+}
+.crypt-puzzle-unit[data-dead="true"] { opacity: 0.4; text-decoration: line-through; }
+.crypt-puzzle-unit-sep { color: var(--color-crypt-muted); }
+.crypt-puzzle-unit-kw { color: var(--color-crypt-accent); margin-left: 2px; }
+.crypt-puzzle-result { margin: 0; font-size: 12.5px; color: var(--cb-ally, #6fe0a0); font-family: var(--font-brand); }
+.crypt-puzzle-actions { display: flex; gap: 8px; margin-top: auto; }
+.crypt-puzzle-btn {
+  flex: 1; border: 1px solid var(--color-crypt-border); border-radius: 10px;
+  background: var(--color-crypt-graphite); color: var(--color-crypt-text);
+  padding: 9px 12px; font-size: 12px; cursor: pointer;
+}
+.crypt-puzzle-btn--primary { border-color: var(--color-crypt-accent-dim); color: var(--color-crypt-ember); }
+.crypt-puzzle-btn:focus-visible { outline: 2px solid var(--color-crypt-ice); outline-offset: 2px; }
+
+/* Colorblind-safe palette (A6 a11y): swap red/green-coded hues for a
+   blue/orange-anchored, deuteranopia-friendly set. Keyed off the root attribute
+   set by src/a11y/palette.ts. Status is also conveyed by text/glyph, never color
+   alone, so this is an enhancement not a crutch. */
+:root[data-palette="cb-safe"] {
+  --cb-enemy: #f08a24;  /* orange instead of red */
+  --cb-ally: #5fa8ff;   /* strong blue instead of green/cyan */
+}
