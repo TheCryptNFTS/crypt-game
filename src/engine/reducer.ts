@@ -193,7 +193,24 @@ const compiledAbilityCache = new Map<string, CompiledAbility>();
 function compiledFor(cardId: string): CompiledAbility {
   let c = compiledAbilityCache.get(cardId);
   if (!c) {
-    c = compileAbility(cardMetaById.get(cardId)?.rawTraits?.Ability);
+    const meta = cardMetaById.get(cardId);
+    c = compileAbility(meta?.rawTraits?.Ability);
+    // RAISE-THE-FLOOR (flag-gated, reversible): merge the catalog's off-chain
+    // enrichment specs onto the authored IR. `enrichmentSpecs` is ONLY present
+    // when the enrichment flag was ON at catalog build AND the card is a vanilla
+    // (zero-op) body of the slice faction — so with the flag OFF this branch
+    // never runs and the compiled IR is byte-identical to today (the isolation
+    // guarantee the reducer-equivalence golden pins). The merge is additive: the
+    // enrichment specs join both `specs` (executed by fireTrigger) and
+    // `classified` (so coverage tooling sees them).
+    const enrich = meta?.enrichmentSpecs as CompiledAbility["specs"] | undefined;
+    if (Array.isArray(enrich) && enrich.length > 0) {
+      c = {
+        ...c,
+        specs: [...c.specs, ...enrich],
+        classified: [...c.classified, ...enrich],
+      };
+    }
     compiledAbilityCache.set(cardId, c);
   }
   return c;
