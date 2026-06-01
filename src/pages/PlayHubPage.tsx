@@ -368,6 +368,12 @@ export default function PlayHubPage() {
               <span className="crypt-play-mode-quick-meta">Your rank, MMR, level, and season stars</span>
             </Link>
 
+            <Link to="/puzzles" className="crypt-play-mode-quick">
+              <span className="crypt-play-mode-quick-kicker">Solo · Puzzles</span>
+              <span className="crypt-play-mode-quick-title">⬡ Find the line</span>
+              <span className="crypt-play-mode-quick-meta">Hand-built tactical positions with one winning line — solve at your own pace</span>
+            </Link>
+
             <Link to="/leaderboard" className="crypt-play-mode-quick">
               <span className="crypt-play-mode-quick-kicker">Tier 2 · The Season</span>
               <span className="crypt-play-mode-quick-title">⬡ Season ladder</span>

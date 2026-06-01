@@ -5,6 +5,10 @@ import App from "./App";
 import { RootBoundary } from "./components/RootBoundary";
 import DevBuildStamp from "./components/DevBuildStamp";
 import { RenderManifestProvider } from "./hooks/useRenderManifest";
+import { initPalette } from "./a11y/palette";
+
+// Apply the persisted colorblind-safe palette preference before first paint (A6 a11y).
+initPalette();
 
 const el = document.getElementById("root");
 if (!el) {
