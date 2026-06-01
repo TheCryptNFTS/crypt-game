@@ -23,6 +23,7 @@ import { createMatchFromDecks } from "../src/engine/createMatchFromDecks";
 import { CORE_RULESET } from "../src/engine/state";
 import type { MatchBootstrapInput, DeckBootstrapInput } from "../src/types/matchBootstrap";
 import { PersistenceStore } from "./persistence";
+import { BASELINE_RATING } from "../src/meta/rating";
 import { projectViewForSeat, projectSpectatorView, type MatchView } from "./view";
 import type {
   Action,
@@ -79,6 +80,29 @@ export const EMOTE_MIN_INTERVAL_MS = 2_000;
 
 /** How many recent emotes per match are retained for the `since`-poll channel. */
 export const EMOTE_RING_SIZE = 32;
+
+// --- MMR matchmaking tuning -------------------------------------------------
+// The queue pairs the two CLOSEST-rated waiting players whose rating gap fits
+// inside a tolerance that WIDENS the longer the older of the two has waited, so
+// a lonely high/low-rated player is never starved. All game-internal rating
+// (reused from rating.ts) — never hex.
+
+/** Starting MMR tolerance: a freshly-enqueued pair must be within this gap. */
+export const MMR_BASE_TOLERANCE = 100;
+/** Extra MMR tolerance granted per full second the older ticket has waited. */
+export const MMR_TOLERANCE_PER_SEC = 50;
+/** Hard ceiling on tolerance so it always converges (effectively "anyone"). */
+export const MMR_MAX_TOLERANCE = 5_000;
+
+/**
+ * The widened MMR tolerance for a ticket that has waited `waitedMs`. Linear in
+ * seconds waited, clamped to [MMR_BASE_TOLERANCE, MMR_MAX_TOLERANCE]. Pure.
+ */
+export function mmrToleranceForWait(waitedMs: number): number {
+  const secs = Math.max(0, waitedMs) / 1000;
+  const widened = MMR_BASE_TOLERANCE + secs * MMR_TOLERANCE_PER_SEC;
+  return Math.min(MMR_MAX_TOLERANCE, widened);
+}
 
 /**
  * Code alphabet: unambiguous uppercase letters + digits (no 0/O/1/I) so a code
@@ -560,6 +584,9 @@ interface QueueTicket {
   /** This player's deck bootstrap (commander + deck), used to build the match. */
   deck: DeckBootstrapInput;
   enqueuedAt: number;
+  /** The player's game-internal MMR snapshotted at enqueue (defaults to the
+   *  baseline when there is no durable store / no ranking row yet). */
+  mmr: number;
 }
 
 /** What a queued player learns about their pairing once matched. */
@@ -639,9 +666,12 @@ export class MatchRegistry {
   private readonly store?: PersistenceStore;
 
   /**
-   * FIFO matchmaking queue: longest-waiting at index 0. A SINGLE deterministic
-   * FIFO is the whole policy here — no ELO/MMR/ranked (premature). Keyed by
-   * account so a double-enqueue is idempotent (refreshes the same ticket).
+   * MMR matchmaking queue. Tickets are held longest-waiting-first (index 0 is the
+   * oldest). Pairing prefers the two CLOSEST-rated waiting players whose rating
+   * gap fits inside a tolerance that WIDENS with the older ticket's wait time
+   * (see `mmrToleranceForWait`), so close matches happen fast while a lonely
+   * outlier is never starved. Keyed by account so a double-enqueue is idempotent
+   * (refreshes the same ticket without losing its place in line).
    */
   private queue: QueueTicket[] = [];
   /**
@@ -791,7 +821,7 @@ export class MatchRegistry {
    *
    * Returns the player's resulting `QueueStatus` (queued+position OR matched).
    */
-  enqueue(accountId: AccountId, deck: DeckBootstrapInput): QueueStatus {
+  enqueue(accountId: AccountId, deck: DeckBootstrapInput, now: number = Date.now()): QueueStatus {
     // Already paired but not yet claimed? Hand back the pairing.
     const existingPair = this.pairings.get(accountId);
     if (existingPair) {
@@ -801,29 +831,73 @@ export class MatchRegistry {
     const idx = this.queue.findIndex((t) => t.accountId === accountId);
     if (idx >= 0) {
       this.queue[idx].deck = deck; // allow a deck swap while waiting
+      this.queue[idx].mmr = this.mmrFor(accountId); // refresh in case it moved
     } else {
-      this.queue.push({ accountId, deck, enqueuedAt: Date.now() });
+      this.queue.push({ accountId, deck, enqueuedAt: now, mmr: this.mmrFor(accountId) });
     }
-    this.pair();
+    this.pair(now);
     return this.queueStatus(accountId);
   }
 
   /**
-   * Pair the two longest-waiting players into a fresh AuthoritativeMatch. Loops
-   * so a backlog drains in one call. Seat assignment is deterministic: the
-   * earlier-waiting player is P1. The match seed is derived from the new match
-   * id counter (a server choice; the engine is fully seedable). Records each
-   * player's pairing so their next poll learns matchId + seat.
+   * The game-internal MMR used to seed a queue ticket. Reads the durable
+   * ranking row's `rating` (reusing rating.ts's BASELINE_RATING when there is no
+   * store or no row yet — pure in-memory proof servers fall back to baseline).
+   * Rating is a skill scalar ONLY — it is never hex and never leaves this module.
    */
-  pair(): void {
+  private mmrFor(accountId: AccountId): number {
+    if (!this.store) return BASELINE_RATING;
+    return this.store.getRanking(accountId).rating ?? BASELINE_RATING;
+  }
+
+  /**
+   * MMR pairing pass. Repeatedly takes the OLDEST waiting ticket (the one most at
+   * risk of starving) and pairs it with the closest-rated other waiting ticket
+   * whose rating gap fits inside the tolerance widened by the older ticket's wait
+   * time. If no partner is yet inside tolerance, that ticket waits (its tolerance
+   * grows on the next pass), but younger tickets behind it may still pair with
+   * each other — so the queue never deadlocks on a single outlier.
+   *
+   * Seat assignment stays deterministic: the EARLIER-enqueued of the paired two
+   * is P1. The match seed/id derive exactly as before via `createPairedMatch`, so
+   * resolution is byte-identical to the old FIFO path — only WHO is paired
+   * changed. Records each player's pairing so their next poll learns matchId+seat.
+   */
+  pair(now: number = Date.now()): void {
+    // Loop until no further pairing is possible this pass. Each iteration that
+    // pairs removes two tickets; an iteration that finds no partner for the
+    // oldest ticket stops the pass (that ticket waits for a wider tolerance).
     while (this.queue.length >= 2) {
-      const a = this.queue.shift()!; // longest-waiting => P1
-      const b = this.queue.shift()!; // next => P2
+      // The oldest ticket drives the tolerance (it has waited the longest).
+      const anchor = this.queue[0];
+      const tolerance = mmrToleranceForWait(now - anchor.enqueuedAt);
+      // Find the waiting partner with the smallest rating gap to the anchor.
+      let bestIdx = -1;
+      let bestGap = Infinity;
+      for (let i = 1; i < this.queue.length; i++) {
+        const gap = Math.abs(this.queue[i].mmr - anchor.mmr);
+        if (gap < bestGap) {
+          bestGap = gap;
+          bestIdx = i;
+        }
+      }
+      if (bestIdx < 0 || bestGap > tolerance) {
+        // No partner within the anchor's (current) tolerance — stop this pass.
+        break;
+      }
+      // Remove both tickets (anchor first so indices stay valid).
+      const partner = this.queue.splice(bestIdx, 1)[0];
+      const anchorTicket = this.queue.shift()!;
+      // Deterministic seating: the earlier-enqueued player is P1.
+      const [p1, p2] =
+        anchorTicket.enqueuedAt <= partner.enqueuedAt
+          ? [anchorTicket, partner]
+          : [partner, anchorTicket];
       // PUBLIC-queue pairings are spectatable: two anonymous ladder players, no
       // friend-duel privacy expectation, so the City can broadcast the match.
-      const matchId = this.createPairedMatch(a.accountId, a.deck, b.accountId, b.deck, true);
-      this.pairings.set(a.accountId, { matchId, seat: "P1" });
-      this.pairings.set(b.accountId, { matchId, seat: "P2" });
+      const matchId = this.createPairedMatch(p1.accountId, p1.deck, p2.accountId, p2.deck, true);
+      this.pairings.set(p1.accountId, { matchId, seat: "P1" });
+      this.pairings.set(p2.accountId, { matchId, seat: "P2" });
     }
   }
 
