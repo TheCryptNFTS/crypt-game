@@ -3,6 +3,7 @@ import { CatalogLoader } from "../components/CatalogLoader";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { validateDeck } from "../engine/deckRules";
+import { Format, isCardLegalInFormat } from "../engine/formats";
 import { getCommanderById } from "../engine/commanders";
 import { useRenderManifest } from "../hooks/useRenderManifest";
 import CommanderCard from "../components/cards/CommanderCard";
@@ -20,6 +21,10 @@ export default function DeckBuilderPage() {
   const { playable, entryById, loading, error, ready } = useRenderManifest();
   const [commanderId, setCommanderId] = useState(loadStoredCommanderId);
   const [mainDeck, setMainDeck] = useState<string[]>(loadStoredMainDeckCardIds);
+  // FORMAT (PART 2). Open is the historical DEFAULT (full pool legal); Core
+  // restricts legality to the curated Core set. Local-only UI state — it just
+  // drives `validateDeck`'s `format` param and the archive's Core-legal dimming.
+  const [format, setFormat] = useState<Format>("Open");
 
   useEffect(() => {
     try {
@@ -58,8 +63,9 @@ export default function DeckBuilderPage() {
       deckSize: commander.deckRules.deckSize,
       maxCopies: 2,
       allowGodCards: commander.deckRules.maxGodCards > 0,
+      format,
     });
-  }, [commander, commanderId, mainDeck]);
+  }, [commander, commanderId, mainDeck, format]);
 
   const playablePool = useMemo(
     () => playable.filter((e) => e.role === "unit" || e.role === "equipment" || e.role === "artifact"),
@@ -70,9 +76,12 @@ export default function DeckBuilderPage() {
     (id: string) => {
       if (!commander) return;
       if (mainDeck.length >= commander.deckRules.deckSize) return;
+      // FORMAT gate: in Core, only Core-legal cards can be enlisted (the archive
+      // also dims+disables them below, so this is belt-and-suspenders).
+      if (!isCardLegalInFormat(id, format)) return;
       setMainDeck((d) => [...d, id]);
     },
-    [commander, mainDeck.length]
+    [commander, mainDeck.length, format]
   );
 
   const removeAt = useCallback((index: number) => {
@@ -94,6 +103,28 @@ export default function DeckBuilderPage() {
           <p className="crypt-lore-whisper">
             Assemble your faction—deck law guards every Crypt Digital Trading Card you enlist.
           </p>
+          <div className="crypt-deck-panel">
+            <label className="crypt-deck-label">Format</label>
+            <div className="live-quick-buttons" style={{ marginBottom: 8 }}>
+              {(["Open", "Core"] as Format[]).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  className={`live-btn ${format === f ? "live-btn--primary" : "live-btn--ghost"}`}
+                  aria-pressed={format === f}
+                  onClick={() => setFormat(f)}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+            <p className="crypt-deck-hint">
+              {format === "Open"
+                ? "Open · the full playable pool is legal."
+                : "Core · only curated Core-set cards are legal. Non-Core cards are dimmed below."}
+            </p>
+          </div>
+
           <div className="crypt-deck-panel">
             <label className="crypt-deck-label" htmlFor="crypt-deck-commander-select">
               Commander
@@ -178,9 +209,20 @@ export default function DeckBuilderPage() {
           <div>
             <h2 className="crypt-deck-section-title">Archive · tap to enlist</h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {playablePool.map((entry) => (
-                <PlayableCard key={entry.id} entry={entry} mode="collection" onClick={() => addCard(entry.id)} />
-              ))}
+              {playablePool.map((entry) => {
+                // FORMAT legality: in Core, cards outside the curated set are
+                // dimmed and non-interactive so the legal pool reads at a glance.
+                const legal = isCardLegalInFormat(entry.id, format);
+                return (
+                  <PlayableCard
+                    key={entry.id}
+                    entry={entry}
+                    mode="collection"
+                    onClick={legal ? () => addCard(entry.id) : undefined}
+                    className={legal ? "" : "pointer-events-none opacity-40"}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
