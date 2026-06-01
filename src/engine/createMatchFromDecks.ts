@@ -54,6 +54,13 @@ export function createMatchFromDecks(input: MatchBootstrapInput) {
   match.winner = match.winner ?? null;
   match.rngCursor = match.rngCursor ?? 0;
 
+  // Per-match ruleset opt-in (faction identities, etc.). Absent => vanilla;
+  // setting it here keeps the constructor the single place rules are attached so
+  // live creation + server replay agree (both pass the same bootstrap).
+  if (input.rules != null) {
+    match.rules = input.rules;
+  }
+
   return match;
 }
 

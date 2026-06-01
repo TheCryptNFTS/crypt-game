@@ -95,8 +95,14 @@ function buildInitialState(
   bootstrap?: MatchBootstrapInput
 ): MatchState {
   if (bootstrap) {
-    // Force the caller's seed onto the bootstrap so live + replay agree.
-    return createMatchFromDecks({ ...bootstrap, seed }) as MatchState;
+    // Force the caller's seed onto the bootstrap so live + replay agree. Live
+    // play opts into faction identities; injecting the flag HERE (the single
+    // server constructor) keeps live creation and replay byte-identical.
+    return createMatchFromDecks({
+      ...bootstrap,
+      seed,
+      rules: bootstrap.rules ?? { factionIdentities: true },
+    }) as MatchState;
   }
   return createMatch(seed);
 }
