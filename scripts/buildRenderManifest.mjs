@@ -68,6 +68,7 @@ const manifest = {
       rarity: "commander",
       cost: undefined,
       keywords: [],
+      ability: "",
       imageUrl: asset?.imageUrl ?? null,
       animationUrl: asset?.animationUrl ?? null,
       externalUrl: asset?.externalUrl ?? null,
@@ -81,6 +82,14 @@ const manifest = {
     ...(artifacts || []).map((card) => ({ ...card, role: "artifact" })),
   ].map((card) => {
     const asset = pickCardAsset(card);
+    // Display keywords: prefer the FULL functional keyword list the engine wires
+    // (carried by the playable build), falling back to the stripped keyword set or
+    // effectTags. `ability` carries the human-readable rules text so the UI can
+    // show what the card actually does instead of a vanilla stat block.
+    const displayKeywords =
+      (Array.isArray(card.functionalKeywords) && card.functionalKeywords.length > 0
+        ? card.functionalKeywords
+        : card.keywords) ?? card.effectTags ?? [];
     return {
       id: card.id,
       name: card.name ?? card.id,
@@ -88,7 +97,8 @@ const manifest = {
       faction: card.faction ?? "GOD",
       rarity: card.rarity ?? "common",
       cost: card.cost,
-      keywords: card.keywords ?? card.effectTags ?? [],
+      keywords: displayKeywords,
+      ability: typeof card.ability === "string" ? card.ability : "",
       imageUrl: asset?.imageUrl ?? null,
       animationUrl: asset?.animationUrl ?? null,
       externalUrl: asset?.externalUrl ?? null,

@@ -8,6 +8,7 @@ const commands = [
   "npm run dev:keywords",
   "npm run dev:combatkw",
   "npm run dev:statuskw",
+  "npm run dev:relic-ritual",
   "npm run dev:effect-coverage",
   "npm run dev:effects",
   "npm run dev:triggers",

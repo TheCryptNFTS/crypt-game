@@ -16,7 +16,7 @@ type Props = {
 export function ActionBar(props: Props) {
   const selectionText =
     props.selectedType === "unit"
-      ? "Unit selected. Choose a lane."
+      ? "Unit selected. Press Play Front or Play Back to deploy."
       : props.selectedType === "equipment"
         ? "Equipment selected. Choose one of your units."
         : props.selectedType === "artifact"

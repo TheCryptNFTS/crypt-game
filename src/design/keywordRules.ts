@@ -133,39 +133,113 @@ export const KEYWORD_RULES: Record<string, KeywordRule> = {
     scoreHint: 1.25,
     validOn: ["unit"]
   },
+  SHIELD: {
+    keyword: "SHIELD",
+    meaning: "absorbs the first instance of combat damage, then breaks (one-shot absorb)",
+    scoreHint: 2.0,
+    validOn: ["unit"]
+  },
+  WINDFURY: {
+    keyword: "WINDFURY",
+    meaning: "may attack a second time each turn",
+    scoreHint: 1.75,
+    validOn: ["unit"]
+  },
+  FEAR: {
+    keyword: "FEAR",
+    meaning: "low-cost enemy attackers cannot strike this unit (RESTRICT_ATTACK)",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  OATH: {
+    keyword: "OATH",
+    meaning: "contributes to the faction OATH payoff layer (faction-scaled buff)",
+    scoreHint: 1.25,
+    validOn: ["unit"]
+  },
 
-  // --- Inert display keywords (REGISTERED so lookups/validation don't throw) ---
-  // These are recognized canonical keywords with NO engine mechanic yet. They
-  // are intentionally no-ops; the engine must simply not crash or warn on them.
-  // TODO: not yet implemented — wire mechanics in a later wave if desired:
-  //   PATIENT, SHIELD, OATH, DECAY, SUMMON, FEAR, JUDGMENT, RELIC, RALLY,
-  //   MARTYR, BLESS, VOW, RITUAL, MIRE, WINDFURY, RECALL.
-  PATIENT: inertRule("PATIENT"),
-  SHIELD: inertRule("SHIELD"),
-  OATH: inertRule("OATH"),
-  DECAY: inertRule("DECAY"),
-  SUMMON: inertRule("SUMMON"),
-  FEAR: inertRule("FEAR"),
-  JUDGMENT: inertRule("JUDGMENT"),
-  RELIC: inertRule("RELIC"),
-  RALLY: inertRule("RALLY"),
-  MARTYR: inertRule("MARTYR"),
-  BLESS: inertRule("BLESS"),
-  VOW: inertRule("VOW"),
-  RITUAL: inertRule("RITUAL"),
-  MIRE: inertRule("MIRE"),
-  WINDFURY: inertRule("WINDFURY"),
-  RECALL: inertRule("RECALL")
+  // --- Keywords whose mechanic is compiled from each card's ability TEXT --------
+  // These carry no INTRINSIC stat grant; instead the ability compiler
+  // (engine/abilityCompiler.ts) parses the card's rules text bearing the keyword
+  // into real engine ops (e.g. RALLY -> BUFF_ALLIES on attack, JUDGMENT ->
+  // PIERCE_ARMOR, DECAY/MIRE -> DEBUFF_ENEMY / end-of-turn decay, PATIENT ->
+  // RESTRICT_ATTACK + grower/mitigation, SUMMON -> SUMMON_TOKEN, MARTYR/VOW ->
+  // faction-scaled BUFF_SELF, BLESS -> BUFF_ALLIES, RECALL -> return to hand).
+  // The scoreHints below reflect their realized power, not "inert".
+  PATIENT: {
+    keyword: "PATIENT",
+    meaning: "compiles from text: cannot attack, grows / mitigates / regenerates over time",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  DECAY: {
+    keyword: "DECAY",
+    meaning: "compiles from text: attrition — debuffs on hit or decays at end of turn",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  SUMMON: {
+    keyword: "SUMMON",
+    meaning: "compiles from text: summons a token unit",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  JUDGMENT: {
+    keyword: "JUDGMENT",
+    meaning: "compiles from text: pierces enemy armor",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  RALLY: {
+    keyword: "RALLY",
+    meaning: "compiles from text: buffs allied units on attack",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  MARTYR: {
+    keyword: "MARTYR",
+    meaning: "compiles from text: faction-scaled self-buff on summon",
+    scoreHint: 1.25,
+    validOn: ["unit"]
+  },
+  BLESS: {
+    keyword: "BLESS",
+    meaning: "compiles from text: buffs allied units on summon",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  VOW: {
+    keyword: "VOW",
+    meaning: "compiles from text: faction-scaled self-buff on summon",
+    scoreHint: 1.25,
+    validOn: ["unit"]
+  },
+  MIRE: {
+    keyword: "MIRE",
+    meaning: "compiles from text: attrition / end-of-turn decay onto enemies",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+  RECALL: {
+    keyword: "RECALL",
+    meaning: "compiles from text: returns a unit to its owner's hand",
+    scoreHint: 1.5,
+    validOn: ["unit"]
+  },
+
+  // --- Keywords with an INTRINSIC summon grant (engine/keywordEngine.ts) --------
+  RELIC: {
+    keyword: "RELIC",
+    meaning: "enduring artifact-grade unit — gains +1 Armor when it enters play",
+    scoreHint: 1.25,
+    validOn: ["unit"]
+  },
+  RITUAL: {
+    keyword: "RITUAL",
+    meaning: "consecrated by a summoning rite — gains +1 max health when it enters play",
+    scoreHint: 1.25,
+    validOn: ["unit"]
+  }
 };
-
-/** Minimal no-op rule for canonical keywords that have no engine mechanic yet. */
-function inertRule(keyword: string): KeywordRule {
-  return {
-    keyword,
-    meaning: "recognized display keyword — no engine mechanic yet (inert)",
-    scoreHint: 1.0,
-    validOn: ["unit", "equipment", "artifact"]
-  };
-}
 
 export const ALL_KEYWORDS = Object.keys(KEYWORD_RULES);

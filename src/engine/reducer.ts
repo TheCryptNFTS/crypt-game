@@ -40,6 +40,8 @@ import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBo
 import {
   initShield,
   armorOnSummon,
+  relicOnSummon,
+  ritualOnSummon,
   initStealth,
   unitIsStealthed,
   lifestealHeal,
@@ -1336,6 +1338,8 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       if (summoned) {
         initShield(summoned);
         armorOnSummon(summoned); // ARMORED: +1 armor on enter
+        relicOnSummon(summoned); // RELIC: +1 armor on enter (enduring artifact)
+        ritualOnSummon(summoned); // RITUAL: +1 max health on enter (consecration ward)
         initStealth(summoned); // STEALTH: untargetable until it acts
         if (unitHasKeyword(summoned, "SCRY")) {
           pl.deck = scryDeck(pl.deck, costOf);

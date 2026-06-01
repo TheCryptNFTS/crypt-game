@@ -2836,6 +2836,34 @@ body {
   background: rgba(212, 168, 75, 0.14);
 }
 
+/* —— Matchmaking queue (Find Match) —— */
+.crypt-play-queue-live {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.crypt-play-queue-status {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--color-crypt-accent);
+  /* Soft pulse so "searching…" reads as live without an emoji/spinner asset. */
+  animation: crypt-play-queue-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes crypt-play-queue-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .crypt-play-mode-row {
   display: grid;
   gap: 12px;
@@ -3306,6 +3334,116 @@ body {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(122, 115, 112, 0.55);
+}
+
+.crypt-profile-rank-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 2px;
+  border: 1px solid rgba(141, 92, 255, 0.28);
+  background: linear-gradient(180deg, rgba(141, 92, 255, 0.08), rgba(6, 5, 4, 0.5));
+}
+
+.crypt-profile-rank-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.crypt-profile-rank-tier {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  color: #e9c984;
+}
+
+.crypt-profile-rank-rating {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(141, 92, 255, 0.9);
+}
+
+/* Server-driven Daily rites + streak (HomePage) */
+.crypt-rites-quest-title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.crypt-rites-quest-state {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(212, 168, 75, 0.6);
+}
+
+.crypt-rites-claim-btn {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0a0705;
+  background: linear-gradient(175deg, #e0c88a 0%, #c9983a 100%);
+  border: 1px solid rgba(212, 168, 75, 0.5);
+  border-radius: 1px;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s var(--ease-spring-soft);
+}
+
+.crypt-rites-claim-btn:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.crypt-rites-claim-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.45);
+}
+
+.crypt-rites-streak {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(141, 92, 255, 0.18);
+}
+
+.crypt-rites-streak-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(141, 92, 255, 0.9);
+}
+
+/* Unlocked cosmetics (ProfilePage) */
+.crypt-profile-cosmetic-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.crypt-profile-cosmetic-chip {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  color: #e9c984;
+  border: 1px solid rgba(233, 201, 132, 0.32);
+  background: linear-gradient(180deg, rgba(233, 201, 132, 0.1), rgba(6, 5, 4, 0.5));
+  border-radius: 2px;
 }
 
 .crypt-profile-commander-row {
@@ -4288,6 +4426,247 @@ body {
   color: var(--color-crypt-muted);
 }
 
+/* ============================================================
+ * Tier 2 · The Season — leaderboard + reward track + recent duels
+ * (distinct prefixes: .crypt-ladder-* and .crypt-duel-*)
+ * ============================================================ */
+
+/* Your pinned standing on the ladder page */
+.crypt-ladder-you {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  padding: 12px 14px;
+  border-radius: 2px;
+  border: 1px solid rgba(141, 92, 255, 0.28);
+  background: linear-gradient(180deg, rgba(141, 92, 255, 0.1), rgba(6, 5, 4, 0.5));
+}
+
+.crypt-ladder-you-pos {
+  font-family: var(--font-display, var(--font-mono));
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  color: #e9c984;
+}
+
+.crypt-ladder-you-tier {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(141, 92, 255, 0.9);
+}
+
+.crypt-ladder-you-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--color-crypt-muted);
+}
+
+/* Ranked list */
+.crypt-ladder-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.crypt-ladder-row {
+  display: grid;
+  grid-template-columns: 44px 1fr auto auto 44px;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.crypt-ladder-row:last-child {
+  border-bottom: none;
+}
+
+.crypt-ladder-row--me {
+  border-radius: 2px;
+  border: 1px solid rgba(233, 201, 132, 0.4);
+  background: rgba(233, 201, 132, 0.07);
+}
+
+.crypt-ladder-pos {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-ladder-pos--gold {
+  color: #e9c984;
+}
+
+.crypt-ladder-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-crypt-text);
+  letter-spacing: 0.04em;
+}
+
+.crypt-ladder-you-tag {
+  color: #e9c984;
+}
+
+.crypt-ladder-rating {
+  text-align: right;
+  color: rgba(141, 92, 255, 0.95);
+  letter-spacing: 0.06em;
+}
+
+.crypt-ladder-wl {
+  text-align: right;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-ladder-streak {
+  text-align: right;
+  color: rgba(233, 201, 132, 0.8);
+}
+
+/* Reward track */
+.crypt-ladder-rewards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.crypt-ladder-reward-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.crypt-ladder-reward-row:last-child {
+  border-bottom: none;
+}
+
+.crypt-ladder-reward-tier {
+  color: #e9c984;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.crypt-ladder-reward-req {
+  color: var(--color-crypt-muted);
+  letter-spacing: 0.04em;
+}
+
+.crypt-ladder-reward-prize {
+  color: var(--color-crypt-text);
+  letter-spacing: 0.04em;
+}
+
+.crypt-ladder-reward-cos {
+  color: rgba(141, 92, 255, 0.9);
+}
+
+.crypt-ladder-reward-state {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(122, 115, 112, 0.7);
+}
+
+.crypt-ladder-reward-state--done {
+  color: rgba(233, 201, 132, 0.85);
+}
+
+.crypt-ladder-reward-claim {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(141, 92, 255, 0.55);
+  background: rgba(141, 92, 255, 0.16);
+  color: #d9c8ff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.crypt-ladder-reward-claim:hover:not(:disabled) {
+  background: rgba(141, 92, 255, 0.3);
+}
+
+.crypt-ladder-reward-claim:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Recent duels (Profile) */
+.crypt-duel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.crypt-duel-row {
+  display: grid;
+  grid-template-columns: 54px auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.crypt-duel-row:last-child {
+  border-bottom: none;
+}
+
+.crypt-duel-result {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+.crypt-duel-result--win {
+  color: #e9c984;
+}
+
+.crypt-duel-result--loss {
+  color: rgba(122, 115, 112, 0.85);
+}
+
+.crypt-duel-delta {
+  letter-spacing: 0.06em;
+}
+
+.crypt-duel-delta--up {
+  color: rgba(141, 92, 255, 0.95);
+}
+
+.crypt-duel-delta--down {
+  color: rgba(122, 115, 112, 0.8);
+}
+
+.crypt-duel-time {
+  text-align: right;
+  color: var(--color-crypt-muted);
+  letter-spacing: 0.04em;
+}
+
 .crypt-holder-prestige-preview {
   position: relative;
   margin-top: 14px;
@@ -4357,4 +4736,194 @@ body {
   color: rgba(122, 115, 112, 0.55);
   background: rgba(6, 5, 5, 0.5);
   cursor: not-allowed;
+}
+
+/* —— Challenge a friend (private duel) —— compact one-panel Create/Join,
+ * sits under Find Match. Prefix: .crypt-challenge*. */
+.crypt-challenge {
+  margin-top: 12px;
+  padding: 16px 18px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border-strong);
+  background: linear-gradient(165deg, rgba(16, 14, 22, 0.96) 0%, rgba(9, 8, 12, 0.96) 100%);
+}
+
+.crypt-challenge__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.crypt-challenge__kicker {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #8D5CFF;
+}
+
+.crypt-challenge__title {
+  margin: 0;
+  font-family: var(--font-surface);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-crypt-text);
+}
+
+.crypt-challenge__tabs {
+  display: inline-flex;
+  gap: 4px;
+  margin: 12px 0 10px;
+}
+
+.crypt-challenge__tab {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 2px;
+  border: 1px solid rgba(141, 92, 255, 0.3);
+  background: transparent;
+  color: var(--color-crypt-muted);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.crypt-challenge__tab:hover {
+  border-color: rgba(141, 92, 255, 0.6);
+  color: var(--color-crypt-text);
+}
+
+.crypt-challenge__tab.is-active {
+  border-color: #8D5CFF;
+  background: rgba(141, 92, 255, 0.16);
+  color: #fff;
+}
+
+.crypt-challenge__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.crypt-challenge__hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-crypt-muted);
+  max-width: 52ch;
+}
+
+.crypt-challenge__code-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crypt-challenge__code {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: #E9C984;
+  padding: 8px 14px;
+  border-radius: 2px;
+  border: 1px solid rgba(233, 201, 132, 0.4);
+  background: rgba(233, 201, 132, 0.06);
+}
+
+.crypt-challenge__copy,
+.crypt-challenge__cancel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border-strong);
+  background: transparent;
+  color: var(--color-crypt-muted);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.crypt-challenge__copy:hover,
+.crypt-challenge__cancel:hover {
+  border-color: #8D5CFF;
+  color: var(--color-crypt-text);
+}
+
+.crypt-challenge__cancel {
+  align-self: flex-start;
+}
+
+.crypt-challenge__cta {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 2px;
+  border: 1px solid rgba(141, 92, 255, 0.5);
+  background: rgba(141, 92, 255, 0.1);
+  color: #b79bff;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.crypt-challenge__cta:hover:not(:disabled) {
+  border-color: #8D5CFF;
+  background: rgba(141, 92, 255, 0.2);
+  color: #fff;
+}
+
+.crypt-challenge__cta:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.crypt-challenge__join-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.crypt-challenge__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  padding: 9px 12px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border-strong);
+  background: rgba(6, 5, 8, 0.7);
+  color: var(--color-crypt-text);
+}
+
+.crypt-challenge__input:focus {
+  outline: none;
+  border-color: #8D5CFF;
+}
+
+.crypt-challenge__join-row .crypt-challenge__cta {
+  align-self: stretch;
+}
+
+.crypt-challenge__meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+}
+
+.crypt-challenge__note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #E9C984;
 }

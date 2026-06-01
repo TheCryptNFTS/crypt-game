@@ -85,6 +85,14 @@ export const KEYWORD_DESCRIPTIONS: Record<string, KeywordDescription> = {
     label: "Battlecry",
     description: "Deals 2 damage to the enemy hero when this unit is played."
   },
+  DEATHKNELL: {
+    label: "Deathknell",
+    description: "When this unit dies, deals damage to the strongest enemy unit — which can chain into that unit's own death triggers."
+  },
+  DEPLOY: {
+    label: "Deploy",
+    description: "When this unit is played, deals damage to the strongest enemy unit."
+  },
   ARMOR_GAIN: {
     label: "Armor Gain",
     description: "Built for bruiser-style combat with added durability."

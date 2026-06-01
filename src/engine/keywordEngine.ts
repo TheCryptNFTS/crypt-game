@@ -115,15 +115,18 @@ export function applyKeywordHooksOnSummon(unit: AnyUnit): AnyUnit {
     nextUnit.armor = (nextUnit.armor || 0) + 1;
   }
 
-  // NOTE on inert canonical keywords: any keyword the engine does not branch on
-  // (DIVINE_SHIELD, REGROW, WARD, DEATHRATTLE, PATIENT, SCRY, EXECUTE, SHIELD,
-  // OATH, DECAY, SUMMON, FEAR, JUDGMENT, RELIC, RALLY, MARTYR, BLESS, VOW,
-  // RITUAL, MIRE, WINDFURY, RECALL) is simply carried on unit.keywords and
-  // ignored here. unitHasKeyword returns false for unmatched tags, so unknown
-  // keywords never throw. They are registered in design/keywordRules.ts.
-  // TODO: DIVINE_SHIELD (ignore first instance of damage, then removed) is not
-  // implemented — it would require threading a per-unit flag through every
-  // combat damage path, so it is left inert for now.
+  // NOTE on canonical keywords NOT branched on in this summon hook: many are
+  // wired elsewhere in the canonical flow rather than here —
+  //   DIVINE_SHIELD / SHIELD / WARD  -> one-shot absorb via initShield + absorbDamage
+  //   WINDFURY                       -> bonus swing via consumeWindfuryStrike
+  //   DEATHRATTLE / REGROW / EXECUTE / SCRY / LIFESTEAL / STEALTH -> reducer helpers below
+  //   FEAR                           -> RESTRICT_ATTACK passive (reducer)
+  //   OATH                           -> faction OATH_BONUS payoff layer (factionIdentity)
+  //   RELIC / RITUAL                 -> intrinsic summon grant (relicOnSummon / ritualOnSummon, reducer)
+  //   PATIENT/DECAY/SUMMON/JUDGMENT/RALLY/MARTYR/BLESS/VOW/MIRE/RECALL
+  //                                  -> compiled from each card's ability text (abilityCompiler.ts)
+  // All canonical keywords are registered in design/keywordRules.ts. unitHasKeyword
+  // returns false for unmatched tags, so unknown keywords never throw.
 
   return nextUnit;
 }
@@ -154,6 +157,24 @@ export function initShield(unit: AnyUnit): void {
  *  damage in the mitigation path, so this hardens the unit. Mutates. */
 export function armorOnSummon(unit: AnyUnit): void {
   if (unitHasKeyword(unit, "ARMORED")) unit.armor = (unit.armor || 0) + 1;
+}
+
+/** RELIC: an enduring artifact-grade unit. It enters play hardened, gaining +1
+ *  Armor on summon (mirrors ARMORED/COMMAND — armor reduces incoming combat
+ *  damage in the mitigation path). Stacks additively with ARMORED/COMMAND if the
+ *  unit carries more than one. Mutates. */
+export function relicOnSummon(unit: AnyUnit): void {
+  if (unitHasKeyword(unit, "RELIC")) unit.armor = (unit.armor || 0) + 1;
+}
+
+/** RITUAL: the unit is consecrated by a summoning rite, entering play with a
+ *  ward of +1 max health (and current health) on summon. Distinct from MYTHIC's
+ *  +1/+1 — RITUAL hardens survivability only. Mutates. */
+export function ritualOnSummon(unit: AnyUnit): void {
+  if (unitHasKeyword(unit, "RITUAL")) {
+    unit.maxHealth = (unit.maxHealth ?? unit.health ?? 0) + 1;
+    unit.health = (unit.health || 0) + 1;
+  }
 }
 
 /** STEALTH: at summon the unit becomes untargetable by enemy attacks until it

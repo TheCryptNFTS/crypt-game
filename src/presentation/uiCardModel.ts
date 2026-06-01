@@ -17,6 +17,8 @@ export type UICardDisplay = {
   rarityLabel: string | null;
   cost: number | null;
   keywords: string[];
+  /** Human-readable rules text — empty string when the card has no ability. */
+  ability: string;
   imageUrl: string | null;
   animationUrl: string | null;
   externalUrl: string | null;
@@ -34,6 +36,7 @@ export function toUICardDisplay(entry: RenderManifestEntry): UICardDisplay {
     rarityLabel: entry.rarity?.trim() || null,
     cost: entry.cost ?? null,
     keywords: Array.isArray(entry.keywords) ? [...entry.keywords] : [],
+    ability: typeof entry.ability === "string" ? entry.ability.trim() : "",
     imageUrl: entry.imageUrl ?? null,
     animationUrl: entry.animationUrl ?? null,
     externalUrl: entry.externalUrl ?? null,

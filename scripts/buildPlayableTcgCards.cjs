@@ -84,6 +84,39 @@ function normalizeKeywords(keywords) {
   return Array.from(mapped);
 }
 
+// --- DISPLAY ENRICHMENT (deterministic) ------------------------------------
+// The reducer compiles each unit's rules text (rawTraits.Ability) into real
+// effect ops AND wires the card's full canonical keyword list at play time. The
+// stripped `keywords` field above keeps only the 3 stat-shaping tokens the
+// curated balance pass scores on (GUARD/RUSH/CRUSH), so the display layer used to
+// look vanilla. These two helpers carry the SAME source-of-truth the engine reads
+// — the human-readable ability text and the full keyword list — through to the
+// display JSON so the deckbuilder/collection can show what a card actually does.
+// Pure string/array reads from the card's own data; no randomness, no dates.
+function abilityText(card) {
+  const rt = card.rawTraits || card.traits || {};
+  const ab = rt.Ability;
+  return ab === undefined || ab === null ? "" : String(ab).trim();
+}
+
+function displayKeywords(card) {
+  const out = [];
+  const seen = new Set();
+  const push = (value) => {
+    const k = String(value || "").trim().toUpperCase().replace(/\s+/g, "_");
+    if (k && !seen.has(k)) {
+      seen.add(k);
+      out.push(k);
+    }
+  };
+  // The card's own normalized keyword array (engine source) first, then the
+  // canonical single Keyword trait, so nothing the engine wires is dropped.
+  for (const k of Array.isArray(card.keywords) ? card.keywords : []) push(k);
+  const rt = card.rawTraits || card.traits || {};
+  if (rt.Keyword) for (const part of String(rt.Keyword).split(/[,/]/)) push(part);
+  return out;
+}
+
 function buildUnit(card) {
   const rarity = String(card.rarity || "unknown").toLowerCase();
   const faction = mapFaction(card.faction);
@@ -135,6 +168,8 @@ function buildUnit(card) {
       armor: clamp(Math.round(armor), 0, 6)
     },
     keywords: normalizeKeywords(card.keywords),
+    ability: abilityText(card),
+    functionalKeywords: displayKeywords(card),
     sourceTokenId: card.tokenId,
     sourceCardClass: card.cardClass,
     sourceSubtype: card.subtype,
@@ -162,6 +197,8 @@ function buildEquipment(card) {
       speed: clamp(Math.round(Number(bias.speedBias || 0)), 0, 3)
     },
     keywords: normalizeKeywords(card.keywords),
+    ability: abilityText(card),
+    functionalKeywords: displayKeywords(card),
     sourceTokenId: card.tokenId,
     sourceCardClass: card.cardClass,
     sourceSubtype: card.subtype,
@@ -182,6 +219,8 @@ function buildArtifact(card) {
     rarity,
     cost: clamp(costFromBudget(Math.max(8, budget)), 2, 8),
     effectTags: Array.from(new Set([...(card.keywords || []), "ARCANE"])),
+    ability: abilityText(card),
+    functionalKeywords: displayKeywords(card),
     sourceTokenId: card.tokenId,
     sourceCardClass: card.cardClass,
     sourceSubtype: card.subtype,
@@ -189,23 +228,63 @@ function buildArtifact(card) {
   };
 }
 
-const units = [];
-const equipment = [];
-const artifacts = [];
-
+// --- Source-by-token index for display enrichment --------------------------
+// The canonical re-reveal carries each card's mechanical truth (Ability text +
+// full Keyword list) in generatedTcgCards.json, keyed by `tokenId`. The shipped
+// playable files key the same card by `sourceTokenId`. This index lets the
+// enrichment pass below join the two without re-deriving any stat/cost/faction.
+const sourceByToken = new Map();
 for (const card of cards) {
-  if (card.cardClass === "artifact") {
-    artifacts.push(buildArtifact(card));
-    continue;
+  if (card.tokenId !== undefined && card.tokenId !== null) {
+    sourceByToken.set(String(card.tokenId), card);
   }
-
-  if (card.cardClass === "equipment") {
-    equipment.push(buildEquipment(card));
-    continue;
-  }
-
-  units.push(buildUnit(card));
 }
+
+// Pull ability text + full keyword list from the canonical source for an
+// already-built playable card. Falls back to the card's own data when no source
+// row is found, so the field is always present and deterministic.
+function enrichDisplayFields(builtCard) {
+  const src = sourceByToken.get(String(builtCard.sourceTokenId));
+  const merged = src
+    ? { ...builtCard, rawTraits: src.rawTraits || builtCard.rawTraits, keywords: src.keywords || builtCard.keywords }
+    : builtCard;
+  return {
+    ...builtCard,
+    ability: abilityText(merged),
+    functionalKeywords: displayKeywords(merged),
+  };
+}
+
+function readExisting(outputPath) {
+  if (!fs.existsSync(outputPath)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(outputPath, "utf8"));
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+// Build a category. ENRICHMENT MODE (default): when the playable file already
+// exists, preserve every shipped card verbatim (stats/cost/faction/keywords) and
+// only ADD the display-facing ability + functionalKeywords joined by token. This
+// keeps the deterministic shipped catalog stable while surfacing what each card
+// does. FULL MODE (no existing file): generate from the canonical source.
+function buildCategory(outputPath, sourceFilter, builder) {
+  const existing = readExisting(outputPath);
+  if (existing) {
+    return existing.map((card) => enrichDisplayFields(card));
+  }
+  return cards.filter(sourceFilter).map((card) => enrichDisplayFields(builder(card)));
+}
+
+const units = buildCategory(
+  UNITS_OUTPUT,
+  (c) => c.cardClass !== "artifact" && c.cardClass !== "equipment",
+  buildUnit
+);
+const equipment = buildCategory(EQUIPMENT_OUTPUT, (c) => c.cardClass === "equipment", buildEquipment);
+const artifacts = buildCategory(ARTIFACTS_OUTPUT, (c) => c.cardClass === "artifact", buildArtifact);
 
 fs.mkdirSync(path.dirname(UNITS_OUTPUT), { recursive: true });
 fs.writeFileSync(UNITS_OUTPUT, JSON.stringify(units, null, 2), "utf8");

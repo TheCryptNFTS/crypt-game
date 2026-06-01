@@ -22,16 +22,28 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
 
   const banner = (() => {
     if (remote.winner) return null;
-    if (remote.reconnecting) {
-      return <p className="live-deckhint">Reconnecting to the signal…</p>;
-    }
-    if (!remote.myTurn) {
-      return <p className="live-deckhint">Opponent's turn — holding the line.</p>;
-    }
-    if (remote.pending) {
-      return <p className="live-deckhint">Submitting move…</p>;
-    }
-    return <p className="live-deckhint">Your turn.</p>;
+    const concedeBtn = (
+      <button
+        type="button"
+        className="live-btn live-btn--ghost"
+        style={{ marginLeft: 12 }}
+        onClick={() => {
+          if (window.confirm("Concede this match? Your opponent wins.")) void remote.concede();
+        }}
+      >
+        Concede
+      </button>
+    );
+    const line = (text: string) => (
+      <p className="live-deckhint" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span>{text}</span>
+        {concedeBtn}
+      </p>
+    );
+    if (remote.reconnecting) return line("Reconnecting to the signal…");
+    if (!remote.myTurn) return line("Opponent's turn — holding the line.");
+    if (remote.pending) return line("Submitting move…");
+    return line("Your turn.");
   })();
 
   return (
@@ -64,6 +76,7 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         mulligan={remote.mulligan}
         resetMatch={remote.resetMatch}
         statusBanner={banner}
+        pvpMatchId={matchId}
       />
     </div>
   );

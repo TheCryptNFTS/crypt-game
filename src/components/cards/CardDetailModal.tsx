@@ -67,6 +67,20 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
           {ui.cost != null ? ` · cost ${ui.cost}` : ""}
         </div>
 
+        {ui.ability && (
+          <div className="border-t border-white/[0.04] px-5 py-4">
+            <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-muted)]">
+              Ability
+            </div>
+            <p className="mt-2 border-l-2 border-[color:var(--color-crypt-accent)]/50 pl-3 text-[13px] leading-relaxed text-[color:var(--color-crypt-text)]/90">
+              <span aria-hidden className="mr-1.5 text-[color:var(--color-crypt-accent)]">
+                &#x2B22;
+              </span>
+              {ui.ability}
+            </p>
+          </div>
+        )}
+
         {ui.keywords.length > 0 && (
           <div className="border-t border-white/[0.04] px-5 py-4">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-muted)]">
