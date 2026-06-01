@@ -4,6 +4,8 @@ import commanders from "../data/commanders.json";
 import { normalizeFaction, Faction } from "../types/faction";
 import { applyCardOverride } from "./cardOverrides";
 import { liveSpells } from "./spellCards";
+import { ENABLE_ENRICHMENT, enrichmentSpecsFor } from "./abilityEnrichment";
+import type { EffectSpec } from "./abilityCompiler";
 
 export type CardType = "unit" | "equipment" | "artifact" | "spell";
 
@@ -31,6 +33,16 @@ export type PlayableCard = {
    * deck legality. Absent/false on every un-overridden card.
    */
   disabled?: boolean;
+  /**
+   * Off-chain, FLAG-GATED "raise the floor" enrichment (`abilityEnrichment.ts`).
+   * When `ENABLE_ENRICHMENT` is true, vanilla (zero-runtime-op) commons of the
+   * enrichment-slice factions carry a small, derived EffectSpec set here, which
+   * the reducer's `compiledFor` MERGES onto the card's (empty) authored specs.
+   * ABSENT on every card when the flag is OFF (default) — so the compiled IR, and
+   * therefore the reducer-equivalence golden, is byte-identical to today. Never
+   * present on a card whose authored ability already emits a runtime op.
+   */
+  enrichmentSpecs?: EffectSpec[];
 };
 
 export type CommanderCard = {
@@ -140,6 +152,27 @@ function withPlayableType([
 
 export const allCommanderCards: CommanderCard[] = (commanders as RawCommanderCard[]).map(withCommanderType);
 
+/**
+ * RAISE-THE-FLOOR ENRICHMENT SEAM (flag-gated, reversible).
+ *
+ * After the override pass, derive an off-chain enrichment EffectSpec set for the
+ * card and, if non-empty, STAMP it on a CLONE (never mutate the override output).
+ * `enrichmentSpecsFor` is itself the gate: it returns [] unless the master flag is
+ * ON, the card's faction is in the slice (Stone Keepers only, this drop), AND the
+ * card is a true vanilla body. So with the flag OFF this is a per-card no-op that
+ * returns the same object reference — the catalog is byte-identical to today.
+ *
+ * NOTE: this only ADDS an `enrichmentSpecs` field; it never changes the card's
+ * name / cost / stats / keywords, and the authored `rawTraits.Ability` is left
+ * untouched. The reducer reads `enrichmentSpecs` purely additively.
+ */
+function applyEnrichment(card: PlayableCard): PlayableCard {
+  if (!ENABLE_ENRICHMENT) return card;
+  const specs = enrichmentSpecsFor(card);
+  if (specs.length === 0) return card;
+  return { ...card, enrichmentSpecs: specs };
+}
+
 export const allPlayableCards: PlayableCard[] = [
   ...(runtimeMatchPlayableCards as RuntimePlayableTuple[])
     .map(withPlayableType)
@@ -147,7 +180,11 @@ export const allPlayableCards: PlayableCard[] = [
     // chokepoint, so the reducer's cardMetaById/costOf/cardTypeOf/compile path and
     // deck legality all inherit the patched catalog from one source of truth.
     // applyCardOverride clones-then-overrides, so the base objects are never mutated.
-    .map(applyCardOverride),
+    .map(applyCardOverride)
+    // RAISE-THE-FLOOR: stamp flag-gated, reversible enrichment onto vanilla commons
+    // of the slice faction. A no-op (same reference) when the flag is OFF — keeping
+    // the catalog and the reducer-equivalence golden byte-identical by default.
+    .map(applyEnrichment),
   // LIVE SPELL ARCHETYPE: the first spell-type cards in the shipped catalog. They
   // are already PlayableCard-shaped (SpellCard extends PlayableCard) and carry no
   // override entries, so they are appended after the override pass. This is what
