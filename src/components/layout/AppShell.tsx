@@ -66,6 +66,12 @@ export default function AppShell() {
             Deck
           </NavLink>
         ) : null}
+        {onboarded ? (
+          <NavLink to="/market" className={({ isActive }) => dockClass(isActive)}>
+            <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--catalog" aria-hidden />
+            Bazaar
+          </NavLink>
+        ) : null}
         <NavLink to="/profile" className={({ isActive }) => dockClass(isActive)}>
           <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--profile" aria-hidden />
           Profile
