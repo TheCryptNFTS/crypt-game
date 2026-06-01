@@ -19,6 +19,7 @@
     "report:outliers": "node scripts/reportCardOutliers.cjs",
     "sim:curated": "node scripts/simulateCuratedMatchups.cjs",
     "dev:coreset:v2": "tsx src/dev/runCuratedCoreSetV2Check.ts",
+    "dev:rating": "tsx src/dev/runRatingProof.ts",
     "dev:regression": "tsx src/dev/runRegressionSuite.ts",
     "dev:determinism": "tsx src/dev/runDeterminismProof.ts",
     "dev:reducer-equivalence": "tsx src/dev/runReducerEquivalenceProof.ts",
