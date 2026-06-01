@@ -14,6 +14,8 @@
  *   GET  /matches/:id/state        -> { state, seq }
  *   GET  /matches/:id/log          -> { seed, actionLog }   (the durable record)
  *   GET  /matches/:id/reconnect    -> { state, seq }  (replay-verified snapshot)
+ *   GET  /matches/:id/resume       (bearer) -> { matchId, seat, version, view }
+ *                                  (replay-verified reconnect-to-match payload)
  *
  *   Matchmaking (all bearer-authed):
  *   POST /queue                    { deck }  -> QueueStatus (queued|matched)
@@ -313,6 +315,39 @@ export class GameServer {
   dequeue(bearer: string | undefined): { cancelled: boolean } {
     const account = this.accountFromBearer(bearer);
     return { cancelled: this.registry.dequeue(account) };
+  }
+
+  /**
+   * RECONNECT-to-match by id. A player who dropped (refresh, network blip) calls
+   * this with the matchId they were in; the server resolves their seat from the
+   * bearer, REPLAY-VERIFIES the authoritative state from the durable log, and
+   * hands back the same { matchId, seat, version, view } shape the lobby uses to
+   * mount the board — so resuming is identical to a fresh claim. Returns null if
+   * the match is gone; throws AuthError (404/401/403) on bad token / non-seat.
+   *
+   * Authority is untouched: this reads + projects authoritative truth, it never
+   * trusts client state. The reconcile asserts live === replay(seed, log) before
+   * projecting, so a resumed client always adopts verified server truth.
+   */
+  reconnectAuthed(
+    matchId: string,
+    bearer: string | undefined
+  ): { matchId: string; seat: Seat; version: number; view: MatchView } | null {
+    const caller = this.resolveCaller(matchId, bearer);
+    if (caller.seat === null) throw new AuthError("not-a-participant", 403);
+    const m = this.registry.get(matchId);
+    if (!m) return null;
+    // Replay-verify the authoritative state from the durable log before serving
+    // it (cheap determinism self-check; throws on divergence, never normally).
+    m.reconcileFromLog();
+    // A reconnect is a strong liveness signal — reset the seat's timeout clock.
+    m.touch(caller.seat);
+    return {
+      matchId,
+      seat: caller.seat,
+      version: m.version,
+      view: m.getViewForSeat(caller.seat),
+    };
   }
 
   // -----------------------------------------------------------------------
@@ -1036,6 +1071,16 @@ export function createHttpServer(server = new GameServer()): http.Server {
         if (req.method === "GET" && parts[2] === "reconnect") {
           const out = server.getViewAuthed(matchId, bearer, undefined);
           return send(200, { version: out.version, view: out.view });
+        }
+
+        // Resume: authenticated reconnect-to-match that returns the FULL enter-
+        // match payload ({ matchId, seat, version, view }) so a dropped client
+        // can re-mount the board in one round-trip. 404 if the match is gone.
+        if (req.method === "GET" && parts[2] === "resume") {
+          const rawAuth = req.headers["authorization"] as string | undefined;
+          const out = server.reconnectAuthed(matchId, rawAuth);
+          if (!out) return send(404, { error: "no-such-match" });
+          return send(200, out);
         }
       }
       send(404, { error: "not-found" });

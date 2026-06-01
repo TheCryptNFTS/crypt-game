@@ -20,7 +20,8 @@
  */
 
 import { GameServer } from "../../server/server";
-import { replayMatch, hashState } from "../../server/matchEngine";
+import { replayMatch, hashState, mmrToleranceForWait, MMR_BASE_TOLERANCE } from "../../server/matchEngine";
+import { PersistenceStore } from "../../server/persistence";
 import { issueToken } from "../../server/auth";
 import { allPlayableCards } from "../engine/cards";
 import { allCommanders } from "../engine/commanders";
@@ -140,5 +141,100 @@ const timeout = gap; // 1 <= gap (since gap >= 1) and gap < gap+1 = p2Silent
 const reaped = server.reap(timeout, now);
 assert(reaped.includes(m2), "reaper times out the match with an unreachable seat");
 assert(server.registry.get(m2)!.winner === "P1", "timeout forfeits the stale seat (P2); P1 wins");
+
+// --- 8. MMR pairing: closest-rated waiting players pair first ----------------
+// A store-backed server gives accounts distinct ratings (game-internal MMR).
+{
+  const store = new PersistenceStore(":memory:");
+  // Seed three distinct ratings via recorded results (rating starts at 1000).
+  store.recordMatchResult({ matchId: "seed_high", accountId: "mmr_high", opponentId: null, result: "win", ratingDelta: 200 }); // 1200
+  store.recordMatchResult({ matchId: "seed_mid", accountId: "mmr_mid", opponentId: null, result: "win", ratingDelta: 180 }); // 1180
+  // mmr_low stays at the 1000 baseline.
+  const mmrServer = new GameServer(store);
+  const hi = `Bearer ${issueToken("mmr_high")}`;
+  const mid = `Bearer ${issueToken("mmr_mid")}`;
+  const lo = `Bearer ${issueToken("mmr_low")}`;
+
+  const t0 = 1_000_000; // fixed clock so tolerance widening is deterministic
+  // High (1200) then Low (1000): gap 200 > base tolerance 100 => NOT paired.
+  mmrServer.registry.enqueue("mmr_high", deckFor(), t0);
+  mmrServer.registry.enqueue("mmr_low", deckFor(), t0);
+  assert(
+    mmrServer.registry.queueStatus("mmr_high").state === "queued" &&
+      mmrServer.registry.queueStatus("mmr_low").state === "queued",
+    "far-apart MMRs do NOT pair within base tolerance",
+  );
+  // Mid (1180) enters: closest to High (gap 20) => High+Mid pair; Low waits.
+  const midStatus = mmrServer.registry.enqueue("mmr_mid", deckFor(), t0);
+  assert(midStatus.state === "matched", "closest-MMR player (mid) pairs with high");
+  assert(
+    mmrServer.registry.queueStatus("mmr_low").state === "queued",
+    "the far-off low-MMR player keeps waiting (not mis-paired)",
+  );
+  // Verify the pair really is high+mid (the two closest), not high+low.
+  const hiPair = mmrServer.registry.queueStatus("mmr_high");
+  const midPair = mmrServer.registry.queueStatus("mmr_mid");
+  assert(
+    hiPair.state === "matched" && midPair.state === "matched" && hiPair.matchId === midPair.matchId,
+    "high and mid share the SAME match (closest-MMR pairing)",
+  );
+}
+
+// --- 9. MMR tolerance widens with wait time ----------------------------------
+{
+  assert(
+    mmrToleranceForWait(0) === MMR_BASE_TOLERANCE,
+    "tolerance at 0 wait equals the base tolerance",
+  );
+  assert(
+    mmrToleranceForWait(3000) > mmrToleranceForWait(0),
+    "tolerance grows the longer a player waits",
+  );
+  // A gap-200 pair that is NOT pairable at t0 becomes pairable after a wait.
+  const store = new PersistenceStore(":memory:");
+  store.recordMatchResult({ matchId: "seed_a", accountId: "wait_a", opponentId: null, result: "win", ratingDelta: 200 }); // 1200
+  // wait_b stays 1000 (gap 200).
+  const s = new GameServer(store);
+  const t0 = 2_000_000;
+  s.registry.enqueue("wait_a", deckFor(), t0);
+  s.registry.enqueue("wait_b", deckFor(), t0);
+  assert(s.registry.queueStatus("wait_a").state === "queued", "gap-200 pair not matched at t0");
+  // Re-run the pairing pass later (tolerance now 100 + 3*50 = 250 > 200).
+  s.registry.pair(t0 + 3000);
+  assert(
+    s.registry.queueStatus("wait_a").state === "matched",
+    "the same pair matches once tolerance has widened past their gap",
+  );
+}
+
+// --- 10. Reconnect-to-match by id resumes from authoritative state -----------
+{
+  const store = new PersistenceStore(":memory:");
+  const s = new GameServer(store);
+  const u1 = `Bearer ${issueToken("recon_p1")}`;
+  const u2 = `Bearer ${issueToken("recon_p2")}`;
+  s.registry.enqueue("recon_p1", deckFor());
+  const paired = s.registry.enqueue("recon_p2", deckFor());
+  const rid = paired.matchId!;
+  s.claimMatch(u1);
+  s.claimMatch(u2);
+  // P1 advances the match by one accepted action, then "drops".
+  const before = s.getViewAuthed(rid, u1).version;
+  s.submitActionAuthed(rid, u1, { type: "END_TURN", player: "P1" } as Action);
+  // Reconnect-by-id: full enter payload, replay-verified, at the new version.
+  const resumed = s.reconnectAuthed(rid, u1);
+  assert(!!resumed && resumed.matchId === rid && resumed.seat === "P1", "reconnect returns matchId + seat for the dropped player");
+  assert(resumed!.version === before + 1, "reconnect resumes at the post-action authoritative version");
+  assert(resumed!.view.mySeat === "P1", "reconnect view is projected for the reconnecting seat");
+  // A non-participant is rejected (cannot reconnect into someone else's match).
+  const intruder = `Bearer ${issueToken("recon_intruder")}`;
+  let rejected = false;
+  try {
+    s.reconnectAuthed(rid, intruder);
+  } catch {
+    rejected = true;
+  }
+  assert(rejected, "a non-participant cannot reconnect to the match");
+}
 
 console.log("\nALL MATCHMAKING PROOFS PASSED\n");
