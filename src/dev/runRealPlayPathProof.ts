@@ -71,13 +71,24 @@ function playUnit(state: MatchState, cardId: string): { state: MatchState; unit:
 }
 
 function abilityHasOnSummonBuff(cardId: string): boolean {
-  const meta = getPlayableCardById(cardId);
+  const meta = getPlayableCardById(cardId) as any;
   const text = meta?.rawTraits?.Ability ?? "";
   // Only treat as a battlecry self-buff if the compiled ability actually has an
   // ON_SUMMON BUFF_SELF (so we can predict the post-summon stat delta).
-  return compileAbility(text).specs.some(
+  const authored = compileAbility(text).specs.some(
     (s: any) => s.trigger === "ON_SUMMON" && s.op === "BUFF_SELF"
   );
+  // RAISE-THE-FLOOR: a flag-gated enrichment may also add an ON_SUMMON BUFF_SELF
+  // (or any non-stat-neutral summon-time op) to a vanilla common. Such a card's
+  // board line legitimately differs from its printed catalog stats, so exclude it
+  // from the exact catalog==board equality below (same reason as an authored
+  // battlecry buff). With the flag OFF, `enrichmentSpecs` is absent -> unchanged.
+  const enriched = Array.isArray(meta?.enrichmentSpecs)
+    ? (meta.enrichmentSpecs as any[]).some(
+        (s) => s.trigger === "ON_SUMMON" && s.op === "BUFF_SELF"
+      )
+    : false;
+  return authored || enriched;
 }
 
 /** The on-summon stat delta the controller's COMMANDER passive applies to a unit

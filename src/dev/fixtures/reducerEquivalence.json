@@ -20097,52 +20097,99 @@
   },
   "full-ai-match-2001": {
     "finalState": {
-      "turn": 10,
+      "turn": 44,
       "activePlayer": "P2",
-      "winner": "P2",
+      "winner": "P1",
       "seed": 2001,
-      "idCounter": 14,
-      "rngCursor": 3,
+      "idCounter": 49,
+      "rngCursor": 5,
       "players": {
         "P1": {
           "id": "P1",
           "health": 30,
-          "nexusHealth": 0,
-          "energy": 0,
-          "maxEnergy": 7,
+          "nexusHealth": 7,
+          "energy": 8,
+          "maxEnergy": 10,
           "commanderId": "cmd_stone_warden",
-          "deck": [
-            "tcg_1038",
-            "tcg_1477",
-            "tcg_1199",
-            "tcg_2026",
-            "tcg_1676",
-            "tcg_1668",
-            "tcg_1854",
-            "tcg_1871",
-            "tcg_1243",
-            "tcg_101",
-            "tcg_3710",
-            "tcg_1223",
-            "tcg_1388",
-            "tcg_1135",
-            "tcg_1286",
-            "tcg_1495",
-            "tcg_1281",
-            "tcg_1306",
-            "tcg_1198"
-          ],
-          "hand": [
-            "spell_grave_dig",
-            "tcg_1461"
-          ],
+          "deck": [],
+          "hand": [],
           "discard": [
             "spell_regrow",
             "spell_salvage",
-            "spell_farsight"
+            "spell_farsight",
+            "tcg_1477",
+            "tcg_1199",
+            "spell_grave_dig",
+            "tcg_3710"
           ],
-          "graveyard": [],
-          "deckCount": 19,
+          "graveyard": [
+            {
+              "cardId": "tcg_1330",
+              "attack": 4,
+              "maxHealth": 4,
+              "keywords": [
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_1038",
+              "attack": 6,
+              "maxHealth": 8,
+              "keywords": [
+                "GUARD"
+              ]
+            },
+            {
+              "cardId": "tcg_1461",
+              "attack": 1,
+              "maxHealth": 1,
+              "keywords": [
+                "ARMORED"
+              ]
+            },
+            {
+              "cardId": "tcg_1676",
+              "attack": 1,
+              "maxHealth": 5,
+              "keywords": [
+                "GUARD"
+              ]
+            },
+            {
+              "cardId": "tcg_1871",
+              "attack": 3,
+              "maxHealth": 5,
+              "keywords": [
+                "GUARD"
+              ]
+            },
+            {
+              "cardId": "tcg_1243",
+              "attack": 7,
+              "maxHealth": 5,
+              "keywords": [
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_10",
+              "attack": 7,
+              "maxHealth": 8,
+              "keywords": [
+                "DEATHRATTLE"
+              ]
+            },
+            {
+              "cardId": "tcg_1286",
+              "attack": 2,
+              "maxHealth": 5,
+              "keywords": [
+                "WARD",
+                "GUARD"
+              ]
+            }
+          ],
+          "deckCount": 0,
           "artifacts": [],
           "board": {
             "front": [
@@ -20192,20 +20239,23 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
+                "lastDamageTaken": 0,
+                "shielded": true
               },
               {
                 "instanceId": "unit_2001_3",
                 "cardId": "tcg_1125",
                 "lane": "front",
                 "attack": 6,
-                "health": 6,
-                "maxHealth": 6,
+                "health": 7,
+                "maxHealth": 7,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
@@ -20245,28 +20295,31 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
+                "lastDamageTaken": 0,
+                "shielded": true
               },
               {
-                "instanceId": "unit_2001_5",
-                "cardId": "tcg_10",
+                "instanceId": "unit_2001_11",
+                "cardId": "tcg_1042",
                 "lane": "front",
-                "attack": 7,
-                "health": 7,
-                "maxHealth": 7,
+                "attack": 1,
+                "health": 18,
+                "maxHealth": 18,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "DEATHRATTLE"
+                  "WARD"
                 ],
                 "exhausted": false,
                 "summoningSick": true,
-                "rarity": "LEGENDARY",
+                "rarity": "COMMON",
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -20296,9 +20349,12 @@
                     }
                   }
                 },
+                "shielded": true,
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
@@ -20306,20 +20362,20 @@
                 "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2001_9",
-                "cardId": "tcg_1330",
+                "instanceId": "unit_2001_19",
+                "cardId": "tcg_2026",
                 "lane": "front",
-                "attack": 4,
-                "health": 3,
-                "maxHealth": 4,
+                "attack": 5,
+                "health": 6,
+                "maxHealth": 6,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "RUSH"
+                  "EXECUTE"
                 ],
-                "exhausted": true,
-                "summoningSick": false,
-                "rarity": "RARE",
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "MYTHIC",
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -20351,15 +20407,18 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
-                "tookDamageThisTurn": true,
-                "lastDamageTaken": 1,
-                "damageTakenThisTurn": 1,
-                "attacksThisTurn": 1,
-                "stealthed": false
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
               },
               {
-                "instanceId": "unit_2001_10",
+                "instanceId": "unit_2001_22",
                 "cardId": "tcg_1354",
                 "lane": "front",
                 "attack": 4,
@@ -20404,19 +20463,28 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": []
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
               },
               {
-                "instanceId": "unit_2001_11",
-                "cardId": "tcg_1042",
+                "instanceId": "unit_2001_26",
+                "cardId": "tcg_1668",
                 "lane": "front",
-                "attack": 1,
-                "health": 1,
-                "maxHealth": 1,
+                "attack": 4,
+                "health": 5,
+                "maxHealth": 5,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "WARD"
+                  "STEALTH",
+                  "GUARD"
                 ],
                 "exhausted": false,
                 "summoningSick": true,
@@ -20450,556 +20518,359 @@
                     }
                   }
                 },
-                "shielded": true,
+                "stealthed": true,
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": []
-              }
-            ],
-            "back": []
-          },
-          "turnFlags": {
-            "firstUnitCostReduction": 0,
-            "firstUnitPlayed": true
-          },
-          "commander": {
-            "id": "cmd_6665",
-            "tokenId": "6665",
-            "name": "Thor, Stormborn",
-            "faction": null,
-            "traits": {
-              "Keyword": "Divine Shield"
-            },
-            "deckRules": {
-              "deckSize": 30,
-              "exactFaction": false,
-              "maxGodCards": 1,
-              "minUnits": 18,
-              "minEquipment": 4,
-              "minArtifacts": 2
-            }
-          },
-          "commanderZone": {
-            "cardId": "cmd_6665",
-            "name": "Thor, Stormborn"
-          },
-          "commanderOg": {
-            "name": "Thor, Stormborn",
-            "traits": {
-              "Keyword": "Divine Shield"
-            }
-          },
-          "commanderBonuses": {
-            "bonus": {},
-            "reasons": [],
-            "extraTags": [],
-            "extraPassives": []
-          },
-          "cardModifiers": {
-            "tcg_1042": {
-              "bonus": {
-                "utility": 1
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
               },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1286": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1461": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1198": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1388": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1668": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1676": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1871": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1135": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1223": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1330": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1354": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1477": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1281": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1306": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1457": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1495": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1854": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1038": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1125": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1199": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1243": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_10": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_101": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_2026": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_3710": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_farsight": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_grave_dig": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_regrow": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_salvage": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            }
-          }
-        },
-        "P2": {
-          "id": "P2",
-          "health": 30,
-          "nexusHealth": 20,
-          "energy": 0,
-          "maxEnergy": 8,
-          "commanderId": "cmd_bronze_raider",
-          "deck": [
-            "tcg_1461",
-            "tcg_1330",
-            "tcg_1871",
-            "tcg_1354",
-            "spell_grave_dig",
-            "tcg_1042",
-            "tcg_1135",
-            "tcg_1668",
-            "tcg_2026",
-            "spell_farsight",
-            "tcg_1198",
-            "tcg_1038",
-            "tcg_1457",
-            "tcg_1495",
-            "tcg_101",
-            "tcg_1286",
-            "spell_salvage",
-            "tcg_1306",
-            "tcg_3710"
-          ],
-          "hand": [
-            "tcg_1676",
-            "tcg_1854",
-            "spell_regrow",
-            "tcg_1477"
-          ],
-          "discard": [],
-          "graveyard": [
-            {
-              "cardId": "tcg_1388",
-              "attack": 1,
-              "maxHealth": 3,
-              "keywords": [
-                "SUMMON",
-                "RUSH"
-              ]
-            }
-          ],
-          "deckCount": 19,
-          "artifacts": [],
-          "board": {
-            "front": [
               {
-                "instanceId": "unit_2001_0",
+                "instanceId": "unit_2001_28",
+                "cardId": "tcg_1854",
+                "lane": "front",
+                "attack": 15,
+                "health": 17,
+                "maxHealth": 17,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "PATIENT"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_33",
+                "cardId": "tcg_101",
+                "lane": "front",
+                "attack": 6,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "MYTHIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true,
+                "stealthed": false
+              },
+              {
+                "instanceId": "unit_2001_35",
+                "cardId": "tcg_1223",
+                "lane": "front",
+                "attack": 3,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true,
+                "stealthed": false
+              },
+              {
+                "instanceId": "unit_2001_37",
+                "cardId": "tcg_1388",
+                "lane": "front",
+                "attack": 1,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "SUMMON"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_39",
+                "cardId": "tcg_1135",
+                "lane": "front",
+                "attack": 2,
+                "health": 4,
+                "maxHealth": 4,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "DEPLOY"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_43",
+                "cardId": "tcg_1495",
+                "lane": "front",
+                "attack": 5,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_45",
                 "cardId": "tcg_1281",
                 "lane": "front",
                 "attack": 5,
@@ -21044,1131 +20915,18 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
+                "lastDamageTaken": 0,
+                "shielded": true
               },
               {
-                "instanceId": "unit_2001_2",
-                "cardId": "tcg_1125",
-                "lane": "front",
-                "attack": 6,
-                "health": 6,
-                "maxHealth": 6,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "LIFESTEAL"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "EPIC",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2001_4",
-                "cardId": "tcg_10",
-                "lane": "front",
-                "attack": 7,
-                "health": 7,
-                "maxHealth": 7,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "DEATHRATTLE"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "LEGENDARY",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2001_6",
-                "cardId": "tcg_1243",
-                "lane": "front",
-                "attack": 7,
-                "health": 4,
-                "maxHealth": 4,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "RUSH"
-                ],
-                "exhausted": true,
-                "summoningSick": false,
-                "rarity": "RARE",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "attacksThisTurn": 1,
-                "stealthed": false,
-                "windfuryStruck": false,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2001_8",
-                "cardId": "token_revenant",
-                "lane": "front",
-                "attack": 1,
-                "health": 1,
-                "maxHealth": 1,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [],
-                "exhausted": true,
-                "summoningSick": false,
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "attacksThisTurn": 1,
-                "stealthed": false,
-                "windfuryStruck": false,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2001_12",
-                "cardId": "tcg_1199",
-                "lane": "front",
-                "attack": 6,
-                "health": 4,
-                "maxHealth": 4,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "DEATHRATTLE"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "RARE",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": []
-              },
-              {
-                "instanceId": "unit_2001_13",
-                "cardId": "tcg_1223",
-                "lane": "front",
-                "attack": 3,
-                "health": 4,
-                "maxHealth": 4,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "RUSH"
-                ],
-                "exhausted": true,
-                "summoningSick": false,
-                "rarity": "RARE",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "attacksThisTurn": 1,
-                "stealthed": false
-              }
-            ],
-            "back": []
-          },
-          "turnFlags": {
-            "firstUnitCostReduction": 0,
-            "firstUnitPlayed": true
-          },
-          "commander": {
-            "id": "cmd_6666",
-            "tokenId": "6666",
-            "name": "Anunnaki, The First Sky",
-            "faction": null,
-            "traits": {
-              "Keyword": "Fear"
-            },
-            "deckRules": {
-              "deckSize": 30,
-              "exactFaction": false,
-              "maxGodCards": 1,
-              "minUnits": 18,
-              "minEquipment": 4,
-              "minArtifacts": 2
-            }
-          },
-          "commanderZone": {
-            "cardId": "cmd_6666",
-            "name": "Anunnaki, The First Sky"
-          },
-          "commanderOg": {
-            "name": "Anunnaki, The First Sky",
-            "traits": {
-              "Keyword": "Fear"
-            }
-          },
-          "commanderBonuses": {
-            "bonus": {},
-            "reasons": [],
-            "extraTags": [],
-            "extraPassives": []
-          },
-          "cardModifiers": {
-            "tcg_1042": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1286": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1461": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1198": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1388": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1668": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1676": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1871": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1135": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1223": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1330": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1354": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1477": {
-              "bonus": {
-                "attack": 1,
-                "utility": 1
-              },
-              "reasons": [
-                "Keyword:Fear"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Fear"
-              ],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1281": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1306": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1457": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1495": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1854": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1038": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1125": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1199": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_1243": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_10": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_101": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_2026": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "tcg_3710": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_farsight": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_grave_dig": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_regrow": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            },
-            "spell_salvage": {
-              "bonus": {},
-              "reasons": [],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [],
-              "nameMatch": false,
-              "factionMatch": false
-            }
-          }
-        }
-      },
-      "triggerQueue": [],
-      "lastCardPlayed": {
-        "cardId": "tcg_1223",
-        "owner": "P2"
-      },
-      "pendingChoice": null
-    },
-    "events": [
-      {
-        "type": "SPELL_PLAYED",
-        "player": "P1",
-        "cardId": "spell_regrow"
-      },
-      {
-        "type": "SPELL_PLAYED",
-        "player": "P1",
-        "cardId": "spell_salvage"
-      },
-      {
-        "type": "CHOICE_OPENED",
-        "player": "P1",
-        "kind": "DISCOVER",
-        "options": [
-          "spell_grave_dig",
-          "tcg_1871",
-          "tcg_3710"
-        ]
-      },
-      {
-        "type": "CHOICE_RESOLVED",
-        "player": "P1",
-        "optionId": "spell_grave_dig"
-      },
-      {
-        "type": "SPELL_PLAYED",
-        "player": "P1",
-        "cardId": "spell_farsight"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 4,
-        "maxEnergy": 4
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_1281",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 4,
-        "maxEnergy": 4
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_1457",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 5,
-        "maxEnergy": 5
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_1125",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 5,
-        "maxEnergy": 5
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_1125",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 6,
-        "maxEnergy": 6
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_10",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 6,
-        "maxEnergy": 6
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_10",
-        "lane": "front"
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 7,
-        "maxEnergy": 7
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_1243",
-        "lane": "front"
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_1388",
-        "lane": "front"
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2001_6",
-        "damage": 7
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2001_7",
-        "damage": 1
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2001_8",
-        "damage": 1
-      },
-      {
-        "type": "TURN_END",
-        "player": "P2"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P1",
-        "energy": 7,
-        "maxEnergy": 7
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_1330",
-        "lane": "front"
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_1354",
-        "lane": "front"
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
-        "cardId": "tcg_1042",
-        "lane": "front"
-      },
-      {
-        "type": "ATTACK",
-        "player": "P1",
-        "attackerInstanceId": "unit_2001_9",
-        "defenderInstanceId": "unit_2001_7",
-        "outgoing": 4,
-        "mitigated": 4,
-        "counter": 1
-      },
-      {
-        "type": "TURN_END",
-        "player": "P1"
-      },
-      {
-        "type": "TURN_START",
-        "player": "P2",
-        "energy": 8,
-        "maxEnergy": 8
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_1199",
-        "lane": "front"
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P2",
-        "cardId": "tcg_1223",
-        "lane": "front"
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2001_6",
-        "damage": 7
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2001_8",
-        "damage": 1
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2001_13",
-        "damage": 3
-      },
-      {
-        "type": "WIN",
-        "player": "P2"
-      }
-    ]
-  },
-  "full-ai-match-2002": {
-    "finalState": {
-      "turn": 16,
-      "activePlayer": "P2",
-      "winner": "P2",
-      "seed": 2002,
-      "idCounter": 26,
-      "rngCursor": 5,
-      "players": {
-        "P1": {
-          "id": "P1",
-          "health": 30,
-          "nexusHealth": 0,
-          "energy": 2,
-          "maxEnergy": 10,
-          "commanderId": "cmd_stone_warden",
-          "deck": [
-            "tcg_1330",
-            "tcg_1668",
-            "tcg_1199",
-            "tcg_10",
-            "tcg_1038",
-            "tcg_1223",
-            "tcg_1125",
-            "tcg_1461",
-            "tcg_1457",
-            "tcg_1495",
-            "tcg_1286",
-            "tcg_1243",
-            "spell_regrow",
-            "tcg_1871",
-            "spell_grave_dig",
-            "tcg_1135"
-          ],
-          "hand": [],
-          "discard": [
-            "spell_salvage",
-            "spell_farsight",
-            "tcg_3710"
-          ],
-          "graveyard": [
-            {
-              "cardId": "tcg_1676",
-              "attack": 1,
-              "maxHealth": 4,
-              "keywords": [
-                "GUARD"
-              ]
-            },
-            {
-              "cardId": "tcg_101",
-              "attack": 6,
-              "maxHealth": 5,
-              "keywords": [
-                "RUSH"
-              ]
-            },
-            {
-              "cardId": "tcg_1198",
-              "attack": 2,
-              "maxHealth": 3,
-              "keywords": [
-                "DEATHRATTLE"
-              ]
-            },
-            {
-              "cardId": "tcg_1388",
-              "attack": 1,
-              "maxHealth": 3,
-              "keywords": [
-                "SUMMON"
-              ]
-            }
-          ],
-          "deckCount": 16,
-          "artifacts": [],
-          "board": {
-            "front": [
-              {
-                "instanceId": "unit_2002_2",
+                "instanceId": "unit_2001_46",
                 "cardId": "tcg_1306",
                 "lane": "front",
                 "attack": 4,
@@ -22214,61 +20972,9 @@
                 "shielded": true,
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2002_5",
-                "cardId": "tcg_1042",
-                "lane": "front",
-                "attack": 1,
-                "health": 1,
-                "maxHealth": 1,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
+                "auraKeywords": [
                   "WARD"
                 ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "COMMON",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "shielded": true,
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
@@ -22276,143 +20982,16 @@
                 "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_7",
-                "cardId": "tcg_2026",
+                "instanceId": "unit_2001_48",
+                "cardId": "tcg_1198",
                 "lane": "front",
-                "attack": 5,
-                "health": 7,
-                "maxHealth": 7,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "EXECUTE"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "MYTHIC",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  },
-                  "equipment": [
-                    {
-                      "stats": {
-                        "attack": 0,
-                        "health": 0,
-                        "armor": 0,
-                        "speed": 0,
-                        "crit": 0,
-                        "utility": 0
-                      },
-                      "commanderTags": [],
-                      "passives": [],
-                      "audit": {
-                        "reasons": [],
-                        "exactTraitMatches": [],
-                        "categoryMatches": [],
-                        "nameMatch": false,
-                        "factionMatch": false
-                      }
-                    }
-                  ]
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2002_9",
-                "cardId": "tcg_1281",
-                "lane": "front",
-                "attack": 5,
+                "attack": 2,
                 "health": 4,
                 "maxHealth": 4,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
-                  "REGROW"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "EPIC",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2002_12",
-                "cardId": "tcg_1477",
-                "lane": "front",
-                "attack": 4,
-                "health": 3,
-                "maxHealth": 3,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "FEAR"
+                  "DEATHRATTLE"
                 ],
                 "exhausted": false,
                 "summoningSick": true,
@@ -22448,108 +21027,10 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
-                "windfuryStruck": false,
-                "attacksThisTurn": 0,
-                "tookDamageThisTurn": false,
-                "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
-              },
-              {
-                "instanceId": "unit_2002_23",
-                "cardId": "tcg_1854",
-                "lane": "front",
-                "attack": 3,
-                "health": 5,
-                "maxHealth": 5,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "PATIENT"
+                "auraKeywords": [
+                  "WARD"
                 ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "COMMON",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": []
-              },
-              {
-                "instanceId": "unit_2002_24",
-                "cardId": "tcg_1354",
-                "lane": "front",
-                "attack": 4,
-                "health": 3,
-                "maxHealth": 3,
-                "speed": 0,
-                "armor": 0,
-                "keywords": [
-                  "REGROW"
-                ],
-                "exhausted": false,
-                "summoningSick": true,
-                "rarity": "COMMON",
-                "crit": 0,
-                "utility": 1,
-                "commanderTags": [],
-                "passives": [],
-                "modifiers": {
-                  "commander": {
-                    "stats": {
-                      "attack": 0,
-                      "health": 0,
-                      "armor": 0,
-                      "speed": 0,
-                      "crit": 0,
-                      "utility": 1
-                    },
-                    "commanderTags": [],
-                    "passives": [],
-                    "audit": {
-                      "reasons": [
-                        "Shared category: Keyword"
-                      ],
-                      "exactTraitMatches": [],
-                      "categoryMatches": [
-                        "Keyword"
-                      ],
-                      "nameMatch": false,
-                      "factionMatch": false
-                    }
-                  }
-                },
-                "auraAtk": 0,
-                "auraHp": 0,
-                "auraKeywords": []
+                "shielded": true
               }
             ],
             "back": []
@@ -23048,6 +21529,3598 @@
           "id": "P2",
           "health": 30,
           "nexusHealth": 18,
+          "energy": 10,
+          "maxEnergy": 10,
+          "commanderId": "cmd_bronze_raider",
+          "deck": [],
+          "hand": [],
+          "discard": [
+            "spell_regrow",
+            "tcg_1042",
+            "tcg_1135",
+            "spell_grave_dig",
+            "spell_farsight",
+            "spell_salvage",
+            "tcg_3710"
+          ],
+          "graveyard": [
+            {
+              "cardId": "tcg_1388",
+              "attack": 1,
+              "maxHealth": 3,
+              "keywords": [
+                "SUMMON",
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_1223",
+              "attack": 3,
+              "maxHealth": 5,
+              "keywords": [
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_1477",
+              "attack": 5,
+              "maxHealth": 3,
+              "keywords": [
+                "FEAR",
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_1871",
+              "attack": 3,
+              "maxHealth": 3,
+              "keywords": [
+                "GUARD",
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_10",
+              "attack": 7,
+              "maxHealth": 7,
+              "keywords": [
+                "DEATHRATTLE"
+              ]
+            },
+            {
+              "cardId": "tcg_1676",
+              "attack": 1,
+              "maxHealth": 3,
+              "keywords": [
+                "GUARD",
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_1038",
+              "attack": 6,
+              "maxHealth": 6,
+              "keywords": [
+                "GUARD"
+              ]
+            },
+            {
+              "cardId": "tcg_1461",
+              "attack": 1,
+              "maxHealth": 1,
+              "keywords": [
+                "ARMORED",
+                "RUSH"
+              ]
+            },
+            {
+              "cardId": "tcg_1286",
+              "attack": 2,
+              "maxHealth": 3,
+              "keywords": [
+                "WARD",
+                "GUARD",
+                "RUSH"
+              ]
+            }
+          ],
+          "deckCount": 0,
+          "artifacts": [],
+          "board": {
+            "front": [
+              {
+                "instanceId": "unit_2001_0",
+                "cardId": "tcg_1281",
+                "lane": "front",
+                "attack": 5,
+                "health": 4,
+                "maxHealth": 4,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "REGROW"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "EPIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_2",
+                "cardId": "tcg_1125",
+                "lane": "front",
+                "attack": 6,
+                "health": 7,
+                "maxHealth": 7,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "LIFESTEAL"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "EPIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_12",
+                "cardId": "tcg_1199",
+                "lane": "front",
+                "attack": 6,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "DEATHRATTLE"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_16",
+                "cardId": "tcg_1854",
+                "lane": "front",
+                "attack": 19,
+                "health": 21,
+                "maxHealth": 22,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "PATIENT"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  },
+                  "equipment": [
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
+                        "utility": 0
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    }
+                  ]
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_20",
+                "cardId": "tcg_1330",
+                "lane": "front",
+                "attack": 5,
+                "health": 3,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "stealthed": false,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_24",
+                "cardId": "tcg_1243",
+                "lane": "front",
+                "attack": 7,
+                "health": 3,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "stealthed": false,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_27",
+                "cardId": "tcg_1354",
+                "lane": "front",
+                "attack": 4,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "REGROW",
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_30",
+                "cardId": "tcg_1668",
+                "lane": "front",
+                "attack": 4,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "STEALTH",
+                  "GUARD",
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "stealthed": true,
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_32",
+                "cardId": "tcg_2026",
+                "lane": "front",
+                "attack": 5,
+                "health": 6,
+                "maxHealth": 6,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "EXECUTE"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "MYTHIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_34",
+                "cardId": "tcg_1198",
+                "lane": "front",
+                "attack": 2,
+                "health": 4,
+                "maxHealth": 4,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "DEATHRATTLE",
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_38",
+                "cardId": "tcg_1457",
+                "lane": "front",
+                "attack": 6,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "DEATHRATTLE"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_40",
+                "cardId": "tcg_1495",
+                "lane": "front",
+                "attack": 5,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_42",
+                "cardId": "tcg_101",
+                "lane": "front",
+                "attack": 6,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": false,
+                "summoningSick": false,
+                "rarity": "MYTHIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2001_47",
+                "cardId": "tcg_1306",
+                "lane": "front",
+                "attack": 4,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "WARD"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "shielded": true,
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              }
+            ],
+            "back": []
+          },
+          "turnFlags": {
+            "firstUnitCostReduction": 0,
+            "firstUnitPlayed": true
+          },
+          "commander": {
+            "id": "cmd_6666",
+            "tokenId": "6666",
+            "name": "Anunnaki, The First Sky",
+            "faction": null,
+            "traits": {
+              "Keyword": "Fear"
+            },
+            "deckRules": {
+              "deckSize": 30,
+              "exactFaction": false,
+              "maxGodCards": 1,
+              "minUnits": 18,
+              "minEquipment": 4,
+              "minArtifacts": 2
+            }
+          },
+          "commanderZone": {
+            "cardId": "cmd_6666",
+            "name": "Anunnaki, The First Sky"
+          },
+          "commanderOg": {
+            "name": "Anunnaki, The First Sky",
+            "traits": {
+              "Keyword": "Fear"
+            }
+          },
+          "commanderBonuses": {
+            "bonus": {},
+            "reasons": [],
+            "extraTags": [],
+            "extraPassives": []
+          },
+          "cardModifiers": {
+            "tcg_1042": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1286": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1461": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1198": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1388": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1676": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1871": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1135": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1223": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1330": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1354": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1477": {
+              "bonus": {
+                "attack": 1,
+                "utility": 1
+              },
+              "reasons": [
+                "Keyword:Fear"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [
+                "Keyword:Fear"
+              ],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1281": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1306": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1457": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1495": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1854": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1038": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1125": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1199": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1243": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_10": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_101": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_2026": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_3710": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            }
+          }
+        }
+      },
+      "triggerQueue": [],
+      "lastCardPlayed": {
+        "cardId": "tcg_1198",
+        "owner": "P1"
+      },
+      "pendingChoice": null
+    },
+    "events": [
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_regrow"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_salvage"
+      },
+      {
+        "type": "CHOICE_OPENED",
+        "player": "P1",
+        "kind": "DISCOVER",
+        "options": [
+          "spell_grave_dig",
+          "tcg_1871",
+          "tcg_3710"
+        ]
+      },
+      {
+        "type": "CHOICE_RESOLVED",
+        "player": "P1",
+        "optionId": "spell_grave_dig"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_farsight"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 4,
+        "maxEnergy": 4
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1281",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 4,
+        "maxEnergy": 4
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1457",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 5,
+        "maxEnergy": 5
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1125",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 5,
+        "maxEnergy": 5
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1125",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 6,
+        "maxEnergy": 6
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_10",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 6,
+        "maxEnergy": 6
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_10",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 7,
+        "maxEnergy": 7
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1243",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1388",
+        "lane": "front"
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2001_6",
+        "damage": 7
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2001_7",
+        "damage": 1
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2001_8",
+        "damage": 1
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 7,
+        "maxEnergy": 7
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1330",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1354",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1042",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2001_9",
+        "defenderInstanceId": "unit_2001_7",
+        "outgoing": 4,
+        "mitigated": 4,
+        "counter": 1
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 8,
+        "maxEnergy": 8
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1199",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1223",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_6",
+        "defenderInstanceId": "unit_2001_9",
+        "outgoing": 7,
+        "mitigated": 7,
+        "counter": 4
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2001_8",
+        "damage": 1
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 8,
+        "maxEnergy": 8
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1038",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1461",
+        "lane": "front"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_grave_dig"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 9,
+        "maxEnergy": 9
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1854",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1477",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1676",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_6",
+        "defenderInstanceId": "unit_2001_14",
+        "outgoing": 7,
+        "mitigated": 7,
+        "counter": 6
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_8",
+        "defenderInstanceId": "unit_2001_14",
+        "outgoing": 1,
+        "mitigated": 1,
+        "counter": 6
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 9,
+        "maxEnergy": 9
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_2026",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1330",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1461",
+        "lane": "front"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P2",
+        "cardId": "spell_regrow"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_13",
+        "defenderInstanceId": "unit_2001_10",
+        "outgoing": 3,
+        "mitigated": 3,
+        "counter": 4
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_17",
+        "defenderInstanceId": "unit_2001_15",
+        "outgoing": 5,
+        "mitigated": 5,
+        "counter": 1
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "NEXUS_DAMAGE",
+        "player": "P2",
+        "targetPlayer": "P1",
+        "attackerInstanceId": "unit_2001_21",
+        "damage": 1
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1354",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1676",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1243",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1871",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_13",
+        "defenderInstanceId": "unit_2001_23",
+        "outgoing": 3,
+        "mitigated": 3,
+        "counter": 1
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_17",
+        "defenderInstanceId": "unit_2001_23",
+        "outgoing": 5,
+        "mitigated": 5,
+        "counter": 1
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1668",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1354",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1854",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P2",
+        "cardId": "spell_grave_dig"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1871",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1668",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_17",
+        "defenderInstanceId": "unit_2001_29",
+        "outgoing": 5,
+        "mitigated": 5,
+        "counter": 3
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1243",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2001_31",
+        "defenderInstanceId": "unit_2001_25",
+        "outgoing": 7,
+        "mitigated": 7,
+        "counter": 3
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_2026",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_101",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2001_31",
+        "defenderInstanceId": "unit_2001_18",
+        "outgoing": 7,
+        "mitigated": 7,
+        "counter": 1
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P2",
+        "cardId": "spell_farsight"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "EQUIPPED",
+        "player": "P1",
+        "cardId": "tcg_3710",
+        "targetInstanceId": "unit_2001_5"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1198",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1223",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1038",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1388",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2001_31",
+        "defenderInstanceId": "unit_2001_36",
+        "outgoing": 7,
+        "mitigated": 7,
+        "counter": 6
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1457",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1135",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1495",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1286",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_101",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_20",
+        "defenderInstanceId": "unit_2001_41",
+        "outgoing": 5,
+        "mitigated": 0,
+        "counter": 2
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_21",
+        "defenderInstanceId": "unit_2001_41",
+        "outgoing": 1,
+        "mitigated": 1,
+        "counter": 2
+      },
+      {
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2001_24",
+        "defenderInstanceId": "unit_2001_41",
+        "outgoing": 7,
+        "mitigated": 7,
+        "counter": 2
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1495",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1286",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1281",
+        "lane": "front"
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2001_33",
+        "defenderInstanceId": "unit_2001_44",
+        "outgoing": 6,
+        "mitigated": 0,
+        "counter": 0
+      },
+      {
+        "type": "ATTACK",
+        "player": "P1",
+        "attackerInstanceId": "unit_2001_35",
+        "defenderInstanceId": "unit_2001_44",
+        "outgoing": 3,
+        "mitigated": 3,
+        "counter": 0
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P2",
+        "cardId": "spell_salvage"
+      },
+      {
+        "type": "CHOICE_OPENED",
+        "player": "P2",
+        "kind": "DISCOVER",
+        "options": [
+          "tcg_1306",
+          "tcg_3710"
+        ]
+      },
+      {
+        "type": "CHOICE_RESOLVED",
+        "player": "P2",
+        "optionId": "tcg_1306"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1306",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P2",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P2",
+        "cardId": "tcg_1306",
+        "lane": "front"
+      },
+      {
+        "type": "EQUIPPED",
+        "player": "P2",
+        "cardId": "tcg_3710",
+        "targetInstanceId": "unit_2001_16"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P2"
+      },
+      {
+        "type": "TURN_START",
+        "player": "P1",
+        "energy": 10,
+        "maxEnergy": 10
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1198",
+        "lane": "front"
+      },
+      {
+        "type": "TURN_END",
+        "player": "P1"
+      },
+      {
+        "type": "DECK_OUT",
+        "player": "P2"
+      },
+      {
+        "type": "WIN",
+        "player": "P1"
+      }
+    ]
+  },
+  "full-ai-match-2002": {
+    "finalState": {
+      "turn": 16,
+      "activePlayer": "P2",
+      "winner": "P2",
+      "seed": 2002,
+      "idCounter": 24,
+      "rngCursor": 5,
+      "players": {
+        "P1": {
+          "id": "P1",
+          "health": 30,
+          "nexusHealth": -4,
+          "energy": 6,
+          "maxEnergy": 10,
+          "commanderId": "cmd_stone_warden",
+          "deck": [
+            "tcg_1330",
+            "tcg_1668",
+            "tcg_1199",
+            "tcg_10",
+            "tcg_1038",
+            "tcg_1223",
+            "tcg_1125",
+            "tcg_1461",
+            "tcg_1457",
+            "tcg_1495",
+            "tcg_1286",
+            "tcg_1243",
+            "spell_regrow",
+            "tcg_1871",
+            "spell_grave_dig",
+            "tcg_1135"
+          ],
+          "hand": [],
+          "discard": [
+            "spell_salvage",
+            "spell_farsight",
+            "tcg_3710"
+          ],
+          "graveyard": [
+            {
+              "cardId": "tcg_1676",
+              "attack": 1,
+              "maxHealth": 5,
+              "keywords": [
+                "GUARD"
+              ]
+            },
+            {
+              "cardId": "tcg_101",
+              "attack": 6,
+              "maxHealth": 5,
+              "keywords": [
+                "RUSH"
+              ]
+            }
+          ],
+          "deckCount": 16,
+          "artifacts": [],
+          "board": {
+            "front": [
+              {
+                "instanceId": "unit_2002_0",
+                "cardId": "tcg_1354",
+                "lane": "front",
+                "attack": 4,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "REGROW"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2002_2",
+                "cardId": "tcg_1306",
+                "lane": "front",
+                "attack": 4,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "WARD"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "shielded": true,
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_5",
+                "cardId": "tcg_1042",
+                "lane": "front",
+                "attack": 1,
+                "health": 6,
+                "maxHealth": 6,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "WARD"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "shielded": true,
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_7",
+                "cardId": "tcg_2026",
+                "lane": "front",
+                "attack": 5,
+                "health": 7,
+                "maxHealth": 7,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "EXECUTE"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "MYTHIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  },
+                  "equipment": [
+                    {
+                      "stats": {
+                        "attack": 0,
+                        "health": 0,
+                        "armor": 0,
+                        "speed": 0,
+                        "crit": 0,
+                        "utility": 0
+                      },
+                      "commanderTags": [],
+                      "passives": [],
+                      "audit": {
+                        "reasons": [],
+                        "exactTraitMatches": [],
+                        "categoryMatches": [],
+                        "nameMatch": false,
+                        "factionMatch": false
+                      }
+                    }
+                  ]
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_9",
+                "cardId": "tcg_1281",
+                "lane": "front",
+                "attack": 5,
+                "health": 4,
+                "maxHealth": 4,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "REGROW"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "EPIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_10",
+                "cardId": "tcg_1477",
+                "lane": "front",
+                "attack": 4,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "FEAR"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_13",
+                "cardId": "tcg_1388",
+                "lane": "front",
+                "attack": 1,
+                "health": 3,
+                "maxHealth": 3,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "SUMMON"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_14",
+                "cardId": "tcg_1198",
+                "lane": "front",
+                "attack": 2,
+                "health": 4,
+                "maxHealth": 4,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "DEATHRATTLE"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "RARE",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
+              },
+              {
+                "instanceId": "unit_2002_22",
+                "cardId": "tcg_1854",
+                "lane": "front",
+                "attack": 3,
+                "health": 5,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "PATIENT"
+                ],
+                "exhausted": false,
+                "summoningSick": true,
+                "rarity": "COMMON",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true
+              }
+            ],
+            "back": []
+          },
+          "turnFlags": {
+            "firstUnitCostReduction": 0,
+            "firstUnitPlayed": true
+          },
+          "commander": {
+            "id": "cmd_6665",
+            "tokenId": "6665",
+            "name": "Thor, Stormborn",
+            "faction": null,
+            "traits": {
+              "Keyword": "Divine Shield"
+            },
+            "deckRules": {
+              "deckSize": 30,
+              "exactFaction": false,
+              "maxGodCards": 1,
+              "minUnits": 18,
+              "minEquipment": 4,
+              "minArtifacts": 2
+            }
+          },
+          "commanderZone": {
+            "cardId": "cmd_6665",
+            "name": "Thor, Stormborn"
+          },
+          "commanderOg": {
+            "name": "Thor, Stormborn",
+            "traits": {
+              "Keyword": "Divine Shield"
+            }
+          },
+          "commanderBonuses": {
+            "bonus": {},
+            "reasons": [],
+            "extraTags": [],
+            "extraPassives": []
+          },
+          "cardModifiers": {
+            "tcg_1042": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1286": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1461": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1198": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1388": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1676": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1871": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1135": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1223": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1330": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1354": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1477": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1281": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1306": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1457": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1495": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1854": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1038": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1125": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1199": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_1243": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_10": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_101": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_2026": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_3710": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_farsight": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_grave_dig": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_regrow": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "spell_salvage": {
+              "bonus": {},
+              "reasons": [],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [],
+              "nameMatch": false,
+              "factionMatch": false
+            }
+          }
+        },
+        "P2": {
+          "id": "P2",
+          "health": 30,
+          "nexusHealth": 20,
           "energy": 9,
           "maxEnergy": 10,
           "commanderId": "cmd_bronze_raider",
@@ -23076,14 +25149,6 @@
           ],
           "graveyard": [
             {
-              "cardId": "tcg_101",
-              "attack": 6,
-              "maxHealth": 5,
-              "keywords": [
-                "RUSH"
-              ]
-            },
-            {
               "cardId": "tcg_2026",
               "attack": 5,
               "maxHealth": 6,
@@ -23094,7 +25159,7 @@
             {
               "cardId": "tcg_1038",
               "attack": 6,
-              "maxHealth": 5,
+              "maxHealth": 6,
               "keywords": [
                 "GUARD"
               ]
@@ -23150,12 +25215,72 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
+                "lastDamageTaken": 0,
+                "shielded": true
+              },
+              {
+                "instanceId": "unit_2002_6",
+                "cardId": "tcg_101",
+                "lane": "front",
+                "attack": 6,
+                "health": 4,
+                "maxHealth": 5,
+                "speed": 0,
+                "armor": 0,
+                "keywords": [
+                  "RUSH"
+                ],
+                "exhausted": true,
+                "summoningSick": false,
+                "rarity": "MYTHIC",
+                "crit": 0,
+                "utility": 1,
+                "commanderTags": [],
+                "passives": [],
+                "modifiers": {
+                  "commander": {
+                    "stats": {
+                      "attack": 0,
+                      "health": 0,
+                      "armor": 0,
+                      "speed": 0,
+                      "crit": 0,
+                      "utility": 1
+                    },
+                    "commanderTags": [],
+                    "passives": [],
+                    "audit": {
+                      "reasons": [
+                        "Shared category: Keyword"
+                      ],
+                      "exactTraitMatches": [],
+                      "categoryMatches": [
+                        "Keyword"
+                      ],
+                      "nameMatch": false,
+                      "factionMatch": false
+                    }
+                  }
+                },
+                "auraAtk": 0,
+                "auraHp": 0,
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "attacksThisTurn": 1,
+                "stealthed": false,
+                "windfuryStruck": false,
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0,
+                "shielded": false
               },
               {
                 "instanceId": "unit_2002_8",
@@ -23203,12 +25328,15 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0
+                "lastDamageTaken": 0,
+                "shielded": true
               },
               {
                 "instanceId": "unit_2002_15",
@@ -23257,7 +25385,9 @@
                 "shielded": true,
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
@@ -23269,14 +25399,14 @@
                 "cardId": "tcg_1223",
                 "lane": "front",
                 "attack": 3,
-                "health": 1,
-                "maxHealth": 4,
+                "health": 5,
+                "maxHealth": 5,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
                   "RUSH"
                 ],
-                "exhausted": true,
+                "exhausted": false,
                 "summoningSick": false,
                 "rarity": "RARE",
                 "crit": 0,
@@ -23310,28 +25440,31 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": false,
+                "attacksThisTurn": 0,
+                "stealthed": false,
                 "windfuryStruck": false,
-                "attacksThisTurn": 1,
-                "tookDamageThisTurn": true,
-                "damageTakenThisTurn": 1,
-                "lastDamageTaken": 1,
-                "stealthed": false
+                "tookDamageThisTurn": false,
+                "damageTakenThisTurn": 0,
+                "lastDamageTaken": 0
               },
               {
                 "instanceId": "unit_2002_17",
                 "cardId": "tcg_1042",
                 "lane": "front",
                 "attack": 1,
-                "health": 1,
-                "maxHealth": 1,
+                "health": 3,
+                "maxHealth": 3,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
                   "WARD",
                   "RUSH"
                 ],
-                "exhausted": true,
+                "exhausted": false,
                 "summoningSick": true,
                 "rarity": "COMMON",
                 "crit": 0,
@@ -23363,19 +25496,21 @@
                     }
                   }
                 },
-                "shielded": true,
+                "shielded": false,
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "attacksThisTurn": 0,
+                "stealthed": false,
                 "windfuryStruck": false,
-                "attacksThisTurn": 1,
                 "tookDamageThisTurn": false,
                 "damageTakenThisTurn": 0,
-                "lastDamageTaken": 0,
-                "stealthed": false
+                "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_20",
+                "instanceId": "unit_2002_19",
                 "cardId": "tcg_1281",
                 "lane": "front",
                 "attack": 5,
@@ -23420,7 +25555,10 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
@@ -23428,7 +25566,7 @@
                 "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_21",
+                "instanceId": "unit_2002_20",
                 "cardId": "tcg_1354",
                 "lane": "front",
                 "attack": 4,
@@ -23474,7 +25612,10 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
                 "windfuryStruck": false,
                 "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
@@ -23482,18 +25623,18 @@
                 "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_22",
+                "instanceId": "unit_2002_21",
                 "cardId": "tcg_1330",
                 "lane": "front",
                 "attack": 5,
-                "health": 1,
+                "health": 5,
                 "maxHealth": 5,
                 "speed": 0,
                 "armor": 0,
                 "keywords": [
                   "RUSH"
                 ],
-                "exhausted": true,
+                "exhausted": false,
                 "summoningSick": false,
                 "rarity": "RARE",
                 "crit": 0,
@@ -23527,16 +25668,18 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true,
+                "windfuryStruck": false,
+                "attacksThisTurn": 0,
                 "tookDamageThisTurn": false,
-                "lastDamageTaken": 0,
                 "damageTakenThisTurn": 0,
-                "attacksThisTurn": 1,
-                "stealthed": false,
-                "windfuryStruck": false
+                "lastDamageTaken": 0
               },
               {
-                "instanceId": "unit_2002_25",
+                "instanceId": "unit_2002_23",
                 "cardId": "tcg_1461",
                 "lane": "front",
                 "attack": 1,
@@ -23548,7 +25691,7 @@
                   "ARMORED",
                   "RUSH"
                 ],
-                "exhausted": true,
+                "exhausted": false,
                 "summoningSick": true,
                 "rarity": "COMMON",
                 "crit": 0,
@@ -23582,9 +25725,10 @@
                 },
                 "auraAtk": 0,
                 "auraHp": 0,
-                "auraKeywords": [],
-                "attacksThisTurn": 1,
-                "stealthed": false
+                "auraKeywords": [
+                  "WARD"
+                ],
+                "shielded": true
               }
             ],
             "back": []
@@ -24182,13 +26326,11 @@
         "lane": "front"
       },
       {
-        "type": "ATTACK",
+        "type": "NEXUS_DAMAGE",
         "player": "P2",
+        "targetPlayer": "P1",
         "attackerInstanceId": "unit_2002_6",
-        "defenderInstanceId": "unit_2002_0",
-        "outgoing": 6,
-        "mitigated": 6,
-        "counter": 4
+        "damage": 6
       },
       {
         "type": "TURN_END",
@@ -24253,7 +26395,7 @@
       {
         "type": "UNIT_PLAYED",
         "player": "P1",
-        "cardId": "tcg_1354",
+        "cardId": "tcg_1477",
         "lane": "front"
       },
       {
@@ -24297,12 +26439,6 @@
       {
         "type": "UNIT_PLAYED",
         "player": "P1",
-        "cardId": "tcg_1477",
-        "lane": "front"
-      },
-      {
-        "type": "UNIT_PLAYED",
-        "player": "P1",
         "cardId": "tcg_1676",
         "lane": "front"
       },
@@ -24310,6 +26446,12 @@
         "type": "UNIT_PLAYED",
         "player": "P1",
         "cardId": "tcg_1388",
+        "lane": "front"
+      },
+      {
+        "type": "UNIT_PLAYED",
+        "player": "P1",
+        "cardId": "tcg_1198",
         "lane": "front"
       },
       {
@@ -24331,6 +26473,11 @@
         "type": "CHOICE_RESOLVED",
         "player": "P1",
         "optionId": "tcg_101"
+      },
+      {
+        "type": "SPELL_PLAYED",
+        "player": "P1",
+        "cardId": "spell_farsight"
       },
       {
         "type": "TURN_END",
@@ -24364,18 +26511,28 @@
         "type": "ATTACK",
         "player": "P2",
         "attackerInstanceId": "unit_2002_6",
-        "defenderInstanceId": "unit_2002_13",
+        "defenderInstanceId": "unit_2002_12",
         "outgoing": 6,
-        "mitigated": 6,
-        "counter": 1
+        "mitigated": 0,
+        "counter": 0
       },
       {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2002_16",
+        "defenderInstanceId": "unit_2002_12",
+        "outgoing": 3,
+        "mitigated": 3,
+        "counter": 0
       },
       {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
+        "type": "ATTACK",
+        "player": "P2",
+        "attackerInstanceId": "unit_2002_17",
+        "defenderInstanceId": "unit_2002_12",
+        "outgoing": 1,
+        "mitigated": 1,
+        "counter": 0
       },
       {
         "type": "TURN_END",
@@ -24394,15 +26551,10 @@
         "lane": "front"
       },
       {
-        "type": "UNIT_PLAYED",
+        "type": "EQUIPPED",
         "player": "P1",
-        "cardId": "tcg_1198",
-        "lane": "front"
-      },
-      {
-        "type": "SPELL_PLAYED",
-        "player": "P1",
-        "cardId": "spell_farsight"
+        "cardId": "tcg_3710",
+        "targetInstanceId": "unit_2002_7"
       },
       {
         "type": "ATTACK",
@@ -24410,8 +26562,8 @@
         "attackerInstanceId": "unit_2002_18",
         "defenderInstanceId": "unit_2002_3",
         "outgoing": 6,
-        "mitigated": 6,
-        "counter": 6
+        "mitigated": 0,
+        "counter": 0
       },
       {
         "type": "TURN_END",
@@ -24444,31 +26596,27 @@
       {
         "type": "ATTACK",
         "player": "P2",
-        "attackerInstanceId": "unit_2002_16",
-        "defenderInstanceId": "unit_2002_19",
-        "outgoing": 3,
-        "mitigated": 3,
-        "counter": 2
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_17",
-        "damage": 1
+        "attackerInstanceId": "unit_2002_6",
+        "defenderInstanceId": "unit_2002_12",
+        "outgoing": 6,
+        "mitigated": 6,
+        "counter": 1
       },
       {
         "type": "REJECTED",
         "reason": "attacker-or-defender-not-found"
       },
       {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_22",
-        "defenderInstanceId": "unit_2002_10",
-        "outgoing": 5,
-        "mitigated": 5,
-        "counter": 4
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
+      },
+      {
+        "type": "REJECTED",
+        "reason": "attacker-or-defender-not-found"
       },
       {
         "type": "TURN_END",
@@ -24487,16 +26635,13 @@
         "lane": "front"
       },
       {
-        "type": "UNIT_PLAYED",
+        "type": "ATTACK",
         "player": "P1",
-        "cardId": "tcg_1354",
-        "lane": "front"
-      },
-      {
-        "type": "EQUIPPED",
-        "player": "P1",
-        "cardId": "tcg_3710",
-        "targetInstanceId": "unit_2002_7"
+        "attackerInstanceId": "unit_2002_18",
+        "defenderInstanceId": "unit_2002_3",
+        "outgoing": 6,
+        "mitigated": 6,
+        "counter": 6
       },
       {
         "type": "TURN_END",
@@ -24515,38 +26660,11 @@
         "lane": "front"
       },
       {
-        "type": "ATTACK",
-        "player": "P2",
-        "attackerInstanceId": "unit_2002_16",
-        "defenderInstanceId": "unit_2002_14",
-        "outgoing": 3,
-        "mitigated": 3,
-        "counter": 1
-      },
-      {
         "type": "NEXUS_DAMAGE",
         "player": "P2",
         "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_17",
-        "damage": 1
-      },
-      {
-        "type": "REJECTED",
-        "reason": "attacker-or-defender-not-found"
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_22",
-        "damage": 5
-      },
-      {
-        "type": "NEXUS_DAMAGE",
-        "player": "P2",
-        "targetPlayer": "P1",
-        "attackerInstanceId": "unit_2002_25",
-        "damage": 1
+        "attackerInstanceId": "unit_2002_6",
+        "damage": 6
       },
       {
         "type": "WIN",
