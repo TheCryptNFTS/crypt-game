@@ -16,6 +16,7 @@ import DraftPage from "./pages/DraftPage";
 import DailyPackPage from "./pages/DailyPackPage";
 import MatchResultsPage from "./pages/MatchResultsPage";
 import FriendsPage from "./pages/FriendsPage";
+import RewardsPage from "./pages/RewardsPage";
 import { OnboardingGate } from "./components/OnboardingGate";
 
 /**
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
       { path: "/leaderboard", element: <LeaderboardPage /> },
       { path: "/daily-pack", element: <DailyPackPage /> },
       { path: "/match-results", element: <MatchResultsPage /> },
+      { path: "/rewards", element: <RewardsPage /> },
 
       // Gated advanced surfaces — hidden until the tutorial is done or first win.
       {
