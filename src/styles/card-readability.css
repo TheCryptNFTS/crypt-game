@@ -1,0 +1,119 @@
+/*
+ * card-readability.css — ADDITIVE visual/readability polish (WS8).
+ *
+ * Layers on top of the card chrome defined in index.css. NO component
+ * restructuring, NO new markup, NO game-logic touch — these rules only
+ * re-style hooks that already exist in the DOM (crypt-card-chrome,
+ * crypt-stat-gem, crypt-cost-orb, crypt-card-art, crypt-card-tactical,
+ * faction edge, rarity strip).
+ *
+ * Goal = the project's ICONIC / 40x40 readability law: at thumbnail size a
+ * card must read by silhouette + one bright focal mark. So we push:
+ *   1. stronger card-frame hierarchy (tactical vs commander)
+ *   2. faction colour identity (edge + a faint corner key)
+ *   3. legible cost / stat badges (bigger contrast, crisper ring)
+ *   4. board readability (lift small board cards off the felt)
+ *
+ * Imported once from main.tsx AFTER index.css so it wins on equal specificity.
+ */
+
+/* ── 1. Card-frame hierarchy ─────────────────────────────────────────── */
+
+/* Tactical playables get a defined inner bevel so the art reads as a window,
+   not a flat sticker. Pure-additive: only sharpens the existing ::before. */
+.crypt-card-tactical::before {
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55);
+}
+
+/* Commander frame stays the "sacred" tier — warm gold halo, clearly above
+   tactical cards in the visual stack. */
+.crypt-card-chrome-commander::before {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+    inset 0 0 60px rgba(201, 164, 58, 0.09);
+}
+
+/* ── 2. Faction colour identity ──────────────────────────────────────── */
+
+/* A faint top-corner key bar reinforces the faction edge so identity reads
+   even when the 2px edge strip is clipped by neighbours on a crowded board.
+   Driven entirely by the inline factionEdgeStyle gradient already present. */
+.crypt-card-art::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    transparent 60%
+  );
+  mix-blend-mode: screen;
+}
+
+/* ── 3. Cost / stat badge legibility ─────────────────────────────────── */
+
+/* Cost orb: brighter ice ring + denser core so the number pops as the card's
+   primary read in hand (the 40x40 "one bright mark"). */
+.crypt-cost-orb {
+  border-color: rgba(95, 212, 240, 0.55);
+  background: radial-gradient(
+    circle at 32% 26%,
+    rgba(95, 212, 240, 0.34) 0%,
+    rgba(3, 5, 12, 0.96) 64%
+  );
+  box-shadow:
+    0 0 16px rgba(95, 212, 240, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+/* Stat gem: stronger frame + drop so atk/hp stay legible over busy art. */
+.crypt-stat-gem {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: linear-gradient(
+    165deg,
+    rgba(10, 10, 16, 0.96) 0%,
+    rgba(3, 3, 7, 0.9) 100%
+  );
+  box-shadow:
+    0 5px 16px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Push the two stat numbers up in weight + contrast (faction-neutral
+   accent/ice already assigned in index.css; we only add the glow). */
+.crypt-stat-gem-atk {
+  text-shadow: 0 0 8px rgba(212, 168, 75, 0.4);
+}
+
+.crypt-stat-gem-hp {
+  text-shadow: 0 0 8px rgba(95, 212, 240, 0.4);
+}
+
+/* ── 4. Board readability ────────────────────────────────────────────── */
+
+/* Small board cards sit on a dark felt; give them a touch more lift and a
+   crisper edge so individual units are countable at a glance. Scoped to the
+   board mode marker (crypt-card-tactical inside a board slot) via the art
+   aspect — keeps hand cards untouched. */
+.crypt-card-tactical {
+  box-shadow:
+    0 10px 26px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Slightly deepen art contrast so silhouettes separate from the felt — the
+   single most important 40x40 lever. Additive filter only. */
+.crypt-card-tactical .crypt-card-art img {
+  filter: contrast(1.04) saturate(1.03);
+}
