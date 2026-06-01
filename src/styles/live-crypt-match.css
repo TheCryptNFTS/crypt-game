@@ -461,3 +461,120 @@
   color: rgba(231, 238, 248, 0.72);
   font-weight: 600;
 }
+
+/* MOBILE (≤768px) ------------------------------------------------------------
+ * The live match board is the most layout-dense surface. The desktop grid above
+ * already collapses to a single column at ≤1100px, but at phone widths the fixed
+ * card widths overflow, the dense topbar/action rails crowd, and content can hide
+ * behind the fixed bottom dock. This block tightens spacing, makes targets tap-
+ * friendly, lets card rails scroll horizontally with momentum, and reserves room
+ * for the dock. Desktop (>768px) is untouched. */
+@media (max-width: 768px) {
+  .live-match-shell {
+    padding: 12px;
+    /* clear the fixed bottom dock (56px + safe area) */
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .live-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .live-grid__right {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .live-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .live-topbar__cluster {
+    gap: 8px;
+  }
+
+  .live-topbar__pill {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+  }
+
+  .live-topbar__meta {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Action rails wrap; each button gets a comfortable tap target. */
+  .live-topbar__actions,
+  .live-quick-buttons,
+  .live-actionbar__buttons {
+    gap: 8px;
+  }
+
+  .live-btn {
+    min-height: 44px;
+    padding: 11px 14px;
+  }
+
+  /* Board + hand card rails scroll horizontally with momentum instead of
+   * overflowing the viewport; narrow the cards so more peeks into view. */
+  .live-lane__cards,
+  .live-hand__rail {
+    gap: 10px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+
+  .live-lane__cards .crypt-card--board {
+    min-width: 168px;
+    width: 168px;
+    min-height: 246px;
+    scroll-snap-align: start;
+  }
+
+  .live-hand__item {
+    min-width: 184px;
+    width: 184px;
+    scroll-snap-align: start;
+  }
+
+  .live-hand__item .crypt-card--hand {
+    min-height: 272px;
+  }
+
+  .live-lane,
+  .live-actionbar,
+  .live-side-panel {
+    padding: 12px;
+  }
+
+  .live-hand {
+    margin-top: 12px;
+    padding: 12px;
+  }
+
+  .live-gameover__panel {
+    padding: 24px 22px;
+    width: min(92vw, 360px);
+  }
+
+  .live-gameover__title {
+    font-size: 26px;
+  }
+
+  /* Mulligan rail: two-up cards that fill the row on small screens. */
+  .mulligan-screen {
+    padding: 14px;
+  }
+
+  .mulligan-card {
+    width: calc(50% - 6px);
+    min-height: 132px;
+  }
+}
