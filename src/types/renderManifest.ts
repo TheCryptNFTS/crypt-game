@@ -10,6 +10,8 @@ export type RenderManifestEntry = {
   keywords?: string[];
   /** Human-readable rules text (rawTraits.Ability) — what the card actually does. */
   ability?: string;
+  /** Authored flavor/lore text (quote, attribution) — separate from mechanical ability. */
+  description?: string;
   imageUrl?: string | null;
   animationUrl?: string | null;
   externalUrl?: string | null;

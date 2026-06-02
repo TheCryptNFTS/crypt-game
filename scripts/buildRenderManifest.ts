@@ -89,6 +89,7 @@ function pickCommanderAsset(item: { id: string; name?: string }): Asset | null {
 // Canonical reveal art, keyed by engine card id (tcg_*).
 type GeneratedCard = {
   id: string;
+  description?: string | null;
   imageUrl?: string | null;
   animationUrl?: string | null;
   externalUrl?: string | null;
@@ -133,6 +134,8 @@ const manifest = {
         cost: card.cost,
         keywords: card.keywords ?? [],
         ability: typeof card.rawTraits?.Ability === "string" ? card.rawTraits.Ability : "",
+        // Authored flavor/lore (quote + attribution) joined from canonical reveal data.
+        description: typeof art?.description === "string" ? art.description : "",
         imageUrl: art?.imageUrl ?? null,
         animationUrl: art?.animationUrl ?? null,
         externalUrl: art?.externalUrl ?? null,
