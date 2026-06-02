@@ -8,6 +8,7 @@ import { useLocalCryptMatch, LocalMatchOptions } from "../game-ui/useLocalCryptM
 import { TutorialCoach } from "../components/tutorial/TutorialCoach";
 import { useMatchProgression } from "../meta/useMatchProgression";
 import { MulliganScreen } from "../components/live-match/MulliganScreen";
+import { WinCeremony } from "../components/live-match/WinCeremony";
 
 type Props = {
   /** Card ids (`tcg_<tokenId>`) the connected wallet owns. When present, they
@@ -177,6 +178,17 @@ export default function LiveCryptMatchPage({
         mulligan={local.mulligan}
         resetMatch={local.resetMatch}
       />
+      {/* Premium WIN / LOSS ceremony. Only outside the tutorial (which drives its
+          own end-state via TutorialCoach). Renders once `winner` is decided and
+          reuses the existing reset handler for "Run It Back". */}
+      {!tutorial ? (
+        <WinCeremony
+          winner={local.winner}
+          mySeat="P1"
+          match={local.match}
+          onPlayAgain={local.resetMatch}
+        />
+      ) : null}
     </div>
   );
 }
