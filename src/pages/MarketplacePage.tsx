@@ -206,7 +206,7 @@ function FilterRow({
       </button>
       {options.map((o) => (
         <button key={o} type="button" className={chip(value === o)} onClick={() => onPick(o)}>
-          {o}
+          {o.replace(/_/g, " ")}
         </button>
       ))}
     </div>
