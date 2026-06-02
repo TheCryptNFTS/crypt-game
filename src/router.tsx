@@ -13,6 +13,7 @@ import SplashLoginPage from "./pages/SplashLoginPage";
 
 const TutorialPage = lazy(() => import("./pages/TutorialPage"));
 const OnboardingPage = lazy(() => import("./pages/OnboardingPage"));
+const HelpPage = lazy(() => import("./pages/HelpPage"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const PlayHubPage = lazy(() => import("./pages/PlayHubPage"));
 const PuzzlePage = lazy(() => import("./pages/PuzzlePage"));
@@ -62,6 +63,8 @@ export const router = createBrowserRouter([
       { path: "/play", element: <PlayHubPage /> },
       // Solo puzzle / practice mode — ungated like /play (no opponent, no chain).
       { path: "/puzzles", element: <PuzzlePage /> },
+      // Ungated reference — glossary + how-to-play, reachable for any new pilot.
+      { path: "/help", element: <HelpPage /> },
       { path: "/match", element: <LiveCryptMatchPage /> },
       { path: "/spectate", element: <SpectatePage /> },
       { path: "/draft", element: <DraftPage /> },

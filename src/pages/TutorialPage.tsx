@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LiveCryptMatchPage from "./LiveCryptMatchPage";
 import { buildStarterDeck, ensureStarterDeckEquipped } from "../lib/starterDeck";
 import { markTutorialComplete } from "../lib/localProgress";
@@ -52,6 +52,19 @@ export default function TutorialPage() {
         }}
       >
         ⬡ FIRST DUEL · TUTORIAL
+        <Link
+          to="/help"
+          style={{
+            display: "block",
+            marginTop: 4,
+            color: "#CFC8E4",
+            fontSize: 11,
+            letterSpacing: "0.04em",
+            textDecoration: "underline",
+          }}
+        >
+          Stuck? How to play →
+        </Link>
       </header>
 
       <LiveCryptMatchPage
