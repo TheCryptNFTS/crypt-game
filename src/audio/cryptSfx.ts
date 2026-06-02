@@ -21,13 +21,20 @@
  */
 
 const MUTE_KEY = "crypt.sfx.muted";
+const VOLUME_KEY = "crypt.sfx.volume";
+
+/** Headroom ceiling: at volume 1.0 the master bus sits here (per-sound
+ * envelopes already stay well below 1, so this leaves comfortable margin). */
+const MASTER_CEILING = 0.5;
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
 /** Shared reverb send + return, built once alongside the context. */
 let reverbSend: GainNode | null = null;
 let muted = readMuted();
+let volume = readVolume(); // 0..1 user-facing master volume
 const listeners = new Set<(muted: boolean) => void>();
+const volumeListeners = new Set<(volume: number) => void>();
 
 /** Per-faction base-pitch tint (semitone offsets). Cheap tonal motif — purely
  * shifts the root of each sound so the match "keys" to the deck's faction. */
@@ -47,6 +54,29 @@ function readMuted(): boolean {
   } catch {
     return false;
   }
+}
+
+function readVolume(): number {
+  try {
+    const raw = localStorage.getItem(VOLUME_KEY);
+    if (raw === null) return 0.8; // pleasant default
+    const v = Number.parseFloat(raw);
+    if (!Number.isFinite(v)) return 0.8;
+    return Math.max(0, Math.min(1, v));
+  } catch {
+    return 0.8;
+  }
+}
+
+/** Push the user volume (gated by mute) onto the live master gain, if built. */
+function applyMasterGain(): void {
+  if (!master || !ctx) return;
+  const target = muted ? 0.0001 : Math.max(0.0001, volume * MASTER_CEILING);
+  const now = ctx.currentTime;
+  master.gain.cancelScheduledValues(now);
+  master.gain.setValueAtTime(Math.max(0.0001, master.gain.value), now);
+  // Short ramp avoids zipper noise on slider drags.
+  master.gain.linearRampToValueAtTime(target, now + 0.05);
 }
 
 /** Build a short algorithmic impulse response for a dark plate-ish reverb. */
@@ -75,7 +105,9 @@ function audio(): { ctx: AudioContext; master: GainNode; reverb: GainNode } | nu
   if (!ctx) {
     ctx = new Ctor();
     master = ctx.createGain();
-    master.gain.value = 0.5; // headroom; per-sound envelopes stay well below 1
+    // Start at the user's persisted volume (gated by mute); per-sound envelopes
+    // stay well below 1, so MASTER_CEILING leaves headroom against clipping.
+    master.gain.value = muted ? 0.0001 : Math.max(0.0001, volume * MASTER_CEILING);
     master.connect(ctx.destination);
 
     // Reverb return: a Convolver fed by a send bus, mixed back under master.
@@ -129,6 +161,7 @@ export function setMuted(next: boolean): void {
   } catch {
     /* storage unavailable — keep in-memory flag */
   }
+  applyMasterGain();
   listeners.forEach((fn) => fn(muted));
 }
 
@@ -141,6 +174,32 @@ export function toggleMuted(): boolean {
 export function onMuteChange(fn: (muted: boolean) => void): () => void {
   listeners.add(fn);
   return () => listeners.delete(fn);
+}
+
+/* ---- Master volume (0..1) ------------------------------------------------
+ * A user-facing master level, independent of mute. Persisted to localStorage
+ * and applied live to the shared master gain. Mute still wins (forces silence)
+ * but leaves the stored volume intact, so unmuting restores the prior level. */
+
+export function getVolume(): number {
+  return volume;
+}
+
+export function setVolume(next: number): void {
+  volume = Math.max(0, Math.min(1, Number.isFinite(next) ? next : volume));
+  try {
+    localStorage.setItem(VOLUME_KEY, String(volume));
+  } catch {
+    /* storage unavailable — keep in-memory value */
+  }
+  applyMasterGain();
+  volumeListeners.forEach((fn) => fn(volume));
+}
+
+/** Subscribe to volume changes (for the settings UI). Returns unsub fn. */
+export function onVolumeChange(fn: (volume: number) => void): () => void {
+  volumeListeners.add(fn);
+  return () => volumeListeners.delete(fn);
 }
 
 /**
@@ -442,4 +501,35 @@ export function playStalemate(): void {
     // A minor-second clash holds the tension unresolved.
     { type: "triangle", freq: 318, gain: 0.08, dur: 0.26, attack: 0.008, decay: 0.08, sustain: 0.5, release: 0.14, delay: 0.18, reverb: 0.24 },
   ]);
+}
+
+/** The nexus itself is struck (face damage): a deep, cracked-stone impact that
+ * rings with reverberant dread — heavier and lower than a unit hit. */
+export function playNexusHit(): void {
+  play(
+    [
+      // Sub boom: the structure shudders.
+      { type: "sine", freq: 58, toFreq: 38, gain: 0.2, dur: 0.4, attack: 0.003, decay: 0.1, sustain: 0.3, release: 0.24, reverb: 0.24 },
+      // Cracked-bell mid body, detuned for a dissonant ring.
+      { type: "square", freq: 174, toFreq: 92, gain: 0.12, dur: 0.3, attack: 0.003, decay: 0.08, sustain: 0.3, release: 0.16, detune: -14, reverb: 0.28 },
+      { type: "sawtooth", freq: 233, toFreq: 110, gain: 0.08, dur: 0.26, attack: 0.003, decay: 0.07, sustain: 0.28, release: 0.14, detune: 11, reverb: 0.3 },
+    ],
+    [
+      // Stone-shatter debris — broadband burst sweeping down into the reverb.
+      { dur: 0.26, gain: 0.13, filter: "lowpass", cutoff: 3000, toCutoff: 180, q: 0.8, reverb: 0.42 },
+    ],
+  );
+}
+
+/** UI button click: a tight, dry, low-resonant tick. Deliberately reverb-free
+ * and very short so rapid interface taps never smear or fatigue. */
+export function playClick(): void {
+  play(
+    [
+      { type: "square", freq: 320, toFreq: 220, gain: 0.06, dur: 0.045, attack: 0.001, decay: 0.02, sustain: 0.2, release: 0.02 },
+    ],
+    [
+      { dur: 0.03, gain: 0.05, filter: "highpass", cutoff: 2600, q: 0.7 },
+    ],
+  );
 }

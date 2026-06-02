@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { isMuted, onMuteChange, toggleMuted } from "../../audio/cryptSfx";
 import { isAmbienceEnabled, setAmbienceEnabled } from "../../audio/cryptAmbience";
+import { SoundSettings } from "./SoundSettings";
 
 /*
  * SoundToggle — unobtrusive audio controls for the procedural match audio.
@@ -62,6 +63,9 @@ export function SoundToggle() {
           </span>
         </button>
       ) : null}
+
+      {/* Master volume slider + mute, persisted to localStorage. */}
+      <SoundSettings />
     </span>
   );
 }

@@ -7,6 +7,7 @@ import {
   playDeploy,
   playDefeat,
   playDraw,
+  playNexusHit,
   playStalemate,
   playTurn,
   playWin,
@@ -174,7 +175,10 @@ export function useMatchSound(input: MatchSoundInput) {
     prevNexusRef.current = { own: input.ownNexus, enemy: input.enemyNexus };
     if (!prev || isMuted()) return;
     if (input.enemyNexus < prev.enemy || input.ownNexus < prev.own) {
+      // The swing lands (attack) then the structure takes the blow (nexus hit),
+      // staggered slightly so they read as one weighty two-part impact.
       playAttack();
+      playNexusHit();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input.ownNexus, input.enemyNexus]);
