@@ -24,11 +24,11 @@ export function ActionBar(props: Props) {
           : "Select a card or unit to act.";
 
   return (
-    <section className="live-actionbar">
+    <section className="live-actionbar" role="region" aria-label="Match actions">
       <div className="live-actionbar__header">
         <div>
           <h3>Actions</h3>
-          <p>{selectionText}</p>
+          <p role="status" aria-live="polite">{selectionText}</p>
         </div>
       </div>
 

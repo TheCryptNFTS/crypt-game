@@ -25,8 +25,15 @@ export function BoardLane({ title, cards, onSelect, highlight, hint, unitMotion,
   const laneDying = dying ?? [];
   const hasContent = cards.length > 0 || laneDying.length > 0;
 
+  const unitCount = cards.length;
+  const laneLabel = `${title}, ${unitCount} unit${unitCount === 1 ? "" : "s"}`;
+
   return (
-    <section className={`live-lane${highlight ? ` live-lane--${highlight}` : ""}`}>
+    <section
+      className={`live-lane${highlight ? ` live-lane--${highlight}` : ""}`}
+      role="region"
+      aria-label={laneLabel}
+    >
       <div className="live-lane__header">
         <h2>{title}</h2>
         {highlight && hint ? (

@@ -63,6 +63,13 @@ export function WinCeremony({
       ? match.players[mySeat].nexusHealth
       : null;
 
+  // Move keyboard focus to the primary action when the ceremony opens so
+  // screen-reader / keyboard users land on "Run It Back". Presentation-only.
+  const playAgainRef = React.useRef<HTMLButtonElement | null>(null);
+  React.useEffect(() => {
+    playAgainRef.current?.focus();
+  }, []);
+
   const [toast, setToast] = React.useState<string | null>(null);
   const flash = React.useCallback((msg: string) => {
     setToast(msg);
@@ -211,7 +218,7 @@ export function WinCeremony({
         ) : null}
 
         <div className="wc-actions">
-          <button className="wc-btn" onClick={onPlayAgain}>
+          <button ref={playAgainRef} className="wc-btn" onClick={onPlayAgain}>
             Run It Back
           </button>
           <Link className="wc-leave" to="/home">
