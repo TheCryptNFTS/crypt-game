@@ -48,7 +48,7 @@ type Particle = {
   vr: number;
 };
 
-const MAX_PARTICLES = 220;
+const MAX_PARTICLES = 320;
 
 function reducedMotion(): boolean {
   return (
@@ -76,6 +76,10 @@ export const MatchFxCanvas = forwardRef<MatchFxHandle, {}>(function MatchFxCanva
   const bloomRef = useRef<{ kind: "win" | "loss"; t: number; ttl: number } | null>(
     null,
   );
+  // A quick additive screen-flash on heavy hits (death). {color, t, ttl, peak}.
+  const flashRef = useRef<{ color: string; t: number; ttl: number; peak: number } | null>(
+    null,
+  );
 
   // Keep the backing store sized to the element + devicePixelRatio.
   const resize = () => {
@@ -96,6 +100,8 @@ export const MatchFxCanvas = forwardRef<MatchFxHandle, {}>(function MatchFxCanva
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
       particlesRef.current = [];
+      bloomRef.current = null;
+      flashRef.current = null;
     };
   }, []);
 
@@ -150,6 +156,24 @@ export const MatchFxCanvas = forwardRef<MatchFxHandle, {}>(function MatchFxCanva
       }
     }
 
+    // ---- Heavy-hit screen flash (quick additive wash, fast in/out) ----
+    const flash = flashRef.current;
+    if (flash) {
+      flash.t += dt;
+      const fp = flash.t / flash.ttl;
+      if (fp >= 1) {
+        flashRef.current = null;
+      } else {
+        // fast attack, longer release
+        const env = fp < 0.18 ? fp / 0.18 : 1 - (fp - 0.18) / 0.82;
+        g.save();
+        g.globalCompositeOperation = "lighter";
+        g.fillStyle = `rgba(${flash.color}, ${Math.max(0, env) * flash.peak})`;
+        g.fillRect(0, 0, cv.width, cv.height);
+        g.restore();
+      }
+    }
+
     // ---- Particles ----
     const ps = particlesRef.current;
     for (let i = ps.length - 1; i >= 0; i--) {
@@ -168,9 +192,13 @@ export const MatchFxCanvas = forwardRef<MatchFxHandle, {}>(function MatchFxCanva
       g.save();
       g.globalCompositeOperation = "lighter";
       if (p.shape === "ring") {
-        const grow = 1 + (1 - a) * 2.2;
-        g.strokeStyle = `rgba(${p.color}, ${a * 0.8})`;
-        g.lineWidth = Math.max(1, p.size * 0.4 * dprRef.current);
+        // Expand further + brighter, with a thinning stroke so it reads as a
+        // crisp shockwave that fades as it grows.
+        const grow = 1 + (1 - a) * 3.4;
+        g.strokeStyle = `rgba(${p.color}, ${a})`;
+        g.lineWidth = Math.max(1, p.size * 0.5 * a * dprRef.current);
+        g.shadowBlur = p.size * 0.6 * dprRef.current;
+        g.shadowColor = `rgba(${p.color}, ${a * 0.7})`;
         g.beginPath();
         g.arc(p.x, p.y, p.size * grow * dprRef.current, 0, Math.PI * 2);
         g.stroke();
@@ -196,7 +224,7 @@ export const MatchFxCanvas = forwardRef<MatchFxHandle, {}>(function MatchFxCanva
       g.restore();
     }
 
-    if (ps.length === 0 && !bloomRef.current) {
+    if (ps.length === 0 && !bloomRef.current && !flashRef.current) {
       // Nothing alive — stop the loop so an idle board costs zero.
       rafRef.current = null;
       return;
@@ -214,67 +242,90 @@ export const MatchFxCanvas = forwardRef<MatchFxHandle, {}>(function MatchFxCanva
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
     if (kind === "deploy") {
-      // A soft purple landing flash: one expanding ring + a few rising sparks.
+      // A punchy purple landing burst: a fast bright shockwave ring, a slower
+      // halo ring, and a fountain of rising sparks.
       ps.push({
-        x: lx, y: ly, vx: 0, vy: 0, life: 0.45, ttl: 0.45,
-        size: 18, color: C_PURPLE, gravity: 0, shape: "ring", rot: 0, vr: 0,
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.5, ttl: 0.5,
+        size: 26, color: C_PURPLE, gravity: 0, shape: "ring", rot: 0, vr: 0,
       });
-      for (let i = 0; i < 10; i++) {
+      ps.push({
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.36, ttl: 0.36,
+        size: 12, color: C_WHITE, gravity: 0, shape: "ring", rot: 0, vr: 0,
+      });
+      for (let i = 0; i < 20; i++) {
         const ang = rand(-Math.PI, 0); // upward fan
-        const spd = rand(40, 130);
+        const spd = rand(60, 220);
         ps.push({
           x: lx, y: ly, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
-          life: rand(0.4, 0.7), ttl: 0.7, size: rand(1.5, 3),
-          color: i % 3 === 0 ? C_WHITE : C_PURPLE, gravity: 160,
+          life: rand(0.45, 0.85), ttl: 0.85, size: rand(2, 4),
+          color: i % 3 === 0 ? C_WHITE : C_PURPLE, gravity: 200,
           shape: "spark", rot: 0, vr: 0,
         });
       }
     } else if (kind === "damage") {
-      // A tight white/red impact spray.
-      for (let i = 0; i < 14; i++) {
+      // A hard white/red impact: a fast bright shockwave ring + a dense spray
+      // + a couple of tumbling shard chips.
+      ps.push({
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.34, ttl: 0.34,
+        size: 16, color: C_WHITE, gravity: 0, shape: "ring", rot: 0, vr: 0,
+      });
+      ps.push({
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.42, ttl: 0.42,
+        size: 22, color: C_DANGER, gravity: 0, shape: "ring", rot: 0, vr: 0,
+      });
+      for (let i = 0; i < 26; i++) {
         const ang = rand(0, Math.PI * 2);
-        const spd = rand(80, 240);
+        const spd = rand(120, 360);
         ps.push({
           x: lx, y: ly, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
-          life: rand(0.25, 0.5), ttl: 0.5, size: rand(1.5, 3.5),
-          color: i % 2 === 0 ? C_WHITE : C_DANGER, gravity: 220,
-          shape: "spark", rot: 0, vr: 0,
+          life: rand(0.25, 0.55), ttl: 0.55, size: rand(1.8, 4),
+          color: i % 2 === 0 ? C_WHITE : C_DANGER, gravity: 260,
+          shape: i % 5 === 0 ? "shard" : "spark", rot: rand(0, 6.28),
+          vr: rand(-10, 10),
         });
       }
-      ps.push({
-        x: lx, y: ly, vx: 0, vy: 0, life: 0.3, ttl: 0.3,
-        size: 10, color: C_WHITE, gravity: 0, shape: "ring", rot: 0, vr: 0,
-      });
     } else if (kind === "death") {
-      // A bigger shatter: shards + embers raining down.
-      for (let i = 0; i < 22; i++) {
+      // A violent shatter: a hard white screen-flash, a big red shockwave, then
+      // a storm of shards + embers raining down to "ash".
+      flashRef.current = { color: C_WHITE, t: 0, ttl: 0.32, peak: 0.32 };
+      ps.push({
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.6, ttl: 0.6,
+        size: 30, color: C_DANGER, gravity: 0, shape: "ring", rot: 0, vr: 0,
+      });
+      ps.push({
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.4, ttl: 0.4,
+        size: 14, color: C_WHITE, gravity: 0, shape: "ring", rot: 0, vr: 0,
+      });
+      for (let i = 0; i < 40; i++) {
         const ang = rand(0, Math.PI * 2);
-        const spd = rand(60, 280);
+        const spd = rand(80, 360);
         ps.push({
-          x: lx, y: ly, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 60,
-          life: rand(0.5, 1.0), ttl: 1.0, size: rand(2.5, 5.5),
-          color: i % 4 === 0 ? C_WHITE : C_DANGER, gravity: 420,
+          x: lx, y: ly, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd - 90,
+          life: rand(0.6, 1.25), ttl: 1.25, size: rand(2.5, 6),
+          color: i % 4 === 0 ? C_WHITE : C_DANGER, gravity: 480,
           shape: i % 2 === 0 ? "shard" : "spark", rot: rand(0, 6.28),
-          vr: rand(-8, 8),
+          vr: rand(-10, 10),
         });
       }
-      ps.push({
-        x: lx, y: ly, vx: 0, vy: 0, life: 0.5, ttl: 0.5,
-        size: 16, color: C_DANGER, gravity: 0, shape: "ring", rot: 0, vr: 0,
-      });
     } else if (kind === "win" || kind === "loss") {
       // A celebratory fountain (gold) or a cold collapse (purple-grey).
       const col = kind === "win" ? C_GOLD : C_PURPLE;
-      const n = kind === "win" ? 60 : 36;
+      const n = kind === "win" ? 96 : 56;
+      // A leading shockwave ring to kick off the ceremony beat.
+      ps.push({
+        x: lx, y: ly, vx: 0, vy: 0, life: 0.7, ttl: 0.7,
+        size: 34, color: kind === "win" ? C_GOLD : C_PURPLE,
+        gravity: 0, shape: "ring", rot: 0, vr: 0,
+      });
       for (let i = 0; i < n; i++) {
-        const ang = rand(-Math.PI * 0.8, -Math.PI * 0.2);
-        const spd = rand(120, 420);
+        const ang = rand(-Math.PI * 0.85, -Math.PI * 0.15);
+        const spd = rand(140, 520);
         ps.push({
           x: lx, y: ly, vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
-          life: rand(0.8, 1.6), ttl: 1.6, size: rand(2, 5),
-          color: i % 3 === 0 ? C_WHITE : col, gravity: kind === "win" ? 300 : 480,
+          life: rand(0.9, 1.8), ttl: 1.8, size: rand(2.5, 6),
+          color: i % 3 === 0 ? C_WHITE : col, gravity: kind === "win" ? 320 : 500,
           shape: i % 3 === 0 ? "shard" : "spark", rot: rand(0, 6.28),
-          vr: rand(-6, 6),
+          vr: rand(-7, 7),
         });
       }
     }
