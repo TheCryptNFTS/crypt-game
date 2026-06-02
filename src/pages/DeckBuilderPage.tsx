@@ -202,7 +202,11 @@ export default function DeckBuilderPage() {
                   <li key={`${id}-${index}`} className="crypt-deck-list-row crypt-deck-muted">
                     <span className="min-w-0 truncate text-[color:var(--color-crypt-text)]">
                       {entryById.get(id)?.name ?? id}
-                      <span className="text-[color:var(--color-crypt-muted)]"> · {id}</span>
+                      {entryById.get(id)?.faction ? (
+                        <span className="text-[color:var(--color-crypt-muted)]">
+                          {" "}· {entryById.get(id)!.faction.replace(/_/g, " ")}
+                        </span>
+                      ) : null}
                     </span>
                     <button type="button" className="crypt-deck-remove" onClick={() => removeAt(index)}>
                       {t("deck.remove")}
