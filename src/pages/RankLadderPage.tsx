@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { loadProfile, deriveLevel, type PlayerProfile } from "../meta/progression";
 import { rankFromMmr, type RankTierName } from "../meta/ladder";
+import { absoluteUrl, openTweet, shareOrCopy } from "../lib/share";
 
 /**
  * WS3 · LADDER UI — makes the (previously invisible) progression engine FELT.
@@ -94,6 +95,39 @@ export default function RankLadderPage() {
 
   const accent = view ? TIER_COLOR[view.rank.tier] : "#e9c984";
 
+  // "Share rank" → a brand line drawn from the live profile + the play URL.
+  const [shareNote, setShareNote] = useState<string>("");
+
+  const shareText = useMemo(() => {
+    if (!profile || !view) return "";
+    const season = profile.season.seasonId ?? 1;
+    return `⬡ ${view.rank.tier} · ${profile.rating} MMR · Season ${season} — climbing the CRYPT ladder.`;
+  }, [profile, view]);
+
+  const shareUrl = absoluteUrl("/play");
+
+  const onShareRank = useCallback(async () => {
+    if (!shareText) return;
+    const result = await shareOrCopy({
+      title: "CRYPT · Ranked ladder",
+      text: shareText,
+      url: shareUrl,
+    });
+    setShareNote(
+      result === "shared"
+        ? "Shared ⬡"
+        : result === "copied"
+          ? "Copied to clipboard ⬡"
+          : "Couldn't share — try again."
+    );
+  }, [shareText, shareUrl]);
+
+  const onTweetRank = useCallback(() => {
+    if (!shareText) return;
+    openTweet(shareText, shareUrl);
+    setShareNote("Opening X…");
+  }, [shareText, shareUrl]);
+
   return (
     <CryptPageFrame
       eyebrow="Tier 1 · Your ascent"
@@ -154,6 +188,49 @@ export default function RankLadderPage() {
                   ? `${view.prog.toNext} MMR to ${view.prog.nextTier}`
                   : "Apex tier — Master"}
               </p>
+              <div
+                className="crypt-rank-share"
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "0.5rem",
+                  marginTop: "0.85rem",
+                  alignItems: "center",
+                }}
+              >
+                <button
+                  type="button"
+                  className="crypt-challenge__cta"
+                  onClick={() => void onShareRank()}
+                  style={{
+                    borderColor: accent,
+                    color: accent,
+                    fontFamily: '"Clash Display", system-ui, sans-serif',
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  ⬡ Share rank
+                </button>
+                <button
+                  type="button"
+                  className="crypt-challenge__cancel"
+                  onClick={onTweetRank}
+                  style={{
+                    fontFamily: '"Clash Display", system-ui, sans-serif',
+                  }}
+                >
+                  Post to X
+                </button>
+                {shareNote ? (
+                  <span
+                    className="crypt-rank-bar-meta"
+                    aria-live="polite"
+                    style={{ color: accent }}
+                  >
+                    {shareNote}
+                  </span>
+                ) : null}
+              </div>
             </div>
           </div>
         ) : (

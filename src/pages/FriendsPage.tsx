@@ -7,6 +7,7 @@ import {
   removeFriend,
   type Friend,
 } from "../services/socialApi";
+import { absoluteUrl, shareOrCopy } from "../lib/share";
 
 /**
  * FRIENDS — a device-local contact list for DIRECT CHALLENGES.
@@ -76,6 +77,34 @@ export default function FriendsPage() {
     [navigate]
   );
 
+  /** Build a shareable deep-link for a friend's challenge code and copy/share it.
+   *  The link lands at /play?challenge=<code> so a friend can click straight into
+   *  the PvP join flow. (See report: /play does not yet read ?challenge.) */
+  const onShareChallenge = useCallback(async (friend: Friend) => {
+    if (!friend.code) {
+      setNote(
+        `Add ${friend.name}'s challenge code first — ask them to "Create code" under Play.`
+      );
+      return;
+    }
+    const link = absoluteUrl(
+      `/play?challenge=${encodeURIComponent(friend.code)}`
+    );
+    const result = await shareOrCopy({
+      title: "CRYPT · Challenge",
+      text: `⬡ Duel me in CRYPT — join my challenge:`,
+      url: link,
+    });
+    if (!mountedRef.current) return;
+    setNote(
+      result === "shared"
+        ? "Challenge link shared ⬡"
+        : result === "copied"
+          ? "Challenge link copied to clipboard ⬡"
+          : "Couldn't share the link — try again."
+    );
+  }, []);
+
   return (
     <CryptPageFrame
       eyebrow="Social"
@@ -144,6 +173,22 @@ export default function FriendsPage() {
                       onClick={() => onChallenge(friend)}
                     >
                       ⬡ Challenge
+                    </button>
+                    <button
+                      type="button"
+                      className="crypt-challenge__cta"
+                      onClick={() => void onShareChallenge(friend)}
+                      disabled={!friend.code}
+                      title={
+                        friend.code
+                          ? "Copy a deep-link that drops them into your challenge"
+                          : "Add a challenge code first"
+                      }
+                      style={{
+                        fontFamily: '"Clash Display", system-ui, sans-serif',
+                      }}
+                    >
+                      Copy challenge link
                     </button>
                     <button
                       type="button"
