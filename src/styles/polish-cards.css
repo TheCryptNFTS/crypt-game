@@ -40,6 +40,24 @@
     0 0 22px -4px var(--cf-faction);
 }
 
+/* Ornate corner brackets — a small crafted detail in the card corners, tinted by
+   faction. Sits above art, under overlays. Additive; pure decoration. */
+.crypt-card-premium .crypt-card-art::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    /* top-left + top-right + bottom-left + bottom-right L-brackets via gradients */
+    linear-gradient(var(--cf-faction), var(--cf-faction)) left 0 top 0 / 12px 1.5px no-repeat,
+    linear-gradient(var(--cf-faction), var(--cf-faction)) left 0 top 0 / 1.5px 12px no-repeat,
+    linear-gradient(var(--cf-faction), var(--cf-faction)) right 0 top 0 / 12px 1.5px no-repeat,
+    linear-gradient(var(--cf-faction), var(--cf-faction)) right 0 top 0 / 1.5px 12px no-repeat;
+  opacity: 0.55;
+}
+
 /* Refined footer sill — brushed-metal gradient + top bevel line. */
 .crypt-card-premium .crypt-footer-sill {
   position: relative;
