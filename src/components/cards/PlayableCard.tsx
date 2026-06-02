@@ -188,6 +188,18 @@ export default function PlayableCard({
           {ui.ability}
         </p>
       )}
+      {/* One-line flavor whisper — only where there's room (modal / collection). */}
+      {ui.flavor && (mode === "modal" || mode === "collection") && (
+        <p
+          className={[
+            "mt-1.5 truncate font-[family-name:var(--font-label)] italic leading-snug text-[color:var(--color-crypt-muted)]/85",
+            mode === "modal" ? "text-[10px]" : "text-[9px]",
+          ].join(" ")}
+          title={ui.flavor}
+        >
+          &ldquo;{ui.flavor}&rdquo;
+        </p>
+      )}
     </div>
   );
 

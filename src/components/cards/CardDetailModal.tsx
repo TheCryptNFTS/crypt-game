@@ -29,12 +29,18 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
         className="max-h-[92vh] w-full max-w-md overflow-y-auto border border-[color:var(--color-crypt-border)] bg-[color:var(--color-crypt-obsidian)] shadow-[var(--shadow-commander)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between gap-3 border-b border-white/[0.06] px-5 py-4">
+        {/* Faction accent rule — a thin gold seam at the crown of the record. */}
+        <div
+          aria-hidden
+          className="h-[2px] w-full bg-gradient-to-r from-transparent via-[color:var(--color-crypt-accent)] to-transparent opacity-70"
+        />
+
+        <div className="flex items-start justify-between gap-3 border-b border-white/[0.06] px-6 py-5">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-[color:var(--color-crypt-muted)]">
+            <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-[color:var(--color-crypt-accent)]/80">
               Archive record
             </p>
-            <h2 className="mt-1 font-semibold tracking-tight text-[color:var(--color-crypt-text)]">
+            <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-[color:var(--color-crypt-text)]">
               {ui.name}
             </h2>
             {loreLine && (
@@ -46,21 +52,22 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
           <button
             type="button"
             onClick={onClose}
-            className="font-mono text-[9px] uppercase tracking-widest text-[color:var(--color-crypt-muted)] hover:text-[color:var(--color-crypt-text)]"
+            className="-mr-1 -mt-1 shrink-0 font-mono text-[9px] uppercase tracking-widest text-[color:var(--color-crypt-muted)] transition-colors hover:text-[color:var(--color-crypt-text)]"
           >
             Close
           </button>
         </div>
 
-        <div className="flex justify-center border-b border-white/[0.04] bg-black/40 px-5 py-6">
+        {/* Square art region — the artifact, given room to dominate. */}
+        <div className="flex justify-center border-b border-white/[0.04] bg-gradient-to-b from-black/55 via-black/35 to-black/55 px-6 py-7">
           {isCommander ? (
-            <CommanderCard entry={entry} scale="dominant" className="!max-w-[240px]" />
+            <CommanderCard entry={entry} scale="dominant" className="!max-w-[248px]" />
           ) : (
             <PlayableCard entry={entry} mode="modal" />
           )}
         </div>
 
-        <div className="px-5 py-4 font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-crypt-muted)]">
+        <div className="px-6 py-4 font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-crypt-muted)]">
           {ui.role}
           {ui.faction !== "—" ? ` · ${ui.faction}` : ""}
           {ui.rarityLabel ? ` · ${ui.rarityLabel}` : ""}
@@ -68,7 +75,7 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
         </div>
 
         {ui.ability && (
-          <div className="border-t border-white/[0.04] px-5 py-4">
+          <div className="border-t border-white/[0.04] px-6 py-4">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-muted)]">
               Ability
             </div>
@@ -81,8 +88,30 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
           </div>
         )}
 
+        {ui.flavor && (
+          <div className="border-t border-white/[0.04] px-6 py-5">
+            {/* Diamond-flanked divider sets the lore apart from the mechanical text. */}
+            <div aria-hidden className="mb-3 flex items-center gap-2 text-[color:var(--color-crypt-accent)]/45">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[color:var(--color-crypt-accent)]/40" />
+              <span className="text-[8px]">&#x2B22;</span>
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[color:var(--color-crypt-accent)]/40" />
+            </div>
+            <blockquote className="relative px-2 text-center">
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -top-2 left-0 select-none font-[family-name:var(--font-label)] text-3xl leading-none text-[color:var(--color-crypt-accent)]/25"
+              >
+                &ldquo;
+              </span>
+              <p className="font-[family-name:var(--font-label)] text-[13px] italic leading-relaxed text-[color:var(--color-crypt-muted)]">
+                &ldquo;{ui.flavor}&rdquo;
+              </p>
+            </blockquote>
+          </div>
+        )}
+
         {ui.keywords.length > 0 && (
-          <div className="border-t border-white/[0.04] px-5 py-4">
+          <div className="border-t border-white/[0.04] px-6 py-4">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-muted)]">
               Keywords
             </div>
@@ -107,7 +136,7 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
         )}
 
         {ui.traitsForDisplay.length > 0 && (
-          <div className="border-t border-white/[0.04] px-5 py-4">
+          <div className="border-t border-white/[0.04] px-6 py-4">
             <div className="font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-muted)]">
               Relic data
             </div>
@@ -123,7 +152,7 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
         )}
 
         {ui.externalUrl && (
-          <div className="border-t border-white/[0.04] px-5 py-4">
+          <div className="border-t border-white/[0.04] px-6 py-4">
             <a
               href={ui.externalUrl}
               target="_blank"
