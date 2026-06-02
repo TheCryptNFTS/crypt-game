@@ -91,6 +91,10 @@ export default function AppShell() {
             Bazaar
           </NavLink>
         ) : null}
+        <NavLink to="/help" className={({ isActive }) => dockClass(isActive)}>
+          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--play" aria-hidden />
+          Help
+        </NavLink>
         <NavLink to="/profile" className={({ isActive }) => dockClass(isActive)}>
           <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--profile" aria-hidden />
           Profile

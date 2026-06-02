@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { buildCuratedDeck } from "../lib/buildCuratedDeck";
@@ -85,24 +85,44 @@ export default function OnboardingPage() {
       lead={
         step === "pick" ? (
           <>
-            Pick a starting deck — we handle the rest.{" "}
+            Three taps and you're in your first match. Pick a style below — we
+            build the deck for you.{" "}
             <span className="text-[color:var(--color-crypt-muted)]">
-              No deckbuilding. You can change it later.
+              No deckbuilding, and you can swap it anytime.
             </span>
           </>
         ) : (
           <>
-            Your deck is equipped. Next: play one guided match to learn the loop.
+            Deck equipped. One guided match next — about a minute to learn the loop.
           </>
         )
       }
     >
-      {/* Three-step rail so a newcomer always sees where they are. */}
+      {/* Three-step rail so a newcomer always sees exactly where they are. */}
       <ol className="crypt-npe-steps" aria-label="Onboarding steps">
-        <li className={step === "pick" ? "is-active" : "is-done"}>1 · Pick a deck</li>
+        <li className={step === "pick" ? "is-active" : "is-done"}>
+          {step === "pick" ? "1 · Pick a deck" : "✓ Deck picked"}
+        </li>
         <li className={step === "ready" ? "is-active" : ""}>2 · First match</li>
         <li>3 · Play freely</li>
       </ol>
+
+      {/* Always-available escape hatch into the full how-to-play reference. */}
+      <p
+        style={{
+          margin: "-8px 0 18px",
+          fontSize: 13,
+          color: "var(--color-crypt-muted)",
+        }}
+      >
+        New to card games?{" "}
+        <Link
+          to="/help"
+          style={{ color: "var(--color-crypt-accent)", textDecoration: "underline" }}
+        >
+          Read how to play →
+        </Link>
+      </p>
 
       {step === "pick" ? (
         <section className="crypt-npe-picks" aria-label="Starter deck options">
@@ -132,9 +152,9 @@ export default function OnboardingPage() {
             <p className="crypt-npe-ready-kicker">⬡ Equipped</p>
             <h2 className="crypt-npe-ready-name">{chosenSpec?.name}</h2>
             <p className="crypt-npe-ready-copy">
-              A balanced 30-card deck is ready. Your first match is a guided duel
-              against a gentle opponent — you'll learn lanes, deploying units, and
-              attacking in about a minute.
+              Your balanced 30-card deck is ready. The first match is a friendly,
+              guided duel against a gentle opponent — you'll pick up lanes,
+              deploying units, and attacking as you go. No pressure.
             </p>
             <button
               type="button"
@@ -150,6 +170,15 @@ export default function OnboardingPage() {
             >
               ← Pick a different deck
             </button>
+            <p style={{ margin: "12px 0 0", fontSize: 12.5, color: "var(--color-crypt-muted)" }}>
+              Want the rules first?{" "}
+              <Link
+                to="/help"
+                style={{ color: "var(--color-crypt-accent)", textDecoration: "underline" }}
+              >
+                How to play
+              </Link>
+            </p>
           </div>
         </section>
       )}
