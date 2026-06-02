@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
+import { t as tr } from "../i18n";
 import { getProgressSnapshot } from "../lib/localProgress";
 
 type PackLocationState = {
@@ -40,9 +41,9 @@ export default function DailyPackPage() {
   return (
     <div className="crypt-page crypt-pack">
       <header className="crypt-page-header">
-        <h1 className="crypt-page-title">Daily vault</h1>
+        <h1 className="crypt-page-title">{tr("dailypack.title")}</h1>
         <p className="crypt-page-subtitle">
-          Ritual is local-only—no relic mints yet. You still claimed device ledger currency on the last step.
+          {tr("dailypack.subtitle")}
         </p>
       </header>
 
@@ -57,16 +58,16 @@ export default function DailyPackPage() {
             >
               <span className="crypt-pack-slot-back" aria-hidden />
               <div className="crypt-pack-slot-front">
-                <span className="crypt-pack-slot-label">Sealed pull</span>
-                <span className="crypt-pack-slot-rarity">Alpha</span>
+                <span className="crypt-pack-slot-label">{tr("dailypack.slot.label")}</span>
+                <span className="crypt-pack-slot-rarity">{tr("dailypack.slot.rarity")}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <section className="crypt-pack-summary" aria-label="Rewards">
-        <p className="crypt-pack-summary-title">This claim</p>
+      <section className="crypt-pack-summary" aria-label={tr("dailypack.summary.aria")}>
+        <p className="crypt-pack-summary-title">{tr("dailypack.summary.title")}</p>
         <ul className="crypt-pack-summary-list">
           <li>+{state.cryptDelta} $CRYPT (device)</li>
           <li>+{state.passXpDelta} pass XP (device)</li>
@@ -78,13 +79,13 @@ export default function DailyPackPage() {
 
       <div className="crypt-pack-actions">
         <Link to="/home" className="crypt-result-cta-primary">
-          Command hub
+          {tr("dailypack.actions.hub")}
         </Link>
         <button type="button" className="crypt-result-cta-tertiary" onClick={onSharePull}>
-          Copy pull summary
+          {tr("dailypack.actions.copy")}
         </button>
         <p className="crypt-pack-share-note">
-          Branded vault-pull shares ship with the live archive—closed alpha is copy-only for now.
+          {tr("dailypack.share.note")}
         </p>
       </div>
     </div>

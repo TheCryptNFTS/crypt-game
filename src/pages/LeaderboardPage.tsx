@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { t as tr } from "../i18n";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import {
   fetchCurrentSeason,
@@ -89,8 +90,8 @@ export default function LeaderboardPage() {
 
   return (
     <CryptPageFrame
-      eyebrow="Tier 2 · The Season"
-      title="Season ladder"
+      eyebrow={tr("leaderboard.eyebrow")}
+      title={tr("leaderboard.title")}
       lead={
         season ? (
           <>
@@ -104,17 +105,17 @@ export default function LeaderboardPage() {
           </>
         ) : (
           <span className="text-[color:var(--color-crypt-muted)]">
-            Climb the ranked ladder and earn the season's rewards.
+            {tr("leaderboard.lead.empty")}
           </span>
         )
       }
     >
       {/* Your standing — pinned summary when ranked. */}
       {mine ? (
-        <section className="crypt-profile-section" aria-label="Your season standing">
-          <div className="crypt-profile-section-label">You · this season</div>
+        <section className="crypt-profile-section" aria-label={tr("leaderboard.you.aria")}>
+          <div className="crypt-profile-section-label">{tr("leaderboard.you.label")}</div>
           <div className="crypt-ladder-you">
-            <span className="crypt-ladder-you-pos">You: #{mine.position}</span>
+            <span className="crypt-ladder-you-pos">{tr("leaderboard.you.posPrefix")}{mine.position}</span>
             <span className="crypt-ladder-you-tier">{rankLabelForRating(mine.rating)}</span>
             <span className="crypt-ladder-you-meta">
               {mine.rating} MMR · {mine.wins}W–{mine.losses}L
@@ -125,8 +126,8 @@ export default function LeaderboardPage() {
       ) : null}
 
       {/* The ranked list. */}
-      <section className="crypt-profile-section" aria-label="Season leaderboard">
-        <div className="crypt-profile-section-label">Standings · top 25</div>
+      <section className="crypt-profile-section" aria-label={tr("leaderboard.board.aria")}>
+        <div className="crypt-profile-section-label">{tr("leaderboard.board.label")}</div>
         {hasBoard ? (
           <ol className="crypt-ladder-list">
             {board!.map((e) => {
@@ -141,7 +142,7 @@ export default function LeaderboardPage() {
                   <span className={rankClass(e.position)}>#{e.position}</span>
                   <span className="crypt-ladder-name">
                     {shortWallet(e.accountId)}
-                    {isMe ? <span className="crypt-ladder-you-tag"> · you</span> : null}
+                    {isMe ? <span className="crypt-ladder-you-tag">{tr("leaderboard.board.you")}</span> : null}
                   </span>
                   <span className="crypt-ladder-rating">{e.rating}</span>
                   <span className="crypt-ladder-wl">
@@ -157,15 +158,15 @@ export default function LeaderboardPage() {
         ) : (
           <div className="crypt-profile-placeholder">
             {loaded
-              ? "Sign in and play ranked to join the season ladder"
-              : "Reading the ladder…"}
+              ? tr("leaderboard.board.empty")
+              : tr("leaderboard.board.loading")}
           </div>
         )}
       </section>
 
       {/* Reward track — compact row per tier. */}
-      <section className="crypt-profile-section" aria-label="Season reward track">
-        <div className="crypt-profile-section-label">Reward track</div>
+      <section className="crypt-profile-section" aria-label={tr("leaderboard.rewards.aria")}>
+        <div className="crypt-profile-section-label">{tr("leaderboard.rewards.label")}</div>
         {rewards && rewards.length > 0 ? (
           <ul className="crypt-ladder-rewards">
             {rewards.map((t) => {
@@ -173,13 +174,13 @@ export default function LeaderboardPage() {
               return (
                 <li key={t.tier} className="crypt-ladder-reward-row">
                   <span className="crypt-ladder-reward-tier">{t.tier}</span>
-                  <span className="crypt-ladder-reward-req">{t.minRating}+ MMR</span>
+                  <span className="crypt-ladder-reward-req">{t.minRating}{tr("leaderboard.rewards.mmrSuffix")}</span>
                   <span className="crypt-ladder-reward-prize">
                     +{t.rewardCrypt} $CRYPT
-                    {t.cosmeticId ? <span className="crypt-ladder-reward-cos"> · ⬡ frame</span> : null}
+                    {t.cosmeticId ? <span className="crypt-ladder-reward-cos">{tr("leaderboard.rewards.frame")}</span> : null}
                   </span>
                   {t.claimed ? (
-                    <span className="crypt-ladder-reward-state crypt-ladder-reward-state--done">Claimed</span>
+                    <span className="crypt-ladder-reward-state crypt-ladder-reward-state--done">{tr("leaderboard.rewards.claimed")}</span>
                   ) : claimable ? (
                     <button
                       type="button"
@@ -187,10 +188,10 @@ export default function LeaderboardPage() {
                       disabled={claiming === t.tier}
                       onClick={() => onClaim(t.tier)}
                     >
-                      {claiming === t.tier ? "Claiming…" : "Claim"}
+                      {claiming === t.tier ? tr("leaderboard.rewards.claiming") : tr("leaderboard.rewards.claim")}
                     </button>
                   ) : (
-                    <span className="crypt-ladder-reward-state">Locked</span>
+                    <span className="crypt-ladder-reward-state">{tr("leaderboard.rewards.locked")}</span>
                   )}
                 </li>
               );
@@ -204,11 +205,11 @@ export default function LeaderboardPage() {
       </section>
 
       <p className="crypt-profile-secondary">
-        Climb from the{" "}
+        {tr("leaderboard.foot.climbFrom")}
         <Link to="/play" className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline">
-          Play hub
+          {tr("leaderboard.foot.playHub")}
         </Link>
-        —ranked duels move your season rating.
+        {tr("leaderboard.foot.climbSuffix")}
       </p>
     </CryptPageFrame>
   );
