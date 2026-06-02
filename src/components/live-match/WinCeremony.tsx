@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { openTweet, shareOrCopy, absoluteUrl } from "../../lib/share";
+import { resultCardBlob, resultCardDataUrl } from "../../lib/shareCard";
 import "../../styles/win-ceremony.css";
 
 /*
@@ -61,6 +63,86 @@ export function WinCeremony({
       ? match.players[mySeat].nexusHealth
       : null;
 
+  const [toast, setToast] = React.useState<string | null>(null);
+  const flash = React.useCallback((msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 2200);
+  }, []);
+
+  const shareUrl = absoluteUrl("/");
+
+  // Brand copy for the X intent.
+  const tweetText = playerWon
+    ? `Signal Restored \u2014 I won my CRYPT duel${
+        turns !== null ? ` in ${turns} turns` : ""
+      }. \u2B22`
+    : `Signal Lost \u2014 my CRYPT duel slipped away${
+        turns !== null ? ` after ${turns} turns` : ""
+      }. Run it back? \u2B22`;
+
+  const cardData = { won: playerWon, turns, nexus: myHealth };
+
+  const onShareX = () => openTweet(tweetText, shareUrl);
+
+  const onShare = async () => {
+    const result = await shareOrCopy({
+      title: playerWon ? "Signal Restored" : "Signal Lost",
+      text: tweetText,
+      url: shareUrl,
+    });
+    flash(
+      result === "shared"
+        ? "Shared"
+        : result === "copied"
+        ? "Link copied"
+        : "Share unavailable",
+    );
+  };
+
+  // Render the branded card and try a native files-share; fall back to download.
+  const onShareImage = async () => {
+    try {
+      const blob = await resultCardBlob(cardData);
+      const nav = navigator as Navigator & {
+        canShare?: (d: { files?: File[] }) => boolean;
+        share?: (d: { files?: File[]; text?: string; url?: string }) => Promise<void>;
+      };
+      if (
+        blob &&
+        nav.canShare &&
+        nav.share &&
+        nav.canShare({ files: [new File([blob], "crypt-result.png", { type: "image/png" })] })
+      ) {
+        const file = new File([blob], "crypt-result.png", { type: "image/png" });
+        await nav.share({ files: [file], text: tweetText, url: shareUrl });
+        flash("Shared");
+        return;
+      }
+    } catch {
+      /* user cancelled or unsupported → fall through to download */
+    }
+    downloadCard();
+  };
+
+  const downloadCard = () => {
+    const url = resultCardDataUrl(cardData);
+    if (!url) {
+      flash("Image unavailable");
+      return;
+    }
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "crypt-result.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    flash("Image saved");
+  };
+
+  const canShareFiles =
+    typeof navigator !== "undefined" &&
+    typeof (navigator as Navigator & { canShare?: unknown }).canShare === "function";
+
   return (
     <div
       className={`wc-shell ${playerWon ? "wc-shell--win" : "wc-shell--loss"} ${
@@ -107,6 +189,24 @@ export function WinCeremony({
                 <span className="wc-stat__label">Nexus</span>
               </div>
             ) : null}
+          </div>
+        ) : null}
+
+        <div className="wc-share" role="group" aria-label="Share result">
+          <button className="wc-share-btn wc-share-btn--x" onClick={onShareX}>
+            <span aria-hidden="true">{"\uD835\uDD4F"}</span> Share on X
+          </button>
+          <button className="wc-share-btn" onClick={onShare}>
+            Share
+          </button>
+          <button className="wc-share-btn" onClick={onShareImage}>
+            {canShareFiles ? "Share image" : "Save image"}
+          </button>
+        </div>
+
+        {toast ? (
+          <div className="wc-toast" role="status" aria-live="polite">
+            {toast}
           </div>
         ) : null}
 
