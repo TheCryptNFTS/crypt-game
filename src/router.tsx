@@ -31,6 +31,7 @@ const DailyPackPage = lazy(() => import("./pages/DailyPackPage"));
 const MatchResultsPage = lazy(() => import("./pages/MatchResultsPage"));
 const FriendsPage = lazy(() => import("./pages/FriendsPage"));
 const RewardsPage = lazy(() => import("./pages/RewardsPage"));
+const ReplayPage = lazy(() => import("./pages/ReplayPage"));
 
 const tutorialElement = (
   <Suspense fallback={<CryptRouteFallback />}>
@@ -55,6 +56,15 @@ const onboardingElement = (
 export const router = createBrowserRouter([
   { path: "/", element: <SplashLoginPage /> },
   { path: "/onboarding", element: onboardingElement },
+  // Ungated, chrome-less match replay viewer (renders its own full-page shell).
+  {
+    path: "/replay",
+    element: (
+      <Suspense fallback={<CryptRouteFallback />}>
+        <ReplayPage />
+      </Suspense>
+    ),
+  },
   { path: "/tutorial", element: tutorialElement },
   {
     element: <AppShell />,
