@@ -3,6 +3,7 @@ import { CatalogLoader } from "../components/CatalogLoader";
 import { encodeDeck } from "../share/deckCodec";
 import { absoluteUrl, openTweet, shareOrCopy } from "../lib/share";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
+import { t } from "../i18n";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { validateDeck } from "../engine/deckRules";
 import { Format, isCardLegalInFormat } from "../engine/formats";
@@ -56,7 +57,7 @@ export default function DeckBuilderPage() {
     if (!commander) {
       return {
         valid: false,
-        errors: ["Invalid commander"],
+        errors: [t("deck.invalidCommander")],
         warnings: [] as string[],
         stats: null as ReturnType<typeof validateDeck>["stats"] | null,
       };
@@ -101,18 +102,18 @@ export default function DeckBuilderPage() {
     try {
       const code = encodeDeck({ commanderId, cards: mainDeck });
       const url = absoluteUrl(`/d?code=${encodeURIComponent(code)}`);
-      const text = "My CRYPT deck \u2B22";
-      const result = await shareOrCopy({ title: "CRYPT deck", text, url });
+      const text = t("deck.share.text");
+      const result = await shareOrCopy({ title: t("deck.share.title"), text, url });
       setShareNote(
         result === "shared"
-          ? "Shared."
+          ? t("deck.share.shared")
           : result === "copied"
-            ? "Link copied to clipboard."
-            : "Could not share — try again."
+            ? t("deck.share.copied")
+            : t("deck.share.failed")
       );
       if (result !== "failed") openTweet(text, url);
     } catch {
-      setShareNote("Could not build a share link for this deck.");
+      setShareNote(t("deck.share.error"));
     }
   }, [commanderId, mainDeck]);
 
@@ -121,16 +122,16 @@ export default function DeckBuilderPage() {
   return (
     <CatalogLoader loading={loading} error={error} ready={ready}>
       <CryptPageFrame
-        eyebrow="Loadout forge"
-        title="Build your legend"
-        lead="Sacred commander and Crypt Digital Trading Cards in the main deck—units, equipment, relics. Saved on device until cloud loadouts sync; picks below are your field archive."
+        eyebrow={t("deck.eyebrow")}
+        title={t("deck.title")}
+        lead={t("deck.lead")}
       >
         <div className="crypt-deck-page space-y-6">
           <p className="crypt-lore-whisper">
-            Assemble your faction—deck law guards every Crypt Digital Trading Card you enlist.
+            {t("deck.whisper")}
           </p>
           <div className="crypt-deck-panel">
-            <label className="crypt-deck-label">Format</label>
+            <label className="crypt-deck-label">{t("deck.format.label")}</label>
             <div className="live-quick-buttons" style={{ marginBottom: 8 }}>
               {(["Open", "Core"] as Format[]).map((f) => (
                 <button
@@ -146,14 +147,14 @@ export default function DeckBuilderPage() {
             </div>
             <p className="crypt-deck-hint">
               {format === "Open"
-                ? "Open · the full playable pool is legal."
-                : "Core · only curated Core-set cards are legal. Non-Core cards are dimmed below."}
+                ? t("deck.format.openHint")
+                : t("deck.format.coreHint")}
             </p>
           </div>
 
           <div className="crypt-deck-panel">
             <label className="crypt-deck-label" htmlFor="crypt-deck-commander-select">
-              Commander
+              {t("deck.commander.label")}
             </label>
             <select
               id="crypt-deck-commander-select"
@@ -188,13 +189,13 @@ export default function DeckBuilderPage() {
                 {commander ? ` / ${commander.deckRules.deckSize}` : ""})
               </h2>
               <button type="button" className="crypt-deck-clear" onClick={clearDeck}>
-                Clear list
+                {t("deck.clear")}
               </button>
             </div>
 
             <div className="crypt-deck-list-scroll">
               {mainDeck.length === 0 && (
-                <p className="crypt-deck-muted">Main deck empty—enlist Crypt Digital Trading Cards from the archive below.</p>
+                <p className="crypt-deck-muted">{t("deck.empty")}</p>
               )}
               <ul className="list-none space-y-0 p-0">
                 {mainDeck.map((id, index) => (
@@ -204,7 +205,7 @@ export default function DeckBuilderPage() {
                       <span className="text-[color:var(--color-crypt-muted)]"> · {id}</span>
                     </span>
                     <button type="button" className="crypt-deck-remove" onClick={() => removeAt(index)}>
-                      Remove
+                      {t("deck.remove")}
                     </button>
                   </li>
                 ))}
@@ -213,7 +214,7 @@ export default function DeckBuilderPage() {
 
             <div className="mt-4 space-y-2">
               <div className={validation.valid ? "crypt-deck-validation-ok" : "crypt-deck-validation-bad"}>
-                {validation.valid ? "Deck passes validation." : "Deck has blocking errors."}
+                {validation.valid ? t("deck.validation.ok") : t("deck.validation.bad")}
               </div>
               {validation.errors.length > 0 && (
                 <ul className="crypt-deck-errors list-disc">
@@ -238,14 +239,14 @@ export default function DeckBuilderPage() {
                 onClick={shareDeck}
                 disabled={mainDeck.length === 0}
               >
-                Share deck &#x2B22;
+                {t("deck.share.cta")}
               </button>
               {shareNote && <span className="crypt-deck-hint">{shareNote}</span>}
             </div>
           </div>
 
           <div>
-            <h2 className="crypt-deck-section-title">Archive · tap to enlist</h2>
+            <h2 className="crypt-deck-section-title">{t("deck.archive.title")}</h2>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {playablePool.map((entry) => {
                 // FORMAT legality: in Core, cards outside the curated set are

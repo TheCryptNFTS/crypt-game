@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
+import { t } from "../i18n";
 import { useMatchRewards } from "../meta/useMatchRewards";
 import {
   COSMETIC_CATALOG,
@@ -44,7 +45,7 @@ function QuestRow({ q }: { q: QuestView }) {
       </div>
       <p className="m-0 mt-1 text-xs text-[color:var(--color-crypt-muted)]">
         {q.progress}/{q.goal}
-        {q.claimed ? " · complete" : ""}
+        {q.claimed ? t("rewards.season.complete") : ""}
       </p>
     </li>
   );
@@ -68,20 +69,20 @@ export default function RewardsPage() {
 
   return (
     <CryptPageFrame
-      eyebrow="Rewards · Crypt Legends"
-      title="Quests & Season"
+      eyebrow={t("rewards.eyebrow")}
+      title={t("rewards.title")}
       lead={
         <>
-          <strong>{rewards.sigil}</strong> Sigil · season tier{" "}
+          <strong>{rewards.sigil}</strong>{t("rewards.lead.sigilSuffix")}
           <strong>{currentTier}</strong> ·{" "}
           <span className="text-[color:var(--color-crypt-muted)]">
-            in-game soft currency only — never hex
+            {t("rewards.lead.note")}
           </span>
         </>
       }
     >
-      <section className="crypt-profile-section" aria-label="Daily quests">
-        <div className="crypt-profile-section-label">Daily quests</div>
+      <section className="crypt-profile-section" aria-label={t("rewards.daily.aria")}>
+        <div className="crypt-profile-section-label">{t("rewards.daily.label")}</div>
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {daily.map((q) => (
             <QuestRow key={q.id} q={q} />
@@ -89,8 +90,8 @@ export default function RewardsPage() {
         </ul>
       </section>
 
-      <section className="crypt-profile-section" aria-label="Weekly quests">
-        <div className="crypt-profile-section-label">Weekly quests</div>
+      <section className="crypt-profile-section" aria-label={t("rewards.weekly.aria")}>
+        <div className="crypt-profile-section-label">{t("rewards.weekly.label")}</div>
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {weekly.map((q) => (
             <QuestRow key={q.id} q={q} />
@@ -98,7 +99,7 @@ export default function RewardsPage() {
         </ul>
       </section>
 
-      <section className="crypt-profile-section" aria-label="Season track">
+      <section className="crypt-profile-section" aria-label={t("rewards.season.aria")}>
         <div className="crypt-profile-section-label">
           Season track · {rewards.seasonXp} season XP
         </div>
@@ -125,8 +126,8 @@ export default function RewardsPage() {
         </ul>
       </section>
 
-      <section className="crypt-profile-section" aria-label="Cosmetic shop">
-        <div className="crypt-profile-section-label">Cosmetics · spend Sigil</div>
+      <section className="crypt-profile-section" aria-label={t("rewards.cosmetics.aria")}>
+        <div className="crypt-profile-section-label">{t("rewards.cosmetics.label")}</div>
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {COSMETIC_CATALOG.map((c) => {
             const owned = rewards.cosmetics.includes(c.id);
@@ -141,7 +142,7 @@ export default function RewardsPage() {
                   ⬡ {c.label}
                 </span>
                 {owned ? (
-                  <span className="text-xs text-[color:var(--color-crypt-ice)]">Owned</span>
+                  <span className="text-xs text-[color:var(--color-crypt-ice)]">{t("rewards.cosmetics.owned")}</span>
                 ) : (
                   <button
                     type="button"

@@ -8,6 +8,7 @@ import {
   type Friend,
 } from "../services/socialApi";
 import { absoluteUrl, shareOrCopy } from "../lib/share";
+import { t } from "../i18n";
 
 /**
  * FRIENDS — a device-local contact list for DIRECT CHALLENGES.
@@ -44,7 +45,7 @@ export default function FriendsPage() {
       e.preventDefault();
       const trimmed = name.trim();
       if (!trimmed) {
-        setNote("Enter a name to add a friend.");
+        setNote(t("friends.add.needName"));
         return;
       }
       const next = await addFriend({ name: trimmed, code: code.trim() });
@@ -91,54 +92,54 @@ export default function FriendsPage() {
       `/play?challenge=${encodeURIComponent(friend.code)}`
     );
     const result = await shareOrCopy({
-      title: "CRYPT · Challenge",
-      text: `⬡ Duel me in CRYPT — join my challenge:`,
+      title: t("friends.share.title"),
+      text: t("friends.share.text"),
       url: link,
     });
     if (!mountedRef.current) return;
     setNote(
       result === "shared"
-        ? "Challenge link shared ⬡"
+        ? t("friends.share.shared")
         : result === "copied"
-          ? "Challenge link copied to clipboard ⬡"
-          : "Couldn't share the link — try again."
+          ? t("friends.share.copied")
+          : t("friends.share.failed")
     );
   }, []);
 
   return (
     <CryptPageFrame
-      eyebrow="Social"
-      title="Friends"
-      lead="Save the people you duel. Add a friend with the private code they share under Play, then challenge them straight into a head-to-head match. Stored on this device only for now."
+      eyebrow={t("friends.eyebrow")}
+      title={t("friends.title")}
+      lead={t("friends.lead")}
     >
       <div className="crypt-friends">
-        <section className="crypt-friends__add" aria-label="Add a friend">
-          <h2 className="crypt-play-section-label">Add a friend</h2>
+        <section className="crypt-friends__add" aria-label={t("friends.add.aria")}>
+          <h2 className="crypt-play-section-label">{t("friends.add.label")}</h2>
           <form className="crypt-friends__form" onSubmit={(e) => void onAdd(e)}>
             <input
               className="crypt-challenge__input"
               type="text"
               autoComplete="off"
-              placeholder="Friend's name"
+              placeholder={t("friends.add.namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              aria-label="Friend's name"
+              aria-label={t("friends.add.nameAria")}
             />
             <input
               className="crypt-challenge__input"
               type="text"
               autoComplete="off"
-              placeholder="Challenge code (optional)"
+              placeholder={t("friends.add.codePlaceholder")}
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              aria-label="Friend's challenge code"
+              aria-label={t("friends.add.codeAria")}
             />
             <button
               type="submit"
               className="crypt-challenge__cta"
               disabled={!name.trim()}
             >
-              Add
+              {t("friends.add.cta")}
             </button>
           </form>
           {note ? (
@@ -148,13 +149,13 @@ export default function FriendsPage() {
           ) : null}
         </section>
 
-        <section className="crypt-friends__list" aria-label="Your friends">
+        <section className="crypt-friends__list" aria-label={t("friends.list.aria")}>
           <h2 className="crypt-play-section-label crypt-play-section-label--spaced">
-            Your friends
+            {t("friends.list.label")}
           </h2>
           {friends.length === 0 ? (
             <p className="crypt-challenge__hint">
-              No friends yet. Add one above to challenge them directly.
+              {t("friends.list.empty")}
             </p>
           ) : (
             <ul className="crypt-friends__items">
@@ -163,7 +164,7 @@ export default function FriendsPage() {
                   <div className="crypt-friends__who">
                     <span className="crypt-friends__name">{friend.name}</span>
                     <span className="crypt-friends__code">
-                      {friend.code ? `Code: ${friend.code}` : "No code yet"}
+                      {friend.code ? `Code: ${friend.code}` : t("friends.item.noCode")}
                     </span>
                   </div>
                   <div className="crypt-friends__actions">
@@ -172,7 +173,7 @@ export default function FriendsPage() {
                       className="crypt-challenge__cta"
                       onClick={() => onChallenge(friend)}
                     >
-                      ⬡ Challenge
+                      {t("friends.item.challenge")}
                     </button>
                     <button
                       type="button"
@@ -181,14 +182,14 @@ export default function FriendsPage() {
                       disabled={!friend.code}
                       title={
                         friend.code
-                          ? "Copy a deep-link that drops them into your challenge"
-                          : "Add a challenge code first"
+                          ? t("friends.item.copyTitle")
+                          : t("friends.item.addCodeTitle")
                       }
                       style={{
                         fontFamily: '"Clash Display", system-ui, sans-serif',
                       }}
                     >
-                      Copy challenge link
+                      {t("friends.item.copyLink")}
                     </button>
                     <button
                       type="button"
@@ -196,7 +197,7 @@ export default function FriendsPage() {
                       onClick={() => void onRemove(friend.id)}
                       aria-label={`Remove ${friend.name}`}
                     >
-                      Remove
+                      {t("friends.item.remove")}
                     </button>
                   </div>
                 </li>
