@@ -1,0 +1,119 @@
+/* Face-down card + deck-pile polish. Presentation-only, additive.
+   Owned by the cardback polish pass — never restyles the normal card face. */
+
+/* The face-down hand card mirrors the normal hand-card footprint so the rail
+   layout is undisturbed, but swaps the live face for the printed card-back art.
+   It is a non-interactive placeholder (spectator fog of war), so it renders as a
+   plain div, not a button. */
+.crypt-card--facedown {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  border: 1px solid rgba(120, 110, 160, 0.55);
+  overflow: hidden;
+  background: #0b0712;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+}
+
+.crypt-card--facedown .crypt-card__back-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* subtle sheen so a stack of identical backs still reads with depth */
+  filter: saturate(1.02) contrast(1.02);
+}
+
+.crypt-card--facedown::after {
+  /* faint inner edge to lift the art off the rail background */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+/* ---- DECK PILE -------------------------------------------------------------
+   A small stacked-cards motif using the card-back art, with a remaining-count
+   badge. Rendered for both players near the lanes. Additive + purely visual. */
+.deck-pile {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+.deck-pile__stack {
+  position: relative;
+  width: 46px;
+  height: 62px;
+}
+
+.deck-pile__stack-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(120, 110, 160, 0.5);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* offset the lower cards to fake a physical stack */
+.deck-pile__stack-card--1 {
+  transform: translate(-4px, 4px);
+  filter: brightness(0.78);
+}
+.deck-pile__stack-card--2 {
+  transform: translate(-8px, 8px);
+  filter: brightness(0.6);
+}
+
+.deck-pile__count {
+  position: absolute;
+  right: -6px;
+  bottom: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #1a1326;
+  border: 1px solid rgba(190, 170, 255, 0.6);
+  color: #efeaff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+.deck-pile__label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(214, 206, 235, 0.7);
+}
+
+.deck-pile-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 2px 0 6px;
+  padding: 0 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crypt-card--facedown,
+  .deck-pile__stack-card {
+    box-shadow: none;
+  }
+}

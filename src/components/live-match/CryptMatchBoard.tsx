@@ -14,6 +14,7 @@ import { SoundToggle } from "./SoundToggle";
 import { MatchCeremony } from "./MatchCeremony";
 import { MatchFxCanvas, type MatchFxHandle, type FxKind } from "./MatchFxCanvas";
 import { EmoteBar } from "./EmoteBar";
+import { DeckPile } from "./DeckPile";
 import {
   fetchMyRanking,
   fetchPendingRankup,
@@ -227,6 +228,13 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
 
   const ownNexus = match.players[mySeat].nexusHealth ?? 20;
   const enemyNexus = match.players[opponentSeat].nexusHealth ?? 20;
+
+  // Deck-pile counts: prefer an explicit deckCount (PvP/redacted views send it),
+  // fall back to the local deck array length. Presentation-only.
+  const ownDeckCount =
+    match.players[mySeat].deckCount ?? match.players[mySeat].deck?.length ?? 0;
+  const enemyDeckCount =
+    match.players[opponentSeat].deckCount ?? match.players[opponentSeat].deck?.length ?? 0;
 
   // PRESENTATION-ONLY: derive transient game-feel motion from state diffs.
   const motion = useMatchMotion({
@@ -488,6 +496,12 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
 
         <main className="live-grid__center">
           <div className="live-board-stack">
+            {/* Deck piles for both players — a card-back stacked motif with the
+                remaining-deck count. Purely additive + presentation-only. */}
+            <div className="deck-pile-row">
+              <DeckPile count={enemyDeckCount} label="Enemy Deck" />
+              <DeckPile count={ownDeckCount} label="Your Deck" />
+            </div>
             {/* Each lane is wrapped in a relatively-positioned cell so the FX
                 canvas can aim particle bursts at a centered, board-owned anchor
                 WITHOUT touching BoardLane internals (owned elsewhere). The
