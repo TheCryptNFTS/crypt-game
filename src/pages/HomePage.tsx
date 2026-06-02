@@ -116,53 +116,43 @@ export default function HomePage() {
         <section className="crypt-home-m-hero" aria-label="Home">
           <div className="crypt-home-m-hero-accent" aria-hidden />
           <div className="crypt-home-m-hero-inner">
+            {/* Cinematic key-art strip — the collection's skull art (a clean
+                square asset) cropped wide with a heavy dark gradient, so it reads
+                as premium hero art. (The old wide "wordmark banner" source was a
+                pre-cropped image that sliced to "CRYF" at any object-fit.) */}
             <div
               style={{
                 position: "relative",
                 width: "100%",
-                aspectRatio: "1500 / 500",
+                aspectRatio: "1500 / 460",
                 borderRadius: 14,
                 overflow: "hidden",
                 marginBottom: "var(--s-4, 16px)",
                 border: "1px solid rgba(245,242,232,.09)",
+                background: "#0b0b0d",
               }}
             >
               <img
-                src="https://i2c.seadn.io/ethereum/192f08c7d2ea47f5b65fe12db4c4f64d/bfb7aa5176037505033842cf11db3a/fabfb7aa5176037505033842cf11db3a.png"
-                alt="Crypt Digital Trading Cards"
+                src="https://i2c.seadn.io/ethereum/192f08c7d2ea47f5b65fe12db4c4f64d/9a37a8aaa8bf49f2b9ed9c4fd24770/e19a37a8aaa8bf49f2b9ed9c4fd24770.png"
+                alt="The Crypt"
                 loading="eager"
                 decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",
-                  // CONTAIN (not cover) so the full wordmark shows — cover was
-                  // slicing it to "CRYF". Dark bg fills the letterbox on-brand.
-                  objectFit: "contain",
-                  objectPosition: "center",
+                  objectFit: "cover",
+                  objectPosition: "center 32%",
                   display: "block",
-                  background: "#0b0b0d",
-                  // Pull the raw cyan toward brand: desaturate + warm the hue.
-                  filter: "saturate(0.6) hue-rotate(-18deg) brightness(0.95)",
                 }}
               />
-              {/* Duotone wash: faint gold (top-left) → purple (bottom-right) over a dark base, so the banner reads on-brand instead of raw cyan. */}
+              {/* Dark vignette so headline/text below reads and the art recedes. */}
               <span
                 aria-hidden
                 style={{
                   position: "absolute",
                   inset: 0,
                   background:
-                    "linear-gradient(135deg, rgba(233,201,132,0.30) 0%, rgba(11,11,13,0.45) 48%, rgba(141,92,255,0.32) 100%)",
-                  mixBlendMode: "overlay",
-                }}
-              />
-              <span
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(180deg, rgba(11,11,13,0.10) 30%, rgba(11,11,13,0.62) 100%)",
+                    "linear-gradient(180deg, rgba(11,11,13,0.35) 0%, rgba(11,11,13,0.1) 40%, rgba(11,11,13,0.85) 100%)",
                 }}
               />
             </div>
