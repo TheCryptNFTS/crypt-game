@@ -15,6 +15,11 @@ export default function AppShell() {
 
   return (
     <div className="flex min-h-full flex-col bg-[color:var(--color-crypt-bg)] crypt-app-root">
+      {/* A11y (P11): keyboard/AT users can jump straight past the chrome to
+          the main content. Visually hidden until focused. */}
+      <a href="#main-content" className="a11y-skip-link">
+        Skip to main content
+      </a>
       <header className="crypt-app-chrome shrink-0" aria-label="CRYPT · Crypt Legends">
         <div className="relative flex items-center justify-center px-4 py-3 md:px-8 md:py-3.5">
           <NavLink
@@ -38,7 +43,7 @@ export default function AppShell() {
           </NavLink>
         </div>
       </header>
-      <main className="crypt-app-main min-h-0 w-full flex-1">
+      <main id="main-content" tabIndex={-1} role="main" className="crypt-app-main min-h-0 w-full flex-1">
         <Suspense fallback={<CryptRouteFallback />}>
           <Outlet />
         </Suspense>

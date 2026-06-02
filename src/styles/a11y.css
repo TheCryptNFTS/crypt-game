@@ -1,0 +1,132 @@
+/* a11y.css — global accessibility layer (P11)
+ *
+ * Scope: focus visibility, screen-reader utility, reduced-motion safety,
+ * contrast helpers, and the skip-link. Intentionally global + low-risk.
+ * Does NOT restyle individual components.
+ */
+
+/* ---------------------------------------------------------------------------
+ * Focus visibility
+ * Gold focus ring on every interactive element, only for keyboard/AT users
+ * (:focus-visible) so mouse clicks stay clean. High contrast against the
+ * dark crypt background.
+ * ------------------------------------------------------------------------- */
+:root {
+  --a11y-focus-ring: var(--color-crypt-gold-bright, #e9c984);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible,
+[role="link"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--a11y-focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 4px rgba(233, 201, 132, 0.35);
+}
+
+/* Don't let a lingering non-keyboard outline double up. */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+[role="button"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Screen-reader-only utility
+ * Visually hidden but available to assistive tech. .sr-only-focusable
+ * reveals itself when focused (used by the skip-link).
+ * ------------------------------------------------------------------------- */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Skip link
+ * Hidden off-screen until focused, then drops into the top-left as a
+ * high-contrast gold pill that jumps to the main content region.
+ * ------------------------------------------------------------------------- */
+.a11y-skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  margin: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: var(--color-crypt-gold-bright, #e9c984);
+  color: #14110a;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-150%);
+  transition: transform 0.15s ease;
+}
+
+.a11y-skip-link:focus,
+.a11y-skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #14110a;
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Contrast helpers
+ * Opt-in classes for guaranteeing legible text against arbitrary art/bg.
+ * ------------------------------------------------------------------------- */
+.a11y-contrast-text {
+  color: #f6f3ea;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.a11y-contrast-surface {
+  background-color: rgba(10, 9, 14, 0.82);
+}
+
+/* ---------------------------------------------------------------------------
+ * Reduced-motion safety
+ * Respect the user's OS-level preference: dampen all animations,
+ * transitions, and smooth-scrolling globally. Uses very-short non-zero
+ * durations rather than 0 so animation-end / transition-end events still
+ * fire (avoids breaking JS that waits on them).
+ * ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
+}

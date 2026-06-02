@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./styles/card-readability.css";
+import "./styles/a11y.css";
 import App from "./App";
 import { RootBoundary } from "./components/RootBoundary";
 import DevBuildStamp from "./components/DevBuildStamp";
