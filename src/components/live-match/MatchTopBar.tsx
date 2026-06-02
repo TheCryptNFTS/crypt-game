@@ -1,4 +1,5 @@
 import React from "react";
+import "../../styles/polish-hud.css";
 
 type NexusHit = { key: number; damage: number } | null;
 
@@ -53,7 +54,11 @@ export function MatchTopBar({
           key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
         >
           <span className="live-topbar__label">Your Nexus</span>
-          <strong>{p1Health}</strong>
+          <div className="ph-crystal ph-crystal--own">
+            <div className="ph-crystal__gem">
+              <span className="ph-crystal__value">{p1Health}</span>
+            </div>
+          </div>
           {ownNexusHit ? <span className="mm-float-dmg mm-float-dmg--nexus">{ownNexusHit.damage}</span> : null}
         </div>
 
@@ -62,13 +67,29 @@ export function MatchTopBar({
           key={`enemy-nexus-${enemyNexusHit?.key ?? "idle"}`}
         >
           <span className="live-topbar__label">Enemy Nexus</span>
-          <strong>{p2Health}</strong>
+          <div className="ph-crystal ph-crystal--enemy">
+            <div className="ph-crystal__gem">
+              <span className="ph-crystal__value">{p2Health}</span>
+            </div>
+          </div>
           {enemyNexusHit ? <span className="mm-float-dmg mm-float-dmg--nexus">{enemyNexusHit.damage}</span> : null}
         </div>
 
         <div className="live-topbar__pill live-topbar__pill--energy">
           <span className="live-topbar__label">Energy</span>
-          <strong>{energy} / {maxEnergy}</strong>
+          <div className="ph-energy">
+            <div className="ph-energy__pips">
+              {Array.from({ length: Math.max(0, maxEnergy) }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`ph-pip ${i < energy ? "ph-pip--filled" : ""}`}
+                />
+              ))}
+            </div>
+            <span className="ph-energy__count">
+              {energy}<small> / {maxEnergy}</small>
+            </span>
+          </div>
         </div>
 
         <div className={`live-topbar__pill ${deckSource === "owned" ? "live-topbar__pill--active" : ""}`}>

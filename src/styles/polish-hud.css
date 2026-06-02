@@ -1,0 +1,165 @@
+/* polish-hud.css — additive AAA-TCG HUD polish for MatchTopBar.
+   Owns ONLY .ph-* classes layered on top of .live-topbar pills.
+   Brand: gold #E9C984, purple #8D5CFF, red #FF4D4D, warm-black #0B0B0D. */
+
+:root {
+  --ph-gold: #E9C984;
+  --ph-purple: #8D5CFF;
+  --ph-red: #FF4D4D;
+  --ph-black: #0B0B0D;
+}
+
+/* ============ NEXUS = HEALTH CRYSTAL ============ */
+/* Reshape the nexus pills into sculpted crystal-shield motifs. */
+.live-topbar__pill--nexus {
+  min-width: 108px;
+  overflow: visible;
+}
+
+/* The crystal is a faceted shield clipped from a glowing block,
+   holding the health number dead-center. */
+.ph-crystal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  margin-top: 2px;
+}
+
+.ph-crystal__gem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 50px;
+  /* Heart-into-shield faceted silhouette. */
+  clip-path: polygon(
+    50% 0%, 86% 14%, 100% 42%,
+    72% 82%, 50% 100%, 28% 82%,
+    0% 42%, 14% 14%
+  );
+  background:
+    radial-gradient(120% 90% at 50% 22%, rgba(255,255,255,0.34), transparent 58%),
+    linear-gradient(180deg, rgba(255,255,255,0.10), rgba(0,0,0,0.32));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+  isolation: isolate;
+}
+
+/* Inner facet seam for a cut-gem read. */
+.ph-crystal__gem::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: inherit;
+  background:
+    linear-gradient(125deg, transparent 46%, rgba(255,255,255,0.22) 50%, transparent 54%),
+    linear-gradient(235deg, transparent 46%, rgba(0,0,0,0.30) 50%, transparent 54%);
+  pointer-events: none;
+}
+
+.ph-crystal__value {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Own = gold/green vital health. */
+.ph-crystal--own .ph-crystal__gem {
+  background:
+    radial-gradient(120% 90% at 50% 22%, rgba(255,255,255,0.40), transparent 58%),
+    linear-gradient(180deg, rgba(233,201,132,0.55), rgba(86,176,120,0.42) 60%, rgba(14,40,26,0.55));
+  box-shadow:
+    inset 0 0 0 1px rgba(233,201,132,0.55),
+    inset 0 0 14px rgba(120,220,150,0.28),
+    0 0 18px -2px rgba(233,201,132,0.45),
+    0 0 26px -6px rgba(86,176,120,0.4);
+}
+.ph-crystal--own .ph-crystal__value {
+  color: #FBF3DD;
+  text-shadow: 0 0 12px rgba(233,201,132,0.65), 0 1px 0 rgba(0,0,0,0.5);
+}
+
+/* Enemy = hostile red. */
+.ph-crystal--enemy .ph-crystal__gem {
+  background:
+    radial-gradient(120% 90% at 50% 22%, rgba(255,255,255,0.34), transparent 58%),
+    linear-gradient(180deg, rgba(255,77,77,0.55), rgba(120,16,24,0.6));
+  box-shadow:
+    inset 0 0 0 1px rgba(255,77,77,0.55),
+    inset 0 0 14px rgba(255,77,77,0.30),
+    0 0 18px -2px rgba(255,77,77,0.5);
+}
+.ph-crystal--enemy .ph-crystal__value {
+  color: #FFE7E7;
+  text-shadow: 0 0 12px rgba(255,77,77,0.7), 0 1px 0 rgba(0,0,0,0.5);
+}
+
+/* Soft pulse on the live crystal so it reads as a vital sign. */
+@keyframes ph-crystal-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.035); }
+}
+.ph-crystal__gem { animation: ph-crystal-breathe 3.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .ph-crystal__gem { animation: none; }
+}
+
+/* ============ ENERGY = MANA PIPS ============ */
+.live-topbar__pill--energy { min-width: 124px; }
+
+.ph-energy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.ph-energy__pips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ph-pip {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  transform: rotate(45deg);
+  background: linear-gradient(180deg, rgba(141,92,255,0.10), rgba(0,0,0,0.25));
+  box-shadow: inset 0 0 0 1px rgba(141,92,255,0.32);
+  transition: box-shadow 160ms ease, background 160ms ease;
+}
+
+.ph-pip--filled {
+  background:
+    radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.55), transparent 60%),
+    linear-gradient(180deg, #a884ff, #8D5CFF);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.35),
+    0 0 8px rgba(141,92,255,0.6),
+    0 0 14px -2px rgba(141,92,255,0.5);
+}
+
+.ph-energy__count {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: #b79bff;
+  text-shadow: 0 0 14px rgba(141,92,255,0.4);
+}
+.ph-energy__count small {
+  font-size: 12px;
+  opacity: 0.62;
+  font-weight: 600;
+}
