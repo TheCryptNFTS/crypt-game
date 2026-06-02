@@ -33,13 +33,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 58px;
-  height: 50px;
-  /* Heart-into-shield faceted silhouette. */
+  width: 52px;
+  height: 52px;
+  /* Hexagon — the ⬡ CRYPT/Freelon City Signal motif (pointy-top regular hex). */
   clip-path: polygon(
-    50% 0%, 86% 14%, 100% 42%,
-    72% 82%, 50% 100%, 28% 82%,
-    0% 42%, 14% 14%
+    50% 0%, 100% 25%, 100% 75%,
+    50% 100%, 0% 75%, 0% 25%
   );
   background:
     radial-gradient(120% 90% at 50% 22%, rgba(255,255,255,0.34), transparent 58%),

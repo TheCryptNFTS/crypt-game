@@ -17,6 +17,8 @@ type Props = {
   turn: number;
   activePlayer: "P1" | "P2";
   boardCount: number;
+  /** True while the opening mulligan gate is still open (can't deploy yet). */
+  mulliganActive?: boolean;
   winner: "P1" | "P2" | null;
 };
 
@@ -27,6 +29,11 @@ type Step = {
 };
 
 const STEPS: Step[] = [
+  {
+    id: "mulligan",
+    title: "Lock in your opening hand",
+    body: "First, your opening hand. Tap any cards you want to swap, then press KEEP HAND (or RECALIBRATE) to lock it in and start the duel.",
+  },
   {
     id: "nexus",
     title: "Protect your Nexus",
@@ -59,16 +66,21 @@ const STEPS: Step[] = [
   },
 ];
 
-export function TutorialCoach({ turn, activePlayer, boardCount, winner }: Props) {
+export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, winner }: Props) {
   // Derive the step from match progress: advance as the pilot fields units and
-  // turns pass, so coaching tracks what they're actually doing.
+  // turns pass, so coaching tracks what they're actually doing. Indices map to
+  // STEPS: 0 mulligan, 1 nexus, 2 lanes, 3 play, 4 keywords, 5 attack, 6 close.
   const derivedIndex = useMemo(() => {
     if (winner) return STEPS.length; // overlay handled by the result card below
-    if (boardCount >= 1 && turn >= 2) return 5;
-    if (boardCount >= 1) return 4;
-    if (turn >= 1 && boardCount === 0 && activePlayer === "P1") return 2;
-    return 0;
-  }, [winner, boardCount, turn, activePlayer]);
+    // While the opening-hand gate is open, sit on the mulligan step — never tell
+    // the player to "play a unit" before they've locked their hand.
+    if (mulliganActive) return 0;
+    if (boardCount >= 1 && turn >= 2) return 6;
+    if (boardCount >= 1) return 5;
+    // Hand locked, your turn, nothing deployed yet → "Play a unit".
+    if (turn >= 1 && boardCount === 0 && activePlayer === "P1") return 3;
+    return 1;
+  }, [winner, boardCount, turn, activePlayer, mulliganActive]);
 
   const [index, setIndex] = useState(0);
   // Coaching only ever moves FORWARD with the match — never snaps backward.

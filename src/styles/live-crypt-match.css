@@ -24,23 +24,156 @@
   z-index: 1;
 }
 
-.live-grid {
-  display: grid;
-  grid-template-columns: 360px minmax(0, 1fr) 360px;
-  gap: 18px;
-  margin-top: 18px;
+/* Slim Solo/PvP toggle — a small inline pill set, top-right, not a fat centered
+   band that pushes the whole board down. */
+.crypt-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  z-index: 4;
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid rgba(245,242,232,0.1);
+  border-radius: 999px;
+  background: rgba(11,11,13,0.6);
+}
+.crypt-mode-toggle__btn {
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: rgba(245,242,232,0.55);
+  cursor: pointer;
+}
+.crypt-mode-toggle__btn.is-active {
+  background: linear-gradient(180deg, #F5F2E8, #CFC6AA);
+  color: #0a0a0a;
 }
 
-.live-grid__left,
-.live-grid__center,
-.live-grid__right {
+/* Tighten the match shell so the field fills the screen. */
+.live-match-shell { padding: 10px 14px; }
+
+/* ============================================================================
+   THE TABLE — single-screen battlefield. Two armies face across a center line;
+   the hand + actions dock below. Works at every width (no phone-stack collapse).
+   ========================================================================== */
+.crypt-table {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.crypt-side {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+.crypt-side__lanes {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+}
+/* Enemy lanes read top→down toward the center; your lanes bottom→up. */
+.crypt-side--enemy .crypt-side__lanes { justify-content: flex-end; }
+.crypt-side--own .crypt-side__lanes { justify-content: flex-start; }
+
+/* The side rail: kicker + commander chip + deck pile, kept narrow so the field
+   gets the width. Enemy rail on the right, your rail on the right too (mirrored
+   feel without duplicating markup). */
+.crypt-side__rail {
+  width: 150px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+.crypt-side__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Center line where the armies meet. */
+.crypt-table__divider {
+  position: relative;
+  height: 1px;
+  margin: 2px 150px 2px 0;
+  background: linear-gradient(90deg, transparent, rgba(233,201,132,0.45), transparent);
+}
+.crypt-table__divider-glyph {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(233,201,132,0.7);
+  font-size: 13px;
+  text-shadow: 0 0 12px rgba(233,201,132,0.5);
+  background: #0b0b0d;
+  padding: 0 8px;
+}
+
+/* Compact commander chip (replaces the giant left card + dev-speak panels). */
+.crypt-cmdr-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px 5px 5px;
+  border: 1px solid rgba(245,242,232,0.12);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(245,242,232,0.04), rgba(255,255,255,0.01));
+}
+.crypt-cmdr-chip__img {
+  width: 34px;
+  height: 34px;
+  border-radius: 7px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.crypt-cmdr-chip__meta {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
 }
+.crypt-cmdr-chip__name {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #F5F2E8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crypt-cmdr-chip__faction {
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245,242,232,0.5);
+}
 
-.live-grid__right {
-  display: grid;
-  align-content: start;
-  gap: 18px;
+/* The dock — actions + hand + log. */
+.crypt-dock {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.crypt-dock__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
 }
 
 .live-topbar {
@@ -48,9 +181,9 @@
   justify-content: space-between;
   align-items: center;
   gap: 14px;
-  padding: 14px 16px;
+  padding: 8px 14px;
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 20px;
+  border-radius: 16px;
   background:
     linear-gradient(180deg, rgba(20,20,23,0.96), rgba(11,11,13,0.99));
   box-shadow: 0 18px 50px rgba(0,0,0,0.35);
@@ -320,18 +453,18 @@
   font-size: 12px;
 }
 
+/* Cards centered on the field (a table, not a left-aligned scroll list). */
 .live-lane__cards {
   display: flex;
   gap: 10px;
-  overflow-x: auto;
+  justify-content: center;
+  flex-wrap: wrap;
   padding-bottom: 2px;
 }
 
-/* Compact board minions so the whole battlefield (4 lanes + HUD) fits on one
-   screen without scrolling — closer to how the majors present a shared field. */
 .live-lane__cards .crypt-card--board {
-  min-width: 116px;
-  width: 116px;
+  min-width: 108px;
+  width: 108px;
   min-height: auto;
 }
 
@@ -355,24 +488,73 @@
 }
 
 .live-hand {
-  margin-top: 16px;
-  padding: 16px;
+  margin-top: 0;
+  padding: 12px 16px 14px;
 }
 
+/* Hand as a centered, overlapping fan — cards tuck behind each other and lift
+   on hover, instead of a row of giant 245px cards. */
 .live-hand__rail {
   display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  padding-bottom: 6px;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0;
+  padding: 8px 0 10px;
+  min-height: 196px;
 }
 
 .live-hand__item {
-  min-width: 245px;
-  width: 245px;
+  width: 132px;
+  margin-left: -26px;
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1), margin 160ms ease;
+  transform-origin: bottom center;
 }
+.live-hand__item:first-child { margin-left: 0; }
+.live-hand__item:hover {
+  transform: translateY(-16px) scale(1.06);
+  margin-right: 18px;
+  z-index: 6;
+}
+.live-hand__item:hover + .live-hand__item { margin-left: 0; }
 
 .live-hand__item .crypt-card--hand {
-  min-height: 360px;
+  min-height: 184px;
+}
+
+/* Tighter lanes on the new field (the old .live-board-stack overrides no longer
+   apply since the markup changed). */
+.crypt-side__lanes .live-lane {
+  padding: 4px 10px 6px;
+  border-radius: 12px;
+  border-color: rgba(245,242,232,0.06);
+  background: rgba(255,255,255,0.012);
+}
+.crypt-side__lanes .live-lane__header {
+  margin-bottom: 2px;
+  opacity: 0.55;
+}
+.crypt-side__lanes .live-lane__header h2,
+.crypt-side__lanes .live-lane__header span { font-size: 9px; }
+/* Empty lane = a quiet centered ground strip, not a full-width form field. */
+.crypt-side__lanes .live-lane__empty {
+  min-height: 22px;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  font-size: 10px;
+  opacity: 0.4;
+}
+.crypt-side__lanes .live-lane__cards { min-height: 0; align-items: center; }
+
+/* Combat log in the dock = a slim scrollable strip, not a fat sidebar. */
+.crypt-dock .live-side-panel {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.crypt-dock .live-log {
+  max-height: 84px;
+  overflow-y: auto;
 }
 
 /* Cards the active player can't currently afford are dimmed (still selectable

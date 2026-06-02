@@ -159,6 +159,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   const actionsLocked = matchOver || activePlayer !== mySeat;
 
   const ownCommander = getCommanderVmForPlayer(match.players[mySeat]);
+  const enemyCommander = getCommanderVmForPlayer(match.players[opponentSeat]);
 
   // In spectator mode the "own" side carries NO hand card ids (the neutral
   // server view redacts both hands to counts). Render that many face-down
@@ -475,101 +476,102 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
 
       {statusBanner}
 
-      {deckSource === "demo" ? (
-        <p className="live-deckhint">
-          You're fielding the demo deck. Connect a wallet holding Combat Archives
-          to field your own cards.
-        </p>
-      ) : null}
 
-      <div className="live-grid">
-        <aside className="live-grid__left">
-          <CommanderHero
-            commander={ownCommander}
-            activeSyncText={
-              selectedHandCard
-                ? `Selected ${selectedHandCard.type}. Choose a legal action.`
-                : "Live engine state. Select a card, unit, or target."
-            }
-          />
-        </aside>
-
-        <main className="live-grid__center">
-          <div className="live-board-stack">
-            {/* Deck piles for both players — a card-back stacked motif with the
-                remaining-deck count. Purely additive + presentation-only. */}
-            <div className="deck-pile-row">
-              <DeckPile count={enemyDeckCount} label="Enemy Deck" />
-              <DeckPile count={ownDeckCount} label="Your Deck" />
+      {/* THE TABLE — a single-screen battlefield: the two armies face each other
+          across a center divider (enemy on top, you on the bottom), the hand +
+          actions dock below. No giant commander card, no dev-speak panels. */}
+      <div className="crypt-table">
+        {/* ENEMY SIDE (top, facing down): back lane farthest, front lane nearest
+            the center line. */}
+        <div className="crypt-side crypt-side--enemy">
+          <div className="crypt-side__rail">
+            <div className="crypt-side__meta">
+              <span className="kicker">Enemy</span>
+              {enemyCommander ? <CommanderHero commander={enemyCommander} compact /> : null}
             </div>
-            {/* Each lane is wrapped in a relatively-positioned cell so the FX
-                canvas can aim particle bursts at a centered, board-owned anchor
-                WITHOUT touching BoardLane internals (owned elsewhere). The
-                wrapper is a plain grid cell — same vertical order + gap. */}
-            <div className="mm-lane-fx">
-              <span ref={setLaneAnchor("enemyFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
-            <BoardLane
-              title="Enemy Front"
-              cards={enemyFront}
-              highlight={attackReady ? "target" : null}
-              hint="Attackable"
-              unitMotion={motion.unitMotion}
-              floats={motion.unitFloats}
-              dying={dyingFor("enemy", "front")}
-              onSelect={(card) => {
-                // Combat targeting only. Opening the inspect modal here would
-                // overlay the ActionBar's Attack buttons and block the core
-                // combat loop, so selecting a unit stays modal-free.
-                if (spectator) return;
-                setTargetBoardId(card.id);
-              }}
-            />
-            </div>
+            <DeckPile count={enemyDeckCount} label="Enemy Deck" />
+          </div>
+          <div className="crypt-side__lanes">
             <div className="mm-lane-fx">
               <span ref={setLaneAnchor("enemyBack")} className="mm-lane-fx__anchor" aria-hidden="true" />
-            <BoardLane
-              title="Enemy Back"
-              cards={enemyBack}
-              highlight={attackReady ? "target" : null}
-              hint="Attackable"
-              unitMotion={motion.unitMotion}
-              floats={motion.unitFloats}
-              dying={dyingFor("enemy", "back")}
-              onSelect={(card) => {
-                if (spectator) return;
-                setTargetBoardId(card.id);
-              }}
-            />
+              <BoardLane
+                title="Enemy Back"
+                cards={enemyBack}
+                highlight={attackReady ? "target" : null}
+                hint="Attackable"
+                unitMotion={motion.unitMotion}
+                floats={motion.unitFloats}
+                dying={dyingFor("enemy", "back")}
+                onSelect={(card) => {
+                  if (spectator) return;
+                  setTargetBoardId(card.id);
+                }}
+              />
             </div>
             <div className="mm-lane-fx">
+              <span ref={setLaneAnchor("enemyFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
+              <BoardLane
+                title="Enemy Front"
+                cards={enemyFront}
+                highlight={attackReady ? "target" : null}
+                hint="Attackable"
+                unitMotion={motion.unitMotion}
+                floats={motion.unitFloats}
+                dying={dyingFor("enemy", "front")}
+                onSelect={(card) => {
+                  // Combat targeting only — selection stays modal-free so the
+                  // ActionBar attack buttons aren't covered.
+                  if (spectator) return;
+                  setTargetBoardId(card.id);
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* CENTER LINE — where the armies meet. */}
+        <div className="crypt-table__divider" aria-hidden="true">
+          <span className="crypt-table__divider-glyph">{"\u2B22"}</span>
+        </div>
+
+        {/* YOUR SIDE (bottom, facing up): front lane nearest center, back behind. */}
+        <div className="crypt-side crypt-side--own">
+          <div className="crypt-side__lanes">
+            <div className="mm-lane-fx">
               <span ref={setLaneAnchor("ownFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
-            <BoardLane
-              title="Your Front"
-              cards={ownFront}
-              highlight={deployReady ? "deploy" : null}
-              hint="Play here"
-              unitMotion={ownUnitMotion}
-              floats={motion.unitFloats}
-              dying={dyingFor("own", "front")}
-              onSelect={(card) => {
-                safeSetSelectedBoardId(card.id);
-              }}
-            />
+              <BoardLane
+                title="Your Front"
+                cards={ownFront}
+                highlight={deployReady ? "deploy" : null}
+                hint="Play here"
+                unitMotion={ownUnitMotion}
+                floats={motion.unitFloats}
+                dying={dyingFor("own", "front")}
+                onSelect={(card) => {
+                  safeSetSelectedBoardId(card.id);
+                }}
+              />
             </div>
             <div className="mm-lane-fx">
               <span ref={setLaneAnchor("ownBack")} className="mm-lane-fx__anchor" aria-hidden="true" />
-            <BoardLane
-              title="Your Back"
-              cards={ownBack}
-              highlight={deployReady ? "deploy" : null}
-              hint="Play here"
-              unitMotion={ownUnitMotion}
-              floats={motion.unitFloats}
-              dying={dyingFor("own", "back")}
-              onSelect={(card) => {
-                safeSetSelectedBoardId(card.id);
-              }}
-            />
+              <BoardLane
+                title="Your Back"
+                cards={ownBack}
+                highlight={deployReady ? "deploy" : null}
+                hint="Play here"
+                unitMotion={ownUnitMotion}
+                floats={motion.unitFloats}
+                dying={dyingFor("own", "back")}
+                onSelect={(card) => {
+                  safeSetSelectedBoardId(card.id);
+                }}
+              />
+            </div>
+          </div>
+          <div className="crypt-side__rail">
+            <div className="crypt-side__meta">
+              <span className="kicker">You</span>
+              {ownCommander ? <CommanderHero commander={ownCommander} compact /> : null}
             </div>
             {ownArtifacts.length ? (
               <BoardLane
@@ -578,110 +580,98 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 onSelect={(card) => safeSetInspectId(card.id)}
               />
             ) : null}
+            <DeckPile count={ownDeckCount} label="Your Deck" />
           </div>
+        </div>
+      </div>
 
-          <section className="live-hand">
-            <div className="live-hand__header">
-              <h2>Hand</h2>
-              <div className="live-hand__header-meta">
-                <span>{ownHand.length} cards</span>
-                {pvpMatchId ? <EmoteBar matchId={pvpMatchId} myId={mySeat} /> : null}
-                <SoundToggle />
-              </div>
+      {/* DOCK — hand + actions + log, pinned below the field (hand first so it
+          sits right under your lanes). */}
+      <div className="crypt-dock">
+        <section className="live-hand">
+          <div className="live-hand__header">
+            <span className="kicker">Your Hand</span>
+            <div className="live-hand__header-meta">
+              <span>{ownHand.length} cards</span>
+              {pvpMatchId ? <EmoteBar matchId={pvpMatchId} myId={mySeat} /> : null}
+              <SoundToggle />
             </div>
-            <div className="live-hand__rail">
-              {ownHand.map((card: PlayCardVM) => {
-                const affordable = affordableCostFor(card.id);
-                const justDrawn = drawnIds.has(card.id);
-                return (
-                  <div
-                    className={`live-hand__item ${affordable ? "" : "live-hand__item--unaffordable"}${
-                      justDrawn ? " mm-hand-draw" : ""
-                    }`}
-                    key={card.id}
-                  >
-                    <HandCard
-                      card={card}
-                      onSelect={(c) => {
-                        // Select-to-play only. Opening the inspect modal here would
-                        // overlay the ActionBar's Play Front/Back buttons and block
-                        // the core deploy loop, so selection stays modal-free.
-                        safeSetSelectedHandId(c.id);
-                      }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        </main>
-
-        <aside className="live-grid__right">
-          {/* Spectator mode is OBSERVATIONAL: no ActionBar + no quick-target
-              controls. Even were they rendered, the safe* handlers are no-ops —
-              this just removes the affordance entirely so the surface reads as
-              "watch only". The combat log stays so a watcher follows the match. */}
-          {!spectator ? (
-            <>
-              <ActionBar
-                selectedType={actionsLocked ? null : selectedHandCard?.type ?? null}
-                canEquip={!actionsLocked && selectedHandCard?.type === "equipment" && !!selectedOwnUnit}
-                canAttackUnit={!actionsLocked && !!selectedOwnUnit && !!selectedEnemyUnit}
-                canAttackFace={!actionsLocked && !!selectedOwnUnit && !selectedEnemyUnit}
-                onPlayFront={() => safePlaySelectedUnit("front")}
-                onPlayBack={() => safePlaySelectedUnit("back")}
-                onPlayArtifact={safePlaySelectedArtifact}
-                onEquip={() => {
-                  if (selectedOwnUnit) safeEquipSelectedToUnit(selectedOwnUnit.id);
-                }}
-                onAttackUnit={() => {
-                  if (selectedOwnUnit && selectedEnemyUnit) {
-                    triggerLunge(selectedOwnUnit.id);
-                    safeAttackUnit(selectedOwnUnit.id, selectedEnemyUnit.id);
-                    setTargetBoardId(null);
-                  }
-                }}
-                onAttackFace={() => {
-                  if (selectedOwnUnit) {
-                    triggerLunge(selectedOwnUnit.id);
-                    safeAttackFace(selectedOwnUnit.id);
-                    setTargetBoardId(null);
-                  }
-                }}
-              />
-
-              <section className="live-side-panel">
-                <h3>Quick Targets</h3>
-                <div className="live-quick-buttons">
-                  <button
-                    className="live-btn live-btn--ghost"
-                    disabled={!firstOwn}
-                    onClick={() => {
-                      // Action path: select only. Opening the inspect modal here
-                      // would cover the ActionBar and block chaining into a
-                      // target + attack.
-                      if (firstOwn) safeSetSelectedBoardId(firstOwn.id);
+          </div>
+          <div className="live-hand__rail">
+            {ownHand.map((card: PlayCardVM) => {
+              const affordable = affordableCostFor(card.id);
+              const justDrawn = drawnIds.has(card.id);
+              return (
+                <div
+                  className={`live-hand__item ${affordable ? "" : "live-hand__item--unaffordable"}${
+                    justDrawn ? " mm-hand-draw" : ""
+                  }`}
+                  key={card.id}
+                >
+                  <HandCard
+                    card={card}
+                    onSelect={(c) => {
+                      safeSetSelectedHandId(c.id);
                     }}
-                  >
-                    Select Own Unit
-                  </button>
-                  <button
-                    className="live-btn live-btn--ghost"
-                    disabled={!firstEnemy}
-                    onClick={() => {
-                      // Action path: select only (see "Select Own Unit" above).
-                      if (firstEnemy) setTargetBoardId(firstEnemy.id);
-                    }}
-                  >
-                    Select Enemy Unit
-                  </button>
+                  />
                 </div>
-              </section>
-            </>
-          ) : null}
+              );
+            })}
+          </div>
+        </section>
 
-          <CombatLogPanel log={combatLog} />
-        </aside>
+        {!spectator ? (
+          <div className="crypt-dock__actions">
+            <ActionBar
+              selectedType={actionsLocked ? null : selectedHandCard?.type ?? null}
+              canEquip={!actionsLocked && selectedHandCard?.type === "equipment" && !!selectedOwnUnit}
+              canAttackUnit={!actionsLocked && !!selectedOwnUnit && !!selectedEnemyUnit}
+              canAttackFace={!actionsLocked && !!selectedOwnUnit && !selectedEnemyUnit}
+              onPlayFront={() => safePlaySelectedUnit("front")}
+              onPlayBack={() => safePlaySelectedUnit("back")}
+              onPlayArtifact={safePlaySelectedArtifact}
+              onEquip={() => {
+                if (selectedOwnUnit) safeEquipSelectedToUnit(selectedOwnUnit.id);
+              }}
+              onAttackUnit={() => {
+                if (selectedOwnUnit && selectedEnemyUnit) {
+                  triggerLunge(selectedOwnUnit.id);
+                  safeAttackUnit(selectedOwnUnit.id, selectedEnemyUnit.id);
+                  setTargetBoardId(null);
+                }
+              }}
+              onAttackFace={() => {
+                if (selectedOwnUnit) {
+                  triggerLunge(selectedOwnUnit.id);
+                  safeAttackFace(selectedOwnUnit.id);
+                  setTargetBoardId(null);
+                }
+              }}
+            />
+            <div className="live-quick-buttons">
+              <button
+                className="live-btn live-btn--ghost"
+                disabled={!firstOwn}
+                onClick={() => {
+                  if (firstOwn) safeSetSelectedBoardId(firstOwn.id);
+                }}
+              >
+                Select Own Unit
+              </button>
+              <button
+                className="live-btn live-btn--ghost"
+                disabled={!firstEnemy}
+                onClick={() => {
+                  if (firstEnemy) setTargetBoardId(firstEnemy.id);
+                }}
+              >
+                Select Enemy Unit
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        <CombatLogPanel log={combatLog} />
       </div>
 
       <InspectDrawer state={inspectState} onClose={() => setInspectId(null)} />

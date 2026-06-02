@@ -344,24 +344,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .crypt-shell-kicker {
   margin: 0 0 12px;
-  font-family: var(--font-brand);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.42em;
-  text-indent: 0.42em;
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
   text-transform: uppercase;
-  color: rgba(184, 180, 174, 0.62);
+  color: var(--color-crypt-muted, rgba(245,242,232,0.62));
   text-shadow: 0 0 24px rgba(255, 255, 255, 0.04);
 }
 
 .crypt-shell-title {
   margin: 0 0 10px;
-  font-family: var(--font-surface);
-  font-size: clamp(1.65rem, 5vw, 2.25rem);
-  font-weight: 650;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: #e4e0da;
+  /* City heading face — Clash Display, uppercase, tight (was Satoshi/system). */
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: clamp(2rem, 5.5vw, 3rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #F5F2E8;
   text-shadow:
     0 1px 0 rgba(255, 255, 255, 0.06),
     0 12px 48px rgba(0, 0, 0, 0.5);

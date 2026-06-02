@@ -356,15 +356,57 @@ button {
   bottom: 12px;
 }
 
+/* COMPACT hand/board cards: the square art fills most of the card, so the info
+   overlay must be tight + sit on a strong readable plate, and the faction label
+   must shrink so it never wraps over the art. */
+.crypt-card--hand .crypt-card__overlay,
+.crypt-card--board .crypt-card__overlay {
+  left: 6px;
+  right: 6px;
+}
+.crypt-card--hand .crypt-card__overlay--top,
+.crypt-card--board .crypt-card__overlay--top { top: 6px; }
+.crypt-card--hand .crypt-card__overlay--bottom,
+.crypt-card--board .crypt-card__overlay--bottom { bottom: 6px; }
+/* Stronger bottom plate so the title + stats read over busy skull art. */
+.crypt-card--hand .crypt-card__scrim,
+.crypt-card--board .crypt-card__scrim {
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.35), transparent 22%),
+    linear-gradient(180deg, transparent 38%, rgba(8,8,11,0.94) 78%);
+}
+/* Tiny faction label — abbreviate-by-clamp so "GOLDEN SOVEREIGNS" never wraps. */
+.crypt-card--hand .crypt-card__meta,
+.crypt-card--board .crypt-card__meta {
+  gap: 4px;
+  font-size: 7px;
+}
+.crypt-card--hand .crypt-card__meta .crypt-badge,
+.crypt-card--board .crypt-card__meta .crypt-badge {
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  padding: 2px 5px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* The "UNIT/SPELL" kind tag is redundant noise on a tiny card — hide it there. */
+.crypt-card--hand .crypt-card__kind,
+.crypt-card--board .crypt-card__kind { display: none; }
+
 .crypt-card__cost {
-  min-width: 38px;
-  height: 38px;
+  min-width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: rgba(6, 8, 12, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-weight: 900;
+  background: rgba(6, 8, 12, 0.85);
+  border: 1px solid rgba(233, 201, 132, 0.4);
+  color: #E9C984;
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .crypt-card__kind {
@@ -378,28 +420,45 @@ button {
 }
 
 .crypt-card__title {
-  margin-top: 10px;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.2;
+  margin-top: 6px;
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  /* Never let a long name spill out of the card. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+/* Compact tactical (hand/board) cards: smaller still. */
+.crypt-card--hand .crypt-card__title,
+.crypt-card--board .crypt-card__title {
+  margin-top: 4px;
+  font-size: 10px;
 }
 
 .crypt-stat-strip,
 .crypt-board-mods {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 4px;
+  margin-top: 6px;
   color: #F5F2E8;
-  font-size: 12px;
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 9px;
+  letter-spacing: 0.02em;
 }
 
 .crypt-stat-strip span,
 .crypt-board-mods span {
-  padding: 6px 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 3px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
 .crypt-board-stats {

@@ -68,9 +68,9 @@ export default function LiveCryptMatchPage({
 
   // In the tutorial we lock to coached solo — no PvP escape hatch.
   const modeToggle = tutorial ? null : (
-    <div className="live-quick-buttons" style={{ justifyContent: "center", margin: "0 0 12px" }}>
+    <div className="crypt-mode-toggle">
       <button
-        className={`live-btn ${mode === "solo" ? "live-btn--primary" : "live-btn--ghost"}`}
+        className={`crypt-mode-toggle__btn ${mode === "solo" ? "is-active" : ""}`}
         onClick={() => {
           setMode("solo");
           setMatch(null);
@@ -79,7 +79,7 @@ export default function LiveCryptMatchPage({
         Solo
       </button>
       <button
-        className={`live-btn ${mode !== "solo" ? "live-btn--primary" : "live-btn--ghost"}`}
+        className={`crypt-mode-toggle__btn ${mode !== "solo" ? "is-active" : ""}`}
         onClick={() => setMode("lobby")}
       >
         PvP
@@ -137,6 +137,7 @@ export default function LiveCryptMatchPage({
             (local.match.players?.P1?.board?.front ?? []).length +
             (local.match.players?.P1?.board?.back ?? []).length
           }
+          mulliganActive={local.mulliganPhaseActive}
           winner={local.winner}
         />
       ) : null}

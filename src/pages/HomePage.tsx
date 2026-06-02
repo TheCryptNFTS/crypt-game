@@ -135,11 +135,14 @@ export default function HomePage() {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
+                  // CONTAIN (not cover) so the full wordmark shows — cover was
+                  // slicing it to "CRYF". Dark bg fills the letterbox on-brand.
+                  objectFit: "contain",
                   objectPosition: "center",
                   display: "block",
+                  background: "#0b0b0d",
                   // Pull the raw cyan toward brand: desaturate + warm the hue.
-                  filter: "saturate(0.55) hue-rotate(-22deg) brightness(0.92)",
+                  filter: "saturate(0.6) hue-rotate(-18deg) brightness(0.95)",
                 }}
               />
               {/* Duotone wash: faint gold (top-left) → purple (bottom-right) over a dark base, so the banner reads on-brand instead of raw cyan. */}

@@ -733,6 +733,29 @@
   gap: 6px;
 }
 
+/* The master-volume slider was sprawling across the hand header. Collapse it to
+   a thin reveal-on-hover control so only the speaker icons show by default. */
+.live-sound-settings {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.live-sound-settings__slider {
+  width: 0;
+  opacity: 0;
+  transition: width 160ms ease, opacity 160ms ease;
+}
+.live-sound-settings__readout { display: none; }
+.live-sound-controls:hover .live-sound-settings__slider,
+.live-sound-settings:focus-within .live-sound-settings__slider {
+  width: 70px;
+  opacity: 1;
+}
+.live-sound-controls:hover .live-sound-settings__readout,
+.live-sound-settings:focus-within .live-sound-settings__readout {
+  display: inline;
+}
+
 /* Ambient-bed toggle: off = ghosted, on = gold-tinted to read "soundtrack". */
 .live-sound-toggle--ambience {
   padding: 4px 8px;

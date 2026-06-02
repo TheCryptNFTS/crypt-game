@@ -6,10 +6,35 @@ import { FactionBadge, RarityBadge } from "./MatchBadges";
 type CommanderHeroProps = {
   commander: CommanderVM;
   activeSyncText?: string;
+  /** Compact in-match chip: small portrait + name + faction, no lore callouts. */
+  compact?: boolean;
 };
 
-export function CommanderHero({ commander, activeSyncText }: CommanderHeroProps) {
+export function CommanderHero({ commander, activeSyncText, compact }: CommanderHeroProps) {
   const theme = factionTheme[commander.faction];
+
+  if (compact) {
+    return (
+      <div
+        className="crypt-cmdr-chip"
+        style={{ borderColor: theme.edge }}
+        title={commander.name}
+      >
+        <img
+          src={commander.imageUrl}
+          alt={commander.name}
+          className="crypt-cmdr-chip__img"
+          loading="lazy"
+        />
+        <div className="crypt-cmdr-chip__meta">
+          <span className="crypt-cmdr-chip__name">{commander.name}</span>
+          <span className="crypt-cmdr-chip__faction">
+            {commander.faction.replace(/_/g, " ")}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <section
