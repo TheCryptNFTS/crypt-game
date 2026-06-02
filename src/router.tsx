@@ -19,6 +19,7 @@ const PlayHubPage = lazy(() => import("./pages/PlayHubPage"));
 const PuzzlePage = lazy(() => import("./pages/PuzzlePage"));
 const LiveCryptMatchPage = lazy(() => import("./pages/LiveCryptMatchPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
+const DeckViewPage = lazy(() => import("./pages/DeckViewPage"));
 const CollectionPage = lazy(() => import("./pages/CollectionPage"));
 const ShopPage = lazy(() => import("./pages/ShopPage"));
 const MarketplacePage = lazy(() => import("./pages/MarketplacePage"));
@@ -75,6 +76,8 @@ export const router = createBrowserRouter([
       { path: "/daily-pack", element: <DailyPackPage /> },
       { path: "/match-results", element: <MatchResultsPage /> },
       { path: "/rewards", element: <RewardsPage /> },
+      // Read-only shared deck view (ungated) — decodes ?code= and renders it.
+      { path: "/d", element: <DeckViewPage /> },
 
       // Gated advanced surfaces — hidden until the tutorial is done or first win.
       {

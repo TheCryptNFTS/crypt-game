@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { CatalogLoader } from "../components/CatalogLoader";
+import { encodeDeck } from "../share/deckCodec";
+import { absoluteUrl, openTweet, shareOrCopy } from "../lib/share";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { validateDeck } from "../engine/deckRules";
@@ -89,6 +91,30 @@ export default function DeckBuilderPage() {
   }, []);
 
   const clearDeck = useCallback(() => setMainDeck([]), []);
+
+  // SHARE — encode the live deck (commander + ordered card ids) into a codec
+  // string, wrap it in an absolute /d?code= link, and hand off to the native
+  // share sheet (clipboard fallback) plus an X intent. Read-only; never mutates
+  // the build state above.
+  const [shareNote, setShareNote] = useState<string | null>(null);
+  const shareDeck = useCallback(async () => {
+    try {
+      const code = encodeDeck({ commanderId, cards: mainDeck });
+      const url = absoluteUrl(`/d?code=${encodeURIComponent(code)}`);
+      const text = "My CRYPT deck \u2B22";
+      const result = await shareOrCopy({ title: "CRYPT deck", text, url });
+      setShareNote(
+        result === "shared"
+          ? "Shared."
+          : result === "copied"
+            ? "Link copied to clipboard."
+            : "Could not share — try again."
+      );
+      if (result !== "failed") openTweet(text, url);
+    } catch {
+      setShareNote("Could not build a share link for this deck.");
+    }
+  }, [commanderId, mainDeck]);
 
   const commanderEntry = entryById.get(commanderId);
 
@@ -203,6 +229,18 @@ export default function DeckBuilderPage() {
                   ))}
                 </ul>
               )}
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                className="live-btn live-btn--primary"
+                onClick={shareDeck}
+                disabled={mainDeck.length === 0}
+              >
+                Share deck &#x2B22;
+              </button>
+              {shareNote && <span className="crypt-deck-hint">{shareNote}</span>}
             </div>
           </div>
 
