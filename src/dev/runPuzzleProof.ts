@@ -27,6 +27,13 @@ function assert(cond: boolean, msg: string, detail?: unknown): void {
 
 console.log(`=== PUZZLE / SOLO MODE PROOF (${PUZZLES.length} scenarios) ===`);
 
+// Sanity: the table must hold the full authored set (3 original + 8 new = 11) and
+// every id must be unique, so a copy/paste collision can never silently shadow a
+// scenario.
+assert(PUZZLES.length >= 11, `puzzle table holds at least 11 scenarios`, { count: PUZZLES.length });
+const ids = PUZZLES.map((p) => p.id);
+assert(new Set(ids).size === ids.length, `all puzzle ids are unique`, { ids });
+
 for (const puzzle of PUZZLES) {
   // 1. The intended solution WINS for the hero.
   const solved = solvePuzzle(puzzle);
@@ -44,10 +51,19 @@ for (const puzzle of PUZZLES) {
     { winner: wrong.winner },
   );
 
-  // 3. Determinism — same solution, same winner across two independent runs.
-  const a = solvePuzzle(puzzle).winner;
-  const b = solvePuzzle(puzzle).winner;
-  assert(a === b, `[${puzzle.id}] solution is deterministic (winner stable)`, { a, b });
+  // 3. Determinism — the SAME solution yields a byte-identical settled state across
+  //    two fully independent runs (winner AND final board), proving the scenario is a
+  //    pure function of (seed, board, actions) with no hidden RNG / wall-clock leak.
+  const a = solvePuzzle(puzzle);
+  const b = solvePuzzle(puzzle);
+  assert(a.winner === b.winner, `[${puzzle.id}] solution winner is deterministic`, {
+    a: a.winner,
+    b: b.winner,
+  });
+  assert(
+    JSON.stringify(a.finalState) === JSON.stringify(b.finalState),
+    `[${puzzle.id}] settled state is deterministic across two runs`,
+  );
 }
 
 console.log(`\n=== PUZZLE PROOF SUMMARY ===`);
