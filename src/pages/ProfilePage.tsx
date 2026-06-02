@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { t } from "../i18n";
 import { CatalogLoader } from "../components/CatalogLoader";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import CommanderCard from "../components/cards/CommanderCard";
@@ -92,30 +93,32 @@ export default function ProfilePage() {
   return (
     <CatalogLoader loading={loading} error={error} ready={ready}>
       <CryptPageFrame
-        eyebrow="Dossier · Crypt Legends"
-        title={session === "guest" ? "Guest legend" : "Dossier"}
+        eyebrow={t("profile.eyebrow")}
+        title={session === "guest" ? t("profile.title.guest") : t("profile.title.default")}
         lead={
           <>
-            Legend rank <strong>{level}</strong> from pass XP (device) ·{" "}
-            <span className="text-[color:var(--color-crypt-muted)]">Unranked—ladder sealed</span>
+            {t("profile.lead.rankPrefix")}
+            <strong>{level}</strong>
+            {t("profile.lead.rankSuffix")}
+            <span className="text-[color:var(--color-crypt-muted)]">{t("profile.lead.sealed")}</span>
           </>
         }
       >
         <div className="crypt-profile-after-head mb-8 flex flex-wrap items-start justify-between gap-4 border-b border-[color:var(--color-crypt-border)] pb-6">
-          <div className="crypt-profile-hero-badge-slot" aria-label="Account status">
-            <span className="crypt-profile-badge crypt-profile-badge--guest">Guest · device vault</span>
+          <div className="crypt-profile-hero-badge-slot" aria-label={t("profile.status.aria")}>
+            <span className="crypt-profile-badge crypt-profile-badge--guest">{t("profile.badge.guest")}</span>
             <p className="crypt-profile-badge-note">
-              Accounts and cloud dossiers are not wired—your legend stays on this device.
+              {t("profile.badge.note")}
             </p>
           </div>
         </div>
 
         <p className="crypt-lore-whisper">
-          Your legend grows in the dark—progress stays on this device until the vault shares it.
+          {t("profile.whisper")}
         </p>
 
-        <section className="crypt-profile-section" aria-label="Recent duels">
-          <div className="crypt-profile-section-label">Recent duels</div>
+        <section className="crypt-profile-section" aria-label={t("profile.recentDuels.aria")}>
+          <div className="crypt-profile-section-label">{t("profile.recentDuels.label")}</div>
           {history && history.length > 0 ? (
             <ul className="crypt-duel-list">
               {history.map((h) => {
@@ -127,7 +130,7 @@ export default function ProfilePage() {
                       className={["crypt-duel-result", win ? "crypt-duel-result--win" : "crypt-duel-result--loss"]
                         .join(" ")}
                     >
-                      {win ? "WIN" : "LOSS"}
+                      {win ? t("profile.recentDuels.win") : t("profile.recentDuels.loss")}
                     </span>
                     <span
                       className={["crypt-duel-delta", up ? "crypt-duel-delta--up" : "crypt-duel-delta--down"]
@@ -144,80 +147,80 @@ export default function ProfilePage() {
           ) : snap.lastMatchSummary ? (
             <p className="crypt-profile-recent-match">{snap.lastMatchSummary}</p>
           ) : (
-            <p className="crypt-profile-secondary">No verdict yet—claim a duel from Play.</p>
+            <p className="crypt-profile-secondary">{t("profile.recentDuels.empty")}</p>
           )}
           <p className="crypt-profile-secondary">
-            Ledger {snap.cryptBalance} $CRYPT · {snap.passXp} pass XP (device)
+            {t("profile.ledger.prefix")}{snap.cryptBalance}{t("profile.ledger.mid")}{snap.passXp}
+            {t("profile.ledger.suffix")}
           </p>
         </section>
 
-        <section className="crypt-profile-section" aria-label="Commander focus">
-          <div className="crypt-profile-section-label">Commander · loadout</div>
+        <section className="crypt-profile-section" aria-label={t("profile.commander.aria")}>
+          <div className="crypt-profile-section-label">{t("profile.commander.label")}</div>
           <div className="crypt-profile-commander-row">
             {commanderEntry ? (
               <div className="flex justify-center sm:justify-start">
                 <CommanderCard entry={commanderEntry} scale="table" />
               </div>
             ) : (
-              <div className="crypt-profile-placeholder">Vault index loading…</div>
+              <div className="crypt-profile-placeholder">{t("profile.commander.loading")}</div>
             )}
             <div>
               <p className="mt-0 text-sm font-medium text-[color:var(--color-crypt-text)]">
                 {commanderEntry?.name ?? commanderId}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-crypt-muted)]">
-                Mirrored from{" "}
+                {t("profile.commander.mirroredFrom")}
                 <Link to="/deck" className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline">
-                  Loadout forge
+                  {t("profile.commander.forge")}
                 </Link>
-                . Independent favorite picks arrive when dossiers cloud-save.
+                {t("profile.commander.mirroredSuffix")}
               </p>
             </div>
           </div>
         </section>
 
-        <section className="crypt-profile-section" aria-label="OG Skull cosmetics roadmap">
-          <div className="crypt-profile-section-label">OG Skulls · frames (roadmap)</div>
+        <section className="crypt-profile-section" aria-label={t("profile.cosmeticsRoadmap.aria")}>
+          <div className="crypt-profile-section-label">{t("profile.cosmeticsRoadmap.label")}</div>
           <p className="crypt-profile-secondary">
-            Crypt OG Skulls may one day wear vault frames—vanity only, no stat lift per policy (
-            <span className="whitespace-nowrap">docs/ENTITLEMENT_POLICY.md</span>). This build verifies nothing; the
-            preview is concept art.
+            {t("profile.cosmeticsRoadmap.copyPrefix")}
+            <span className="whitespace-nowrap">{t("profile.cosmeticsRoadmap.policyFile")}</span>
+            {t("profile.cosmeticsRoadmap.copySuffix")}
           </p>
           <div className="crypt-holder-prestige-preview">
             {commanderEntry ? (
               <CommanderCard entry={commanderEntry} scale="table" variant="catalog" />
             ) : (
               <div className="crypt-profile-placeholder" style={{ minHeight: 120 }}>
-                Commander art
+                {t("profile.cosmeticsRoadmap.art")}
               </div>
             )}
-            <span className="crypt-holder-prestige-label">Concept—no entitlement in this build</span>
+            <span className="crypt-holder-prestige-label">{t("profile.cosmeticsRoadmap.conceptLabel")}</span>
           </div>
         </section>
 
-        <section className="crypt-profile-section" aria-label="Wallet link">
-          <div className="crypt-profile-section-label">Vault link</div>
+        <section className="crypt-profile-section" aria-label={t("profile.vault.aria")}>
+          <div className="crypt-profile-section-label">{t("profile.vault.label")}</div>
           <div className="crypt-profile-locked-row">
             <div className="crypt-profile-locked-copy">
-              <p className="crypt-profile-locked-title">Sealed</p>
+              <p className="crypt-profile-locked-title">{t("profile.vault.title")}</p>
               <p className="crypt-profile-secondary">
-                No connect or proof-of-hold flow ships here. If accounts arrive later, optional import might bind Crypt OG
-                Skulls and Crypt Digital Trading Cards to field identity—policy TBD, inactive now.
+                {t("profile.vault.copy")}
               </p>
             </div>
             <button type="button" className="crypt-profile-wallet-placeholder" disabled>
-              Unavailable
+              {t("profile.vault.unavailable")}
             </button>
           </div>
         </section>
 
-        <section className="crypt-profile-section" aria-label="Rank">
-          <div className="crypt-profile-section-label">Rank · competitive</div>
+        <section className="crypt-profile-section" aria-label={t("profile.rank.aria")}>
+          <div className="crypt-profile-section-label">{t("profile.rank.label")}</div>
           {ranking ? (
             <div className="crypt-profile-rank-row">
               <div className="crypt-profile-rank-main">
                 <span className="crypt-profile-rank-tier">{rankLabelForRating(ranking.rating)}</span>
-                <span className="crypt-profile-rank-rating">{ranking.rating} MMR</span>
+                <span className="crypt-profile-rank-rating">{ranking.rating}{t("profile.rank.mmrSuffix")}</span>
               </div>
               <p className="crypt-profile-secondary">
                 #{ranking.position} on the ladder · {ranking.wins}W–{ranking.losses}L
@@ -226,7 +229,7 @@ export default function ProfilePage() {
             </div>
           ) : (
             <div className="crypt-profile-placeholder">
-              Play a ranked duel to enter the ladder
+              {t("profile.rank.empty")}
             </div>
           )}
           <p className="crypt-profile-secondary">
@@ -234,20 +237,20 @@ export default function ProfilePage() {
               to="/ladder"
               className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
             >
-              View your ranked ladder →
+              {t("profile.rank.viewLadder")}
             </Link>
             {"  ·  "}
             <Link
               to="/leaderboard"
               className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
             >
-              Season standings →
+              {t("profile.rank.seasonStandings")}
             </Link>
           </p>
         </section>
 
-        <section className="crypt-profile-section" aria-label="Cosmetic unlocks">
-          <div className="crypt-profile-section-label">Cosmetics · unlocked</div>
+        <section className="crypt-profile-section" aria-label={t("profile.cosmetics.aria")}>
+          <div className="crypt-profile-section-label">{t("profile.cosmetics.label")}</div>
           {cosmetics && cosmetics.length > 0 ? (
             <div className="crypt-profile-cosmetic-strip">
               {cosmetics.map((c) => (
@@ -257,16 +260,16 @@ export default function ProfilePage() {
               ))}
             </div>
           ) : (
-            <div className="crypt-profile-placeholder">Badges sync when server progress ships</div>
+            <div className="crypt-profile-placeholder">{t("profile.cosmetics.empty")}</div>
           )}
         </section>
 
         <div className="crypt-profile-signout">
           <button type="button" className="crypt-profile-signout-btn" onClick={onSignOut}>
-            Close dossier · return to gate
+            {t("profile.signout.btn")}
           </button>
           <p className="mt-3 text-xs text-[color:var(--color-crypt-muted)]">
-            Clears guest stub on device only—no remote sign-out yet.
+            {t("profile.signout.note")}
           </p>
         </div>
       </CryptPageFrame>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { t } from "../i18n";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { getProgressSnapshot } from "../lib/localProgress";
 
@@ -17,45 +18,43 @@ export default function ShopPage() {
 
   return (
     <CryptPageFrame
-      eyebrow="Reliquary · preview"
-      title="Claim the next relic"
-      lead="No checkout or inventory. $CRYPT matches your field ledger on device—not entitlements, not on-chain in this build."
+      eyebrow={t("shop.eyebrow")}
+      title={t("shop.title")}
+      lead={t("shop.lead")}
     >
-      <div className="crypt-shop-simple" role="region" aria-label="Reliquary preview">
+      <div className="crypt-shop-simple" role="region" aria-label={t("shop.region.aria")}>
         <p className="crypt-lore-whisper">
-          Crypt Legends stays skill-first—vanity for mats, backs, passes, never pay-to-win by intent.
+          {t("shop.whisper")}
         </p>
         <div className="crypt-preview-banner" role="status">
-          <strong>Preview</strong> — counter sealed. Boards, backs, season goods for Crypt Digital Trading Cards arrive with
-          commerce—nothing purchasable today.
+          <strong>{t("shop.banner.tag")}</strong>{t("shop.banner.copy")}
         </div>
 
-        <aside className="crypt-shop-balance" aria-label="Balance">
-          <p className="crypt-shop-balance-label">$CRYPT (device ledger)</p>
+        <aside className="crypt-shop-balance" aria-label={t("shop.balance.aria")}>
+          <p className="crypt-shop-balance-label">{t("shop.balance.label")}</p>
           <p className="crypt-shop-balance-value">{snap.cryptBalance}</p>
-          <p className="crypt-shop-balance-note">Same closed-alpha stub as Home · skill and earn paths stay first</p>
+          <p className="crypt-shop-balance-note">{t("shop.balance.note")}</p>
         </aside>
 
         <p className="crypt-shell-lead m-0 max-w-[52ch]">
-          Collectible-first, tactical at core: when the Reliquary opens, receipts stay clear for cosmetics, mats, backs,
-          events, passes—prestige without power creep by design.
+          {t("shop.body")}
         </p>
 
         <ul className="crypt-shop-roadmap-list">
-          <li>Checkout, receipts, and entitlement sync</li>
-          <li>Real SKUs priced in $CRYPT or fiat</li>
-          <li>Seasonal drops tuned from the server</li>
+          <li>{t("shop.roadmap.checkout")}</li>
+          <li>{t("shop.roadmap.skus")}</li>
+          <li>{t("shop.roadmap.drops")}</li>
         </ul>
 
-        <nav className="crypt-shop-foot" aria-label="Leave reliquary">
+        <nav className="crypt-shop-foot" aria-label={t("shop.foot.aria")}>
           <Link to="/home" className="crypt-shop-foot-link">
-            Command hub
+            {t("shop.foot.hub")}
           </Link>
           <Link to="/play" className="crypt-shop-foot-link">
-            Field
+            {t("shop.foot.field")}
           </Link>
           <Link to="/profile" className="crypt-shop-foot-link crypt-shop-foot-link--muted">
-            Dossier
+            {t("shop.foot.dossier")}
           </Link>
         </nav>
       </div>
