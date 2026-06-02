@@ -160,7 +160,7 @@ export default function PlayableCard({
         ].join(" ")}
       >
         <span className="uppercase tracking-wider">{ui.role}</span>
-        {ui.faction !== "—" && <span>{ui.faction}</span>}
+        {ui.faction !== "—" && <span>{ui.faction.replace(/_/g, " ")}</span>}
       </div>
       {ui.keywords.length > 0 && (
         <div className="mt-1 flex flex-wrap gap-1">

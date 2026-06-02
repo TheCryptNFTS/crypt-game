@@ -85,7 +85,7 @@ export default function CommanderCard({
         </div>
         {ui.faction !== "—" && (
           <div className="mt-0.5 font-mono text-[9px] tracking-wide text-[color:var(--color-crypt-muted)]">
-            {ui.faction}
+            {ui.faction.replace(/_/g, " ")}
           </div>
         )}
       </div>

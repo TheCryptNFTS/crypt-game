@@ -290,7 +290,7 @@ function CardActionModal({
         <div className="mb-4 flex items-start justify-between gap-3">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-[color:var(--color-crypt-muted)]">
-              Bazaar · {entry.faction} · {entry.rarity ?? "—"}
+              Bazaar · {entry.faction.replace(/_/g, " ")} · {entry.rarity ?? "—"}
             </p>
             <h2 className="mt-1 font-semibold text-[color:var(--color-crypt-text)]">{entry.name}</h2>
           </div>
