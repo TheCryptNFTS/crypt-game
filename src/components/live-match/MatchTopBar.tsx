@@ -54,8 +54,12 @@ export function MatchTopBar({
           key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
         >
           <span className="live-topbar__label">Your Nexus</span>
-          <div className="ph-crystal ph-crystal--own">
-            <div className="ph-crystal__gem">
+          <div
+            className="ph-crystal ph-crystal--own"
+            role="img"
+            aria-label={`Your Nexus health ${p1Health}`}
+          >
+            <div className="ph-crystal__gem" aria-hidden="true">
               <span className="ph-crystal__value">{p1Health}</span>
             </div>
           </div>
@@ -67,8 +71,12 @@ export function MatchTopBar({
           key={`enemy-nexus-${enemyNexusHit?.key ?? "idle"}`}
         >
           <span className="live-topbar__label">Enemy Nexus</span>
-          <div className="ph-crystal ph-crystal--enemy">
-            <div className="ph-crystal__gem">
+          <div
+            className="ph-crystal ph-crystal--enemy"
+            role="img"
+            aria-label={`Enemy Nexus health ${p2Health}`}
+          >
+            <div className="ph-crystal__gem" aria-hidden="true">
               <span className="ph-crystal__value">{p2Health}</span>
             </div>
           </div>
@@ -77,8 +85,12 @@ export function MatchTopBar({
 
         <div className="live-topbar__pill live-topbar__pill--energy">
           <span className="live-topbar__label">Energy</span>
-          <div className="ph-energy">
-            <div className="ph-energy__pips">
+          <div
+            className="ph-energy"
+            role="img"
+            aria-label={`Energy ${energy} of ${maxEnergy}`}
+          >
+            <div className="ph-energy__pips" aria-hidden="true">
               {Array.from({ length: Math.max(0, maxEnergy) }).map((_, i) => (
                 <span
                   key={i}
@@ -86,7 +98,7 @@ export function MatchTopBar({
                 />
               ))}
             </div>
-            <span className="ph-energy__count">
+            <span className="ph-energy__count" aria-hidden="true">
               {energy}<small> / {maxEnergy}</small>
             </span>
           </div>

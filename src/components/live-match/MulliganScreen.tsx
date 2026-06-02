@@ -57,7 +57,7 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
         </p>
       </div>
 
-      <div className="mulligan-screen__rail">
+      <div className="mulligan-screen__rail" role="group" aria-label="Opening hand">
         {cards.map((card, index) => {
           const marked = redraw.has(index);
           return (
@@ -68,6 +68,9 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
                 marked ? " mulligan-card--redraw" : ""
               }`}
               aria-pressed={marked}
+              aria-label={`${card.name}, ${card.kind}, cost ${card.baseStats.cost}. ${
+                marked ? "Marked for redraw" : "Keeping"
+              }. Activate to toggle.`}
               onClick={() => toggle(index)}
             >
               <span className="mulligan-card__cost">{card.baseStats.cost}</span>
@@ -80,7 +83,7 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
       </div>
 
       <div className="mulligan-screen__actions">
-        <span className="mulligan-screen__count">
+        <span className="mulligan-screen__count" role="status" aria-live="polite">
           {redrawCount === 0
             ? "Keeping full hand"
             : `Redrawing ${redrawCount} card${redrawCount === 1 ? "" : "s"}`}

@@ -13,6 +13,13 @@ type BoardCardProps = {
 export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
   const theme = factionTheme[card.faction];
 
+  const states = [
+    card.exhausted ? "exhausted" : "",
+    card.damaged ? "damaged" : "",
+    card.equipped ? "equipped" : ""
+  ].filter(Boolean);
+  const stateText = states.length ? `, ${states.join(", ")}` : "";
+
   return (
     <button
       type="button"
@@ -25,6 +32,7 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
         motion ? `mm-${motion}` : ""
       ].join(" ")}
       onClick={() => onInspect?.(card)}
+      aria-label={`${card.name}, ${card.liveStats.attack} attack, ${card.liveStats.health} health, ${card.liveStats.armor} armor, ${card.liveStats.speed} speed${stateText}`}
       style={{
         borderColor: theme.edge,
         boxShadow: theme.shadow

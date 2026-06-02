@@ -41,6 +41,8 @@ export function HandCard({ card, onSelect }: HandCardProps) {
       type="button"
       className={`crypt-card crypt-card--hand ${card.selected ? "is-selected" : ""}`}
       onClick={() => onSelect?.(card)}
+      aria-pressed={card.selected ?? false}
+      aria-label={`Play ${card.name}, ${card.kind}, cost ${card.liveStats.cost ?? 0}, ${card.liveStats.attack} attack, ${card.liveStats.health} health`}
       style={{
         borderColor: theme.edge,
         boxShadow: theme.shadow
