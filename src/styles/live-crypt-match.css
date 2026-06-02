@@ -523,11 +523,31 @@
 
 /* Tighter lanes on the new field (the old .live-board-stack overrides no longer
    apply since the markup changed). */
+/* Field lanes = TRANSLUCENT terrain so the battlefield arena shows through,
+   not opaque dark boxes. A faint inner hex-edge sells "ground". */
 .crypt-side__lanes .live-lane {
   padding: 4px 10px 6px;
   border-radius: 12px;
-  border-color: rgba(245,242,232,0.06);
-  background: rgba(255,255,255,0.012);
+  border: 1px solid rgba(245,242,232,0.05);
+  background:
+    linear-gradient(180deg, rgba(245,242,232,0.02), rgba(11,11,13,0.18)) !important;
+  box-shadow: inset 0 0 30px -12px rgba(0,0,0,0.6) !important;
+}
+/* Enemy ground reads faintly red; your ground faintly gold. */
+.crypt-side--enemy .crypt-side__lanes .live-lane {
+  background:
+    linear-gradient(180deg, rgba(255,77,77,0.05), rgba(11,11,13,0.16)) !important;
+}
+.crypt-side--own .crypt-side__lanes .live-lane {
+  background:
+    linear-gradient(180deg, rgba(11,11,13,0.16), rgba(233,201,132,0.05)) !important;
+}
+/* A deploy-ready lane glows its accent so the player sees WHERE to play. */
+.crypt-side__lanes .live-lane.live-lane--deploy {
+  border-color: rgba(233,201,132,0.45);
+  box-shadow:
+    inset 0 0 24px -6px rgba(233,201,132,0.3),
+    0 0 16px -6px rgba(233,201,132,0.35) !important;
 }
 .crypt-side__lanes .live-lane__header {
   margin-bottom: 2px;
