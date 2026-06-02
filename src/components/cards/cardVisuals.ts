@@ -2,16 +2,18 @@ import type { CSSProperties } from "react";
 
 /** Per-faction tint used for edge + premium inner glow + foil. */
 function factionTint(faction: string | undefined): string {
+  // Match by substring so BOTH the short code ("STONE") and the full code
+  // ("STONE_KEEPERS" / "Stone Keepers") resolve. The bug was that every card
+  // fell through to the default cyan because the keys were short-only — so the
+  // premium faction glow was always weak/cyan and the cards read as flat.
   const f = (faction ?? "").toUpperCase();
-  const stops: Record<string, string> = {
-    STONE: "rgba(140, 140, 150, 0.55)",
-    IRON: "rgba(120, 145, 170, 0.6)",
-    BRONZE: "rgba(180, 120, 75, 0.55)",
-    SILVER: "rgba(150, 205, 220, 0.55)",
-    GOLD: "rgba(201, 164, 58, 0.65)",
-    GOD: "rgba(168, 120, 240, 0.55)",
-  };
-  return stops[f] ?? "rgba(107, 221, 245, 0.4)";
+  if (f.includes("STONE")) return "rgba(176, 180, 196, 0.8)";
+  if (f.includes("IRON")) return "rgba(122, 166, 255, 0.8)";
+  if (f.includes("BRONZE")) return "rgba(201, 139, 72, 0.85)";
+  if (f.includes("SILVER")) return "rgba(150, 215, 235, 0.8)";
+  if (f.includes("GOLD") || f.includes("SOVEREIGN")) return "rgba(233, 201, 132, 0.9)";
+  if (f.includes("GOD")) return "rgba(183, 155, 255, 0.85)";
+  return "rgba(233, 201, 132, 0.55)"; // brand gold fallback (not cyan)
 }
 
 /** Edge tint from faction — subtle, not fantasy rainbow. */
