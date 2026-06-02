@@ -87,12 +87,15 @@ export default function PlayHubPage() {
 
   const previewSample = useMemo(() => mainDeck.slice(0, 6), [mainDeck]);
 
-  // A friend "Challenge" from the Friends page routes here with their private
-  // code in navigation state; hand it to the ChallengePanel to pre-fill Join.
+  // A friend "Challenge" pre-fills Join — either via in-app navigation state
+  // (Friends page) OR a shared deep-link `/play?challenge=<code>` (challenge
+  // links). Hand whichever is present to the ChallengePanel.
   const challengeCode = useMemo(() => {
     const state = location.state as { challengeCode?: unknown } | null;
-    return typeof state?.challengeCode === "string" ? state.challengeCode : undefined;
-  }, [location.state]);
+    if (typeof state?.challengeCode === "string") return state.challengeCode;
+    const fromUrl = new URLSearchParams(location.search).get("challenge");
+    return fromUrl ? fromUrl.trim() : undefined;
+  }, [location.state, location.search]);
 
   /** The deck bootstrap we enqueue with: the locally-stored loadout. */
   const myDeckBootstrap = useMemo(
