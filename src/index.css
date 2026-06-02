@@ -2702,9 +2702,15 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 14px;
 }
 
-.crypt-play-sections .crypt-play-loadout {
-  margin-top: 0;
+/* New-user priority: the PLAY MODES (Find Match / Play Solo) come FIRST so the
+   primary action isn't buried below a full-height deck preview. DOM order is
+   unchanged (logic-safe) — only the visual order flips via flexbox. */
+.crypt-play-sections {
+  display: flex;
+  flex-direction: column;
 }
+.crypt-play-sections .crypt-play-modes { order: 1; }
+.crypt-play-sections .crypt-play-loadout { order: 2; margin-top: 0; }
 
 .crypt-play-loadout {
   margin-bottom: clamp(32px, 5vw, 48px);
