@@ -2,17 +2,23 @@ import { allCommanders } from "../engine/commanders";
 import { allPlayableCards } from "../engine/cards";
 import { fallbackAsset } from "./fallbackAsset";
 import { CommanderVM, PlayCardVM } from "../ui/cryptTypes";
-import { getCommanderImageUrl, getCardImageUrl } from "../data/openseaImageIndex";
 import generatedTcgCards from "../data/generatedTcgCards.json";
+import commanderArt from "../data/commanderArt.json";
 
 // Real reveal art keyed by engine card id (tcg_*). allPlayableCards (the match's
 // card source) carries NO imageUrl, so in-match cards were falling back to the
 // "CRYPT" placeholder while the Vault showed full art. This map (same data the
 // Vault uses, already bundled via cards.ts so zero extra weight) fixes that.
+// NOTE: this replaces the old openseaImageIndex import, which pulled the 21.5MB
+// openseaAssets.json + 7MB cardMaster.json into the MATCH chunk (~28MB on the
+// match screen). We now resolve cards from generatedTcgCards (3MB, already
+// loaded) and commanders from the tiny commanderArt.json (1.9KB, build-extracted
+// from the render manifest) — keeping that 28MB off the critical path.
 const cardArtById = new Map<string, string>();
 for (const c of generatedTcgCards as Array<{ id?: string; imageUrl?: string | null }>) {
   if (c.id && c.imageUrl) cardArtById.set(c.id, c.imageUrl);
 }
+const commanderArtById = commanderArt as Record<string, string>;
 
 const factionMap: Record<string, "STONE" | "IRON" | "BRONZE" | "SILVER" | "GOLD" | "GOD"> = {
   STONE_KEEPERS: "STONE",
@@ -60,10 +66,7 @@ function getCardMeta(cardId: string) {
 
 function resolveCommanderImage(raw: any) {
   return (
-    getCommanderImageUrl({
-      tokenId: raw?.tokenId,
-      name: raw?.name,
-    }) ||
+    (raw?.id && commanderArtById[raw.id]) ||
     raw?.imageUrl ||
     raw?.image ||
     raw?.image_url ||
@@ -74,10 +77,6 @@ function resolveCommanderImage(raw: any) {
 function resolvePlayableCardImage(card: any) {
   return (
     (card?.id && cardArtById.get(card.id)) ||
-    getCardImageUrl({
-      tokenId: card?.tokenId,
-      name: card?.name,
-    }) ||
     card?.imageUrl ||
     card?.image ||
     card?.image_url ||
