@@ -1,0 +1,168 @@
+/* polish-cards.css — additive AAA card polish.
+   Imported from CardFrame.tsx only. Does NOT alter layout structure or the
+   square art region. Faction tint is driven by the --cf-faction CSS var set
+   inline in CardFrame; foil is gated to high rarities via crypt-foil-* classes.
+   Keep this file additive: enhance existing chrome, never restructure it. */
+
+/* ── Premium frame: metal bevel edge + faction-tinted inner glow ───────────── */
+.crypt-card-premium {
+  --cf-faction: rgba(107, 221, 245, 0.4);
+  /* Layered edge: outer drop, crisp bevel highlight (top) + shade (bottom). */
+  box-shadow:
+    var(--shadow-card-edge, 0 8px 24px rgba(0, 0, 0, 0.55)),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Inner border glow tinted by faction — sits above chrome ::before. */
+.crypt-card-premium::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 6;
+  border: 1px solid color-mix(in srgb, var(--cf-faction) 50%, transparent);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 0 18px -4px var(--cf-faction);
+  opacity: 0.85;
+  transition: opacity 0.38s ease, box-shadow 0.38s ease;
+}
+
+.crypt-card-interactive.crypt-card-premium:hover::after {
+  opacity: 1;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 26px -3px var(--cf-faction);
+}
+
+/* Refined footer sill — brushed-metal gradient + top bevel line. */
+.crypt-card-premium .crypt-footer-sill {
+  position: relative;
+  background:
+    linear-gradient(180deg, #15151f 0%, #0b0b12 45%, #07070c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+}
+.crypt-card-premium .crypt-footer-sill::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--cf-faction) 60%, transparent) 50%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ── Sculpted rarity gem/bar — replaces the flat 3px strip ─────────────────── */
+.crypt-rarity-gem {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1px;
+  /* Per-rarity colors set via --rg-a / --rg-b below. */
+  --rg-a: #3a3a44;
+  --rg-b: #1b1b22;
+  background: linear-gradient(90deg, var(--rg-b) 0%, var(--rg-a) 50%, var(--rg-b) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.55),
+    0 0 6px -1px color-mix(in srgb, var(--rg-a) 70%, transparent);
+}
+/* Centered jewel highlight — gives the bar a sculpted, lit-from-center read. */
+.crypt-rarity-gem::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 180% at 50% -40%,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.08) 22%,
+    transparent 55%
+  );
+}
+
+.crypt-rarity-common   { --rg-a: #6a6a74; --rg-b: #2b2b32; }
+.crypt-rarity-uncommon { --rg-a: #46c08a; --rg-b: #103225; }
+.crypt-rarity-rare     { --rg-a: #5aa6e8; --rg-b: #12283f; }
+.crypt-rarity-epic     { --rg-a: #38c6d6; --rg-b: #0d3138; }
+.crypt-rarity-legendary{ --rg-a: #b58bff; --rg-b: #271640; }
+.crypt-rarity-mythic   { --rg-a: #ffb347; --rg-b: #402311; }
+.crypt-rarity-oneofone { --rg-a: #ffe08a; --rg-b: #3a2c0a; }
+.crypt-rarity-commander{ --rg-a: #e9c984; --rg-b: #3a2a0e; }
+
+/* Top rarities get a moving spec gleam along the bar. */
+.crypt-rarity-legendary::before,
+.crypt-rarity-mythic::before,
+.crypt-rarity-oneofone::before,
+.crypt-rarity-commander::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  animation: crypt-gem-gleam 3.6s ease-in-out infinite;
+}
+
+@keyframes crypt-gem-gleam {
+  0%, 60% { transform: translateX(-120%); }
+  100%    { transform: translateX(120%); }
+}
+
+/* ── Foil shimmer — gated to high rarities only (perf on big grids) ─────────── */
+.crypt-foil {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.16) 44%,
+    var(--cf-faction, rgba(255, 255, 255, 0.25)) 50%,
+    rgba(255, 255, 255, 0.16) 56%,
+    transparent 70%
+  );
+  background-size: 280% 280%;
+  background-position: 120% 0%;
+  animation: crypt-foil-sheen 5.5s ease-in-out infinite;
+}
+.crypt-foil-strong {
+  opacity: 0.7;
+  animation-duration: 4.2s;
+}
+
+@keyframes crypt-foil-sheen {
+  0%, 55% { background-position: 120% 0%; }
+  100%    { background-position: -40% 0%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crypt-rarity-legendary::before,
+  .crypt-rarity-mythic::before,
+  .crypt-rarity-oneofone::before,
+  .crypt-rarity-commander::before,
+  .crypt-foil {
+    animation: none;
+  }
+  .crypt-foil { opacity: 0.32; background-position: 50% 0%; }
+}

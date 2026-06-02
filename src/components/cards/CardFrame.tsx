@@ -1,5 +1,11 @@
 import type { ReactNode } from "react";
-import { factionEdgeStyle, rarityStripClass } from "./cardVisuals";
+import {
+  factionEdgeStyle,
+  factionVarStyle,
+  foilClass,
+  rarityGemClass,
+} from "./cardVisuals";
+import "../../styles/polish-cards.css";
 
 export type CardFrameProps = {
   commander?: boolean;
@@ -23,10 +29,11 @@ export default function CardFrame({
   art,
   footer,
 }: CardFrameProps) {
+  const foil = foilClass(rarity, commander);
   return (
     <div
       className={[
-        "crypt-card-chrome relative flex flex-col overflow-hidden",
+        "crypt-card-chrome crypt-card-premium relative flex flex-col overflow-hidden",
         commander ? "crypt-card-chrome-commander" : "",
         interactive ? "crypt-card-interactive cursor-pointer" : "",
         chromeStateClass,
@@ -34,6 +41,7 @@ export default function CardFrame({
       ]
         .filter(Boolean)
         .join(" ")}
+      style={factionVarStyle(faction)}
     >
       {commander && <div className="crypt-commander-crest" aria-hidden />}
       <div
@@ -41,6 +49,7 @@ export default function CardFrame({
         style={factionEdgeStyle(faction)}
         aria-hidden
       />
+      {foil && <div className={foil} aria-hidden />}
       <div
         className={[
           "crypt-card-art relative aspect-square w-full shrink-0",
@@ -53,13 +62,13 @@ export default function CardFrame({
       </div>
       <div
         className={[
-          "relative z-20 shrink-0 border-t border-white/[0.06]",
+          "crypt-footer-sill relative z-20 shrink-0 border-t border-white/[0.06]",
           commander ? "crypt-commander-footer-sill" : "bg-[#0a0a12]",
         ]
           .filter(Boolean)
           .join(" ")}
       >
-        <div className={["h-[3px] w-full", rarityStripClass(rarity)].join(" ")} aria-hidden />
+        <div className={rarityGemClass(rarity, commander)} aria-hidden />
         <div className={commander ? "px-2 py-1.5" : "px-1.5 py-1"}>{footer}</div>
       </div>
     </div>
