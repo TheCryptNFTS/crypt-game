@@ -10,15 +10,20 @@
  */
 
 /* ---- Unit enters the board (card-play / deploy) -------------------------- */
+/* Punchier slam: a bigger overshoot pop + a brighter flash on landing. */
 @keyframes mm-unit-enter {
   0% {
     opacity: 0;
-    transform: translateY(14px) scale(0.9);
-    filter: brightness(1.6);
+    transform: translateY(22px) scale(0.82);
+    filter: brightness(2.1);
   }
-  55% {
+  45% {
     opacity: 1;
-    transform: translateY(-3px) scale(1.03);
+    transform: translateY(-7px) scale(1.09);
+    filter: brightness(1.4);
+  }
+  70% {
+    transform: translateY(2px) scale(0.98);
   }
   100% {
     opacity: 1;
@@ -28,23 +33,24 @@
 }
 
 .crypt-card--board.mm-enter {
-  animation: mm-unit-enter 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: mm-unit-enter 460ms cubic-bezier(0.18, 0.9, 0.22, 1.2) both;
 }
 
-/* A one-shot deploy ring sweep behind the freshly-played unit. */
+/* A one-shot deploy ring sweep behind the freshly-played unit — brighter,
+ * thicker, and expanding further for a real "shockwave" read. */
 .crypt-card--board.mm-enter::after {
   content: "";
   position: absolute;
-  inset: -3px;
+  inset: -4px;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: 0 0 0 2px rgba(141, 92, 255, 0.55);
-  animation: mm-deploy-ring 520ms ease-out both;
+  box-shadow: 0 0 0 3px rgba(141, 92, 255, 0.85), 0 0 26px rgba(141, 92, 255, 0.55);
+  animation: mm-deploy-ring 620ms cubic-bezier(0.1, 0.7, 0.3, 1) both;
 }
 
 @keyframes mm-deploy-ring {
-  0% { opacity: 0.9; transform: scale(0.96); }
-  100% { opacity: 0; transform: scale(1.08); }
+  0% { opacity: 1; transform: scale(0.92); }
+  100% { opacity: 0; transform: scale(1.22); }
 }
 
 /* ---- Unit takes damage (HP dropped, still alive) ------------------------- */
@@ -83,34 +89,61 @@
   0% {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-    filter: brightness(1) grayscale(0);
+    filter: brightness(1) grayscale(0) blur(0);
   }
-  35% {
-    filter: brightness(1.5) grayscale(0.2);
+  18% {
+    /* a hard white blow-out flash as it's struck down */
+    transform: scale(1.08) rotate(1deg);
+    filter: brightness(2.4) grayscale(0.1) blur(0);
+  }
+  42% {
+    transform: scale(0.96) rotate(-2deg);
+    filter: brightness(1.1) grayscale(0.5) blur(0.4px);
   }
   100% {
     opacity: 0;
-    transform: scale(0.82) translateY(10px) rotate(-2deg);
-    filter: brightness(0.4) grayscale(0.85);
+    /* crumble: shrink, tumble, desaturate to ash, and dissolve to blur */
+    transform: scale(0.62) translateY(22px) rotate(-7deg);
+    filter: brightness(0.25) grayscale(1) blur(3px);
   }
 }
 
 .mm-death-wrap {
-  animation: mm-unit-death 460ms cubic-bezier(0.4, 0, 0.7, 0.2) both;
+  animation: mm-unit-death 560ms cubic-bezier(0.45, 0, 0.65, 0.25) both;
   pointer-events: none;
 }
 
 /* ---- Attacker lunge (the unit that struck) ------------------------------- */
+/* Snappier: a fast wind-up, a hard lunge, a sharp recoil, then a settle — with
+ * a gold impact flare at the moment of contact. */
 @keyframes mm-attack-lunge {
   0% { transform: translateY(0) scale(1); }
-  30% { transform: translateY(-10px) scale(1.05); }
-  55% { transform: translateY(2px) scale(1.02); box-shadow: 0 0 26px rgba(240, 210, 79, 0.4); }
+  16% { transform: translateY(6px) scale(0.95); }            /* coil back */
+  40% { transform: translateY(-18px) scale(1.12); }          /* hard lunge */
+  52% {
+    transform: translateY(-12px) scale(1.08);
+    box-shadow: 0 0 38px rgba(240, 210, 79, 0.75), 0 0 14px rgba(255, 255, 255, 0.5);
+  }
+  70% { transform: translateY(7px) scale(0.97); }            /* recoil */
   100% { transform: translateY(0) scale(1); }
 }
 
 .crypt-card--board.mm-attack {
-  animation: mm-attack-lunge 380ms cubic-bezier(0.3, 0.7, 0.3, 1) both;
+  animation: mm-attack-lunge 420ms cubic-bezier(0.34, 1.3, 0.5, 1) both;
   z-index: 4;
+}
+
+/* A white impact flash at the moment of contact on the attacker. */
+.crypt-card--board.mm-attack::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 35%, rgba(240, 210, 79, 0.6), rgba(240, 210, 79, 0) 70%);
+  mix-blend-mode: screen;
+  animation: mm-impact-flash 320ms ease-out 120ms both;
+  z-index: 5;
 }
 
 /* A positioned slot lets us overlay floating numbers / death ghosts without
@@ -159,21 +192,42 @@
 }
 
 /* ---- Nexus damage: pill shake + red flash -------------------------------- */
+/* Escalating shake: starts violent, decays. Bigger throw + a slight scale-punch
+ * so a nexus hit really lands. */
 @keyframes mm-nexus-shake {
-  0% { transform: translate(0, 0); }
-  15% { transform: translate(-3px, 1px); }
-  30% { transform: translate(3px, -1px); }
-  45% { transform: translate(-2px, 1px); }
-  60% { transform: translate(2px, 0); }
-  80% { transform: translate(-1px, 0); }
-  100% { transform: translate(0, 0); }
+  0% { transform: translate(0, 0) scale(1.06); }
+  10% { transform: translate(-7px, 2px) scale(1.05); }
+  22% { transform: translate(6px, -3px) scale(1.04); }
+  34% { transform: translate(-5px, 2px) scale(1.03); }
+  46% { transform: translate(5px, -1px) scale(1.02); }
+  60% { transform: translate(-3px, 1px) scale(1.01); }
+  76% { transform: translate(2px, 0) scale(1); }
+  88% { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 .live-topbar__pill.mm-nexus-hit {
   position: relative;
-  animation: mm-nexus-shake 420ms ease-in-out both;
-  border-color: rgba(255, 106, 106, 0.5) !important;
-  box-shadow: 0 0 22px rgba(255, 106, 106, 0.35), inset 0 0 0 1px rgba(255, 106, 106, 0.3) !important;
+  animation: mm-nexus-shake 500ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  border-color: rgba(255, 106, 106, 0.7) !important;
+  box-shadow: 0 0 34px rgba(255, 106, 106, 0.55), inset 0 0 0 1px rgba(255, 106, 106, 0.45) !important;
+}
+
+/* An expanding red shockwave ring radiating out of the struck nexus pill. */
+.live-topbar__pill.mm-nexus-hit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(255, 106, 106, 0.8), 0 0 30px rgba(255, 106, 106, 0.5);
+  animation: mm-nexus-shockwave 560ms cubic-bezier(0.1, 0.7, 0.3, 1) both;
+  z-index: 2;
+}
+
+@keyframes mm-nexus-shockwave {
+  0% { opacity: 1; transform: scale(0.9); }
+  100% { opacity: 0; transform: scale(1.5); }
 }
 
 .live-topbar__pill.mm-nexus-hit strong {
@@ -181,17 +235,37 @@
   transition: color 420ms ease;
 }
 
-/* The whole board flinches a touch when YOUR nexus is struck. */
+/* The whole board flinches hard when YOUR nexus is struck — a quick kick with a
+ * subtle red vignette pulse to sell the impact. */
 @keyframes mm-board-flinch {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-4px, 0); }
-  40% { transform: translate(4px, 0); }
-  60% { transform: translate(-2px, 0); }
-  100% { transform: translate(0, 0); }
+  0% { transform: translate(0, 0) scale(1); }
+  14% { transform: translate(-9px, 3px) scale(1.006); }
+  30% { transform: translate(8px, -3px) scale(1.004); }
+  48% { transform: translate(-5px, 2px) scale(1.002); }
+  66% { transform: translate(3px, -1px) scale(1); }
+  84% { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 .live-match-shell.mm-flinch {
-  animation: mm-board-flinch 340ms ease-in-out both;
+  animation: mm-board-flinch 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* A brief red edge-vignette flash across the whole shell on a nexus hit. */
+.live-match-shell.mm-flinch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 54; /* under the fx canvas (55) + banner (60) */
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 106, 106, 0) 55%, rgba(255, 106, 106, 0.28) 100%);
+  animation: mm-flinch-vignette 420ms ease-out both;
+}
+
+@keyframes mm-flinch-vignette {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* ---- Turn-change banner -------------------------------------------------- */
@@ -825,9 +899,12 @@
   .mm-fx-canvas { display: none; }
   .mc-rays,
   .crypt-card--board.mm-enter::after,
+  .crypt-card--board.mm-attack::after,
   .crypt-card--board.mm-damage::before,
   .crypt-card--board.mm-damage::after,
   .mm-death-wrap::after,
+  .live-topbar__pill.mm-nexus-hit::after,
+  .live-match-shell.mm-flinch::after,
   .live-hand__item.mm-hand-draw::after,
   .live-gameover__panel--win::before,
   .mc-rays::before,

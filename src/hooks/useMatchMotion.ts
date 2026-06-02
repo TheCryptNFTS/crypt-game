@@ -181,9 +181,11 @@ export function useMatchMotion(input: MatchMotionInput) {
     if (died.length) {
       setDying((cur) => [...cur, ...died]);
       const deadIds = died.map((d) => d.id);
+      // Keep the ghost mounted for the full (intensified) dissolve — see
+      // mm-unit-death (560ms) in match-motion.css.
       schedule(() => {
         setDying((cur) => cur.filter((d) => !deadIds.includes(d.id)));
-      }, 520);
+      }, 600);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input.ownFront, input.ownBack, input.enemyFront, input.enemyBack]);
@@ -198,7 +200,9 @@ export function useMatchMotion(input: MatchMotionInput) {
       setOwnNexusHit({ key: nextKey(), damage: prev.own - input.ownNexus });
       setBoardFlinch(true);
       schedule(() => setOwnNexusHit(null), 950);
-      schedule(() => setBoardFlinch(false), 360);
+      // Hold the flinch class for the full intensified board-flinch beat
+      // (mm-board-flinch is 420ms in match-motion.css).
+      schedule(() => setBoardFlinch(false), 430);
     }
     if (input.enemyNexus < prev.enemy) {
       setEnemyNexusHit({ key: nextKey(), damage: prev.enemy - input.enemyNexus });
