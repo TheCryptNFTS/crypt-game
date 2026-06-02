@@ -1,3 +1,4 @@
+import { Children, Fragment, isValidElement } from "react";
 import type { ReactNode } from "react";
 import {
   factionEdgeStyle,
@@ -5,7 +6,35 @@ import {
   foilClass,
   rarityGemClass,
 } from "./cardVisuals";
+import LazyImage from "../LazyImage";
 import "../../styles/polish-cards.css";
+
+/**
+ * If the art node is the raw <img> the card components hand us, transparently
+ * route it through LazyImage (lazy/async decode, fade-in, seadn CDN downscale)
+ * while preserving every prop so the .crypt-card-art img CSS still applies.
+ * Any non-<img> art (placeholder div, overlays fragment) passes through as-is.
+ */
+function swapImg(node: ReactNode): ReactNode {
+  if (isValidElement(node) && node.type === "img") {
+    const { src, ...imgProps } = node.props as Record<string, unknown>;
+    return <LazyImage src={src as string | undefined} cdnWidth={320} {...imgProps} />;
+  }
+  return node;
+}
+
+function enhanceArt(art: ReactNode): ReactNode {
+  // CommanderCard hands us the <img> directly; PlayableCard wraps it in a
+  // Fragment alongside stat/cost overlays. Handle both, leaving overlays intact.
+  if (isValidElement(art) && art.type === Fragment) {
+    const children = Children.map(
+      (art.props as { children?: ReactNode }).children,
+      swapImg,
+    );
+    return <>{children}</>;
+  }
+  return swapImg(art);
+}
 
 export type CardFrameProps = {
   commander?: boolean;
@@ -58,7 +87,7 @@ export default function CardFrame({
           .filter(Boolean)
           .join(" ")}
       >
-        {art}
+        {enhanceArt(art)}
       </div>
       <div
         className={[

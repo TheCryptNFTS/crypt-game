@@ -9,6 +9,25 @@ export default defineConfig(({ command }) => ({
     tailwindcss(),
     react(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        // Split the heavy, rarely-changing data JSON and big vendor libs into
+        // their own long-cache chunks so the app shell stays small and a code
+        // change doesn't bust the multi-MB card data on every deploy.
+        manualChunks(id: string) {
+          if (id.includes("/src/data/generatedTcgCards.json")) return "data-tcg-cards";
+          if (id.includes("/src/data/runtimeMatchPlayableCards.json"))
+            return "data-runtime-match";
+          if (id.includes("renderManifest")) return "data-render-manifest";
+          if (id.includes("/node_modules/react") || id.includes("/node_modules/scheduler"))
+            return "vendor-react";
+          if (id.includes("/node_modules/")) return "vendor";
+          return undefined;
+        },
+      },
+    },
+  },
   server: {
     // asset-review/ is a scratch dir that parallel render jobs write generated
     // HTML/image output into; .cursor/ holds the agent-debug NDJSON log that the
