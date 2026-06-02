@@ -201,6 +201,257 @@ export const PUZZLES: readonly PuzzleDef[] = [
       { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_fin", defenderInstanceId: "foe_wall" },
     ],
   },
+
+  // 4 — OVER THE WALL: enemy nexus at 6 behind a GUARD. A flyer alone can't reach
+  // the face while the GUARD stands. Clear the GUARD with a ground body first, THEN
+  // the flyer swings face for exactly 6. Wrong line opens with the flyer into the
+  // face: GUARD blocks it (reject / no-op), nexus untouched.
+  {
+    id: "lethal-4",
+    title: "Over the Wall",
+    objective: "Win this turn. Open the lane before you fly in.",
+    difficulty: "Standard",
+    seed: 7004,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7004);
+      s.players.P2.nexusHealth = 6;
+      s.players.P1.board.front = [
+        unit("hero_clear", "pz_skirm", "front", 3, 3),
+        unit("hero_fly", "pz_raptor", "front", 6, 4, { keywords: ["FLYING"] }),
+      ];
+      s.players.P2.board.front = [unit("foe_wall", "pz_guard", "front", 0, 3, { keywords: ["GUARD"] })];
+      return s;
+    },
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_clear", defenderInstanceId: "foe_wall" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fly" },
+    ],
+    // Flyer into the face while the GUARD stands: blocked, no damage, nexus stays 6.
+    wrongLine: [{ type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fly" }],
+  },
+
+  // 5 — TRADE TO OPEN: enemy nexus at 5 behind a sturdy 3/4 GUARD. The expendable
+  // 5/2 trades into the wall to clear it (and dies to the counter — that's fine),
+  // freeing the 5/5 finisher to swing face for lethal. Wrong line tries to swing
+  // the finisher at the face first: the GUARD blocks it, nexus stays at 5.
+  {
+    id: "lethal-5",
+    title: "Trade to Open",
+    objective: "Win this turn. Spend the small blade to free the big one.",
+    difficulty: "Standard",
+    seed: 7005,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7005);
+      s.players.P2.nexusHealth = 5;
+      s.players.P1.board.front = [
+        unit("hero_trade", "pz_duelist", "front", 5, 2),
+        unit("hero_fin", "pz_titan", "front", 5, 5),
+      ];
+      s.players.P2.board.front = [unit("foe_wall", "pz_guard", "front", 3, 4, { keywords: ["GUARD"] })];
+      return s;
+    },
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_trade", defenderInstanceId: "foe_wall" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" },
+    ],
+    // Finisher into the face while the GUARD stands: blocked, nexus stays 5.
+    wrongLine: [{ type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" }],
+  },
+
+  // 6 — EXECUTIONER: enemy nexus at 3 behind a beefy 1/5 GUARD (maxHealth 5). A
+  // plain hit can't kill a 5-health wall this turn — but the EXECUTE attacker drops
+  // it below half (5 -> 2, 2 <= ceil(5/2)=3) and finishes it. Then the 3/3 swings
+  // face for exactly 3. Wrong line sends the finisher into the wall (no EXECUTE): the
+  // wall survives on 2, the GUARD still stands, no lethal.
+  {
+    id: "lethal-6",
+    title: "Executioner's Window",
+    objective: "Win this turn. The big wall dies only to the right blade.",
+    difficulty: "Tactical",
+    seed: 7006,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7006);
+      s.players.P2.nexusHealth = 3;
+      s.players.P1.board.front = [
+        unit("hero_exec", "pz_reaper", "front", 3, 4, { keywords: ["EXECUTE"] }),
+        unit("hero_fin", "pz_blade", "front", 3, 3),
+      ];
+      s.players.P2.board.front = [unit("foe_wall", "pz_bulwark", "front", 1, 5, { keywords: ["GUARD"] })];
+      return s;
+    },
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_exec", defenderInstanceId: "foe_wall" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" },
+    ],
+    // Finisher (no EXECUTE) into the wall: deals 3, wall lives on 2, GUARD holds.
+    wrongLine: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_fin", defenderInstanceId: "foe_wall" },
+    ],
+  },
+
+  // 7 — DON'T FEED THE LEECH: enemy nexus at 6, lethal to a single 6/8 swing — and
+  // the enemy LIFESTEAL body is NOT a GUARD, so the face is already open. Going face
+  // wins outright. The trap: trading into the 3/5 leech lets it counter for 3 and
+  // HEAL the enemy nexus by 3 (6 -> 9), and your attacker is now spent. Restraint is
+  // the puzzle: ignore the bait, hit face.
+  {
+    id: "lethal-7",
+    title: "Don't Feed the Leech",
+    objective: "Win this turn. The open face is the only line — ignore the bait.",
+    difficulty: "Tactical",
+    seed: 7007,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7007);
+      s.players.P2.nexusHealth = 6;
+      s.players.P1.board.front = [unit("hero_a", "pz_juggernaut", "front", 6, 8)];
+      s.players.P2.board.front = [unit("foe_leech", "pz_leech", "front", 3, 5, { keywords: ["LIFESTEAL"] })];
+      return s;
+    },
+    solution: [{ type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_a" }],
+    // Trading into the leech: it counters for 3 and lifesteals the enemy nexus to 9.
+    wrongLine: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_a", defenderInstanceId: "foe_leech" },
+    ],
+  },
+
+  // 8 — TWIN GATES: enemy nexus at 4 behind TWO GUARDs. Both must fall before the
+  // finisher can reach the face. Clear g1, clear g2, then crash for 4. Wrong line
+  // clears only ONE gate and tries to finish: the second GUARD blocks the face.
+  {
+    id: "lethal-8",
+    title: "Twin Gates",
+    objective: "Win this turn. Two gates stand — both must fall first.",
+    difficulty: "Tactical",
+    seed: 7008,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7008);
+      s.players.P2.nexusHealth = 4;
+      s.players.P1.board.front = [
+        unit("hero_c1", "pz_skirm", "front", 2, 2),
+        unit("hero_c2", "pz_skirm", "front", 2, 2),
+        unit("hero_fin", "pz_titan", "front", 4, 4),
+      ];
+      s.players.P2.board.front = [
+        unit("foe_g1", "pz_gate", "front", 0, 2, { keywords: ["GUARD"] }),
+        unit("foe_g2", "pz_gate", "front", 0, 2, { keywords: ["GUARD"] }),
+      ];
+      return s;
+    },
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_c1", defenderInstanceId: "foe_g1" },
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_c2", defenderInstanceId: "foe_g2" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" },
+    ],
+    // Only one gate cleared: the second GUARD still blocks the finisher's face swing.
+    wrongLine: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_c1", defenderInstanceId: "foe_g1" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" },
+    ],
+  },
+
+  // 9 — CRUSH THROUGH: enemy nexus at 3 behind a 0/2 GUARD (maxHealth 2). The lone
+  // attacker has CRUSH: when it overkills the GUARD, the excess (5 dealt - 2 health
+  // = 3) spills onto the nexus for exactly lethal. You CANNOT swing face (GUARD), so
+  // the only line is to crash the wall and let the overflow finish. Wrong line tries
+  // the face directly: the GUARD blocks it, nothing happens.
+  {
+    id: "lethal-9",
+    title: "Crush Through",
+    objective: "Win this turn. Smash the gate hard enough and the spill is lethal.",
+    difficulty: "Tactical",
+    seed: 7009,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7009);
+      s.players.P2.nexusHealth = 3;
+      s.players.P1.board.front = [unit("hero_crush", "pz_ram", "front", 5, 6, { keywords: ["CRUSH"] })];
+      s.players.P2.board.front = [unit("foe_wall", "pz_guard", "front", 0, 2, { keywords: ["GUARD"] })];
+      return s;
+    },
+    // Crash the GUARD: 5 dealt vs 2 health -> 3 overflow spills to the nexus (3 -> 0).
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_crush", defenderInstanceId: "foe_wall" },
+    ],
+    // Swing the face directly: the GUARD blocks it, nexus stays at 3.
+    wrongLine: [{ type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_crush" }],
+  },
+
+  // 10 — SHIELD POP: enemy nexus at 5 behind a shielded 0/1 GUARD. The one-shot
+  // shield eats the FIRST hit whole, so it takes TWO strikes to drop the gate before
+  // the finisher can reach the face. Tap once to pop the shield, tap again to kill,
+  // then crash for 5. Wrong line pops the shield but only hits once: the GUARD lives
+  // and still blocks the face.
+  {
+    id: "lethal-10",
+    title: "Pop the Shield",
+    objective: "Win this turn. The gate's ward eats the first blow — bring two.",
+    difficulty: "Tactical",
+    seed: 7010,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7010);
+      s.players.P2.nexusHealth = 5;
+      s.players.P1.board.front = [
+        unit("hero_tap1", "pz_skirm", "front", 1, 2),
+        unit("hero_tap2", "pz_skirm", "front", 1, 2),
+        unit("hero_fin", "pz_titan", "front", 5, 5),
+      ];
+      s.players.P2.board.front = [
+        unit("foe_gate", "pz_warded", "front", 0, 1, { keywords: ["GUARD", "SHIELD"], shielded: true }),
+      ];
+      return s;
+    },
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_tap1", defenderInstanceId: "foe_gate" },
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_tap2", defenderInstanceId: "foe_gate" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" },
+    ],
+    // One tap only pops the shield; the GUARD survives on 1 and still blocks the face.
+    wrongLine: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_tap1", defenderInstanceId: "foe_gate" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fin" },
+    ],
+  },
+
+  // 11 — RANGED PICK: enemy nexus at 5 behind a FLYING GUARD. Only a RANGED (or
+  // FLYING) attacker can target a flyer, so the ground bodies can't clear it. Use the
+  // RANGED skirmisher to shoot the flying gate down, then the FLYING finisher swings
+  // face for 5. Wrong line points a plain ground attacker at the flyer: it can't be
+  // targeted (reject / no-op), the GUARD holds, no lethal.
+  {
+    id: "lethal-11",
+    title: "Ranged Pick",
+    objective: "Win this turn. Only the right tool can pull a flyer down.",
+    difficulty: "Tactical",
+    seed: 7011,
+    heroSeat: "P1",
+    build: () => {
+      const s = blankArena(7011);
+      s.players.P2.nexusHealth = 5;
+      s.players.P1.board.front = [
+        unit("hero_ground", "pz_brute", "front", 4, 4),
+        unit("hero_ranged", "pz_archer", "front", 3, 3, { keywords: ["RANGED"] }),
+        unit("hero_fly", "pz_raptor", "front", 5, 5, { keywords: ["FLYING"] }),
+      ];
+      s.players.P2.board.front = [
+        unit("foe_skygate", "pz_skygate", "front", 0, 3, { keywords: ["GUARD", "FLYING"] }),
+      ];
+      return s;
+    },
+    solution: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_ranged", defenderInstanceId: "foe_skygate" },
+      { type: "ATTACK_FACE", player: "P1", attackerInstanceId: "hero_fly" },
+    ],
+    // The ground brute cannot target a flyer: the strike is rejected, the GUARD holds.
+    wrongLine: [
+      { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "hero_ground", defenderInstanceId: "foe_skygate" },
+    ],
+  },
 ] as const;
 
 /** Result of running a puzzle solution through the reducer. */
