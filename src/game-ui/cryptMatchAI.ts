@@ -75,6 +75,78 @@ function lanesOf(player: any): any[] {
   return [...(player?.board?.front ?? []), ...(player?.board?.back ?? [])];
 }
 
+// --- Difficulty tiers -------------------------------------------------------
+//
+// Three profiles tune HOW MUCH of the board the AI commits and HOW SMART its
+// combat is. NORMAL is the historical greedy behavior (byte-for-byte unchanged
+// so harnesses/regression stay deterministic). EASY plays passively and
+// fumbles lethal; HARD trades + tempos better and always takes lethal.
+export type AiDifficulty = "easy" | "normal" | "hard";
+
+export const AI_DIFFICULTY_KEY = "crypt_ai_difficulty";
+
+type DifficultyProfile = {
+  /** Max units to deploy per turn (board commitment / under-deploy knob). */
+  maxDeploys: number;
+  /** Skip a favorable trade and hit face instead? (EASY plays sloppily.) */
+  skipTrades: boolean;
+  /** Take lethal face damage when the swing is exact-or-over? */
+  takeLethal: boolean;
+};
+
+const PROFILES: Record<AiDifficulty, DifficultyProfile> = {
+  // EASY: under-deploys (2 units), often ignores trades, never hunts lethal.
+  easy: { maxDeploys: 2, skipTrades: true, takeLethal: false },
+  // NORMAL: the original greedy policy — 4 deploys, takes trades, no lethal math.
+  normal: { maxDeploys: 4, skipTrades: false, takeLethal: false },
+  // HARD: full board (5), always trades, and prioritizes lethal when on the table.
+  hard: { maxDeploys: 5, skipTrades: false, takeLethal: true },
+};
+
+/**
+ * Self-read the chosen difficulty from localStorage. Browser-safe: in any
+ * non-browser context (regression harnesses, SSR, Node) `localStorage` is
+ * undefined, so we fall back to NORMAL — which keeps the planner byte-identical
+ * to its historical greedy behavior and the regression suite deterministic.
+ */
+export function readAiDifficulty(): AiDifficulty {
+  try {
+    const raw =
+      typeof localStorage !== "undefined"
+        ? localStorage.getItem(AI_DIFFICULTY_KEY)
+        : null;
+    if (raw === "easy" || raw === "normal" || raw === "hard") return raw;
+  } catch {
+    // localStorage can throw (private mode / disabled storage) — treat as NORMAL.
+  }
+  return "normal";
+}
+
+// Tiny deterministic hash → [0,1). Derived from match.seed so EASY's "sloppy"
+// choices REPLAY exactly for a given match (matches the AI's no-Math.random
+// discipline). `salt` lets distinct decisions in the same turn diverge.
+function seededUnit(seed: number, salt: number): number {
+  let x = (Math.floor(seed) ^ Math.floor(salt) ^ 0x9e3779b9) >>> 0;
+  x ^= x << 13;
+  x >>>= 0;
+  x ^= x >> 17;
+  x ^= x << 5;
+  x >>>= 0;
+  return x / 0xffffffff;
+}
+
+// Stable numeric salt from an instanceId string (FNV-1a-ish). Lets each
+// attacker's seeded decision diverge while replaying for a fixed match.
+function hashInstance(id: string): number {
+  let h = 2166136261 >>> 0;
+  const s = String(id ?? "");
+  for (let i = 0; i < s.length; i += 1) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h >>> 0;
+}
+
 /**
  * Returns the sequence of actions P2 should take this turn. Does NOT mutate
  * `match`. The caller applies them one at a time; if any individual primitive
@@ -89,18 +161,22 @@ function lanesOf(player: any): any[] {
  * the POST-play state (where the new unit is live, has a real instanceId, and
  * `summoningSick` is already false for RUSH).
  */
-export function planP2Turn(match: any): AiAction[] {
+export function planP2Turn(match: any, difficulty?: AiDifficulty): AiAction[] {
   if (!match || match.winner) return [];
-  return [...planP2Plays(match), ...planP2Combat(match)];
+  // Self-read difficulty from localStorage when the caller didn't pin one. This
+  // keeps the hook/page wiring untouched: the AI reads its own setting.
+  const diff = difficulty ?? readAiDifficulty();
+  return [...planP2Plays(match, diff), ...planP2Combat(match, diff)];
 }
 
 /**
  * PHASE 1 — the play/equip/artifact plan for P2 (no combat). Pure; reads the
  * pre-play board to size an energy budget and choose targets.
  */
-export function planP2Plays(match: any): AiAction[] {
+export function planP2Plays(match: any, difficulty: AiDifficulty = "normal"): AiAction[] {
   if (!match || match.winner) return [];
 
+  const profile = PROFILES[difficulty] ?? PROFILES.normal;
   const actions: AiAction[] = [];
 
   // --- 1. Cast/play from hand within a simulated energy budget. ---
@@ -130,8 +206,9 @@ export function planP2Plays(match: any): AiAction[] {
     return true;
   };
 
-  // Fill up to a few units (board space is soft; cap to avoid dumping the hand).
-  for (let i = 0; i < 4; i += 1) {
+  // Fill up to `maxDeploys` units (board space is soft; cap to avoid dumping the
+  // hand). EASY under-deploys (2), NORMAL fills 4, HARD commits a full 5.
+  for (let i = 0; i < profile.maxDeploys; i += 1) {
     if (!tryPlayBestUnit()) break;
   }
 
@@ -228,9 +305,11 @@ export function planP2Plays(match: any): AiAction[] {
  * freshly-summoned RUSH unit (now live, real instanceId, `summoningSick` false)
  * is planned as an attacker.
  */
-export function planP2Combat(match: any): AiAction[] {
+export function planP2Combat(match: any, difficulty: AiDifficulty = "normal"): AiAction[] {
   if (!match || match.winner) return [];
 
+  const profile = PROFILES[difficulty] ?? PROFILES.normal;
+  const seed = Number(match.seed ?? 0);
   const actions: AiAction[] = [];
 
   // --- Combat: each ready P2 unit attacks. ---
@@ -261,6 +340,30 @@ export function planP2Combat(match: any): AiAction[] {
   // how much attack we have. The live unit carries `shielded` once armed.
   const isShielded = (u: any) => u?.shielded === true;
 
+  // HARD lethal check: if there is NO enemy GUARD wall and the sum of our ready
+  // attackers' damage meets-or-exceeds the enemy nexus, send EVERYTHING face for
+  // the kill, ignoring trades. (EASY/NORMAL never compute lethal — EASY by
+  // design under-reads the board, NORMAL keeps its historical greedy policy.)
+  if (profile.takeLethal && enemyGuards.length === 0) {
+    const enemyNexus = Number(match.players?.P1?.nexusHealth ?? 0);
+    let faceDmg = 0;
+    for (const a of attackers) {
+      if (!a?.instanceId) continue;
+      const swings = hasKw(a, "WINDFURY") ? 2 : 1;
+      faceDmg += (a.attack ?? 0) * swings;
+    }
+    if (enemyNexus > 0 && faceDmg >= enemyNexus) {
+      for (const a of attackers) {
+        if (!a?.instanceId) continue;
+        const swings = hasKw(a, "WINDFURY") ? 2 : 1;
+        for (let s = 0; s < swings; s += 1) {
+          actions.push({ kind: "attackFace", attackerInstanceId: a.instanceId });
+        }
+      }
+      return actions;
+    }
+  }
+
   for (const attacker of attackers) {
     if (!attacker?.instanceId) continue;
     const atk = attacker.attack ?? 0;
@@ -285,6 +388,18 @@ export function planP2Combat(match: any): AiAction[] {
           favorable = def;
         }
       }
+    }
+
+    // EASY plays sloppily: roughly half the time it walks past a favorable trade
+    // and swings face instead. Deterministic per (seed, attacker) so a match
+    // replays identically — no Math.random (matches the AI's randomness rule).
+    if (
+      profile.skipTrades &&
+      favorable &&
+      enemyGuards.length === 0 &&
+      seededUnit(seed, hashInstance(attacker.instanceId)) < 0.5
+    ) {
+      favorable = null;
     }
 
     // Plan up to `swings` attacks for this unit. The hook applies them in order
