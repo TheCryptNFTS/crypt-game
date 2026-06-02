@@ -56,7 +56,7 @@ function SideBoard({ state, seat, label }: { state: MatchState; seat: PlayerId; 
       </div>
       <div className="crypt-puzzle-lane">
         {units.length === 0 ? (
-          <span className="crypt-puzzle-empty">— empty —</span>
+          <span className="crypt-puzzle-empty">{t("puzzle.board.empty")}</span>
         ) : (
           units.map((u) => <UnitChip key={u.instanceId} unit={u} dead={u.health <= 0} />)
         )}
@@ -87,9 +87,9 @@ function PuzzleCard({ puzzle }: { puzzle: PuzzleDef }) {
       </p>
 
       <div className="crypt-puzzle-board" aria-live="polite">
-        <SideBoard state={shown} seat="P2" label="Enemy" />
+        <SideBoard state={shown} seat="P2" label={t("puzzle.board.enemy")} />
         <div className="crypt-puzzle-divider" aria-hidden />
-        <SideBoard state={shown} seat="P1" label="You" />
+        <SideBoard state={shown} seat="P1" label={t("puzzle.board.you")} />
       </div>
 
       {won ? (

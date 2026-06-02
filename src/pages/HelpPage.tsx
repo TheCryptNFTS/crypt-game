@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { KEYWORD_DESCRIPTIONS } from "../engine/keywordDescriptions";
+import { t } from "../i18n";
 
 /**
  * HELP · in-app glossary + how-to-play reference. Newcomer complexity is the
@@ -106,34 +107,33 @@ export default function HelpPage() {
 
   return (
     <CryptPageFrame
-      eyebrow="Help · how to play"
-      title="The Crypt, explained"
+      eyebrow={t("help.eyebrow")}
+      title={t("help.title")}
       lead={
         <>
-          Everything a new pilot needs in one place — the turn loop, the board,
-          and every keyword on your cards.{" "}
+          {t("help.lead.intro")}{" "}
           <Link to="/tutorial" style={{ color: GOLD, textDecoration: "underline" }}>
-            Prefer a guided match?
+            {t("help.lead.guided")}
           </Link>
         </>
       }
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 28, maxWidth: 760 }}>
-        <Section title="The turn loop" accent={PURPLE}>
+        <Section title={t("help.section.turnLoop")} accent={PURPLE}>
           <Grid items={TURN_FLOW} accent={PURPLE} />
         </Section>
 
-        <Section title="The board" accent={GOLD}>
+        <Section title={t("help.section.board")} accent={GOLD}>
           <Grid items={BOARD} accent={GOLD} />
         </Section>
 
-        <Section title="Keyword glossary" accent={PURPLE}>
+        <Section title={t("help.section.keywords")} accent={PURPLE}>
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Filter keywords…"
-            aria-label="Filter keywords"
+            placeholder={t("help.keywords.filterPlaceholder")}
+            aria-label={t("help.keywords.filterAria")}
             style={{
               width: "100%",
               boxSizing: "border-box",
@@ -185,7 +185,7 @@ export default function HelpPage() {
           )}
         </Section>
 
-        <Section title="The factions" accent={GOLD}>
+        <Section title={t("help.section.factions")} accent={GOLD}>
           <div style={{ display: "grid", gap: 10 }}>
             {FACTIONS.map((f) => (
               <div
@@ -234,7 +234,7 @@ export default function HelpPage() {
               textDecoration: "none",
             }}
           >
-            Play the tutorial
+            {t("help.cta.tutorial")}
           </Link>
           <Link
             to="/play"
@@ -248,7 +248,7 @@ export default function HelpPage() {
               textDecoration: "none",
             }}
           >
-            Jump into a match
+            {t("help.cta.match")}
           </Link>
         </div>
       </div>

@@ -15,6 +15,7 @@ import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
 import { getAuthHeader, isSignedIn } from "../nft/gameSession";
 import type { MatchView } from "../game-ui/useRemoteCryptMatch";
 import { ChallengePanel } from "../components/live-match/ChallengePanel";
+import { t } from "../i18n";
 
 /**
  * Mode launcher — /match stays the table; this is the product surface for picking
@@ -118,12 +119,12 @@ export default function PlayHubPage() {
   const findMatch = useCallback(async () => {
     if (!isSignedIn()) {
       setPhase("error");
-      setQueueMsg("Sign in with your wallet on the PvP table first, then Find Match.");
+      setQueueMsg(t("play.queue.signIn"));
       return;
     }
     searchingRef.current = true;
     setPhase("searching");
-    setQueueMsg("Searching for an opponent…");
+    setQueueMsg(t("play.queue.searching"));
 
     const headers = {
       "content-type": "application/json",
@@ -180,7 +181,7 @@ export default function PlayHubPage() {
     } catch {
       if (!searchingRef.current) return;
       setPhase("error");
-      setQueueMsg("Matchmaking server unreachable. Try again.");
+      setQueueMsg(t("play.queue.unreachable"));
       searchingRef.current = false;
       return;
     }
@@ -202,13 +203,13 @@ export default function PlayHubPage() {
         if (res.status === 200 || res.status === 202) {
           const pos = data?.position;
           setQueueMsg(
-            pos ? `In queue — position ${pos}. Holding for an opponent…` : "In queue — waiting for an opponent…",
+            pos ? `In queue — position ${pos}. Holding for an opponent…` : t("play.queue.waiting"),
           );
           pollTimer.current = setTimeout(poll, 2000);
           return;
         }
         setPhase("error");
-        setQueueMsg("Matchmaking failed. Try again.");
+        setQueueMsg(t("play.queue.failed"));
         searchingRef.current = false;
       } catch {
         if (!searchingRef.current) return;
@@ -224,7 +225,7 @@ export default function PlayHubPage() {
     searchingRef.current = false;
     if (pollTimer.current) clearTimeout(pollTimer.current);
     setPhase("idle");
-    setQueueMsg("Left the queue.");
+    setQueueMsg(t("play.queue.left"));
     try {
       await fetch(`${CITY_BASE()}/api/match/queue`, {
         method: "DELETE",
@@ -254,16 +255,16 @@ export default function PlayHubPage() {
   return (
     <CatalogLoader loading={loading} error={error} ready={ready}>
       <CryptPageFrame
-        eyebrow="Play"
-        title="The field awaits"
-        lead="Pick a match below, then your deck and commander hit the table. Find Match pairs you with a live opponent; Play solo lets you practice."
+        eyebrow={t("play.eyebrow")}
+        title={t("play.title")}
+        lead={t("play.lead")}
       >
         <div className="crypt-play-sections">
-          <section className="crypt-play-loadout" aria-label="Active deck and commander">
+          <section className="crypt-play-loadout" aria-label={t("play.loadout.aria")}>
             <div className="crypt-play-loadout-header">
-              <h2 className="crypt-play-section-label">Your deck</h2>
+              <h2 className="crypt-play-section-label">{t("play.loadout.yourDeck")}</h2>
               <Link to="/deck" className="crypt-play-edit-deck">
-                Edit deck →
+                {t("play.loadout.editDeck")}
               </Link>
             </div>
             <div className="crypt-play-loadout-grid">
@@ -274,7 +275,7 @@ export default function PlayHubPage() {
                   </div>
                 ) : (
                   <div className="crypt-play-commander-fallback" aria-hidden>
-                    Commander
+                    {t("play.loadout.commanderFallback")}
                   </div>
                 )}
                 {commander && (
@@ -290,7 +291,7 @@ export default function PlayHubPage() {
               <div className="crypt-play-deck-panel">
                 <div className="crypt-play-deck-strip">
                   {previewSample.length === 0 ? (
-                    <p className="crypt-play-deck-empty">Your deck is empty—build one under Deck first.</p>
+                    <p className="crypt-play-deck-empty">{t("play.loadout.deckEmpty")}</p>
                   ) : (
                     previewSample.map((id) => {
                       const entry = entryById.get(id);
@@ -312,24 +313,24 @@ export default function PlayHubPage() {
                 </p>
                 {validation && !validation.valid && (
                   <p className="crypt-play-deck-warning">
-                    This deck isn't legal yet—fix it under Deck before you play.
+                    {t("play.loadout.deckNotLegal")}
                   </p>
                 )}
-                {validation?.valid && <p className="crypt-play-deck-ok">Deck is legal and ready.</p>}
+                {validation?.valid && <p className="crypt-play-deck-ok">{t("play.loadout.deckOk")}</p>}
               </div>
             </div>
           </section>
 
-          <section className="crypt-play-modes" aria-label="Game modes">
-            <h2 className="crypt-play-section-label crypt-play-section-label--spaced">Play a match</h2>
+          <section className="crypt-play-modes" aria-label={t("play.modes.aria")}>
+            <h2 className="crypt-play-section-label crypt-play-section-label--spaced">{t("play.modes.label")}</h2>
 
             {/* FIND MATCH — server-authoritative matchmaking queue. */}
             <div className="crypt-play-mode-featured">
               <div className="crypt-play-mode-featured-inner">
-                <span className="crypt-play-featured-kicker">Live · vs. a player</span>
-                <h3 className="crypt-play-featured-title">⬡ Find Match</h3>
+                <span className="crypt-play-featured-kicker">{t("play.find.kicker")}</span>
+                <h3 className="crypt-play-featured-title">{t("play.find.title")}</h3>
                 <p className="crypt-play-featured-copy">
-                  Get paired with another player and start a live duel.
+                  {t("play.find.copy")}
                 </p>
                 {phase === "searching" ? (
                   <div className="crypt-play-queue-live">
@@ -337,13 +338,13 @@ export default function PlayHubPage() {
                       ⬡ {queueMsg}
                     </p>
                     <button type="button" className="crypt-play-featured-cta" onClick={cancelSearch}>
-                      Cancel search
+                      {t("play.find.cancel")}
                     </button>
                   </div>
                 ) : (
                   <>
                     <button type="button" className="crypt-play-featured-cta" onClick={findMatch}>
-                      Find Match
+                      {t("play.find.cta")}
                     </button>
                     {phase === "error" && queueMsg ? (
                       <p className="crypt-play-soon" aria-live="polite">
@@ -360,39 +361,39 @@ export default function PlayHubPage() {
             <ChallengePanel onEnterMatch={enterMatch} initialJoinCode={challengeCode} />
 
             <Link to="/match" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">Practice</span>
-              <span className="crypt-play-mode-quick-title">Play solo</span>
-              <span className="crypt-play-mode-quick-meta">Learn the table at your own pace, no opponent needed</span>
+              <span className="crypt-play-mode-quick-kicker">{t("play.solo.kicker")}</span>
+              <span className="crypt-play-mode-quick-title">{t("play.solo.title")}</span>
+              <span className="crypt-play-mode-quick-meta">{t("play.solo.meta")}</span>
             </Link>
 
             <Link to="/ladder" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">Tier 1 · Your ascent</span>
-              <span className="crypt-play-mode-quick-title">⬡ Ranked ladder</span>
-              <span className="crypt-play-mode-quick-meta">Your rank, MMR, level, and season stars</span>
+              <span className="crypt-play-mode-quick-kicker">{t("play.ranked.kicker")}</span>
+              <span className="crypt-play-mode-quick-title">{t("play.ranked.title")}</span>
+              <span className="crypt-play-mode-quick-meta">{t("play.ranked.meta")}</span>
             </Link>
 
             <Link to="/puzzles" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">Solo · Puzzles</span>
-              <span className="crypt-play-mode-quick-title">⬡ Find the line</span>
-              <span className="crypt-play-mode-quick-meta">Hand-built tactical positions with one winning line — solve at your own pace</span>
+              <span className="crypt-play-mode-quick-kicker">{t("play.puzzles.kicker")}</span>
+              <span className="crypt-play-mode-quick-title">{t("play.puzzles.title")}</span>
+              <span className="crypt-play-mode-quick-meta">{t("play.puzzles.meta")}</span>
             </Link>
 
             <Link to="/leaderboard" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">Tier 2 · The Season</span>
-              <span className="crypt-play-mode-quick-title">⬡ Season ladder</span>
-              <span className="crypt-play-mode-quick-meta">See the standings and claim your season rewards</span>
+              <span className="crypt-play-mode-quick-kicker">{t("play.season.kicker")}</span>
+              <span className="crypt-play-mode-quick-title">{t("play.season.title")}</span>
+              <span className="crypt-play-mode-quick-meta">{t("play.season.meta")}</span>
             </Link>
 
             <Link to="/draft" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">Limited</span>
-              <span className="crypt-play-mode-quick-title">Sealed run</span>
-              <span className="crypt-play-mode-quick-meta">Open a sealed pool, build a 30-card deck, and duel with it</span>
+              <span className="crypt-play-mode-quick-kicker">{t("play.draft.kicker")}</span>
+              <span className="crypt-play-mode-quick-title">{t("play.draft.title")}</span>
+              <span className="crypt-play-mode-quick-meta">{t("play.draft.meta")}</span>
             </Link>
 
             <Link to="/spectate" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">Watch</span>
-              <span className="crypt-play-mode-quick-title">Live matches</span>
-              <span className="crypt-play-mode-quick-meta">Spectate duels in progress — no private info shown</span>
+              <span className="crypt-play-mode-quick-kicker">{t("play.spectate.kicker")}</span>
+              <span className="crypt-play-mode-quick-title">{t("play.spectate.title")}</span>
+              <span className="crypt-play-mode-quick-meta">{t("play.spectate.meta")}</span>
             </Link>
           </section>
         </div>

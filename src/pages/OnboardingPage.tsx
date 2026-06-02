@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
+import { t } from "../i18n";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { buildCuratedDeck } from "../lib/buildCuratedDeck";
 import {
@@ -80,31 +81,30 @@ export default function OnboardingPage() {
 
   return (
     <CryptPageFrame
-      eyebrow="Welcome · first run"
-      title={step === "pick" ? "Choose your style" : "You're ready"}
+      eyebrow={t("onboarding.eyebrow")}
+      title={step === "pick" ? t("onboarding.title.pick") : t("onboarding.title.ready")}
       lead={
         step === "pick" ? (
           <>
-            Three taps and you're in your first match. Pick a style below — we
-            build the deck for you.{" "}
+            {t("onboarding.lead.pickIntro")}{" "}
             <span className="text-[color:var(--color-crypt-muted)]">
-              No deckbuilding, and you can swap it anytime.
+              {t("onboarding.lead.pickSub")}
             </span>
           </>
         ) : (
           <>
-            Deck equipped. One guided match next — about a minute to learn the loop.
+            {t("onboarding.lead.ready")}
           </>
         )
       }
     >
       {/* Three-step rail so a newcomer always sees exactly where they are. */}
-      <ol className="crypt-npe-steps" aria-label="Onboarding steps">
+      <ol className="crypt-npe-steps" aria-label={t("onboarding.steps.aria")}>
         <li className={step === "pick" ? "is-active" : "is-done"}>
-          {step === "pick" ? "1 · Pick a deck" : "✓ Deck picked"}
+          {step === "pick" ? t("onboarding.steps.pickActive") : t("onboarding.steps.pickDone")}
         </li>
-        <li className={step === "ready" ? "is-active" : ""}>2 · First match</li>
-        <li>3 · Play freely</li>
+        <li className={step === "ready" ? "is-active" : ""}>{t("onboarding.steps.match")}</li>
+        <li>{t("onboarding.steps.free")}</li>
       </ol>
 
       {/* Always-available escape hatch into the full how-to-play reference. */}
@@ -115,17 +115,17 @@ export default function OnboardingPage() {
           color: "var(--color-crypt-muted)",
         }}
       >
-        New to card games?{" "}
+        {t("onboarding.help.prompt")}
         <Link
           to="/help"
           style={{ color: "var(--color-crypt-accent)", textDecoration: "underline" }}
         >
-          Read how to play →
+          {t("onboarding.help.link")}
         </Link>
       </p>
 
       {step === "pick" ? (
-        <section className="crypt-npe-picks" aria-label="Starter deck options">
+        <section className="crypt-npe-picks" aria-label={t("onboarding.picks.aria")}>
           {picks.map((p) => (
             <button
               key={p.id}
@@ -141,42 +141,40 @@ export default function OnboardingPage() {
               <span className="crypt-npe-pick-blurb">{p.blurb}</span>
               <span className="crypt-npe-pick-passive">{p.spec.passive}</span>
               <span className="crypt-npe-pick-cta" style={{ color: p.accent }}>
-                Choose →
+                {t("onboarding.picks.choose")}
               </span>
             </button>
           ))}
         </section>
       ) : (
-        <section className="crypt-npe-ready" aria-label="Start first match">
+        <section className="crypt-npe-ready" aria-label={t("onboarding.ready.aria")}>
           <div className="crypt-npe-ready-card">
-            <p className="crypt-npe-ready-kicker">⬡ Equipped</p>
+            <p className="crypt-npe-ready-kicker">{t("onboarding.ready.kicker")}</p>
             <h2 className="crypt-npe-ready-name">{chosenSpec?.name}</h2>
             <p className="crypt-npe-ready-copy">
-              Your balanced 30-card deck is ready. The first match is a friendly,
-              guided duel against a gentle opponent — you'll pick up lanes,
-              deploying units, and attacking as you go. No pressure.
+              {t("onboarding.ready.copy")}
             </p>
             <button
               type="button"
               className="crypt-npe-ready-cta"
               onClick={() => navigate("/tutorial")}
             >
-              Play your first match
+              {t("onboarding.ready.cta")}
             </button>
             <button
               type="button"
               className="crypt-npe-ready-back"
               onClick={() => setStep("pick")}
             >
-              ← Pick a different deck
+              {t("onboarding.ready.back")}
             </button>
             <p style={{ margin: "12px 0 0", fontSize: 12.5, color: "var(--color-crypt-muted)" }}>
-              Want the rules first?{" "}
+              {t("onboarding.ready.rulesPrompt")}
               <Link
                 to="/help"
                 style={{ color: "var(--color-crypt-accent)", textDecoration: "underline" }}
               >
-                How to play
+                {t("onboarding.ready.rulesLink")}
               </Link>
             </p>
           </div>

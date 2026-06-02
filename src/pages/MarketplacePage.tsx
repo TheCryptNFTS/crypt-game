@@ -4,6 +4,7 @@ import { CatalogLoader } from "../components/CatalogLoader";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { useRenderManifest } from "../hooks/useRenderManifest";
 import { useWalletConnection } from "../hooks/useWalletConnection";
+import { t } from "../i18n";
 import PlayableCard from "../components/cards/PlayableCard";
 import type { RenderManifestEntry } from "../types/renderManifest";
 import {
@@ -70,21 +71,21 @@ export default function MarketplacePage() {
   return (
     <CatalogLoader loading={loading} error={error} ready={ready}>
       <CryptPageFrame
-        eyebrow="Bazaar · facilitation-only"
-        title="Trade & lend the archive"
-        lead="Browse listings, post offers, or lend a card as a scholarship. This build facilitates only — nothing settles on-chain; every trade and lease is a stubbed seam awaiting owner sign-off."
+        eyebrow={t("market.eyebrow")}
+        title={t("market.title")}
+        lead={t("market.lead")}
       >
         <WalletStrip wallet={wallet} viewer={viewer} />
 
         <div className="mb-8 flex flex-col gap-4">
           <FilterRow
-            label="Faction"
+            label={t("market.filter.faction")}
             value={faction}
             options={factions}
             onPick={setFaction}
           />
           <FilterRow
-            label="Rarity"
+            label={t("market.filter.rarity")}
             value={rarity}
             options={rarities}
             onPick={setRarity}
@@ -109,19 +110,19 @@ export default function MarketplacePage() {
                   onClick={() => setActive(entry)}
                 />
                 <span className="font-mono text-[9px] tabular-nums text-[color:var(--color-crypt-muted)]">
-                  {listing ? `${listing.priceHex} $CRYPT` : "not listed"}
+                  {listing ? `${listing.priceHex} $CRYPT` : t("market.notListed")}
                 </span>
               </div>
             );
           })}
         </div>
 
-        <nav className="crypt-shop-foot mt-12" aria-label="Leave bazaar">
+        <nav className="crypt-shop-foot mt-12" aria-label={t("market.foot.aria")}>
           <Link to="/collection" className="crypt-shop-foot-link">
-            Vault
+            {t("market.foot.vault")}
           </Link>
           <Link to="/shop" className="crypt-shop-foot-link crypt-shop-foot-link--muted">
-            Reliquary
+            {t("market.foot.reliquary")}
           </Link>
         </nav>
 
@@ -142,7 +143,7 @@ function WalletStrip({
     <div className="crypt-preview-banner mb-8" role="status">
       {viewer ? (
         <span>
-          Viewing as <strong>{shortAddr(viewer)}</strong>
+          {t("market.wallet.viewingAs")}<strong>{shortAddr(viewer)}</strong>
           {wallet.connection?.combatArchives != null && (
             <> · holds {wallet.connection.combatArchives} Combat Archives</>
           )}{" "}
@@ -152,26 +153,25 @@ function WalletStrip({
             className="crypt-shop-foot-link crypt-shop-foot-link--muted underline"
             onClick={wallet.disconnect}
           >
-            disconnect
+            {t("market.wallet.disconnect")}
           </button>
         </span>
       ) : wallet.unavailable ? (
         <span>
-          <strong>No wallet detected.</strong> You can still browse the book; connect a
-          wallet (read-only) to see which cards you could lend vs. borrow.
+          <strong>{t("market.wallet.noWallet")}</strong>{t("market.wallet.noWalletCopy")}
         </span>
       ) : (
         <span>
-          <strong>Read-only.</strong> Browsing the book is open to all.{" "}
+          <strong>{t("market.wallet.readOnly")}</strong>{t("market.wallet.readOnlyCopy")}
           <button
             type="button"
             className="crypt-shop-foot-link underline disabled:opacity-50"
             onClick={wallet.connect}
             disabled={wallet.connecting}
           >
-            {wallet.connecting ? "connecting…" : "connect wallet"}
+            {wallet.connecting ? t("market.wallet.connecting") : t("market.wallet.connect")}
           </button>{" "}
-          to see your holdings (no signing).
+          {t("market.wallet.connectSuffix")}
         </span>
       )}
     </div>
@@ -247,7 +247,7 @@ function CardActionModal({
       } else {
         const rentalOffer = rentals[0];
         if (!rentalOffer) {
-          setResult("No active loan offer on this card to borrow against.");
+          setResult(t("market.modal.noLoanOffer"));
           return;
         }
         // Show the borrower exactly what a successful lease WOULD grant (pure
@@ -261,7 +261,7 @@ function CardActionModal({
         );
         await borrowToPlay({ rentalOfferId: rentalOffer.id, cardId: entry.id, borrower: who });
       }
-      setResult("Unexpected: stub returned without throwing.");
+      setResult(t("market.modal.unexpected"));
     } catch (e) {
       setResult(e instanceof Error ? e.message : String(e));
     }
@@ -299,7 +299,7 @@ function CardActionModal({
             onClick={onClose}
             className="font-mono text-[10px] uppercase tracking-wider text-[color:var(--color-crypt-muted)] hover:text-[color:var(--color-crypt-text)]"
           >
-            close
+            {t("market.modal.close")}
           </button>
         </div>
 
@@ -307,7 +307,7 @@ function CardActionModal({
           <PlayableCard entry={entry} mode="modal" />
         </div>
 
-        <BookSection title="Listings">
+        <BookSection title={t("market.modal.listings")}>
           {listings.length ? (
             listings.map((l) => (
               <li key={l.id}>
@@ -315,10 +315,10 @@ function CardActionModal({
               </li>
             ))
           ) : (
-            <li className="opacity-60">no active listings</li>
+            <li className="opacity-60">{t("market.modal.noListings")}</li>
           )}
         </BookSection>
-        <BookSection title="Offers">
+        <BookSection title={t("market.modal.offers")}>
           {offers.length ? (
             offers.map((o) => (
               <li key={o.id}>
@@ -326,10 +326,10 @@ function CardActionModal({
               </li>
             ))
           ) : (
-            <li className="opacity-60">no open offers</li>
+            <li className="opacity-60">{t("market.modal.noOffers")}</li>
           )}
         </BookSection>
-        <BookSection title="Loan / scholarship offers">
+        <BookSection title={t("market.modal.loans")}>
           {rentals.length ? (
             rentals.map((r) => (
               <li key={r.id}>
@@ -338,19 +338,19 @@ function CardActionModal({
               </li>
             ))
           ) : (
-            <li className="opacity-60">not offered for loan</li>
+            <li className="opacity-60">{t("market.modal.noLoans")}</li>
           )}
         </BookSection>
 
         <div className="mt-5 mb-3 flex gap-2">
           <button type="button" className={tab("list", "List")} onClick={() => setKind("list")}>
-            List
+            {t("market.modal.tab.list")}
           </button>
           <button type="button" className={tab("offer", "Make offer")} onClick={() => setKind("offer")}>
-            Make offer
+            {t("market.modal.tab.offer")}
           </button>
           <button type="button" className={tab("rent", "Borrow")} onClick={() => setKind("rent")}>
-            Borrow
+            {t("market.modal.tab.rent")}
           </button>
         </div>
 
@@ -360,18 +360,18 @@ function CardActionModal({
           className="w-full border border-[color:var(--color-crypt-border-strong)] px-3 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-accent)] hover:bg-white/[0.04]"
         >
           {kind === "list"
-            ? "Post listing"
+            ? t("market.modal.run.list")
             : kind === "offer"
-              ? "Submit offer"
-              : "Borrow to play"}
+              ? t("market.modal.run.offer")
+              : t("market.modal.run.rent")}
         </button>
 
         {lease && (
           <div className="mt-4 border border-white/[0.08] bg-white/[0.02] p-3 text-[11px] text-[color:var(--color-crypt-text)]/85">
             <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-[color:var(--color-crypt-ice)]">
-              Mock lease preview (issues nothing)
+              {t("market.modal.leasePreview")}
             </p>
-            <p>Play-right only · no token transfer · no custody.</p>
+            <p>{t("market.modal.leaseRights")}</p>
             <p>
               {Math.round((lease.expiresAt - lease.startedAt) / 86_400_000)}-day lease ·{" "}
               {lease.revenueSharePct}% revenue share to {shortAddr(lease.lender)}
@@ -388,8 +388,7 @@ function CardActionModal({
           </p>
         )}
         <p className="mt-3 font-mono text-[9px] leading-relaxed text-[color:var(--color-crypt-muted)]">
-          Facilitation only — no on-chain transfer, no wallet write, no value moved. Mutating
-          actions are stubbed for owner sign-off.
+          {t("market.modal.facilitation")}
         </p>
       </div>
     </div>

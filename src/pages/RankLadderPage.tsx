@@ -4,6 +4,7 @@ import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { loadProfile, deriveLevel, type PlayerProfile } from "../meta/progression";
 import { rankFromMmr, type RankTierName } from "../meta/ladder";
 import { absoluteUrl, openTweet, shareOrCopy } from "../lib/share";
+import { t } from "../i18n";
 
 /**
  * WS3 · LADDER UI — makes the (previously invisible) progression engine FELT.
@@ -109,54 +110,54 @@ export default function RankLadderPage() {
   const onShareRank = useCallback(async () => {
     if (!shareText) return;
     const result = await shareOrCopy({
-      title: "CRYPT · Ranked ladder",
+      title: t("ladder.share.title"),
       text: shareText,
       url: shareUrl,
     });
     setShareNote(
       result === "shared"
-        ? "Shared ⬡"
+        ? t("ladder.share.shared")
         : result === "copied"
-          ? "Copied to clipboard ⬡"
-          : "Couldn't share — try again."
+          ? t("ladder.share.copied")
+          : t("ladder.share.failed")
     );
   }, [shareText, shareUrl]);
 
   const onTweetRank = useCallback(() => {
     if (!shareText) return;
     openTweet(shareText, shareUrl);
-    setShareNote("Opening X…");
+    setShareNote(t("ladder.share.openingX"));
   }, [shareText, shareUrl]);
 
   return (
     <CryptPageFrame
-      eyebrow="Tier 1 · Your ascent"
-      title="Ranked ladder"
+      eyebrow={t("ladder.eyebrow")}
+      title={t("ladder.title")}
       lead={
         <>
-          Your competitive standing on this device.{" "}
+          {t("ladder.lead.intro")}{" "}
           <span className="text-[color:var(--color-crypt-muted)]">
-            Climb the tiers, bank season stars, and level up.
+            {t("ladder.lead.sub")}
           </span>
         </>
       }
     >
       {/* Season banner. */}
-      <section className="crypt-rank-season" aria-label="Current season">
-        <span className="crypt-rank-season-kicker">⬡ Season</span>
+      <section className="crypt-rank-season" aria-label={t("ladder.season.aria")}>
+        <span className="crypt-rank-season-kicker">{t("ladder.season.kicker")}</span>
         <span className="crypt-rank-season-id">
           Season {profile?.season.seasonId ?? 1}
         </span>
-        <span className="crypt-rank-season-stars" aria-label="Season stars">
+        <span className="crypt-rank-season-stars" aria-label={t("ladder.season.starsAria")}>
           {profile && profile.seasonStars > 0
             ? `★ ${profile.seasonStars} star${profile.seasonStars === 1 ? "" : "s"}`
-            : "No stars yet"}
+            : t("ladder.season.noStars")}
         </span>
       </section>
 
       {/* Rank badge + progress to next tier. */}
-      <section className="crypt-profile-section" aria-label="Rank tier">
-        <div className="crypt-profile-section-label">Rank · this season</div>
+      <section className="crypt-profile-section" aria-label={t("ladder.rank.aria")}>
+        <div className="crypt-profile-section-label">{t("ladder.rank.label")}</div>
         {view ? (
           <div className="crypt-rank-badge-row">
             <div
@@ -176,7 +177,7 @@ export default function RankLadderPage() {
                 aria-valuenow={view.prog.pct}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-label="Progress to next tier"
+                aria-label={t("ladder.rank.progressAria")}
               >
                 <span
                   className="crypt-rank-bar-fill"
@@ -186,7 +187,7 @@ export default function RankLadderPage() {
               <p className="crypt-rank-bar-meta">
                 {view.prog.nextTier
                   ? `${view.prog.toNext} MMR to ${view.prog.nextTier}`
-                  : "Apex tier — Master"}
+                  : t("ladder.rank.apex")}
               </p>
               <div
                 className="crypt-rank-share"
@@ -209,7 +210,7 @@ export default function RankLadderPage() {
                     letterSpacing: "0.02em",
                   }}
                 >
-                  ⬡ Share rank
+                  {t("ladder.rank.share")}
                 </button>
                 <button
                   type="button"
@@ -219,7 +220,7 @@ export default function RankLadderPage() {
                     fontFamily: '"Clash Display", system-ui, sans-serif',
                   }}
                 >
-                  Post to X
+                  {t("ladder.rank.postX")}
                 </button>
                 {shareNote ? (
                   <span
@@ -234,13 +235,13 @@ export default function RankLadderPage() {
             </div>
           </div>
         ) : (
-          <div className="crypt-profile-placeholder">Reading your standing…</div>
+          <div className="crypt-profile-placeholder">{t("ladder.rank.reading")}</div>
         )}
       </section>
 
       {/* XP / level. */}
-      <section className="crypt-profile-section" aria-label="Level and XP">
-        <div className="crypt-profile-section-label">Level · experience</div>
+      <section className="crypt-profile-section" aria-label={t("ladder.level.aria")}>
+        <div className="crypt-profile-section-label">{t("ladder.level.label")}</div>
         {view ? (
           <div className="crypt-rank-level">
             <div className="crypt-rank-level-head">
@@ -255,7 +256,7 @@ export default function RankLadderPage() {
               aria-valuenow={view.xpPct}
               aria-valuemin={0}
               aria-valuemax={100}
-              aria-label="Progress to next level"
+              aria-label={t("ladder.level.progressAria")}
             >
               <span
                 className="crypt-rank-bar-fill crypt-rank-bar-fill--xp"
@@ -265,58 +266,58 @@ export default function RankLadderPage() {
             <p className="crypt-rank-bar-meta">{view.lvl.totalXp} total XP earned</p>
           </div>
         ) : (
-          <div className="crypt-profile-placeholder">Reading your XP…</div>
+          <div className="crypt-profile-placeholder">{t("ladder.level.reading")}</div>
         )}
       </section>
 
       {/* Win / loss record. */}
-      <section className="crypt-profile-section" aria-label="Record">
-        <div className="crypt-profile-section-label">Record · ranked</div>
+      <section className="crypt-profile-section" aria-label={t("ladder.record.aria")}>
+        <div className="crypt-profile-section-label">{t("ladder.record.label")}</div>
         {view ? (
           <div className="crypt-rank-record">
             <div className="crypt-rank-stat">
               <span className="crypt-rank-stat-val crypt-rank-stat-val--win">
                 {profile!.wins}
               </span>
-              <span className="crypt-rank-stat-label">Wins</span>
+              <span className="crypt-rank-stat-label">{t("ladder.record.wins")}</span>
             </div>
             <div className="crypt-rank-stat">
               <span className="crypt-rank-stat-val crypt-rank-stat-val--loss">
                 {profile!.losses}
               </span>
-              <span className="crypt-rank-stat-label">Losses</span>
+              <span className="crypt-rank-stat-label">{t("ladder.record.losses")}</span>
             </div>
             <div className="crypt-rank-stat">
               <span className="crypt-rank-stat-val">
                 {view.winRate != null ? `${view.winRate}%` : "—"}
               </span>
-              <span className="crypt-rank-stat-label">Win rate</span>
+              <span className="crypt-rank-stat-label">{t("ladder.record.winRate")}</span>
             </div>
           </div>
         ) : (
-          <div className="crypt-profile-placeholder">No duels recorded yet.</div>
+          <div className="crypt-profile-placeholder">{t("ladder.record.empty")}</div>
         )}
         {view && view.games === 0 ? (
           <p className="crypt-profile-secondary">
-            Play a match to start your climb — every ranked duel moves your MMR.
+            {t("ladder.record.climb")}
           </p>
         ) : null}
       </section>
 
       <p className="crypt-profile-secondary">
-        Jump in from the{" "}
+        {t("ladder.foot.jumpIn")}
         <Link
           to="/play"
           className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
         >
-          Play hub
+          {t("ladder.foot.playHub")}
         </Link>
-        , or see how you stack up on the{" "}
+        {t("ladder.foot.stack")}
         <Link
           to="/leaderboard"
           className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
         >
-          season ladder
+          {t("ladder.foot.seasonLadder")}
         </Link>
         .
       </p>
