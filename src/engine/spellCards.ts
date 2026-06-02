@@ -24,6 +24,35 @@ export type SpellTier = "safe" | "restricted";
 
 export interface SpellCard extends PlayableCard {
   tier: SpellTier;
+  /** Resolved spell art (one of ~6 archetype images under /crypt-assets/spells). */
+  imageUrl: string;
+}
+
+/**
+ * Spell archetype art. In-match SPELL cards have no per-card NFT, so we map each
+ * spell to one of a small set of thematic, brand-matched archetype images by
+ * reading its ability text. liveMatchAdapter.resolvePlayableCardImage already
+ * falls through to `card.imageUrl`, so carrying this field is all that's needed.
+ * Pure TS, no runtime deps (kept vendored-sync-safe).
+ */
+type SpellArchetype = "removal" | "draw" | "buff" | "heal" | "tempo" | "trick";
+
+function spellArchetype(ability: string): SpellArchetype {
+  const a = ability.toLowerCase();
+  // swap / scry quality = the "trick" sleight-of-hand class.
+  if (/\bswap\b|\bscry\b/.test(a)) return "trick";
+  // heal own health or restore own nexus = restorative.
+  if (/\bheal\b|restore \d+ to your nexus/.test(a)) return "heal";
+  // summon tokens / bounce / resurrect / return a body to play = tempo swing.
+  if (/\bsummon\b|return an enemy unit|\bresurrect\b/.test(a)) return "tempo";
+  // damage / destroy / debuff (lose attack, -N attack) = removal.
+  if (/\bdamage\b|\bdestroy\b|loses \d+ attack|-\d+ attack/.test(a)) return "removal";
+  // draw / dig / search / discover / mill = card advantage.
+  if (/\bdraw\b|\bsearch\b|\bdiscover\b|\bmill\b/.test(a)) return "draw";
+  // gain +X/+Y or Bless allies = empowerment.
+  if (/gain \+|allies gain \+|\bbless\b/.test(a)) return "buff";
+  // recover-to-hand recursion and anything else: treat as utility "trick".
+  return "trick";
 }
 
 function spell(
@@ -48,6 +77,7 @@ function spell(
     sourceCardClass: "spell",
     sourceSubtype: null,
     tier,
+    imageUrl: `/crypt-assets/spells/${spellArchetype(ability)}.png`,
   };
 }
 
