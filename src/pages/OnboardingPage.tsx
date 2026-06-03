@@ -93,6 +93,7 @@ export default function OnboardingPage() {
   };
 
   const chosenSpec = chosen ? COMMANDER_SPECS[chosen] : null;
+  const chosenPick = chosen ? STARTER_PICKS.find((p) => p.id === chosen) : null;
 
   return (
     <CryptPageFrame
@@ -170,9 +171,26 @@ export default function OnboardingPage() {
         </section>
       ) : (
         <section className="crypt-npe-ready" aria-label={t("onboarding.ready.aria")}>
-          <div className="crypt-npe-ready-card">
+          <div
+            className="crypt-npe-ready-card"
+            style={{ ["--pick-accent" as string]: chosenPick?.accent ?? "#8D5CFF" }}
+          >
+            {chosenPick?.art ? (
+              <span className="crypt-npe-ready-art" aria-hidden>
+                <img src={chosenPick.art} alt="" loading="eager" decoding="async" />
+                <span className="crypt-npe-ready-art-fade" />
+                {chosenPick.sigil ? (
+                  <img className="crypt-npe-ready-sigil" src={chosenPick.sigil} alt="" />
+                ) : null}
+              </span>
+            ) : null}
             <p className="crypt-npe-ready-kicker">{t("onboarding.ready.kicker")}</p>
             <h2 className="crypt-npe-ready-name">{chosenSpec?.name}</h2>
+            {chosenPick?.faction ? (
+              <p className="crypt-npe-pick-faction" style={{ textAlign: "center", paddingLeft: 0 }}>
+                {chosenPick.faction}
+              </p>
+            ) : null}
             <p className="crypt-npe-ready-copy">
               {t("onboarding.ready.copy")}
             </p>
