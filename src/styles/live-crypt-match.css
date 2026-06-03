@@ -712,7 +712,44 @@
 .mulligan-screen__rail {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
+}
+
+/* Mulligan now uses the real HandCard (art + faction frame). The slot wraps it
+   with the redraw toggle + a Keep/Redraw flag. */
+.mulligan-slot {
+  position: relative;
+  width: 140px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1), filter 160ms ease;
+}
+.mulligan-slot:hover { transform: translateY(-5px); }
+.mulligan-slot:focus-visible { outline: 2px solid #E9C984; outline-offset: 2px; }
+.mulligan-slot .crypt-card--hand { pointer-events: none; width: 100%; }
+.mulligan-slot__flag {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(11, 11, 13, 0.85);
+  border: 1px solid rgba(245, 242, 232, 0.2);
+  color: rgba(245, 242, 232, 0.85);
+}
+/* Marked for redraw: dim + red flag. */
+.mulligan-slot--redraw .crypt-card--hand { filter: grayscale(0.6) brightness(0.7); }
+.mulligan-slot--redraw .mulligan-slot__flag {
+  background: rgba(255, 77, 77, 0.9);
+  border-color: rgba(255, 77, 77, 0.6);
+  color: #fff;
 }
 
 .mulligan-card {

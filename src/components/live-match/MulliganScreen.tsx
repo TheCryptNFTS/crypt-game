@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { handToVm } from "../../game-ui/liveMatchAdapter";
 import { PlayCardVM } from "../../ui/cryptTypes";
+import { HandCard } from "../crypt/HandCard";
 
 /**
  * OPENING MULLIGAN SCREEN (PART 1, UI). Rendered by the solo match page while the
@@ -61,23 +62,28 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
         {cards.map((card, index) => {
           const marked = redraw.has(index);
           return (
-            <button
+            <div
               key={`${card.id}-${index}`}
-              type="button"
-              className={`mulligan-card mulligan-card--${card.faction.toLowerCase()}${
-                marked ? " mulligan-card--redraw" : ""
-              }`}
+              className={`mulligan-slot${marked ? " mulligan-slot--redraw" : ""}`}
+              role="button"
+              tabIndex={0}
               aria-pressed={marked}
               aria-label={`${card.name}, ${card.kind}, cost ${card.baseStats.cost}. ${
                 marked ? "Marked for redraw" : "Keeping"
               }. Activate to toggle.`}
               onClick={() => toggle(index)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  toggle(index);
+                }
+              }}
             >
-              <span className="mulligan-card__cost">{card.baseStats.cost}</span>
-              <span className="mulligan-card__name">{card.name}</span>
-              <span className="mulligan-card__kind">{card.kind}</span>
-              <span className="mulligan-card__flag">{marked ? "Redraw" : "Keep"}</span>
-            </button>
+              {/* Real card with art + faction frame. onSelect is a no-op here —
+                  the wrapping slot owns the redraw toggle. */}
+              <HandCard card={card} />
+              <span className="mulligan-slot__flag">{marked ? "↺ Redraw" : "Keep"}</span>
+            </div>
           );
         })}
       </div>
