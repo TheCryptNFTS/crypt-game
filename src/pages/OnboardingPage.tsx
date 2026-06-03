@@ -4,6 +4,7 @@ import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { t } from "../i18n";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { buildCuratedDeck } from "../lib/buildCuratedDeck";
+import commanderArt from "../data/commanderArt.json";
 import {
   LS_DECK_BUILDER_COMMANDER,
   LS_DECK_BUILDER_MAIN_DECK,
@@ -23,24 +24,38 @@ import {
  */
 
 /** The three newcomer-friendly identities, each a clear archetype one-liner. */
+const ART = commanderArt as Record<string, string>;
+
 const STARTER_PICKS = [
   {
     id: "cmd_stone_warden",
+    faction: "Stone Keepers",
     tagline: "Defensive wall",
     blurb: "Guard units soak hits while you grind the long game. The forgiving pick.",
-    accent: "#7fb8ff",
+    accent: "#b0b4c4",
+    sigil: "/crypt-assets/sigil-stone.png",
+    // Real NFT skull art for the commander.
+    art: ART["cmd_stone_warden"],
   },
   {
     id: "cmd_bronze_raider",
+    faction: "Bronze Guardians",
     tagline: "Fast aggression",
     blurb: "Flood the board and chip the enemy nexus every turn. End games early.",
-    accent: "#e9a35a",
+    accent: "#c98b48",
+    sigil: "/crypt-assets/sigil-bronze.png",
+    art: ART["cmd_bronze_raider"],
   },
   {
     id: "cmd_silver_oracle",
+    faction: "Silver Sentinels",
     tagline: "Cards & control",
     blurb: "Scry, out-draw, and answer threats. The thinking-player's deck.",
-    accent: "#c79bff",
+    accent: "#96d7eb",
+    sigil: "/crypt-assets/sigil-silver.png",
+    // silver_oracle is a curated identity with no minted NFT — borrow a real
+    // Silver Sentinels commander skull so the pick still shows premium art.
+    art: ART["cmd_grave_oracle"],
   },
 ] as const;
 
@@ -131,13 +146,20 @@ export default function OnboardingPage() {
               key={p.id}
               type="button"
               className="crypt-npe-pick"
-              style={{ borderColor: p.accent }}
+              style={{ borderColor: p.accent, ["--pick-accent" as string]: p.accent }}
               onClick={() => onPick(p.id)}
             >
+              {/* Commander skull art header — the premium first impression. */}
+              <span className="crypt-npe-pick-art" aria-hidden>
+                {p.art ? <img src={p.art} alt="" loading="eager" decoding="async" /> : null}
+                <span className="crypt-npe-pick-art-fade" />
+                {p.sigil ? <img className="crypt-npe-pick-sigil" src={p.sigil} alt="" /> : null}
+              </span>
               <span className="crypt-npe-pick-tag" style={{ color: p.accent }}>
                 {p.tagline}
               </span>
               <span className="crypt-npe-pick-name">{p.spec.name}</span>
+              <span className="crypt-npe-pick-faction">{p.faction}</span>
               <span className="crypt-npe-pick-blurb">{p.blurb}</span>
               <span className="crypt-npe-pick-passive">{p.spec.passive}</span>
               <span className="crypt-npe-pick-cta" style={{ color: p.accent }}>
