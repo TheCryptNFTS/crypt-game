@@ -188,6 +188,30 @@ async function main() {
   }
 
   await writeJson(path.join(root, "src/data/generatedTcgCards.json"), generated);
+
+  // ---- provenance stamp: never leave the snapshot's freshness ambiguous again ----
+  // generatedTcgCards.json is consumed as a bare array by many loaders, so the
+  // timestamp/source live in a sibling meta file instead of the data file itself.
+  const provenance = {
+    generatedAt: new Date().toISOString(),
+    source: {
+      type: "opensea-collection-nfts",
+      snapshotFile: "opensea_crypttradingcards_full.json",
+      snapshotFetchedAt: snap.fetchedAt ?? null,
+      endpoint: "https://api.opensea.io/api/v2/collection/crypttradingcards/nfts",
+      collectionSlug: "crypttradingcards",
+      contract: "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+      chain: "ethereum",
+    },
+    cardCount: generated.length,
+    note: "Provenance for generatedTcgCards.json. Stats/faction/rarity/keyword/ability come straight from canonical re-revealed traits. Regenerate via: refetch opensea_crypttradingcards_full.json then `node scripts/buildCanonicalTcgData.mjs`.",
+  };
+  await fs.writeFile(
+    path.join(root, "src/data/generatedTcgCards.meta.json"),
+    JSON.stringify(provenance, null, 2) + "\n",
+    "utf8"
+  );
+
   await writeJson(path.join(root, "src/data/runtimeMatchPlayableCards.json"), matchTuples);
   await writeJson(path.join(root, "src/data/runtimeEquipment.json"), equipmentTuples);
   await writeJson(path.join(root, "src/data/runtimeArtifacts.json"), artifactTuples);

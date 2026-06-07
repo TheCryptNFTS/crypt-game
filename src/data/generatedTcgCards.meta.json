@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-06-07T22:44:54.197Z",
+  "source": {
+    "type": "opensea-collection-nfts",
+    "snapshotFile": "opensea_crypttradingcards_full.json",
+    "snapshotFetchedAt": "2026-06-07T22:44:37Z",
+    "endpoint": "https://api.opensea.io/api/v2/collection/crypttradingcards/nfts",
+    "collectionSlug": "crypttradingcards",
+    "contract": "0x48fd513c9f8ca591ffada7223a261ffc6e797394",
+    "chain": "ethereum"
+  },
+  "cardCount": 4129,
+  "note": "Provenance for generatedTcgCards.json. Stats/faction/rarity/keyword/ability come straight from canonical re-revealed traits. Regenerate via: refetch opensea_crypttradingcards_full.json then `node scripts/buildCanonicalTcgData.mjs`."
+}
