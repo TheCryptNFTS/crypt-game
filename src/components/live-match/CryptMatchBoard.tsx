@@ -647,6 +647,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                   onSelect={(card) => {
                     safeSetSelectedBoardId(card.id);
                   }}
+                  onDeployToEmpty={
+                    deployReady ? () => safePlaySelectedUnit("front") : undefined
+                  }
                 />
               </div>
               <div className="mm-lane-fx">
@@ -663,6 +666,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                   onSelect={(card) => {
                     safeSetSelectedBoardId(card.id);
                   }}
+                  onDeployToEmpty={
+                    deployReady ? () => safePlaySelectedUnit("back") : undefined
+                  }
                 />
               </div>
             </div>
@@ -690,6 +696,10 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             ) : null}
             <DeckPile count={ownDeckCount} label="Your Deck" />
           </div>
+
+          {/* COMBAT LOG lives in the rail (a thin scroll strip) so it never eats
+              the vertical space under the hand and push it off-screen. */}
+          <CombatLogPanel log={combatLog} />
         </aside>
       </div>
 
@@ -765,8 +775,6 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             />
           </div>
         ) : null}
-
-        <CombatLogPanel log={combatLog} />
       </div>
 
       <InspectDrawer state={inspectState} onClose={() => setInspectId(null)} />

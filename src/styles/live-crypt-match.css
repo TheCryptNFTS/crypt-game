@@ -89,6 +89,209 @@
 .live-match-shell { padding: 10px 14px; }
 
 /* ============================================================================
+   SINGLE-SCREEN FIT (desktop). The whole match — topbar + board + dock — lives
+   in a fixed-height flex COLUMN that fills the viewport minus the app header, so
+   the board and your hand are visible together with NO page scroll. The board
+   region flex-grows and the hand/actions dock is pinned at the bottom. The
+   ≤768px mobile block below opts OUT of this (it scrolls intentionally).
+   ============================================================================ */
+@media (min-width: 769px) {
+  /* The route mounts inside the app chrome (header ~62px). For a definite height
+     to cascade down to the match column, the app root must be a FIXED-height
+     flex column (not min-h-full, which lets it grow to content). #root is already
+     locked to the viewport, so height:100% here gives main a definite
+     `100% - header` and the match shell fills it with NO page scroll. Scoped to
+     the match route via :has(.crypt-table) so other routes still scroll. */
+  .crypt-app-root:has(.crypt-table) {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .crypt-app-root:has(.crypt-table) .crypt-app-main {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* The crypt-shell's own `min-height:100vh` (from crypt-match.css) overflows by
+     the header height when nested in <main>; fill the CONTAINER instead. */
+  .crypt-shell:has(.crypt-table) {
+    min-height: 100%;
+    height: 100%;
+  }
+  .crypt-shell:has(.crypt-table) .crypt-shell__bg { inset: 0; }
+
+  /* The board-carrying shell becomes the column. (The tiny mode-toggle shell is
+     a separate sibling; we collapse its flow height so it never adds a row.) */
+  .crypt-shell > .live-match-shell:has(.crypt-table) {
+    display: flex;
+    flex-direction: column;
+    /* 100dvh minus the ~62px app chrome header. dvh keeps it honest on resize. */
+    height: calc(100dvh - 62px);
+    min-height: 0;
+    padding: 8px 14px 10px;
+    overflow: hidden;
+  }
+  /* The stray mode-toggle-only shell holds an absolutely-positioned pill; give it
+     zero flow height so it doesn't push the board down. */
+  .crypt-shell > .live-match-shell:not(:has(.crypt-table)) {
+    height: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  /* The table is the flex-growing region; it owns the leftover height. Make it a
+     2-ROW-aware grid whose BOARD column row fills that height, and clip as a
+     safety net so a tall board can never push the dock off-screen. */
+  .crypt-shell > .live-match-shell:has(.crypt-table) .crypt-table {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: 0; /* flex-basis 0 + grow → table height = leftover column space */
+    margin: 8px auto 0;
+    overflow: hidden;
+    align-items: stretch;
+    /* A single full-height row so the board/rail fill the table, not content. */
+    grid-template-rows: minmax(0, 1fr);
+  }
+  /* Board fills the table's (now definite) height; its zones flex-distribute it
+     so each ground gets half and the slots scale down rather than overflow. */
+  .live-match-shell:has(.crypt-table) .crypt-board {
+    min-height: 0;
+    height: 100%;
+    justify-content: center;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  /* The two lanes share the zone's flex height; each lane row + its slot grid
+     fill that share, so slots scale DOWN to fit (capped at 78 via card width)
+     instead of overflowing and clipping the second lane. */
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .mm-lane-fx {
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__cards {
+    height: 100%;
+    align-items: center;
+    min-height: 0;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot {
+    height: 100%;
+    min-height: 0;
+    max-height: 78px;
+  }
+  /* Deployed units are HEIGHT-driven here so they fit the (dynamic) lane row
+     rather than a fixed 78px width overflowing a shorter row. The square frame's
+     width follows its height, so the card stays 1:1 and never clips the lane. */
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card__frame {
+    height: 100%;
+  }
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card__image {
+    height: 100%;
+    width: auto;
+  }
+  /* The dock is pinned (intrinsic height); it must not be squeezed away. */
+  .crypt-shell > .live-match-shell:has(.crypt-table) .crypt-dock {
+    flex: 0 0 auto;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  /* --- Compact the dock so the hand stays on screen --- */
+  /* Hand: trim the headroom/padding so the rail hugs the cards (it was ~60px of
+     dead space above a 94px card). Cards stay legible at their intrinsic size. */
+  .live-match-shell:has(.crypt-table) .live-hand {
+    padding: 6px 16px 8px;
+  }
+  .live-match-shell:has(.crypt-table) .live-hand__header {
+    margin-bottom: 2px;
+  }
+  .live-match-shell:has(.crypt-table) .live-hand__rail {
+    padding: 12px 0 2px;
+  }
+  /* Slightly smaller hand cards (still very legible) buy the board the height it
+     needs to show BOTH lanes per ground. */
+  .live-match-shell:has(.crypt-table) .live-hand__item {
+    width: 118px;
+    margin-left: -22px;
+  }
+
+  /* ACTIONS become a single compact strip: the status line + buttons share one
+     row, no fat "Actions" heading block, so it costs ~46px instead of ~150px. */
+  .live-match-shell:has(.crypt-table) .crypt-dock__actions .live-actionbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    padding: 6px 14px;
+  }
+  .live-match-shell:has(.crypt-table) .live-actionbar__header {
+    margin: 0;
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+  /* Drop the redundant "Actions" h3 — the status line carries the meaning. */
+  .live-match-shell:has(.crypt-table) .live-actionbar__header h3 {
+    display: none;
+  }
+  .live-match-shell:has(.crypt-table) .live-actionbar__group + .live-actionbar__group {
+    margin-top: 0;
+  }
+  .live-match-shell:has(.crypt-table) .live-actionbar__group-label {
+    display: none;
+  }
+  .live-match-shell:has(.crypt-table) .live-actionbar__buttons {
+    gap: 8px;
+  }
+  .live-match-shell:has(.crypt-table) .live-btn {
+    padding: 7px 14px;
+  }
+  /* Fallback combat group still flows inline (no top hairline eating a row). */
+  .live-match-shell:has(.crypt-table) .live-actionbar__group--fallback {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .live-match-shell:has(.crypt-table) .live-actionbar__group--fallback .live-actionbar__group-label {
+    display: none;
+  }
+
+  /* Combat log in the RAIL: a thin labelled scroll strip, not a fat panel. */
+  .crypt-rail .live-side-panel {
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .crypt-rail .live-side-panel h3 {
+    font-size: 11px;
+    margin: 0 0 4px;
+  }
+  .crypt-rail .live-log {
+    max-height: 96px;
+    overflow-y: auto;
+  }
+}
+
+/* ============================================================================
    THE TABLE — single-screen battlefield. A framed two-zone BOARD on the left
    (enemy ground over your ground, meeting at a glowing seam) and a vertical RAIL
    on the right (commanders + decks + artifacts). The hand + actions dock below.
@@ -115,7 +318,7 @@
 .crypt-zone {
   position: relative;
   border-radius: 18px;
-  padding: 22px 16px 14px;
+  padding: 14px 14px 8px;
   background:
     radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.018), transparent 60%),
     linear-gradient(180deg, rgba(16,16,19,0.72), rgba(9,9,11,0.82));
@@ -152,7 +355,7 @@
 .crypt-zone__lanes {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 /* The glowing central seam with a hex medallion. */
@@ -350,6 +553,15 @@
 /* Nexus = health. Own glows gold, enemy glows red. */
 .live-topbar__pill--nexus::before {
   background: linear-gradient(90deg, transparent, rgba(233,201,132,0.6), transparent);
+}
+/* The rising Hex-hit "-N" damage number (.mm-float-dmg--nexus) animates UPWARD
+ * out of the pill's top edge — but .live-topbar__pill clips with overflow:hidden,
+ * so on the two HEX pills the number was being cut off and never seen (only the
+ * shake/shatter read). Let the Hex pills overflow so the win-condition damage
+ * number — the loudest moment on screen — is fully readable as it floats up. */
+.live-topbar__pill--nexus-own,
+.live-topbar__pill--nexus-enemy {
+  overflow: visible;
 }
 .live-topbar__pill--nexus-own strong {
   color: #E9C984;
@@ -697,10 +909,13 @@
   min-height: 0;
 }
 
-/* Every slot is a square-ish cell. */
+/* Every slot is a compact cell. A FIXED height (not aspect-ratio off the wide
+   column width, which ballooned slots to ~185px tall and blew the board past the
+   viewport) keeps two lanes per zone on screen. ~104px reads as real cards while
+   fitting the single-screen budget. */
 .crypt-zone__lanes .live-lane__slot {
   position: relative;
-  aspect-ratio: 1 / 1;
+  height: 78px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -717,7 +932,7 @@
   box-shadow: inset 0 0 0 1px rgba(245,242,232,0.05);
 }
 .live-lane__hex {
-  width: 56%;
+  height: 64%;
   aspect-ratio: 1 / 1;
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   background: rgba(245,242,232,0.018);
@@ -726,18 +941,43 @@
 .crypt-zone--enemy .live-lane__hex { box-shadow: inset 0 0 0 1px rgba(255,77,77,0.10); }
 .crypt-zone--own .live-lane__hex { box-shadow: inset 0 0 0 1px rgba(233,201,132,0.12); }
 
-/* Filled slot: the BoardCard fills the cell (its own 1:1 art + frame stays). */
+/* Filled slot: the BoardCard's height = its width (square 1:1 art). To fit the
+   compact 104px-tall row we CAP THE WIDTH (the card is width-driven), so a unit
+   renders ~104px square instead of a ~185px full-column card that overflows the
+   row and blows the board past the viewport. */
 .crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
-  width: 100%;
+  width: 78px;
   max-width: 100%;
   min-width: 0;
   height: auto;
+}
+
+/* A deployable empty slot is a real BUTTON — reset the native chrome so it reads
+   exactly like the designed empty cell, but is clickable + keyboard-focusable. */
+.live-lane__slot--deployable {
+  border: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.live-lane__slot--deployable:focus-visible {
+  outline: 2px solid rgba(233,201,132,0.8);
+  outline-offset: 2px;
 }
 
 /* A deploy-ready lane lights its empty slots gold so the player sees WHERE to
    play; an attack-target lane lights them crimson. */
 .crypt-zone__lanes .live-lane--deploy .live-lane__slot--empty {
   box-shadow: inset 0 0 0 1px rgba(233,201,132,0.45), 0 0 12px -4px rgba(233,201,132,0.4);
+}
+/* The deployable cells brighten on hover so the drop target is obvious. */
+.crypt-zone__lanes .live-lane--deploy .live-lane__slot--deployable:hover {
+  box-shadow: inset 0 0 0 1px rgba(233,201,132,0.85), 0 0 18px -3px rgba(233,201,132,0.6);
+}
+.crypt-zone__lanes .live-lane--deploy .live-lane__slot--deployable:hover .live-lane__hex {
+  background: rgba(233,201,132,0.12);
 }
 .crypt-zone__lanes .live-lane--deploy .live-lane__hex {
   box-shadow: inset 0 0 0 1px rgba(233,201,132,0.55);

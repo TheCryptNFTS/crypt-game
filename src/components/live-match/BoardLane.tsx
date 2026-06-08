@@ -25,6 +25,15 @@ type Props = {
   unitMotion?: Record<string, UnitMotion>;
   floats?: { key: number; unitId: string; amount: number }[];
   dying?: DyingUnit[];
+  /**
+   * Deploy-by-click: when set (a hand unit is selected and this is one of YOUR
+   * lanes), clicking an empty slot deploys the selected unit into THIS lane —
+   * the same result as the ActionBar's Play Front/Back. The empty cells become
+   * real buttons and the deploy-ready highlight already lights them gold.
+   * Absent on enemy lanes / when nothing deployable is selected, so empty cells
+   * stay inert there.
+   */
+  onDeployToEmpty?: () => void;
 };
 
 /** Visual slot count per lane (the board's design grid). Occupied slots render
@@ -42,8 +51,10 @@ export function BoardLane({
   unitMotion,
   floats,
   dying,
+  onDeployToEmpty,
 }: Props) {
   const laneDying = dying ?? [];
+  const canDeploy = !!onDeployToEmpty;
 
   const unitCount = cards.length;
   const laneLabel = `${title}, ${unitCount} unit${unitCount === 1 ? "" : "s"}`;
@@ -101,16 +112,31 @@ export function BoardLane({
         ))}
 
         {/* Designed empty slots: a faint hexagon cell on a dark hex-grid texture
-            so an unoccupied lane reads as an intentional grid, not barren. */}
-        {Array.from({ length: emptyCount }).map((_, i) => (
-          <div
-            className="live-lane__slot live-lane__slot--empty"
-            key={`empty-${i}`}
-            aria-hidden="true"
-          >
-            <span className="live-lane__hex" />
-          </div>
-        ))}
+            so an unoccupied lane reads as an intentional grid, not barren. When a
+            hand unit is selected (canDeploy) each empty cell becomes a real
+            DEPLOY button — clicking it plays the selected unit into this lane,
+            the same path as Play Front/Back. */}
+        {Array.from({ length: emptyCount }).map((_, i) =>
+          canDeploy ? (
+            <button
+              type="button"
+              className="live-lane__slot live-lane__slot--empty live-lane__slot--deployable"
+              key={`empty-${i}`}
+              aria-label={`Deploy here — ${title}`}
+              onClick={onDeployToEmpty}
+            >
+              <span className="live-lane__hex" />
+            </button>
+          ) : (
+            <div
+              className="live-lane__slot live-lane__slot--empty"
+              key={`empty-${i}`}
+              aria-hidden="true"
+            >
+              <span className="live-lane__hex" />
+            </div>
+          )
+        )}
       </div>
     </section>
   );
