@@ -62,7 +62,13 @@ const curatedCommanders: CommanderDefinition[] = Object.entries(COMMANDER_SPECS)
     id,
     tokenId: null,
     name: rawById.get(id)?.name ?? spec.name ?? id,
-    faction: null,
+    // Carry the curated faction from the design spec instead of hardcoding null.
+    // The UI commander chip (getCommanderVmForPlayer -> normalizeFaction) reads
+    // this `faction`; with it null EVERY curated commander fell to the SILVER
+    // default, so e.g. cmd_bronze_raider mislabeled as SILVER. spec.faction is the
+    // same canonical source the engine's COMMANDER_FACTION map uses (the five
+    // curated factions share string values with the Faction enum).
+    faction: (spec.faction ?? null) as Faction | null,
     traits: {},
     deckRules: {
       deckSize: spec.deckRules.deckSize,

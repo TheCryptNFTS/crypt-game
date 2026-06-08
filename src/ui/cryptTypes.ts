@@ -59,9 +59,17 @@ export type PlayCardVM = {
   baseStats: StatLine;
   liveStats: StatLine;
   keywords: string[];
+  // Keywords currently granted by a continuous aura (re-derived each recompute).
+  // Surfaced so the UI can mirror the engine's `unitHasKeyword` (printed OR aura)
+  // when deciding attack affordance — a RUSH that arrives via aura still attacks.
+  auraKeywords?: string[];
   commanderTags: string[];
   passives: string[];
   exhausted?: boolean;
+  // Set the turn a unit enters play (cleared at its controller's next turn start,
+  // or immediately for RUSH). The board reads this to avoid lighting a "STRIKE"
+  // affordance on a unit the engine would reject as summoning-sick.
+  summoningSick?: boolean;
   selected?: boolean;
   equipped?: boolean;
   damaged?: boolean;

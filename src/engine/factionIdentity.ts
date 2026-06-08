@@ -238,7 +238,14 @@ export function factionOnUnitSummon(
       // Bronze live): the Rush band widens to cost<=3 as the swarm snowballs.
       const deep = archetypeActive(state, controller, faction, factionOf);
       const rushCap = deep ? 3 : 2;
-      if (costOf(unit.cardId) <= rushCap) grantKeyword(unit, "RUSH");
+      if (costOf(unit.cardId) <= rushCap) {
+        grantKeyword(unit, "RUSH");
+        // Runtime-granted RUSH must also clear summoning sickness — the flag was
+        // already seeded `true` at setup.ts (printed-keyword check) before this
+        // identity hook ran, so without this the unit has the RUSH keyword but
+        // still can't swing the turn it lands. Mirrors setup.ts:367 for printed RUSH.
+        unit.summoningSick = false;
+      }
       break;
     }
     case "GOLDEN_SOVEREIGNS": {

@@ -237,12 +237,28 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   const selectedOwnUnit = [...ownFront, ...ownBack].find((u) => u.id === selectedBoardId) ?? null;
   const selectedEnemyUnit = [...enemyFront, ...enemyBack].find((u) => u.id === targetBoardId) ?? null;
 
+  // Whether a selected own unit can ACTUALLY swing this turn. Mirrors the engine's
+  // `unitCanAttack` (keywordEngine.ts): not exhausted, and not summoning-sick unless
+  // it has RUSH (printed OR aura-granted — matches `unitHasKeyword`). Without this
+  // the board lit "ENEMY HEX · STRIKE" on a freshly-summoned non-RUSH unit the engine
+  // then rejected as summoning-sick. The VM now carries `summoningSick`/`auraKeywords`
+  // (liveMatchAdapter) so this check is faithful to engine truth.
+  const vmCanAttack = (u: typeof selectedOwnUnit): boolean => {
+    if (!u) return false;
+    if (u.exhausted) return false;
+    const hasRush =
+      (Array.isArray(u.keywords) && u.keywords.includes("RUSH")) ||
+      (Array.isArray(u.auraKeywords) && u.auraKeywords.includes("RUSH"));
+    if (u.summoningSick && !hasRush) return false;
+    return true;
+  };
+
   // Affordance highlights: light the board to show what the current selection
   // can do, so the deploy/attack loop is legible without trial-and-error.
   // Deploy: a unit card is in hand → own lanes are valid landing spots.
-  // Attack: an own unit is selected → enemy lanes are valid strike targets.
+  // Attack: an own unit is selected AND able to attack → enemy lanes are strike targets.
   const deployReady = !actionsLocked && selectedHandCard?.type === "unit";
-  const attackReady = !actionsLocked && !!selectedOwnUnit;
+  const attackReady = !actionsLocked && vmCanAttack(selectedOwnUnit);
 
   // DIRECT-CLICK COMBAT: once you've selected your own unit (the attacker),
   // clicking an enemy unit attacks IT, and clicking the enemy Hex attacks face —
@@ -744,8 +760,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
               selectedType={actionsLocked ? null : selectedHandCard?.type ?? null}
               canEquip={!actionsLocked && selectedHandCard?.type === "equipment" && !!selectedOwnUnit}
               canCast={!actionsLocked && selectedHandCard?.type === "spell"}
-              canAttackUnit={!actionsLocked && !!selectedOwnUnit && !!selectedEnemyUnit}
-              canAttackFace={!actionsLocked && !!selectedOwnUnit && !selectedEnemyUnit}
+              canAttackUnit={!actionsLocked && vmCanAttack(selectedOwnUnit) && !!selectedEnemyUnit}
+              canAttackFace={!actionsLocked && vmCanAttack(selectedOwnUnit) && !selectedEnemyUnit}
               affordable={!selectedHandCard || affordableCostFor(selectedHandCard.id)}
               energy={energy}
               selectedCost={selectedHandCard?.liveStats?.cost ?? selectedHandCard?.cost ?? null}

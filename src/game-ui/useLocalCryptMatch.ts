@@ -59,7 +59,21 @@ export type LocalMatchOptions = {
   p1Deck?: string[];
   /** Tutorial easy-mode: start the opponent nexus low so a newcomer can win. */
   opponentNexusHealth?: number;
+  /** Override P1's starting Hex. When set, the default newcomer cushion below is
+   *  NOT applied (the caller is taking explicit control of the player's HP). */
+  playerNexusHealth?: number;
 };
+
+// Newcomer cushion (LOCAL SOLO ONLY): the default /match is a first-time player's
+// game, and the playtest twice saw the greedy AI burst a LEADING newcomer from full
+// (18 / 12 in one turn) for a flat "dead from full while ahead" feel-bad. A modest
+// +5 Hex on the PLAYER (25 vs the standard 20) absorbs that single alpha-strike
+// without weakening the AI or making the game trivially easy — the player still has
+// to actually win the board. SCOPE: this lives in makeInitialMatch, which only ever
+// runs for the local single-player hook; real PvP is server-authoritative
+// (useRemoteCryptMatch) and never passes through here, so competitive balance is
+// untouched. Suppressed whenever a caller (tutorial, tests) sets its own HP.
+const NEWCOMER_PLAYER_NEXUS = 25;
 
 function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
   const p1Commander = resolveP1Commander();
@@ -124,6 +138,18 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
   // a real game quickly. Only applied when explicitly requested.
   if (typeof options?.opponentNexusHealth === "number") {
     match.players.P2.nexusHealth = options.opponentNexusHealth;
+  }
+
+  // Newcomer cushion for the default solo /match (see NEWCOMER_PLAYER_NEXUS). An
+  // explicit `playerNexusHealth` wins; otherwise the demo path gets the cushion so
+  // a leading first-timer isn't one-shot from full. Local-only — PvP never reaches
+  // here. The tutorial weakens the OPPONENT instead and doesn't need this on top,
+  // but it also never sets playerNexusHealth, so it inherits the cushion harmlessly
+  // (a coached newcomer being a little harder to one-shot is consistent intent).
+  if (typeof options?.playerNexusHealth === "number") {
+    match.players.P1.nexusHealth = options.playerNexusHealth;
+  } else {
+    match.players.P1.nexusHealth = NEWCOMER_PLAYER_NEXUS;
   }
 
   // OPENING MULLIGAN (PART 1) — open the phase for the HUMAN (P1) only. Passing

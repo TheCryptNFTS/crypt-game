@@ -231,9 +231,13 @@ export function unitToVm(playerId: "P1" | "P2", unit: any, selected: boolean): P
       cost: card?.cost ?? 0
     },
     keywords: unit?.keywords ?? [],
+    auraKeywords: unit?.auraKeywords ?? [],
     commanderTags: unit?.commanderTags ?? [],
     passives: unit?.passives ?? [],
     exhausted: !!unit?.exhausted,
+    // Mirror the engine's summoning-sickness flag so the board's strike affordance
+    // tracks the real `unitCanAttack` rule (see CryptMatchBoard `vmCanAttack`).
+    summoningSick: !!unit?.summoningSick,
     equipped: Array.isArray(unit?.equipment) && unit.equipment.length > 0,
     damaged: (unit?.maxHealth ?? unit?.health ?? 0) > (unit?.health ?? 0),
     selected,
