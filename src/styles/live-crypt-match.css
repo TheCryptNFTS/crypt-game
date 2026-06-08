@@ -991,10 +991,54 @@
   box-shadow: inset 0 0 0 1px rgba(233,201,132,0.55);
   background: rgba(233,201,132,0.05);
 }
+/* STRIKE TARGET — when your attacker is selected, every enemy unit it can hit
+ * reads unmistakably as a target: a pulsing gold ring + a corner-bracket reticle.
+ * The old 1px red outline was nearly invisible — the #1 combat-clarity gap. Gold
+ * (the UI's "you can act here" colour) pops against the crimson enemy frames; the
+ * enemy Hex keeps its own red strike-pulse (polish-hud.css). */
 .crypt-zone__lanes .live-lane--target .live-lane__slot--filled {
-  outline: 1px solid rgba(255,77,77,0.4);
-  outline-offset: 2px;
+  position: relative;
   border-radius: 12px;
+  cursor: crosshair;
+  outline: 2px solid rgba(233, 201, 132, 0.85);
+  outline-offset: 3px;
+  box-shadow:
+    inset 0 0 0 1px rgba(233, 201, 132, 0.45),
+    0 0 16px -2px rgba(233, 201, 132, 0.5);
+  animation: crypt-target-pulse 1.05s ease-in-out infinite;
+}
+.crypt-zone__lanes .live-lane--target .live-lane__slot--filled::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  pointer-events: none;
+  --g: rgba(233, 201, 132, 0.95);
+  --t: 2px;   /* bracket thickness */
+  --l: 13px;  /* bracket arm length */
+  background:
+    linear-gradient(var(--g), var(--g)) top left / var(--l) var(--t),
+    linear-gradient(var(--g), var(--g)) top left / var(--t) var(--l),
+    linear-gradient(var(--g), var(--g)) top right / var(--l) var(--t),
+    linear-gradient(var(--g), var(--g)) top right / var(--t) var(--l),
+    linear-gradient(var(--g), var(--g)) bottom left / var(--l) var(--t),
+    linear-gradient(var(--g), var(--g)) bottom left / var(--t) var(--l),
+    linear-gradient(var(--g), var(--g)) bottom right / var(--l) var(--t),
+    linear-gradient(var(--g), var(--g)) bottom right / var(--t) var(--l);
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 4px rgba(233, 201, 132, 0.6));
+}
+@keyframes crypt-target-pulse {
+  0%, 100% {
+    outline-color: rgba(233, 201, 132, 0.6);
+    box-shadow: inset 0 0 0 1px rgba(233, 201, 132, 0.35), 0 0 10px -3px rgba(233, 201, 132, 0.4);
+  }
+  50% {
+    outline-color: rgba(233, 201, 132, 1);
+    box-shadow: inset 0 0 0 1px rgba(233, 201, 132, 0.6), 0 0 22px -1px rgba(233, 201, 132, 0.65);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .crypt-zone__lanes .live-lane--target .live-lane__slot--filled { animation: none; }
 }
 
 /* Combat log in the dock = a slim scrollable strip, not a fat sidebar. */
