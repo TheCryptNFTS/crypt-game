@@ -229,8 +229,8 @@ export default function HelpPage() {
             style={{
               padding: "11px 18px",
               borderRadius: 10,
-              background: "linear-gradient(135deg, #8D5CFF, #6E3CE0)",
-              color: "#fff",
+              background: "linear-gradient(180deg, #C8A75D, var(--color-crypt-accent))",
+              color: "#060507",
               fontWeight: 600,
               fontSize: 14,
               textDecoration: "none",
