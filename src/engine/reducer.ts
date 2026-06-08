@@ -33,7 +33,7 @@
  *     are recomputed idempotently at the single `applyAction` chokepoint.
  */
 
-import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, TriggerQueueEntry, ArmedSecret, ResponseStackEntry, ResponseEffectSpec } from "./state";
+import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, TriggerQueueEntry, ArmedSecret, ResponseStackEntry, ResponseEffectSpec } from "./state";
 import { playUnitFromHand, playEquipmentFromHand } from "./setup";
 import { playArtifactCard } from "./effectSystem";
 import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBonuses";
@@ -265,6 +265,15 @@ function passiveSpec(cardId: string, op: "PIERCE_ARMOR" | "RESTRICT_ATTACK") {
   return compiledFor(cardId).specs.find((s) => s.op === op && s.trigger === "PASSIVE");
 }
 
+/** True if a unit carries PATIENT's self-restriction: a RESTRICT_ATTACK spec with
+ *  trigger "STATIC" ("this unit cannot attack"). This is the ATTACKER-SIDE marker
+ *  PATIENT emits in every branch of its compiler (abilityCompiler.ts ~926-985),
+ *  and is DISTINCT from Fear's defender-side RESTRICT_ATTACK (trigger "PASSIVE",
+ *  consumed by passiveSpec). Gating on trigger === "STATIC" keeps Fear untouched. */
+function attackerIsRestricted(cardId: string): boolean {
+  return compiledFor(cardId).specs.some((s) => s.op === "RESTRICT_ATTACK" && s.trigger === "STATIC");
+}
+
 /** True if a unit's compiled ability carries a given op (any trigger). Used for
  *  combat-legality passives (COMMANDER_SHIELD, DOUBLE_ATTACK, PASSIVE_FLOOR_HP). */
 function unitHasOp(cardId: string, op: EffectOp): boolean {
@@ -368,12 +377,18 @@ function costReductionFor(state: MatchState, controller: PlayerId, op: EffectOp)
 
 /** Win detection on the LIVED shape: nexusHealth + deck-out only. Mirrors the
  *  hook's `detectWinner` — the dead `health`-based path is never consulted. */
-function detectWinner(state: MatchState): PlayerId | null {
+function detectWinner(state: MatchState, initiator?: PlayerId): PlayerId | null {
   if (state.winner === "P1" || state.winner === "P2") return state.winner;
   const p1Dead = (state.players.P1.nexusHealth ?? 20) <= 0;
   const p2Dead = (state.players.P2.nexusHealth ?? 20) <= 0;
   // Lethal (nexus depletion) is always checked first, so a finishing blow still
   // wins even when an opponent is one tick from a control victory.
+  // TRUE SIMULTANEOUS DEATH: if BOTH hexes hit <=0 in the SAME action, a draw is not
+  // representable (`winner: PlayerId | null`), so the player who INITIATED the lethal
+  // action (the attacker) wins — deterministic and fair (their action caused resolution).
+  // When the initiator is unknown (non-attack resolution) we fall back to the historical
+  // P1-first order, keeping the golden fixture unmoved.
+  if (p1Dead && p2Dead) return initiator ?? "P1";
   if (p2Dead) return "P1";
   if (p1Dead) return "P2";
   // ASCENDANCY control victory (#4): only consulted when the match enabled it.
@@ -600,7 +615,12 @@ function drainTriggerQueue(state: MatchState) {
     if (++iterations > DRAIN_ITERATION_CAP) {
       // Clean termination backstop: abandon the remaining queue and stop. The cap
       // is unreachable by any legitimate chain, so this only fires on a true cycle.
+      // Before bailing, finalize: a mid-resolution board may already be decided
+      // (a hex at <=0), so stamp the winner now rather than leaving the match hung
+      // with no winner. detectWinner is pure/idempotent and a no-op if undecided.
       q.length = 0;
+      const w = detectWinner(state);
+      if (w && state.winner !== w) state.winner = w;
       break;
     }
     const entry = q.shift() as TriggerQueueEntry;
@@ -1463,6 +1483,12 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       }
       const cardId = player.hand[action.handIndex];
       if (cardTypeOf(cardId) !== "unit") return reject(state, "not-a-unit");
+      // Lane capacity: a lane holds at most MAX_LANE_UNITS. Token-summon effects
+      // already respect this cap (effectResolver), but the hand-played path did
+      // NOT — so a player could stack 10+ units in one lane. Enforce it here.
+      if ((player.board[action.lane]?.length ?? 0) >= MAX_LANE_UNITS) {
+        return reject(state, "lane-full");
+      }
       // AURA_COST_REDUCTION (e.g. King Tomb): friendly units cost N less. The
       // reduction is re-derived from the live board, so it is idempotent. The
       // legality check uses the reduced cost; setup.ts charges the full cost
@@ -1516,7 +1542,11 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         if (action.targetInstanceId) {
           const side = wantsEnemy ? opponentOf(action.player) : action.player;
           const ref = findUnitByInstance(played, side, action.targetInstanceId);
-          if (ref) battlecryTarget = ref.unit;
+          // STEALTH: a targeted battlecry aimed at an ENEMY unit cannot resolve onto
+          // an un-revealed stealthed unit (same rule as combat/spells). Own-board
+          // targets (heals/buffs) are unaffected. Leaving battlecryTarget undefined
+          // makes the battlecry a clean no-op rather than an illegal stealth hit.
+          if (ref && !(wantsEnemy && unitIsStealthed(ref.unit))) battlecryTarget = ref.unit;
         }
         // COPY_UNIT with no explicit target auto-selects the highest-cost enemy.
         if (!battlecryTarget && summonSpecs.some((s) => s.op === "COPY_UNIT")) {
@@ -1615,6 +1645,15 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       const defenderRef = findUnitByInstance(next, opponentOf(action.player), action.defenderInstanceId);
       if (!attackerRef || !defenderRef) return reject(state, "attacker-or-defender-not-found");
       if (attackerRef.unit.exhausted) return reject(state, "attacker-exhausted");
+      // SUMMONING SICKNESS: a unit cannot attack the turn it entered play unless it
+      // has RUSH (setup.ts seeds RUSH units non-sick). The flag is cleared at the start
+      // of its controller's NEXT turn (END_TURN refresh loop). RUSH = attack immediately.
+      if (attackerRef.unit.summoningSick) return reject(state, "attacker-summoning-sick");
+      // PATIENT (STATIC RESTRICT_ATTACK): a unit whose ability says "this unit cannot
+      // attack" is barred from swinging while it keeps its grow/mitigate upside. This
+      // is the attacker-side self-restriction ONLY (trigger "STATIC"); Fear's
+      // defender-side RESTRICT_ATTACK (trigger "PASSIVE") is handled separately below.
+      if (attackerIsRestricted(attackerRef.unit.cardId)) return reject(state, "attacker-cannot-attack");
       // GUARD: a non-GUARD defender cannot be attacked while a GUARD stands.
       if (!unitHasKeyword(defenderRef.unit, "GUARD") && playerHasGuard(next, opponentOf(action.player))) {
         return reject(state, "guard-must-be-cleared");
@@ -1651,7 +1690,7 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       }
 
       resolveAttackUnitCombat(next, action.player, action.attackerInstanceId, action.defenderInstanceId, events);
-      finalizeWin(next, events);
+      finalizeWin(next, events, action.player);
       return { state: next, events };
     }
 
@@ -1659,6 +1698,12 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       const attackerRef = findUnitByInstance(next, action.player, action.attackerInstanceId);
       if (!attackerRef) return reject(state, "attacker-not-found");
       if (attackerRef.unit.exhausted) return reject(state, "attacker-exhausted");
+      // SUMMONING SICKNESS: see ATTACK_UNIT — a freshly-played non-RUSH unit cannot
+      // swing the face the turn it arrives. Cleared at its controller's next turn start.
+      if (attackerRef.unit.summoningSick) return reject(state, "attacker-summoning-sick");
+      // PATIENT (STATIC RESTRICT_ATTACK): see ATTACK_UNIT — a "this unit cannot
+      // attack" unit cannot swing the face either.
+      if (attackerIsRestricted(attackerRef.unit.cardId)) return reject(state, "attacker-cannot-attack");
       // GUARD: the nexus cannot be hit while a GUARD defender is on the board.
       if (playerHasGuard(next, opponentOf(action.player))) {
         return reject(state, "guard-blocks-face");
@@ -1683,7 +1728,7 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       }
 
       resolveAttackFaceCombat(next, action.player, action.attackerInstanceId, events);
-      finalizeWin(next, events);
+      finalizeWin(next, events, action.player);
       return { state: next, events };
     }
 
@@ -1765,13 +1810,16 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       np.maxEnergy = Math.min(ENERGY_CAP, (np.maxEnergy ?? BASE_MAX_ENERGY) + 1);
       np.energy = np.maxEnergy;
 
-      // Refresh exhausted units (the lived rule does NOT reset summoning sick).
+      // Refresh exhausted units AND clear summoning sickness for the player whose turn
+      // is beginning: a unit played on turn N becomes un-sick at the start of its
+      // controller's turn N+1 (correct timing). RUSH units already start non-sick.
       // REGROW units also regenerate to full at the start of their turn.
       // ON_TURN_START fires for the player whose turn is beginning: PATIENT units
       // grow +1/+1 each turn they remain in play (regrow first, then grow).
       for (const lane of ["front", "back"] as Lane[]) {
         for (const unit of np.board?.[lane] ?? []) {
           unit.exhausted = false;
+          unit.summoningSick = false;
           unit.windfuryStruck = false; // WINDFURY bonus attack refreshes each turn
           unit.attacksThisTurn = 0; // DOUBLE_ATTACK tally refreshes each turn
           regrowAtTurnStart(unit);
@@ -1831,6 +1879,15 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // in order, then redraw OPENING_HAND_SIZE off the top. This is the byte-identical
       // behavior the "mulligan-then-end" golden scenario pins, so it is left UNCHANGED.
       if (action.player !== "P1") return reject(state, "mulligan-p1-only");
+      // ONCE-ONLY GUARD: the legacy redraw may fire exactly once, on turn 1, before
+      // the match has advanced. Without this a client could re-send MULLIGAN to cycle
+      // the deck for free. Mirrors the phase path's "already done" intent (P1 only,
+      // before any other action on turn 1). The flag is undefined on a fresh match, so
+      // the legitimate FIRST legacy mulligan and the golden "mulligan-then-end" scenario
+      // are unaffected.
+      if (next.turn !== 1) return reject(state, "mulligan-too-late");
+      if (next.legacyMulliganUsed) return reject(state, "mulligan-already-done");
+      next.legacyMulliganUsed = true;
       const p1 = next.players.P1;
       const returned: string[] = [...(p1.hand ?? [])];
       p1.deck = [...(p1.deck ?? []), ...returned];
@@ -1873,6 +1930,10 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         const side = wantsEnemy ? opponentOf(action.player) : action.player;
         const ref = findUnitByInstance(next, side, action.targetInstanceId);
         if (!ref) return reject(state, "spell-target-not-found");
+        // STEALTH: an un-revealed stealthed ENEMY unit cannot be the target of a
+        // spell, mirroring combat's "defender-is-stealthed". Only protects the
+        // opponent's units — your own stealthed units stay targetable by your spells.
+        if (wantsEnemy && unitIsStealthed(ref.unit)) return reject(state, "spell-target-stealthed");
         chosen = ref.unit;
       }
 
@@ -1919,9 +1980,12 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
   }
 }
 
-/** If the position is now decided, stamp the winner and emit WIN once. */
-function finalizeWin(state: MatchState, events: GameEvent[]) {
-  const w = detectWinner(state);
+/** If the position is now decided, stamp the winner and emit WIN once. The optional
+ *  `initiator` is the player whose action triggered resolution; it ONLY matters on a
+ *  true simultaneous double-kill, where the initiator (attacker) wins instead of the
+ *  historical P1-first tie-break. */
+function finalizeWin(state: MatchState, events: GameEvent[], initiator?: PlayerId) {
+  const w = detectWinner(state, initiator);
   if (w && state.winner !== w) {
     state.winner = w;
     events.push({ type: "WIN", player: w });

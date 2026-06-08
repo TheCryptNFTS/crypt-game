@@ -47,27 +47,39 @@ export default function LeaderboardPage() {
   const [rewards, setRewards] = useState<SeasonRewardTier[] | null>(null);
   const [mine, setMine] = useState<MyRanking | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
   const [claiming, setClaiming] = useState<string | null>(null);
 
   useEffect(() => {
     let live = true;
+    setFailed(false);
+    setLoaded(false);
     Promise.all([
       fetchCurrentSeason(),
       fetchSeasonLeaderboard(25),
       fetchSeasonRewards(),
       fetchMyRanking(),
-    ]).then(([s, b, r, m]) => {
-      if (!live) return;
-      setSeason(s);
-      setBoard(b);
-      setRewards(r);
-      setMine(m);
-      setLoaded(true);
-    });
+    ])
+      .then(([s, b, r, m]) => {
+        if (!live) return;
+        setSeason(s);
+        setBoard(b);
+        setRewards(r);
+        setMine(m);
+        setLoaded(true);
+      })
+      .catch(() => {
+        // A rejected fetch previously left the page spinning "Reading…" forever.
+        // Surface a clear error + retry instead of an infinite spinner.
+        if (!live) return;
+        setFailed(true);
+        setLoaded(true);
+      });
     return () => {
       live = false;
     };
-  }, []);
+  }, [reloadKey]);
 
   const reloadRewards = async () => {
     const r = await fetchSeasonRewards();
@@ -110,6 +122,27 @@ export default function LeaderboardPage() {
         )
       }
     >
+      {/* Fetch failure — clear message + retry instead of an endless spinner. */}
+      {failed ? (
+        <section className="crypt-profile-section" aria-label="Leaderboard error">
+          <div className="crypt-profile-placeholder">
+            Couldn’t reach the season ladder. Check your connection and try again.
+          </div>
+          <div className="mt-3 flex items-center gap-4">
+            <button
+              type="button"
+              className="crypt-ladder-reward-claim"
+              onClick={() => setReloadKey((k) => k + 1)}
+            >
+              Retry
+            </button>
+            <Link to="/play" className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline">
+              {tr("leaderboard.foot.playHub")}
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <>
       {/* Your standing — pinned summary when ranked. */}
       {mine ? (
         <section className="crypt-profile-section" aria-label={tr("leaderboard.you.aria")}>
@@ -203,6 +236,8 @@ export default function LeaderboardPage() {
           </div>
         )}
       </section>
+        </>
+      )}
 
       <p className="crypt-profile-secondary">
         {tr("leaderboard.foot.climbFrom")}

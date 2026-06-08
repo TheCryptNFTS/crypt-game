@@ -47,7 +47,7 @@ function SideBoard({ state, seat, label }: { state: MatchState; seat: PlayerId; 
   const p = state.players[seat];
   const units = [...p.board.front, ...p.board.back];
   return (
-    <div className="crypt-puzzle-side" aria-label={`${label}: nexus ${p.nexusHealth} health`}>
+    <div className="crypt-puzzle-side" aria-label={`${label}: Hex ${p.nexusHealth} health`}>
       <div className="crypt-puzzle-side-head">
         <span className="crypt-puzzle-side-label">{label}</span>
         <span className="crypt-puzzle-nexus" aria-hidden>

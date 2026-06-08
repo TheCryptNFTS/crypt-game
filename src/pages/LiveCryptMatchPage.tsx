@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/crypt-match.css";
 import "../styles/live-crypt-match.css";
+import "../styles/live-crypt-match-mobile.css";
 import { CryptMatchBoard } from "../components/live-match/CryptMatchBoard";
 import { PvpLobby, EnteredMatch } from "../components/live-match/PvpLobby";
 import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
@@ -161,6 +162,7 @@ export default function LiveCryptMatchPage({
         selectedBoardId={local.selectedBoardId}
         inspectId={local.inspectId}
         combatLog={local.combatLog}
+        actionMessage={local.actionMessage}
         selectedHandCard={local.selectedHandCard}
         mulliganAvailable={local.mulliganAvailable}
         energy={local.energy}
@@ -173,6 +175,7 @@ export default function LiveCryptMatchPage({
         endTurn={local.endTurn}
         playSelectedUnit={local.playSelectedUnit}
         playSelectedArtifact={local.playSelectedArtifact}
+        playSelectedSpell={local.playSelectedSpell}
         equipSelectedToUnit={local.equipSelectedToUnit}
         attackUnit={local.attackUnit}
         attackFace={local.attackFace}

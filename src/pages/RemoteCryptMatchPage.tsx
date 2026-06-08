@@ -58,6 +58,7 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         selectedBoardId={remote.selectedBoardId}
         inspectId={remote.inspectId}
         combatLog={remote.combatLog}
+        actionMessage={remote.actionMessage}
         selectedHandCard={remote.selectedHandCard}
         mulliganAvailable={remote.mulliganAvailable}
         energy={remote.energy}
@@ -70,6 +71,7 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         endTurn={remote.endTurn}
         playSelectedUnit={remote.playSelectedUnit}
         playSelectedArtifact={remote.playSelectedArtifact}
+        playSelectedSpell={remote.playSelectedSpell}
         equipSelectedToUnit={remote.equipSelectedToUnit}
         attackUnit={remote.attackUnit}
         attackFace={remote.attackFace}

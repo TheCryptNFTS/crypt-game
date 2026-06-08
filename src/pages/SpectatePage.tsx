@@ -263,6 +263,7 @@ function WatchView({
         selectedBoardId={null}
         inspectId={null}
         combatLog={[{ id: "boot", text: "Spectating — server authoritative, read-only." }]}
+        actionMessage={null}
         selectedHandCard={null}
         mulliganAvailable={false}
         energy={match.players[seat]?.energy ?? 0}
@@ -275,6 +276,7 @@ function WatchView({
         endTurn={NOOP}
         playSelectedUnit={NOOP}
         playSelectedArtifact={NOOP}
+        playSelectedSpell={NOOP}
         equipSelectedToUnit={NOOP}
         attackUnit={NOOP}
         attackFace={NOOP}

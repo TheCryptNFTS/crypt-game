@@ -82,6 +82,29 @@
   pointer-events: none;
 }
 
+/* ── Sigil art fallback — cards with no resolved image show a crest, not a void ── */
+.crypt-card-sigil-fallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      120% 100% at 50% 18%,
+      color-mix(in srgb, var(--cf-faction) 24%, transparent) 0%,
+      transparent 62%
+    ),
+    linear-gradient(180deg, #14141c 0%, #0a0a11 60%, #07070c 100%);
+}
+.crypt-card-sigil-fallback__mark {
+  width: 52%;
+  max-width: 86px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  opacity: 0.5;
+  filter: grayscale(0.15) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+  mix-blend-mode: screen;
+}
+
 /* ── Sculpted rarity gem/bar — replaces the flat 3px strip ─────────────────── */
 .crypt-rarity-gem {
   position: relative;

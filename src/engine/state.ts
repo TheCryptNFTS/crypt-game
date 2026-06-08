@@ -347,6 +347,15 @@ export interface MatchState {
    */
   rngCursor: number;
   /**
+   * LEGACY MULLIGAN once-only guard. Set true the first time the legacy P1-only
+   * MULLIGAN action fires (the path taken when there is NO explicit `mulligan` phase).
+   * The legacy redraw is then refused on every subsequent send, so a client cannot
+   * re-issue `MULLIGAN {player:"P1"}` to cycle the deck for free. ABSENT (undefined)
+   * by default, so a fresh match and the reducer-equivalence golden JSON are unmoved
+   * (undefined survives structuredClone). Only the phase-less legacy path touches it.
+   */
+  legacyMulliganUsed?: boolean;
+  /**
    * Optional match RULESET (alt win conditions, #4). ABSENT by default, so a
    * vanilla match plays exactly as before and the reducer-equivalence golden JSON
    * stays unmoved (undefined survives structuredClone). When `ascendancyToWin` is

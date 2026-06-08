@@ -48,7 +48,7 @@ button {
   inset: 0;
   background:
     radial-gradient(circle at 20% 30%, rgba(233, 201, 132, 0.05), transparent 20%),
-    radial-gradient(circle at 80% 20%, rgba(141, 92, 255, 0.05), transparent 18%);
+    radial-gradient(circle at 80% 20%, rgba(233, 201, 132, 0.05), transparent 18%);
   pointer-events: none;
 }
 
@@ -66,7 +66,7 @@ button {
 }
 
 .crypt-shell__brand--cyan {
-  color: #8D5CFF;
+  color: #E9C984;
 }
 
 .crypt-layout {
@@ -193,7 +193,7 @@ button {
 }
 
 .crypt-callout--sync {
-  background: rgba(141, 92, 255, 0.08);
+  background: rgba(233, 201, 132, 0.08);
 }
 
 .crypt-callout__label {
@@ -277,6 +277,11 @@ button {
 
 .crypt-card {
   position: relative;
+  /* The art now fills the card via position:absolute, so it no longer
+     establishes the card's box size. Give the card an explicit 100% width (it
+     fills its hand/board slot) — without this the hand cards collapsed to thin
+     slivers since their only in-flow content (the image) became absolute. */
+  width: 100%;
   overflow: hidden;
   border-radius: 20px;
   border: 1px solid var(--crypt-line);
@@ -307,30 +312,35 @@ button {
   height: 100%;
 }
 
-/* Card art is a 500x500 square NFT — render it in a square region so nothing
-   is cropped. The card body stays tall; art sits square at the top. */
+/* Card art FILLS the entire frame (like a real TCG card / the home & profile
+   commander cards) — text overlays a bottom scrim. Previously the 500x500 NFT
+   art was rendered as a square pinned to the TOP of a much taller card, leaving
+   a big black void below — which read as amateur/unfinished. object-position
+   keeps the (usually upper-centered) skull subject in view as it's cropped. */
 .crypt-card__image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
-  height: auto;
+  height: 100%;
   object-fit: cover;
+  object-position: center 28%;
   background: #000;
 }
 
-/* In board mode the image is a direct child of the card; pin the square art to
-   the top so the overlaid stat blocks fall below it. */
 .crypt-card--board .crypt-card__image {
   position: absolute;
-  inset: 0 0 auto 0;
+  inset: 0;
 }
 
+/* Strong bottom scrim so the title + stats stay readable over the art that now
+   runs the full height of the card. */
 .crypt-card__scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.08), transparent 25%),
-    linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.78) 100%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.25), transparent 22%),
+    linear-gradient(180deg, transparent 40%, rgba(6, 6, 10, 0.72) 64%, rgba(4, 4, 8, 0.96) 100%);
 }
 
 .crypt-card__overlay,
@@ -461,34 +471,44 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.crypt-board-stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.crypt-board-stat {
-  padding: 8px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.08);
-  text-align: center;
-}
-
-.crypt-board-stat__k {
-  display: block;
-  font-size: 10px;
-  color: var(--crypt-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.crypt-board-stat__v {
-  display: block;
-  margin-top: 4px;
-  font-size: 18px;
+/* Board minion stat gem: big ATK / HP, the only numbers that matter at a glance.
+   ATK in attack-gold, HP in life-green, split by a faint slash. Replaces the old
+   4-cell grid + CRIT/UTIL row that crammed 6 numbers onto a 108px card. */
+.crypt-board-gem {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 5px;
+  font-family: var(--font-display, "Clash Display"), sans-serif;
   font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
+.crypt-board-gem__atk { font-size: 19px; color: #E9C984; }
+.crypt-board-gem__hp { font-size: 19px; color: #7CD4A6; }
+.crypt-board-gem__sep { font-size: 13px; color: rgba(245, 242, 232, 0.3); }
+
+/* ARM / SPD pips — shown only when > 0, so a vanilla unit stays clean. */
+.crypt-board-pips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 4px;
+}
+.crypt-board-pip {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+.crypt-board-pip--arm { color: #9fb8d6; }
+.crypt-board-pip--spd { color: #d6c79f; }
 
 .crypt-card.is-damaged {
   filter: saturate(0.9);

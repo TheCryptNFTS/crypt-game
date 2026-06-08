@@ -122,8 +122,12 @@ function run() {
   const p1Commander = (scanState as any).players.P1.commanderId as string;
   for (const id of sampleIds) {
     const meta = getPlayableCardById(id)!;
-    const { state, unit } = playUnit(scanState, id);
-    scanState = state;
+    // Inspect each card's entry line on its OWN fresh board. (Previously this
+    // accumulated all 12 into one front lane; with the MAX_LANE_UNITS cap now
+    // enforced on the hand-played path, the 8th+ play would be rejected and the
+    // helper would read a stale slot. Per-card boards keep the check exact and
+    // never trip the cap.)
+    const { unit } = playUnit(freshMatch(1001), id);
     // Board base line must equal the catalog (override-patched) line PLUS the
     // controller's commander on-summon passive delta. Pre-fix, board entered at a
     // 0/1 stub (BUG 2) — catalog atk/health was simply ignored.

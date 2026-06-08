@@ -18,6 +18,8 @@ const commands = [
   "npm run dev:auras",
   "npm run dev:turnstart",
   "npm run dev:turnend",
+  "npm run dev:summoning-sickness",
+  "npm run dev:patient-stealth",
   "npm run dev:ondeath",
   "npm run dev:longtail",
   "npm run dev:battlecry-target",

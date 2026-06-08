@@ -6,7 +6,7 @@ import { applyAction, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
 import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
-import { planP2Turn, planP2Plays, planP2Combat } from "./cryptMatchAI";
+import { planP2Turn, planP2Plays, planP2Combat, rampedAiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
 type Lane = "front" | "back";
@@ -46,9 +46,14 @@ export type LocalMatchOptions = {
 function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
   const p1Commander = findCommander("Crypt #6600");
   const p2Commander = allCommanders.find((c: any) => c.traits?.Legendary === "Legendary" && c.id !== p1Commander.id) ?? allCommanders[1] ?? p1Commander;
-  const p1Deck = options?.p1Deck && options.p1Deck.length > 0
-    ? options.p1Deck
-    : buildPlayerDeck(ownedCardIds).deck;
+  // An explicit p1Deck (draft / deck-builder) is honored only when it's a legal
+  // 30-card list; anything else falls back to the owned/demo builder, which is
+  // guaranteed to return a legal 30. createMatchFromDecks THROWS on an illegal
+  // deck, and this runs inside useState — an unguarded throw white-screens the
+  // whole app via the root error boundary, so we never hand it a bad deck.
+  const explicitP1 =
+    options?.p1Deck && options.p1Deck.length === 30 ? options.p1Deck : null;
+  const p1Deck = explicitP1 ?? buildPlayerDeck(ownedCardIds).deck;
   const p2Deck = buildPlayerDeck().deck;
 
   // The engine is now seedable/deterministic. Single-player picks a fresh seed
@@ -135,7 +140,7 @@ function eventToLogText(ev: GameEvent): string | null {
     case "ATTACK":
       return `${DISPLAY_NAME[ev.player]} struck for ${ev.outgoing} raw / ${ev.mitigated} final. Counter: ${ev.counter}.`;
     case "NEXUS_DAMAGE":
-      return `${DISPLAY_NAME[ev.player]} struck ${POSSESSIVE[ev.targetPlayer]} nexus for ${ev.damage}.`;
+      return `${DISPLAY_NAME[ev.player]} struck ${POSSESSIVE[ev.targetPlayer]} Hex for ${ev.damage}.`;
     case "TURN_START":
       return `${POSSESSIVE[ev.player]} turn. Energy ${ev.energy}/${ev.maxEnergy}.`;
     case "DECK_OUT":
@@ -144,6 +149,53 @@ function eventToLogText(ev: GameEvent): string | null {
       return winLine(ev.player);
     case "TURN_END":
     case "REJECTED":
+    default:
+      return null;
+  }
+}
+
+/** Live reduced-motion check (browser-safe; false in Node/SSR harnesses, which
+ *  keeps the AI turn a single deterministic commit there). When true, the AI
+ *  turn does NOT step — it commits in one go so accessibility users get no
+ *  animation churn. */
+function prefersReducedMotionLive(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+/**
+ * Map a reducer REJECTED reason to a short, player-facing nudge. Returns null
+ * for reasons the player never needs to see (internal/no-op guards). Keep these
+ * plain-language — they show on the action bar, not in dev logs.
+ */
+function rejectReasonText(reason: string): string | null {
+  switch (reason) {
+    case "not-enough-energy":
+      return "Not enough energy for that.";
+    case "lane-full":
+      return "That lane is full (max 7 units).";
+    case "guard-blocks-face":
+      return "A Guard unit blocks the Hex — clear it first.";
+    case "commander-shielded":
+      return "Their commander is shielded — clear the board first.";
+    case "guard-must-be-cleared":
+      return "You must attack the Guard unit first.";
+    case "attacker-exhausted":
+      return "That unit already acted this turn.";
+    case "attacker-summoning-sick":
+      return "That unit is summoning-sick — it can act next turn.";
+    case "attacker-cannot-attack":
+      return "That unit can't attack — it holds the line instead.";
+    case "spell-target-required":
+      return "That spell needs a target — select a unit, then Cast.";
+    case "spell-target-not-found":
+      return "No valid target for that spell — pick another unit.";
+    case "spell-target-stealthed":
+    case "defender-is-stealthed":
+      return "That unit is stealthed — you can't target it yet.";
     default:
       return null;
   }
@@ -160,6 +212,11 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   const [combatLog, setCombatLog] = useState<CombatLogEntry[]>([
     { id: "boot", text: "Match online — signal live." }
   ]);
+  // Transient "why did nothing happen?" nudge. A rejected action (guard blocks
+  // the nexus, attacker already swung, not enough energy, lane full) used to be
+  // a silent no-op that only whispered into the log. We surface the reason on
+  // the action bar so the player isn't left wondering. Cleared on any success.
+  const [actionMessage, setActionMessage] = useState<string | null>(null);
 
   const deckSource = buildPlayerDeck(ownedCardIds).source;
 
@@ -168,6 +225,16 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   const loadedOwnedKey = useRef<string>((ownedCardIds ?? []).join(","));
   // Guards the AI effect so P2's turn is only ever driven once.
   const aiRunningRef = useRef(false);
+  // True while this hook's component is mounted. The AI setTimeout below resolves
+  // asynchronously; if the user navigates away mid-AI-turn we must not call
+  // setMatch on an unmounted component (state-update warning + leak).
+  const mountedRef = useRef(true);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   const winner: PlayerId | null = detectWinner(match);
 
@@ -208,12 +275,15 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   const dispatch = (action: Action): boolean => {
     const { state: nextState, events } = applyAction(match, action);
     const rejected = events.find((e) => e.type === "REJECTED");
-    if (rejected) {
-      if (rejected.type === "REJECTED" && rejected.reason === "not-enough-energy") {
-        appendLog("Not enough energy.");
+    if (rejected && rejected.type === "REJECTED") {
+      const text = rejectReasonText(rejected.reason);
+      if (text) {
+        appendLog(text);
+        setActionMessage(text);
       }
       return false;
     }
+    setActionMessage(null);
     setMatch(nextState);
     for (const ev of events) {
       const line = eventToLogText(ev);
@@ -254,6 +324,30 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     if (!selectedHandCard || selectedHandCard.type !== "equipment" || selectedHandIndex < 0) return;
     consumeMulligan();
     if (dispatch({ type: "EQUIP", player: activePlayer, handIndex: selectedHandIndex, targetInstanceId })) {
+      setSelectedHandId(null);
+    }
+  };
+
+  /**
+   * Cast the selected SPELL. Targeted spells (damage / heal / debuff) need a
+   * board target — the caller passes the currently-selected board unit's id, if
+   * any. Untargeted spells ignore it. The reducer rejects (and the action bar
+   * surfaces) "spell-target-required" / "spell-target-not-found" /
+   * "spell-target-stealthed" when the target is missing or illegal, so the UI
+   * doesn't need to duplicate the engine's targeting rules.
+   */
+  const playSelectedSpell = (targetInstanceId?: string) => {
+    if (winner) return;
+    if (!selectedHandCard || selectedHandCard.type !== "spell" || selectedHandIndex < 0) return;
+    consumeMulligan();
+    if (
+      dispatch({
+        type: "PLAY_SPELL",
+        player: activePlayer,
+        handIndex: selectedHandIndex,
+        targetInstanceId,
+      })
+    ) {
       setSelectedHandId(null);
     }
   };
@@ -345,71 +439,145 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     if (aiRunningRef.current) return;
     aiRunningRef.current = true;
 
+    // Collected step timers so teardown cancels every pending commit.
+    const stepTimers: ReturnType<typeof setTimeout>[] = [];
+
+    const mapAiAction = (
+      a: ReturnType<typeof planP2Turn>[number],
+      state: any,
+    ): Action | null => {
+      if (a.kind === "playUnit") {
+        const idx = (state.players.P2.hand ?? []).indexOf(a.cardId);
+        return idx < 0 ? null : { type: "PLAY_UNIT", player: "P2", handIndex: idx, lane: a.lane };
+      } else if (a.kind === "playArtifact") {
+        const idx = (state.players.P2.hand ?? []).indexOf(a.cardId);
+        return idx < 0 ? null : { type: "PLAY_ARTIFACT", player: "P2", handIndex: idx };
+      } else if (a.kind === "playSpell") {
+        const idx = (state.players.P2.hand ?? []).indexOf(a.cardId);
+        return idx < 0 ? null : { type: "PLAY_SPELL", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId };
+      } else if (a.kind === "equip") {
+        const idx = (state.players.P2.hand ?? []).indexOf(a.cardId);
+        return idx < 0 ? null : { type: "EQUIP", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId };
+      } else if (a.kind === "attackUnit") {
+        return { type: "ATTACK_UNIT", player: "P2", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId };
+      } else if (a.kind === "attackFace") {
+        return { type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId };
+      }
+      return null;
+    };
+
     const timer = setTimeout(() => {
-      let work = match;
-      const logs: string[] = [];
+      // Bail out if torn down between scheduling and firing — no state updates
+      // on an unmounted component.
+      if (!mountedRef.current) return;
 
-      const run = (action: Action) => {
-        const { state: nextState, events } = applyAction(work, action);
-        work = nextState;
-        for (const ev of events) {
-          const line = eventToLogText(ev);
-          if (line) logs.push(line);
-        }
+      // PASS 1 — compute the full ordered action list against a private copy of
+      // the state (pure, no UI commit). The reducer logic is byte-identical to
+      // before; we're only deferring the COMMITS, not changing the plan.
+      let plan: { action: Action; isStep: boolean }[] = [];
+      let scratch = match;
+      const planAndPush = (a: ReturnType<typeof planP2Turn>[number]) => {
+        const action = mapAiAction(a, scratch);
+        if (!action) return;
+        const { state: nextState } = applyAction(scratch, action);
+        scratch = nextState;
+        // Deploys and attacks are the "watchable" beats the player should SEE
+        // animate one at a time; everything else (equips, spells, end-turn) is
+        // folded into the trailing batch.
+        const isStep = a.kind === "playUnit" || a.kind === "attackUnit" || a.kind === "attackFace";
+        plan.push({ action, isStep });
       };
-
-      const runAiAction = (a: ReturnType<typeof planP2Turn>[number]) => {
-        if (a.kind === "playUnit") {
-          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-          if (idx < 0) return;
-          run({ type: "PLAY_UNIT", player: "P2", handIndex: idx, lane: a.lane });
-        } else if (a.kind === "playArtifact") {
-          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-          if (idx < 0) return;
-          run({ type: "PLAY_ARTIFACT", player: "P2", handIndex: idx });
-        } else if (a.kind === "playSpell") {
-          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-          if (idx < 0) return;
-          run({ type: "PLAY_SPELL", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId });
-        } else if (a.kind === "equip") {
-          const idx = (work.players.P2.hand ?? []).indexOf(a.cardId);
-          if (idx < 0) return;
-          run({ type: "EQUIP", player: "P2", handIndex: idx, targetInstanceId: a.targetInstanceId });
-        } else if (a.kind === "attackUnit") {
-          run({ type: "ATTACK_UNIT", player: "P2", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId });
-        } else if (a.kind === "attackFace") {
-          run({ type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId });
-        }
-      };
-
       try {
-        // Two-phase: apply all plays first, THEN plan combat off the post-play
-        // board so a freshly-summoned RUSH unit (now live) can actually swing.
-        for (const a of planP2Plays(work)) {
-          if (work.winner) break;
-          runAiAction(a);
+        const diff = rampedAiDifficulty();
+        // Two-phase: all plays first, THEN combat off the post-play board so a
+        // freshly-summoned RUSH unit can swing.
+        for (const a of planP2Plays(scratch, diff)) {
+          if (scratch.winner) break;
+          planAndPush(a);
         }
-        for (const a of planP2Combat(work)) {
-          if (work.winner) break;
-          runAiAction(a);
+        for (const a of planP2Combat(scratch, diff)) {
+          if (scratch.winner) break;
+          planAndPush(a);
         }
       } catch {
-        // Planning failed — fall through to ending the turn safely.
+        // Planning failed — fall through; the END_TURN below keeps the game live.
+      }
+      const endsTurn = !scratch.winner;
+
+      // PASS 2 — replay the plan, committing one action per render. Because the
+      // motion/sound hooks diff state-to-state, committing each AI deploy/attack
+      // separately makes the EXISTING juice (lunge, particles, sound, deploy
+      // ring) fire per-event — exactly like a human turn. Before this, the whole
+      // AI turn collapsed into ONE diff and the player never saw the opponent act.
+      let live = match;
+      const commitOne = (action: Action) => {
+        const { state: nextState, events } = applyAction(live, action);
+        live = nextState;
+        if (!mountedRef.current) return;
+        setMatch(live);
+        for (const ev of events) {
+          const line = eventToLogText(ev);
+          if (line) appendLog(line);
+        }
+      };
+
+      // Reduced-motion (or an empty plan): no per-step pacing — single commit,
+      // identical to the original behavior, so accessibility users and harnesses
+      // see no animation churn.
+      const stepped = !prefersReducedMotionLive() && plan.some((p) => p.isStep);
+
+      if (!stepped) {
+        for (const p of plan) commitOne(p.action);
+        if (endsTurn) commitOne({ type: "END_TURN", player: "P2" });
+        aiRunningRef.current = false;
+        if (!mountedRef.current) return;
+        setSelectedHandId(null);
+        setSelectedBoardId(null);
+        return;
       }
 
-      // End P2's turn (unless P2 already won) through the reducer too.
-      if (!work.winner) {
-        run({ type: "END_TURN", player: "P2" });
+      // Staggered cadence: ~520ms between watchable beats (attack lunge is
+      // 460ms, so this leaves headroom); tighten on a long turn so a big board
+      // doesn't drag. Non-step actions ride on the previous beat's tick.
+      const stepCount = plan.filter((p) => p.isStep).length;
+      const gap = stepCount > 5 ? 360 : 520;
+      let delay = 0;
+      let pending: Action[] = [];
+      const flushAt = (atDelay: number, actions: Action[]) => {
+        const batch = actions.slice();
+        stepTimers.push(
+          setTimeout(() => {
+            if (!mountedRef.current) return;
+            for (const act of batch) commitOne(act);
+          }, atDelay),
+        );
+      };
+      for (const p of plan) {
+        pending.push(p.action);
+        if (p.isStep) {
+          flushAt(delay, pending);
+          pending = [];
+          delay += gap;
+        }
       }
-
-      aiRunningRef.current = false;
-      setMatch(work);
-      setSelectedHandId(null);
-      setSelectedBoardId(null);
-      for (const line of logs) appendLog(line);
+      // Trailing non-step actions + END_TURN on a final tick.
+      const tail: Action[] = [...pending];
+      if (endsTurn) tail.push({ type: "END_TURN", player: "P2" });
+      stepTimers.push(
+        setTimeout(() => {
+          if (!mountedRef.current) return;
+          for (const act of tail) commitOne(act);
+          aiRunningRef.current = false;
+          setSelectedHandId(null);
+          setSelectedBoardId(null);
+        }, delay),
+      );
     }, 600);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      for (const t of stepTimers) clearTimeout(t);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match.activePlayer, match.turn, winner]);
 
@@ -423,6 +591,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     selectedBoardId,
     inspectId,
     combatLog,
+    actionMessage,
     selectedHandCard,
     selectedHandIndex,
     mulliganAvailable,
@@ -437,6 +606,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     endTurn,
     playSelectedUnit,
     playSelectedArtifact,
+    playSelectedSpell,
     equipSelectedToUnit,
     attackUnit,
     attackFace,

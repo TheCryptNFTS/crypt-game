@@ -26,6 +26,16 @@ const K = {
 
 export const DAILY_PACK_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
+/**
+ * In-memory mirror of the onboarding flags. In incognito/private mode (and other
+ * sandboxes) localStorage.setItem throws, so the tutorial-complete flag never
+ * persists and the OnboardingGate bounces a just-finished pilot back to
+ * /tutorial forever. This module-level mirror keeps markTutorialComplete() /
+ * hasFirstWin() honest for the lifetime of the session even when the underlying
+ * store rejects writes — enough to escape the gate within the same page session.
+ */
+const memFlags: Record<string, boolean> = {};
+
 function readNum(key: string, fallback: number): number {
   try {
     const v = localStorage.getItem(key);
@@ -46,6 +56,10 @@ function writeNum(key: string, n: number) {
 }
 
 function readFlag(key: string): boolean {
+  // Consult the in-memory mirror first: if this session set the flag but the
+  // write to localStorage was rejected (private mode), the mirror is the only
+  // record. A truthy persisted value also wins.
+  if (memFlags[key]) return true;
   try {
     return localStorage.getItem(key) === "1";
   } catch {
@@ -54,11 +68,14 @@ function readFlag(key: string): boolean {
 }
 
 function writeFlag(key: string, on: boolean) {
+  // Always update the in-memory mirror so reads succeed even if persistence
+  // throws below.
+  memFlags[key] = on;
   try {
     if (on) localStorage.setItem(key, "1");
     else localStorage.removeItem(key);
   } catch {
-    /* ignore */
+    /* ignore — mirror already holds the value for this session */
   }
 }
 

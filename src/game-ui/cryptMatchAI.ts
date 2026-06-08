@@ -53,6 +53,26 @@ function classifySpell(card: any): { needsTarget: boolean; wantsEnemy: boolean }
   return { needsTarget: wantsEnemy || wantsAlly, wantsEnemy };
 }
 
+// Raw card lookup (carries rawTraits.Ability) so the planner can compile a
+// unit's ability — needed to detect PATIENT's STATIC "cannot attack" marker.
+const RAW_CARD_BY_ID = new Map<string, any>(
+  (allPlayableCards as any[]).map((c) => [c.id, c]),
+);
+
+/**
+ * True if a unit's compiled ability carries PATIENT's STATIC RESTRICT_ATTACK
+ * marker ("this unit cannot attack"). The reducer now rejects such attacks
+ * (reason "attacker-cannot-attack"), so the planner MUST exclude these units or
+ * it desyncs by planning an illegal swing. Fear's RESTRICT_ATTACK is trigger
+ * "PASSIVE" (a defender rule) and is deliberately NOT matched here.
+ */
+function cannotAttack(unit: any): boolean {
+  const card = RAW_CARD_BY_ID.get(unit?.cardId);
+  if (!card) return false;
+  const specs = (compileAbility(card?.rawTraits?.Ability).specs ?? []) as any[];
+  return specs.some((s) => s.op === "RESTRICT_ATTACK" && s.trigger === "STATIC");
+}
+
 const META = new Map<string, CardMeta>(
   (allPlayableCards as any[]).map((c) => [
     c.id,
@@ -109,7 +129,7 @@ const PROFILES: Record<AiDifficulty, DifficultyProfile> = {
  * undefined, so we fall back to NORMAL — which keeps the planner byte-identical
  * to its historical greedy behavior and the regression suite deterministic.
  */
-export function readAiDifficulty(): AiDifficulty {
+export function readAiDifficulty(fallback: AiDifficulty = "normal"): AiDifficulty {
   try {
     const raw =
       typeof localStorage !== "undefined"
@@ -117,7 +137,43 @@ export function readAiDifficulty(): AiDifficulty {
         : null;
     if (raw === "easy" || raw === "normal" || raw === "hard") return raw;
   } catch {
-    // localStorage can throw (private mode / disabled storage) — treat as NORMAL.
+    // localStorage can throw (private mode / disabled storage) — use the fallback.
+  }
+  // `fallback` defaults to NORMAL so Node harnesses (no localStorage) stay
+  // byte-identical & deterministic; the browser hook passes "hard" so a real
+  // solo match faces an opponent that commits the board and takes lethal.
+  return fallback;
+}
+
+/** localStorage key the rest of the app writes the lifetime match count to. */
+const MATCHES_TOTAL_KEY = "crypt.progress.matchesTotal";
+
+/**
+ * NEW-PLAYER DIFFICULTY RAMP. A brand-new pilot shouldn't meet the lethal "hard"
+ * AI on match one — that's the most likely "this is too hard, I'm out" moment.
+ * So unless the player has EXPLICITLY chosen a difficulty (the settings key is
+ * set), we ramp by lifetime matches played:
+ *   • matches 0–1  → EASY   (under-deploys, fumbles lethal — a gentle on-ramp)
+ *   • matches 2–3  → NORMAL (greedy trades, no lethal hunt)
+ *   • matches 4+   → HARD   (full board + takes lethal — the real opponent)
+ * An explicit choice always wins (readAiDifficulty returns it). Node/harness
+ * contexts (no localStorage) fall through to NORMAL for determinism.
+ */
+export function rampedAiDifficulty(): AiDifficulty {
+  try {
+    if (typeof localStorage !== "undefined") {
+      // An explicit user setting overrides the ramp entirely.
+      const chosen = localStorage.getItem(AI_DIFFICULTY_KEY);
+      if (chosen === "easy" || chosen === "normal" || chosen === "hard") return chosen;
+      const played = Number(localStorage.getItem(MATCHES_TOTAL_KEY) ?? 0);
+      if (Number.isFinite(played)) {
+        if (played <= 1) return "easy";
+        if (played <= 3) return "normal";
+        return "hard";
+      }
+    }
+  } catch {
+    // private mode / disabled storage — fall through to NORMAL.
   }
   return "normal";
 }
@@ -320,6 +376,9 @@ export function planP2Combat(match: any, difficulty: AiDifficulty = "normal"): A
   const attackers = lanesOf(match.players?.P2).filter(
     (u) =>
       !u.exhausted &&
+      // PATIENT units cannot declare attacks (reducer rejects them); excluding
+      // them here keeps the planner in lockstep with the reducer.
+      !cannotAttack(u) &&
       (!u.summoningSick ||
         (Array.isArray(u?.keywords) && u.keywords.includes("RUSH")) ||
         (Array.isArray(u?.auraKeywords) && u.auraKeywords.includes("RUSH")))

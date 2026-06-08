@@ -4,20 +4,39 @@
   padding: 18px;
 }
 
-/* Atmospheric battlefield — generated obsidian arena (gold + purple nexus cores,
-   hex grid). Heavily darkened so foreground cards/text stay fully legible. */
+/* Atmospheric battlefield — a real widescreen hex arena (gold-edged hex floor,
+   ruined hex towers, fog depth). The contextual stage is set via the shell's
+   data-battlefield attr: STABLE by default, CORRUPTED at mid-damage, COLLAPSED
+   when a Hex is near death — so the field visibly degrades as the match bloodies.
+   Darkened just enough that cards/text stay legible while the art still reads. */
 .live-match-shell::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
+  /* Lighter top so the arena art clearly reads and fills the dead space behind
+     the lanes; the gradient stays darker toward the BOTTOM where the hand/dock
+     sits so those cards/text keep their contrast. The board's own cards carry
+     strong scrims, so the field can breathe brighter than before. A 3-stop
+     gradient keeps the upper-mid arena bright while still anchoring the dock. */
   background-image:
-    linear-gradient(180deg, rgba(11, 11, 13, 0.78), rgba(11, 11, 13, 0.86)),
-    url("/crypt-assets/battlefield.png");
+    linear-gradient(180deg, rgba(11, 11, 13, 0.22) 0%, rgba(11, 11, 13, 0.30) 48%, rgba(11, 11, 13, 0.62) 100%),
+    url("/crypt-assets/battlefield-stable.jpg");
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   background-repeat: no-repeat;
   pointer-events: none;
+  transition: background-image 600ms ease, filter 600ms ease;
+}
+.live-match-shell[data-battlefield="corrupted"]::before {
+  background-image:
+    linear-gradient(180deg, rgba(11, 11, 13, 0.22) 0%, rgba(20, 8, 24, 0.34) 48%, rgba(20, 8, 24, 0.64) 100%),
+    url("/crypt-assets/battlefield-corrupted.jpg");
+}
+.live-match-shell[data-battlefield="collapsed"]::before {
+  background-image:
+    linear-gradient(180deg, rgba(11, 11, 13, 0.20) 0%, rgba(8, 6, 14, 0.34) 48%, rgba(8, 6, 14, 0.66) 100%),
+    url("/crypt-assets/battlefield-collapsed.jpg");
 }
 .live-match-shell > * {
   position: relative;
@@ -64,7 +83,13 @@
    the hand + actions dock below. Works at every width (no phone-stack collapse).
    ========================================================================== */
 .crypt-table {
-  margin-top: 10px;
+  /* Cap + center the battlefield. Full-width lanes on a 1900px screen became
+     enormous empty bars (read as a spreadsheet, not a board). A contained
+     ~1080px table keeps units clustered toward the center line so the field
+     feels occupied, with the arena art breathing on either side. */
+  margin: 10px auto 0;
+  max-width: 1080px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -80,10 +105,12 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   justify-content: center;
 }
-/* Enemy lanes read top→down toward the center; your lanes bottom→up. */
+/* Enemy lanes read top→down toward the center; your lanes bottom→up. The front
+   lanes (closest to the divider) sit nearly touching it so the two armies clash
+   at the center line instead of drifting apart into empty bars. */
 .crypt-side--enemy .crypt-side__lanes { justify-content: flex-end; }
 .crypt-side--own .crypt-side__lanes { justify-content: flex-start; }
 
@@ -108,7 +135,7 @@
 .crypt-table__divider {
   position: relative;
   height: 1px;
-  margin: 2px 150px 2px 0;
+  margin: 0 150px 0 0;
   background: linear-gradient(90deg, transparent, rgba(233,201,132,0.45), transparent);
 }
 .crypt-table__divider-glyph {
@@ -239,9 +266,9 @@
 }
 
 .live-topbar__pill--active {
-  border-color: rgba(141,92,255,0.32);
+  border-color: rgba(233,201,132,0.32);
   box-shadow:
-    inset 0 0 0 1px rgba(141,92,255,0.16),
+    inset 0 0 0 1px rgba(233,201,132,0.16),
     inset 0 1px 0 rgba(245,242,232,0.05),
     0 6px 18px -10px rgba(0,0,0,0.8);
 }
@@ -264,7 +291,7 @@
   color: #ff8a8a;
   text-shadow: 0 0 16px rgba(255,77,77,0.3);
 }
-/* Energy = void-purple */
+/* Energy = void-purple (semantic resource color — distinct from gold health) */
 .live-topbar__pill--energy {
   border-color: rgba(141,92,255,0.28);
 }
@@ -299,8 +326,8 @@
   gap: 8px;
   padding: 10px 12px;
   border-radius: 999px;
-  background: rgba(141,92,255,0.08);
-  border: 1px solid rgba(141,92,255,0.16);
+  background: rgba(233,201,132,0.08);
+  border: 1px solid rgba(233,201,132,0.16);
   color: #E9C984;
   font-size: 12px;
   font-weight: 700;
@@ -312,8 +339,8 @@
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: #8D5CFF;
-  box-shadow: 0 0 12px rgba(141,92,255,0.75);
+  background: #E9C984;
+  box-shadow: 0 0 12px rgba(233,201,132,0.75);
 }
 
 .live-topbar__actions,
@@ -452,20 +479,39 @@
   color: rgba(245,242,232,0.66);
   font-size: 12px;
 }
+/* Energy-block nudge: the status line goes amber so the player sees WHY the
+   play buttons are dead instead of getting a silent no-op. */
+.live-actionbar__header p.live-actionbar__warn {
+  color: #E9C984;
+}
 
 /* Cards centered on the field (a table, not a left-aligned scroll list). */
 .live-lane__cards {
   display: flex;
   gap: 10px;
   justify-content: center;
-  flex-wrap: wrap;
+  /* NEVER wrap. With the lane capped at 640px, a 6th/7th unit used to wrap to a
+     second row, which doubled the lane's height and overlapped the opposing
+     army (the front lanes are pinned to touch the divider). Instead the tiles
+     shrink to stay on ONE row — a full 7-unit lane just renders smaller. */
+  flex-wrap: nowrap;
   padding-bottom: 2px;
 }
 
 .live-lane__cards .crypt-card--board {
-  min-width: 108px;
-  width: 108px;
-  min-height: auto;
+  /* Board minions render at a SUBSTANTIAL size (close to the hand-card scale) so
+     the field reads as real cards on a battlefield, not tiny tokens floating in
+     a wide lane. Shrink-to-fit: full 132px when the lane has room, compressing
+     toward 72px when packed (up to MAX_LANE_UNITS=7) so the row never wraps. */
+  flex: 0 1 132px;
+  min-width: 72px;
+  max-width: 132px;
+  width: 132px;
+  /* The art + stat overlays are all position:absolute, so the card has no
+     intrinsic height — give it an explicit one (132px square art + stat strip)
+     or it collapses to a sliver. */
+  min-height: 180px;
+  height: 180px;
 }
 
 .live-lane__empty {
@@ -484,7 +530,7 @@
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background: rgba(141,92,255,0.55);
+  background: rgba(233,201,132,0.55);
 }
 
 .live-hand {
@@ -524,23 +570,34 @@
 /* Tighter lanes on the new field (the old .live-board-stack overrides no longer
    apply since the markup changed). */
 /* Field lanes = TRANSLUCENT terrain so the battlefield arena shows through,
-   not opaque dark boxes. A faint inner hex-edge sells "ground". */
+   not opaque dark boxes. A faint inner hex-edge sells "ground".
+   The lane is constrained to a centered ~640px band (not the full ~916px) so a
+   lane holding 1–2 units feels CLUSTERED at the center of the field rather than
+   one or two cards stranded in a vast empty horizontal bar (the "spreadsheet"
+   read). The arena art breathes on either side of the band. */
 .crypt-side__lanes .live-lane {
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
   padding: 4px 10px 6px;
   border-radius: 12px;
   border: 1px solid rgba(245,242,232,0.05);
+  /* Lighter wash than before so the new battlefield arena reads THROUGH the
+     lanes instead of being covered by a flat gray strip. */
   background:
-    linear-gradient(180deg, rgba(245,242,232,0.02), rgba(11,11,13,0.18)) !important;
-  box-shadow: inset 0 0 30px -12px rgba(0,0,0,0.6) !important;
+    linear-gradient(180deg, rgba(245,242,232,0.015), rgba(11,11,13,0.1)) !important;
+  box-shadow: inset 0 0 30px -14px rgba(0,0,0,0.5) !important;
 }
+/* The fx wrapper also centers so the anchored band stays dead-center. */
+.crypt-side__lanes .mm-lane-fx { display: flex; justify-content: center; }
 /* Enemy ground reads faintly red; your ground faintly gold. */
 .crypt-side--enemy .crypt-side__lanes .live-lane {
   background:
-    linear-gradient(180deg, rgba(255,77,77,0.05), rgba(11,11,13,0.16)) !important;
+    linear-gradient(180deg, rgba(255,77,77,0.045), rgba(11,11,13,0.08)) !important;
 }
 .crypt-side--own .crypt-side__lanes .live-lane {
   background:
-    linear-gradient(180deg, rgba(11,11,13,0.16), rgba(233,201,132,0.05)) !important;
+    linear-gradient(180deg, rgba(11,11,13,0.08), rgba(233,201,132,0.045)) !important;
 }
 /* A deploy-ready lane glows its accent so the player sees WHERE to play. */
 .crypt-side__lanes .live-lane.live-lane--deploy {
@@ -555,16 +612,31 @@
 }
 .crypt-side__lanes .live-lane__header h2,
 .crypt-side__lanes .live-lane__header span { font-size: 9px; }
-/* Empty lane = a quiet centered ground strip, not a full-width form field. */
+/* Empty lane = a whisper-quiet centered ground strip, not a full-width form
+   field. Very short so an unoccupied lane reads as a thin idle ground line and
+   the board's vertical weight collapses toward where the units actually are. */
 .crypt-side__lanes .live-lane__empty {
-  min-height: 22px;
+  min-height: 16px;
   justify-content: center;
+  gap: 6px;
   border: none;
   background: transparent;
-  font-size: 10px;
-  opacity: 0.4;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  opacity: 0.3;
 }
+.crypt-side__lanes .live-lane__empty-dot { width: 5px; height: 5px; }
 .crypt-side__lanes .live-lane__cards { min-height: 0; align-items: center; }
+
+/* Pull the FRONT lanes (nearest the center divider) tight against it so the two
+   armies clash at the line. Enemy front = the last lane in the enemy stack;
+   your front = the first lane in your stack. */
+.crypt-side--enemy .crypt-side__lanes .mm-lane-fx:last-child .live-lane,
+.crypt-side--own .crypt-side__lanes .mm-lane-fx:first-child .live-lane {
+  margin-block: 0;
+}
+.crypt-side--enemy .crypt-side__lanes .mm-lane-fx:last-child { margin-bottom: -2px; }
+.crypt-side--own .crypt-side__lanes .mm-lane-fx:first-child { margin-top: -2px; }
 
 /* Combat log in the dock = a slim scrollable strip, not a fat sidebar. */
 .crypt-dock .live-side-panel {
@@ -601,7 +673,7 @@
   gap: 14px;
   padding: 32px 40px;
   text-align: center;
-  border: 1px solid rgba(141, 92, 255, 0.24);
+  border: 1px solid rgba(233, 201, 132, 0.24);
   border-radius: 22px;
   background: linear-gradient(180deg, rgba(20,20,23,0.98), rgba(11,11,13,0.99));
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55);
@@ -689,12 +761,12 @@
 
 /* OPENING MULLIGAN screen (PART 1, UI) ----------------------------------- */
 .mulligan-screen {
-  border: 1px solid rgba(141, 92, 255, 0.26);
+  border: 1px solid rgba(233, 201, 132, 0.26);
   border-radius: 18px;
   padding: 20px;
   margin: 0 0 16px;
-  background: linear-gradient(180deg, rgba(141, 92, 255, 0.12), rgba(11, 11, 13, 0.6));
-  box-shadow: 0 0 28px rgba(141, 92, 255, 0.14);
+  background: linear-gradient(180deg, rgba(233, 201, 132, 0.12), rgba(11, 11, 13, 0.6));
+  box-shadow: 0 0 28px rgba(233, 201, 132, 0.14);
 }
 
 .mulligan-screen__title {
@@ -712,6 +784,7 @@
 .mulligan-screen__rail {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 14px;
 }
 
@@ -744,12 +817,15 @@
   border: 1px solid rgba(245, 242, 232, 0.2);
   color: rgba(245, 242, 232, 0.85);
 }
-/* Marked for redraw: dim + red flag. */
+/* Marked for redraw: dim card + a muted GHOST danger flag (on-brand), not a
+   solid alarm-red pill that looks like a different app. Transparent fill, a
+   thin red-tinted border, red-tinted text over the dark card-base wash. */
 .mulligan-slot--redraw .crypt-card--hand { filter: grayscale(0.6) brightness(0.7); }
 .mulligan-slot--redraw .mulligan-slot__flag {
-  background: rgba(255, 77, 77, 0.9);
-  border-color: rgba(255, 77, 77, 0.6);
-  color: #fff;
+  background: rgba(11, 11, 13, 0.78);
+  border-color: rgba(255, 77, 77, 0.5);
+  color: #ff9d9d;
+  box-shadow: 0 0 12px -4px rgba(255, 77, 77, 0.45);
 }
 
 .mulligan-card {

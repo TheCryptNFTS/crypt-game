@@ -225,7 +225,7 @@ function PlayerPanel({
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 10, letterSpacing: 1.2, color: MUTE }}>NEXUS</div>
+          <div style={{ fontSize: 10, letterSpacing: 1.2, color: MUTE }}>HEX</div>
           <div style={{ fontSize: 22, fontWeight: 800, color: GOLD, fontVariantNumeric: "tabular-nums" }}>
             {p.nexusHealth}
           </div>

@@ -344,6 +344,17 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     [myTurn, mySeat, selectedHandCard, selectedHandIndex, sendAction],
   );
 
+  const playSelectedSpell = useCallback(
+    (targetInstanceId?: string) => {
+      if (!myTurn || !selectedHandCard || selectedHandCard.type !== "spell" || selectedHandIndex < 0) return;
+      void sendAction(
+        { type: "PLAY_SPELL", player: mySeat, handIndex: selectedHandIndex, targetInstanceId },
+        `You cast ${selectedHandCard.name}.`,
+      );
+    },
+    [myTurn, mySeat, selectedHandCard, selectedHandIndex, sendAction],
+  );
+
   const attackUnit = useCallback(
     (attackerInstanceId: string, defenderInstanceId: string) => {
       if (!myTurn) return;
@@ -360,7 +371,7 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
       if (!myTurn) return;
       void sendAction(
         { type: "ATTACK_FACE", player: mySeat, attackerInstanceId },
-        "You strike the enemy nexus.",
+        "You strike the enemy Hex.",
       );
     },
     [myTurn, mySeat, sendAction],
@@ -459,6 +470,8 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     selectedBoardId,
     inspectId,
     combatLog,
+    // PvP rejects are surfaced via the server event stream / log; no local nudge.
+    actionMessage: null as string | null,
     selectedHandCard,
     selectedHandIndex,
     // PvP has no client-side one-time mulligan gate; gate on turn + server rules.
@@ -473,6 +486,7 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     endTurn,
     playSelectedUnit,
     playSelectedArtifact,
+    playSelectedSpell,
     equipSelectedToUnit,
     attackUnit,
     attackFace,

@@ -26,6 +26,23 @@ export type PlayableCardProps = {
   className?: string;
 };
 
+/**
+ * Faction sigil used as the art fallback when a card has no resolved image.
+ * The full 4k catalog only has generated/NFT art for a subset; the rest would
+ * otherwise render as a black void. A dimmed faction sigil over a faction-tinted
+ * wash reads as intentional crest art instead of a broken tile.
+ */
+function factionSigil(faction: string): string {
+  const f = faction.toUpperCase();
+  if (f.includes("STONE")) return "/crypt-assets/sigil-stone.png";
+  if (f.includes("BRONZE")) return "/crypt-assets/sigil-bronze.png";
+  if (f.includes("IRON")) return "/crypt-assets/sigil-iron.png";
+  if (f.includes("SILVER")) return "/crypt-assets/sigil-silver.png";
+  if (f.includes("GOLD")) return "/crypt-assets/sigil-gold.png";
+  if (f.includes("GOD")) return "/crypt-assets/sigil-gods.png";
+  return "/crypt-assets/card-back.png";
+}
+
 const CHROME_MAP: Record<PlayableChromeState, string> = {
   default: "",
   handFocus: "crypt-card--hand-focus",
@@ -102,8 +119,15 @@ export default function PlayableCard({
           loading={mode === "collection" ? "lazy" : "eager"}
         />
       ) : (
-        <div className="flex h-full items-center justify-center bg-[#08080e] text-[9px] text-[color:var(--color-crypt-muted)]">
-          ·
+        <div className="crypt-card-sigil-fallback flex h-full items-center justify-center">
+          <img
+            src={factionSigil(ui.faction)}
+            alt=""
+            draggable={false}
+            decoding="async"
+            loading="lazy"
+            className="crypt-card-sigil-fallback__mark"
+          />
         </div>
       )}
       {(attack != null || health != null) && mode !== "collection" && (

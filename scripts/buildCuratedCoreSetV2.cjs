@@ -20,6 +20,51 @@ const artifacts = JSON.parse(
   )
 );
 
+// --- Undercosted cost-2 body re-cost (balance, 2026.06.06) -----------------
+// The outlier report (`npm run report:outliers`, ratio > 6.0) flagged ~31% of the
+// curated units — EVERY ONE a cost-2 body whose reconciled power/cost exceeds 6.0,
+// led by the armor-3 GUARD walls (4/6/3, 3/7/3; ratio ~7.1-7.3) but also the armor-2
+// GUARDs, the speed-4 RUSH skirmishers, and the 7-8-attack vanilla 2-drops. The
+// matchup sim traced STONE_KEEPERS / IRON_DEFENDERS dominance (~76-84%, never below
+// 50%) to their deep source pool of these unbreakable 2-mana bodies. They are
+// honestly costed at 3, not 2; the OLD alpha gate's weaker weights + softer net let
+// the whole class slip (it flagged ZERO).
+//
+// Re-stamp the WHOLE undercosted cost-2 class (any cost-2 unit over the report's
+// 6.0 efficiency line, using the report's EXACT power weights) up to cost 3 at the
+// build chokepoint, so the curated set, the matchup sim, AND the reconciled alpha
+// gate all read the fair cost. Net effect (sim): Stone 83->68, Silver 24->45, no
+// faction left auto-losing, and the gate now PASSES at the report's own 6.0 line
+// because the class it used to miss is correctly costed. Pure + deterministic: ONLY
+// the `cost` field changes, ONLY for the over-line cost-2 class; no card is added or
+// removed and no other stat is touched. The runtime catalog (cardOverrides.ts id
+// space) is a separate, already-fair generation — see the note there for why this
+// re-cost is NOT mirrored as per-id runtime overrides.
+function recostUndercostedTwoDrops(card) {
+  if (card.type !== "unit") return card;
+  const s = card.stats || {};
+  // Mirror reportCardOutliers.cjs unitPower EXACTLY so this re-cost and the gate
+  // agree on which cost-2 bodies are over the 6.0 efficiency line.
+  const power =
+    (s.attack || 0) +
+    (s.health || 0) * 0.8 +
+    (s.armor || 0) * 1.1 +
+    (s.speed || 0) * 0.6 +
+    ((card.keywords || []).length) * 1.5;
+  const ratio = power / Math.max(card.cost || 1, 1);
+  // RUSH skirmishers are the aggro factions' INTENDED cheap tempo: they read as
+  // ratio-outliers on a pure stat line but are balanced by their fragility and the
+  // fact they trade into the board the turn they land. Re-costing them to 3 craters
+  // BRONZE / SILVER (the sim drops them ~20pts and re-opens blowouts), so they are
+  // EXEMPT here and instead carried by the reconciled gate's documented RUSH carve-
+  // out (scripts/checkCuratedAlphaBalance.cjs). Only the durable non-RUSH walls and
+  // beaters — the bodies that snowballed Stone/Iron — are re-costed.
+  const isRush = (card.keywords || []).includes("RUSH");
+  if (card.cost === 2 && ratio > 6.0 && !isRush) return { ...card, cost: 3 };
+  return card;
+}
+for (let i = 0; i < units.length; i++) units[i] = recostUndercostedTwoDrops(units[i]);
+
 // --- Soft-ban exclusion (gap #3) -------------------------------------------
 // The override layer (src/engine/cardOverrides.ts) soft-bans the 36 units whose
 // rawTraits.Ability is null/empty. Those are deck-illegal, so the curated/

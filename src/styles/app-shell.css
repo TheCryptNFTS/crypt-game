@@ -3,7 +3,7 @@
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   background:
-    radial-gradient(circle at 10% 0%, rgba(141, 92, 255, 0.07), transparent 24%),
+    radial-gradient(circle at 10% 0%, rgba(233, 201, 132, 0.07), transparent 24%),
     radial-gradient(circle at 90% 10%, rgba(233, 201, 132, 0.06), transparent 22%),
     radial-gradient(circle at 50% 100%, rgba(200, 110, 60, 0.05), transparent 30%),
     #0B0B0D;
@@ -70,8 +70,8 @@
 }
 
 .app-sidebar__nav-item.is-active {
-  background: rgba(141,92,255,0.12);
-  border-color: rgba(141,92,255,0.28);
+  background: rgba(233,201,132,0.12);
+  border-color: rgba(233,201,132,0.28);
 }
 
 .app-topbar {
@@ -289,7 +289,7 @@
 
 .progress-meter__fill {
   height: 100%;
-  background: linear-gradient(90deg, #8D5CFF, #E9C984);
+  background: linear-gradient(90deg, #C8A75D, #E9C984);
 }
 
 .streak-track {
@@ -309,8 +309,8 @@
 }
 
 .streak-track__day.is-filled {
-  background: rgba(141,92,255,0.14);
-  border-color: rgba(141,92,255,0.28);
+  background: rgba(233,201,132,0.14);
+  border-color: rgba(233,201,132,0.28);
 }
 
 .streak-track__day.is-nft {
@@ -364,7 +364,7 @@
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at 30% 20%, rgba(141,92,255,0.18), transparent 35%),
+    radial-gradient(circle at 30% 20%, rgba(233,201,132,0.18), transparent 35%),
     linear-gradient(180deg, rgba(19,23,31,1), rgba(10,12,17,1));
   border: 1px solid rgba(255,255,255,0.08);
   font-weight: 900;

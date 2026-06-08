@@ -198,6 +198,14 @@ export function buildPlayerDeck(ownedCardIds?: string[]): BuiltDeck {
   ];
 
   const deck = composeDeck(owned);
-  if (deck === null) return { deck: DEMO_DECK, source: "demo" };
+  // composeDeck never duplicates a card, so a wallet owning FEWER than DECK_SIZE
+  // distinct playable cards yields a SHORT deck (not null). A short deck throws
+  // in createMatchFromDecks ("Deck must contain exactly 30 cards"), and that
+  // throw happens inside useState in useLocalCryptMatch — bubbling to the root
+  // error boundary and WHITE-SCREENING the whole app. Guard it here: any deck
+  // that isn't a legal 30 falls back to the demo deck so the match always boots.
+  if (deck === null || deck.length !== DECK_SIZE) {
+    return { deck: DEMO_DECK, source: "demo" };
+  }
   return { deck, source: "owned" };
 }

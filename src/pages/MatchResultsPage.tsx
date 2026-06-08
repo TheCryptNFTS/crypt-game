@@ -19,6 +19,22 @@ function cacheKey(nonce: string) {
   return `crypt.resultApplied.${nonce}`;
 }
 
+/** Stores the full router state so a refresh (which wipes location.state) can rehydrate the screen. */
+const LAST_RESULT_KEY = "crypt.lastResultState";
+
+function readLastResultState(): MatchResultLocationState | null {
+  try {
+    const raw = sessionStorage.getItem(LAST_RESULT_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as MatchResultLocationState;
+    if (!parsed || typeof parsed.nonce !== "string" || !parsed.nonce) return null;
+    if (parsed.winner == null || parsed.turn == null) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
 function momentLine(data: MatchRewardBreakdown): string {
   const n = data.turn;
   const tw = n === 1 ? "turn" : "turns";
@@ -36,15 +52,38 @@ function momentLine(data: MatchRewardBreakdown): string {
  */
 export default function MatchResultsPage() {
   const location = useLocation();
-  const state = location.state as MatchResultLocationState | null;
+  const navState = location.state as MatchResultLocationState | null;
+  // On a hard refresh router state is gone. Fall back to the sessionStorage
+  // snapshot persisted on the first (state-bearing) mount so the result screen
+  // survives F5 instead of dead-ending to /play.
+  const state = useMemo<MatchResultLocationState | null>(() => {
+    if (
+      navState != null &&
+      typeof navState.nonce === "string" &&
+      navState.nonce &&
+      navState.winner != null &&
+      navState.turn != null
+    ) {
+      return navState;
+    }
+    return readLastResultState();
+  }, [navState]);
   const { entryById, loading, error, ready } = useRenderManifest();
   const [data, setData] = useState<MatchRewardBreakdown | null>(null);
   const [shareHint, setShareHint] = useState<string | null>(null);
 
   useEffect(() => {
     if (!state?.nonce || state.winner == null || state.turn == null) return;
+    // Persist the raw state so a refresh can rehydrate (BUG 2).
+    try {
+      sessionStorage.setItem(LAST_RESULT_KEY, JSON.stringify(state));
+    } catch {
+      /* ignore — refresh-survival is best-effort */
+    }
     const key = cacheKey(state.nonce);
     try {
+      // Idempotency guard: rewards are applied at most once per match nonce.
+      // On refresh the cached breakdown is replayed instead of re-crediting.
       const cached = sessionStorage.getItem(key);
       if (cached) {
         setData(JSON.parse(cached) as MatchRewardBreakdown);

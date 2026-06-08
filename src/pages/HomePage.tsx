@@ -116,46 +116,22 @@ export default function HomePage() {
         <section className="crypt-home-m-hero" aria-label="Home">
           <div className="crypt-home-m-hero-accent" aria-hidden />
           <div className="crypt-home-m-hero-inner">
-            {/* Cinematic key-art strip — the collection's skull art (a clean
-                square asset) cropped wide with a heavy dark gradient, so it reads
-                as premium hero art. (The old wide "wordmark banner" source was a
-                pre-cropped image that sliced to "CRYF" at any object-fit.) */}
-            <div
-              style={{
-                position: "relative",
-                width: "100%",
-                aspectRatio: "1500 / 460",
-                borderRadius: 14,
-                overflow: "hidden",
-                marginBottom: "var(--s-4, 16px)",
-                border: "1px solid rgba(245,242,232,.09)",
-                background: "#0b0b0d",
-              }}
-            >
+            {/* On-brand environment key-art — the gold/purple "stable district"
+                battlefield render (already in public/). Replaces the off-palette
+                cyan skull. Full-bleed wide with a warm gold/black gradient so the
+                headline + ledger below read cleanly over it. */}
+            <div className="crypt-home-m-hero-art">
               <img
-                src="https://i2c.seadn.io/ethereum/192f08c7d2ea47f5b65fe12db4c4f64d/9a37a8aaa8bf49f2b9ed9c4fd24770/e19a37a8aaa8bf49f2b9ed9c4fd24770.png"
-                alt="The Crypt"
+                src="/crypt-assets/battlefield-stable.jpg"
+                alt="The Crypt — stable district"
                 loading="eager"
                 decoding="async"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "center 32%",
-                  display: "block",
-                }}
+                className="crypt-home-m-hero-art-img"
               />
-              {/* Dark vignette so headline/text below reads and the art recedes. */}
-              <span
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(180deg, rgba(11,11,13,0.35) 0%, rgba(11,11,13,0.1) 40%, rgba(11,11,13,0.85) 100%)",
-                }}
-              />
+              {/* Warm gold/black vignette so headline/text reads and the art recedes. */}
+              <span aria-hidden className="crypt-home-m-hero-art-veil" />
             </div>
+            <div className="crypt-home-m-hero-copy">
             <p className="crypt-home-m-kicker">{t("home.hero.kicker")}</p>
             <h1 className="crypt-home-m-headline">
               {t("home.hero.headline")}
@@ -194,17 +170,12 @@ export default function HomePage() {
               </Link>
               <span> — preview only. No cart, no mint claims.</span>
             </p>
+            </div>
           </div>
         </section>
 
         <section className="crypt-home-m-featured" aria-label="Quick enter">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-              gap: "10px",
-            }}
-          >
+          <div className="crypt-home-m-featured-grid">
             {[
               {
                 to: "/play",
@@ -218,7 +189,7 @@ export default function HomePage() {
                 kicker: "Climb",
                 label: "Ladder",
                 hint: "Ranked ascent",
-                accent: "var(--color-crypt-purple, #8D5CFF)",
+                accent: "var(--color-crypt-accent, #E9C984)",
               },
               {
                 to: "/deck",

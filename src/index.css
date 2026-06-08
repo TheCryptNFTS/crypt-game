@@ -18,15 +18,15 @@
   --color-crypt-accent: #E9C984;
   --color-crypt-accent-dim: rgba(233, 201, 132, 0.38);
   --color-crypt-ember: #C8A75D;
-  --color-crypt-ice: #8D5CFF;
-  --color-crypt-ice-dim: rgba(141, 92, 255, 0.24);
+  --color-crypt-ice: #E9C984;
+  --color-crypt-ice-dim: rgba(233, 201, 132, 0.24);
   --color-crypt-text: #F5F2E8;
   --color-crypt-muted: rgba(245, 242, 232, 0.66);
   /* Tailwind utility tokens mapped to the city palette */
   --color-crypt-ink: #F5F2E8;
   --color-crypt-surface: #141417;
   --color-crypt-gold-bright: #E9C984;
-  --color-crypt-purple: #8D5CFF;
+  --color-crypt-purple: #E9C984;
   --shadow-card-edge: 0 0 0 1px rgba(212, 175, 55, 0.12),
     0 0 24px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-commander: 0 0 0 1px rgba(212, 175, 55, 0.28),
@@ -1213,7 +1213,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow:
     0 20px 44px -14px rgba(0, 0, 0, 0.85),
     0 0 0 1px rgba(233, 201, 132, 0.35),
-    0 0 22px -4px rgba(141, 92, 255, 0.25);
+    0 0 22px -4px rgba(233, 201, 132, 0.25);
   filter: saturate(1.05);
   z-index: 5;
 }
@@ -1742,9 +1742,78 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-home-m-hero-inner {
   position: relative;
-  max-width: 520px;
+  max-width: 1180px;
   margin: 0 auto;
   padding-left: 14px;
+}
+
+.crypt-home-m-hero-copy {
+  display: contents;
+}
+
+/* Desktop: hero becomes a two-column composition — wide environment art on the
+   left, the headline / ledger / PLAY stack on the right — so the hero owns the
+   full width instead of floating as a narrow centered phone column. */
+@media (min-width: 920px) {
+  .crypt-home-m-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(380px, 0.8fr);
+    align-items: center;
+    column-gap: 44px;
+    padding-left: 18px;
+  }
+  .crypt-home-m-hero-art {
+    align-self: stretch;
+    margin-bottom: 0;
+    aspect-ratio: auto;
+    min-height: 440px;
+    height: 100%;
+  }
+  .crypt-home-m-hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* Headline scales up now that it owns a real column, not a phone strip. */
+  .crypt-home-m-hero-copy .crypt-home-m-headline {
+    font-size: clamp(2.5rem, 3.4vw, 3.5rem);
+  }
+  .crypt-home-m-hero-copy .crypt-home-m-ledger,
+  .crypt-home-m-hero-copy .crypt-home-m-play {
+    width: 100%;
+  }
+}
+
+/* On-brand environment hero art — full-bleed wide, warm gold/black framing. */
+.crypt-home-m-hero-art {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1500 / 620;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: var(--s-4, 16px);
+  border: 1px solid rgba(212, 168, 75, 0.16);
+  background: #0b0b0d;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.crypt-home-m-hero-art-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  display: block;
+}
+
+.crypt-home-m-hero-art-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 11, 13, 0.18) 0%, rgba(11, 11, 13, 0.05) 38%, rgba(11, 11, 13, 0.78) 100%),
+    radial-gradient(ellipse 80% 70% at 50% 110%, rgba(212, 168, 75, 0.12) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .crypt-home-m-kicker {
@@ -2060,6 +2129,27 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 /* Daily rhythm */
+/* Quick-enter nav — same centered max-width + padding as the other home
+   sections so the cards don't bleed edge-to-edge on desktop. */
+.crypt-home-m-featured {
+  margin-top: 28px;
+  padding: 0 18px;
+}
+
+@media (min-width: 768px) {
+  .crypt-home-m-featured {
+    padding: 0 28px;
+  }
+}
+
+.crypt-home-m-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
 .crypt-home-m-rhythm {
   margin-top: 32px;
   padding: 0 18px;
@@ -2098,6 +2188,25 @@ button:has(> .crypt-card-chrome):hover,
   border-radius: 2px;
   overflow: hidden;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Desktop: the three daily panels sit side-by-side and own the row width
+   instead of stacking in a narrow centered strip. */
+@media (min-width: 920px) {
+  .crypt-home-m-rhythm-stack {
+    flex-direction: row;
+    max-width: 1180px;
+    border-radius: 4px;
+  }
+  .crypt-home-m-rhythm-stack > .crypt-home-m-panel {
+    flex: 1 1 0;
+    min-width: 0;
+    border-bottom: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .crypt-home-m-rhythm-stack > .crypt-home-m-panel:last-child {
+    border-right: none;
+  }
 }
 
 .crypt-home-m-panel {
@@ -2287,8 +2396,15 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-home-m-spotlight-head {
-  max-width: 520px;
+  max-width: 860px;
   margin: 0 auto 22px;
+  text-align: center;
+}
+
+.crypt-home-m-spotlight-head .crypt-home-m-spotlight-sub,
+.crypt-home-m-spotlight-head .crypt-home-m-spotlight-support {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .crypt-home-m-spotlight-sub {
@@ -2312,7 +2428,7 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-home-m-spotlight-stage {
-  max-width: 520px;
+  max-width: 560px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -2323,7 +2439,15 @@ button:has(> .crypt-card-chrome):hover,
   .crypt-home-m-spotlight-stage {
     flex-direction: row;
     align-items: flex-end;
-    gap: 32px;
+    justify-content: center;
+    gap: 48px;
+    max-width: 860px;
+    padding: 28px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    background:
+      radial-gradient(ellipse 70% 90% at 50% 0%, rgba(212, 168, 75, 0.05) 0%, transparent 60%),
+      linear-gradient(180deg, rgba(20, 18, 22, 0.4) 0%, rgba(8, 7, 9, 0.2) 100%);
   }
 }
 
@@ -3497,8 +3621,8 @@ button:has(> .crypt-card-chrome):hover,
   gap: 8px;
   padding: 14px 16px;
   border-radius: 2px;
-  border: 1px solid rgba(141, 92, 255, 0.28);
-  background: linear-gradient(180deg, rgba(141, 92, 255, 0.08), rgba(6, 5, 4, 0.5));
+  border: 1px solid rgba(233, 201, 132, 0.28);
+  background: linear-gradient(180deg, rgba(233, 201, 132, 0.08), rgba(6, 5, 4, 0.5));
 }
 
 .crypt-profile-rank-main {
@@ -3520,7 +3644,7 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(141, 92, 255, 0.9);
+  color: rgba(233, 201, 132, 0.9);
 }
 
 /* ---------------------------------------------------------------------------
@@ -3639,7 +3763,7 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-rank-bar-fill--xp {
-  background: linear-gradient(90deg, #8d5cff, #5fd4f0);
+  background: linear-gradient(90deg, #c8a75d, #e9c984);
 }
 
 .crypt-rank-bar-meta {
@@ -3885,7 +4009,7 @@ button:has(> .crypt-card-chrome):hover,
   padding: 0 24px 28px;
   border-radius: 12px;
   overflow: hidden;
-  border: 1.5px solid color-mix(in srgb, var(--pick-accent, #8D5CFF) 55%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--pick-accent, #E9C984) 55%, transparent);
   background: linear-gradient(180deg, rgba(20, 15, 28, 0.6), rgba(8, 6, 10, 0.96));
   box-shadow:
     0 18px 50px -12px rgba(0, 0, 0, 0.75),
@@ -3960,8 +4084,8 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: #fff;
-  background: linear-gradient(135deg, #8d5cff, #6e3ce0);
+  color: #0B0B0D;
+  background: linear-gradient(135deg, #e9c984, #c8a75d);
 }
 
 .crypt-npe-ready-back {
@@ -4028,7 +4152,7 @@ button:has(> .crypt-card-chrome):hover,
   gap: 12px;
   margin-top: 14px;
   padding-top: 12px;
-  border-top: 1px solid rgba(141, 92, 255, 0.18);
+  border-top: 1px solid rgba(233, 201, 132, 0.18);
 }
 
 .crypt-rites-streak-label {
@@ -4036,7 +4160,7 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(141, 92, 255, 0.9);
+  color: rgba(233, 201, 132, 0.9);
 }
 
 /* Unlocked cosmetics (ProfilePage) */
@@ -5074,8 +5198,8 @@ button:has(> .crypt-card-chrome):hover,
   gap: 6px 14px;
   padding: 12px 14px;
   border-radius: 2px;
-  border: 1px solid rgba(141, 92, 255, 0.28);
-  background: linear-gradient(180deg, rgba(141, 92, 255, 0.1), rgba(6, 5, 4, 0.5));
+  border: 1px solid rgba(233, 201, 132, 0.28);
+  background: linear-gradient(180deg, rgba(233, 201, 132, 0.1), rgba(6, 5, 4, 0.5));
 }
 
 .crypt-ladder-you-pos {
@@ -5090,7 +5214,7 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(141, 92, 255, 0.9);
+  color: rgba(233, 201, 132, 0.9);
 }
 
 .crypt-ladder-you-meta {
@@ -5155,7 +5279,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-ladder-rating {
   text-align: right;
-  color: rgba(141, 92, 255, 0.95);
+  color: rgba(233, 201, 132, 0.95);
   letter-spacing: 0.06em;
 }
 
@@ -5210,7 +5334,7 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-ladder-reward-cos {
-  color: rgba(141, 92, 255, 0.9);
+  color: rgba(233, 201, 132, 0.9);
 }
 
 .crypt-ladder-reward-state {
@@ -5231,15 +5355,15 @@ button:has(> .crypt-card-chrome):hover,
   text-transform: uppercase;
   padding: 6px 12px;
   border-radius: 2px;
-  border: 1px solid rgba(141, 92, 255, 0.55);
-  background: rgba(141, 92, 255, 0.16);
+  border: 1px solid rgba(233, 201, 132, 0.55);
+  background: rgba(233, 201, 132, 0.16);
   color: #d9c8ff;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .crypt-ladder-reward-claim:hover:not(:disabled) {
-  background: rgba(141, 92, 255, 0.3);
+  background: rgba(233, 201, 132, 0.3);
 }
 
 .crypt-ladder-reward-claim:disabled {
@@ -5289,7 +5413,7 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-duel-delta--up {
-  color: rgba(141, 92, 255, 0.95);
+  color: rgba(233, 201, 132, 0.95);
 }
 
 .crypt-duel-delta--down {
@@ -5394,7 +5518,7 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 9px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #8D5CFF;
+  color: #E9C984;
 }
 
 .crypt-challenge__title {
@@ -5418,7 +5542,7 @@ button:has(> .crypt-card-chrome):hover,
   text-transform: uppercase;
   padding: 7px 14px;
   border-radius: 2px;
-  border: 1px solid rgba(141, 92, 255, 0.3);
+  border: 1px solid rgba(233, 201, 132, 0.3);
   background: transparent;
   color: var(--color-crypt-muted);
   cursor: pointer;
@@ -5426,13 +5550,13 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-challenge__tab:hover {
-  border-color: rgba(141, 92, 255, 0.6);
+  border-color: rgba(233, 201, 132, 0.6);
   color: var(--color-crypt-text);
 }
 
 .crypt-challenge__tab.is-active {
-  border-color: #8D5CFF;
-  background: rgba(141, 92, 255, 0.16);
+  border-color: #E9C984;
+  background: rgba(233, 201, 132, 0.16);
   color: #fff;
 }
 
@@ -5485,7 +5609,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-challenge__copy:hover,
 .crypt-challenge__cancel:hover {
-  border-color: #8D5CFF;
+  border-color: #E9C984;
   color: var(--color-crypt-text);
 }
 
@@ -5501,16 +5625,16 @@ button:has(> .crypt-card-chrome):hover,
   text-transform: uppercase;
   padding: 10px 16px;
   border-radius: 2px;
-  border: 1px solid rgba(141, 92, 255, 0.5);
-  background: rgba(141, 92, 255, 0.1);
+  border: 1px solid rgba(233, 201, 132, 0.5);
+  background: rgba(233, 201, 132, 0.1);
   color: #b79bff;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .crypt-challenge__cta:hover:not(:disabled) {
-  border-color: #8D5CFF;
-  background: rgba(141, 92, 255, 0.2);
+  border-color: #E9C984;
+  background: rgba(233, 201, 132, 0.2);
   color: #fff;
 }
 
@@ -5540,7 +5664,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-challenge__input:focus {
   outline: none;
-  border-color: #8D5CFF;
+  border-color: #E9C984;
 }
 
 .crypt-challenge__join-row .crypt-challenge__cta {
@@ -5619,7 +5743,7 @@ button:has(> .crypt-card-chrome):hover,
 .crypt-puzzle-side-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-crypt-muted); }
 /* Enemy / You nexus hues — overridden by the colorblind-safe palette below. */
 .crypt-puzzle-side[aria-label^="Enemy"] .crypt-puzzle-nexus { color: var(--cb-enemy, #e7666a); }
-.crypt-puzzle-side[aria-label^="You"] .crypt-puzzle-nexus { color: var(--cb-ally, #5fd4f0); }
+.crypt-puzzle-side[aria-label^="You"] .crypt-puzzle-nexus { color: var(--cb-ally, #7cd4a6); }
 .crypt-puzzle-nexus { font-family: var(--font-brand); font-size: 13px; }
 .crypt-puzzle-lane { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: center; }
 .crypt-puzzle-empty { font-size: 11px; color: var(--color-crypt-muted); }

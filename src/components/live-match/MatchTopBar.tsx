@@ -18,6 +18,10 @@ type Props = {
   /** Presentation-only nexus-damage motion tokens from useMatchMotion. */
   ownNexusHit?: NexusHit;
   enemyNexusHit?: NexusHit;
+  /** Direct-click combat: when an attacker is selected, the enemy Hex pill
+   *  becomes a click target so the player can attack face by clicking it. */
+  enemyHexTargetable?: boolean;
+  onAttackEnemyHex?: () => void;
 };
 
 export function MatchTopBar({
@@ -33,7 +37,9 @@ export function MatchTopBar({
   onEndTurn,
   onReset,
   ownNexusHit,
-  enemyNexusHit
+  enemyNexusHit,
+  enemyHexTargetable,
+  onAttackEnemyHex
 }: Props) {
   const youActive = activePlayer === "P1";
   return (
@@ -53,11 +59,11 @@ export function MatchTopBar({
           className={`live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-own ${ownNexusHit ? "mm-nexus-hit" : ""}`}
           key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
         >
-          <span className="live-topbar__label">Your Nexus</span>
+          <span className="live-topbar__label">Your Hex</span>
           <div
             className="ph-crystal ph-crystal--own"
             role="img"
-            aria-label={`Your Nexus health ${p1Health}`}
+            aria-label={`Your Hex health ${p1Health}`}
           >
             <div className="ph-crystal__gem" aria-hidden="true">
               <span className="ph-crystal__value">{p1Health}</span>
@@ -67,14 +73,37 @@ export function MatchTopBar({
         </div>
 
         <div
-          className={`live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-enemy ${enemyNexusHit ? "mm-nexus-hit" : ""}`}
+          className={[
+            "live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-enemy",
+            enemyNexusHit ? "mm-nexus-hit" : "",
+            enemyHexTargetable ? "live-topbar__pill--strikeable" : "",
+          ].join(" ")}
           key={`enemy-nexus-${enemyNexusHit?.key ?? "idle"}`}
+          role="button"
+          aria-disabled={!enemyHexTargetable}
+          tabIndex={enemyHexTargetable ? 0 : -1}
+          aria-label={
+            enemyHexTargetable
+              ? `Strike the enemy Hex (${p2Health} health)`
+              : `Enemy Hex health ${p2Health}`
+          }
+          onClick={() => {
+            if (enemyHexTargetable) onAttackEnemyHex?.();
+          }}
+          onKeyDown={(e) => {
+            if (enemyHexTargetable && (e.key === "Enter" || e.key === " ")) {
+              e.preventDefault();
+              onAttackEnemyHex?.();
+            }
+          }}
         >
-          <span className="live-topbar__label">Enemy Nexus</span>
+          <span className="live-topbar__label">
+            Enemy Hex{enemyHexTargetable ? " · strike" : ""}
+          </span>
           <div
             className="ph-crystal ph-crystal--enemy"
             role="img"
-            aria-label={`Enemy Nexus health ${p2Health}`}
+            aria-label={`Enemy Hex health ${p2Health}`}
           >
             <div className="ph-crystal__gem" aria-hidden="true">
               <span className="ph-crystal__value">{p2Health}</span>
@@ -106,7 +135,7 @@ export function MatchTopBar({
 
         <div className={`live-topbar__pill ${deckSource === "owned" ? "live-topbar__pill--active" : ""}`}>
           <span className="live-topbar__label">Deck</span>
-          <strong>{deckSource === "owned" ? "Your Archives" : "Demo"}</strong>
+          <strong>{deckSource === "owned" ? "Your Archives" : "Starter Deck"}</strong>
         </div>
       </div>
 

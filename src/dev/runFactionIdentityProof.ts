@@ -32,7 +32,7 @@ const costOf = (id: string): number => META.get(id)?.cost ?? 0;
 //   STONE   tcg_2  (cost 2)         tcg_27  (cost 6)
 //   BRONZE  tcg_93 (cost 2)         tcg_26  (cost 5)
 //   GOLD    tcg_100(cost 2)         tcg_146 (cost 6)
-//   SILVER  tcg_97 (cost 2)
+//   SILVER  tcg_97 (cost 2)        tcg_75  (cost 3)
 //   IRON    tcg_8  (cost 2)
 const STONE_CHEAP = "tcg_2";
 const STONE_BIG = "tcg_27";
@@ -41,6 +41,8 @@ const BRONZE_BIG = "tcg_26";
 const GOLD_CHEAP = "tcg_100";
 const GOLD_BIG = "tcg_146";
 const IRON_CHEAP = "tcg_8";
+const SILVER_CHEAP = "tcg_97";
+const SILVER_BIG = "tcg_75";
 
 let failed = 0;
 function assert(cond: boolean, msg: string): void {
@@ -159,22 +161,29 @@ function fillBoard(state: any, playerId: string, cardId: string, count: number):
   assert(unit.armor === 2, "Tempered stacks +1 Armor per equip");
 }
 
-// === SILVER (Insight): start of turn Scry 1 (deterministic deck smooth) =======
+// === SILVER (Insight): same-faction cost<=2 summons enter with +1 ATTACK =======
+// (Replaces the old board-irrelevant "Scry 1" with a tempo board edge — a unit that
+// actually hits harder in the combat race; see factionOnUnitSummon SILVER case.)
 {
   const state = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true);
-  // Top card is more expensive than the next: Scry 1 smooths the cheapest to top.
-  // tcg_27 (cost 6) on top, tcg_97 (cost 2) beneath -> after Scry 1 the cheaper
-  // of the inspected window sits on top.
-  state.players.P1.deck = [STONE_BIG, "tcg_97", "tcg_8"];
-  factionOnTurnStart(state, "P1", costOf);
+
+  const cheap = makeUnit(SILVER_CHEAP);
+  factionOnUnitSummon(state, "P1", cheap, factionOf, costOf);
+  assert(cheap.attack === 3, "Insight gives a cost<=2 Silver summon +1 Attack");
   assert(
-    state.players.P1.deck.length === 3,
-    "Insight Scry 1 preserves deck size (no draw, no card advantage)"
+    cheap.health === 3 && cheap.armor === 0,
+    "Insight changes only attack on a cheap Silver summon (no health/armor)"
   );
-  assert(
-    costOf(state.players.P1.deck[0]) <= costOf(STONE_BIG),
-    "Insight Scry 1 smooths the top of the deck by cost (cheapest-first)"
-  );
+
+  const big = makeUnit(SILVER_BIG);
+  factionOnUnitSummon(state, "P1", big, factionOf, costOf);
+  assert(big.attack === 2, "Insight does NOT buff a cost>=3 Silver summon (base band <=2)");
+
+  // Off-faction splash (a Stone unit under a Silver commander) gains nothing.
+  const off = makeUnit(STONE_CHEAP);
+  factionOnUnitSummon(state, "P1", off, factionOf, costOf);
+  assert(off.attack === 2, "Insight ignores an OFF-faction (Stone) summon");
+  assert(state.players.P2.nexusHealth === 20, "Insight does NOT burn the enemy nexus");
 }
 
 // === GATE OFF (vanilla default): every hook is a clean no-op =================
@@ -196,12 +205,18 @@ function fillBoard(state: any, playerId: string, cardId: string, count: number):
   assert(u3.armor === 0, "GATE OFF: Tempered equip hook is inert");
 
   const silver = makeState(CMD_BY_FACTION.SILVER_SENTINELS, false);
-  silver.players.P1.deck = [STONE_BIG, "tcg_97", "tcg_8"];
-  const before = [...silver.players.P1.deck];
-  factionOnTurnStart(silver, "P1", costOf);
+  const u4 = makeUnit(SILVER_CHEAP);
+  factionOnUnitSummon(silver, "P1", u4, factionOf, costOf);
+  assert(u4.attack === 2, "GATE OFF: Insight summon hook is inert (no +1 Attack)");
+
+  // The retained turn-start seam is an intentional no-op for ALL factions now.
+  const silverTs = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true);
+  silverTs.players.P1.deck = [STONE_BIG, SILVER_CHEAP, "tcg_8"];
+  const before = [...silverTs.players.P1.deck];
+  factionOnTurnStart(silverTs, "P1", costOf, factionOf);
   assert(
-    JSON.stringify(silver.players.P1.deck) === JSON.stringify(before),
-    "GATE OFF: Insight turn-start hook is inert (deck unchanged)"
+    JSON.stringify(silverTs.players.P1.deck) === JSON.stringify(before),
+    "Turn-start hook is an inert no-op even with identities ON (no faction uses it)"
   );
 }
 
@@ -320,40 +335,33 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
   assert(at.players.P2.nexusHealth === 20, "IRON archetype does NOT burn enemy nexus");
 }
 
-// === SILVER archetype: at 3+ Silver live, turn-start Scry deepens to Scry 2 ====
+// === SILVER archetype: at 3+ Silver live, Insight +1 ATK band widens to cost<=3 ==
 {
-  // Construct a deck where Scry 2 reaches a card Scry 1 would not, so depth is
-  // observable: top three are expensive-expensive-cheap; Scry 2 inspects the top
-  // two and can surface the cheaper of that window. We assert the deck size is
-  // preserved (no draw) and the threshold path actually runs vs the base path.
-  const SILVER_CHEAP = "tcg_97"; // cost 2
-
-  // BELOW threshold (2 Silver on board): base Scry 1.
+  // BELOW threshold (2 Silver on board): base band cost<=2, so a cost-3 Silver
+  // summon gets NO +1 Attack.
   const below = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true, true);
   fillBoard(below, "P1", SILVER_CHEAP, 2);
-  below.players.P1.deck = [STONE_BIG, STONE_BIG, SILVER_CHEAP];
-  const beforeLen = below.players.P1.deck.length;
-  factionOnTurnStart(below, "P1", costOf, factionOf);
-  assert(below.players.P1.deck.length === beforeLen, "SILVER below threshold: Scry 1 preserves deck size");
-  // Scry 1 only inspects the top card; with two equal-cost (STONE_BIG) on top it
-  // cannot pull the cost-2 card from depth 3 to the top.
-  assert(
-    costOf(below.players.P1.deck[0]) === costOf(STONE_BIG),
-    "SILVER below threshold: Scry 1 does NOT reach the depth-3 cheap card"
-  );
+  const belowBig = makeUnit(SILVER_BIG); // cost 3
+  factionOnUnitSummon(below, "P1", belowBig, factionOf, costOf);
+  assert(belowBig.attack === 2, "SILVER below threshold: cost-3 summon gets NO +1 Attack (base band <=2)");
 
-  // AT threshold (3 Silver on board): Scry 2 — a deeper window. Use a deck where
-  // the cost-2 card sits within the top-2 window so Scry 2 surfaces it but Scry 1
-  // would not.
+  // AT threshold (3 Silver on board): band widens to cost<=3, so the cost-3 summon
+  // now gains +1 Attack.
   const at = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true, true);
   fillBoard(at, "P1", SILVER_CHEAP, 3);
-  at.players.P1.deck = [STONE_BIG, SILVER_CHEAP, STONE_BIG];
-  factionOnTurnStart(at, "P1", costOf, factionOf);
-  assert(at.players.P1.deck.length === 3, "SILVER at 3+ units: Scry 2 preserves deck size (no draw)");
+  const atBig = makeUnit(SILVER_BIG); // cost 3
+  factionOnUnitSummon(at, "P1", atBig, factionOf, costOf);
+  assert(atBig.attack === 3, "SILVER at 3+ units: +1 Attack band widens to cost<=3");
   assert(
-    costOf(at.players.P1.deck[0]) <= costOf(STONE_BIG),
-    "SILVER at 3+ units: Scry 2 deepens smoothing (cheapest-of-window to top)"
+    atBig.health === 3 && atBig.armor === 0,
+    "SILVER archetype changes only attack (no health/armor)"
   );
+  // A cost-5 Silver summon stays outside even the widened band.
+  const atTop = makeState(CMD_BY_FACTION.SILVER_SENTINELS, true, true);
+  fillBoard(atTop, "P1", SILVER_CHEAP, 3);
+  const five = makeUnit("tcg_55"); // Silver cost 5
+  factionOnUnitSummon(atTop, "P1", five, factionOf, costOf);
+  assert(five.attack === 2, "SILVER archetype still excludes cost-5 from the +1 Attack band");
   assert(at.players.P2.nexusHealth === 20, "SILVER archetype does NOT burn enemy nexus");
 }
 

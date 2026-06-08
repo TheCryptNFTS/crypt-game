@@ -10,6 +10,7 @@ import { artifactToVm, getCommanderVmForPlayer, handToVm, unitToVm } from "../..
 import { InspectState, PlayCardVM } from "../../ui/cryptTypes";
 import { useMatchMotion } from "../../hooks/useMatchMotion";
 import { useMatchSound } from "../../hooks/useMatchSound";
+import { playAttack, playClick } from "../../audio/cryptSfx";
 import { SoundToggle } from "./SoundToggle";
 import { MatchCeremony } from "./MatchCeremony";
 import { MatchFxCanvas, type MatchFxHandle, type FxKind } from "./MatchFxCanvas";
@@ -41,6 +42,7 @@ export type CryptMatchBoardProps = {
   selectedBoardId: string | null;
   inspectId: string | null;
   combatLog: { id: string; text: string }[];
+  actionMessage: string | null;
   selectedHandCard: any;
   mulliganAvailable: boolean;
   energy: number;
@@ -53,6 +55,7 @@ export type CryptMatchBoardProps = {
   endTurn: () => void;
   playSelectedUnit: (lane: "front" | "back") => void;
   playSelectedArtifact: () => void;
+  playSelectedSpell: (targetInstanceId?: string) => void;
   equipSelectedToUnit: (targetInstanceId: string) => void;
   attackUnit: (attackerInstanceId: string, defenderInstanceId: string) => void;
   attackFace: (attackerInstanceId: string) => void;
@@ -89,6 +92,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     selectedBoardId,
     inspectId,
     combatLog,
+    actionMessage,
     selectedHandCard,
     mulliganAvailable,
     energy,
@@ -101,6 +105,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     endTurn,
     playSelectedUnit,
     playSelectedArtifact,
+    playSelectedSpell,
     equipSelectedToUnit,
     attackUnit,
     attackFace,
@@ -117,13 +122,30 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   // belt-and-suspenders with hiding the ActionBar below — even a stray onSelect
   // wired by a child does nothing. Solo/PvP keep the real handlers untouched.
   const NOOP = () => {};
-  const safeSetSelectedHandId = spectator ? NOOP : setSelectedHandId;
-  const safeSetSelectedBoardId = spectator ? NOOP : setSelectedBoardId;
+  // Selection setters with a tactile click — picking up a card/unit was silent
+  // (playClick was defined but never called). A dry tick on every selection adds
+  // constant low-level tactility. Only fire on an ACTUAL select (non-null id), so
+  // clearing selection stays quiet.
+  const safeSetSelectedHandId = spectator
+    ? NOOP
+    : (id: string | null) => {
+        if (id) playClick();
+        setSelectedHandId(id);
+      };
+  const safeSetSelectedBoardId = spectator
+    ? NOOP
+    : (id: string | null) => {
+        if (id) playClick();
+        setSelectedBoardId(id);
+      };
   const safeSetInspectId = spectator ? NOOP : setInspectId;
   const safeEndTurn = spectator ? NOOP : endTurn;
   const safeMulligan = spectator ? NOOP : mulligan;
   const safePlaySelectedUnit = spectator ? (NOOP as (lane: "front" | "back") => void) : playSelectedUnit;
   const safePlaySelectedArtifact = spectator ? NOOP : playSelectedArtifact;
+  const safePlaySelectedSpell = spectator
+    ? (NOOP as (id?: string) => void)
+    : playSelectedSpell;
   const safeEquipSelectedToUnit = spectator
     ? (NOOP as (id: string) => void)
     : equipSelectedToUnit;
@@ -224,11 +246,50 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   const deployReady = !actionsLocked && selectedHandCard?.type === "unit";
   const attackReady = !actionsLocked && !!selectedOwnUnit;
 
+  // DIRECT-CLICK COMBAT: once you've selected your own unit (the attacker),
+  // clicking an enemy unit attacks IT, and clicking the enemy Hex attacks face —
+  // no separate button press across the dock. This is the core feel fix: combat
+  // is direct manipulation (click attacker → click target → resolves) instead of
+  // a 3-click, two-region loop. The ActionBar buttons remain as an explicit
+  // fallback. Both paths funnel through these two resolvers. An illegal swing
+  // (guard in the way, etc.) is rejected by the reducer and surfaced as usual.
+  const resolveAttackUnit = (defenderId: string): boolean => {
+    if (spectator || actionsLocked || !selectedOwnUnit) return false;
+    triggerLunge(selectedOwnUnit.id);
+    playAttack(); // swing whoosh — was only firing on face hits before
+    // Contact burst at the struck defender, timed to the lunge apex (~150ms in).
+    const defKey = laneKeyForUnit(defenderId);
+    if (defKey) {
+      window.setTimeout(() => fxRef.current?.burstAt("damage", laneAnchorRefs.current[defKey]), 150);
+    }
+    safeAttackUnit(selectedOwnUnit.id, defenderId);
+    setTargetBoardId(null);
+    safeSetSelectedBoardId(null);
+    return true;
+  };
+  const resolveAttackFace = (): boolean => {
+    if (spectator || actionsLocked || !selectedOwnUnit) return false;
+    triggerLunge(selectedOwnUnit.id);
+    playAttack();
+    safeAttackFace(selectedOwnUnit.id);
+    setTargetBoardId(null);
+    safeSetSelectedBoardId(null);
+    return true;
+  };
+
   // Perspective-relative "Active" pill: "You" when it's my turn.
   const perspectiveActive: PlayerId = activePlayer === mySeat ? "P1" : "P2";
 
   const ownNexus = match.players[mySeat].nexusHealth ?? 20;
   const enemyNexus = match.players[opponentSeat].nexusHealth ?? 20;
+
+  // Contextual battlefield: the arena degrades as the match gets bloodier. Drive
+  // it off the LOWER of the two Hexes — when either side is near death the field
+  // is "collapsed", mid-damage is "corrupted", otherwise "stable". A CSS attr
+  // selector swaps the backdrop image (see live-crypt-match.css).
+  const lowestHex = Math.min(ownNexus, enemyNexus);
+  const battlefieldStage =
+    lowestHex <= 6 ? "collapsed" : lowestHex <= 13 ? "corrupted" : "stable";
 
   // Deck-pile counts: prefer an explicit deckCount (PvP/redacted views send it),
   // fall back to the local deck array length. Presentation-only.
@@ -338,6 +399,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   const burstLane = (kind: FxKind, key: LaneKey) =>
     fxRef.current?.burstAt(kind, laneAnchorRefs.current[key]);
 
+
   // Map a unit id (from the motion token sets) to its lane anchor.
   const laneKeyForUnit = (id: string): LaneKey | null => {
     if (ownFront.some((u: any) => u.id === id)) return "ownFront";
@@ -381,6 +443,37 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     seenDeathRef.current = live;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [motion.dying]);
+
+  // Fire a SHATTER on the Hex pills when face damage lands. The motion hook
+  // mints a fresh {key,damage} token per hit; the key change = the event. This
+  // finally gives the win condition real impact (a death-burst on the struck
+  // Hex) instead of just a shake. A lethal hit additionally blooms via the
+  // existing match-end ceremony effect.
+  const seenHexHitRef = useRef<{ own: number | null; enemy: number | null }>({
+    own: null,
+    enemy: null,
+  });
+  useEffect(() => {
+    // The Hex pills REMOUNT on every hit (their key changes to re-trigger the
+    // CSS shake), so a captured ref goes stale exactly when we need it. Query the
+    // live pill by its stable class at fire time instead. A short delay lets the
+    // freshly-mounted pill settle so burstAt reads its real box.
+    const ek = motion.enemyNexusHit?.key ?? null;
+    if (ek != null && ek !== seenHexHitRef.current.enemy) {
+      seenHexHitRef.current.enemy = ek;
+      window.setTimeout(() => {
+        fxRef.current?.burstAt("death", document.querySelector(".live-topbar__pill--nexus-enemy"));
+      }, 20);
+    }
+    const ok = motion.ownNexusHit?.key ?? null;
+    if (ok != null && ok !== seenHexHitRef.current.own) {
+      seenHexHitRef.current.own = ok;
+      window.setTimeout(() => {
+        fxRef.current?.burstAt("damage", document.querySelector(".live-topbar__pill--nexus-own"));
+      }, 20);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [motion.enemyNexusHit, motion.ownNexusHit]);
 
   // ---- MATCH-END CEREMONY (presentation-only) -----------------------------
   // The board only knows `winner`. The ranked rating delta + any tier crossing
@@ -457,7 +550,10 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   }, [matchOver, playerWon]);
 
   return (
-    <div className={`live-match-shell ${motion.boardFlinch ? "mm-flinch" : ""}`}>
+    <div
+      className={`live-match-shell ${motion.boardFlinch ? "mm-flinch" : ""}`}
+      data-battlefield={battlefieldStage}
+    >
       <MatchTopBar
         turn={match.turn ?? 1}
         activePlayer={perspectiveActive}
@@ -472,6 +568,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         onReset={resetMatch}
         ownNexusHit={motion.ownNexusHit}
         enemyNexusHit={motion.enemyNexusHit}
+        enemyHexTargetable={attackReady}
+        onAttackEnemyHex={resolveAttackFace}
       />
 
       {statusBanner}
@@ -504,6 +602,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 dying={dyingFor("enemy", "back")}
                 onSelect={(card) => {
                   if (spectator) return;
+                  // Attacker chosen → click attacks this unit; else just target it.
+                  if (resolveAttackUnit(card.id)) return;
                   setTargetBoardId(card.id);
                 }}
               />
@@ -519,9 +619,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 floats={motion.unitFloats}
                 dying={dyingFor("enemy", "front")}
                 onSelect={(card) => {
-                  // Combat targeting only — selection stays modal-free so the
-                  // ActionBar attack buttons aren't covered.
                   if (spectator) return;
+                  // Attacker chosen → click attacks this unit; else just target it.
+                  if (resolveAttackUnit(card.id)) return;
                   setTargetBoardId(card.id);
                 }}
               />
@@ -625,27 +725,34 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
             <ActionBar
               selectedType={actionsLocked ? null : selectedHandCard?.type ?? null}
               canEquip={!actionsLocked && selectedHandCard?.type === "equipment" && !!selectedOwnUnit}
+              canCast={!actionsLocked && selectedHandCard?.type === "spell"}
               canAttackUnit={!actionsLocked && !!selectedOwnUnit && !!selectedEnemyUnit}
               canAttackFace={!actionsLocked && !!selectedOwnUnit && !selectedEnemyUnit}
+              affordable={!selectedHandCard || affordableCostFor(selectedHandCard.id)}
+              energy={energy}
+              selectedCost={selectedHandCard?.liveStats?.cost ?? selectedHandCard?.cost ?? null}
+              rejectMessage={actionsLocked ? null : actionMessage}
               onPlayFront={() => safePlaySelectedUnit("front")}
               onPlayBack={() => safePlaySelectedUnit("back")}
               onPlayArtifact={safePlaySelectedArtifact}
+              onCastSpell={() => {
+                // Pass the currently-selected board unit as the spell's target:
+                // an enemy unit (damage/debuff) takes priority, else your own
+                // unit (heal/buff). Untargeted spells ignore it. The reducer
+                // rejects (and the status line surfaces) an illegal/missing
+                // target, so the UI doesn't re-implement the targeting rules.
+                const target = selectedEnemyUnit?.id ?? selectedOwnUnit?.id ?? undefined;
+                safePlaySelectedSpell(target);
+                setTargetBoardId(null);
+              }}
               onEquip={() => {
                 if (selectedOwnUnit) safeEquipSelectedToUnit(selectedOwnUnit.id);
               }}
               onAttackUnit={() => {
-                if (selectedOwnUnit && selectedEnemyUnit) {
-                  triggerLunge(selectedOwnUnit.id);
-                  safeAttackUnit(selectedOwnUnit.id, selectedEnemyUnit.id);
-                  setTargetBoardId(null);
-                }
+                if (selectedEnemyUnit) resolveAttackUnit(selectedEnemyUnit.id);
               }}
               onAttackFace={() => {
-                if (selectedOwnUnit) {
-                  triggerLunge(selectedOwnUnit.id);
-                  safeAttackFace(selectedOwnUnit.id);
-                  setTargetBoardId(null);
-                }
+                resolveAttackFace();
               }}
             />
             <div className="live-quick-buttons">

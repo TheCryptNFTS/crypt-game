@@ -4,7 +4,7 @@
  * instead of being a cosmetic color-swap.
  *
  *   STONE  (Keepers)   Bedrock   summoned same-faction units enter with +1 ARMOR
- *   SILVER (Sentinels) Insight   start of your turn: Scry 1 (deterministic smooth)
+ *   SILVER (Sentinels) Insight   summoned same-faction units costing <=2 enter +1 ATK
  *   BRONZE (Guardians) Onslaught summoned same-faction units costing <=2 gain RUSH
  *   IRON   (Defenders) Tempered  each equip ALSO grants the geared unit +1 ARMOR
  *   GOLD   (Sovereigns)Largesse  summoned same-faction units costing >=5 enter +0/+2
@@ -34,7 +34,7 @@
  * archetype: a mono-faction commitment snowballs into a stronger identity.
  *
  *   STONE  3+ Stone units  -> Bedrock armor on summon deepens to +2 (a thicker wall)
- *   SILVER 3+ Silver units -> start-of-turn Scry deepens to Scry 2 (deeper smoothing)
+ *   SILVER 3+ Silver units -> Insight +1 ATK band widens to cost<=3 (sharper tempo)
  *   BRONZE 3+ Bronze units -> Onslaught Rush extends to cost<=3 (aggro snowball)
  *   IRON   3+ Iron units   -> equips ALSO grant +1 Attack on top of the +1 Armor
  *   GOLD   4+ Gold units   -> Largesse cost>=5 bonus deepens to +1/+3 (top-end payoff)
@@ -48,10 +48,18 @@
  */
 
 import { MatchState, PlayerId, UnitInPlay } from "./state";
-import { scryDeck } from "./keywordEngine";
 
 /** Canonical faction enum (mirrors design/factionIdentity FactionCode), kept
- *  local so this engine module carries no design-layer dependency. */
+ *  local so this engine module carries no design-layer dependency.
+ *
+ *  GODS (#4) are DELIBERATELY absent from this enum: the 8 god units are
+ *  "vanilla bombs" BY DESIGN — premium, oversized, keyword-light top-end whose
+ *  whole identity is raw stats on a body, and who never enter the 5-mortal-faction
+ *  curated matchup sim (they are not draftable into a faction deck). Giving them a
+ *  passive summon/turn/equip hook would (a) add a sixth identity axis to a system
+ *  Billy wants kept legible, and (b) compound onto statlines that are already the
+ *  set's strongest. So Gods intentionally have NO faction identity — their power
+ *  budget is the statline itself. This is a documented choice, not an oversight. */
 export type IdentityFaction =
   | "STONE_KEEPERS"
   | "IRON_DEFENDERS"
@@ -89,7 +97,7 @@ export const FACTION_IDENTITY_TEXT: Record<IdentityFaction, string> = {
   STONE_KEEPERS:
     "Bedrock — units you summon of your faction enter play with +1 Armor.",
   SILVER_SENTINELS:
-    "Insight — at the start of your turn, Scry 1 (smooth your top card by cost).",
+    "Insight — units you summon of your faction that cost 2 or less enter with +1 Attack.",
   BRONZE_GUARDIANS:
     "Onslaught — units you summon of your faction that cost 2 or less gain Rush.",
   IRON_DEFENDERS:
@@ -212,6 +220,18 @@ export function factionOnUnitSummon(
       addArmor(unit, deep ? 2 : 1);
       break;
     }
+    case "SILVER_SENTINELS": {
+      // Insight: the sentinels read the fight a beat ahead — their cheap tempo
+      // bodies hit harder (+1 Attack) the turn they arrive, a board-relevant edge
+      // in a combat race (the old "Scry 1" was pure card-selection with ZERO board
+      // impact, so Silver brought nothing to the fight). Pressure is THROUGH COMBAT
+      // only — never direct nexus burn. Archetype (3+ Silver live): the +1 Attack
+      // band widens to cost<=3 as the tempo plan snowballs.
+      const deep = archetypeActive(state, controller, faction, factionOf);
+      const atkCap = deep ? 3 : 2;
+      if (costOf(unit.cardId) <= atkCap) buffAttack(unit, 1);
+      break;
+    }
     case "BRONZE_GUARDIANS": {
       // Onslaught: your cheapest skirmishers strike the turn they arrive (Rush),
       // pressuring THROUGH COMBAT only — never direct nexus burn. Archetype (3+
@@ -237,7 +257,7 @@ export function factionOnUnitSummon(
       break;
     }
     default:
-      // SILVER / IRON identities trigger on other hooks (turn-start / equip).
+      // IRON's identity triggers on the equip hook (factionOnEquip), not on summon.
       break;
   }
 }
@@ -267,10 +287,15 @@ export function factionOnEquip(
 }
 
 /**
- * Fires at the start of the given player's turn. SILVER's identity smooths the
- * top of their own deck (Scry 1) — pure card-quality, deterministic, NO draw and
- * NO card advantage (mirrors the SCRY keyword exactly). `costOf` is the reducer's
- * catalog cost lookup so the smoothing is identical to SCRY's.
+ * Fires at the start of the given player's turn. NO faction identity currently keys
+ * off turn-start: SILVER's Insight moved from a board-irrelevant "Scry 1" (pure
+ * deck-smoothing that brought nothing to a combat race) to a tempo board edge on the
+ * SUMMON hook (cheap Silver bodies enter with +1 Attack). This hook is retained as a
+ * documented, intentional no-op so the reducer's existing call site stays valid and
+ * a future turn-start identity has a wired seam — exactly like the other hooks, it is
+ * inert unless `rules.factionIdentities` is set. `costOf` / `factionOf` are kept in
+ * the signature so the reducer call site and any future turn-start payoff need no
+ * re-plumbing. NO-BURN by construction (it does nothing).
  */
 export function factionOnTurnStart(
   state: MatchState,
@@ -279,15 +304,11 @@ export function factionOnTurnStart(
   factionOf?: (cardId: string) => string | null | undefined
 ): void {
   if (!identitiesEnabled(state)) return;
-  if (factionOfCommander(state, playerId) === "SILVER_SENTINELS") {
-    const player = state.players[playerId];
-    if (!Array.isArray(player.deck)) return;
-    // Insight: Scry 1 base; archetype (3+ Silver live) deepens to Scry 2 — a wider
-    // smoothing window, still NO draw and NO card advantage (pure card quality).
-    const depth =
-      factionOf && archetypeActive(state, playerId, "SILVER_SENTINELS", factionOf) ? 2 : 1;
-    player.deck = scryDeck(player.deck, costOf, depth);
-  }
+  void costOf;
+  void factionOf;
+  // Intentionally empty: no faction's identity triggers at turn-start under the
+  // current ruleset (Silver's Insight is a summon-time +1 Attack, see
+  // factionOnUnitSummon). Left as a wired, inert seam.
 }
 
 /**

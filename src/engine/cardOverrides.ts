@@ -60,10 +60,30 @@ export interface CardOverride {
 }
 
 /** Patch version stamp. A literal string — never a runtime date. */
-export const CARD_OVERRIDES_VERSION = "2026.06.02";
+export const CARD_OVERRIDES_VERSION = "2026.06.06";
 
 /**
- * The live balance patch. Keyed by `cardId`. Only a few illustrative entries
+ * BALANCE NOTE — undercosted cost-2 body re-cost (2026.06.06).
+ *
+ * The matchup sim (`npm run sim:curated`) showed STONE_KEEPERS / IRON_DEFENDERS
+ * dominating the field (~76-84% overall, never below 50%), and the outlier report
+ * (`npm run report:outliers`, ratio > 6.0) traced the cause to the undercosted
+ * cost-2 body class (armor-3 GUARD walls 4/6/3 & 3/7/3 at power/cost ~7.1-7.3, plus
+ * armor-2 GUARDs, speed-4 RUSH skirmishers and 7-8-attack vanilla 2-drops) — bodies
+ * whose SOURCE pool is heavily Stone/Iron-skewed. Their honest cost is 3.
+ *
+ * That re-cost is applied as a deterministic CLASS RULE in the curated/sim build
+ * pipeline (`scripts/buildCuratedCoreSetV2.cjs`, `recostUndercostedTwoDrops`: any
+ * cost-2 unit over the report's 6.0 efficiency line -> cost 3), because the
+ * undercosted statlines live ONLY in the sim/report source (`generatedPlayableTcg-
+ * Units.json`, id space `tcg_unit_<token>`). The RUNTIME catalog this file patches
+ * (`runtimeMatchPlayableCards.json` / `cardMaster.json`, id space `tcg_<token>`) is a
+ * SEPARATE, already-fair generation: e.g. token 5472 is a 3-cost 2/4 here, not the
+ * 2-cost 3/7/3 the report flags. A per-id override here would therefore patch the
+ * WRONG card, so the class re-cost is intentionally NOT mirrored as runtime entries;
+ * the two layers agree on the rule, and live play already ships the fair cost.
+ *
+ * The live balance patch is keyed by `cardId`. Only a few illustrative entries
  * ship — the point is the MECHANISM, not the balance calls.
  */
 export const cardOverrides: Record<string, CardOverride> = {

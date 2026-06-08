@@ -1,0 +1,110 @@
+/*
+ * MOBILE SAFETY LAYER for the rebuilt live match board (BUG 5).
+ *
+ * The desktop board was rebuilt with a single 768px breakpoint, which at that
+ * width actually WIDENS the board/hand cards (168/184px) for a momentum
+ * horizontal scroll. That works on a 414px+ phone but gets cramped on a 375px
+ * device (iPhone SE), where the side rail (150px) plus a near-full-width card
+ * can crowd or overflow the layout.
+ *
+ * This file is a small, ADDITIVE override that only kicks in at <=480px. It does
+ * NOT redesign anything — it just keeps both armies + the hand visible, prevents
+ * horizontal overflow of the page itself, shrinks the board cards / hand fan /
+ * side rail so nothing runs off-screen, and guarantees the action buttons stay
+ * tappable (>=40px). Loaded AFTER live-crypt-match.css so these win the cascade.
+ */
+
+@media (max-width: 480px) {
+  /* Never let the shell push the document wider than the viewport. The card
+   * rails do their own internal horizontal scroll; the page must not. */
+  .live-match-shell {
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding: 10px;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Each army row keeps its lanes + rail side by side, but the rail is trimmed
+   * so the lanes retain real estate; lanes already have min-width:0 so their
+   * card strip scrolls internally instead of overflowing the page. */
+  .crypt-side {
+    gap: 8px;
+  }
+
+  .crypt-side__rail {
+    width: 104px;
+    gap: 6px;
+  }
+
+  /* Keep both armies AND the hand on screen by tightening vertical rhythm. */
+  .crypt-table {
+    gap: 4px;
+  }
+
+  /* Board cards: smaller than the 768px size so more than one peeks into view
+   * within a 375px column and the strip scrolls cleanly. */
+  .live-lane__cards,
+  .live-hand__rail {
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+
+  .live-lane__cards {
+    flex-wrap: nowrap;
+  }
+
+  .live-lane__cards .crypt-card--board {
+    min-width: 120px;
+    width: 120px;
+    min-height: 176px;
+    scroll-snap-align: start;
+  }
+
+  /* Hand: drop the overlapping fan (negative margins) for a simple scrollable
+   * row so cards never stack off the edge, and narrow each card. */
+  .live-hand__rail {
+    flex-wrap: nowrap;
+  }
+
+  .live-hand__item {
+    min-width: 132px;
+    width: 132px;
+    margin-left: 0;
+    scroll-snap-align: start;
+  }
+
+  .live-hand__item:hover {
+    margin-right: 0;
+  }
+
+  .live-hand__item .crypt-card--hand {
+    min-height: 196px;
+  }
+
+  /* Action controls remain comfortably tappable and wrap instead of overflowing. */
+  .live-actionbar__buttons,
+  .live-topbar__actions,
+  .live-quick-buttons,
+  .crypt-dock__actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .live-btn {
+    min-height: 40px;
+    padding: 9px 12px;
+  }
+
+  /* Bottom dock buttons (if rendered) also honor the 40px touch target. */
+  .crypt-mode-toggle__btn {
+    min-height: 40px;
+  }
+
+  /* Top status pills wrap two-up rather than forcing a wide row. */
+  .live-topbar__pill {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 0;
+  }
+}

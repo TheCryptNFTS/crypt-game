@@ -39,6 +39,7 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       }}
     >
       <img src={card.imageUrl} alt={card.name} className="crypt-card__image" />
+      <div className="crypt-card__scrim" />
 
       <div className="crypt-board-top">
         <FactionBadge faction={card.faction} />
@@ -48,29 +49,21 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       <div className="crypt-board-bottom">
         <div className="crypt-card__title">{card.name}</div>
 
-        <div className="crypt-board-stats">
-          <div className="crypt-board-stat">
-            <span className="crypt-board-stat__k">ATK</span>
-            <span className="crypt-board-stat__v">{card.liveStats.attack}</span>
-          </div>
-          <div className="crypt-board-stat">
-            <span className="crypt-board-stat__k">HP</span>
-            <span className="crypt-board-stat__v">{card.liveStats.health}</span>
-          </div>
-          <div className="crypt-board-stat">
-            <span className="crypt-board-stat__k">ARM</span>
-            <span className="crypt-board-stat__v">{card.liveStats.armor}</span>
-          </div>
-          <div className="crypt-board-stat">
-            <span className="crypt-board-stat__k">SPD</span>
-            <span className="crypt-board-stat__v">{card.liveStats.speed}</span>
-          </div>
+        {/* Board minions show only the two combat-relevant stats big — ATK/HP —
+            with ARM/SPD as small pips ONLY when they matter (>0). CRIT/UTIL are
+            almost always 0 and were pure clutter on a 108px card; they live on
+            the full inspect view instead. */}
+        <div className="crypt-board-gem">
+          <span className="crypt-board-gem__atk">{card.liveStats.attack}</span>
+          <span className="crypt-board-gem__sep">/</span>
+          <span className="crypt-board-gem__hp">{card.liveStats.health}</span>
         </div>
-
-        <div className="crypt-board-mods">
-          <span>CRIT {card.liveStats.crit}</span>
-          <span>UTIL {card.liveStats.utility}</span>
-        </div>
+        {(card.liveStats.armor > 0 || card.liveStats.speed > 0) && (
+          <div className="crypt-board-pips">
+            {card.liveStats.armor > 0 && <span className="crypt-board-pip crypt-board-pip--arm">{card.liveStats.armor} ARM</span>}
+            {card.liveStats.speed > 0 && <span className="crypt-board-pip crypt-board-pip--spd">{card.liveStats.speed} SPD</span>}
+          </div>
+        )}
       </div>
     </button>
   );

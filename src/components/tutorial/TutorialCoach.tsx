@@ -36,8 +36,8 @@ const STEPS: Step[] = [
   },
   {
     id: "nexus",
-    title: "Protect your Nexus",
-    body: "Each side guards a Nexus at 20 health. Drop the enemy Nexus to 0 to win — and don't let yours fall.",
+    title: "Protect your Hex",
+    body: "Each side guards a Hex at 20 health. Drop the enemy Hex to 0 to win — and don't let yours fall.",
   },
   {
     id: "lanes",
@@ -57,12 +57,12 @@ const STEPS: Step[] = [
   {
     id: "attack",
     title: "Attack",
-    body: "Select your unit, then an enemy unit or their Nexus. Chip the enemy Nexus down to zero.",
+    body: "Select your unit, then an enemy unit or their Hex. Chip the enemy Hex down to zero.",
   },
   {
     id: "close",
     title: "Close it out",
-    body: "Keep deploying and attacking. The enemy Nexus is weakened — finish the duel.",
+    body: "Keep deploying and attacking. The enemy Hex is weakened — finish the duel.",
   },
 ];
 
@@ -117,8 +117,8 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
         </p>
         <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.5 }}>
           {won
-            ? "Signal restored. You ran the full loop — Nexus, lanes, deploy, attack. The Crypt is open."
-            : "You ran the full loop — Nexus, lanes, deploy, attack. That's everything you need. Press on."}
+            ? "Signal restored. You ran the full loop — Hex, lanes, deploy, attack. The Crypt is open."
+            : "You ran the full loop — Hex, lanes, deploy, attack. That's everything you need. Press on."}
         </p>
       </div>
     );
