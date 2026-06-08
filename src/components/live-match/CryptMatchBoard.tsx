@@ -571,114 +571,126 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
       {statusBanner}
 
 
-      {/* THE TABLE — a single-screen battlefield: the two armies face each other
-          across a center divider (enemy on top, you on the bottom), the hand +
-          actions dock below. No giant commander card, no dev-speak panels. */}
+      {/* THE TABLE — a single-screen battlefield. The board (two framed ground
+          zones meeting at a glowing seam) sits left; a vertical rail of
+          commanders + decks + artifacts sits right. Enemy army on top facing
+          down, your army on the bottom facing up. The hand + actions dock below. */}
       <div className="crypt-table">
-        {/* ENEMY SIDE (top, facing down): back lane farthest, front lane nearest
-            the center line. */}
-        <div className="crypt-side crypt-side--enemy">
-          <div className="crypt-side__rail">
-            <div className="crypt-side__meta">
-              <span className="kicker">Enemy</span>
-              {enemyCommander ? <CommanderHero commander={enemyCommander} compact /> : null}
+        <div className="crypt-board">
+          {/* ENEMY ZONE (top, facing down): crimson-framed ground. Back lane
+              farthest from the seam, front lane nearest it. */}
+          <div className="crypt-zone crypt-zone--enemy">
+            <span className="crypt-zone__label">Enemy Ground</span>
+            <div className="crypt-zone__lanes">
+              <div className="mm-lane-fx">
+                <span ref={setLaneAnchor("enemyBack")} className="mm-lane-fx__anchor" aria-hidden="true" />
+                <BoardLane
+                  title="Enemy Back"
+                  sideLabel={"Back\u2009/\u2009Enemy"}
+                  cards={enemyBack}
+                  highlight={attackReady ? "target" : null}
+                  hint="Attackable"
+                  unitMotion={motion.unitMotion}
+                  floats={motion.unitFloats}
+                  dying={dyingFor("enemy", "back")}
+                  onSelect={(card) => {
+                    if (spectator) return;
+                    // Attacker chosen → click attacks this unit; else just target it.
+                    if (resolveAttackUnit(card.id)) return;
+                    setTargetBoardId(card.id);
+                  }}
+                />
+              </div>
+              <div className="mm-lane-fx">
+                <span ref={setLaneAnchor("enemyFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
+                <BoardLane
+                  title="Enemy Front"
+                  sideLabel={"Front\u2009/\u2009Enemy"}
+                  cards={enemyFront}
+                  highlight={attackReady ? "target" : null}
+                  hint="Attackable"
+                  unitMotion={motion.unitMotion}
+                  floats={motion.unitFloats}
+                  dying={dyingFor("enemy", "front")}
+                  onSelect={(card) => {
+                    if (spectator) return;
+                    // Attacker chosen → click attacks this unit; else just target it.
+                    if (resolveAttackUnit(card.id)) return;
+                    setTargetBoardId(card.id);
+                  }}
+                />
+              </div>
             </div>
+          </div>
+
+          {/* CENTER SEAM — a glowing divider with a medallion where the armies meet. */}
+          <div className="crypt-seam" aria-hidden="true">
+            <span className="crypt-seam__medallion">{"\u2B22"}</span>
+          </div>
+
+          {/* YOUR ZONE (bottom, facing up): gold-framed ground. Front lane nearest
+              the seam, back lane behind it. */}
+          <div className="crypt-zone crypt-zone--own">
+            <span className="crypt-zone__label">Your Ground</span>
+            <div className="crypt-zone__lanes">
+              <div className="mm-lane-fx">
+                <span ref={setLaneAnchor("ownFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
+                <BoardLane
+                  title="Your Front"
+                  sideLabel={"Front\u2009/\u2009Yours"}
+                  cards={ownFront}
+                  highlight={deployReady ? "deploy" : null}
+                  hint="Play here"
+                  unitMotion={ownUnitMotion}
+                  floats={motion.unitFloats}
+                  dying={dyingFor("own", "front")}
+                  onSelect={(card) => {
+                    safeSetSelectedBoardId(card.id);
+                  }}
+                />
+              </div>
+              <div className="mm-lane-fx">
+                <span ref={setLaneAnchor("ownBack")} className="mm-lane-fx__anchor" aria-hidden="true" />
+                <BoardLane
+                  title="Your Back"
+                  sideLabel={"Back\u2009/\u2009Yours"}
+                  cards={ownBack}
+                  highlight={deployReady ? "deploy" : null}
+                  hint="Play here"
+                  unitMotion={ownUnitMotion}
+                  floats={motion.unitFloats}
+                  dying={dyingFor("own", "back")}
+                  onSelect={(card) => {
+                    safeSetSelectedBoardId(card.id);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT RAIL — commanders + decks pulled out of the floating chips. */}
+        <aside className="crypt-rail">
+          <div className="crypt-rail__group crypt-rail__group--enemy">
+            <span className="crypt-rail__head">Enemy</span>
+            {enemyCommander ? <CommanderHero commander={enemyCommander} compact /> : null}
             <DeckPile count={enemyDeckCount} label="Enemy Deck" />
           </div>
-          <div className="crypt-side__lanes">
-            <div className="mm-lane-fx">
-              <span ref={setLaneAnchor("enemyBack")} className="mm-lane-fx__anchor" aria-hidden="true" />
-              <BoardLane
-                title="Enemy Back"
-                cards={enemyBack}
-                highlight={attackReady ? "target" : null}
-                hint="Attackable"
-                unitMotion={motion.unitMotion}
-                floats={motion.unitFloats}
-                dying={dyingFor("enemy", "back")}
-                onSelect={(card) => {
-                  if (spectator) return;
-                  // Attacker chosen → click attacks this unit; else just target it.
-                  if (resolveAttackUnit(card.id)) return;
-                  setTargetBoardId(card.id);
-                }}
-              />
-            </div>
-            <div className="mm-lane-fx">
-              <span ref={setLaneAnchor("enemyFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
-              <BoardLane
-                title="Enemy Front"
-                cards={enemyFront}
-                highlight={attackReady ? "target" : null}
-                hint="Attackable"
-                unitMotion={motion.unitMotion}
-                floats={motion.unitFloats}
-                dying={dyingFor("enemy", "front")}
-                onSelect={(card) => {
-                  if (spectator) return;
-                  // Attacker chosen → click attacks this unit; else just target it.
-                  if (resolveAttackUnit(card.id)) return;
-                  setTargetBoardId(card.id);
-                }}
-              />
-            </div>
-          </div>
-        </div>
 
-        {/* CENTER LINE — where the armies meet. */}
-        <div className="crypt-table__divider" aria-hidden="true">
-          <span className="crypt-table__divider-glyph">{"\u2B22"}</span>
-        </div>
-
-        {/* YOUR SIDE (bottom, facing up): front lane nearest center, back behind. */}
-        <div className="crypt-side crypt-side--own">
-          <div className="crypt-side__lanes">
-            <div className="mm-lane-fx">
-              <span ref={setLaneAnchor("ownFront")} className="mm-lane-fx__anchor" aria-hidden="true" />
-              <BoardLane
-                title="Your Front"
-                cards={ownFront}
-                highlight={deployReady ? "deploy" : null}
-                hint="Play here"
-                unitMotion={ownUnitMotion}
-                floats={motion.unitFloats}
-                dying={dyingFor("own", "front")}
-                onSelect={(card) => {
-                  safeSetSelectedBoardId(card.id);
-                }}
-              />
-            </div>
-            <div className="mm-lane-fx">
-              <span ref={setLaneAnchor("ownBack")} className="mm-lane-fx__anchor" aria-hidden="true" />
-              <BoardLane
-                title="Your Back"
-                cards={ownBack}
-                highlight={deployReady ? "deploy" : null}
-                hint="Play here"
-                unitMotion={ownUnitMotion}
-                floats={motion.unitFloats}
-                dying={dyingFor("own", "back")}
-                onSelect={(card) => {
-                  safeSetSelectedBoardId(card.id);
-                }}
-              />
-            </div>
-          </div>
-          <div className="crypt-side__rail">
-            <div className="crypt-side__meta">
-              <span className="kicker">You</span>
-              {ownCommander ? <CommanderHero commander={ownCommander} compact /> : null}
-            </div>
+          <div className="crypt-rail__group crypt-rail__group--own">
+            <span className="crypt-rail__head">You</span>
+            {ownCommander ? <CommanderHero commander={ownCommander} compact /> : null}
             {ownArtifacts.length ? (
               <BoardLane
                 title="Your Artifacts"
+                sideLabel="Artifacts"
                 cards={ownArtifacts}
                 onSelect={(card) => safeSetInspectId(card.id)}
               />
             ) : null}
             <DeckPile count={ownDeckCount} label="Your Deck" />
           </div>
-        </div>
+        </aside>
       </div>
 
       {/* DOCK — hand + actions + log, pinned below the field (hand first so it

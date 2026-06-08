@@ -55,7 +55,7 @@ export function MatchTopBar({
           className={`live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-own ${ownNexusHit ? "mm-nexus-hit" : ""}`}
           key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
         >
-          <span className="live-topbar__label">Your Hex</span>
+          <span className="live-topbar__label">{"Your Hex \u2B22"}</span>
           <div
             className="ph-crystal ph-crystal--own"
             role="img"
@@ -94,7 +94,7 @@ export function MatchTopBar({
           }}
         >
           <span className="live-topbar__label">
-            Enemy Hex{enemyHexTargetable ? " · strike" : ""}
+            {"Enemy Hex \u2B22"}{enemyHexTargetable ? " · strike" : ""}
           </span>
           <div
             className="ph-crystal ph-crystal--enemy"

@@ -4,39 +4,49 @@
   padding: 18px;
 }
 
-/* Atmospheric battlefield — a real widescreen hex arena (gold-edged hex floor,
-   ruined hex towers, fog depth). The contextual stage is set via the shell's
-   data-battlefield attr: STABLE by default, CORRUPTED at mid-damage, COLLAPSED
-   when a Hex is near death — so the field visibly degrades as the match bloodies.
-   Darkened just enough that cards/text stay legible while the art still reads. */
+/* Battlefield backdrop — crisp DARK obsidian with a subtle CSS hex-grid (no
+   photo). Two repeating-gradient layers fake an isometric hex weave; an edge
+   vignette + faint ember glow ride only at the corners so the playfield itself
+   stays high-contrast and clean. The contextual stage (data-battlefield) only
+   shifts the ember TINT now — stable=gold, corrupted=violet, collapsed=cold —
+   so the field still reads bloodier without a muddy photo hazing the board. */
 .live-match-shell::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 0;
-  /* Lighter top so the arena art clearly reads and fills the dead space behind
-     the lanes; the gradient stays darker toward the BOTTOM where the hand/dock
-     sits so those cards/text keep their contrast. The board's own cards carry
-     strong scrims, so the field can breathe brighter than before. A 3-stop
-     gradient keeps the upper-mid arena bright while still anchoring the dock. */
+  background-color: #0B0B0D;
   background-image:
-    linear-gradient(180deg, rgba(11, 11, 13, 0.22) 0%, rgba(11, 11, 13, 0.30) 48%, rgba(11, 11, 13, 0.62) 100%),
-    url("/crypt-assets/battlefield-stable.jpg");
+    /* corner ember glow + vignette (drawn first = topmost of the stack) */
+    radial-gradient(120% 90% at 50% -10%, rgba(233,201,132,0.10), transparent 42%),
+    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55), transparent 55%),
+    /* hex weave: three 60°-offset line families over the obsidian base */
+    repeating-linear-gradient(60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(0deg, rgba(245,242,232,0.018) 0 1px, transparent 1px 30px),
+    linear-gradient(180deg, #0c0c0f 0%, #070708 100%);
   background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   pointer-events: none;
-  transition: background-image 600ms ease, filter 600ms ease;
+  transition: filter 600ms ease;
 }
+/* As the match bloodies, the corner ember glow shifts hue (cheap, photo-free). */
 .live-match-shell[data-battlefield="corrupted"]::before {
   background-image:
-    linear-gradient(180deg, rgba(11, 11, 13, 0.22) 0%, rgba(20, 8, 24, 0.34) 48%, rgba(20, 8, 24, 0.64) 100%),
-    url("/crypt-assets/battlefield-corrupted.jpg");
+    radial-gradient(120% 90% at 50% -10%, rgba(141,92,255,0.12), transparent 42%),
+    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.6), transparent 55%),
+    repeating-linear-gradient(60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(0deg, rgba(245,242,232,0.018) 0 1px, transparent 1px 30px),
+    linear-gradient(180deg, #0c0a10 0%, #060509 100%);
 }
 .live-match-shell[data-battlefield="collapsed"]::before {
   background-image:
-    linear-gradient(180deg, rgba(11, 11, 13, 0.20) 0%, rgba(8, 6, 14, 0.34) 48%, rgba(8, 6, 14, 0.66) 100%),
-    url("/crypt-assets/battlefield-collapsed.jpg");
+    radial-gradient(120% 90% at 50% -10%, rgba(255,77,77,0.12), transparent 42%),
+    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.66), transparent 55%),
+    repeating-linear-gradient(60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(0deg, rgba(245,242,232,0.018) 0 1px, transparent 1px 30px),
+    linear-gradient(180deg, #0d0809 0%, #070506 100%);
 }
 .live-match-shell > * {
   position: relative;
@@ -79,76 +89,140 @@
 .live-match-shell { padding: 10px 14px; }
 
 /* ============================================================================
-   THE TABLE — single-screen battlefield. Two armies face across a center line;
-   the hand + actions dock below. Works at every width (no phone-stack collapse).
+   THE TABLE — single-screen battlefield. A framed two-zone BOARD on the left
+   (enemy ground over your ground, meeting at a glowing seam) and a vertical RAIL
+   on the right (commanders + decks + artifacts). The hand + actions dock below.
    ========================================================================== */
 .crypt-table {
-  /* Cap + center the battlefield. Full-width lanes on a 1900px screen became
-     enormous empty bars (read as a spreadsheet, not a board). A contained
-     ~1080px table keeps units clustered toward the center line so the field
-     feels occupied, with the arena art breathing on either side. */
   margin: 10px auto 0;
-  max-width: 1080px;
+  max-width: 1320px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 232px;
+  gap: 16px;
+  align-items: start;
 }
 
-.crypt-side {
-  display: flex;
-  align-items: stretch;
-  gap: 14px;
-}
-.crypt-side__lanes {
-  flex: 1;
-  min-width: 0;
+/* The board: two framed ground zones stacked, seam between. */
+.crypt-board {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  justify-content: center;
-}
-/* Enemy lanes read top→down toward the center; your lanes bottom→up. The front
-   lanes (closest to the divider) sit nearly touching it so the two armies clash
-   at the center line instead of drifting apart into empty bars. */
-.crypt-side--enemy .crypt-side__lanes { justify-content: flex-end; }
-.crypt-side--own .crypt-side__lanes { justify-content: flex-start; }
-
-/* The side rail: kicker + commander chip + deck pile, kept narrow so the field
-   gets the width. Enemy rail on the right, your rail on the right too (mirrored
-   feel without duplicating markup). */
-.crypt-side__rail {
-  width: 150px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-}
-.crypt-side__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  gap: 0;
 }
 
-/* Center line where the armies meet. */
-.crypt-table__divider {
+/* A ground zone — a rounded, faction-tinted frame on near-black with a centered
+   label. Enemy reads crimson, yours reads gold. */
+.crypt-zone {
   position: relative;
-  height: 1px;
-  margin: 0 150px 0 0;
-  background: linear-gradient(90deg, transparent, rgba(233,201,132,0.45), transparent);
+  border-radius: 18px;
+  padding: 22px 16px 14px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.018), transparent 60%),
+    linear-gradient(180deg, rgba(16,16,19,0.72), rgba(9,9,11,0.82));
+  box-shadow: inset 0 0 40px -18px rgba(0,0,0,0.9);
 }
-.crypt-table__divider-glyph {
+.crypt-zone--enemy {
+  border: 1px solid rgba(255,77,77,0.28);
+  box-shadow:
+    inset 0 0 44px -16px rgba(255,77,77,0.18),
+    inset 0 0 40px -18px rgba(0,0,0,0.9);
+}
+.crypt-zone--own {
+  border: 1px solid rgba(233,201,132,0.30);
+  box-shadow:
+    inset 0 0 44px -16px rgba(233,201,132,0.18),
+    inset 0 0 40px -18px rgba(0,0,0,0.9);
+}
+
+/* Centered zone label, top of the frame. */
+.crypt-zone__label {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.crypt-zone--enemy .crypt-zone__label { color: rgba(255,138,138,0.7); }
+.crypt-zone--own .crypt-zone__label { color: rgba(233,201,132,0.78); }
+
+.crypt-zone__lanes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* The glowing central seam with a hex medallion. */
+.crypt-seam {
+  position: relative;
+  height: 22px;
+  margin: -4px 6px;
+  z-index: 2;
+}
+.crypt-seam::before {
+  content: "";
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent, rgba(233,201,132,0.55) 35%, rgba(233,201,132,0.85) 50%, rgba(233,201,132,0.55) 65%, transparent);
+  box-shadow: 0 0 14px rgba(233,201,132,0.45);
+}
+.crypt-seam__medallion {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  color: rgba(233,201,132,0.7);
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, rgba(233,201,132,0.9), rgba(120,90,40,0.85));
+  color: #0B0B0D;
   font-size: 13px;
-  text-shadow: 0 0 12px rgba(233,201,132,0.5);
-  background: #0b0b0d;
-  padding: 0 8px;
+  box-shadow: 0 0 16px rgba(233,201,132,0.6), inset 0 0 0 1px rgba(255,255,255,0.25);
 }
+
+/* ============ RIGHT RAIL — commanders / decks / artifacts ============ */
+.crypt-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: stretch;
+}
+.crypt-rail__group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(20,20,23,0.9), rgba(11,11,13,0.96));
+  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+}
+.crypt-rail__group--enemy { border: 1px solid rgba(255,77,77,0.22); }
+.crypt-rail__group--own { border: 1px solid rgba(233,201,132,0.26); }
+.crypt-rail__head {
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245,242,232,0.55);
+}
+.crypt-rail__group--enemy .crypt-rail__head { color: rgba(255,138,138,0.7); }
+.crypt-rail__group--own .crypt-rail__head { color: rgba(233,201,132,0.78); }
+/* In the rail the commander chip + deck pile go full-width of the rail column. */
+.crypt-rail .crypt-cmdr-chip { width: 100%; }
+.crypt-rail .deck-pile { align-items: flex-start; }
+/* Artifacts row in the rail: a compact lane (no zone frame). */
+.crypt-rail .live-lane { background: transparent; box-shadow: none; border: none; padding: 0; }
+.crypt-rail .live-lane__cards { justify-content: flex-start; gap: 6px; }
 
 /* Compact commander chip (replaces the giant left card + dev-speak panels). */
 .crypt-cmdr-chip {
@@ -571,88 +645,109 @@
   min-height: 0;
 }
 
-/* Tighter lanes on the new field (the old .live-board-stack overrides no longer
-   apply since the markup changed). */
-/* Field lanes = TRANSLUCENT terrain so the battlefield arena shows through,
-   not opaque dark boxes. A faint inner hex-edge sells "ground".
-   The lane is constrained to a centered ~640px band (not the full ~916px) so a
-   lane holding 1–2 units feels CLUSTERED at the center of the field rather than
-   one or two cards stranded in a vast empty horizontal bar (the "spreadsheet"
-   read). The arena art breathes on either side of the band. */
-.crypt-side__lanes .live-lane {
+/* ============ LANES & SLOTS — the designed 5-slot grid ============ */
+/* A lane is a horizontal row: a small left side-caption + a fixed 5-slot grid.
+   The lane itself is frameless (the parent zone carries the frame); each SLOT
+   is the designed cell. */
+.crypt-zone__lanes .mm-lane-fx { display: block; }
+.crypt-zone__lanes .live-lane {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+  gap: 10px;
   width: 100%;
-  max-width: 640px;
-  margin-inline: auto;
-  padding: 4px 10px 6px;
-  border-radius: 12px;
-  border: 1px solid rgba(245,242,232,0.05);
-  /* Lighter wash than before so the new battlefield arena reads THROUGH the
-     lanes instead of being covered by a flat gray strip. */
-  background:
-    linear-gradient(180deg, rgba(245,242,232,0.015), rgba(11,11,13,0.1)) !important;
-  box-shadow: inset 0 0 30px -14px rgba(0,0,0,0.5) !important;
-}
-/* The fx wrapper also centers so the anchored band stays dead-center. */
-.crypt-side__lanes .mm-lane-fx { display: flex; justify-content: center; }
-/* Enemy ground reads faintly red; your ground faintly gold. */
-.crypt-side--enemy .crypt-side__lanes .live-lane {
-  background:
-    linear-gradient(180deg, rgba(255,77,77,0.045), rgba(11,11,13,0.08)) !important;
-}
-.crypt-side--own .crypt-side__lanes .live-lane {
-  background:
-    linear-gradient(180deg, rgba(11,11,13,0.08), rgba(233,201,132,0.045)) !important;
-}
-/* A deploy-ready lane glows its accent so the player sees WHERE to play. */
-.crypt-side__lanes .live-lane.live-lane--deploy {
-  border-color: rgba(233,201,132,0.45);
-  box-shadow:
-    inset 0 0 24px -6px rgba(233,201,132,0.3),
-    0 0 16px -6px rgba(233,201,132,0.35) !important;
-}
-.crypt-side__lanes .live-lane__header {
-  margin-bottom: 2px;
-  opacity: 0.55;
-}
-/* The four lane TITLES ("Your Front" etc.) are form-label chrome on what should
-   read as a battlefield. Reduce them to a near-invisible micro-caption so the
-   2-second board read is silhouettes, not text. They stay in the DOM for screen
-   readers (BoardLane keeps an aria-label) but visually recede to a whisper.
-   Note: this targets only the lane TITLE; the "Play here" deploy hint
-   (.live-lane__hint) and the empty-lane state are intentionally untouched. */
-.crypt-side__lanes .live-lane__header h2 {
-  font-size: 7px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  opacity: 0.32;
-}
-.crypt-side__lanes .live-lane__header span { font-size: 9px; }
-/* Empty lane = a whisper-quiet centered ground strip, not a full-width form
-   field. Very short so an unoccupied lane reads as a thin idle ground line and
-   the board's vertical weight collapses toward where the units actually are. */
-.crypt-side__lanes .live-lane__empty {
-  min-height: 16px;
-  justify-content: center;
-  gap: 6px;
-  border: none;
   background: transparent;
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  opacity: 0.3;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
-.crypt-side__lanes .live-lane__empty-dot { width: 5px; height: 5px; }
-.crypt-side__lanes .live-lane__cards { min-height: 0; align-items: center; }
 
-/* Pull the FRONT lanes (nearest the center divider) tight against it so the two
-   armies clash at the line. Enemy front = the last lane in the enemy stack;
-   your front = the first lane in your stack. */
-.crypt-side--enemy .crypt-side__lanes .mm-lane-fx:last-child .live-lane,
-.crypt-side--own .crypt-side__lanes .mm-lane-fx:first-child .live-lane {
-  margin-block: 0;
+/* Left side-caption ("Back / Enemy"), a quiet micro-label. */
+.live-lane__side {
+  font-family: var(--font-label, "Clash Grotesk"), sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  text-align: right;
+  color: rgba(245,242,232,0.34);
 }
-.crypt-side--enemy .crypt-side__lanes .mm-lane-fx:last-child { margin-bottom: -2px; }
-.crypt-side--own .crypt-side__lanes .mm-lane-fx:first-child { margin-top: -2px; }
+.crypt-zone--enemy .live-lane__side { color: rgba(255,138,138,0.4); }
+.crypt-zone--own .live-lane__side { color: rgba(233,201,132,0.46); }
+
+/* The deploy hint floats over the lane's right edge, doesn't take a grid track. */
+.crypt-zone__lanes .live-lane__hint {
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: #E9C984;
+  text-shadow: 0 0 10px rgba(233,201,132,0.5);
+}
+
+/* The 5-slot grid. Equal columns so empty + filled cells share one rhythm. */
+.crypt-zone__lanes .live-lane__cards {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  justify-content: stretch;
+  min-height: 0;
+}
+
+/* Every slot is a square-ish cell. */
+.crypt-zone__lanes .live-lane__slot {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* EMPTY slot = a faint hexagon outline on a subtle dark hex-grid texture, so an
+   unoccupied lane reads as an intentional designed grid, never barren. */
+.live-lane__slot--empty {
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(60deg, rgba(245,242,232,0.025) 0 1px, transparent 1px 12px),
+    repeating-linear-gradient(-60deg, rgba(245,242,232,0.025) 0 1px, transparent 1px 12px),
+    rgba(255,255,255,0.012);
+  box-shadow: inset 0 0 0 1px rgba(245,242,232,0.05);
+}
+.live-lane__hex {
+  width: 56%;
+  aspect-ratio: 1 / 1;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(245,242,232,0.018);
+  box-shadow: inset 0 0 0 1px rgba(245,242,232,0.07);
+}
+.crypt-zone--enemy .live-lane__hex { box-shadow: inset 0 0 0 1px rgba(255,77,77,0.10); }
+.crypt-zone--own .live-lane__hex { box-shadow: inset 0 0 0 1px rgba(233,201,132,0.12); }
+
+/* Filled slot: the BoardCard fills the cell (its own 1:1 art + frame stays). */
+.crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+}
+
+/* A deploy-ready lane lights its empty slots gold so the player sees WHERE to
+   play; an attack-target lane lights them crimson. */
+.crypt-zone__lanes .live-lane--deploy .live-lane__slot--empty {
+  box-shadow: inset 0 0 0 1px rgba(233,201,132,0.45), 0 0 12px -4px rgba(233,201,132,0.4);
+}
+.crypt-zone__lanes .live-lane--deploy .live-lane__hex {
+  box-shadow: inset 0 0 0 1px rgba(233,201,132,0.55);
+  background: rgba(233,201,132,0.05);
+}
+.crypt-zone__lanes .live-lane--target .live-lane__slot--filled {
+  outline: 1px solid rgba(255,77,77,0.4);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
 
 /* Combat log in the dock = a slim scrollable strip, not a fat sidebar. */
 .crypt-dock .live-side-panel {
@@ -1000,20 +1095,26 @@
     padding: 11px 14px;
   }
 
-  /* Board + hand card rails scroll horizontally with momentum instead of
-   * overflowing the viewport; narrow the cards so more peeks into view. */
-  .live-lane__cards,
+  /* Board + rail stack vertically below the 768px breakpoint. */
+  .crypt-table {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .crypt-rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .crypt-rail__group {
+    flex: 1 1 calc(50% - 6px);
+    min-width: 0;
+  }
+
+  /* Hand fan scrolls horizontally with momentum; the board's 5-slot grid stays
+   * fixed (it shrinks its cells, never scrolls). */
   .live-hand__rail {
     gap: 10px;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x proximity;
-  }
-
-  .live-lane__cards .crypt-card--board {
-    min-width: 168px;
-    width: 168px;
-    /* height follows the square 1:1 art (see base rule) — no portrait min-height. */
-    scroll-snap-align: start;
   }
 
   .live-hand__item {

@@ -24,42 +24,40 @@
     padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* Each army row keeps its lanes + rail side by side, but the rail is trimmed
-   * so the lanes retain real estate; lanes already have min-width:0 so their
-   * card strip scrolls internally instead of overflowing the page. */
-  .crypt-side {
+  /* Board + rail stack vertically; rail drops below the board. */
+  .crypt-table {
+    grid-template-columns: 1fr;
     gap: 8px;
   }
+  .crypt-rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .crypt-rail__group {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+  }
 
-  .crypt-side__rail {
-    width: 104px;
+  /* Tighten the zone frames so the 5-slot grid keeps both armies on screen. */
+  .crypt-zone {
+    padding: 18px 8px 10px;
+  }
+  .crypt-zone__lanes .live-lane {
+    grid-template-columns: 40px 1fr;
     gap: 6px;
   }
-
-  /* Keep both armies AND the hand on screen by tightening vertical rhythm. */
-  .crypt-table {
-    gap: 4px;
+  .crypt-zone__lanes .live-lane__cards {
+    gap: 5px;
   }
+  .live-lane__side { font-size: 7px; letter-spacing: 0.08em; }
 
-  /* Board cards: smaller than the 768px size so more than one peeks into view
-   * within a 375px column and the strip scrolls cleanly. */
-  .live-lane__cards,
+  /* Hand fan still scrolls horizontally on small screens. */
   .live-hand__rail {
     gap: 8px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x proximity;
-  }
-
-  .live-lane__cards {
-    flex-wrap: nowrap;
-  }
-
-  .live-lane__cards .crypt-card--board {
-    min-width: 120px;
-    width: 120px;
-    /* height follows the square 1:1 art (see base rule) — no portrait min-height. */
-    scroll-snap-align: start;
   }
 
   /* Hand: drop the overlapping fan (negative margins) for a simple scrollable
