@@ -82,6 +82,17 @@ function hydratePlayer(
   const commanderSpecial = getCommanderSpecialBonuses(commanderTraits);
 
   player.commander = commander;
+  // CRITICAL: pin the scalar `commanderId` to the ACTUAL bootstrapped commander.
+  // `createMatch` seeds placeholder ids (P1=cmd_stone_warden, P2=cmd_bronze_raider)
+  // and hydratePlayer historically only set `player.commander`/`commanderZone`,
+  // leaving `commanderId` on the stale placeholder. The engine's faction-identity
+  // lookup (factionIdentity.ts `factionOfCommander`) keys off `player.commanderId`,
+  // so EVERY live match read P1 as STONE and P2 as BRONZE regardless of the real
+  // pick — the whole #8 faction-identity layer never fired for the chosen commander
+  // (a Bronze deck under a Bronze commander still got no Onslaught Rush). Aligning
+  // the scalar id here is what makes faction identities + archetypes actually
+  // express in real play.
+  player.commanderId = commander.id;
   player.commanderZone = {
     cardId: commander.id,
     name: commander.name,

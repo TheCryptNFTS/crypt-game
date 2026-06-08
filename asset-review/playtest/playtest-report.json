@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-06-01T16:46:36.256Z",
+    "generatedAt": "2026-06-08T21:16:59.927Z",
     "tool": "dev:playtest (runPlaytestReport.ts)",
     "readOnly": true,
     "matches": 300,
@@ -8,7 +8,7 @@
     "deckSize": 30,
     "openingHand": 6,
     "poolPlayableCards": 4129,
-    "poolTotalCards": 4178,
+    "poolTotalCards": 4203,
     "factionsTested": [
       "STONE",
       "IRON",
@@ -20,70 +20,70 @@
     "note": "BASELINE on the pool present at run time. A parallel agent is expanding the card pool; re-run `npm run dev:playtest` after that lands to refresh every metric."
   },
   "matchLength": {
-    "avgTurns": 22.71,
-    "medianTurns": 18,
-    "p90Turns": 41,
-    "minTurns": 6,
-    "maxTurns": 47,
+    "avgTurns": 17.98,
+    "medianTurns": 15,
+    "p90Turns": 36,
+    "minTurns": 4,
+    "maxTurns": 45,
     "turnCapHits": 0,
     "turnCapHitPct": 0
   },
   "firstPlayer": {
     "decidedGames": 300,
-    "firstPlayerWins": 154,
-    "firstPlayerWinRate": 51.3
+    "firstPlayerWins": 146,
+    "firstPlayerWinRate": 48.7
   },
   "factionBalance": [
     {
       "faction": "GOLDEN_SOVEREIGNS",
       "label": "GOLD",
       "games": 96,
-      "wins": 64,
-      "winRate": 66.7
-    },
-    {
-      "faction": "STONE_KEEPERS",
-      "label": "STONE",
-      "games": 96,
-      "wins": 61,
-      "winRate": 63.5
-    },
-    {
-      "faction": "IRON_DEFENDERS",
-      "label": "IRON",
-      "games": 96,
-      "wins": 50,
-      "winRate": 52.1
+      "wins": 63,
+      "winRate": 65.6
     },
     {
       "faction": "SILVER_SENTINELS",
       "label": "SILVER",
       "games": 96,
-      "wins": 33,
-      "winRate": 34.4
+      "wins": 57,
+      "winRate": 59.4
+    },
+    {
+      "faction": "STONE_KEEPERS",
+      "label": "STONE",
+      "games": 96,
+      "wins": 53,
+      "winRate": 55.2
+    },
+    {
+      "faction": "IRON_DEFENDERS",
+      "label": "IRON",
+      "games": 96,
+      "wins": 49,
+      "winRate": 51
     },
     {
       "faction": "BRONZE_GUARDIANS",
       "label": "BRONZE",
       "games": 96,
-      "wins": 32,
-      "winRate": 33.3
+      "wins": 18,
+      "winRate": 18.8
     }
   ],
   "mirrorGames": 60,
   "decisiveness": {
-    "nexusKill": 226,
-    "nexusKillPct": 75.3,
-    "deckOut": 74,
-    "deckOutPct": 24.7,
+    "nexusKill": 281,
+    "nexusKillPct": 93.7,
+    "deckOut": 19,
+    "deckOutPct": 6.3,
     "timeoutStalemate": 0,
     "timeoutPct": 0
   },
   "tempo": {
-    "avgEnergyAvailablePerTurn": 7.88,
-    "avgEnergySpentPerTurn": 2.28,
-    "energyUtilizationPct": 28.9,
-    "stuckTurnPct": 1
+    "avgEnergyAvailablePerTurn": 7.41,
+    "avgEnergySpentPerTurn": 2.39,
+    "energyUtilizationPct": 32.3,
+    "stuckTurnPct": 2.6
   },
   "keywords": {
     "pool": {
@@ -93,205 +93,211 @@
       "deployPoolPct": 0.1
     },
     "triggers": {
-      "deployTriggers": 188,
-      "deathknellTriggers": 89,
-      "deployTriggersPerMatch": 0.63,
-      "deathknellTriggersPerMatch": 0.3
+      "deployTriggers": 157,
+      "deathknellTriggers": 184,
+      "deployTriggersPerMatch": 0.52,
+      "deathknellTriggersPerMatch": 0.61
     },
     "deckPerformance": {
       "deathknellCarrier": {
         "games": 96,
-        "wins": 32,
-        "winRate": 33.3
+        "wins": 33,
+        "winRate": 34.4
       },
       "deployCarrier": {
         "games": 144,
-        "wins": 74,
-        "winRate": 51.4
+        "wins": 58,
+        "winRate": 40.3
       }
     },
-    "maxCascadeDeathsInOneAction": 2
+    "maxCascadeDeathsInOneAction": 4
   },
   "cardPerformance": {
     "distinctCardsPlayed": 60,
     "topCardsByAppearance": [
       {
-        "id": "tcg_5648",
-        "name": "Sentinel of the Judged",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 99,
-        "appearanceRate": 33
-      },
-      {
-        "id": "tcg_1747",
-        "name": "Watcher in the Gloom",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 94,
-        "appearanceRate": 31.3
-      },
-      {
-        "id": "tcg_3282",
-        "name": "Watcher of the Waning Light",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 93,
-        "appearanceRate": 31
-      },
-      {
-        "id": "tcg_2371",
-        "name": "Sentinel of Eternal Vigil",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 92,
-        "appearanceRate": 30.7
-      },
-      {
-        "id": "tcg_464",
-        "name": "Watcher of the Veiled Truth",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 91,
-        "appearanceRate": 30.3
-      },
-      {
-        "id": "tcg_3294",
-        "name": "Echo of the Shrouded",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 90,
-        "appearanceRate": 30
-      },
-      {
-        "id": "tcg_3145",
-        "name": "Watcher of the Gloom",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 90,
-        "appearanceRate": 30
-      },
-      {
-        "id": "tcg_2793",
-        "name": "Watcher of the Veil",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 88,
-        "appearanceRate": 29.3
-      },
-      {
-        "id": "tcg_331",
-        "name": "Echo of the Forgotten",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 88,
-        "appearanceRate": 29.3
-      },
-      {
-        "id": "tcg_1499",
-        "name": "Watcher of the Veil",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 88,
-        "appearanceRate": 29.3
-      },
-      {
-        "id": "tcg_2201",
-        "name": "Watcher of the Veil",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 88,
-        "appearanceRate": 29.3
-      },
-      {
         "id": "tcg_100",
-        "name": "Herald of the Gilded Oath",
+        "name": "Sovereign of the Gilded Oath",
         "faction": "GOLDEN_SOVEREIGNS",
-        "appearances": 87,
-        "appearanceRate": 29
-      },
-      {
-        "id": "tcg_1286",
-        "name": "Watcher of the Veil",
-        "faction": "SILVER_SENTINELS",
-        "appearances": 86,
-        "appearanceRate": 28.7
+        "appearances": 82,
+        "appearanceRate": 27.3
       },
       {
         "id": "tcg_4210",
-        "name": "Sentinel of Mournful Winds",
+        "name": "Cairn of Mournful Winds",
         "faction": "STONE_KEEPERS",
         "appearances": 81,
         "appearanceRate": 27
       },
       {
+        "id": "tcg_1747",
+        "name": "Prism in the Gloom",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 74,
+        "appearanceRate": 24.7
+      },
+      {
         "id": "tcg_5157",
         "name": "Seer of Silent Depths",
         "faction": "STONE_KEEPERS",
-        "appearances": 79,
-        "appearanceRate": 26.3
+        "appearances": 73,
+        "appearanceRate": 24.3
       },
       {
-        "id": "tcg_1113",
-        "name": "Fledgling of the Stone",
-        "faction": "STONE_KEEPERS",
-        "appearances": 78,
-        "appearanceRate": 26
+        "id": "tcg_2849",
+        "name": "Wildwood Watcher of Ashes",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 72,
+        "appearanceRate": 24
       },
       {
-        "id": "tcg_121",
-        "name": "Erosion's Emissary",
-        "faction": "STONE_KEEPERS",
-        "appearances": 77,
-        "appearanceRate": 25.7
+        "id": "tcg_2815",
+        "name": "Loam of Verdant Oaths",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 72,
+        "appearanceRate": 24
       },
       {
-        "id": "tcg_1476",
-        "name": "Watcher of the Dying Flame",
+        "id": "tcg_1545",
+        "name": "Coppice of the Verdant Oath",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 71,
+        "appearanceRate": 23.7
+      },
+      {
+        "id": "tcg_135",
+        "name": "Bedrock of Forgotten Whispers",
         "faction": "STONE_KEEPERS",
-        "appearances": 76,
-        "appearanceRate": 25.3
+        "appearances": 69,
+        "appearanceRate": 23
+      },
+      {
+        "id": "tcg_2194",
+        "name": "Bramble of the Old Grove",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 69,
+        "appearanceRate": 23
+      },
+      {
+        "id": "tcg_213",
+        "name": "Grove of the Grove",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 69,
+        "appearanceRate": 23
       },
       {
         "id": "tcg_139",
         "name": "Stoneward's Silent Watcher",
         "faction": "STONE_KEEPERS",
-        "appearances": 75,
-        "appearanceRate": 25
+        "appearances": 68,
+        "appearanceRate": 22.7
       },
       {
-        "id": "tcg_1545",
-        "name": "Keeper of the Verdant Oath",
-        "faction": "BRONZE_GUARDIANS",
-        "appearances": 74,
-        "appearanceRate": 24.7
-      },
-      {
-        "id": "tcg_1461",
-        "name": "Stonechild of Ten Count",
+        "id": "tcg_1075",
+        "name": "Standing-Stone of Silent Depths",
         "faction": "STONE_KEEPERS",
-        "appearances": 73,
-        "appearanceRate": 24.3
-      },
-      {
-        "id": "tcg_2815",
-        "name": "Warden of Verdant Oaths",
-        "faction": "BRONZE_GUARDIANS",
-        "appearances": 73,
-        "appearanceRate": 24.3
+        "appearances": 68,
+        "appearanceRate": 22.7
       },
       {
         "id": "tcg_1042",
-        "name": "Echo of the Eternal Stone",
+        "name": "Warden of the First Stone",
         "faction": "STONE_KEEPERS",
-        "appearances": 72,
-        "appearanceRate": 24
+        "appearances": 68,
+        "appearanceRate": 22.7
+      },
+      {
+        "id": "tcg_1113",
+        "name": "Fledgling of the Stone",
+        "faction": "STONE_KEEPERS",
+        "appearances": 67,
+        "appearanceRate": 22.3
+      },
+      {
+        "id": "tcg_121",
+        "name": "Erosion's Emissary",
+        "faction": "STONE_KEEPERS",
+        "appearances": 67,
+        "appearanceRate": 22.3
+      },
+      {
+        "id": "tcg_2417",
+        "name": "Emberroot Sentinel",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 67,
+        "appearanceRate": 22.3
+      },
+      {
+        "id": "tcg_2793",
+        "name": "Frost of the Veil",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 67,
+        "appearanceRate": 22.3
+      },
+      {
+        "id": "tcg_3294",
+        "name": "Looking-Glass of the Shrouded",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 67,
+        "appearanceRate": 22.3
+      },
+      {
+        "id": "tcg_1476",
+        "name": "Monolith of the Dying Flame",
+        "faction": "STONE_KEEPERS",
+        "appearances": 67,
+        "appearanceRate": 22.3
+      },
+      {
+        "id": "tcg_2551",
+        "name": "Axe of the Grove",
+        "faction": "BRONZE_GUARDIANS",
+        "appearances": 67,
+        "appearanceRate": 22.3
       },
       {
         "id": "tcg_1135",
-        "name": "Ledger Keeper of Roots",
+        "name": "Rootbound Vanguard",
         "faction": "BRONZE_GUARDIANS",
-        "appearances": 72,
-        "appearanceRate": 24
+        "appearances": 67,
+        "appearanceRate": 22.3
       },
       {
-        "id": "tcg_2169",
-        "name": "Fang of the Grove",
+        "id": "tcg_1461",
+        "name": "Quarried Stonechild",
+        "faction": "STONE_KEEPERS",
+        "appearances": 66,
+        "appearanceRate": 22
+      },
+      {
+        "id": "tcg_2371",
+        "name": "Cold-Mirror of Eternal Vigil",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 66,
+        "appearanceRate": 22
+      },
+      {
+        "id": "tcg_1532",
+        "name": "Bramble Sentinel's Watch",
         "faction": "BRONZE_GUARDIANS",
-        "appearances": 71,
-        "appearanceRate": 23.7
+        "appearances": 66,
+        "appearanceRate": 22
+      },
+      {
+        "id": "tcg_1499",
+        "name": "Frost of the Veil",
+        "faction": "SILVER_SENTINELS",
+        "appearances": 65,
+        "appearanceRate": 21.7
       }
     ],
     "deadCards": [
+      {
+        "id": "spell_stone_brace",
+        "name": "Brace",
+        "faction": "STONE_KEEPERS",
+        "cost": 1
+      },
       {
         "id": "spell_call_arms",
         "name": "Call to Arms",
@@ -311,22 +317,16 @@
         "cost": 2
       },
       {
-        "id": "spell_warhorn",
-        "name": "War Horn",
+        "id": "spell_stone_grind",
+        "name": "Grind Down",
         "faction": "STONE_KEEPERS",
         "cost": 2
       },
       {
-        "id": "spell_grand_survey",
-        "name": "Grand Survey",
+        "id": "spell_stone_study",
+        "name": "Quarry Study",
         "faction": "STONE_KEEPERS",
-        "cost": 3
-      },
-      {
-        "id": "spell_levy",
-        "name": "Levy",
-        "faction": "STONE_KEEPERS",
-        "cost": 3
+        "cost": 2
       },
       {
         "id": "tcg_1055",
@@ -348,7 +348,7 @@
       },
       {
         "id": "tcg_1151",
-        "name": "Cloak of Erosion",
+        "name": "Dolmen of Erosion",
         "faction": "STONE_KEEPERS",
         "cost": 1
       },
@@ -401,6 +401,12 @@
         "cost": 2
       },
       {
+        "id": "spell_iron_brace",
+        "name": "Set Shields",
+        "faction": "IRON_DEFENDERS",
+        "cost": 1
+      },
+      {
         "id": "spell_temper",
         "name": "Temper",
         "faction": "IRON_DEFENDERS",
@@ -427,12 +433,6 @@
       {
         "id": "spell_iron_drill",
         "name": "Iron Drill",
-        "faction": "IRON_DEFENDERS",
-        "cost": 3
-      },
-      {
-        "id": "spell_oath_iron",
-        "name": "Oath of Iron",
         "faction": "IRON_DEFENDERS",
         "cost": 3
       },
@@ -480,13 +480,13 @@
       },
       {
         "id": "tcg_1386",
-        "name": "Eternal Sentinel's Brand",
+        "name": "Scoria Sentinel's Brand",
         "faction": "IRON_DEFENDERS",
         "cost": 1
       },
       {
         "id": "tcg_1406",
-        "name": "Unyielding Grasp",
+        "name": "Slag Grasp",
         "faction": "IRON_DEFENDERS",
         "cost": 1
       },
@@ -509,6 +509,12 @@
         "cost": 2
       },
       {
+        "id": "spell_bronze_rage",
+        "name": "Bloodrage",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 1
+      },
+      {
         "id": "spell_grave_dig",
         "name": "Grave Dig",
         "faction": "BRONZE_GUARDIANS",
@@ -527,20 +533,14 @@
         "cost": 1
       },
       {
+        "id": "spell_bronze_draw",
+        "name": "Plunder",
+        "faction": "BRONZE_GUARDIANS",
+        "cost": 2
+      },
+      {
         "id": "spell_bulwark",
         "name": "Bulwark",
-        "faction": "BRONZE_GUARDIANS",
-        "cost": 2
-      },
-      {
-        "id": "spell_exhume",
-        "name": "Exhume",
-        "faction": "BRONZE_GUARDIANS",
-        "cost": 2
-      },
-      {
-        "id": "spell_mendwave",
-        "name": "Mend Wave",
         "faction": "BRONZE_GUARDIANS",
         "cost": 2
       },
@@ -582,7 +582,7 @@
       },
       {
         "id": "tcg_1833",
-        "name": "Verdant Oathkeeper",
+        "name": "Thicket Oathkeeper",
         "faction": "BRONZE_GUARDIANS",
         "cost": 1
       },
@@ -600,13 +600,13 @@
       },
       {
         "id": "tcg_2110",
-        "name": "Verdant Judge's Embrace",
+        "name": "Loam Judge's Embrace",
         "faction": "BRONZE_GUARDIANS",
         "cost": 1
       },
       {
         "id": "tcg_3852",
-        "name": "Relic of the Verdant Oath",
+        "name": "Relic of Verdant Roots",
         "faction": "BRONZE_GUARDIANS",
         "cost": 2
       },
@@ -619,6 +619,12 @@
       {
         "id": "spell_farsight",
         "name": "Farsight",
+        "faction": "SILVER_SENTINELS",
+        "cost": 1
+      },
+      {
+        "id": "spell_silver_ploy",
+        "name": "Vanishing Ploy",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
@@ -647,14 +653,8 @@
         "cost": 2
       },
       {
-        "id": "spell_scout",
-        "name": "Scout",
-        "faction": "SILVER_SENTINELS",
-        "cost": 2
-      },
-      {
         "id": "tcg_1079",
-        "name": "Echo of the Eternal Night",
+        "name": "Rime of the Eternal Night",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
@@ -666,13 +666,13 @@
       },
       {
         "id": "tcg_1544",
-        "name": "Veil of Eternal Gaze",
+        "name": "Looking-Glass of Eternal Gaze",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
       {
         "id": "tcg_1568",
-        "name": "Veil of the Fallen",
+        "name": "Looking-Glass of the Fallen",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
@@ -696,25 +696,25 @@
       },
       {
         "id": "tcg_2468",
-        "name": "Veil of the Unblinking",
+        "name": "Glint of the Unblinking",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
       {
         "id": "tcg_25",
-        "name": "Veil of Eternal Vigilance",
+        "name": "Hush of Eternal Vigilance",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
       {
         "id": "tcg_2706",
-        "name": "Veil of Eternal Reflection",
+        "name": "Frost of Eternal Reflection",
         "faction": "SILVER_SENTINELS",
         "cost": 1
       },
       {
         "id": "tcg_6449",
-        "name": "Eternal Echo of Judgment",
+        "name": "Glint Echo of Judgment",
         "faction": "SILVER_SENTINELS",
         "cost": 2
       },
@@ -731,6 +731,24 @@
         "cost": 1
       },
       {
+        "id": "spell_gold_decree",
+        "name": "Regal Decree",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 1
+      },
+      {
+        "id": "spell_gold_levy",
+        "name": "Royal Levy",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
+        "id": "spell_gold_treasury",
+        "name": "Treasury",
+        "faction": "GOLDEN_SOVEREIGNS",
+        "cost": 2
+      },
+      {
         "id": "spell_intimidate",
         "name": "Intimidate",
         "faction": "GOLDEN_SOVEREIGNS",
@@ -741,12 +759,6 @@
         "name": "Scour",
         "faction": "GOLDEN_SOVEREIGNS",
         "cost": 2
-      },
-      {
-        "id": "spell_oath_gold",
-        "name": "Oath of Gold",
-        "faction": "GOLDEN_SOVEREIGNS",
-        "cost": 3
       },
       {
         "id": "tcg_2775",
@@ -817,12 +829,10 @@
     ]
   },
   "flags": [
-    "Faction GOLD win-rate out of band: 66.7% (sane ~40-60%).",
-    "Faction STONE win-rate out of band: 63.5% (sane ~40-60%).",
-    "Faction SILVER win-rate out of band: 34.4% (sane ~40-60%).",
-    "Faction BRONZE win-rate out of band: 33.3% (sane ~40-60%).",
-    "87 DEAD card(s) (in a deck but never played).",
-    "DEATHKNELL-carrying decks warp win-rate: 33.3%.",
-    "Chain-reaction cascades terminate: all 300 matches completed; deepest single-action death cascade = 2."
+    "Faction GOLD win-rate out of band: 65.6% (sane ~40-60%).",
+    "Faction BRONZE win-rate out of band: 18.8% (sane ~40-60%).",
+    "89 DEAD card(s) (in a deck but never played).",
+    "DEATHKNELL-carrying decks warp win-rate: 34.4%.",
+    "Chain-reaction cascades terminate: all 300 matches completed; deepest single-action death cascade = 4."
   ]
 }
