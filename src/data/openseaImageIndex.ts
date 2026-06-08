@@ -1,5 +1,7 @@
 import openseaAssets from "./openseaAssets.json";
 import cardMaster from "./cardMaster.json";
+import commanderArt from "./commanderArt.json";
+import commanderImageMap from "./commanderImageMap.json";
 
 type OpenSeaAsset = {
   tokenId?: string;
@@ -87,6 +89,21 @@ for (const entry of master) {
 
   if (entry.name && !commanderByName.has(normalizeName(entry.name))) {
     commanderByName.set(normalizeName(entry.name), image);
+  }
+}
+
+// Canonical override: commanderArt.json is the curated source of truth for the
+// playable commanders' art (real crypttradingcards 0x48fd renders). It WINS over
+// the token/name lookups above so every surface — onboarding, the /play loadout,
+// in-match avatars — shows the SAME real TCG art instead of stale off-collection
+// (OG Crypt) entries. Keyed via commanderImageMap (cmd id -> commander token).
+{
+  const artById = commanderArt as Record<string, string>;
+  const tokenById = commanderImageMap as Record<string, string>;
+  for (const [cmdId, url] of Object.entries(artById)) {
+    if (!url) continue;
+    const token = tokenById[cmdId];
+    if (token) commanderByToken.set(String(token), url);
   }
 }
 

@@ -1,5 +1,11 @@
 import type { RenderManifestEntry, RenderRole } from "../types/renderManifest";
 import { traitsForPresentation } from "./traitFilters";
+import commanderArt from "../data/commanderArt.json";
+
+/** Curated real-TCG art for playable commanders — the single source of truth so
+ *  every commander surface (onboarding, loadout, in-match, results) matches and
+ *  never falls back to stale off-collection (OG Crypt) renders. */
+const COMMANDER_ART = commanderArt as Record<string, string>;
 
 /** How the card reads in the product — sacred (commander) vs tactical (playable). */
 export type UICardVisualTier = "sacred" | "tactical";
@@ -60,7 +66,10 @@ export function toUICardDisplay(entry: RenderManifestEntry): UICardDisplay {
     keywords: Array.isArray(entry.keywords) ? [...entry.keywords] : [],
     ability: typeof entry.ability === "string" ? entry.ability.trim() : "",
     flavor: extractFlavor(entry.description),
-    imageUrl: entry.imageUrl ?? null,
+    imageUrl:
+      (entry.role === "commander" ? COMMANDER_ART[entry.id] : null) ??
+      entry.imageUrl ??
+      null,
     animationUrl: entry.animationUrl ?? null,
     externalUrl: entry.externalUrl ?? null,
     traitsForDisplay: traitsForPresentation(entry.role, entry.traits),

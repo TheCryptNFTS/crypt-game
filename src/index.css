@@ -3915,14 +3915,13 @@ button:has(> .crypt-card-chrome):hover,
     0 0 22px -6px var(--pick-accent, transparent);
 }
 
-/* Commander skull art header. Commander art is true 800x1100 PORTRAIT — a 16:10
-   landscape box decapitated the figure. Use a portrait-friendly 4:5 box and
-   anchor toward the top so the head/shoulders stay in frame. */
+/* Commander art header. Commander art is the real 500x500 SQUARE TCG card render
+   (crypttradingcards) — frame it 1:1 so the WHOLE card shows with zero crop. */
 .crypt-npe-pick-art {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: #07060a;
 }
@@ -3930,7 +3929,7 @@ button:has(> .crypt-card-chrome):hover,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 18%;
+  object-position: center center;
   display: block;
 }
 .crypt-npe-pick-art-fade {

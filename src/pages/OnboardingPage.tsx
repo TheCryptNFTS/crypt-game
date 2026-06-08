@@ -53,9 +53,8 @@ const STARTER_PICKS = [
     blurb: "Scry, out-draw, and answer threats. The thinking-player's deck.",
     accent: "#96d7eb",
     sigil: "/crypt-assets/sigil-silver.png",
-    // silver_oracle is a curated identity with no minted NFT — borrow a real
-    // Silver Sentinels commander skull so the pick still shows premium art.
-    art: ART["cmd_grave_oracle"],
+    // Real Silver Sentinels TCG card art (Mythic "Cold-Mirror of Forgotten Truths").
+    art: ART["cmd_silver_oracle"],
   },
 ] as const;
 
