@@ -70,6 +70,13 @@ function resolveCommanderImage(raw: any) {
     raw?.imageUrl ||
     raw?.image ||
     raw?.image_url ||
+    // GENERATED COMMANDERS (cmd_6xxx) carry no curated commanderArt entry and no
+    // imageUrl of their own, so they were ALL falling back to the placeholder.
+    // Their reveal art lives in generatedTcgCards keyed by `tcg_<tokenId>` (the
+    // same manifest cardArtById is built from) — resolve it here so the commander
+    // tray shows real art instead of the fallback. ~62% of generated commanders
+    // have a token-art match; the rest fall through to the on-brand gold fallback.
+    (raw?.tokenId && cardArtById.get(`tcg_${raw.tokenId}`)) ||
     fallbackAsset
   );
 }
@@ -90,6 +97,18 @@ export function getCommanderVmForPlayer(player: any): CommanderVM {
     allCommanders.find((c: any) => c.id === player?.commanderId) ??
     allCommanders[0];
 
+  // ART RESOLUTION FIX: `commanderOg` is a STRIPPED snapshot the engine writes as
+  // `{ name, traits }` only — it has no `id`, `tokenId`, or `imageUrl`, so every
+  // commander chip was falling through to the placeholder regardless of having art.
+  // The FULL commander definition (with id + tokenId) lives on `player.commander`
+  // (set in createMatchFromDecks) or is recoverable via `player.commanderId`; use
+  // THAT for the image lookup (curated -> commanderArt by id, generated -> token
+  // art), while still reading name/traits/rarity from `raw` so display is unchanged.
+  const commanderDef =
+    player?.commander ??
+    allCommanders.find((c: any) => c.id === player?.commanderId) ??
+    (raw?.id ? raw : null);
+
   const rarityLabel =
     raw?.traits?.["One of One"]
       ? "One of One"
@@ -98,10 +117,10 @@ export function getCommanderVmForPlayer(player: any): CommanderVM {
         : "Standard";
 
   return {
-    id: raw?.id ?? "commander",
+    id: commanderDef?.id ?? raw?.id ?? "commander",
     name: raw?.name ?? "Commander",
-    faction: normalizeFaction(raw?.faction),
-    imageUrl: resolveCommanderImage(raw),
+    faction: normalizeFaction(commanderDef?.faction ?? raw?.faction),
+    imageUrl: resolveCommanderImage(commanderDef ?? raw),
     rarityLabel,
     traits: raw?.traits ?? {},
     headline:
