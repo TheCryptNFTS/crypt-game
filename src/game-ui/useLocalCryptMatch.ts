@@ -5,7 +5,7 @@ import { allPlayableCards } from "../engine/cards";
 import { applyAction, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
 import { beginMulliganPhase, requireMulligan } from "../engine/setup";
-import { buildPlayerDeck } from "../nft/buildOwnedDeck";
+import { buildPlayerDeck, DEMO_COMMANDER_ID } from "../nft/buildOwnedDeck";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
 import { planP2Turn, planP2Plays, planP2Combat, rampedAiDifficulty } from "./cryptMatchAI";
 
@@ -32,12 +32,20 @@ function findCommander(preferredName: string) {
 }
 
 /** P1's commander is the one the player PICKED (onboarding/deck builder). Falls
- *  back to the Crypt #6600 anchor only when nothing valid is stored, so the
- *  in-match avatar matches the chosen identity instead of always showing #6600. */
+ *  back to the DEMO (Bronze) commander when nothing valid is stored, so a fresh
+ *  newcomer pairs the faction-coherent demo deck (buildOwnedDeck) with the curated
+ *  commander whose identity actually rewards it — without that pairing a Bronze
+ *  starter deck under a generated `cmd_6xxx` commander triggers NO faction identity
+ *  and the whole #8 layer reads as nothing on a first game. A returning player who
+ *  picked a commander still gets exactly their pick. */
 function resolveP1Commander() {
   const storedId = loadStoredCommanderId();
   const picked = storedId ? allCommanders.find((c: any) => c.id === storedId) : null;
-  return picked ?? findCommander("Crypt #6600");
+  return (
+    picked ??
+    allCommanders.find((c: any) => c.id === DEMO_COMMANDER_ID) ??
+    findCommander("Crypt #6600")
+  );
 }
 
 /**
@@ -55,7 +63,17 @@ export type LocalMatchOptions = {
 
 function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
   const p1Commander = resolveP1Commander();
-  const p2Commander = allCommanders.find((c: any) => c.traits?.Legendary === "Legendary" && c.id !== p1Commander.id) ?? allCommanders[1] ?? p1Commander;
+  // The opponent plays the faction-coherent DEMO (Bronze) deck (buildPlayerDeck()),
+  // so pair it with the curated Bronze commander too — otherwise the opponent's
+  // identity never fires and its Bronze deck reads as a flat pile. This makes the
+  // newcomer's first game a clean Bronze-vs-Bronze read where the Onslaught/Rush
+  // identity is visible on BOTH sides. Falls back to a Legendary then any commander
+  // if the curated id ever goes missing, so the match always boots.
+  const p2Commander =
+    allCommanders.find((c: any) => c.id === DEMO_COMMANDER_ID) ??
+    allCommanders.find((c: any) => c.traits?.Legendary === "Legendary" && c.id !== p1Commander.id) ??
+    allCommanders[1] ??
+    p1Commander;
   // P1's deck, in priority order: (1) an explicit tutorial/draft deck, (2) the
   // deck the player actually PICKED/built (deck-builder storage) — this is what
   // onboarding equips, faction-matched to the chosen commander, so the in-match

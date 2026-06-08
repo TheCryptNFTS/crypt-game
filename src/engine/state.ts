@@ -610,5 +610,13 @@ export interface MatchRules {
  */
 export const CORE_RULESET: MatchRules = {
   factionIdentities: true,
+  // The threshold-tier archetype payoffs (3+/4+ same-faction snowball) are now ON
+  // in the shipped cut: with a faction-coherent starter deck (buildOwnedDeck), a
+  // newcomer's mono/duo deck actually crosses these thresholds, so a Bronze deck
+  // visibly snowballs (Onslaught Rush widens) and a Stone deck grinds (Bedrock
+  // armor thickens) — real aggro/wall/value lines instead of a flat color-swap.
+  // NO-BURN by construction (every payoff only adds armor/atk/health/keyword to the
+  // controller's OWN side — see factionIdentity.ts).
+  factionArchetypes: true,
   traitResonance: true,
 };

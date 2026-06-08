@@ -89,6 +89,22 @@ const CARD_BY_ID = new Map<string, any>(
   allPlayableCards.map((c: any) => [c.id, c]),
 );
 
+/**
+ * The faction the DEMO/STARTER deck commits to, and the curated commander whose
+ * identity rewards it. With `factionIdentities` + `factionArchetypes` ON in the
+ * CORE ruleset, a newcomer's first match should visibly express ONE identity — so
+ * the demo deck is biased mono-faction toward BRONZE (the aggro/Onslaught plan):
+ * cheap Bronze bodies enter with RUSH and, once 3+ Bronze are live, the Rush band
+ * widens to cost<=3 — the deck SNOWBALLS, the most legible "this faction does a
+ * THING" first impression. The matching curated commander is exported so the demo
+ * path (useLocalCryptMatch) can pair the deck with the commander that actually
+ * fires the identity (a generated `cmd_6xxx` commander has NO faction identity, so
+ * a Bronze deck under it would still feel like nothing). Owned/explicit decks are
+ * untouched — they keep their faction-agnostic curve build.
+ */
+const DEMO_FACTION = "BRONZE_GUARDIANS";
+export const DEMO_COMMANDER_ID = "cmd_bronze_raider";
+
 /** Stable cost-then-id ordering so a given wallet always yields the same deck. */
 function byCurve(a: any, b: any): number {
   const ca = a?.cost ?? 0;
@@ -98,18 +114,43 @@ function byCurve(a: any, b: any): number {
 }
 
 /**
+ * Faction-biased ordering: same as `byCurve` but, WITHIN a cost bucket, units of
+ * `faction` sort ahead of off-faction ones. Used ONLY by the demo build so the
+ * starter deck leans mono-faction (and crosses the archetype thresholds) while
+ * still honoring the designed curve — off-faction cards remain as backfill so the
+ * deck always reaches a legal 30 even if the faction is thin at some cost.
+ */
+function byFactionThenCurve(faction: string) {
+  return (a: any, b: any): number => {
+    const ca = a?.cost ?? 0;
+    const cb = b?.cost ?? 0;
+    if (ca !== cb) return ca - cb;
+    const fa = a?.faction === faction ? 0 : 1;
+    const fb = b?.faction === faction ? 0 : 1;
+    if (fa !== fb) return fa - fb;
+    return String(a?.id).localeCompare(String(b?.id));
+  };
+}
+
+/**
  * Compose a 30-card deck from a pool of cards along the designed mana curve: UNITS
  * filling `UNIT_CURVE` (cheapest-id within each cost bucket), then a few EQUIPMENT +
  * ARTIFACTS (TARGET_* counts, hard-capped by MAX_*), then a cheapest-first backfill
  * for any slot the pool couldn't fill (units preferred for playability). Returns
  * null when the pool has no units (a body-less deck can't play). Deterministic and
  * shared by the owned and demo paths so they construct decks identically.
+ *
+ * `preferFaction` (demo-only) biases the within-bucket SELECTION toward one faction
+ * so the starter deck reads as a single identity — it adds NO cards/keywords and
+ * never changes the curve, cap, or 30-card size; it only reorders which legal
+ * candidates are drafted first. Omitted (owned/explicit path) -> identical to before.
  */
-function composeDeck(pool: any[]): string[] | null {
-  const units = pool.filter((c) => c.type === "unit").sort(byCurve);
+function composeDeck(pool: any[], preferFaction?: string): string[] | null {
+  const order = preferFaction ? byFactionThenCurve(preferFaction) : byCurve;
+  const units = pool.filter((c) => c.type === "unit").sort(order);
   if (units.length === 0) return null;
-  const equipment = pool.filter((c) => c.type === "equipment").sort(byCurve);
-  const artifacts = pool.filter((c) => c.type === "artifact").sort(byCurve);
+  const equipment = pool.filter((c) => c.type === "equipment").sort(order);
+  const artifacts = pool.filter((c) => c.type === "artifact").sort(order);
   // SAFE spells eligible to draft: those present in the pool (so an owned deck only
   // includes spells you were given), cheapest-then-id, capped at MAX_SPELLS. These
   // ride the FLEX above the unit core — reserved BEFORE filling so the curve isn't
@@ -180,7 +221,11 @@ const CORE_POOL: any[] = [
   ...SAFE_SPELLS.map((s) => CARD_BY_ID.get(s.id)).filter((c): c is any => !!c),
 ];
 
-const DEMO_DECK = composeDeck(CORE_POOL) ?? [];
+// Demo deck leans BRONZE so a newcomer's first game expresses ONE identity (an
+// Onslaught/Rush aggro plan that snowballs once 3+ Bronze are live). Bias is
+// SELECTION-only — same curve, same 30 cards, no new keywords. Paired with
+// DEMO_COMMANDER_ID in the demo match path so the identity actually fires.
+const DEMO_DECK = composeDeck(CORE_POOL, DEMO_FACTION) ?? [];
 
 export function buildPlayerDeck(ownedCardIds?: string[]): BuiltDeck {
   if (!ownedCardIds || ownedCardIds.length === 0) {
