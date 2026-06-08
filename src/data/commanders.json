@@ -1,128 +1,128 @@
 [
-    {
-      "id": "cmd_stone_warden",
-      "name": "Stone Warden",
-      "traits": {
-        "skin": "Guardian",
-        "eyes": "Faith's Guardian",
-        "headwear": "Roman Soldier",
-        "mouth": "Warfare Mask"
-      }
-    },
-    {
-      "id": "cmd_bronze_raider",
-      "name": "Bronze Raider",
-      "traits": {
-        "skin": "Fast Lane",
-        "eyes": "Piercing",
-        "headwear": "The Captain",
-        "mouth": "Bullet"
-      }
-    },
-    {
-      "id": "cmd_void_priest",
-      "name": "Void Priest",
-      "traits": {
-        "skin": "Fortune Teller",
-        "eyes": "Endless Void",
-        "headwear": "Fortune Teller",
-        "mouth": "Smoke Bomb"
-      }
-    },
-    {
-      "id": "cmd_hell_judge",
-      "name": "Hell Judge",
-      "traits": {
-        "skin": "Pure Evil",
-        "eyes": "In Lucifer We Trust",
-        "headwear": "Devil Horns",
-        "mouth": "Fangs"
-      }
-    },
-    {
-      "id": "cmd_clockwork_king",
-      "name": "Clockwork King",
-      "traits": {
-        "skin": "Techno",
-        "eyes": "Jarvis",
-        "headwear": "Matrix Helmet",
-        "mouth": "Robotic"
-      }
-    },
-    {
-      "id": "cmd_grave_oracle",
-      "name": "Grave Oracle",
-      "traits": {
-        "skin": "Del Muerte",
-        "eyes": "I See Dead People",
-        "headwear": "Hooded One",
-        "mouth": "Skull Eats Skull"
-      }
-    },
-    {
-      "id": "cmd_skull_emperor",
-      "name": "Skull Emperor",
-      "isLegendary": true,
-      "traits": {
-        "skin": "Dead King",
-        "eyes": "Times Up",
-        "headwear": "King Crown",
-        "mouth": "Sword Of Heaven"
-      }
-    },
-    {
-      "id": "cmd_tempus_rex",
-      "name": "Tempus Rex",
-      "isLegendary": true,
-      "traits": {
-        "skin": "Time Is All We Have",
-        "eyes": "Time Warp",
-        "headwear": "Heavy Is The Head",
-        "mouth": "Minoru Sceptor"
-      }
-    },
-    {
-      "id": "cmd_anunnaki_prime",
-      "name": "Anunnaki Prime",
-      "isLegendary": true,
-      "traits": {
-        "skin": "Anunnaki",
-        "eyes": "Looking Into The Future",
-        "headwear": "Egyptian God",
-        "mouth": "Loki Sceptor"
-      }
-    },
-    {
-      "id": "cmd_harley_one",
-      "name": "Harley",
-      "oneOfOne": "Harley",
-      "traits": {
-        "skin": "Good vs Evil",
-        "eyes": "Self Reflection",
-        "headwear": "Clowning Around",
-        "mouth": "Tongue Out"
-      }
-    },
-    {
-      "id": "cmd_lucifer_one",
-      "name": "Lucifer",
-      "oneOfOne": "Lucifer",
-      "traits": {
-        "skin": "Carved In Hell",
-        "eyes": "Hell's Gateway",
-        "headwear": "Devil Horns",
-        "mouth": "666 Grill"
-      }
-    },
-    {
-      "id": "cmd_satoshi_one",
-      "name": "Satoshi",
-      "oneOfOne": "Satoshi",
-      "traits": {
-        "skin": "Smooth Operator",
-        "eyes": "Crypt Coin",
-        "headwear": "The Brainiac",
-        "mouth": "Diamond Grill"
-      }
+  {
+    "id": "cmd_stone_warden",
+    "name": "Tor of Stone's Grasp",
+    "traits": {
+      "skin": "Guardian",
+      "eyes": "Faith's Guardian",
+      "headwear": "Roman Soldier",
+      "mouth": "Warfare Mask"
     }
-  ]
+  },
+  {
+    "id": "cmd_bronze_raider",
+    "name": "Heartwood of Verdant Oaths",
+    "traits": {
+      "skin": "Fast Lane",
+      "eyes": "Piercing",
+      "headwear": "The Captain",
+      "mouth": "Bullet"
+    }
+  },
+  {
+    "id": "cmd_void_priest",
+    "name": "Void Priest",
+    "traits": {
+      "skin": "Fortune Teller",
+      "eyes": "Endless Void",
+      "headwear": "Fortune Teller",
+      "mouth": "Smoke Bomb"
+    }
+  },
+  {
+    "id": "cmd_hell_judge",
+    "name": "Hell Judge",
+    "traits": {
+      "skin": "Pure Evil",
+      "eyes": "In Lucifer We Trust",
+      "headwear": "Devil Horns",
+      "mouth": "Fangs"
+    }
+  },
+  {
+    "id": "cmd_clockwork_king",
+    "name": "Clockwork King",
+    "traits": {
+      "skin": "Techno",
+      "eyes": "Jarvis",
+      "headwear": "Matrix Helmet",
+      "mouth": "Robotic"
+    }
+  },
+  {
+    "id": "cmd_grave_oracle",
+    "name": "Grave Oracle",
+    "traits": {
+      "skin": "Del Muerte",
+      "eyes": "I See Dead People",
+      "headwear": "Hooded One",
+      "mouth": "Skull Eats Skull"
+    }
+  },
+  {
+    "id": "cmd_skull_emperor",
+    "name": "Skull Emperor",
+    "isLegendary": true,
+    "traits": {
+      "skin": "Dead King",
+      "eyes": "Times Up",
+      "headwear": "King Crown",
+      "mouth": "Sword Of Heaven"
+    }
+  },
+  {
+    "id": "cmd_tempus_rex",
+    "name": "Tempus Rex",
+    "isLegendary": true,
+    "traits": {
+      "skin": "Time Is All We Have",
+      "eyes": "Time Warp",
+      "headwear": "Heavy Is The Head",
+      "mouth": "Minoru Sceptor"
+    }
+  },
+  {
+    "id": "cmd_anunnaki_prime",
+    "name": "Anunnaki Prime",
+    "isLegendary": true,
+    "traits": {
+      "skin": "Anunnaki",
+      "eyes": "Looking Into The Future",
+      "headwear": "Egyptian God",
+      "mouth": "Loki Sceptor"
+    }
+  },
+  {
+    "id": "cmd_harley_one",
+    "name": "Harley",
+    "oneOfOne": "Harley",
+    "traits": {
+      "skin": "Good vs Evil",
+      "eyes": "Self Reflection",
+      "headwear": "Clowning Around",
+      "mouth": "Tongue Out"
+    }
+  },
+  {
+    "id": "cmd_lucifer_one",
+    "name": "Lucifer",
+    "oneOfOne": "Lucifer",
+    "traits": {
+      "skin": "Carved In Hell",
+      "eyes": "Hell's Gateway",
+      "headwear": "Devil Horns",
+      "mouth": "666 Grill"
+    }
+  },
+  {
+    "id": "cmd_satoshi_one",
+    "name": "Satoshi",
+    "oneOfOne": "Satoshi",
+    "traits": {
+      "skin": "Smooth Operator",
+      "eyes": "Crypt Coin",
+      "headwear": "The Brainiac",
+      "mouth": "Diamond Grill"
+    }
+  }
+]

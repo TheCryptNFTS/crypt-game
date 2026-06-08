@@ -18,7 +18,7 @@ export type CommanderSpec = {
 export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   cmd_stone_warden: {
     id: "cmd_stone_warden",
-    name: "Stone Warden",
+    name: "Tor of Stone's Grasp",
     faction: null,
     passive: "Bulwark — units you summon with Guard enter play with +0/+2.",
     deckRules: {
@@ -32,7 +32,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   },
   cmd_iron_warlord: {
     id: "cmd_iron_warlord",
-    name: "Iron Warlord",
+    name: "Bulwark Shieldbreaker",
     faction: null,
     passive: "Warmonger — whenever you equip a unit, it gains +1 Attack.",
     deckRules: {
@@ -46,9 +46,9 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   },
   cmd_bronze_raider: {
     id: "cmd_bronze_raider",
-    name: "Bronze Raider",
+    name: "Heartwood of Verdant Oaths",
     faction: null,
-    passive: "Raid — whenever you summon a unit, deal 1 damage to the enemy nexus.",
+    passive: "Raid — whenever you summon a unit, deal 1 damage to the enemy Hex.",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,
@@ -60,7 +60,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   },
   cmd_silver_oracle: {
     id: "cmd_silver_oracle",
-    name: "Silver Oracle",
+    name: "Cold-Mirror of Forgotten Truths",
     faction: null,
     passive: "Foresight — at the start of your turn, Scry 2 (reorder your top 2 cards by cost).",
     deckRules: {
@@ -74,7 +74,7 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
   },
   cmd_golden_emperor: {
     id: "cmd_golden_emperor",
-    name: "Golden Emperor",
+    name: "Diadem of Dusk's Reign",
     faction: null,
     passive: "Opulence — units you summon that cost 5 or more enter play with +1/+1.",
     deckRules: {
