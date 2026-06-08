@@ -36,10 +36,12 @@ type Props = {
   onDeployToEmpty?: () => void;
 };
 
-/** Visual slot count per lane (the board's design grid). Occupied slots render
- *  a BoardCard; the remainder render as designed empty hex cells. This is purely
- *  a layout target — the reducer still enforces the real per-lane cap. */
-const LANE_SLOTS = 5;
+/** Minimum visible slots per lane (the board's design grid). Occupied slots
+ *  render a BoardCard; empty hex cells backfill only up to this minimum so a
+ *  1- or 2-unit lane shows BIG centered heroes (not tiny cards marooned in a
+ *  rigid 5-column grid). A lane that overfills past this simply shows all its
+ *  units. Purely a layout target — the reducer still enforces the real cap. */
+const LANE_SLOTS = 3;
 
 export function BoardLane({
   title,

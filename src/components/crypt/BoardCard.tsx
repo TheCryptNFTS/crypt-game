@@ -35,7 +35,12 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       aria-label={`${card.name}, ${card.liveStats.attack} attack, ${card.liveStats.health} health, ${card.liveStats.armor} armor, ${card.liveStats.speed} speed${stateText}`}
       style={{
         borderColor: theme.edge,
-        boxShadow: theme.shadow
+        // Layer the faction outer-glow as the OUTER accent over the inner frame
+        // weight (rim-light + dark inner edge + grounding contact shadow) so the
+        // board card reads as a physical object catching light, not a flat
+        // sticker. Inline style replaces the CSS box-shadow on board cards, so
+        // the frame layers are spelled out here to avoid clobbering them.
+        boxShadow: `${theme.shadow}, inset 0 1px 0 rgba(245,242,232,0.14), inset 0 0 0 1px rgba(0,0,0,0.6), 0 6px 14px -4px rgba(0,0,0,0.7)`
       }}
     >
       <img src={card.imageUrl} alt={card.name} className="crypt-card__image" />

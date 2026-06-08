@@ -636,7 +636,7 @@
 }
 
 .live-lane--deploy .live-lane__hint {
-  color: #d8c7ff;
+  color: #E9C984;
   background: rgba(233, 201, 132, 0.16);
   border: 1px solid rgba(233, 201, 132, 0.4);
 }
@@ -746,7 +746,7 @@
   cursor: pointer;
   font-size: 13px;
   line-height: 1;
-  color: #d8c7ff;
+  color: #E9C984;
   background: rgba(233, 201, 132, 0.12);
   border: 1px solid rgba(233, 201, 132, 0.36);
   transition: color 160ms ease, background 160ms ease, border-color 160ms ease;

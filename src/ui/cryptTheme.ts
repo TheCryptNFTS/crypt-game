@@ -19,10 +19,10 @@ export const factionTheme: Record<
   },
   IRON: {
     label: "Iron Defenders",
-    edge: "#7aa6ff",
-    glow: "rgba(72, 133, 255, 0.35)",
-    chip: "rgba(72, 133, 255, 0.16)",
-    shadow: "0 0 28px rgba(72, 133, 255, 0.24)"
+    edge: "#8f9bb3",
+    glow: "rgba(143, 155, 179, 0.35)",
+    chip: "rgba(143, 155, 179, 0.16)",
+    shadow: "0 0 28px rgba(143, 155, 179, 0.24)"
   },
   BRONZE: {
     label: "Bronze Guardians",
@@ -34,9 +34,9 @@ export const factionTheme: Record<
   SILVER: {
     label: "Silver Sentinels",
     edge: "#cfd6e6",
-    glow: "rgba(130, 227, 255, 0.34)",
-    chip: "rgba(130, 227, 255, 0.16)",
-    shadow: "0 0 28px rgba(130, 227, 255, 0.24)"
+    glow: "rgba(207, 214, 230, 0.34)",
+    chip: "rgba(207, 214, 230, 0.16)",
+    shadow: "0 0 28px rgba(207, 214, 230, 0.22)"
   },
   GOLD: {
     label: "Golden Sovereigns",

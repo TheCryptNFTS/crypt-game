@@ -18,35 +18,38 @@
   background-color: #0B0B0D;
   background-image:
     /* corner ember glow + vignette (drawn first = topmost of the stack) */
-    radial-gradient(120% 90% at 50% -10%, rgba(233,201,132,0.10), transparent 42%),
+    radial-gradient(120% 90% at 50% -10%, rgba(233,201,132,0.08), transparent 42%),
     radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55), transparent 55%),
-    /* hex weave: three 60°-offset line families over the obsidian base */
+    /* hex weave hairlines: faint overlay riding on top of the arena photo */
     repeating-linear-gradient(60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(-60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(0deg, rgba(245,242,232,0.018) 0 1px, transparent 1px 30px),
-    linear-gradient(180deg, #0c0c0f 0%, #070708 100%);
+    /* the real arena photo as the BASE layer (drawn last = behind everything) */
+    url("/crypt-assets/battlefield-stable.jpg");
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   pointer-events: none;
   transition: filter 600ms ease;
 }
-/* As the match bloodies, the corner ember glow shifts hue (cheap, photo-free). */
+/* As the match bloodies, the arena photo swaps to its degraded stage. */
 .live-match-shell[data-battlefield="corrupted"]::before {
   background-image:
-    radial-gradient(120% 90% at 50% -10%, rgba(141,92,255,0.12), transparent 42%),
-    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.6), transparent 55%),
+    radial-gradient(120% 90% at 50% -10%, rgba(233,201,132,0.08), transparent 42%),
+    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55), transparent 55%),
     repeating-linear-gradient(60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(-60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(0deg, rgba(245,242,232,0.018) 0 1px, transparent 1px 30px),
-    linear-gradient(180deg, #0c0a10 0%, #060509 100%);
+    url("/crypt-assets/battlefield-corrupted.jpg");
 }
 .live-match-shell[data-battlefield="collapsed"]::before {
   background-image:
-    radial-gradient(120% 90% at 50% -10%, rgba(255,77,77,0.12), transparent 42%),
-    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.66), transparent 55%),
+    radial-gradient(120% 90% at 50% -10%, rgba(233,201,132,0.08), transparent 42%),
+    radial-gradient(140% 120% at 50% 120%, rgba(0,0,0,0.55), transparent 55%),
     repeating-linear-gradient(60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(-60deg, rgba(245,242,232,0.022) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(0deg, rgba(245,242,232,0.018) 0 1px, transparent 1px 30px),
-    linear-gradient(180deg, #0d0809 0%, #070506 100%);
+    url("/crypt-assets/battlefield-collapsed.jpg");
 }
 .live-match-shell > * {
   position: relative;
@@ -191,7 +194,7 @@
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot {
     height: 100%;
     min-height: 0;
-    max-height: 78px;
+    max-height: 108px;
   }
   /* Deployed units are HEIGHT-driven here so they fit the (dynamic) lane row
      rather than a fixed 78px width overflowing a shorter row. The square frame's
@@ -900,13 +903,16 @@
   text-shadow: 0 0 10px rgba(233,201,132,0.5);
 }
 
-/* The 5-slot grid. Equal columns so empty + filled cells share one rhythm. */
+/* Centered flex row: filled cards size intrinsically (clamp width below) so a
+   1- or 2-unit lane shows BIG centered heroes instead of tiny cards marooned in
+   rigid equal columns. Empty hex sockets backfill to a minimum of ~3 visible
+   slots so the lane still reads as a designed grid, never a stretched void. */
 .crypt-zone__lanes .live-lane__cards {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 10px;
-  justify-content: stretch;
   min-height: 0;
+  flex-wrap: nowrap;
 }
 
 /* Every slot is a compact cell. A FIXED height (not aspect-ratio off the wide
@@ -915,7 +921,9 @@
    fitting the single-screen budget. */
 .crypt-zone__lanes .live-lane__slot {
   position: relative;
-  height: 78px;
+  height: clamp(92px, 12vh, 112px);
+  width: clamp(92px, 12vh, 112px);
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -946,7 +954,7 @@
    renders ~104px square instead of a ~185px full-column card that overflows the
    row and blows the board past the viewport. */
 .crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
-  width: 78px;
+  width: clamp(92px, 100%, 112px);
   max-width: 100%;
   min-width: 0;
   height: auto;
