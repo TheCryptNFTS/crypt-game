@@ -6,6 +6,7 @@ import { applyAction, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
 import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
+import { loadStoredCommanderId } from "../lib/deckBuilderStorage";
 import { planP2Turn, planP2Plays, planP2Combat, rampedAiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
@@ -30,6 +31,15 @@ function findCommander(preferredName: string) {
   return allCommanders.find((c: any) => c.name === preferredName) ?? allCommanders[0];
 }
 
+/** P1's commander is the one the player PICKED (onboarding/deck builder). Falls
+ *  back to the Crypt #6600 anchor only when nothing valid is stored, so the
+ *  in-match avatar matches the chosen identity instead of always showing #6600. */
+function resolveP1Commander() {
+  const storedId = loadStoredCommanderId();
+  const picked = storedId ? allCommanders.find((c: any) => c.id === storedId) : null;
+  return picked ?? findCommander("Crypt #6600");
+}
+
 /**
  * Additive, opt-in config so the new-player TUTORIAL can run the normal local
  * match but with (a) an explicit fixed starter deck for P1 and (b) a weakened
@@ -44,7 +54,7 @@ export type LocalMatchOptions = {
 };
 
 function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
-  const p1Commander = findCommander("Crypt #6600");
+  const p1Commander = resolveP1Commander();
   const p2Commander = allCommanders.find((c: any) => c.traits?.Legendary === "Legendary" && c.id !== p1Commander.id) ?? allCommanders[1] ?? p1Commander;
   // An explicit p1Deck (draft / deck-builder) is honored only when it's a legal
   // 30-card list; anything else falls back to the owned/demo builder, which is
