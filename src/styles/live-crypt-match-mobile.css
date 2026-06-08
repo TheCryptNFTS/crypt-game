@@ -58,7 +58,7 @@
   .live-lane__cards .crypt-card--board {
     min-width: 120px;
     width: 120px;
-    min-height: 176px;
+    /* height follows the square 1:1 art (see base rule) — no portrait min-height. */
     scroll-snap-align: start;
   }
 
@@ -80,7 +80,8 @@
   }
 
   .live-hand__item .crypt-card--hand {
-    min-height: 196px;
+    /* height follows the square 1:1 art + text strip — no portrait min-height. */
+    min-height: 0;
   }
 
   /* Action controls remain comfortably tappable and wrap instead of overflowing. */

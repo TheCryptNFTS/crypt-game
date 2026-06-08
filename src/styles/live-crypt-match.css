@@ -507,11 +507,10 @@
   min-width: 72px;
   max-width: 132px;
   width: 132px;
-  /* The art + stat overlays are all position:absolute, so the card has no
-     intrinsic height — give it an explicit one (132px square art + stat strip)
-     or it collapses to a sliver. */
-  min-height: 180px;
-  height: 180px;
+  /* The square 1:1 art is now in-flow and DEFINES the card height (a 132px card
+     is 132px tall), so it reads as a clean square tile with the stat overlay on
+     a bottom scrim — no hardcoded portrait height leaving a black void. */
+  height: auto;
 }
 
 .live-lane__empty {
@@ -545,8 +544,10 @@
   justify-content: center;
   align-items: flex-end;
   gap: 0;
-  padding: 8px 0 10px;
-  min-height: 196px;
+  /* Top padding leaves headroom for the hover-lift (translateY(-16px) + scale)
+     so a raised card never clips at the rail's top edge. Height now FOLLOWS the
+     square-art cards (no 196px portrait floor that left dead space above them). */
+  padding: 24px 0 10px;
 }
 
 .live-hand__item {
@@ -564,7 +565,10 @@
 .live-hand__item:hover + .live-hand__item { margin-left: 0; }
 
 .live-hand__item .crypt-card--hand {
-  min-height: 184px;
+  /* Height is DRIVEN by the square 1:1 art + the title/stat strip below it —
+     no portrait min-height (which used to squeeze the square frame to ~92px tall
+     and cover-crop the art top/bottom). */
+  min-height: 0;
 }
 
 /* Tighter lanes on the new field (the old .live-board-stack overrides no longer
@@ -610,7 +614,19 @@
   margin-bottom: 2px;
   opacity: 0.55;
 }
-.crypt-side__lanes .live-lane__header h2,
+/* The four lane TITLES ("Your Front" etc.) are form-label chrome on what should
+   read as a battlefield. Reduce them to a near-invisible micro-caption so the
+   2-second board read is silhouettes, not text. They stay in the DOM for screen
+   readers (BoardLane keeps an aria-label) but visually recede to a whisper.
+   Note: this targets only the lane TITLE; the "Play here" deploy hint
+   (.live-lane__hint) and the empty-lane state are intentionally untouched. */
+.crypt-side__lanes .live-lane__header h2 {
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.32;
+}
 .crypt-side__lanes .live-lane__header span { font-size: 9px; }
 /* Empty lane = a whisper-quiet centered ground strip, not a full-width form
    field. Very short so an unoccupied lane reads as a thin idle ground line and
@@ -706,6 +722,34 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+/* DEMOTED COMBAT FALLBACK — direct-click on the board is the primary, taught
+   path. These buttons are a quiet keyboard/discoverability backstop that only
+   appears once a unit is selected, separated by a hairline and rendered small
+   and muted so they never compete with the board for the player's eye. */
+.live-actionbar__group--fallback {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(245,242,232,0.08);
+}
+.live-actionbar__group--fallback .live-actionbar__group-label {
+  margin-bottom: 6px;
+  color: rgba(245,242,232,0.4);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+.live-actionbar__buttons--fallback {
+  gap: 6px;
+}
+.live-btn--fallback {
+  padding: 6px 10px;
+  font-size: 11px;
+  opacity: 0.78;
+}
+.live-btn--fallback:hover:not(:disabled) {
+  opacity: 1;
 }
 
 .live-side-panel {
@@ -968,7 +1012,7 @@
   .live-lane__cards .crypt-card--board {
     min-width: 168px;
     width: 168px;
-    min-height: 246px;
+    /* height follows the square 1:1 art (see base rule) — no portrait min-height. */
     scroll-snap-align: start;
   }
 
@@ -979,7 +1023,8 @@
   }
 
   .live-hand__item .crypt-card--hand {
-    min-height: 272px;
+    /* height follows the square 1:1 art + text strip — no portrait min-height. */
+    min-height: 0;
   }
 
   .live-lane,

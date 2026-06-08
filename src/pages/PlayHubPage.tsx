@@ -254,6 +254,27 @@ export default function PlayHubPage() {
 
   return (
     <CatalogLoader loading={loading} error={error} ready={ready}>
+      {/* On-brand environment key-art behind the launcher — the "Crypt entrance"
+          district render (already in public/). Full-bleed + a warm gold/black
+          veil so the loadout + mode cards stay legible over it (mirrors how
+          HomePage layers battlefield-stable.jpg under its hero). */}
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          backgroundImage:
+            "linear-gradient(180deg, rgba(11,11,13,0.55) 0%, rgba(11,11,13,0.72) 55%, rgba(11,11,13,0.85) 100%), " +
+            "radial-gradient(120% 80% at 50% 12%, rgba(200,167,93,0.16), rgba(11,11,13,0) 60%), " +
+            "url(/crypt-assets/the-crypt-entrance.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      <div style={{ position: "relative", zIndex: 1 }}>
       <CryptPageFrame
         eyebrow={t("play.eyebrow")}
         title={t("play.title")}
@@ -398,6 +419,7 @@ export default function PlayHubPage() {
           </section>
         </div>
       </CryptPageFrame>
+      </div>
     </CatalogLoader>
   );
 }

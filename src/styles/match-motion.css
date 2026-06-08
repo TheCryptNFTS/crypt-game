@@ -5,7 +5,7 @@
  * fully disabled under prefers-reduced-motion. Animations are triggered by
  * view-layer state diffs (see src/hooks/useMatchMotion.ts); nothing here touches
  * game logic, the reducer, or determinism. Palette stays within cryptTheme tones
- * (purple #E9C984, gold #E9C984/#f0d24f, danger #ff6a6a). No emojis — the hex
+ * (gold #E9C984 / #f0d24f, purple #8D5CFF, danger #ff6a6a). No emojis — the hex
  * glyph (⬡) is used where a mark is needed.
  */
 
@@ -985,7 +985,7 @@
 /* -------------------------------------------------------------------------- */
 /* EMOTE BAR (PvP only) — sits unobtrusively in the hand header; bubbles are a
  * fixed overlay anchored to the screen edges so they never block the play area.
- * Prefix: .emotebar*. Theme purple #E9C984 / gold #E9C984. */
+ * Prefix: .emotebar*. Theme gold #E9C984 / purple #6a4bd6. */
 .emotebar {
   display: inline-flex;
   align-items: center;

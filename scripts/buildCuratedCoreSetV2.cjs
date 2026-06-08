@@ -60,6 +60,24 @@ function recostUndercostedTwoDrops(card) {
   // out (scripts/checkCuratedAlphaBalance.cjs). Only the durable non-RUSH walls and
   // beaters — the bodies that snowballed Stone/Iron — are re-costed.
   const isRush = (card.keywords || []).includes("RUSH");
+  // RE-COST TIGHTENING — INVESTIGATED + REJECTED (2026.06.06 de-inversion pass).
+  // The curve IS inverted (curated value/cost falls 6.7 at cost-2 to 3.3 at cost-8),
+  // so the obvious fix is to re-cost more of the cheap over-statted bodies UP. Three
+  // tighter variants were tried against `npm run sim:curated`:
+  //   (a) `>= 6.0` on cost-2 (catch the 4 bricks landing exactly on the line) — moved
+  //       2 curated cards, yet SPIKED GOLD to 73.8% and widened the avg faction spread
+  //       12.9 -> 22.4pt.
+  //   (b) a parallel cost-3 ratio>5.3 -> 4 re-cost — widened the spread to ~27pt.
+  //   (c) both together — ~30pt and a cratered GOLD.
+  // ROOT CAUSE: the curated set's matchup balance is a FRAGILE band-convergence
+  // equilibrium (every faction's top-30 is selected to sit near a shared 13.5 draft-
+  // power target). Re-costing even a couple of bodies shifts which cards a faction
+  // drafts at each cost slot, and the perturbation propagates chaotically — GOLD's
+  // shallow pool is especially sensitive. The cost relabel also doesn't truly DE-invert
+  // (a body's power is unchanged; it just moves cost slots). De-inverting the curve
+  // honestly requires RESTATTING the source statlines (regenerating the on-chain-
+  // derived JSON), which is out of scope for a balance-tuning pass. So the re-cost is
+  // held at the prior pass's `> 6.0` line — the value that keeps the spread at 12.9pt.
   if (card.cost === 2 && ratio > 6.0 && !isRush) return { ...card, cost: 3 };
   return card;
 }
@@ -195,10 +213,24 @@ const UNIT_BAND_TARGET = 13.5;
 // Set just above the target; tuned so the 4 deep factions converge to GOLD's
 // achievable top-30 band (~14). GOLDEN_SOVEREIGNS and GODS are EXEMPT: GOLD's
 // source pool is the weakest in the set (its strongest legal body is ~14 draft-
-// power), so capping it would cut its only competitive cards and bury it; GODS are
+// power), so capping it would cut its only competitive cards and bury it (a GOLD
+// ceiling was tried and rejected this pass — see the GOLD SHAVE note below); GODS are
 // intentional premium top-end and never enter the 5-mortal-faction sim. Excluded
 // cards stay fully deck-legal in the corpus — only the curated SELECTION is bounded.
 const UNIT_DRAFT_CEILING = 14.3;
+// GOLD SHAVE — INVESTIGATED + REJECTED (2026.06.06 faction-compression pass).
+// GOLDEN_SOVEREIGNS sits at the TOP of the matchup-sim ladder (~66% asA vs IRON's
+// ~53%). The obvious lever — adding a GOLD-specific draft ceiling to clip its 16-18
+// draft-power monster tail — was tried at 15.0 and 16.5 and BACKFIRED HARD in the real
+// builder+sim: it dropped GOLD from the top of the ladder to the BOTTOM (40% at 16.5,
+// 12% at 15.0) and WIDENED the avg spread from 12.9 to 27-28pt. Root cause: GOLD's
+// legal pool is shallow (~62) and BOTTOM-HEAVY (only ~19 units draft above 12.0), so
+// band-selection already deselects the bombs; clipping the ceiling only strips GOLD's
+// competitive top while its weak 10.7-11.1 floor cluster (which a 30-card deck is
+// forced to include) stays — net a LOWER, not tighter, deck. The variance bombs were
+// load-bearing. A selection-only shave cannot compress GOLD without restatting the
+// source JSON (out of scope). So GOLD stays EXEMPT — compression is pursued via the
+// IRON identity buff (lifting the floor faction) instead. GODS stay exempt as always.
 const CEILING_EXEMPT = new Set([GOD, "GOLDEN_SOVEREIGNS"]);
 function simDraftPower(card) {
   const stats = statBlock(card);
@@ -218,7 +250,8 @@ function bandDistance(card) {
   if (card.type !== "unit" || card.faction === GOD) return 0;
   return Math.abs(simDraftPower(card) - UNIT_BAND_TARGET);
 }
-// Above the cross-faction ceiling? Units only, and never for the exempt factions.
+// Above the cross-faction ceiling? Units only, and never for the exempt factions
+// (GODS, GOLDEN_SOVEREIGNS — see the GOLD SHAVE note above for why GOLD stays exempt).
 function isAboveDraftCeiling(card) {
   if (card.type !== "unit" || CEILING_EXEMPT.has(card.faction)) return false;
   return simDraftPower(card) > UNIT_DRAFT_CEILING;

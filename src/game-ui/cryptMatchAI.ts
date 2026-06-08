@@ -73,6 +73,45 @@ function cannotAttack(unit: any): boolean {
   return specs.some((s) => s.op === "RESTRICT_ATTACK" && s.trigger === "STATIC");
 }
 
+/**
+ * True if a unit carries COMMANDER_SHIELD (e.g. Skull Island). The reducer
+ * REJECTS face swings ("commander-shielded") while the DEFENDING player controls
+ * any live unit with this passive (reducer.ts ATTACK_FACE ~L1714, via
+ * `boardHasOp(... "COMMANDER_SHIELD")` → `unitHasOp` → ANY trigger). The compiler
+ * emits it as `{ trigger: "PASSIVE", op: "COMMANDER_SHIELD" }` (abilityCompiler
+ * ~L1263), but the reducer matches on op alone, so we match on op alone too.
+ */
+function hasCommanderShield(unit: any): boolean {
+  const card = RAW_CARD_BY_ID.get(unit?.cardId);
+  if (!card) return false;
+  const specs = (compileAbility(card?.rawTraits?.Ability).specs ?? []) as any[];
+  return specs.some((s) => s.op === "COMMANDER_SHIELD");
+}
+
+/**
+ * True if `defender` FEARS `attacker`: the defender carries Fear's defender-side
+ * RESTRICT_ATTACK (trigger "PASSIVE", with a `costThreshold`) AND the attacker's
+ * cost is at/below that threshold — exactly what the reducer rejects with
+ * "attacker-feared" (reducer.ts ATTACK_UNIT ~L1670-1672, via `passiveSpec(...,
+ * "RESTRICT_ATTACK")` which gates on trigger === "PASSIVE", then
+ * `costOf(attacker) <= (fear.costThreshold ?? 0)`). costOf reads the STATIC card
+ * cost, identical to the planner's `meta().cost`. PATIENT's STATIC
+ * RESTRICT_ATTACK (no costThreshold) is excluded by the trigger gate, mirroring
+ * `passiveSpec`. A low-cost attacker barred this way contributes NO damage, so
+ * it must be dropped from both the unit plan and the lethal faceDmg sum.
+ */
+function isFearedBy(attacker: any, defender: any): boolean {
+  const card = RAW_CARD_BY_ID.get(defender?.cardId);
+  if (!card) return false;
+  const specs = (compileAbility(card?.rawTraits?.Ability).specs ?? []) as any[];
+  const fear = specs.find(
+    (s) => s.op === "RESTRICT_ATTACK" && s.trigger === "PASSIVE",
+  );
+  if (!fear) return false;
+  const attackerCost = meta(attacker?.cardId)?.cost ?? 0;
+  return attackerCost <= (fear.costThreshold ?? 0);
+}
+
 const META = new Map<string, CardMeta>(
   (allPlayableCards as any[]).map((c) => [
     c.id,
@@ -389,21 +428,36 @@ export function planP2Combat(match: any, difficulty: AiDifficulty = "normal"): A
     (Array.isArray(u?.auraKeywords) && u.auraKeywords.includes(k));
   // GUARD (taunt): a GUARD defender must be cleared before face / other units.
   const enemyGuards = enemyUnits.filter((u) => hasKw(u, "GUARD"));
-  // FLYING (evasion) + STEALTH: only flyers / RANGED can hit a flyer, and a
-  // stealthed unit cannot be targeted at all until it reveals.
+  // COMMANDER_SHIELD (e.g. Skull Island): while the enemy controls ANY live unit
+  // with this passive, the reducer REJECTS every face swing ("commander-shielded",
+  // reducer.ts ~L1714). Mirror that here so the planner never wastes its turn (or
+  // miscomputes lethal) fumbling face into a shielded commander — it must clear
+  // the board first. boardHasOp matches on op alone, so we OR over all enemy units.
+  const enemyCommanderShielded = enemyUnits.some((u) => hasCommanderShield(u));
+  // FLYING (evasion) + STEALTH + FEAR: only flyers / RANGED can hit a flyer; a
+  // stealthed unit cannot be targeted at all until it reveals; and a Fear unit
+  // rejects any attacker whose cost is at/below its threshold (reducer.ts ~L1670).
+  // canHit folds all three so legalDefenders never contains a swing the reducer
+  // would reject — matching the GUARD/FLYING/STEALTH discipline already here.
   const canHit = (attacker: any, def: any) =>
     !def?.stealthed &&
+    !isFearedBy(attacker, def) &&
     (!hasKw(def, "FLYING") || hasKw(attacker, "FLYING") || hasKw(attacker, "RANGED"));
   // SHIELD / WARD / DIVINE_SHIELD: an armed shield absorbs the first instance of
   // damage outright, so a single swing canNOT kill a shielded defender no matter
   // how much attack we have. The live unit carries `shielded` once armed.
   const isShielded = (u: any) => u?.shielded === true;
 
-  // HARD lethal check: if there is NO enemy GUARD wall and the sum of our ready
-  // attackers' damage meets-or-exceeds the enemy nexus, send EVERYTHING face for
-  // the kill, ignoring trades. (EASY/NORMAL never compute lethal — EASY by
-  // design under-reads the board, NORMAL keeps its historical greedy policy.)
-  if (profile.takeLethal && enemyGuards.length === 0) {
+  // HARD lethal check: if there is NO enemy GUARD wall, NO enemy COMMANDER_SHIELD,
+  // and the sum of our ready attackers' damage meets-or-exceeds the enemy nexus,
+  // send EVERYTHING face for the kill, ignoring trades. The COMMANDER_SHIELD gate
+  // mirrors the reducer's ATTACK_FACE rejection ("commander-shielded", ~L1714):
+  // every face swing is illegal while the enemy controls a shielded commander, so
+  // computing/committing a face-lethal there would throw away the whole turn. When
+  // shielded (or walled), the AI falls through to the per-unit loop below and
+  // attacks units to clear the board instead. (EASY/NORMAL never compute lethal —
+  // EASY by design under-reads the board, NORMAL keeps its historical greedy policy.)
+  if (profile.takeLethal && enemyGuards.length === 0 && !enemyCommanderShielded) {
     const enemyNexus = Number(match.players?.P1?.nexusHealth ?? 0);
     let faceDmg = 0;
     for (const a of attackers) {
@@ -471,10 +525,15 @@ export function planP2Combat(match: any, difficulty: AiDifficulty = "normal"): A
           attackerInstanceId: attacker.instanceId,
           defenderInstanceId: favorable.instanceId,
         });
-      } else if (enemyGuards.length > 0) {
-        // Forced to deal with a GUARD wall: chip the one we can hit (if any),
-        // rather than wasting the swing on an illegal face attack.
-        const chip = legalDefenders[0];
+      } else if (enemyGuards.length > 0 || enemyCommanderShielded) {
+        // Forced to attack a unit, not the face: either a GUARD wall stands, or
+        // the enemy controls a COMMANDER_SHIELD (the reducer rejects EVERY face
+        // swing while it lives, ~L1714). Chip the strongest legal defender we can
+        // hit to clear toward an opening, rather than wasting the swing on an
+        // illegal face attack. legalDefenders already excludes flyers we can't
+        // reach, stealthed units, and Fear-restricted matchups (via canHit).
+        const chip =
+          [...legalDefenders].sort((a, b) => (b.attack ?? 0) - (a.attack ?? 0))[0];
         if (chip?.instanceId) {
           actions.push({
             kind: "attackUnit",

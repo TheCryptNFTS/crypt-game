@@ -74,7 +74,9 @@ const FACTIONS: { name: string; tag: string; body: string }[] = [
 /** Curated reading order so the most common combat keywords lead. */
 const KEYWORD_ORDER = [
   "RUSH", "GUARD", "TAUNT", "FLYING", "RANGED", "CRUSH",
-  "LIFESTEAL", "SHIELD", "WARD", "DIVINE_SHIELD", "WINDFURY",
+  // DIVINE_SHIELD shares WARD's mechanic and now displays as "Ward" too, so we
+  // omit it here to avoid a duplicate glossary row. WINDFURY displays as "Relay".
+  "LIFESTEAL", "SHIELD", "WARD", "WINDFURY",
   "QUICKSTEP", "MYTHIC", "COMMAND", "EXECUTE_PRESSURE",
   "DEATH_BLAST", "BATTLECRY_HERO_HIT", "DEATHKNELL", "DEPLOY", "ARMOR_GAIN",
 ];

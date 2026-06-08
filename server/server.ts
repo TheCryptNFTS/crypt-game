@@ -492,6 +492,7 @@ export class GameServer {
         losses: 0,
         currentStreak: 0,
         bestStreak: 0,
+        lastPlayDay: null,
         season: 1,
         position: 0,
       };

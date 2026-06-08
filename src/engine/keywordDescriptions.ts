@@ -61,13 +61,19 @@ export const KEYWORD_DESCRIPTIONS: Record<string, KeywordDescription> = {
     label: "Ward",
     description: "The first instance of combat damage this unit would take is fully absorbed, then the ward breaks."
   },
+  // DIVINE_SHIELD is an engine token kept for the corpus/tests, but it shares the
+  // exact one-shot-absorb mechanic of WARD. Player-facing, it shows as "Ward" so
+  // Crypt presents ONE branded shield term (no Hearthstone "Divine Shield").
   DIVINE_SHIELD: {
-    label: "Divine Shield",
-    description: "The first instance of combat damage this unit would take is fully absorbed, then it breaks."
+    label: "Ward",
+    description: "The first instance of combat damage this unit would take is fully absorbed, then the ward breaks."
   },
+  // WINDFURY is an engine token kept for the corpus/tests; player-facing it is
+  // "Relay" — a Crypt-native term (the signal passes through twice), not the
+  // Hearthstone word.
   WINDFURY: {
-    label: "Windfury",
-    description: "Can attack twice each turn."
+    label: "Relay",
+    description: "Strikes a second time each turn — its signal relays for one extra swing."
   },
   LIFESTEAL: {
     label: "Lifesteal",

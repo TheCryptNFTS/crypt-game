@@ -39,8 +39,11 @@ export interface RankingRow {
   rating: number;
   wins: number;
   losses: number;
+  /** Consecutive-DAY play streak (NOT a win streak). Resets only on a missed day. */
   currentStreak: number;
   bestStreak: number;
+  /** UTC day ('YYYY-MM-DD') this account last recorded a match, or null. */
+  lastPlayDay: string | null;
   season: number;
 }
 
@@ -74,20 +77,64 @@ export function tierForRating(rating: number): RankTier {
 }
 
 /**
- * Soft-currency streak rewards at milestones. game-internal $CRYPT ONLY — these
- * mark a CLAIMABLE in-game reward, never real on-chain hex. Escalating.
+ * Soft-currency rewards for a consecutive-DAY PLAY streak. game-internal $CRYPT
+ * ONLY — these mark a CLAIMABLE in-game reward, never real on-chain hex.
+ *
+ * This is a LOGIN/PLAY streak, not a win streak: it counts the number of
+ * consecutive UTC days the player has played (any result), and it does NOT
+ * reset on a loss — only on a missed day. Every day of play pays a GUARANTEED,
+ * escalating reward (so the cohort we want to keep is rewarded for showing up,
+ * never punished for losing). The ladder climbs for the first week then plateaus
+ * at a generous daily floor so a long habit stays worth opening.
  */
-export const STREAK_MILESTONES: readonly { streak: number; amount: number }[] = [
-  { streak: 3, amount: 50 },
-  { streak: 5, amount: 100 },
-  { streak: 10, amount: 250 },
+export const STREAK_DAY_REWARDS: readonly { day: number; amount: number }[] = [
+  { day: 1, amount: 25 },
+  { day: 2, amount: 40 },
+  { day: 3, amount: 60 },
+  { day: 4, amount: 80 },
+  { day: 5, amount: 110 },
+  { day: 6, amount: 140 },
+  { day: 7, amount: 200 },
 ] as const;
 
-/** The soft-currency reward for hitting EXACTLY this streak, or null if `streak`
- *  is not a milestone. */
-export function streakMilestoneReward(streak: number): number | null {
-  const m = STREAK_MILESTONES.find((x) => x.streak === streak);
-  return m ? m.amount : null;
+/** Generous plateau paid for every play-day at or beyond the top of the ladder. */
+export const STREAK_PLATEAU_AMOUNT = 120;
+
+/** UTC calendar day key ('YYYY-MM-DD') for a timestamp. Matches the server's
+ *  quest-claim day bucketing so the play-streak rolls on the same UTC boundary. */
+export function streakUtcDay(now: number): string {
+  return new Date(now).toISOString().slice(0, 10);
+}
+
+/** Whole-day difference between two UTC day keys (a - b). 0 = same day, 1 =
+ *  consecutive day, >1 = a gap was missed. Robust to month/year boundaries. */
+export function utcDayDiff(a: string, b: string): number {
+  const ta = Date.parse(`${a}T00:00:00Z`);
+  const tb = Date.parse(`${b}T00:00:00Z`);
+  return Math.round((ta - tb) / 86_400_000);
+}
+
+/**
+ * The GUARANTEED soft-currency reward for reaching exactly `streak` consecutive
+ * play-days. Every day pays (escalating through day 7, then a flat plateau), so
+ * this never returns null for a real (>=1) streak. game-internal soft currency
+ * only — never real hex.
+ */
+export function streakDayReward(streak: number): number {
+  if (streak < 1) return 0;
+  const exact = STREAK_DAY_REWARDS.find((x) => x.day === streak);
+  if (exact) return exact.amount;
+  return STREAK_PLATEAU_AMOUNT;
+}
+
+/**
+ * BACK-COMPAT alias. The old name implied a sparse win-streak milestone table;
+ * the streak is now a consecutive-DAY play streak where EVERY day pays. Kept so
+ * any older caller still resolves to the guaranteed day reward (never null).
+ * @deprecated use {@link streakDayReward}.
+ */
+export function streakMilestoneReward(streak: number): number {
+  return streakDayReward(streak);
 }
 
 /** A pending rank-up the client should ceremony exactly once. */
@@ -279,6 +326,10 @@ export class PersistenceStore {
         lastSeen   INTEGER NOT NULL
       );
 
+      -- currentStreak / bestStreak are a consecutive-DAY PLAY streak (NOT a win
+      -- streak): they count UTC days played in a row and reset ONLY on a missed
+      -- day, never on a loss. lastPlayDay is the UTC day ('YYYY-MM-DD') the
+      -- account last recorded a match, used to decide same-day / +1 / gap.
       CREATE TABLE IF NOT EXISTS rankings (
         accountId      TEXT PRIMARY KEY,
         rating         INTEGER NOT NULL DEFAULT 1000,
@@ -286,6 +337,7 @@ export class PersistenceStore {
         losses         INTEGER NOT NULL DEFAULT 0,
         currentStreak  INTEGER NOT NULL DEFAULT 0,
         bestStreak     INTEGER NOT NULL DEFAULT 0,
+        lastPlayDay    TEXT,
         season         INTEGER NOT NULL DEFAULT 1,
         updatedAt      INTEGER NOT NULL,
         FOREIGN KEY (accountId) REFERENCES accounts(accountId)
@@ -389,6 +441,16 @@ export class PersistenceStore {
         ON cosmetic_unlocks (accountId);
     `);
 
+    // Forward-migrate older DBs created before the play-streak switch: add the
+    // rankings.lastPlayDay column if it's missing. CREATE TABLE IF NOT EXISTS
+    // above won't add a column to an existing table, so guard the ALTER.
+    const rankingCols = this.db
+      .prepare(`PRAGMA table_info(rankings)`)
+      .all() as Array<{ name: string }>;
+    if (!rankingCols.some((c) => c.name === "lastPlayDay")) {
+      this.db.exec(`ALTER TABLE rankings ADD COLUMN lastPlayDay TEXT`);
+    }
+
     // Seed Season 1 idempotently with a FIXED (deterministic) window anchored on
     // SEASON_EPOCH — never Date.now(), so the persistence proof stays byte-stable.
     this.db
@@ -435,7 +497,7 @@ export class PersistenceStore {
     this.touchAccount(accountId, now);
     const row = this.db
       .prepare(
-        `SELECT accountId, rating, wins, losses, currentStreak, bestStreak, season
+        `SELECT accountId, rating, wins, losses, currentStreak, bestStreak, lastPlayDay, season
          FROM rankings WHERE accountId = ?`
       )
       .get(accountId) as RankingRow;
@@ -476,7 +538,36 @@ export class PersistenceStore {
       });
     const cur = this.getRanking(input.accountId, now);
     const won = input.result === "win";
-    const nextStreak = won ? cur.currentStreak + 1 : 0;
+
+    // --- CONSECUTIVE-DAY PLAY STREAK (not a win streak) -------------------
+    // The streak counts UTC days played in a row and resets ONLY when a day is
+    // missed — NEVER on a loss. This rewards the cohort we want to keep (people
+    // who keep showing up) instead of punishing them for a single loss. A second
+    // match on the SAME day leaves the streak unchanged (already counted today).
+    const today = streakUtcDay(now);
+    const prevDay = cur.lastPlayDay;
+    let nextStreak: number;
+    let streakAdvanced: boolean; // true only when TODAY is a newly-counted day
+    if (!prevDay) {
+      // First match ever recorded for this account: day 1 of the streak.
+      nextStreak = 1;
+      streakAdvanced = true;
+    } else {
+      const diff = utcDayDiff(today, prevDay);
+      if (diff <= 0) {
+        // Same UTC day (or a clock skew into the past): today already counted.
+        nextStreak = Math.max(1, cur.currentStreak);
+        streakAdvanced = false;
+      } else if (diff === 1) {
+        // The very next day: extend the streak.
+        nextStreak = cur.currentStreak + 1;
+        streakAdvanced = true;
+      } else {
+        // A day (or more) was missed: the streak restarts at today.
+        nextStreak = 1;
+        streakAdvanced = true;
+      }
+    }
     const nextBest = Math.max(cur.bestStreak, nextStreak);
     // Rating floor at 0 so a long loss streak can never go negative.
     const nextRating = Math.max(0, cur.rating + input.ratingDelta);
@@ -488,6 +579,7 @@ export class PersistenceStore {
            losses = losses + @lossInc,
            currentStreak = @streak,
            bestStreak = @best,
+           lastPlayDay = @today,
            season = @season,
            updatedAt = @now
          WHERE accountId = @accountId`
@@ -499,6 +591,7 @@ export class PersistenceStore {
         lossInc: won ? 0 : 1,
         streak: nextStreak,
         best: nextBest,
+        today,
         season: seasonId,
         now,
       });
@@ -531,14 +624,28 @@ export class PersistenceStore {
           }
         }
       }
-      // 2. Streak milestone: mark a claimable soft-currency reward if this win
-      //    pushed the streak onto a milestone. UNIQUE (account, streak) prevents
-      //    a double-grant if the same streak count is somehow re-reached.
-      const amount = streakMilestoneReward(nextStreak);
-      if (amount !== null) {
+    }
+
+    // 2. PLAY-STREAK reward (OUTSIDE the win gate — a loss still keeps the
+    //    streak alive and still pays). Only mark on a NEWLY-counted day so a
+    //    second match today doesn't re-grant. Every play-day pays a guaranteed,
+    //    escalating soft-currency reward (streakDayReward never returns 0 for a
+    //    real streak). game-internal soft $CRYPT ONLY — never real hex.
+    if (streakAdvanced) {
+      const amount = streakDayReward(nextStreak);
+      if (amount > 0) {
+        // Clear any prior UNCLAIMED streak reward first so there's exactly ONE
+        // current claimable reward (the ladder re-arms cleanly after a reset,
+        // and the UNIQUE (account, streak) can't block a re-reached day count).
         this.db
           .prepare(
-            `INSERT OR IGNORE INTO streak_claims (accountId, streak, amount, markedAt)
+            `DELETE FROM streak_claims
+             WHERE accountId = @accountId AND claimedAt IS NULL`
+          )
+          .run({ accountId: input.accountId });
+        this.db
+          .prepare(
+            `INSERT OR REPLACE INTO streak_claims (accountId, streak, amount, markedAt)
              VALUES (@accountId, @streak, @amount, @now)`
           )
           .run({ accountId: input.accountId, streak: nextStreak, amount, now });

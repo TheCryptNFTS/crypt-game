@@ -1,6 +1,6 @@
 /* polish-hud.css — additive AAA-TCG HUD polish for MatchTopBar.
    Owns ONLY .ph-* classes layered on top of .live-topbar pills.
-   Brand: gold #E9C984, purple #E9C984, red #FF4D4D, warm-black #0B0B0D. */
+   Brand: gold #E9C984, purple #8D5CFF, red #FF4D4D, warm-black #0B0B0D. */
 
 :root {
   --ph-gold: #E9C984;
@@ -9,8 +9,8 @@
   --ph-black: #0B0B0D;
 }
 
-/* ============ NEXUS = HEALTH CRYSTAL ============ */
-/* Reshape the nexus pills into sculpted crystal-shield motifs. */
+/* ============ HEX = HEALTH CRYSTAL ============ */
+/* Reshape the Hex pills into sculpted crystal-shield motifs. */
 .live-topbar__pill--nexus {
   min-width: 108px;
   overflow: visible;

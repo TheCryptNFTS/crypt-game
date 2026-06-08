@@ -118,26 +118,36 @@ export function ActionBar(props: Props) {
         </div>
       </div>
 
-      <div className="live-actionbar__group">
-        <span className="live-actionbar__group-label">Combat</span>
-        <div className="live-actionbar__buttons">
-          <button
-            className="live-btn live-btn--danger"
-            disabled={!props.canAttackUnit}
-            onClick={props.onAttackUnit}
-          >
-            Attack Selected Enemy
-          </button>
+      {/* Combat is a QUIET FALLBACK, not a co-equal primary. Direct-click is the
+          taught path: click your unit, then click an enemy unit or the glowing
+          Hex pill. We only surface these buttons once a unit is actually
+          selected (combatReady), and style them small/muted so they read as
+          "or use these" — discoverable for keyboard/accessibility without
+          competing with the board. */}
+      {combatReady ? (
+        <div className="live-actionbar__group live-actionbar__group--fallback">
+          <span className="live-actionbar__group-label">
+            Or use these — clicking the board does the same
+          </span>
+          <div className="live-actionbar__buttons live-actionbar__buttons--fallback">
+            <button
+              className="live-btn live-btn--ghost live-btn--fallback"
+              disabled={!props.canAttackUnit}
+              onClick={props.onAttackUnit}
+            >
+              Attack Selected Enemy
+            </button>
 
-          <button
-            className="live-btn live-btn--danger-soft"
-            disabled={!props.canAttackFace}
-            onClick={props.onAttackFace}
-          >
-            Attack Hex
-          </button>
+            <button
+              className="live-btn live-btn--ghost live-btn--fallback"
+              disabled={!props.canAttackFace}
+              onClick={props.onAttackFace}
+            >
+              Attack Hex
+            </button>
+          </div>
         </div>
-      </div>
+      ) : null}
     </section>
   );
 }

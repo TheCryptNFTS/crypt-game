@@ -3009,21 +3009,21 @@ button:has(> .crypt-card-chrome):hover,
   align-items: flex-start;
   gap: 4px;
   padding: 18px 20px;
-  border-radius: 2px;
+  border-radius: 12px;
   text-decoration: none;
-  color: var(--color-crypt-obsidian);
-  background: linear-gradient(180deg, var(--color-crypt-ember) 0%, var(--color-crypt-accent) 100%);
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.14) inset,
-    0 10px 32px rgba(0, 0, 0, 0.5),
-    0 0 48px rgba(212, 168, 75, 0.18);
+  color: var(--color-crypt-accent);
+  background: rgba(212, 168, 75, 0.08);
+  border: 1px solid rgba(212, 168, 75, 0.28);
+  box-shadow: 0 0 24px rgba(212, 168, 75, 0.06);
   transition:
     transform 0.25s var(--ease-premium),
-    filter 0.25s ease;
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .crypt-play-mode-quick:hover {
-  filter: brightness(1.05);
+  border-color: rgba(212, 168, 75, 0.5);
+  background: rgba(212, 168, 75, 0.12);
   transform: translateY(-1px);
 }
 
@@ -3915,12 +3915,14 @@ button:has(> .crypt-card-chrome):hover,
     0 0 22px -6px var(--pick-accent, transparent);
 }
 
-/* Commander skull art header. */
+/* Commander skull art header. Commander art is true 800x1100 PORTRAIT — a 16:10
+   landscape box decapitated the figure. Use a portrait-friendly 4:5 box and
+   anchor toward the top so the head/shoulders stay in frame. */
 .crypt-npe-pick-art {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   background: #07060a;
 }
@@ -3928,7 +3930,7 @@ button:has(> .crypt-card-chrome):hover,
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 28%;
+  object-position: center 18%;
   display: block;
 }
 .crypt-npe-pick-art-fade {
@@ -5627,7 +5629,7 @@ button:has(> .crypt-card-chrome):hover,
   border-radius: 2px;
   border: 1px solid rgba(233, 201, 132, 0.5);
   background: rgba(233, 201, 132, 0.1);
-  color: #b79bff;
+  color: #E9C984;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }

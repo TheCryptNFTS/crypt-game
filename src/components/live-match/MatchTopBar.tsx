@@ -11,8 +11,6 @@ type Props = {
   energy: number;
   maxEnergy: number;
   deckSource: "owned" | "demo";
-  canRecalibrate: boolean;
-  onRecalibrate: () => void;
   onEndTurn: () => void;
   onReset: () => void;
   /** Presentation-only nexus-damage motion tokens from useMatchMotion. */
@@ -32,8 +30,6 @@ export function MatchTopBar({
   energy,
   maxEnergy,
   deckSource,
-  canRecalibrate,
-  onRecalibrate,
   onEndTurn,
   onReset,
   ownNexusHit,
@@ -146,11 +142,6 @@ export function MatchTopBar({
         </div>
 
         <div className="live-topbar__actions">
-          {canRecalibrate ? (
-            <button className="live-btn live-btn--secondary" onClick={onRecalibrate}>
-              Recalibrate Hand
-            </button>
-          ) : null}
           <button className="live-btn live-btn--ghost" onClick={onReset}>
             Reset Match
           </button>

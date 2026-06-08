@@ -8,6 +8,7 @@
 import { applyAction } from "../engine/reducer";
 import { makeSeededMatch } from "./reducerHarness";
 import { MatchState } from "../engine/state";
+import { planP2Combat } from "../game-ui/cryptMatchAI";
 
 function assert(cond: boolean, msg: string) {
   if (!cond) {
@@ -106,6 +107,81 @@ function withBoard(seed: number, p1: any[], p2: any[]): MatchState {
   const ev = events.find((e) => e.type === "NEXUS_DAMAGE") as any;
   assert(ev && ev.damage === 5, "face: outgoing 5 (atk4+crit1)");
   assert(state.players.P2.nexusHealth === 15, "nexus 20 -> 15");
+}
+
+// --- PLANNER PARITY: the AI planner must never plan a swing the reducer rejects.
+// These pin the two fixes in cryptMatchAI.ts (COMMANDER_SHIELD + FEAR gaps).
+// P2 is the AI; planP2Combat reads P2's board as attackers, P1's as defenders.
+
+// 8. COMMANDER_SHIELD: with a shielded (non-GUARD) enemy commander, the HARD AI
+//    must NOT plan any ATTACK_FACE (reducer rejects with "commander-shielded").
+//    It should attack the commander instead to clear toward an opening.
+{
+  const s = withBoard(
+    3008,
+    // Enemy commander: Skull Island (COMMANDER_SHIELD). keywords:[] strips GUARD
+    // so we isolate the COMMANDER_SHIELD face-block, not the guard-blocks-face path.
+    [unit("cmd", { cardId: "tcg_3405", attack: 0, health: 8, keywords: [] })],
+    // AI attacker: enough face damage to "look lethal" vs a 20-nexus if it ignored
+    // the shield (atk 10, ready).
+    [unit("ai", { cardId: "tcg_14", attack: 10, health: 6 })],
+  );
+  s.players.P1.nexusHealth = 8; // make face look lethal to bait the lethal block
+  const plan = planP2Combat(s as any, "hard");
+  const planuedFace = plan.some((a) => a.kind === "attackFace");
+  const hitsCommander = plan.some(
+    (a) => a.kind === "attackUnit" && a.defenderInstanceId === "cmd",
+  );
+  assert(!planuedFace, "planner: no ATTACK_FACE planned under COMMANDER_SHIELD");
+  assert(hitsCommander, "planner: attacks the shielded commander instead of face");
+}
+
+// 9. FEAR: a sub-threshold attacker (cost 2 <= Fear threshold 2) must NOT be
+//    planned into the Fear unit (reducer rejects "attacker-feared"). With ONLY a
+//    feared low-cost attacker and no other legal target, the planner emits no
+//    illegal unit swing against it (it may legally hit face — Fear never blocks
+//    face — so we assert specifically that it does not plan attackUnit -> dread).
+{
+  const s = withBoard(
+    3009,
+    // Enemy Fear unit (tcg_373, threshold 2). No GUARD/COMMANDER_SHIELD so face is
+    // legal; the ONLY restriction is the Fear matchup.
+    [unit("dread", { cardId: "tcg_373", attack: 0, health: 6, keywords: [] })],
+    // AI attacker cost 2 (tcg_2) -> at/below Fear threshold 2 -> feared.
+    [unit("small", { cardId: "tcg_2", attack: 3, health: 2 })],
+  );
+  const plan = planP2Combat(s as any, "hard");
+  const fearedUnitSwing = plan.some(
+    (a) => a.kind === "attackUnit" && a.defenderInstanceId === "dread",
+  );
+  assert(!fearedUnitSwing, "planner: no ATTACK_UNIT into a Fear unit by a sub-threshold attacker");
+  // Cross-check the reducer agrees the unit swing would be illegal but face is fine.
+  const swing = applyAction(s, {
+    type: "ATTACK_UNIT",
+    player: "P2",
+    attackerInstanceId: "small",
+    defenderInstanceId: "dread",
+  } as any);
+  assert(
+    swing.events.some((e) => (e as any).type === "REJECTED" && (e as any).reason === "attacker-feared"),
+    "reducer cross-check: feared sub-threshold ATTACK_UNIT is rejected (attacker-feared)",
+  );
+}
+
+// 10. FEAR: an ABOVE-threshold attacker (cost 4 > threshold 2) is NOT feared and
+//     MUST still be planned into the Fear unit when it is the only target.
+{
+  const s = withBoard(
+    3010,
+    [unit("dread", { cardId: "tcg_373", attack: 0, health: 6, keywords: [] })],
+    // AI attacker cost 4 (tcg_14) -> above Fear threshold 2 -> NOT feared.
+    [unit("big", { cardId: "tcg_14", attack: 5, health: 4 })],
+  );
+  const plan = planP2Combat(s as any, "normal");
+  assert(
+    plan.some((a) => a.kind === "attackUnit" && a.defenderInstanceId === "dread"),
+    "planner: above-threshold attacker still attacks the Fear unit (not over-excluded)",
+  );
 }
 
 console.log("\nALL COMBAT PARITY PROOFS PASSED\n");

@@ -128,15 +128,17 @@ function fillBoard(state: any, playerId: string, cardId: string, count: number):
   assert(state.players.P2.nexusHealth === 20, "Onslaught does NOT burn the enemy nexus");
 }
 
-// === GOLD (Largesse): same-faction cost>=5 summons enter +0/+2 ================
+// === GOLD (Largesse): same-faction cost>=5 summons enter +0/+1 ================
+// (2026.06.06 faction-compression: Largesse shaved from +0/+2 to +0/+1 — GOLD was the
+// top of the ladder; the identity-side shave trims its premium top-end durability.)
 {
   const state = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true);
 
   const big = makeUnit(GOLD_BIG);
   factionOnUnitSummon(state, "P1", big, factionOf, costOf);
   assert(
-    big.attack === 2 && big.health === 5 && big.maxHealth === 5,
-    "Largesse gives a summoned cost>=5 Gold unit +0/+2 (health only)"
+    big.attack === 2 && big.health === 4 && big.maxHealth === 4,
+    "Largesse gives a summoned cost>=5 Gold unit +0/+1 (health only)"
   );
 
   const cheap = makeUnit(GOLD_CHEAP);
@@ -148,17 +150,22 @@ function fillBoard(state: any, playerId: string, cardId: string, count: number):
   assert(state.players.P2.nexusHealth === 20, "Largesse does NOT burn the enemy nexus");
 }
 
-// === IRON (Tempered): each equip ALSO grants the unit +1 ARMOR ================
+// === IRON (Tempered): each equip ALSO grants the unit +1 ATTACK / +1 ARMOR =====
+// (2026.06.06 faction-compression: the +1 Attack was PROMOTED from the 3+ Iron
+// archetype threshold to BASELINE so Iron — the bottom of the faction ladder — has a
+// real combat identity from the first weapon. Per-equip, own-side, no-burn.)
 {
   const state = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true);
   const unit = makeUnit(IRON_CHEAP);
   factionOnEquip(state, "P1", unit);
   assert(unit.armor === 1, "Tempered gives an equipped unit +1 Armor");
-  assert(unit.attack === 2 && unit.health === 3, "Tempered changes only armor on equip");
+  assert(unit.attack === 3, "Tempered gives an equipped unit +1 Attack (baseline)");
+  assert(unit.health === 3, "Tempered does not touch health on equip");
 
-  // A second equip stacks armor again (per-equip, like Iron Warlord's +1 Attack).
+  // A second equip stacks both again (per-equip).
   factionOnEquip(state, "P1", unit);
   assert(unit.armor === 2, "Tempered stacks +1 Armor per equip");
+  assert(unit.attack === 4, "Tempered stacks +1 Attack per equip");
 }
 
 // === SILVER (Insight): same-faction cost<=2 summons enter with +1 ATTACK =======
@@ -291,23 +298,24 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
   assert(at.players.P2.nexusHealth === 20, "BRONZE archetype does NOT burn enemy nexus");
 }
 
-// === GOLD archetype: at 4+ Gold live, Largesse deepens to +1/+3 ===============
+// === GOLD archetype: at 4+ Gold live, Largesse deepens to +0/+2 ===============
+// (2026.06.06: shaved from +1/+3 to +0/+2 alongside the +0/+2 -> +0/+1 baseline shave.)
 {
-  // BELOW threshold (3 Gold on board) -> base +0/+2.
+  // BELOW threshold (3 Gold on board) -> base +0/+1.
   const below = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
   fillBoard(below, "P1", GOLD_BIG, 3);
   const b1 = makeUnit(GOLD_BIG);
   factionOnUnitSummon(below, "P1", b1, factionOf, costOf);
-  assert(b1.attack === 2 && b1.health === 5, "GOLD below threshold (3 units): base +0/+2 only");
+  assert(b1.attack === 2 && b1.health === 4, "GOLD below threshold (3 units): base +0/+1 only");
 
-  // AT threshold (4 Gold on board) -> +1/+3.
+  // AT threshold (4 Gold on board) -> +0/+2.
   const at = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
   fillBoard(at, "P1", GOLD_BIG, 4);
   const b2 = makeUnit(GOLD_BIG);
   factionOnUnitSummon(at, "P1", b2, factionOf, costOf);
   assert(
-    b2.attack === 3 && b2.health === 6 && b2.maxHealth === 6,
-    "GOLD at 4+ units: Largesse deepens to +1/+3"
+    b2.attack === 2 && b2.health === 5 && b2.maxHealth === 5,
+    "GOLD at 4+ units: Largesse deepens to +0/+2"
   );
   // A cheap (<5) Gold unit is untouched regardless of threshold.
   const cheap = makeUnit(GOLD_CHEAP);
@@ -316,21 +324,23 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
   assert(at.players.P2.nexusHealth === 20, "GOLD archetype does NOT burn enemy nexus");
 }
 
-// === IRON archetype: at 3+ Iron live, equip ALSO grants +1 Attack =============
+// === IRON archetype: at 3+ Iron live, equip grants a SECOND +1 Attack =========
+// (2026.06.06: baseline equip is now +1 ATK / +1 Armor; the 3+ Iron archetype stacks
+// a SECOND +1 Attack on top, so the deepened payoff reads attack 4, not 3.)
 {
-  // BELOW threshold (2 Iron on board) -> equip gives +1 Armor only.
+  // BELOW threshold (2 Iron on board) -> equip gives the baseline +1 Armor / +1 ATK.
   const below = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true, true);
   fillBoard(below, "P1", IRON_CHEAP, 2);
   const u1 = makeUnit(IRON_CHEAP);
   factionOnEquip(below, "P1", u1, factionOf);
-  assert(u1.armor === 1 && u1.attack === 2, "IRON below threshold: equip gives +1 Armor only");
+  assert(u1.armor === 1 && u1.attack === 3, "IRON below threshold: equip gives baseline +1 Armor / +1 Attack");
 
-  // AT threshold (3 Iron on board) -> equip gives +1 Armor AND +1 Attack.
+  // AT threshold (3 Iron on board) -> equip gives +1 Armor AND a SECOND +1 Attack.
   const at = makeState(CMD_BY_FACTION.IRON_DEFENDERS, true, true);
   fillBoard(at, "P1", IRON_CHEAP, 3);
   const u2 = makeUnit(IRON_CHEAP);
   factionOnEquip(at, "P1", u2, factionOf);
-  assert(u2.armor === 1 && u2.attack === 3, "IRON at 3+ units: equip grants +1 Armor AND +1 Attack");
+  assert(u2.armor === 1 && u2.attack === 4, "IRON at 3+ units: equip grants +1 Armor AND a second +1 Attack");
   assert(u2.health === 3 && u2.maxHealth === 3, "IRON archetype leaves health untouched");
   assert(at.players.P2.nexusHealth === 20, "IRON archetype does NOT burn enemy nexus");
 }

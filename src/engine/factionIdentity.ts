@@ -6,8 +6,8 @@
  *   STONE  (Keepers)   Bedrock   summoned same-faction units enter with +1 ARMOR
  *   SILVER (Sentinels) Insight   summoned same-faction units costing <=2 enter +1 ATK
  *   BRONZE (Guardians) Onslaught summoned same-faction units costing <=2 gain RUSH
- *   IRON   (Defenders) Tempered  each equip ALSO grants the geared unit +1 ARMOR
- *   GOLD   (Sovereigns)Largesse  summoned same-faction units costing >=5 enter +0/+2
+ *   IRON   (Defenders) Tempered  each equip ALSO grants the geared unit +1 ATK / +1 ARMOR
+ *   GOLD   (Sovereigns)Largesse  summoned same-faction units costing >=5 enter +0/+1
  *
  * DESIGN INVARIANTS (locked):
  *   - NO BURN. Nothing here touches an enemy nexus / commander / face. Every hook
@@ -36,8 +36,8 @@
  *   STONE  3+ Stone units  -> Bedrock armor on summon deepens to +2 (a thicker wall)
  *   SILVER 3+ Silver units -> Insight +1 ATK band widens to cost<=3 (sharper tempo)
  *   BRONZE 3+ Bronze units -> Onslaught Rush extends to cost<=3 (aggro snowball)
- *   IRON   3+ Iron units   -> equips ALSO grant +1 Attack on top of the +1 Armor
- *   GOLD   4+ Gold units   -> Largesse cost>=5 bonus deepens to +1/+3 (top-end payoff)
+ *   IRON   3+ Iron units   -> equips grant a SECOND +1 Attack on top of the baseline +1 ATK/+1 Armor
+ *   GOLD   4+ Gold units   -> Largesse cost>=5 bonus deepens to +0/+2 (top-end payoff)
  *
  * The thresholds are RECOMPUTED from the live board at every trigger moment (never a
  * cached counter that could desync replay), ride a SECOND `rules.factionArchetypes`
@@ -101,9 +101,9 @@ export const FACTION_IDENTITY_TEXT: Record<IdentityFaction, string> = {
   BRONZE_GUARDIANS:
     "Onslaught — units you summon of your faction that cost 2 or less gain Rush.",
   IRON_DEFENDERS:
-    "Tempered — whenever you equip a unit, it also gains +1 Armor.",
+    "Tempered — whenever you equip a unit, it also gains +1 Attack and +1 Armor.",
   GOLDEN_SOVEREIGNS:
-    "Largesse — units you summon of your faction that cost 5 or more enter with +0/+2.",
+    "Largesse — units you summon of your faction that cost 5 or more enter with +0/+1.",
 };
 
 /** True only when a match has explicitly opted into faction identities. */
@@ -243,15 +243,20 @@ export function factionOnUnitSummon(
     }
     case "GOLDEN_SOVEREIGNS": {
       // Largesse: the sovereigns' premium top-end comes down with extra staying
-      // power (+0/+2 health — a durability axis, distinct from Opulence's +1/+1).
-      // Archetype (4+ Gold live): the top-end pays off as +1/+3.
+      // power (a durability axis, distinct from Opulence's +1/+1).
+      // GOLD SHAVE (2026.06.06 faction-compression pass): GOLD sits at the TOP of the
+      // matchup-sim ladder (~66% asA vs IRON's ~53%). A SELECTION-side shave (a GOLD
+      // draft ceiling) was tried and rejected — it backfired and cratered GOLD (see
+      // buildCuratedCoreSetV2.cjs). So GOLD is shaved on the IDENTITY axis instead,
+      // symmetric with the IRON identity BUFF: Largesse's premium payoff is trimmed
+      // from +0/+2 to +0/+1 (baseline) and from +1/+3 to +0/+2 (archetype) — Gold's
+      // top-end still enters sturdier, just less oppressively so. NO-BURN unchanged.
       if (costOf(unit.cardId) >= 5) {
         const deep = archetypeActive(state, controller, faction, factionOf);
         if (deep) {
-          buffAttack(unit, 1);
-          buffHealth(unit, 3);
-        } else {
           buffHealth(unit, 2);
+        } else {
+          buffHealth(unit, 1);
         }
       }
       break;
@@ -279,7 +284,17 @@ export function factionOnEquip(
 ): void {
   if (!identitiesEnabled(state)) return;
   if (factionOfCommander(state, controller) === "IRON_DEFENDERS") {
+    // IRON BUFF (2026.06.06 faction-compression pass): Iron sat at the BOTTOM of the
+    // faction ladder (lose/coinflip every matchup). Its Tempered identity used to be
+    // pure durability (+1 Armor) at baseline, with the +1 Attack gated behind the 3+
+    // Iron archetype threshold — so a fair-but-passive deck brought nothing to the
+    // combat race until it had snowballed. Promote the +1 Attack to BASELINE: every
+    // equip now hardens AND sharpens the geared unit (+1/+0/+1-armor), giving Iron a
+    // real combat identity from the first weapon. Still NO-BURN (own-side stats only).
     addArmor(unit, 1);
+    buffAttack(unit, 1);
+    // The 3+ Iron archetype payoff stacks a SECOND +1 Attack on top — the arsenal
+    // pays off harder once the defenders' line is fully manned.
     if (factionOf && archetypeActive(state, controller, "IRON_DEFENDERS", factionOf)) {
       buffAttack(unit, 1);
     }

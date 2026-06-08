@@ -236,8 +236,6 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
 
   const selectedOwnUnit = [...ownFront, ...ownBack].find((u) => u.id === selectedBoardId) ?? null;
   const selectedEnemyUnit = [...enemyFront, ...enemyBack].find((u) => u.id === targetBoardId) ?? null;
-  const firstEnemy = enemyFront[0] ?? enemyBack[0] ?? null;
-  const firstOwn = ownFront[0] ?? ownBack[0] ?? null;
 
   // Affordance highlights: light the board to show what the current selection
   // can do, so the deploy/attack loop is legible without trial-and-error.
@@ -562,8 +560,6 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         energy={energy}
         maxEnergy={maxEnergy}
         deckSource={deckSource}
-        canRecalibrate={!spectator && mulliganAvailable && activePlayer === mySeat && !matchOver}
-        onRecalibrate={safeMulligan}
         onEndTurn={safeEndTurn}
         onReset={resetMatch}
         ownNexusHit={motion.ownNexusHit}
@@ -755,26 +751,6 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 resolveAttackFace();
               }}
             />
-            <div className="live-quick-buttons">
-              <button
-                className="live-btn live-btn--ghost"
-                disabled={!firstOwn}
-                onClick={() => {
-                  if (firstOwn) safeSetSelectedBoardId(firstOwn.id);
-                }}
-              >
-                Select Own Unit
-              </button>
-              <button
-                className="live-btn live-btn--ghost"
-                disabled={!firstEnemy}
-                onClick={() => {
-                  if (firstEnemy) setTargetBoardId(firstEnemy.id);
-                }}
-              >
-                Select Enemy Unit
-              </button>
-            </div>
           </div>
         ) : null}
 

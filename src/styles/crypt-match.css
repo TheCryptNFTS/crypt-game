@@ -65,7 +65,7 @@ button {
   pointer-events: none;
 }
 
-.crypt-shell__brand--cyan {
+.crypt-shell__brand--brand {
   color: #E9C984;
 }
 
@@ -298,39 +298,29 @@ button {
 }
 
 .crypt-card--hand {
-  min-height: 350px;
   padding: 0;
 }
 
 .crypt-card--board {
-  min-height: 340px;
   padding: 0;
 }
 
 .crypt-card__frame {
   width: 100%;
-  height: 100%;
 }
 
-/* Card art FILLS the entire frame (like a real TCG card / the home & profile
-   commander cards) — text overlays a bottom scrim. Previously the 500x500 NFT
-   art was rendered as a square pinned to the TOP of a much taller card, leaving
-   a big black void below — which read as amateur/unfinished. object-position
-   keeps the (usually upper-centered) skull subject in view as it's cropped. */
+/* Unit card art is genuinely 500x500 SQUARE (OpenSea PFP renders). Frame it as a
+   square 1:1 box so cover == contain: a centered image fills the frame with ZERO
+   crop — matching the already-correct home/profile commander cards
+   (index.css .crypt-card-art img). The image is in-flow and DEFINES the card's
+   height; the name/stat overlay sits on a bottom scrim over the square art. */
 .crypt-card__image {
-  position: absolute;
-  inset: 0;
   display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
-  object-position: center 28%;
+  object-position: center center;
   background: #000;
-}
-
-.crypt-card--board .crypt-card__image {
-  position: absolute;
-  inset: 0;
 }
 
 /* Strong bottom scrim so the title + stats stay readable over the art that now
@@ -378,12 +368,14 @@ button {
 .crypt-card--board .crypt-card__overlay--top { top: 6px; }
 .crypt-card--hand .crypt-card__overlay--bottom,
 .crypt-card--board .crypt-card__overlay--bottom { bottom: 6px; }
-/* Stronger bottom plate so the title + stats read over busy skull art. */
+/* Bottom plate tuned for SQUARE art: keep the gradient low so most of the 1:1
+   image stays visible, but dense enough at the base that the title + stats read
+   over busy skull art. */
 .crypt-card--hand .crypt-card__scrim,
 .crypt-card--board .crypt-card__scrim {
   background:
-    linear-gradient(180deg, rgba(0,0,0,0.35), transparent 22%),
-    linear-gradient(180deg, transparent 38%, rgba(8,8,11,0.94) 78%);
+    linear-gradient(180deg, rgba(0,0,0,0.35), transparent 20%),
+    linear-gradient(180deg, transparent 48%, rgba(8,8,11,0.92) 84%, rgba(6,6,9,0.97) 100%);
 }
 /* Tiny faction label — abbreviate-by-clamp so "GOLDEN SOVEREIGNS" never wraps. */
 .crypt-card--hand .crypt-card__meta,
