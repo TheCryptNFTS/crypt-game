@@ -1059,6 +1059,33 @@
   filter: grayscale(0.5);
 }
 
+/* Affirmative "PLAYABLE NOW" — cards you can actually cast/deploy this turn get a
+ * lit gold cost pip + a faint gold rim, so a glance at your hand shows your legal
+ * moves (the twin of cycle-1's attack reticle). Complements --unaffordable: dim =
+ * no, glow = yes. The JSX gates this on !actionsLocked, so nothing lights on the
+ * enemy's turn. Pure CSS — no rAF/effect overlay. */
+.live-hand__item--playable .crypt-card__cost {
+  background: rgba(200, 167, 93, 0.22);
+  border-color: rgba(233, 201, 132, 0.95);
+  color: #ffe9b8;
+  animation: crypt-playable-pulse 2s ease-in-out infinite;
+}
+.live-hand__item--playable .crypt-card--hand {
+  outline: 1px solid rgba(233, 201, 132, 0.32);
+  outline-offset: -1px;
+  border-radius: 12px;
+}
+@keyframes crypt-playable-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(233, 201, 132, 0.4); }
+  50% { box-shadow: 0 0 14px rgba(233, 201, 132, 0.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-hand__item--playable .crypt-card__cost {
+    animation: none;
+    box-shadow: 0 0 10px rgba(233, 201, 132, 0.55);
+  }
+}
+
 .live-gameover {
   position: fixed;
   inset: 0;

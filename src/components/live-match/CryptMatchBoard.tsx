@@ -738,8 +738,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
               return (
                 <div
                   className={`live-hand__item ${affordable ? "" : "live-hand__item--unaffordable"}${
-                    justDrawn ? " mm-hand-draw" : ""
-                  }`}
+                    affordable && !actionsLocked ? " live-hand__item--playable" : ""
+                  }${justDrawn ? " mm-hand-draw" : ""}`}
                   key={card.id}
                 >
                   <HandCard
