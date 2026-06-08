@@ -6,7 +6,7 @@ import { applyAction, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
 import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck } from "../nft/buildOwnedDeck";
-import { loadStoredCommanderId } from "../lib/deckBuilderStorage";
+import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
 import { planP2Turn, planP2Plays, planP2Combat, rampedAiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
@@ -56,13 +56,20 @@ export type LocalMatchOptions = {
 function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
   const p1Commander = resolveP1Commander();
   const p2Commander = allCommanders.find((c: any) => c.traits?.Legendary === "Legendary" && c.id !== p1Commander.id) ?? allCommanders[1] ?? p1Commander;
-  // An explicit p1Deck (draft / deck-builder) is honored only when it's a legal
-  // 30-card list; anything else falls back to the owned/demo builder, which is
-  // guaranteed to return a legal 30. createMatchFromDecks THROWS on an illegal
-  // deck, and this runs inside useState — an unguarded throw white-screens the
-  // whole app via the root error boundary, so we never hand it a bad deck.
+  // P1's deck, in priority order: (1) an explicit tutorial/draft deck, (2) the
+  // deck the player actually PICKED/built (deck-builder storage) — this is what
+  // onboarding equips, faction-matched to the chosen commander, so the in-match
+  // deck matches the commander instead of a generic demo deck, (3) the owned/demo
+  // builder. Only legal 30-card lists are honored: createMatchFromDecks THROWS on
+  // an illegal deck and this runs inside useState — an unguarded throw
+  // white-screens the whole app, so a non-30 list always falls through.
+  const storedDeck = loadStoredMainDeckCardIds();
   const explicitP1 =
-    options?.p1Deck && options.p1Deck.length === 30 ? options.p1Deck : null;
+    options?.p1Deck && options.p1Deck.length === 30
+      ? options.p1Deck
+      : storedDeck && storedDeck.length === 30
+        ? storedDeck
+        : null;
   const p1Deck = explicitP1 ?? buildPlayerDeck(ownedCardIds).deck;
   const p2Deck = buildPlayerDeck().deck;
 

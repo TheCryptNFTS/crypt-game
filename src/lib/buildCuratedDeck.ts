@@ -183,7 +183,17 @@ export function buildCuratedDeck(commanderId: string): string[] {
     throw new Error(`Unknown commander: ${commanderId}`);
   }
 
-  const faction = spec.faction;
+  // cardMaster AVATAR_TCG cards tag faction with the SHORT code (STONE/IRON/
+  // BRONZE/SILVER/GOLD); commander specs use the long FactionCode. Map so the
+  // faction filter + scoring below actually match the card pool.
+  const SHORT_FACTION: Record<string, string> = {
+    STONE_KEEPERS: "STONE",
+    IRON_DEFENDERS: "IRON",
+    BRONZE_GUARDIANS: "BRONZE",
+    SILVER_SENTINELS: "SILVER",
+    GOLDEN_SOVEREIGNS: "GOLD",
+  };
+  const faction = spec.faction ? SHORT_FACTION[spec.faction] ?? spec.faction : null;
   const deckSize = spec.deckRules.deckSize;
   const maxGodCards = spec.deckRules.maxGodCards ?? 0;
 
