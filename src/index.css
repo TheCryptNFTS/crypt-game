@@ -2560,10 +2560,78 @@ button:has(> .crypt-card-chrome):hover,
   pointer-events: none;
   position: absolute;
   inset: 0;
+  z-index: 0;
   background:
     radial-gradient(ellipse 120% 80% at 50% -20%, rgba(212, 168, 75, 0.09) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(95, 212, 240, 0.04) 0%, transparent 50%),
-    linear-gradient(180deg, var(--color-crypt-obsidian) 0%, var(--color-crypt-bg) 45%);
+    linear-gradient(180deg, rgba(11, 11, 13, 0.2) 0%, var(--color-crypt-bg) 78%);
+}
+
+/* Veiled battlefield key-art behind the splash — the front door SHOWS the game
+   instead of being a sterile login wall. Veil keeps the wordmark/CTAs legible. */
+.crypt-splash-backdrop {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(180deg, rgba(11, 11, 13, 0.68) 0%, rgba(11, 11, 13, 0.8) 55%, rgba(11, 11, 13, 0.97) 100%),
+    radial-gradient(ellipse 80% 60% at 50% 28%, rgba(212, 168, 75, 0.1), transparent 70%),
+    url(/crypt-assets/battlefield-stable.jpg);
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+}
+
+/* Hero: a fan of REAL commander cards over the wordmark + hook. */
+.crypt-splash-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.crypt-splash-fan {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: clamp(16px, 3vh, 28px);
+}
+.crypt-splash-fan-card {
+  position: relative;
+  width: clamp(104px, 12vw, 156px);
+  aspect-ratio: 1 / 1;
+  margin: 0 clamp(-26px, -1.6vw, -18px);
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 168, 75, 0.45);
+  background: #07060a;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.62);
+  transform-origin: bottom center;
+}
+.crypt-splash-fan-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.crypt-splash-fan-card[data-pos="0"] { transform: rotate(-13deg) translateY(30px); z-index: 1; }
+.crypt-splash-fan-card[data-pos="1"] { transform: rotate(-6deg) translateY(9px); z-index: 2; }
+.crypt-splash-fan-card[data-pos="2"] {
+  transform: translateY(-8px) scale(1.08);
+  z-index: 5;
+  border-color: rgba(212, 168, 75, 0.72);
+  box-shadow: 0 26px 56px rgba(0, 0, 0, 0.72), 0 0 34px rgba(212, 168, 75, 0.18);
+}
+.crypt-splash-fan-card[data-pos="3"] { transform: rotate(6deg) translateY(9px); z-index: 2; }
+.crypt-splash-fan-card[data-pos="4"] { transform: rotate(13deg) translateY(30px); z-index: 1; }
+
+.crypt-splash-hook {
+  margin: 14px 0 0;
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(18px, 2.6vw, 27px);
+  letter-spacing: 0.01em;
+  color: var(--color-crypt-text);
+  line-height: 1.2;
 }
 
 .crypt-splash-main {
@@ -2638,21 +2706,21 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-splash-actions {
-  width: min(100%, 360px);
+  width: min(100%, 440px);
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 16px;
+  gap: 14px;
 }
 
 .crypt-splash-cta-guest {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  text-indent: 0.28em;
-  padding: 16px 20px;
+  text-indent: 0.22em;
+  padding: 19px 22px;
   border: none;
   border-radius: 2px;
   cursor: pointer;

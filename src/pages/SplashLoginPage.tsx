@@ -4,6 +4,18 @@ import { setGuestSessionStub } from "../lib/appSession";
 import { useAppSessionStubSnapshot } from "../hooks/useAppSessionStub";
 import { isOnboarded } from "../lib/localProgress";
 import { ensureStarterDeckEquipped } from "../lib/starterDeck";
+import commanderArt from "../data/commanderArt.json";
+
+const ART = commanderArt as Record<string, string>;
+/** Real TCG commander art fanned behind the wordmark — the front door SHOWS the
+ *  game's best asset instead of gating it behind a login. Center card forward. */
+const HERO_FAN = [
+  "cmd_iron_warlord",
+  "cmd_bronze_raider",
+  "cmd_stone_warden",
+  "cmd_silver_oracle",
+  "cmd_golden_emperor",
+];
 
 /**
  * Game entry — CRYPT client, not a dashboard.
@@ -37,54 +49,53 @@ export default function SplashLoginPage() {
 
   return (
     <div className="crypt-splash">
+      <div className="crypt-splash-backdrop" aria-hidden />
       <div className="crypt-splash-atmosphere" aria-hidden />
 
       <div className="crypt-splash-main">
-        <div className="crypt-splash-brand">
-          <div className="crypt-splash-mark-wrap">
-            <span className="crypt-splash-mark-glow" aria-hidden />
-            <span className="crypt-brand-icon crypt-splash-mark" aria-hidden />
+        <div className="crypt-splash-hero">
+          <div className="crypt-splash-fan" aria-hidden>
+            {HERO_FAN.map((id, i) => (
+              <span key={id} className="crypt-splash-fan-card" data-pos={i}>
+                <img src={ART[id]} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" />
+              </span>
+            ))}
           </div>
-          <p className="crypt-splash-wordmark">CRYPT</p>
-          <p className="crypt-splash-ingress">Enter the Crypt</p>
-          <p className="crypt-splash-tagline">Crypt Legends · collectible-first tactical TCG</p>
+
+          <div className="crypt-splash-brand">
+            <p className="crypt-splash-wordmark">CRYPT</p>
+            <h1 className="crypt-splash-hook">Command the dead. Duel for the Hex.</h1>
+            <p className="crypt-splash-tagline">Crypt Legends · a dark collectible card game</p>
+          </div>
         </div>
 
         <div className="crypt-splash-actions">
           <button type="button" className="crypt-splash-cta-guest" onClick={onGuest}>
-            Continue as guest
+            Play now — enter the Crypt
           </button>
 
           <div className="crypt-splash-row-secondary">
             <button type="button" className="crypt-splash-cta-secondary" onClick={() => setSoonKind("account")}>
               Sign in
             </button>
-            <span className="crypt-splash-divider" aria-hidden>
-              ·
-            </span>
+            <span className="crypt-splash-divider" aria-hidden>·</span>
             <button type="button" className="crypt-splash-cta-secondary" onClick={() => setSoonKind("account")}>
               Create account
             </button>
+            <span className="crypt-splash-divider" aria-hidden>·</span>
+            <button type="button" className="crypt-splash-cta-secondary" onClick={() => setSoonKind("wallet")}>
+              Link wallet
+            </button>
           </div>
-
-          <button
-            type="button"
-            className="crypt-splash-cta-wallet"
-            onClick={() => setSoonKind("wallet")}
-          >
-            Link wallet
-          </button>
 
           {soonKind === "account" && (
             <p className="crypt-splash-soon">
-              Accounts are not live yet. Guest runs the full duel loop on device—progress stays local until cloud saves
-              ship.
+              Accounts aren't live yet — Play now runs the full duel on device; progress stays local until cloud saves ship.
             </p>
           )}
           {soonKind === "wallet" && (
             <p className="crypt-splash-soon">
-              Wallet link follows real accounts. Crypt OG Skulls and Crypt Digital Trading Cards stay collectible-first—policy
-              and timing TBD.
+              Wallet link follows real accounts. Crypt OG Skulls and Digital Trading Cards stay collectible-first — policy and timing TBD.
             </p>
           )}
         </div>
