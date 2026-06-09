@@ -124,7 +124,7 @@ export default function MatchResultsPage() {
     return [
       `CRYPT · Crypt Legends · closed alpha`,
       `${headline} · ${cn}`,
-      `${data.turn} ${data.turn === 1 ? "turn" : "turns"} · +${data.cryptDelta} $CRYPT · +${data.passXpDelta} pass XP (device)`,
+      `${data.turn} ${data.turn === 1 ? "turn" : "turns"} · +${data.cryptDelta} ⬡ HEX · +${data.passXpDelta} pass XP (device)`,
     ].join("\n");
   };
 
@@ -198,7 +198,7 @@ export default function MatchResultsPage() {
               <section className="crypt-result-payoff" aria-label="Match rewards">
                 <div className="crypt-result-payoff-grid">
                   <div className="crypt-result-payoff-pillar">
-                    <span className="crypt-result-payoff-kicker">$CRYPT earned</span>
+                    <span className="crypt-result-payoff-kicker">⬡ HEX earned (device)</span>
                     <span className="crypt-result-payoff-value crypt-result-payoff-value--gold">
                       +{data.cryptDelta}
                     </span>
@@ -214,7 +214,7 @@ export default function MatchResultsPage() {
                   </div>
                 </div>
                 <p className="crypt-result-payoff-foot">
-                  Running totals · {data.cryptBalanceAfter.toLocaleString()} $CRYPT ·{" "}
+                  Running totals · {data.cryptBalanceAfter.toLocaleString()} ⬡ HEX (device) ·{" "}
                   {data.passXpAfter.toLocaleString()} XP
                 </p>
               </section>

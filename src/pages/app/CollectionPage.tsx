@@ -56,7 +56,7 @@ export function CollectionPage(props: Props) {
               </div>
               <p className="muted">{tier.statusLabel}</p>
               <div className="quest-card__rewards">
-                <span>{formatNumber(tier.cryptActivationCost)} $CRYPT</span>
+                <span>{formatNumber(tier.cryptActivationCost)} ⬡ HEX</span>
               </div>
             </div>
           ))}

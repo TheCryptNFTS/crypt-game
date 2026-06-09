@@ -22,7 +22,7 @@ export type MarketListing = {
   cardId: string;
   /** Lowercased on-chain address of the lister (the current holder). */
   seller: string;
-  /** Asking price, denominated in $CRYPT. Display-only; never settled here. */
+  /** Asking price, denominated in device-local ⬡ HEX. Display-only; never settled here. */
   priceHex: number;
   /** Unix ms when the listing was posted (mock data uses deterministic values). */
   listedAt: number;
@@ -35,7 +35,7 @@ export type MarketOffer = {
   cardId: string;
   /** Lowercased address of the offerer. */
   buyer: string;
-  /** Offered price in $CRYPT. Display-only; never settled here. */
+  /** Offered price in device-local ⬡ HEX. Display-only; never settled here. */
   offerHex: number;
   createdAt: number;
   status: "open" | "accepted" | "declined" | "withdrawn";
@@ -52,7 +52,7 @@ export type RentalOffer = {
   lender: string;
   /** Lease length the lender is offering, in days. */
   durationDays: number;
-  /** Up-front fee in $CRYPT (display-only). */
+  /** Up-front fee in device-local ⬡ HEX (display-only). */
   feeHex: number;
   /** Scholarship split: % of in-game earnings returned to the lender (0–100). */
   revenueSharePct: number;

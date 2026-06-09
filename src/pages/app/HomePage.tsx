@@ -45,7 +45,7 @@ export function HomePage(props: Props) {
           </div>
 
           <h1 className="vault-hero__title">
-            Earn <span>$CRYPT</span>. Climb mastery. Lock the weekly NFT.
+            Earn <span>⬡ HEX</span> (device). Climb mastery. Lock the weekly NFT.
           </h1>
 
           <p className="vault-hero__body">
@@ -108,7 +108,7 @@ export function HomePage(props: Props) {
           <strong className="status-ribbon__v">Lv {props.accountLevel}</strong>
         </div>
         <div className="status-ribbon__item">
-          <span className="status-ribbon__k">$CRYPT</span>
+          <span className="status-ribbon__k">⬡ HEX (device)</span>
           <strong className="status-ribbon__v">{formatNumber(props.cryptBalance)}</strong>
         </div>
         <div className="status-ribbon__item">
@@ -164,7 +164,7 @@ export function HomePage(props: Props) {
 
                   <div className="quest-card__rewards">
                     <span>{formatNumber(quest.xp)} XP</span>
-                    <span>{formatNumber(quest.crypt)} $CRYPT</span>
+                    <span>{formatNumber(quest.crypt)} ⬡ HEX</span>
                   </div>
 
                   <button

@@ -145,7 +145,7 @@ export async function ackRankup(): Promise<void> {
   await postJson<{ ok: true }>("/rankings/rankup/ack", {});
 }
 
-/** A claimable (or shown) streak reward — game-internal soft $CRYPT only. */
+/** A claimable (or shown) streak reward — game-internal device-local ⬡ HEX only. */
 export interface StreakReward {
   streak: number;
   amount: number;
@@ -181,8 +181,9 @@ export function fetchCosmetics(): Promise<CosmeticUnlock[] | null> {
 // SEASON ("Tier 2: The Season") bridge: current window, season-scoped
 // leaderboard, per-tier reward track + claim, and match history. Same
 // getJson/postJson + isSignedIn-null-fallback pattern as the ladder calls.
-// HEX-SAFETY: rewards are game-internal soft $CRYPT + season-scoped cosmetic
-// frame flags only — nothing here sources or moves real on-chain hex.
+// HEX-SAFETY: rewards are game-internal device-local ⬡ HEX (displayed "(device)")
+// + season-scoped cosmetic frame flags only — nothing here sources or moves real
+// on-chain / spendable FREELON CITY hex.
 // --------------------------------------------------------------------------
 
 /** The active season window. */
@@ -243,7 +244,7 @@ export function fetchSeasonRewards(): Promise<SeasonRewardTier[] | null> {
 }
 
 /**
- * Claim a season reward tier. Returns the granted (game-internal soft $CRYPT)
+ * Claim a season reward tier. Returns the granted (game-internal device-local ⬡ HEX)
  * amount + season cosmetic id + whether this call performed the claim, or null
  * when offline/unauthenticated. `claimed === false` => not reached / already
  * claimed this season (idempotent).

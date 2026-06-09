@@ -49,7 +49,7 @@ export function ProfilePage(props: Props) {
             <strong>{props.rank}</strong>
           </div>
           <div className="hero-stat">
-            <span>$CRYPT</span>
+            <span>⬡ HEX (device)</span>
             <strong>{formatNumber(props.cryptBalance)}</strong>
           </div>
           <div className="hero-stat">

@@ -25,7 +25,7 @@ export function ShopPage(props: Props) {
         <div className="hero-panel__stats">
           <div className="hero-stat">
             <span>Balance</span>
-            <strong>{formatNumber(props.cryptBalance)} $CRYPT</strong>
+            <strong>{formatNumber(props.cryptBalance)} ⬡ HEX (device)</strong>
           </div>
         </div>
 
@@ -35,7 +35,7 @@ export function ShopPage(props: Props) {
               <div className="collection-card__art">{item.tag}</div>
               <strong>{item.name}</strong>
               <span>{item.description}</span>
-              <span>{formatNumber(item.cost)} $CRYPT</span>
+              <span>{formatNumber(item.cost)} ⬡ HEX</span>
               <button className="shop-buy" onClick={() => props.onBuy(item.id)}>
                 Acquire
               </button>

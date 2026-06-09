@@ -105,7 +105,7 @@ export function ProgressionPage(props: Props) {
               </div>
               <p className="muted">{tier.name}</p>
               <div className="quest-card__rewards">
-                <span>{formatNumber(tier.cryptActivationCost)} $CRYPT</span>
+                <span>{formatNumber(tier.cryptActivationCost)} ⬡ HEX</span>
               </div>
             </div>
           ))}

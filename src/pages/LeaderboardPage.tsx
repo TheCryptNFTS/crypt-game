@@ -209,7 +209,7 @@ export default function LeaderboardPage() {
                   <span className="crypt-ladder-reward-tier">{t.tier}</span>
                   <span className="crypt-ladder-reward-req">{t.minRating}{tr("leaderboard.rewards.mmrSuffix")}</span>
                   <span className="crypt-ladder-reward-prize">
-                    +{t.rewardCrypt} $CRYPT
+                    +{t.rewardCrypt} ⬡ HEX
                     {t.cosmeticId ? <span className="crypt-ladder-reward-cos">{tr("leaderboard.rewards.frame")}</span> : null}
                   </span>
                   {t.claimed ? (

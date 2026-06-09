@@ -44,7 +44,7 @@ export default function MatchResultShareCard({
             <p className="crypt-share-card-outcome">{outcome}</p>
             <p className="crypt-share-card-commander">{name}</p>
             <p className="crypt-share-card-meta">
-              {turns} turns · +{cryptDelta} $CRYPT · +{passXpDelta} pass XP
+              {turns} turns · +{cryptDelta} ⬡ HEX · +{passXpDelta} pass XP
             </p>
           </div>
         </div>

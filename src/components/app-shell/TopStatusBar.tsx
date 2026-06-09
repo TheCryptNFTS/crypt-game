@@ -29,7 +29,7 @@ export function TopStatusBar(props: Props) {
         </div>
 
         <div className="app-status-pill">
-          <span className="app-status-pill__k">$CRYPT</span>
+          <span className="app-status-pill__k">⬡ HEX (device)</span>
           <strong className="app-status-pill__v">{formatNumber(props.cryptBalance)}</strong>
         </div>
 
