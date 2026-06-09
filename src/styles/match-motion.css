@@ -1077,3 +1077,106 @@
     transform: none;
   }
 }
+
+/* ============ VERSUS INTRO — the match-OPEN beat ============
+   Your commander vs the enemy, full art slamming in from the sides across a gold
+   ⬡, ~1.5s, then fades to the board. Self-contained overlay (see VersusIntro.tsx) —
+   no rAF, no live-board effect, so it dodges the static-flag instability. z above
+   the board, below the turn banner is irrelevant (it owns the screen briefly). */
+.vs-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(8px, 4vw, 64px);
+  padding: 0 clamp(16px, 6vw, 96px);
+  background:
+    radial-gradient(120% 120% at 50% 50%, rgba(11, 11, 13, 0.86), rgba(11, 11, 13, 0.97));
+  backdrop-filter: blur(3px);
+  animation: vs-bg-in 0.32s ease both;
+  pointer-events: none;
+}
+.vs-intro--leave { animation: vs-bg-out 0.38s ease forwards; }
+
+.vs-intro__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.vs-intro__side--own { animation: vs-slide-left 0.62s cubic-bezier(0.16, 0.84, 0.3, 1) both; }
+.vs-intro__side--enemy { animation: vs-slide-right 0.62s cubic-bezier(0.16, 0.84, 0.3, 1) both; }
+
+.vs-intro__art {
+  width: clamp(160px, 22vw, 300px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--vs-edge, #c8a75d);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 0 38px -6px color-mix(in oklab, var(--vs-edge, #c8a75d), transparent 45%),
+    0 24px 60px -20px rgba(0, 0, 0, 0.85);
+}
+.vs-intro__meta { text-align: center; display: flex; flex-direction: column; gap: 3px; }
+.vs-intro__role {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--vs-edge, #c8a75d);
+}
+.vs-intro__name {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: clamp(18px, 2.2vw, 28px); font-weight: 600; color: #f5f2e8; line-height: 1.05;
+}
+.vs-intro__faction {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: capitalize; color: #9aa3b2;
+}
+
+.vs-intro__clash {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  animation: vs-clash-in 0.5s 0.24s ease both;
+}
+.vs-intro__hex {
+  font-size: clamp(38px, 5vw, 64px); line-height: 1;
+  color: #e9c984;
+  text-shadow: 0 0 22px rgba(233, 201, 132, 0.75), 0 0 44px rgba(233, 201, 132, 0.4);
+  animation: vs-hex-flash 0.5s 0.24s ease both;
+}
+.vs-intro__vs {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: clamp(13px, 1.5vw, 18px); font-weight: 700; letter-spacing: 0.42em;
+  color: #c8a75d; padding-left: 0.42em;
+}
+
+@keyframes vs-bg-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vs-bg-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes vs-slide-left {
+  0% { opacity: 0; transform: translateX(-60%) scale(0.92); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes vs-slide-right {
+  0% { opacity: 0; transform: translateX(60%) scale(0.92); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes vs-clash-in {
+  0% { opacity: 0; transform: scale(0.6); }
+  60% { opacity: 1; transform: scale(1.18); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes vs-hex-flash {
+  0% { filter: brightness(3); }
+  100% { filter: brightness(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-intro,
+  .vs-intro--leave,
+  .vs-intro__side--own,
+  .vs-intro__side--enemy,
+  .vs-intro__clash,
+  .vs-intro__hex { animation: none; }
+  .vs-intro--leave { opacity: 0; transition: opacity 0.2s ease; }
+}

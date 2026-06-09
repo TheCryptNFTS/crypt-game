@@ -10,6 +10,8 @@ import { TutorialCoach } from "../components/tutorial/TutorialCoach";
 import { useMatchProgression } from "../meta/useMatchProgression";
 import { MulliganScreen } from "../components/live-match/MulliganScreen";
 import { WinCeremony } from "../components/live-match/WinCeremony";
+import { VersusIntro } from "../components/live-match/VersusIntro";
+import { getCommanderVmForPlayer } from "../game-ui/liveMatchAdapter";
 
 type Props = {
   /** Card ids (`tcg_<tokenId>`) the connected wallet owns. When present, they
@@ -58,6 +60,11 @@ export default function LiveCryptMatchPage({
   // is a stable key that changes on every reset, re-arming the once-per-match
   // guard. In-game-only: this never sources hex or touches the wallet.
   useMatchProgression(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
+
+  // VERSUS match-open beat (solo only). Plays once per match, after the mulligan
+  // is confirmed. Keyed to the match seed so "Reset Match" (new seed) re-arms it.
+  const matchSeed = local.match?.seed ?? "solo";
+  const [introSeenSeed, setIntroSeenSeed] = useState<string | number | null>(null);
 
   // Tutorial only: report the verdict exactly once when the match decides.
   const [reported, setReported] = useState(false);
@@ -151,6 +158,20 @@ export default function LiveCryptMatchPage({
           hand={local.mulliganHand}
           match={local.match}
           onResolve={local.resolveMulligan}
+        />
+      ) : null}
+      {/* VERSUS match-open beat: once the opening hand is locked, the two
+          commanders' full art faces off across a gold ⬡ before the board reveals.
+          Solo, non-tutorial only; re-arms on reset (seed change). Self-contained
+          overlay — no live-board effect, so it can't trip the static-flag issue. */}
+      {!tutorial &&
+      !local.mulliganPhaseActive &&
+      !local.winner &&
+      introSeenSeed !== matchSeed ? (
+        <VersusIntro
+          own={getCommanderVmForPlayer(local.match.players.P1)}
+          enemy={getCommanderVmForPlayer(local.match.players.P2)}
+          onDone={() => setIntroSeenSeed(matchSeed)}
         />
       ) : null}
       <CryptMatchBoard
