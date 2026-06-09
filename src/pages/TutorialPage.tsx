@@ -57,7 +57,7 @@ export default function TutorialPage() {
           style={{
             display: "block",
             marginTop: 4,
-            color: "#CFC8E4",
+            color: "#9aa3b2",
             fontSize: 11,
             letterSpacing: "0.04em",
             textDecoration: "underline",
@@ -94,10 +94,10 @@ export default function TutorialPage() {
               width: "calc(100% - 40px)",
               padding: "24px 22px",
               borderRadius: 16,
-              background: "rgba(16, 12, 28, 0.98)",
-              border: "1px solid #8D5CFF",
-              boxShadow: "0 0 36px rgba(141,92,255,0.4)",
-              color: "#F4F1FB",
+              background: "rgba(11, 11, 13, 0.98)",
+              border: "1px solid #C8A75D",
+              boxShadow: "0 0 36px rgba(200,167,93,0.4)",
+              color: "#F5F2E8",
               textAlign: "center",
             }}
           >
@@ -105,7 +105,7 @@ export default function TutorialPage() {
               ⬡ THE CRYPT IS OPEN
             </p>
             <h2 style={{ margin: "10px 0 6px", fontSize: 22 }}>You know the loop</h2>
-            <p style={{ margin: "0 0 18px", fontSize: 14, lineHeight: 1.55, color: "#CFC8E4" }}>
+            <p style={{ margin: "0 0 18px", fontSize: 14, lineHeight: 1.55, color: "#d6d0c2" }}>
               Your starter deck is ready. Jump into another match.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

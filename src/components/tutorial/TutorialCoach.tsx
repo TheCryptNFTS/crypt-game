@@ -7,11 +7,13 @@ import { useEffect, useMemo, useState } from "react";
  * derived signals (turn, whose turn, how many units the pilot has fielded, the
  * winner) and never touches the engine, so it can never desync a real match.
  *
- * Theme: purple #8D5CFF / gold #E9C984, the ⬡ hex glyph, no emojis.
+ * Theme: locked Crypt palette — gold #C8A75D/#E9C984 on warm-black #0B0B0D, the
+ * ⬡ hex glyph, no emojis. (Re-skinned off the old off-brand purple so the very
+ * first screen every new player sees matches the VERSUS/mulligan/ceremony beats.)
  */
 
-const PURPLE = "#8D5CFF";
 const GOLD = "#E9C984";
+const GOLD_DIM = "#C8A75D";
 
 type Props = {
   turn: number;
@@ -105,10 +107,10 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
           width: "calc(100% - 32px)",
           padding: "16px 18px",
           borderRadius: 14,
-          background: "rgba(14, 11, 24, 0.94)",
-          border: `1px solid ${won ? GOLD : PURPLE}`,
-          boxShadow: `0 0 28px ${won ? "rgba(233,201,132,0.35)" : "rgba(141,92,255,0.35)"}`,
-          color: "#F4F1FB",
+          background: "rgba(11, 11, 13, 0.96)",
+          border: `1px solid ${GOLD_DIM}`,
+          boxShadow: "0 0 30px rgba(200,167,93,0.38)",
+          color: "#F5F2E8",
           textAlign: "center",
         }}
       >
@@ -143,10 +145,10 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
         width: "calc(100% - 32px)",
         padding: "14px 16px",
         borderRadius: 14,
-        background: "rgba(14, 11, 24, 0.94)",
-        border: `1px solid ${PURPLE}`,
-        boxShadow: "0 0 24px rgba(141,92,255,0.28)",
-        color: "#F4F1FB",
+        background: "rgba(11, 11, 13, 0.96)",
+        border: `1px solid ${GOLD_DIM}`,
+        boxShadow: "0 0 24px rgba(200,167,93,0.3)",
+        color: "#F5F2E8",
       }}
     >
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
@@ -160,7 +162,7 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
             appearance: "none",
             background: "transparent",
             border: "none",
-            color: "#9C93B8",
+            color: "#9aa3b2",
             fontSize: 12,
             cursor: "pointer",
             letterSpacing: "0.08em",
@@ -172,9 +174,9 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
       <p style={{ margin: "8px 0 4px", fontSize: 15, fontWeight: 600, color: "#FFFFFF" }}>
         {step.title}
       </p>
-      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: "#CFC8E4" }}>{step.body}</p>
+      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, color: "#d6d0c2" }}>{step.body}</p>
       {activePlayer === "P2" ? (
-        <p style={{ margin: "8px 0 0", fontSize: 12, color: PURPLE }}>
+        <p style={{ margin: "8px 0 0", fontSize: 12, color: GOLD }}>
           Opponent is taking their turn…
         </p>
       ) : null}
