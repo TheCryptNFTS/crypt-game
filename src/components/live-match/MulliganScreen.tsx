@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { handToVm } from "../../game-ui/liveMatchAdapter";
+import { handToVm, getCommanderVmForPlayer } from "../../game-ui/liveMatchAdapter";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import { HandCard } from "../crypt/HandCard";
 
@@ -36,6 +36,30 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
     [hand, match]
   );
 
+  // The commander deals the opening hand — name it so the ritual is led by YOUR
+  // collectible hero, matching the VersusIntro / WinCeremony framing.
+  const commanderName = useMemo(() => {
+    try {
+      return getCommanderVmForPlayer(match.players.P1)?.name ?? null;
+    } catch {
+      return null;
+    }
+  }, [match]);
+
+  // Opening-hand cost curve — count of cards at each energy cost, so "is this a
+  // good keep?" is legible at a glance without any rules text. Bars are scaled to
+  // the tallest column; a clamped 0..7 range covers the curve cleanly.
+  const curve = useMemo(() => {
+    const max = 7;
+    const counts = Array.from({ length: max + 1 }, () => 0);
+    for (const c of cards) {
+      const cost = Math.max(0, Math.min(max, c.baseStats.cost ?? 0));
+      counts[cost] += 1;
+    }
+    const peak = Math.max(1, ...counts);
+    return { counts, peak };
+  }, [cards]);
+
   const toggle = (index: number) => {
     setRedraw((prev) => {
       const next = new Set(prev);
@@ -51,10 +75,16 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
   return (
     <section className="mulligan-screen" role="dialog" aria-label="Opening mulligan">
       <div className="mulligan-screen__head">
-        <h2 className="mulligan-screen__title">Opening Signal</h2>
+        <span className="mulligan-screen__kicker">
+          <span className="mulligan-screen__glyph">{"\u2B22"}</span> Opening Hand
+        </span>
+        <h2 className="mulligan-screen__title">The Opening Signal</h2>
         <p className="mulligan-screen__prompt">
-          Tap any cards you want to swap out, then lock in. Selected cards are
-          shuffled back and redrawn — keep your hand by selecting none.
+          {commanderName ? (
+            <>Dealt by <strong>{commanderName}</strong>. </>
+          ) : null}
+          Tap any cards you want to swap out, then lock in — selected cards are
+          shuffled back and redrawn. Keep your hand by selecting none.
         </p>
       </div>
 
@@ -86,6 +116,23 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
             </div>
           );
         })}
+      </div>
+
+      {/* Cost curve — opening-hand shape at a glance (count of cards per energy
+          cost), so a newcomer can read "do I have early plays?" without rules. */}
+      <div className="mulligan-curve" aria-hidden="true">
+        {curve.counts.map((n, cost) => (
+          <div className="mulligan-curve__col" key={cost} title={`${n} card${n === 1 ? "" : "s"} at cost ${cost}`}>
+            <div className="mulligan-curve__bar-wrap">
+              <div
+                className={`mulligan-curve__bar${n === 0 ? " mulligan-curve__bar--empty" : ""}`}
+                style={{ height: `${(n / curve.peak) * 100}%` }}
+              />
+            </div>
+            <span className="mulligan-curve__n">{n || ""}</span>
+            <span className="mulligan-curve__cost">{cost}</span>
+          </div>
+        ))}
       </div>
 
       <div className="mulligan-screen__actions">

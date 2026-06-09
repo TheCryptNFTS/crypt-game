@@ -1227,11 +1227,34 @@
   box-shadow: 0 0 28px rgba(233, 201, 132, 0.14);
 }
 
+/* Ritual kicker — a ⬡ glyph + label above the title, with a gold hairline rule,
+   so the FIRST screen of every match reads as designed (matching VersusIntro /
+   WinCeremony), not a bare rail. */
+.mulligan-screen__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(233, 201, 132, 0.85);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(233, 201, 132, 0.22);
+}
+.mulligan-screen__glyph {
+  color: #e9c984;
+  text-shadow: 0 0 10px rgba(233, 201, 132, 0.55);
+}
+
 .mulligan-screen__title {
   margin: 0 0 6px;
   color: #e9c984;
   font-weight: 800;
+  font-family: var(--font-display, "Clash Display"), sans-serif;
 }
+.mulligan-screen__prompt strong { color: #f5e9c8; font-weight: 700; }
 
 .mulligan-screen__prompt {
   margin: 0 0 16px;
@@ -1257,7 +1280,12 @@
 }
 .mulligan-slot:hover { transform: translateY(-5px); }
 .mulligan-slot:focus-visible { outline: 2px solid #E9C984; outline-offset: 2px; }
-.mulligan-slot .crypt-card--hand { pointer-events: none; width: 100%; }
+.mulligan-slot .crypt-card--hand { pointer-events: none; width: 100%; border-radius: 12px; }
+/* Kept cards (the default) read as actively chosen: a subtle gold edge so the
+   keep-vs-redraw split is legible at a glance, not just a text flag. */
+.mulligan-slot:not(.mulligan-slot--redraw) .crypt-card--hand {
+  box-shadow: inset 0 0 0 1px rgba(233, 201, 132, 0.4), 0 0 16px -8px rgba(233, 201, 132, 0.5);
+}
 .mulligan-slot__flag {
   position: absolute;
   bottom: 8px;
@@ -1338,6 +1366,59 @@
 
 .mulligan-card--redraw .mulligan-card__flag {
   color: #ffc4c4;
+}
+
+/* Cost-curve strip — the opening hand's shape (cards per energy cost) so a
+   newcomer reads "do I have early plays?" at a glance, no rules text. */
+.mulligan-curve {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 10px 12px 6px;
+  border-radius: 12px;
+  background: rgba(11, 11, 13, 0.45);
+  border: 1px solid rgba(233, 201, 132, 0.14);
+}
+.mulligan-curve__col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 26px;
+}
+.mulligan-curve__bar-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 40px;
+  width: 100%;
+}
+.mulligan-curve__bar {
+  width: 12px;
+  min-height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, #e9c984, rgba(233, 201, 132, 0.45));
+  box-shadow: 0 0 10px -3px rgba(233, 201, 132, 0.5);
+  transition: height 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.mulligan-curve__bar--empty {
+  background: rgba(245, 242, 232, 0.08);
+  box-shadow: none;
+}
+.mulligan-curve__n {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 9px;
+  color: rgba(233, 201, 132, 0.9);
+  min-height: 11px;
+  line-height: 1;
+}
+.mulligan-curve__cost {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 9px;
+  color: rgba(231, 238, 248, 0.45);
+  line-height: 1;
 }
 
 .mulligan-screen__actions {
