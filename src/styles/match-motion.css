@@ -1180,3 +1180,77 @@
   .vs-intro__hex { animation: none; }
   .vs-intro--leave { opacity: 0; transition: opacity 0.2s ease; }
 }
+
+/* ============ OPPONENT PHASE band — the enemy-turn presence ============
+   Shown the WHOLE time it's the opponent's turn (see EnemyTurnBanner.tsx), so the
+   greyed controls have an obvious cause instead of reading as a freeze. Pure
+   conditional render + CSS animation — no rAF/effect, dodges the static-flag
+   issue. Crimson to match the enemy zone. pointer-events:none. */
+.enemy-turn-band {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 58; /* above board, below turn banner (60) + ceremony (70) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 7px 14px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(40, 8, 10, 0.92),
+    rgba(40, 8, 10, 0.55) 70%,
+    transparent
+  );
+  border-bottom: 1px solid rgba(255, 77, 77, 0.32);
+  overflow: hidden;
+  animation: enemy-band-in 0.28s ease both;
+}
+/* Scanline sweep — a faint crimson light passing across the band. */
+.enemy-turn-band::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(255, 90, 90, 0.16) 50%,
+    transparent 65%
+  );
+  background-size: 240% 100%;
+  animation: enemy-band-sweep 2.2s linear infinite;
+}
+.enemy-turn-band__glyph {
+  font-size: 14px; line-height: 1; color: #ff6a6a;
+  text-shadow: 0 0 10px rgba(255, 90, 90, 0.7);
+  animation: enemy-band-pulse 1.4s ease-in-out infinite;
+}
+.enemy-turn-band__kicker {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase;
+  color: rgba(255, 138, 138, 0.85);
+}
+.enemy-turn-band__name {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 14px; font-weight: 600; color: #ffe7e7; line-height: 1;
+}
+.enemy-turn-band__dots { display: inline-flex; gap: 4px; align-items: center; }
+.enemy-turn-band__dots i {
+  width: 5px; height: 5px; border-radius: 999px; background: #ff6a6a;
+  opacity: 0.4;
+  animation: enemy-band-dot 1.2s ease-in-out infinite;
+}
+.enemy-turn-band__dots i:nth-child(2) { animation-delay: 0.18s; }
+.enemy-turn-band__dots i:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes enemy-band-in { from { opacity: 0; transform: translateY(-100%); } to { opacity: 1; transform: translateY(0); } }
+@keyframes enemy-band-sweep { 0% { background-position: 160% 0; } 100% { background-position: -60% 0; } }
+@keyframes enemy-band-pulse { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.18); opacity: 1; } }
+@keyframes enemy-band-dot { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .enemy-turn-band { animation: none; }
+  .enemy-turn-band::after,
+  .enemy-turn-band__glyph,
+  .enemy-turn-band__dots i { animation: none; }
+}

@@ -14,6 +14,7 @@ import { playAttack, playClick } from "../../audio/cryptSfx";
 import { SoundToggle } from "./SoundToggle";
 import { MatchCeremony } from "./MatchCeremony";
 import { MatchFxCanvas, type MatchFxHandle, type FxKind } from "./MatchFxCanvas";
+import { EnemyTurnBanner } from "./EnemyTurnBanner";
 import { EmoteBar } from "./EmoteBar";
 import { DeckPile } from "./DeckPile";
 import {
@@ -179,6 +180,10 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   const playerWon = winner === mySeat;
   // Lock my actions when the match is over or it's not my turn.
   const actionsLocked = matchOver || activePlayer !== mySeat;
+  // Opponent is acting: it's not my turn, the match isn't over, and I'm not a
+  // spectator. Drives the persistent "OPPONENT PHASE" presence band so the locked
+  // controls have an obvious on-screen cause instead of reading as a freeze.
+  const enemyActing = !matchOver && activePlayer !== mySeat && !spectator;
 
   const ownCommander = getCommanderVmForPlayer(match.players[mySeat]);
   const enemyCommander = getCommanderVmForPlayer(match.players[opponentSeat]);
@@ -794,6 +799,10 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
       </div>
 
       <InspectDrawer state={inspectState} onClose={() => setInspectId(null)} />
+
+      {/* Persistent OPPONENT PHASE band — present the whole time the AI/opponent
+          is acting, so the greyed controls read as "enemy turn", not a freeze. */}
+      <EnemyTurnBanner active={enemyActing} enemyName={enemyCommander?.name ?? "Opponent"} />
 
       {motion.turnBanner ? (
         <div className="mm-turn-banner" key={motion.turnBanner.key} aria-hidden="true">
