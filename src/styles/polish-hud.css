@@ -134,6 +134,70 @@
   .ph-crystal__gem { animation: none; }
 }
 
+/* ============ HEX DEATH — the win-condition payoff ============
+   When a Hex hits 0, the ⬡ crystal (the brand motif you spent the whole match
+   attacking) visibly SHATTERS in place instead of just stopping on a number.
+   Pure render-derived state (MatchTopBar adds --dead from health <= 0) — no rAF,
+   no effect — so it can't trip the live-board static-flag instability. The verdict
+   modal still lands on top for free. Gold burst on an ENEMY kill (a win), cold
+   fracture on your OWN Hex (a loss). */
+.ph-crystal--dead { z-index: 3; }
+.ph-crystal--dead .ph-crystal__gem {
+  /* Override the breathe loop with a one-shot death (forwards = settle cracked). */
+  animation: ph-crystal-shatter 0.62s cubic-bezier(0.3, 0.7, 0.2, 1) forwards;
+  filter: saturate(0.5) brightness(0.78);
+}
+/* Fracture seams — a sharp cross-cut that snaps in over the gem at the kill frame. */
+.ph-crystal--dead .ph-crystal__gem::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: inherit;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    linear-gradient(58deg, transparent 47%, rgba(255,255,255,0.85) 49.5%, transparent 52%),
+    linear-gradient(120deg, transparent 46%, rgba(255,255,255,0.6) 50%, transparent 54%),
+    linear-gradient(8deg, transparent 48%, rgba(0,0,0,0.55) 50%, transparent 52%);
+  opacity: 0;
+  animation: ph-crystal-cracks 0.62s ease-out forwards;
+}
+.ph-crystal--dead .ph-crystal__value {
+  opacity: 0.45;
+  filter: grayscale(0.4);
+}
+/* Win = gold-shot shatter. */
+.ph-crystal--dead-enemy .ph-crystal__gem {
+  box-shadow:
+    inset 0 0 0 1px rgba(233,201,132,0.7),
+    0 0 26px -2px rgba(233,201,132,0.75),
+    0 0 40px -6px rgba(255,210,120,0.5);
+}
+/* Loss = cold fracture. */
+.ph-crystal--dead-own .ph-crystal__gem {
+  box-shadow:
+    inset 0 0 0 1px rgba(141,92,255,0.6),
+    0 0 22px -3px rgba(141,92,255,0.55);
+  filter: saturate(0.35) brightness(0.62);
+}
+@keyframes ph-crystal-shatter {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.28); filter: brightness(2.4) saturate(0.6); }   /* hard flash */
+  30%  { transform: scale(0.9) rotate(-3deg); }
+  46%  { transform: scale(1.04) rotate(2deg); }
+  100% { transform: scale(0.92) rotate(0deg); filter: saturate(0.5) brightness(0.7); }
+}
+@keyframes ph-crystal-cracks {
+  0%, 12% { opacity: 0; }
+  16% { opacity: 1; }                 /* cracks snap in on the flash */
+  100% { opacity: 0.85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No motion — just land on the static cracked gem. */
+  .ph-crystal--dead .ph-crystal__gem { animation: none; transform: scale(0.92); }
+  .ph-crystal--dead .ph-crystal__gem::before { animation: none; opacity: 0.85; }
+}
+
 /* ============ ENERGY = MANA PIPS ============ */
 .live-topbar__pill--energy { min-width: 124px; }
 

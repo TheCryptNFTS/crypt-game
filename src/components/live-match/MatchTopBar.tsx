@@ -57,7 +57,7 @@ export function MatchTopBar({
         >
           <span className="live-topbar__label">{"Your Hex \u2B22"}</span>
           <div
-            className="ph-crystal ph-crystal--own"
+            className={`ph-crystal ph-crystal--own${p1Health <= 0 ? " ph-crystal--dead ph-crystal--dead-own" : ""}`}
             role="img"
             aria-label={`Your Hex health ${p1Health}`}
           >
@@ -97,7 +97,7 @@ export function MatchTopBar({
             {"Enemy Hex \u2B22"}{enemyHexTargetable ? " · strike" : ""}
           </span>
           <div
-            className="ph-crystal ph-crystal--enemy"
+            className={`ph-crystal ph-crystal--enemy${p2Health <= 0 ? " ph-crystal--dead ph-crystal--dead-enemy" : ""}`}
             role="img"
             aria-label={`Enemy Hex health ${p2Health}`}
           >
