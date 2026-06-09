@@ -15,29 +15,54 @@ import { isColorblindSafe, toggleColorblindSafe } from "../a11y/palette";
  * carries the colorblind-safe palette toggle + aria-labels on key controls.
  */
 
-/** A single board unit chip. Status is conveyed by TEXT + glyph (not color alone)
- *  so it stays legible under any palette — the a11y discipline. */
+/** Puzzle units are SYNTHETIC tactical pieces (e.g. "pz_bruiser") with no card
+ *  art in the manifest — so they can't be real PlayableCards. Instead each renders
+ *  as a designed mini stat-card: a card-shaped tile with a hex-sigil watermark, the
+ *  unit's ROLE name, a prominent A/H stat gem, and a keyword badge — premium and
+ *  informative, not a bare "2/3" text chip. Status carries in text for a11y. */
+const KW_LABEL: Record<string, string> = {
+  GUARD: "⬡ GUARD",
+  FLYING: "✦ FLYING",
+  LIFESTEAL: "♥ LIFESTEAL",
+  EXECUTE: "✕ EXECUTE",
+  CRUSH: "▼ CRUSH",
+};
+
+/** "pz_bruiser" → "Bruiser". Falls back to the raw id if it doesn't match. */
+function roleName(cardId: string): string {
+  const base = cardId.replace(/^pz_/, "").replace(/[_-]+/g, " ").trim();
+  return base ? base.charAt(0).toUpperCase() + base.slice(1) : cardId;
+}
+
 function UnitChip({ unit, dead }: { unit: UnitInPlay; dead?: boolean }) {
+  const kw = (unit.keywords ?? []).find((k) => KW_LABEL[k]);
   const guard = unit.keywords?.includes("GUARD");
   return (
     <div
       className="crypt-puzzle-unit"
       data-dead={dead ? "true" : undefined}
+      data-guard={guard ? "true" : undefined}
       role="img"
-      aria-label={`${dead ? "Defeated unit" : "Unit"} ${unit.cardId}, ${unit.attack} attack, ${unit.health} health${
+      aria-label={`${dead ? "Defeated unit" : "Unit"} ${roleName(unit.cardId)}, ${unit.attack} attack, ${unit.health} health${
         guard ? ", Guard" : ""
       }`}
     >
-      <span className="crypt-puzzle-unit-stat">{unit.attack}</span>
-      <span className="crypt-puzzle-unit-sep" aria-hidden>
-        /
+      <span className="crypt-puzzle-unit__sigil" aria-hidden>
+        {"\u2B22"}
       </span>
-      <span className="crypt-puzzle-unit-stat">{unit.health}</span>
-      {guard ? (
+      {kw ? (
         <span className="crypt-puzzle-unit-kw" aria-hidden>
-          ⬡
+          {KW_LABEL[kw]}
         </span>
       ) : null}
+      <span className="crypt-puzzle-unit__name" aria-hidden>
+        {roleName(unit.cardId)}
+      </span>
+      <span className="crypt-puzzle-unit__stats" aria-hidden>
+        <span className="crypt-puzzle-unit__atk">{unit.attack}</span>
+        <span className="crypt-puzzle-unit__sep">/</span>
+        <span className="crypt-puzzle-unit__hp">{unit.health}</span>
+      </span>
     </div>
   );
 }

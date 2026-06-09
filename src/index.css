@@ -5825,17 +5825,69 @@ button:has(> .crypt-card-chrome):hover,
 .crypt-puzzle-side[aria-label^="Enemy"] .crypt-puzzle-nexus { color: var(--cb-enemy, #e7666a); }
 .crypt-puzzle-side[aria-label^="You"] .crypt-puzzle-nexus { color: var(--cb-ally, #7cd4a6); }
 .crypt-puzzle-nexus { font-family: var(--font-brand); font-size: 13px; }
-.crypt-puzzle-lane { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; align-items: center; }
-.crypt-puzzle-empty { font-size: 11px; color: var(--color-crypt-muted); }
-.crypt-puzzle-unit {
-  display: inline-flex; align-items: center; gap: 3px;
-  border: 1px solid var(--color-crypt-border-strong); border-radius: 8px;
-  padding: 4px 8px; font-family: var(--font-brand); font-size: 12px; color: var(--color-crypt-text);
-  background: var(--color-crypt-graphite);
+/* A real board lane: a warm-black inset strip with a gold hairline, matching the
+   in-match BoardLane look instead of a flat bar of text chips. */
+.crypt-puzzle-lane {
+  display: flex; flex-wrap: wrap; gap: 8px; min-height: 92px; align-items: center;
+  padding: 8px 10px; border-radius: 8px;
+  background: rgba(11, 11, 13, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(233, 201, 132, 0.1), inset 0 0 30px -18px rgba(233, 201, 132, 0.2);
 }
-.crypt-puzzle-unit[data-dead="true"] { opacity: 0.4; text-decoration: line-through; }
-.crypt-puzzle-unit-sep { color: var(--color-crypt-muted); }
-.crypt-puzzle-unit-kw { color: var(--color-crypt-accent); margin-left: 2px; }
+.crypt-puzzle-empty { font-size: 11px; color: var(--color-crypt-muted); padding-left: 4px; }
+/* Each unit is a designed mini stat-card (card-shaped tile): hex-sigil watermark,
+   role name, prominent A/H gem, keyword badge. Premium, not a bare text chip. */
+.crypt-puzzle-unit {
+  position: relative;
+  width: 72px;
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(233, 201, 132, 0.32);
+  background:
+    radial-gradient(80% 60% at 50% 22%, rgba(233, 201, 132, 0.14), transparent 70%),
+    linear-gradient(180deg, rgba(30, 26, 18, 0.9), rgba(11, 11, 13, 0.95));
+  box-shadow: 0 6px 18px -10px rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+.crypt-puzzle-unit[data-guard="true"] { border-color: rgba(233, 201, 132, 0.6); }
+.crypt-puzzle-unit[data-dead="true"] { opacity: 0.32; filter: grayscale(0.8); }
+.crypt-puzzle-unit__sigil {
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  font-size: 30px; line-height: 1; color: rgba(233, 201, 132, 0.22);
+  z-index: 0;
+}
+.crypt-puzzle-unit__name {
+  position: relative; z-index: 1;
+  padding: 0 5px 2px;
+  font-family: var(--font-brand); font-size: 8.5px; font-weight: 700;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: rgba(245, 242, 232, 0.82);
+  text-align: center; line-height: 1.15;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.crypt-puzzle-unit__stats {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center; gap: 2px;
+  margin: 0 5px 6px; padding: 2px 0;
+  border-radius: 5px;
+  background: rgba(11, 11, 13, 0.7);
+  border: 1px solid rgba(233, 201, 132, 0.2);
+  font-family: var(--font-brand); font-size: 12px; font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.crypt-puzzle-unit__atk { color: var(--cb-enemy, #ff8a6a); }
+.crypt-puzzle-unit__hp { color: var(--cb-ally, #7cd4a6); }
+.crypt-puzzle-unit__sep { color: rgba(245, 242, 232, 0.3); font-weight: 400; }
+.crypt-puzzle-unit-kw {
+  position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+  z-index: 4; white-space: nowrap;
+  padding: 1px 5px; border-radius: 999px;
+  font-family: var(--font-brand); font-size: 7px; font-weight: 700; letter-spacing: 0.06em;
+  color: #0b0b0d; background: var(--color-crypt-accent, #e9c984);
+  box-shadow: 0 0 10px -3px rgba(233, 201, 132, 0.6);
+}
 .crypt-puzzle-result { margin: 0; font-size: 12.5px; color: var(--cb-ally, #6fe0a0); font-family: var(--font-brand); }
 .crypt-puzzle-actions { display: flex; gap: 8px; margin-top: auto; }
 .crypt-puzzle-btn {
