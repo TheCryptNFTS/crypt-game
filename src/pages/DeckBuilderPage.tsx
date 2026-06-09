@@ -11,6 +11,7 @@ import { getCommanderById } from "../engine/commanders";
 import { useRenderManifest } from "../hooks/useRenderManifest";
 import CommanderCard from "../components/cards/CommanderCard";
 import PlayableCard from "../components/cards/PlayableCard";
+import { factionTheme } from "../ui/cryptTheme";
 import {
   LS_DECK_BUILDER_COMMANDER,
   LS_DECK_BUILDER_MAIN_DECK,
@@ -74,6 +75,25 @@ export default function DeckBuilderPage() {
     () => playable.filter((e) => e.role === "unit" || e.role === "equipment" || e.role === "artifact"),
     [playable]
   );
+
+  // DECK SHAPE (render-derived, no engine change): the mana curve (cards bucketed
+  // 0..6+) and the faction mix — so a builder can read "is my deck top-heavy /
+  // mono-faction?" at a glance, matching the mulligan/puzzle stat treatment.
+  const deckShape = useMemo(() => {
+    const COLS = 7; // 0,1,2,3,4,5,6+
+    const curve = Array.from({ length: COLS }, () => 0);
+    for (const id of mainDeck) {
+      const cost = entryById.get(id)?.cost;
+      const bucket = typeof cost === "number" ? Math.max(0, Math.min(COLS - 1, cost)) : 0;
+      curve[bucket] += 1;
+    }
+    const peak = Math.max(1, ...curve);
+    const byFaction = (validation.stats?.byFaction ?? {}) as Record<string, number>;
+    const factions = Object.entries(byFaction)
+      .filter(([, n]) => n > 0)
+      .sort((a, b) => b[1] - a[1]);
+    return { curve, peak, factions };
+  }, [mainDeck, entryById, validation.stats]);
 
   const addCard = useCallback(
     (id: string) => {
@@ -192,6 +212,55 @@ export default function DeckBuilderPage() {
                 {t("deck.clear")}
               </button>
             </div>
+
+            {mainDeck.length > 0 && (
+              <div className="crypt-deck-shape">
+                {/* Mana curve histogram */}
+                <div className="crypt-deck-curve" aria-hidden="true">
+                  {deckShape.curve.map((n, cost) => (
+                    <div className="crypt-deck-curve-col" key={cost} title={`${n} at cost ${cost === 6 ? "6+" : cost}`}>
+                      <div className="crypt-deck-curve-bar-wrap">
+                        <div
+                          className={`crypt-deck-curve-bar${n === 0 ? " crypt-deck-curve-bar--empty" : ""}`}
+                          style={{ height: `${(n / deckShape.peak) * 100}%` }}
+                        />
+                      </div>
+                      <span className="crypt-deck-curve-n">{n || ""}</span>
+                      <span className="crypt-deck-curve-cost">{cost === 6 ? "6+" : cost}</span>
+                    </div>
+                  ))}
+                </div>
+                {/* Faction breakdown segmented bar */}
+                {deckShape.factions.length > 0 && (
+                  <div className="crypt-deck-factions">
+                    <div className="crypt-deck-factions-bar" aria-hidden="true">
+                      {deckShape.factions.map(([fac, n]) => (
+                        <div
+                          key={fac}
+                          className="crypt-deck-factions-seg"
+                          style={{
+                            width: `${(n / mainDeck.length) * 100}%`,
+                            background: factionTheme[fac as keyof typeof factionTheme]?.edge ?? "#8e949b",
+                          }}
+                          title={`${fac.replace(/_/g, " ")}: ${n}`}
+                        />
+                      ))}
+                    </div>
+                    <div className="crypt-deck-factions-legend">
+                      {deckShape.factions.map(([fac, n]) => (
+                        <span className="crypt-deck-factions-chip" key={fac}>
+                          <span
+                            className="crypt-deck-factions-dot"
+                            style={{ background: factionTheme[fac as keyof typeof factionTheme]?.edge ?? "#8e949b" }}
+                          />
+                          {fac.replace(/_/g, " ").toLowerCase()} {n}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="crypt-deck-list-scroll">
               {mainDeck.length === 0 && (

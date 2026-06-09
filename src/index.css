@@ -4356,6 +4356,77 @@ button:has(> .crypt-card-chrome):hover,
   color: var(--color-crypt-text);
 }
 
+/* DECK SHAPE — mana curve + faction mix band, so the deck builder reads like a
+   real TCG authoring screen (matching the mulligan curve / puzzle stat-cards),
+   not a flat name list. Pure render-derived + CSS bars; updates live. */
+.crypt-deck-shape {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(11, 11, 13, 0.45);
+  border: 1px solid rgba(233, 201, 132, 0.14);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.crypt-deck-curve {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+.crypt-deck-curve-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  flex: 1;
+}
+.crypt-deck-curve-bar-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 46px;
+  width: 100%;
+}
+.crypt-deck-curve-bar {
+  width: 60%;
+  max-width: 18px;
+  min-height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, #e9c984, rgba(233, 201, 132, 0.45));
+  box-shadow: 0 0 10px -3px rgba(233, 201, 132, 0.5);
+  transition: height 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.crypt-deck-curve-bar--empty {
+  background: rgba(245, 242, 232, 0.08);
+  box-shadow: none;
+}
+.crypt-deck-curve-n {
+  font-family: var(--font-brand); font-size: 9px;
+  color: rgba(233, 201, 132, 0.9); min-height: 11px; line-height: 1;
+}
+.crypt-deck-curve-cost {
+  font-family: var(--font-brand); font-size: 9px;
+  color: rgba(231, 238, 248, 0.45); line-height: 1;
+}
+.crypt-deck-factions { display: flex; flex-direction: column; gap: 7px; }
+.crypt-deck-factions-bar {
+  display: flex; height: 8px; width: 100%;
+  border-radius: 999px; overflow: hidden;
+  background: rgba(245, 242, 232, 0.06);
+}
+.crypt-deck-factions-seg { height: 100%; min-width: 2px; }
+.crypt-deck-factions-legend { display: flex; flex-wrap: wrap; gap: 8px; }
+.crypt-deck-factions-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-brand); font-size: 9.5px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: rgba(231, 238, 248, 0.7);
+}
+.crypt-deck-factions-dot {
+  width: 7px; height: 7px; border-radius: 999px; flex: 0 0 auto;
+}
+
 .crypt-deck-list-scroll {
   margin-top: 12px;
   max-height: 12rem;
