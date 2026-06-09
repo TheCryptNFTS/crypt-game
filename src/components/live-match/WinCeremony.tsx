@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { openTweet, shareOrCopy, absoluteUrl } from "../../lib/share";
 import { resultCardBlob, resultCardDataUrl } from "../../lib/shareCard";
 import "../../styles/win-ceremony.css";
@@ -49,9 +49,6 @@ export function WinCeremony({
   onPlayAgain,
   match,
 }: WinCeremonyProps) {
-  // Nothing to show until the match decides.
-  if (!winner) return null;
-
   const playerWon = winner === mySeat;
   const reduced = prefersReducedMotion();
 
@@ -62,6 +59,30 @@ export function WinCeremony({
     typeof match?.players?.[mySeat]?.nexusHealth === "number"
       ? match.players[mySeat].nexusHealth
       : null;
+
+  const navigate = useNavigate();
+
+  // VIEW REWARDS (P5, 2026-06-09): the in-board ceremony previously dead-ended at
+  // Run-It-Back / Leave, leaving the /match-results reward screen (+⬡ HEX / XP)
+  // orphaned — unreachable through normal play. This writes the result state to
+  // the SAME sessionStorage key the results page rehydrates from (its built-in
+  // F5-survival path) and navigates there. Engine/reducer/rewards untouched — the
+  // results page runs the existing `applyMatchRewards`. Device-local ⬡ HEX only.
+  const onViewRewards = React.useCallback(() => {
+    try {
+      const state = {
+        nonce: `match-${Date.now()}`,
+        winner: winner as string,
+        turn: typeof match?.turn === "number" ? match.turn : 0,
+        p1CommanderId: match?.players?.P1?.commanderId,
+        p2CommanderId: match?.players?.P2?.commanderId,
+      };
+      sessionStorage.setItem("crypt.lastResultState", JSON.stringify(state));
+      navigate("/match-results", { state });
+    } catch {
+      navigate("/match-results");
+    }
+  }, [navigate, winner, match]);
 
   // Move keyboard focus to the primary action when the ceremony opens so
   // screen-reader / keyboard users land on "Run It Back". Presentation-only.
@@ -75,6 +96,11 @@ export function WinCeremony({
     setToast(msg);
     window.setTimeout(() => setToast(null), 2200);
   }, []);
+
+  // Nothing to show until the match decides. MUST come AFTER all hooks above —
+  // an early return before the hooks changes the hook count between renders when
+  // `winner` flips null→set ("Expected static flag was missing" React error).
+  if (!winner) return null;
 
   const shareUrl = absoluteUrl("/");
 
@@ -218,7 +244,10 @@ export function WinCeremony({
         ) : null}
 
         <div className="wc-actions">
-          <button ref={playAgainRef} className="wc-btn" onClick={onPlayAgain}>
+          <button ref={playAgainRef} className="wc-btn wc-btn--primary" onClick={onViewRewards}>
+            View rewards →
+          </button>
+          <button className="wc-btn" onClick={onPlayAgain}>
             Run It Back
           </button>
           <Link className="wc-leave" to="/home">

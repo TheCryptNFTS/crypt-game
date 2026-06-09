@@ -1548,13 +1548,92 @@
     font-size: 26px;
   }
 
-  /* Mulligan rail: two-up cards that fill the row on small screens. */
+  /* ── OPENING-HAND (MULLIGAN) MOBILE POLISH 2026-06-09 ──────────────────────
+   * The first screen a player sees. Prior to this it rendered the DESKTOP layout
+   * (fixed 140px slots, brown gold-wash panel, long paragraph) shrunk into 375px.
+   * This block: obsidian panel, true 2-col grid that fills the width, bigger
+   * readable cards, tightened type, a sticky full-width confirm. Visual only —
+   * targets the CURRENT classes (.mulligan-slot / .mulligan-screen__rail). */
   .mulligan-screen {
-    padding: 14px;
+    padding: 14px 12px;
+    margin: 8px;
+    border-radius: 16px;
+    /* obsidian, not brown gold-wash */
+    background: linear-gradient(180deg, rgba(20, 18, 22, 0.96), rgba(8, 7, 9, 0.98));
+    box-shadow: inset 0 1px 0 rgba(233, 201, 132, 0.16);
+    /* room for the sticky action bar */
+    padding-bottom: 84px;
+  }
+  .mulligan-screen__title {
+    font-size: clamp(20px, 6vw, 26px);
+    line-height: 1.05;
+  }
+  .mulligan-screen__kicker {
+    letter-spacing: 0.2em;
+    font-size: 9px;
+  }
+  .mulligan-screen__prompt {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  /* commander attribution: small + dim subline, not part of the instruction */
+  .mulligan-screen__prompt .mulligan-screen__dealt {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: rgba(231, 238, 248, 0.5);
   }
 
-  .mulligan-card {
-    width: calc(50% - 6px);
-    min-height: 132px;
+  /* true 2-column grid that fills the available width */
+  .mulligan-screen__rail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 2px;
+  }
+  .mulligan-slot {
+    width: 100%;            /* fill the column — overrides the fixed 140px */
+  }
+  .mulligan-slot:hover { transform: none; }  /* no hover-lift on touch */
+  /* stronger kept edge so it reads on a phone */
+  .mulligan-slot:not(.mulligan-slot--redraw) .crypt-card--hand {
+    box-shadow: inset 0 0 0 2px rgba(233, 201, 132, 0.55), 0 0 18px -8px rgba(233, 201, 132, 0.6);
+  }
+  .mulligan-slot__flag {
+    bottom: 6px;
+    font-size: 10px;
+    padding: 4px 12px;
+  }
+
+  /* compact the cost curve so the action isn't pushed off-screen */
+  .mulligan-curve {
+    margin-top: 12px;
+    padding: 8px 10px 4px;
+    gap: 6px;
+  }
+  .mulligan-curve__bar-wrap { height: 28px; }
+
+  /* sticky, full-width primary action */
+  .mulligan-screen__actions {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px)); /* clear the dock */
+    z-index: 40;
+    margin: 0;
+    padding: 10px 12px;
+    background: linear-gradient(180deg, rgba(8, 7, 9, 0), rgba(8, 7, 9, 0.95) 30%);
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .mulligan-screen__count {
+    flex: 0 0 auto;
+    font-size: 12px;
+  }
+  .mulligan-screen__actions .live-btn--primary {
+    flex: 1 1 auto;
+    min-height: 52px;
+    font-size: 15px;
   }
 }

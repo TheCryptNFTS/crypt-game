@@ -80,11 +80,12 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
         </span>
         <h2 className="mulligan-screen__title">The Opening Signal</h2>
         <p className="mulligan-screen__prompt">
+          Choose cards to redraw. Tap to swap, then lock your hand.
           {commanderName ? (
-            <>Dealt by <strong>{commanderName}</strong>. </>
+            <span className="mulligan-screen__dealt">
+              Dealt by <strong>{commanderName}</strong>
+            </span>
           ) : null}
-          Tap any cards you want to swap out, then lock in — selected cards are
-          shuffled back and redrawn. Keep your hand by selecting none.
         </p>
       </div>
 
