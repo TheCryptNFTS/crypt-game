@@ -7,6 +7,11 @@ bottom. Each step says how to verify before moving on.
 ## State at time of writing
 - **Game SPA** (`/Users/billy/crypt-game`, branch `main`): committed, offline.
   The crypt-game Vercel project was **removed** earlier (deployment is gone).
+- **2026-06-10 update (commit `0678b8a`)**: the teardown P0–P2 landed — engine-trust
+  fixes, response-stack/secrets/alt-wincon/server//replay deletions, artifact cut,
+  FTUE rebuild, vitest now 118. `/replay` no longer exists; `/puzzles`, `/spectate`
+  and `/leaderboard` are delisted from nav (direct-URL only); guest PvP is hidden
+  on /play (sign-in only). Smoke list below updated to match.
 - **City** (`/Users/billy/freelon/phase3/freelon-city-site`, `main`): match/auth
   layer + vendored engine committed; `/combat-archives` reverted to "sealed".
 - Both repos: `git push` NOT done yet (push triggers Vercel auto-deploy).
@@ -20,8 +25,8 @@ bottom. Each step says how to verify before moving on.
 # Game
 cd /Users/billy/crypt-game
 npx tsc --noEmit            # expect 0 errors
-npx vitest run             # expect all green (106+)
-npx vite build             # expect exit 0, main chunk ~24KB
+npx vitest run             # expect all green (118)
+npx vite build             # expect exit 0
 
 # City
 cd /Users/billy/freelon/phase3/freelon-city-site
@@ -97,8 +102,10 @@ Verify: `https://www.freeloncity.com/combat-archives` shows the CTA.
 - App mounts; connect wallet → owned-cards returns token ids → owned deck builds.
 - Start a solo match: mulligan → play → attack → win ceremony.
 - (If testing PvP) sign-in (SIWE) → create/queue → action round-trips; inspect a
-  redacted view payload → NO `seed`/`rngCursor`/opponent hand/deck.
-- Share buttons (deck `/d`, replay `/replay`, result image, challenge link) work.
+  redacted view payload → NO `seed`/`rngCursor`/opponent hand/deck. NOTE: the
+  Find Match / Challenge panels only render when signed in (guests see one line).
+- Share buttons (deck `/d`, result image, challenge link) work. (`/replay` was
+  deleted 2026-06-10 — a viewer nothing could produce codes for.)
 
 ---
 
