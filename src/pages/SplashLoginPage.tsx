@@ -56,6 +56,27 @@ export default function SplashLoginPage() {
   return (
     <div className="crypt-splash">
       <div className="crypt-splash-backdrop" aria-hidden />
+      {/* Title ambient loop (Grok img2vid 2026-06-11, animated FROM the
+          gold-sovereignty key art — replaces the cut asset-review loop).
+          Muted attr set for real (React omits it → autoplay blocked); the
+          static backdrop stays as the reduced-motion / refused-play fallback. */}
+      <video
+        className="crypt-splash-video"
+        src="/crypt-assets/title-hero-loop.mp4"
+        poster="/crypt-assets/gold-sovereignty-district.jpg"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden
+        ref={(el) => {
+          if (el && !el.hasAttribute("muted")) {
+            el.setAttribute("muted", "");
+            el.muted = true;
+            el.play().catch(() => {/* poster/backdrop remain */});
+          }
+        }}
+      />
       <div className="crypt-splash-atmosphere" aria-hidden />
 
       <div className="crypt-splash-main">

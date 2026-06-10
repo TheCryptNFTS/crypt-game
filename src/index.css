@@ -6120,3 +6120,20 @@ button:has(> .crypt-card-chrome):hover,
 }
 .crypt-binder-more:hover { background: rgba(233, 201, 132, 0.16); }
 
+
+/* Splash title-loop video (Grok img2vid 2026-06-11) — full-bleed ambient key
+   art under the atmosphere/vignette layers; dimmed so the gold wordmark and
+   CTAs stay the brightest thing on screen. */
+.crypt-splash-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.62) saturate(0.92);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .crypt-splash-video { display: none; }
+}
