@@ -2,6 +2,7 @@ import React from "react";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
 import { SyncBadge } from "./MatchBadges";
+import { useCardTilt } from "../../hooks/useCardTilt";
 import "../../styles/polish-facedown.css";
 
 /** Printed card-back art (public/crypt-assets), served from the site root. */
@@ -37,11 +38,15 @@ export function HandCard({ card, onSelect }: HandCardProps) {
   }
 
   const { cost, attack, health, armor, speed } = card.liveStats;
+  const tilt = useCardTilt(9);
 
   return (
     <button
       type="button"
-      className={`crypt-card crypt-card--hand ${card.selected ? "is-selected" : ""}`}
+      ref={tilt.ref as React.Ref<HTMLButtonElement>}
+      onPointerMove={tilt.onPointerMove}
+      onPointerLeave={tilt.onPointerLeave}
+      className={`crypt-card crypt-card--hand crypt-card--tilt ${card.selected ? "is-selected" : ""}`}
       onClick={() => onSelect?.(card)}
       aria-pressed={card.selected ?? false}
       aria-label={`Play ${card.name}, ${card.kind}, cost ${cost ?? 0}, ${attack} attack, ${health} health, ${armor} armor, ${speed} speed`}
@@ -51,6 +56,7 @@ export function HandCard({ card, onSelect }: HandCardProps) {
           universal TCG convention; everything else lives in the sill below. */}
       <div className="crypt-card__art">
         <img src={card.imageUrl} alt={card.name} className="crypt-card__image" />
+        <span className="crypt-card__glare" aria-hidden="true" />
         <span className="crypt-card__cost-orb">{cost ?? 0}</span>
         {card.syncLabel ? (
           <span className="crypt-card__sync-corner">
