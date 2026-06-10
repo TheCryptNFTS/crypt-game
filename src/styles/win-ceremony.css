@@ -120,19 +120,29 @@
 
 .wc-title {
   font-family: var(--font-display, "Clash Display"), sans-serif;
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(34px, 9vw, 56px);
   line-height: 0.98;
   letter-spacing: 0.02em;
   margin: 0;
 }
+/* Metallic forged-gold title — vertical highlight→shadow gradient clipped to
+   the text + a soft outer bloom, so SIGNAL RESTORED reads struck-from-metal. */
 .wc-title--win {
-  color: #E9C984;
-  text-shadow: 0 0 28px rgba(233, 201, 132, 0.55);
+  background: linear-gradient(180deg, #fff4d2 0%, #f0d489 38%, #c8973f 74%, #9c7224 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #f0d489;
+  filter: drop-shadow(0 1px 0 rgba(70, 48, 8, 0.6)) drop-shadow(0 0 26px rgba(233, 201, 132, 0.45));
 }
 .wc-title--loss {
-  color: #FF4D4D;
-  text-shadow: 0 0 24px rgba(255, 77, 77, 0.5);
+  background: linear-gradient(180deg, #ff9a9a 0%, #ff4d4d 52%, #b3322f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ff4d4d;
+  filter: drop-shadow(0 1px 0 rgba(60, 10, 10, 0.6)) drop-shadow(0 0 22px rgba(255, 77, 77, 0.4));
 }
 
 .wc-stats {
@@ -400,3 +410,11 @@
   color: rgba(245, 242, 232, 0.45);
   text-align: center;
 }
+
+/* Win/loss asymmetry (2026-06-10) — the win punches (shake + full flash/rays);
+   the loss is somber: slower calm fade, no shake, dimmed light, slight
+   desaturation so it reads as a quiet defeat, not a celebration in red. */
+.wc-shell--loss { animation: wc-fade-in 440ms ease-out both; }
+.wc-shell--loss .wc-flash--loss { opacity: 0.45; }
+.wc-shell--loss .wc-rays--loss { opacity: 0.4; }
+.wc-shell--loss .wc-panel { filter: saturate(0.82) brightness(0.94); }

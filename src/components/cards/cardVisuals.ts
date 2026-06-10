@@ -8,9 +8,9 @@ function factionTint(faction: string | undefined): string {
   // premium faction glow was always weak/cyan and the cards read as flat.
   const f = (faction ?? "").toUpperCase();
   if (f.includes("STONE")) return "rgba(176, 180, 196, 0.8)";
-  if (f.includes("IRON")) return "rgba(122, 166, 255, 0.8)";
+  if (f.includes("IRON")) return "rgba(143, 155, 179, 0.85)";
   if (f.includes("BRONZE")) return "rgba(201, 139, 72, 0.85)";
-  if (f.includes("SILVER")) return "rgba(150, 215, 235, 0.8)";
+  if (f.includes("SILVER")) return "rgba(207, 214, 230, 0.85)";
   if (f.includes("GOLD") || f.includes("SOVEREIGN")) return "rgba(233, 201, 132, 0.9)";
   if (f.includes("GOD")) return "rgba(183, 155, 255, 0.85)";
   return "rgba(233, 201, 132, 0.55)"; // brand gold fallback (not cyan)

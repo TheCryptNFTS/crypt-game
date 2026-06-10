@@ -9,6 +9,12 @@
   --font-surface: "Satoshi", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-brand: "Clash Display", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  /* Visual-craft tokens (2026-06-10): back-out overshoot easing for "weight",
+     a forged-gold ramp + bevel for hero accents. */
+  --ease-backout: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --gold-ramp: linear-gradient(180deg, #fff4d2 0%, #f0d489 38%, #c8973f 76%, #9c7224 100%);
+  --gold-bevel: inset 0 1px 1px rgba(255, 248, 220, 0.55), inset 0 -2px 3px rgba(70, 48, 8, 0.5);
   --color-crypt-bg: #0B0B0D;
   --color-crypt-obsidian: #060507;
   --color-crypt-panel: #141417;
@@ -231,7 +237,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .crypt-mobile-dock-link:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.42);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.42);
 }
 
 .crypt-mobile-dock-glyph {
@@ -446,7 +452,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crypt-home-m-more-link:hover {
-  color: #7fe8fc;
+  color: #F0D9A0;
 }
 
 .crypt-codex-voice {
@@ -547,7 +553,7 @@ h1, h2, h3, h4, h5, h6 {
     transparent 0%,
     rgba(212, 168, 75, 0.25) 15%,
     rgba(212, 168, 75, 0.75) 35%,
-    rgba(95, 212, 240, 0.55) 55%,
+    rgba(233, 201, 132, 0.55) 55%,
     rgba(212, 168, 75, 0.75) 72%,
     rgba(212, 168, 75, 0.25) 88%,
     transparent 100%
@@ -585,7 +591,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(95, 212, 240, 0.55);
+  color: rgba(233, 201, 132, 0.55);
 }
 
 .crypt-nav-pill {
@@ -627,19 +633,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .crypt-nav-pill:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.35);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.35);
 }
 
 @keyframes crypt-target-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 1px rgba(95, 212, 240, 0.4), 0 0 14px rgba(95, 212, 240, 0.1),
-      inset 0 0 12px rgba(95, 212, 240, 0.03);
+    box-shadow: 0 0 0 1px rgba(233, 201, 132, 0.4), 0 0 14px rgba(233, 201, 132, 0.1),
+      inset 0 0 12px rgba(233, 201, 132, 0.03);
     transform: translateY(0);
   }
   50% {
-    box-shadow: 0 0 0 1px rgba(95, 212, 240, 0.62), 0 0 22px rgba(95, 212, 240, 0.16),
-      inset 0 0 16px rgba(95, 212, 240, 0.045);
+    box-shadow: 0 0 0 1px rgba(233, 201, 132, 0.62), 0 0 22px rgba(233, 201, 132, 0.16),
+      inset 0 0 16px rgba(233, 201, 132, 0.045);
     transform: translateY(-1px);
   }
 }
@@ -753,7 +759,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: rgba(95, 212, 240, 0.35);
+  text-decoration-color: rgba(233, 201, 132, 0.35);
 }
 
 /* Lighter HUD strips — composed, not boxed admin panels */
@@ -949,7 +955,7 @@ h1, h2, h3, h4, h5, h6 {
 .crypt-commander-footer-sill {
   background: linear-gradient(185deg, rgba(18, 14, 10, 0.97) 0%, rgba(6, 6, 12, 0.99) 100%);
   box-shadow: inset 0 1px 0 rgba(201, 164, 58, 0.14), inset 0 -14px 38px rgba(0, 0, 0, 0.52),
-    inset 1px 0 0 rgba(95, 212, 240, 0.04);
+    inset 1px 0 0 rgba(233, 201, 132, 0.04);
 }
 
 .crypt-commander-relic-soul {
@@ -963,7 +969,7 @@ h1, h2, h3, h4, h5, h6 {
   inset: 4px;
   border-radius: 1px;
   z-index: 6;
-  box-shadow: inset 0 0 48px rgba(201, 164, 58, 0.05), inset 0 0 80px rgba(95, 212, 240, 0.028),
+  box-shadow: inset 0 0 48px rgba(201, 164, 58, 0.05), inset 0 0 80px rgba(233, 201, 132, 0.028),
     inset 0 -24px 48px rgba(0, 0, 0, 0.35);
   mix-blend-mode: soft-light;
 }
@@ -986,13 +992,13 @@ h1, h2, h3, h4, h5, h6 {
     rgba(212, 168, 75, 0.04) 0%,
     transparent 22%,
     transparent 78%,
-    rgba(95, 212, 240, 0.03) 100%
+    rgba(233, 201, 132, 0.03) 100%
   );
 }
 
 .crypt-combat-rail {
-  background: linear-gradient(90deg, rgba(95, 212, 240, 0.045) 0%, rgba(5, 4, 4, 0.62) 40%, transparent 100%);
-  border-bottom: 1px solid rgba(95, 212, 240, 0.12);
+  background: linear-gradient(90deg, rgba(233, 201, 132, 0.045) 0%, rgba(5, 4, 4, 0.62) 40%, transparent 100%);
+  border-bottom: 1px solid rgba(233, 201, 132, 0.12);
   animation: crypt-combat-rail-in 0.42s var(--ease-premium) both;
 }
 
@@ -1085,7 +1091,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crypt-card--target-legal::before {
-  border-color: rgba(95, 212, 240, 0.5);
+  border-color: rgba(233, 201, 132, 0.5);
 }
 
 .crypt-card--target-illegal {
@@ -1111,16 +1117,16 @@ h1, h2, h3, h4, h5, h6 {
 .crypt-legal-target-anchor {
   position: relative;
   border-radius: 3px;
-  outline: 1px solid rgba(95, 212, 240, 0.28);
+  outline: 1px solid rgba(233, 201, 132, 0.28);
   outline-offset: 4px;
   transition: outline-color 0.28s var(--ease-settle), outline-offset 0.32s var(--ease-spring-soft),
     box-shadow 0.32s var(--ease-spring-soft);
 }
 
 .crypt-strike-lock-active {
-  outline-color: rgba(95, 212, 240, 0.72);
+  outline-color: rgba(233, 201, 132, 0.72);
   outline-offset: 5px;
-  box-shadow: 0 0 36px rgba(95, 212, 240, 0.14);
+  box-shadow: 0 0 36px rgba(233, 201, 132, 0.14);
 }
 
 @keyframes crypt-strike-line-flow {
@@ -1156,8 +1162,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crypt-card--equip-hint::before {
-  border-color: rgba(95, 212, 240, 0.35);
-  box-shadow: inset 0 0 20px rgba(95, 212, 240, 0.06);
+  border-color: rgba(233, 201, 132, 0.35);
+  box-shadow: inset 0 0 20px rgba(233, 201, 132, 0.06);
   transition: border-color 0.4s var(--ease-spring-soft), box-shadow 0.4s var(--ease-spring-soft);
 }
 
@@ -1256,13 +1262,13 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-cost-orb {
   border-radius: 1px;
-  border: 1px solid rgba(95, 212, 240, 0.35);
+  border: 1px solid rgba(233, 201, 132, 0.35);
   background: radial-gradient(
     circle at 30% 25%,
-    rgba(95, 212, 240, 0.2) 0%,
+    rgba(233, 201, 132, 0.2) 0%,
     rgba(4, 4, 10, 0.94) 62%
   );
-  box-shadow: 0 0 12px rgba(95, 212, 240, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 12px rgba(233, 201, 132, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* ——— Match screen rebuild (hierarchy + restraint) ——— */
@@ -1306,7 +1312,7 @@ button:has(> .crypt-card-chrome):hover,
   padding: 6px 10px;
   border-radius: 1px;
   border: 1px solid var(--color-crypt-ice-dim);
-  background: rgba(95, 212, 240, 0.06);
+  background: rgba(233, 201, 132, 0.06);
   transition:
     border-color 0.2s ease,
     color 0.2s ease,
@@ -1314,9 +1320,9 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-match-hub-link:hover {
-  border-color: rgba(95, 212, 240, 0.45);
-  color: #7fe8fc;
-  background: rgba(95, 212, 240, 0.1);
+  border-color: rgba(233, 201, 132, 0.45);
+  color: #F0D9A0;
+  background: rgba(233, 201, 132, 0.1);
 }
 
 @media (min-width: 768px) {
@@ -1369,8 +1375,8 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 9px;
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.55);
-  background: rgba(95, 212, 240, 0.04);
-  border-top: 1px solid rgba(95, 212, 240, 0.12);
+  background: rgba(233, 201, 132, 0.04);
+  border-top: 1px solid rgba(233, 201, 132, 0.12);
   animation: crypt-combat-rail-in 0.35s var(--ease-premium) both;
 }
 
@@ -1620,13 +1626,13 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-dock-btn--ice {
-  border-color: rgba(95, 212, 240, 0.35);
+  border-color: rgba(233, 201, 132, 0.35);
   color: var(--color-crypt-ice);
-  background: rgba(95, 212, 240, 0.06);
+  background: rgba(233, 201, 132, 0.06);
 }
 
 .crypt-dock-btn--ice:hover {
-  border-color: rgba(95, 212, 240, 0.5);
+  border-color: rgba(233, 201, 132, 0.5);
 }
 
 .crypt-dock-btn--gold {
@@ -1960,7 +1966,7 @@ button:has(> .crypt-card-chrome):hover,
   outline: none;
   box-shadow:
     0 0 0 2px var(--color-crypt-obsidian),
-    0 0 0 4px rgba(95, 212, 240, 0.55),
+    0 0 0 4px rgba(233, 201, 132, 0.55),
     0 20px 50px rgba(0, 0, 0, 0.55);
 }
 
@@ -2021,13 +2027,13 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-home-m-dock-link:hover {
   color: var(--color-crypt-ice);
-  border-color: rgba(95, 212, 240, 0.28);
-  background: rgba(95, 212, 240, 0.04);
+  border-color: rgba(233, 201, 132, 0.28);
+  background: rgba(233, 201, 132, 0.04);
 }
 
 .crypt-home-m-dock-link:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.45);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.45);
 }
 
 .crypt-home-m-dock-icon {
@@ -2077,7 +2083,7 @@ button:has(> .crypt-card-chrome):hover,
   padding: 22px 20px 24px 22px;
   background:
     linear-gradient(120deg, rgba(14, 12, 16, 0.97) 0%, rgba(16, 14, 12, 0.92) 45%, rgba(10, 32, 38, 0.12) 100%),
-    radial-gradient(ellipse 80% 120% at 100% 50%, rgba(95, 212, 240, 0.06) 0%, transparent 55%);
+    radial-gradient(ellipse 80% 120% at 100% 50%, rgba(233, 201, 132, 0.06) 0%, transparent 55%);
   border: 1px solid rgba(212, 168, 75, 0.18);
   border-radius: 1px;
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 18px) 100%, 0 100%);
@@ -2093,7 +2099,7 @@ button:has(> .crypt-card-chrome):hover,
   font-weight: 600;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(95, 212, 240, 0.5);
+  color: rgba(233, 201, 132, 0.5);
 }
 
 .crypt-home-m-fw-title {
@@ -2288,7 +2294,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-home-m-panel-cta:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.45);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.45);
 }
 
 .crypt-home-m-panel-hint {
@@ -2496,7 +2502,7 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 8px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(95, 212, 240, 0.45);
+  color: rgba(233, 201, 132, 0.45);
 }
 
 .crypt-home-m-card-slot {
@@ -2522,7 +2528,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-home-m-spotlight-link:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.4);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.4);
   border-radius: 1px;
 }
 
@@ -2815,9 +2821,9 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-splash-cta-wallet:hover {
-  border-color: rgba(95, 212, 240, 0.45);
-  box-shadow: 0 0 24px rgba(95, 212, 240, 0.08);
-  color: #7fe8fc;
+  border-color: rgba(233, 201, 132, 0.45);
+  box-shadow: 0 0 24px rgba(233, 201, 132, 0.08);
+  color: #F0D9A0;
 }
 
 .crypt-splash-soon {
@@ -2956,7 +2962,7 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-play-edit-deck:hover {
-  color: #7fe8fc;
+  color: #F0D9A0;
 }
 
 .crypt-play-loadout-grid {
@@ -3136,7 +3142,7 @@ button:has(> .crypt-card-chrome):hover,
   background: linear-gradient(
     135deg,
     rgba(212, 168, 75, 0.45) 0%,
-    rgba(95, 212, 240, 0.12) 50%,
+    rgba(233, 201, 132, 0.12) 50%,
     rgba(212, 168, 75, 0.2) 100%
   );
   box-shadow: 0 0 40px rgba(212, 168, 75, 0.06);
@@ -3393,7 +3399,7 @@ button:has(> .crypt-card-chrome):hover,
   background: linear-gradient(
     125deg,
     rgba(212, 168, 75, 0.5) 0%,
-    rgba(95, 212, 240, 0.15) 42%,
+    rgba(233, 201, 132, 0.15) 42%,
     rgba(212, 168, 75, 0.25) 100%
   );
   overflow: hidden;
@@ -3588,7 +3594,7 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-shop-foot-link:hover {
-  color: #7fe8fc;
+  color: #F0D9A0;
 }
 
 .crypt-shop-foot-link--muted {
@@ -3656,8 +3662,8 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-context-nav-link:hover {
-  color: #7fe8fc;
-  border-bottom-color: rgba(95, 212, 240, 0.35);
+  color: #F0D9A0;
+  border-bottom-color: rgba(233, 201, 132, 0.35);
 }
 
 /* —— Profile —— */
@@ -4222,7 +4228,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-rites-claim-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.45);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.45);
 }
 
 .crypt-rites-streak {
@@ -4346,7 +4352,7 @@ button:has(> .crypt-card-chrome):hover,
 .crypt-deck-select:focus {
   outline: none;
   border-color: var(--color-crypt-ice-dim);
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.12);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.12);
 }
 
 .crypt-deck-h2 {
@@ -4581,7 +4587,7 @@ button:has(> .crypt-card-chrome):hover,
     180deg,
     transparent 0%,
     rgba(212, 168, 75, 0.4) 25%,
-    rgba(95, 212, 240, 0.35) 55%,
+    rgba(233, 201, 132, 0.35) 55%,
     rgba(212, 168, 75, 0.2) 85%,
     transparent 100%
   );
@@ -4675,7 +4681,7 @@ button:has(> .crypt-card-chrome):hover,
   font-size: 9px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(95, 212, 240, 0.45);
+  color: rgba(233, 201, 132, 0.45);
 }
 
 .crypt-result-headline {
@@ -4701,8 +4707,8 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-result-headline--draw {
-  color: #7fdcf2;
-  text-shadow: 0 0 36px rgba(95, 212, 240, 0.15);
+  color: #F0D9A0;
+  text-shadow: 0 0 36px rgba(233, 201, 132, 0.15);
 }
 
 .crypt-result-moment {
@@ -4861,7 +4867,7 @@ button:has(> .crypt-card-chrome):hover,
   outline: none;
   box-shadow:
     0 0 0 2px var(--color-crypt-obsidian),
-    0 0 0 4px rgba(95, 212, 240, 0.45),
+    0 0 0 4px rgba(233, 201, 132, 0.45),
     0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
@@ -4891,7 +4897,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-result-cta-secondary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.4);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.4);
 }
 
 .crypt-result-cta-tertiary {
@@ -4910,13 +4916,13 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-result-cta-tertiary:hover {
-  border-color: rgba(95, 212, 240, 0.45);
-  background: rgba(95, 212, 240, 0.06);
+  border-color: rgba(233, 201, 132, 0.45);
+  background: rgba(233, 201, 132, 0.06);
 }
 
 .crypt-result-cta-tertiary:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(95, 212, 240, 0.35);
+  box-shadow: 0 0 0 2px rgba(233, 201, 132, 0.35);
 }
 
 .crypt-result-share-hint {
@@ -4969,7 +4975,7 @@ button:has(> .crypt-card-chrome):hover,
   background: linear-gradient(
     135deg,
     rgba(212, 168, 75, 0.55) 0%,
-    rgba(95, 212, 240, 0.2) 45%,
+    rgba(233, 201, 132, 0.2) 45%,
     rgba(212, 168, 75, 0.35) 100%
   );
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
@@ -5160,7 +5166,7 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-pack-slot-back {
   background: linear-gradient(145deg, #1a1520 0%, #0c0a0c 100%);
-  border: 1px solid rgba(95, 212, 240, 0.25);
+  border: 1px solid rgba(233, 201, 132, 0.25);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
   transform: rotateY(0deg);
 }
@@ -5583,7 +5589,7 @@ button:has(> .crypt-card-chrome):hover,
   padding: 14px;
   max-width: 200px;
   border-radius: 3px;
-  background: linear-gradient(135deg, rgba(212, 168, 75, 0.18) 0%, rgba(95, 212, 240, 0.06) 100%);
+  background: linear-gradient(135deg, rgba(212, 168, 75, 0.18) 0%, rgba(233, 201, 132, 0.06) 100%);
   border: 2px solid rgba(212, 168, 75, 0.45);
   box-shadow: 0 0 40px rgba(212, 168, 75, 0.12);
 }
@@ -5605,8 +5611,8 @@ button:has(> .crypt-card-chrome):hover,
   gap: 16px;
   padding: 18px;
   border-radius: 2px;
-  border: 1px dashed rgba(95, 212, 240, 0.25);
-  background: rgba(95, 212, 240, 0.04);
+  border: 1px dashed rgba(233, 201, 132, 0.25);
+  background: rgba(233, 201, 132, 0.04);
 }
 
 @media (min-width: 640px) {

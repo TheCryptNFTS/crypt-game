@@ -138,8 +138,8 @@
 .crypt-rarity-common   { --rg-a: #6a6a74; --rg-b: #2b2b32; }
 .crypt-rarity-uncommon { --rg-a: #46c08a; --rg-b: #103225; }
 .crypt-rarity-rare     { --rg-a: #5aa6e8; --rg-b: #12283f; }
-.crypt-rarity-epic     { --rg-a: #38c6d6; --rg-b: #0d3138; }
-.crypt-rarity-legendary{ --rg-a: #b58bff; --rg-b: #271640; }
+.crypt-rarity-epic     { --rg-a: #9b4dff; --rg-b: #1e0d3a; }
+.crypt-rarity-legendary{ --rg-a: #cbb0ff; --rg-b: #271640; }
 .crypt-rarity-mythic   { --rg-a: #ffb347; --rg-b: #402311; }
 .crypt-rarity-oneofone { --rg-a: #ffe08a; --rg-b: #3a2c0a; }
 .crypt-rarity-commander{ --rg-a: #e9c984; --rg-b: #3a2a0e; }

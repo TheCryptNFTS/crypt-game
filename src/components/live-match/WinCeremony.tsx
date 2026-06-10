@@ -191,7 +191,7 @@ export function WinCeremony({
   return (
     <div
       className={`wc-shell ${playerWon ? "wc-shell--win" : "wc-shell--loss"} ${
-        reduced ? "" : "wc-shell--shake"
+        !reduced && playerWon ? "wc-shell--shake" : ""
       }`}
       role="dialog"
       aria-modal="true"

@@ -794,12 +794,14 @@ button {
   justify-content: center;
   font-family: var(--font-mono, monospace);
   font-size: 12px;
-  font-weight: 700;
-  color: #07101c;
-  background: radial-gradient(circle at 38% 32%, #c6e4ff, #5aa0e6 72%);
-  border: 1.5px solid #dcefff;
+  font-weight: 800;
+  color: #1c1407;
+  /* Machined gold cost-gem (was cyan — brand violation). Beveled: bright
+     highlight top-left, deep gold base, gold rim. */
+  background: radial-gradient(circle at 36% 28%, #f8e8b4 0%, #d8b25a 52%, #a8801f 100%);
+  border: 1.5px solid #f2d98c;
   border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 248, 220, 0.55), inset 0 -2px 3px rgba(70, 48, 8, 0.5);
 }
 .crypt-card__sync-corner {
   position: absolute;
