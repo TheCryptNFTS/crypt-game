@@ -193,7 +193,10 @@
   }
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot {
     height: 100%;
-    min-height: 0;
+    /* Floor so a short (laptop) viewport can't height:100%-collapse the board
+       unit to a 42px postage stamp with 40px art (verified 2026-06-10). The
+       max keeps the no-wrap/no-overlap behavior intact on tall screens. */
+    min-height: 84px;
     max-height: 108px;
   }
   /* Deployed units are HEIGHT-driven here so they fit the (dynamic) lane row

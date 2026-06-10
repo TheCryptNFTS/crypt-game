@@ -511,6 +511,38 @@ button {
 .crypt-board-pip--arm { color: #9fb8d6; }
 .crypt-board-pip--spd { color: #d6c79f; }
 
+/* Keyword chips — combat rules surfaced on the board unit. Same compact pip
+   language as ARM/SPD, sat just under the title and above the ATK/HP gem. */
+.crypt-board-kws {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin: 3px 0 1px;
+}
+.crypt-board-kw {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: #e7dcc2;
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(231, 220, 194, 0.28);
+  white-space: nowrap;
+}
+/* GUARD dictates legal targets — give it the gold so the eye lands on it. */
+.crypt-board-kw--guard {
+  color: #1c1407;
+  background: #d8b25a;
+  border-color: #f0d489;
+}
+.crypt-board-kw--more {
+  color: #b8b1a0;
+  border-color: rgba(231, 220, 194, 0.18);
+}
+
 .crypt-card.is-damaged {
   filter: saturate(0.9);
 }
