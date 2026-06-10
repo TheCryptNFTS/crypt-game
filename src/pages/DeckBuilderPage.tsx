@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { CatalogLoader } from "../components/CatalogLoader";
 import { encodeDeck } from "../share/deckCodec";
 import { absoluteUrl, openTweet, shareOrCopy } from "../lib/share";
@@ -79,6 +79,41 @@ export default function DeckBuilderPage() {
     () => playable.filter((e) => e.role === "unit" || e.role === "equipment"),
     [playable]
   );
+
+  // BINDER FILTERS (2026-06-10) — the pool was a ~398,000px black-void scroll of
+  // all 4,129 cards. Search + faction + cost filters + "show more" paging turn it
+  // into a browsable collection. Pure view state; never touches the deck/engine.
+  const [search, setSearch] = useState("");
+  const [factionSel, setFactionSel] = useState<string | null>(null);
+  const [costSel, setCostSel] = useState<number | null>(null);
+  const [shown, setShown] = useState(48);
+
+  const filteredPool = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return playablePool.filter((e) => {
+      if (q && !(e.name ?? "").toLowerCase().includes(q)) return false;
+      if (factionSel && !(e.faction ?? "").toUpperCase().includes(factionSel)) return false;
+      if (costSel != null) {
+        const c = e.cost ?? 0;
+        if (costSel === 6 ? c < 6 : c !== costSel) return false;
+      }
+      return true;
+    });
+  }, [playablePool, search, factionSel, costSel]);
+
+  // Reset the page window whenever the filter narrows/changes.
+  useEffect(() => {
+    setShown(48);
+  }, [search, factionSel, costSel]);
+
+  const FACTION_CHIPS: ReadonlyArray<[string, string]> = [
+    ["STONE", "Stone"],
+    ["IRON", "Iron"],
+    ["BRONZE", "Bronze"],
+    ["SILVER", "Silver"],
+    ["GOLD", "Gold"],
+    ["GOD", "Gods"],
+  ];
 
   // DECK SHAPE (render-derived, no engine change): the mana curve (cards bucketed
   // 0..6+) and the faction mix — so a builder can read "is my deck top-heavy /
@@ -323,23 +358,93 @@ export default function DeckBuilderPage() {
           </div>
 
           <div>
-            <h2 className="crypt-deck-section-title">{t("deck.archive.title")}</h2>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {playablePool.map((entry) => {
-                // FORMAT legality: in Core, cards outside the curated set are
-                // dimmed and non-interactive so the legal pool reads at a glance.
-                const legal = isCardLegalInFormat(entry.id, format);
-                return (
-                  <PlayableCard
-                    key={entry.id}
-                    entry={entry}
-                    mode="collection"
-                    onClick={legal ? () => addCard(entry.id) : undefined}
-                    className={legal ? "" : "pointer-events-none opacity-40"}
-                  />
-                );
-              })}
+            <div className="crypt-binder-head">
+              <h2 className="crypt-deck-section-title">{t("deck.archive.title")}</h2>
+              <span className="crypt-binder-count">{filteredPool.length.toLocaleString()} cards</span>
             </div>
+
+            {/* BINDER FILTERS — search + faction + cost. */}
+            <div className="crypt-binder-filters">
+              <input
+                type="search"
+                className="crypt-binder-search"
+                placeholder="Search cards by name…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search cards by name"
+              />
+              <div className="crypt-binder-chips" role="group" aria-label="Filter by faction">
+                <button
+                  type="button"
+                  className={`crypt-binder-chip${!factionSel ? " is-on" : ""}`}
+                  onClick={() => setFactionSel(null)}
+                >
+                  All
+                </button>
+                {FACTION_CHIPS.map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    className={`crypt-binder-chip${factionSel === key ? " is-on" : ""}`}
+                    style={{ "--chip": factionTheme[key as keyof typeof factionTheme].edge } as CSSProperties}
+                    onClick={() => setFactionSel(factionSel === key ? null : key)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              <div className="crypt-binder-chips" role="group" aria-label="Filter by cost">
+                <button
+                  type="button"
+                  className={`crypt-binder-chip crypt-binder-chip--cost${costSel == null ? " is-on" : ""}`}
+                  onClick={() => setCostSel(null)}
+                >
+                  Any
+                </button>
+                {[0, 1, 2, 3, 4, 5, 6].map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    className={`crypt-binder-chip crypt-binder-chip--cost${costSel === c ? " is-on" : ""}`}
+                    onClick={() => setCostSel(costSel === c ? null : c)}
+                  >
+                    {c === 6 ? "6+" : c}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {filteredPool.length === 0 ? (
+              <p className="crypt-binder-empty">No cards match — clear a filter.</p>
+            ) : (
+              <>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {filteredPool.slice(0, shown).map((entry) => {
+                    // FORMAT legality: in Core, cards outside the curated set are
+                    // dimmed and non-interactive so the legal pool reads at a glance.
+                    const legal = isCardLegalInFormat(entry.id, format);
+                    return (
+                      <PlayableCard
+                        key={entry.id}
+                        entry={entry}
+                        mode="collection"
+                        onClick={legal ? () => addCard(entry.id) : undefined}
+                        className={legal ? "" : "pointer-events-none opacity-40"}
+                      />
+                    );
+                  })}
+                </div>
+                {shown < filteredPool.length ? (
+                  <button
+                    type="button"
+                    className="crypt-binder-more"
+                    onClick={() => setShown((s) => s + 48)}
+                  >
+                    Show more — {(filteredPool.length - shown).toLocaleString()} left
+                  </button>
+                ) : null}
+              </>
+            )}
           </div>
         </div>
       </CryptPageFrame>

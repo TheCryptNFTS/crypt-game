@@ -6013,3 +6013,86 @@ button:has(> .crypt-card-chrome):hover,
 .crypt-play-quest__count { grid-area: count; font-family: var(--font-mono, monospace); font-size: 11px; color: #c9b27e; text-align: right; min-width: 40px; }
 .crypt-play-quest.is-done .crypt-play-quest__title,
 .crypt-play-quest.is-done .crypt-play-quest__count { color: #9fe1cb; }
+
+/* Deck-builder BINDER (2026-06-10) — search + faction/cost filters + paging,
+   replacing the 398k-px dump of all 4,129 cards. */
+.crypt-binder-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.crypt-binder-count {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 242, 232, 0.5);
+}
+.crypt-binder-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 16px;
+}
+.crypt-binder-search {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 242, 232, 0.14);
+  background: rgba(11, 11, 13, 0.6);
+  color: #f2ecdd;
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+}
+.crypt-binder-search:focus {
+  outline: none;
+  border-color: rgba(233, 201, 132, 0.55);
+}
+.crypt-binder-search::placeholder { color: rgba(245, 242, 232, 0.34); }
+.crypt-binder-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.crypt-binder-chip {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 242, 232, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(245, 242, 232, 0.66);
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+.crypt-binder-chip:hover { color: #f2ecdd; border-color: rgba(245, 242, 232, 0.3); }
+.crypt-binder-chip.is-on {
+  color: #0c0a06;
+  background: var(--chip, #e9c984);
+  border-color: var(--chip, #e9c984);
+  font-weight: 700;
+}
+.crypt-binder-chip--cost { min-width: 34px; text-align: center; }
+.crypt-binder-chip--cost.is-on { background: #e9c984; border-color: #e9c984; }
+.crypt-binder-empty {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  color: rgba(245, 242, 232, 0.5);
+  padding: 24px 0;
+  text-align: center;
+}
+.crypt-binder-more {
+  display: block;
+  margin: 18px auto 0;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: 1px solid rgba(233, 201, 132, 0.4);
+  background: rgba(233, 201, 132, 0.08);
+  color: #f0d489;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.crypt-binder-more:hover { background: rgba(233, 201, 132, 0.16); }
