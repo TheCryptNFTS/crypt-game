@@ -5977,3 +5977,39 @@ button:has(> .crypt-card-chrome):hover,
   --cb-enemy: #f08a24;  /* orange instead of red */
   --cb-ally: #5fa8ff;   /* strong blue instead of green/cyan */
 }
+
+/* Daily-quest strip on the Play hub (2026-06-10) — the return-tomorrow loop. */
+.crypt-play-quests {
+  border: 1px solid rgba(233, 201, 132, 0.18);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(233, 201, 132, 0.05), rgba(11, 11, 13, 0.55));
+  padding: 14px 16px;
+}
+.crypt-play-quests__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.crypt-play-quests__reset {
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 242, 232, 0.4);
+}
+.crypt-play-quests__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.crypt-play-quest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px auto;
+  grid-template-areas: "title bar count" "desc bar count";
+  align-items: center;
+  gap: 2px 10px;
+}
+.crypt-play-quest__title { grid-area: title; font-family: var(--font-mono, monospace); font-size: 12px; color: #e7dcc2; }
+.crypt-play-quest__desc { grid-area: desc; font-size: 10.5px; color: rgba(245, 242, 232, 0.5); }
+.crypt-play-quest__bar { grid-area: bar; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.09); overflow: hidden; }
+.crypt-play-quest__fill { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #d8b25a, #f0d489); }
+.crypt-play-quest__count { grid-area: count; font-family: var(--font-mono, monospace); font-size: 11px; color: #c9b27e; text-align: right; min-width: 40px; }
+.crypt-play-quest.is-done .crypt-play-quest__title,
+.crypt-play-quest.is-done .crypt-play-quest__count { color: #9fe1cb; }

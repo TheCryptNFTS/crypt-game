@@ -32,9 +32,9 @@ function findCommander(preferredName: string) {
 }
 
 /** P1's commander is the one the player PICKED (onboarding/deck builder). Falls
- *  back to the DEMO (Bronze) commander when nothing valid is stored, so a fresh
+ *  back to the DEMO (Iron) commander when nothing valid is stored, so a fresh
  *  newcomer pairs the faction-coherent demo deck (buildOwnedDeck) with the curated
- *  commander whose identity actually rewards it — without that pairing a Bronze
+ *  commander whose identity actually rewards it — without that pairing an Iron
  *  starter deck under a generated `cmd_6xxx` commander triggers NO faction identity
  *  and the whole #8 layer reads as nothing on a first game. A returning player who
  *  picked a commander still gets exactly their pick. */

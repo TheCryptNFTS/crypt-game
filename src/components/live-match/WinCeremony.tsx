@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { openTweet, shareOrCopy, absoluteUrl } from "../../lib/share";
 import { resultCardBlob, resultCardDataUrl } from "../../lib/shareCard";
+import { activeQuests, SIGIL_REWARDS, type RewardsState } from "../../meta/rewards";
 import "../../styles/win-ceremony.css";
 
 /*
@@ -33,6 +34,12 @@ export type WinCeremonyProps = {
    * just the verdict + actions.
    */
   match?: any;
+  /**
+   * Post-match rewards ledger (Sigil + daily quests + season), already advanced
+   * by useMatchRewards. When present the ceremony shows what this match earned +
+   * daily-quest progress — the "come back tomorrow" hook. In-game-only.
+   */
+  rewards?: RewardsState | null;
 };
 
 function prefersReducedMotion(): boolean {
@@ -48,9 +55,14 @@ export function WinCeremony({
   mySeat = "P1",
   onPlayAgain,
   match,
+  rewards,
 }: WinCeremonyProps) {
   const playerWon = winner === mySeat;
   const reduced = prefersReducedMotion();
+
+  // Post-match payoff: base Sigil for the result + today's daily-quest progress.
+  const sigilBase = playerWon ? SIGIL_REWARDS.win : SIGIL_REWARDS.loss;
+  const dailies = rewards ? activeQuests(rewards, "daily") : [];
 
   // Best-effort stat line from the read-only snapshot. Wrapped defensively so a
   // shape change can never break the ceremony.
@@ -222,6 +234,36 @@ export function WinCeremony({
                 <span className="wc-stat__label">Hex</span>
               </div>
             ) : null}
+          </div>
+        ) : null}
+
+        {rewards ? (
+          <div className="wc-rewards" aria-label="Rewards earned">
+            <div className="wc-rewards__sigil">
+              <span className="wc-rewards__sigil-amt">+{sigilBase}</span>
+              <span className="wc-rewards__sigil-lbl">◈ Sigil</span>
+            </div>
+            {dailies.length > 0 ? (
+              <ul className="wc-quests">
+                {dailies.map((q) => {
+                  const pct = Math.min(100, Math.round((q.progress / q.goal) * 100));
+                  return (
+                    <li key={q.id} className={`wc-quest${q.claimed ? " wc-quest--done" : ""}`}>
+                      <span className="wc-quest__title">
+                        {q.claimed ? "✓ " : ""}{q.title}
+                      </span>
+                      <span className="wc-quest__bar" aria-hidden="true">
+                        <span className="wc-quest__fill" style={{ width: `${pct}%` }} />
+                      </span>
+                      <span className="wc-quest__count">
+                        {q.claimed ? `+${q.sigilReward} ◈` : `${q.progress}/${q.goal}`}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+            <span className="wc-rewards__foot">Daily quests reset at 00:00 UTC — come back to keep the streak.</span>
           </div>
         ) : null}
 

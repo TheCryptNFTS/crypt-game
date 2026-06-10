@@ -305,3 +305,91 @@
   }
   .wc-share-btn:hover { transform: none; }
 }
+
+/* Post-match rewards strip (2026-06-10) — Sigil + daily-quest progress on the
+   ceremony so a finished match opens the next loop instead of dead-ending. */
+.wc-rewards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 360px;
+  margin: 4px auto 2px;
+  padding: 14px 16px;
+  border: 1px solid rgba(233, 201, 132, 0.22);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(233, 201, 132, 0.07), rgba(8, 8, 11, 0.5));
+}
+.wc-rewards__sigil {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.wc-rewards__sigil-amt {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  color: #f0d489;
+  line-height: 1;
+}
+.wc-rewards__sigil-lbl {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c9b27e;
+}
+.wc-quests {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.wc-quest {
+  display: grid;
+  grid-template-columns: 1fr 70px auto;
+  align-items: center;
+  gap: 8px;
+}
+.wc-quest__title {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #e7dcc2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wc-quest__bar {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.wc-quest__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #d8b25a, #f0d489);
+}
+.wc-quest__count {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #b8b1a0;
+  text-align: right;
+  min-width: 34px;
+}
+.wc-quest--done .wc-quest__title { color: #9fe1cb; }
+.wc-quest--done .wc-quest__count { color: #9fe1cb; }
+.wc-rewards__foot {
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: rgba(245, 242, 232, 0.45);
+  text-align: center;
+}

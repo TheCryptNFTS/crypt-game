@@ -13,6 +13,7 @@ import {
 import { useRenderManifest } from "../hooks/useRenderManifest";
 import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
 import { getAuthHeader, isSignedIn } from "../nft/gameSession";
+import { loadRewards, activeQuests } from "../meta/rewards";
 import type { MatchView } from "../game-ui/useRemoteCryptMatch";
 import { ChallengePanel } from "../components/live-match/ChallengePanel";
 import { t } from "../i18n";
@@ -46,6 +47,11 @@ function CITY_BASE(): string {
 export default function PlayHubPage() {
   const location = useLocation();
   const { entryById, loading, error, ready } = useRenderManifest();
+
+  // Daily quests (read-only) — the return-tomorrow hook, surfaced on the hub so
+  // a player sees today's goals before they queue. Loaded once; rolls itself
+  // forward to the current day in loadRewards(). In-game-only.
+  const dailyQuests = useMemo(() => activeQuests(loadRewards(), "daily"), []);
 
   // --- Matchmaking state ------------------------------------------------------
   const [phase, setPhase] = useState<QueuePhase>("idle");
@@ -281,6 +287,34 @@ export default function PlayHubPage() {
         lead={t("play.lead")}
       >
         <div className="crypt-play-sections">
+          {/* DAILY QUESTS — the come-back-tomorrow loop, surfaced before you queue. */}
+          {dailyQuests.length > 0 ? (
+            <section className="crypt-play-quests" aria-label="Daily quests">
+              <div className="crypt-play-quests__head">
+                <h2 className="crypt-play-section-label">Daily quests</h2>
+                <span className="crypt-play-quests__reset">resets 00:00 UTC</span>
+              </div>
+              <ul className="crypt-play-quests__list">
+                {dailyQuests.map((q) => {
+                  const pct = Math.min(100, Math.round((q.progress / q.goal) * 100));
+                  return (
+                    <li key={q.id} className={`crypt-play-quest${q.claimed ? " is-done" : ""}`}>
+                      <span className="crypt-play-quest__title">
+                        {q.claimed ? "✓ " : ""}{q.title}
+                      </span>
+                      <span className="crypt-play-quest__desc">{q.description}</span>
+                      <span className="crypt-play-quest__bar" aria-hidden>
+                        <span className="crypt-play-quest__fill" style={{ width: `${pct}%` }} />
+                      </span>
+                      <span className="crypt-play-quest__count">
+                        {q.claimed ? `+${q.sigilReward} ◈` : `${q.progress}/${q.goal}`}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ) : null}
           <section className="crypt-play-loadout" aria-label={t("play.loadout.aria")}>
             <div className="crypt-play-loadout-header">
               <h2 className="crypt-play-section-label">{t("play.loadout.yourDeck")}</h2>

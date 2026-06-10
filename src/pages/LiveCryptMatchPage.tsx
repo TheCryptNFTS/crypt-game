@@ -8,6 +8,7 @@ import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
 import { useLocalCryptMatch, LocalMatchOptions } from "../game-ui/useLocalCryptMatch";
 import { TutorialCoach } from "../components/tutorial/TutorialCoach";
 import { useMatchProgression } from "../meta/useMatchProgression";
+import { useMatchRewards } from "../meta/useMatchRewards";
 import { funnelOnce } from "../lib/funnel";
 import { MulliganScreen } from "../components/live-match/MulliganScreen";
 import { WinCeremony } from "../components/live-match/WinCeremony";
@@ -61,6 +62,12 @@ export default function LiveCryptMatchPage({
   // is a stable key that changes on every reset, re-arming the once-per-match
   // guard. In-game-only: this never sources hex or touches the wallet.
   useMatchProgression(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
+
+  // META REWARDS (post-match, OUTSIDE the reducer). Sibling to progression:
+  // advances daily/weekly quests + Sigil + the season track once per decided
+  // match, keyed to the same per-match seed. The retention loop that gives a
+  // reason to return tomorrow. In-game-only — never sources hex or the wallet.
+  const { rewards } = useMatchRewards(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
 
   // VERSUS match-open beat (solo only). Plays once per match, after the mulligan
   // is confirmed. Keyed to the match seed so "Reset Match" (new seed) re-arms it.
@@ -225,6 +232,7 @@ export default function LiveCryptMatchPage({
           winner={local.winner}
           mySeat="P1"
           match={local.match}
+          rewards={rewards}
           onPlayAgain={local.resetMatch}
         />
       ) : null}
