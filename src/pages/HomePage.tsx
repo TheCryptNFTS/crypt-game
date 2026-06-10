@@ -116,14 +116,16 @@ export default function HomePage() {
         <section className="crypt-home-m-hero" aria-label="Home">
           <div className="crypt-home-m-hero-accent" aria-hidden />
           <div className="crypt-home-m-hero-inner">
-            {/* On-brand environment key-art — the gold/purple "stable district"
-                battlefield render (already in public/). Replaces the off-palette
-                cyan skull. Full-bleed wide with a warm gold/black gradient so the
-                headline + ledger below read cleanly over it. */}
+            {/* On-brand environment key-art — the gold-sovereignty district: a
+                crowned throne-vista of gold kings + purple banners (already in
+                public/). Replaces the hazy/washed-out empty battlefield — this
+                reads as a SEAT OF COMMAND, which is the home's whole pitch.
+                Full-bleed wide with a warm gold/black gradient so the headline
+                + ledger below read cleanly over it. */}
             <div className="crypt-home-m-hero-art">
               <img
-                src="/crypt-assets/battlefield-stable.jpg"
-                alt="The Crypt — stable district"
+                src="/crypt-assets/gold-sovereignty-district.jpg"
+                alt="The Crypt — the sovereignty district"
                 loading="eager"
                 decoding="async"
                 className="crypt-home-m-hero-art-img"

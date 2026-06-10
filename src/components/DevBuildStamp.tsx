@@ -41,6 +41,12 @@ function DevBuildStampInner() {
 }
 
 export default function DevBuildStamp() {
+  // Dev-only AND opt-in (?stamp in the URL). It never ships to prod, and it no
+  // longer clutters every dev view / screenshot — add ?stamp to summon it when
+  // you actually need to confirm new JS + catalog state.
   if (!import.meta.env.DEV) return null;
+  if (typeof window === "undefined" || !new URLSearchParams(window.location.search).has("stamp")) {
+    return null;
+  }
   return <DevBuildStampInner />;
 }
