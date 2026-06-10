@@ -63,6 +63,14 @@ export function validateDeck(
     maxCopies?: number;
     allowGodCards?: boolean;
     /**
+     * Numeric GOD-card cap (teardown §11 P1). When set, a deck with MORE than
+     * `maxGodCards` cards in the GODS faction is rejected — the rule the deck
+     * builder UI already DISPLAYS ("Max god cards 1") but never enforced, so a
+     * 20-god deck validated as legal. Omitted -> only the boolean `allowGodCards`
+     * gate applies (historical behavior; existing fixtures unmoved).
+     */
+    maxGodCards?: number;
+    /**
      * FORMAT (PART 2) — curated legality filter. DEFAULTS to "Open", which is the historical
      * behavior (the full 4129-card pool is legal), so EVERY existing caller — none of which
      * pass `format` — validates exactly as before and the committed fixtures stay unmoved.
@@ -146,6 +154,14 @@ export function validateDeck(
   }
 
   const godCount = byFaction.get("GODS") || 0;
+
+  // Numeric god cap (teardown §11 P1). Enforced only when supplied; the boolean
+  // allowGodCards gate above still independently bars gods entirely when false.
+  if (typeof opts?.maxGodCards === "number" && godCount > opts.maxGodCards) {
+    errors.push(
+      `Deck contains ${godCount} GOD cards but the limit is ${opts.maxGodCards}.`
+    );
+  }
 
   return {
     valid: errors.length === 0,

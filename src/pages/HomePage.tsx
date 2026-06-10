@@ -194,7 +194,10 @@ export default function HomePage() {
               {
                 to: "/deck",
                 kicker: "Forge",
-                label: "Vault",
+                // Teardown §7: "Vault" already means /collection in the dock —
+                // the same word routing two places was the worst naming
+                // collision in the app. This tile is the deck builder.
+                label: "Deck",
                 hint: "Your loadout",
                 accent: "var(--color-crypt-accent, #E9C984)",
               },

@@ -21,6 +21,8 @@ type Props = {
   boardCount: number;
   /** True while the opening mulligan gate is still open (can't deploy yet). */
   mulliganActive?: boolean;
+  /** True while a hand card is selected — advances goal → deploy coaching. */
+  handSelected?: boolean;
   winner: "P1" | "P2" | null;
 };
 
@@ -30,36 +32,40 @@ type Step = {
   body: string;
 };
 
+/**
+ * Teardown §3 rewrite. The old step machine could only ever reach indices
+ * 0/1/3/5/6 — "lanes" and "keywords" were dead steps, ATTACK was never taught,
+ * the visible counter skipped numbers, and the first body claimed "a Hex at 20
+ * health" while the board showed 25 vs 8. The new flow: every step is reachable
+ * on the natural play path, no step states a number the board can contradict,
+ * and the deploy step covers the turn-1 dead-end (no affordable unit → END TURN
+ * is your move — the old coach demanded a deploy the hand couldn't make).
+ */
 const STEPS: Step[] = [
   {
-    id: "mulligan",
-    title: "Lock in your opening hand",
-    body: "First, your opening hand. Tap any cards you want to swap, then press KEEP HAND (or RECALIBRATE) to lock it in and start the duel.",
-  },
-  {
-    id: "nexus",
-    title: "Protect your Hex",
-    body: "Each side guards a Hex at 20 health. Drop the enemy Hex to 0 to win — and don't let yours fall.",
-  },
-  {
-    id: "lanes",
-    title: "Front and back lanes",
-    body: "Units deploy to a FRONT or BACK lane. Front units trade blows; back units sit safer until you push.",
+    id: "hex",
+    title: "Win the race",
+    body: "Your Hex is the green crystal up top — the enemy's is the red one. Drop the enemy Hex to 0 and you win. Tap a card in your hand to begin.",
   },
   {
     id: "play",
     title: "Play a unit",
-    body: "Tap a card in hand, then press Play Front or Play Back in the Actions panel to spend energy and deploy it. Get a body on the board now.",
+    body: "Tap a glowing slot (or press PLAY FRONT) to deploy it. Units cost energy — the purple crystals. No unit you can afford? Press END TURN: your energy grows every turn.",
   },
   {
-    id: "keywords",
-    title: "Keywords: GUARD and RUSH",
-    body: "GUARD walls must be dealt with before attacks slip past. RUSH units can attack the turn they land.",
+    id: "lanes",
+    title: "Lanes, then end your turn",
+    body: "Front row trades blows; the back row sits safer. Fresh units need a turn to ready up — press END TURN and watch the opponent move.",
   },
   {
     id: "attack",
     title: "Attack",
-    body: "Select your unit, then an enemy unit or their Hex. Chip the enemy Hex down to zero.",
+    body: "Tap your unit, then ATTACK HEX — or tap an enemy unit first to trade. Each unit strikes once per turn. Attack a unit and it strikes back; the Hex can't.",
+  },
+  {
+    id: "keywords",
+    title: "GUARD and RUSH",
+    body: "A GUARD wall must be cleared before anything behind it — or the Hex — can be hit. RUSH units can attack the turn they land.",
   },
   {
     id: "close",
@@ -68,21 +74,32 @@ const STEPS: Step[] = [
   },
 ];
 
-export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, winner }: Props) {
+export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, handSelected, winner }: Props) {
   // Derive the step from match progress: advance as the pilot fields units and
   // turns pass, so coaching tracks what they're actually doing. Indices map to
-  // STEPS: 0 mulligan, 1 nexus, 2 lanes, 3 play, 4 keywords, 5 attack, 6 close.
+  // STEPS: 0 hex/goal, 1 play, 2 lanes/end-turn, 3 attack, 4 keywords, 5 close.
+  // On the natural path (deploy turn 1 → end turn → attack turn 2 → keep going)
+  // every step is hit IN ORDER — no dead steps, no visible counter skips.
   const derivedIndex = useMemo(() => {
     if (winner) return STEPS.length; // overlay handled by the result card below
-    // While the opening-hand gate is open, sit on the mulligan step — never tell
-    // the player to "play a unit" before they've locked their hand.
+    // The tutorial skips the mulligan (autoKeepOpeningHand), but if the gate is
+    // ever open, sit on the goal step — it's safe under any overlay.
     if (mulliganActive) return 0;
-    if (boardCount >= 1 && turn >= 2) return 6;
-    if (boardCount >= 1) return 5;
-    // Hand locked, your turn, nothing deployed yet → "Play a unit".
-    if (turn >= 1 && boardCount === 0 && activePlayer === "P1") return 3;
-    return 1;
-  }, [winner, boardCount, turn, activePlayer, mulliganActive]);
+    if (boardCount === 0) {
+      // Nothing fielded yet: the GOAL first ("tap a card to begin"), then the
+      // deploy verb once a hand card is selected (the body also covers the "no
+      // affordable unit → END TURN" dead-end, so this step is never a lie).
+      if (activePlayer !== "P1") return 0;
+      return handSelected ? 1 : 0;
+    }
+    // At least one unit fielded. NOTE: the engine's `turn` counts HALF-turns
+    // (it increments on EVERY end-turn), so with P1 acting first the player's
+    // turns are 1, 3, 5… and the opponent's are 2, 4, 6….
+    if (turn <= 2) return 2; // rest of player turn 1 + AI turn: lanes + "end your turn"
+    if (turn <= 4) return 3; // player's SECOND turn: units are ready — teach the attack verb
+    if (turn <= 6) return 4; // third cycle: GUARD/RUSH, as enemy walls start landing
+    return 5; // close it out
+  }, [winner, boardCount, turn, activePlayer, mulliganActive, handSelected]);
 
   const [index, setIndex] = useState(0);
   // Coaching only ever moves FORWARD with the match — never snaps backward.
@@ -136,9 +153,12 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
       role="note"
       aria-live="polite"
       style={{
+        // Anchored over the ENEMY zone (top), never the hand dock (teardown §3:
+        // the old bottom-anchored card covered exactly the cards step "play"
+        // told the player to tap).
         position: "fixed",
         left: "50%",
-        bottom: 18,
+        top: 178,
         transform: "translateX(-50%)",
         zIndex: 60,
         maxWidth: 460,

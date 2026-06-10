@@ -68,10 +68,9 @@ export default function AppShell() {
           <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--play" aria-hidden />
           Play
         </NavLink>
-        <NavLink to="/puzzles" className={({ isActive }) => dockClass(isActive)}>
-          <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--play" aria-hidden />
-          Puzzles
-        </NavLink>
+        {/* /puzzles is hidden from the dock (teardown §2, director ruling): the
+            puzzles are reveal-only demos, not playable. Route resolves by URL;
+            re-add the tab when they become real teaching puzzles (V1.1). */}
         {onboarded ? (
           <NavLink to="/collection" className={({ isActive }) => dockClass(isActive)}>
             <span className="crypt-mobile-dock-glyph crypt-mobile-dock-glyph--catalog" aria-hidden />

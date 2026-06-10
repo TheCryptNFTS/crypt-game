@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LiveCryptMatchPage from "./LiveCryptMatchPage";
 import { buildStarterDeck, ensureStarterDeckEquipped } from "../lib/starterDeck";
 import { markTutorialComplete } from "../lib/localProgress";
+import { funnelOnce } from "../lib/funnel";
 
 /**
  * Forced first-time tutorial. A brand-new pilot is routed here before anything
@@ -25,18 +26,24 @@ export default function TutorialPage() {
   // immediately afterward with zero deckbuilding.
   useEffect(() => {
     ensureStarterDeckEquipped();
+    funnelOnce("tutorial_start"); // FTUE funnel stage 2 (once per device)
   }, []);
 
   const localMatchOptions = useMemo(
     () => ({
       p1Deck: buildStarterDeck(),
       opponentNexusHealth: TUTORIAL_OPPONENT_NEXUS,
+      // Teardown §3: the mulligan was the FIRST interactive screen a brand-new
+      // player ever saw — a redraw decision before they'd seen a card. The
+      // tutorial keeps the dealt hand and starts straight on the board.
+      autoKeepOpeningHand: true,
     }),
     [],
   );
 
   const onComplete = () => {
     markTutorialComplete();
+    funnelOnce("tutorial_complete"); // FTUE funnel stage 3 (once per device)
     setDone(true);
   };
 

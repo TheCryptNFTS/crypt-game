@@ -207,7 +207,11 @@ export function buildCuratedDeck(commanderId: string): string[] {
 
   const allCards = (cardMaster as Card[]).filter((card) => {
     if (card.collection !== "AVATAR_TCG") return false;
-    if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
+    // ARTIFACTS CUT FROM V1 (teardown §11 P1): artifacts are excluded from all
+    // deck building — they do nothing for their cost AND wipe friendly buffs on
+    // play (D3). The fill loops below backfill the freed slots with units, so
+    // deckSize is unchanged. Collection still shows them as dormant relics.
+    if (!["unit", "equipment"].includes(card.cardType)) return false;
     if (!card.id) return false;
     // Never draft a soft-banned (disabled) card — keeps the default deck legal.
     if (isCardDisabled(card.id)) return false;
@@ -249,7 +253,11 @@ export function buildCuratedDeck(commanderId: string): string[] {
   if (deck.length < nonSpellTarget) {
     const fallback = (cardMaster as Card[]).filter((card) => {
       if (card.collection !== "AVATAR_TCG") return false;
-      if (!["unit", "equipment", "artifact"].includes(card.cardType)) return false;
+      // ARTIFACTS CUT FROM V1 (teardown §11 P1): artifacts are excluded from all
+    // deck building — they do nothing for their cost AND wipe friendly buffs on
+    // play (D3). The fill loops below backfill the freed slots with units, so
+    // deckSize is unchanged. Collection still shows them as dormant relics.
+    if (!["unit", "equipment"].includes(card.cardType)) return false;
       if (!card.id) return false;
       if (isCardDisabled(card.id)) return false;
       return true;

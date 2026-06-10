@@ -168,28 +168,6 @@ export interface ArtifactInPlay {
   modifiers?: Record<string, unknown>;
 }
 
-/**
- * An armed SECRET / TRAP (#2) — a face-down reactive trigger a player sets on
- * their own turn that fires AUTOMATICALLY the instant the opponent takes the
- * matching action. There is no live decision and no priority pass when it fires,
- * so it preserves the engine's locked no-stack / no-response model
- * (RESOLUTION_MODEL.md §1): a secret is a pre-committed, deterministic reaction,
- * NOT a response window. One-shot — it is consumed (removed) the moment it fires.
- */
-export interface ArmedSecret {
-  /** Stable id for events / dedupe (e.g. "secret_<seed>_<n>"). */
-  id: string;
-  /** What enemy action springs it. Today only the attack-declaration window. */
-  trigger: "ON_ENEMY_ATTACK";
-  /** The reaction. "DEAL_DAMAGE" hits the triggering ENEMY UNIT (never the face —
-   *  no-burn). Kept deliberately small; new ops are additive. */
-  op: "DEAL_DAMAGE";
-  /** Magnitude for the reaction op. */
-  amount: number;
-  /** Display label for the client; never read by game logic. */
-  name?: string;
-}
-
 export interface PlayerState {
   id: PlayerId;
   /**
@@ -207,6 +185,12 @@ export interface PlayerState {
    * with that dead-code chain in a dedicated cleanup pass.
    */
   nexusHealth: number;
+  /** The player's OWN starting face HP — the heal/lifesteal cap (teardown D1).
+   *  Defaults to STARTING_NEXUS_HEALTH; the live solo hook sets 25 (newcomer
+   *  cushion). Heals clamp to `max(maxNexusHealth, current)` so a heal NEVER
+   *  reduces a face pool that started above the standard cap. Optional so
+   *  legacy serialized states/fixtures stay shape-compatible. */
+  maxNexusHealth?: number;
   health: number;
   energy: number;
   maxEnergy: number;
@@ -230,14 +214,6 @@ export interface PlayerState {
     firstUnitCostReduction: number;
     firstUnitPlayed: boolean;
   };
-  /**
-   * Armed SECRETS / TRAPS (#2). ABSENT by default — a player who never sets a
-   * secret carries no field, so `structuredClone` keeps it `undefined` and the
-   * reducer-equivalence golden JSON (which has no secret-setting actions) is
-   * unmoved. The combat hook that fires these is a pure no-op on an empty/missing
-   * zone, so vanilla matches are byte-identical.
-   */
-  secrets?: ArmedSecret[];
 }
 
 /**
@@ -364,38 +340,6 @@ export interface MatchState {
    */
   rules?: MatchRules | null;
   /**
-   * ASCENDANCY meter (#4) — the no-burn alternate win track. Only present once a
-   * match enables `rules.ascendancyToWin`; absent (undefined) otherwise, so default
-   * matches and fixtures carry no extra field. At each player's turn END the reducer
-   * increments that player's counter if they hold STRICTLY more live units than the
-   * opponent (sustained board dominance), and RESETS it to 0 otherwise. Reaching the
-   * threshold is a control victory — a win earned through the board, never burn.
-   */
-  ascendancy?: { P1: number; P2: number } | null;
-  /**
-   * RESPONSE STACK (opt-in `rules.responseStack`). ABSENT by default, so a vanilla
-   * match carries no field and the reducer-equivalence golden JSON is byte-identical
-   * (undefined survives structuredClone; every stack hook is a clean no-op without
-   * the flag). When the flag is ON, a "slow" action (the BASE entry) does not resolve
-   * immediately: it is pushed here and a response window opens. Players may push FAST
-   * responses on top (LIFO) via CAST_RESPONSE; when both players PASS consecutively
-   * the stack resolves top-down (the most-recent response first), so a response can
-   * counter / pump / shield the entry beneath it before it resolves. Always `[]` /
-   * absent between fully-resolved actions. Holds ONLY plain data, so it is
-   * structuredClone-stable. See `src/engine/RESOLUTION_MODEL.md` §9.
-   */
-  responseStack?: ResponseStackEntry[] | null;
-  /**
-   * The OPEN response window (opt-in `rules.responseStack`). Non-null exactly while
-   * the stack is awaiting priority passes. While set, the reducer accepts ONLY
-   * CAST_RESPONSE / PASS_RESPONSE (every other action reject-softs `response-pending`),
-   * mirroring the `pendingChoice` global gate. `priority` is whose turn it is to act in
-   * the window; `passes` counts CONSECUTIVE passes — at 2 (both players passed in a row)
-   * the window closes and the stack resolves LIFO. Absent (undefined/null) in a vanilla
-   * match, so fixtures are unmoved.
-   */
-  pendingResponse?: PendingResponse | null;
-  /**
    * The LAST card played by either side (set whenever any PLAY_* action resolves a
    * card from hand). Feeds RETURN_LAST_PLAYED (tcg_3425), which bounces it to its
    * owner's hand. ABSENT by default — a match with no card played carries no field,
@@ -451,98 +395,9 @@ export interface MulliganState {
 }
 
 /**
- * One entry on the response stack (opt-in `rules.responseStack`). Pure plain data so
- * the whole stack is structuredClone-stable. The BASE entry is the slow action that
- * opened the window (today: a unit attack or a spell-like cast); entries pushed on top
- * are FAST responses. Resolution is LIFO — the entry with the HIGHEST index resolves
- * first, so a response resolves before (and can modify/fizzle) the entry beneath it.
- */
-export interface ResponseStackEntry {
-  /** Stable id for events / counter-targeting (e.g. "resp_<seed>_<n>"). */
-  id: string;
-  /** Who put this entry on the stack. */
-  controller: PlayerId;
-  /**
-   * The kind of entry, deciding how the reducer resolves it when it pops:
-   *  - "ATTACK"        — a deferred unit attack (the BASE of an attack window). Carries
-   *                      attacker/defender instance ids; resolves through the normal
-   *                      combat path when it pops, reading the (possibly pumped/shielded)
-   *                      LIVE units, so a response beneath-resolving-later changed them.
-   *  - "EFFECT"        — a fast spell-like effect (pump / shield / direct unit damage /
-   *                      nexus heal). Carries an explicit EffectSpec + optional target,
-   *                      resolved via the shared effectResolver (no abilityCompiler edit).
-   *  - "COUNTER"       — fizzles the entry DIRECTLY BENEATH it on the stack (LIFO), so a
-   *                      counter neutralizes the action it was played in response to, and
-   *                      a counter-the-counter (a COUNTER targeting another COUNTER) is
-   *                      itself just an entry that fizzles the one below — resolving
-   *                      correctly LIFO.
-   */
-  kind: "ATTACK" | "EFFECT" | "COUNTER";
-  /** ATTACK: the attacking unit's instanceId. */
-  attackerInstanceId?: string;
-  /** ATTACK: the defending unit's instanceId, OR undefined for a face swing. */
-  defenderInstanceId?: string;
-  /** ATTACK: true for a face (nexus) swing rather than a unit attack. */
-  face?: boolean;
-  /** EFFECT: the explicit effect to resolve when this pops (carried by CAST_RESPONSE,
-   *  so no new card-text parsing / abilityCompiler edit is needed). */
-  effect?: ResponseEffectSpec;
-  /** EFFECT: optional target unit instanceId, resolved against the LIVE board at pop. */
-  targetInstanceId?: string;
-  /** Set true when a COUNTER above this entry fizzled it; a fizzled entry is a clean
-   *  no-op when it pops (it never resolves its attack/effect). */
-  fizzled?: boolean;
-}
-
-/**
- * A self-contained fast-effect descriptor a CAST_RESPONSE carries (opt-in
- * `rules.responseStack`). Deliberately a SMALL, explicit shape (NOT parsed from card
- * text), so the response system needs no `abilityCompiler.ts` edit. The resolver maps
- * each op to an existing, proven effectResolver/no-burn primitive when the entry pops.
- * A content agent could later compile real "instant" cards into this same shape.
- */
-export interface ResponseEffectSpec {
-  /**
-   *  - "PUMP_ALLY"    — +attack/+health to one of the CONTROLLER's own units
-   *                     (BUFF_SELF on the target). Changes a combat outcome mid-window.
-   *  - "SHIELD_ALLY"  — arm WARD/DIVINE_SHIELD on one of the controller's own units,
-   *                     absorbing the next damage instance (no-burn; defensive).
-   *  - "DAMAGE_UNIT"  — direct damage to an ENEMY unit (never the face — no-burn).
-   *  - "HEAL_NEXUS"   — heal the CONTROLLER's own nexus (no-burn; self only). */
-  op: "PUMP_ALLY" | "SHIELD_ALLY" | "DAMAGE_UNIT" | "HEAL_NEXUS";
-  amount?: number;
-  attack?: number;
-  health?: number;
-}
-
-/**
- * The open response window (opt-in `rules.responseStack`). Pure plain data, crosses
- * action boundaries while the window is open, cleared when the stack resolves. See
- * `src/engine/RESOLUTION_MODEL.md` §9.
- */
-export interface PendingResponse {
-  /** Whose turn it is to act in the window (CAST_RESPONSE or PASS_RESPONSE). */
-  priority: PlayerId;
-  /** Consecutive PASS count. At 2 (both players passed in a row) the window closes and
-   *  the stack resolves LIFO. A CAST_RESPONSE resets it to 0 (the opponent regains a
-   *  chance to respond to the new top entry). */
-  passes: number;
-}
-
-/**
  * Per-match ruleset (#4). Optional and additive: an undefined field means "vanilla".
  */
 export interface MatchRules {
-  /**
-   * RESPONSE STACK (headline interactivity). When true, "slow" actions open a LIFO
-   * response window: players may play FAST responses (CAST_RESPONSE) that resolve
-   * before the action beneath them — a counter that fizzles it, a pump/shield that
-   * changes a combat outcome, or a counter-the-counter, all resolving LIFO. ABSENT/
-   * false by default, so a vanilla match plays EXACTLY as today (slow actions resolve
-   * immediately, no window) and the reducer-equivalence golden JSON stays byte-identical.
-   * See `src/engine/RESOLUTION_MODEL.md` §9.
-   */
-  responseStack?: boolean;
   /**
    * DECKOUT LOSS (alt win-con, opt-in). When true, drawing from an EMPTY deck loses you
    * the game (classic mill/fatigue). The vanilla draw already sets the opponent as winner
@@ -604,7 +459,8 @@ export interface MatchRules {
  *   - traitResonance ON      — the signature "shared-keyword units strengthen each
  *                              other" hook: one legible rule that makes themed decks
  *                              feel synergistic without anything extra to track,
- *   - responseStack / alt-wins OFF — one win axis (nexus), no stack to learn.
+   * One win axis only: nexus depletion (or deck-out). The vetoed response stack and
+   * the alt win-cons were removed from the engine entirely (2026-06-10 teardown).
  * Everything omitted is `undefined` = vanilla, so this is purely additive and
  * survives structuredClone. Advanced rulesets opt back into depth per-match.
  */

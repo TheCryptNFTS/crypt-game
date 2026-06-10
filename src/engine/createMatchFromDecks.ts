@@ -118,6 +118,9 @@ function hydratePlayer(
   player.board.back = [];
   player.deckCount = player.deck.length;
   player.nexusHealth = player.nexusHealth ?? STARTING_NEXUS_HEALTH;
+  // D1 (teardown): the heal cap tracks THIS player's starting face HP. Callers
+  // that raise the start (the live hook's 25-Hex newcomer cushion) re-stamp it.
+  player.maxNexusHealth = player.maxNexusHealth ?? player.nexusHealth;
 
   for (let i = 0; i < openingHandSize; i += 1) {
     drawOne(player);

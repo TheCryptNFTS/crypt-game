@@ -21,7 +21,10 @@ refactor_dump/
 # local scratch / audit artifacts (not source)
 .claude/
 crypt tcg/
-Crypt/
+# Anchored to the repo root: the bare `Crypt/` form matched case-insensitively
+# and silently ignored src/components/crypt/, so new files there vanished from
+# git (the gitignore trap). `/Crypt/` only ignores the root Unity-project dir.
+/Crypt/
 CANON_AUDIT_OUTPUT/
 *.bak[0-9]
 *.bakcanon

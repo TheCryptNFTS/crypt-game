@@ -76,7 +76,10 @@ const UNIT_CURVE: Array<[cost: number, count: number, orMore?: boolean]> = [
   [6, 3, true],
 ];
 const TARGET_EQUIPMENT = 3;
-const TARGET_ARTIFACTS = 2;
+// ARTIFACTS CUT FROM V1 (teardown §11 P1): artifacts do nothing for their cost
+// and wipe friendly buffs on play (D3), so no deck drafts them. The unit curve +
+// equipment + units-preferred backfill below still fill all 30 slots.
+const TARGET_ARTIFACTS = 0;
 
 export type DeckSource = "owned" | "demo";
 
@@ -92,18 +95,21 @@ const CARD_BY_ID = new Map<string, any>(
 /**
  * The faction the DEMO/STARTER deck commits to, and the curated commander whose
  * identity rewards it. With `factionIdentities` + `factionArchetypes` ON in the
- * CORE ruleset, a newcomer's first match should visibly express ONE identity — so
- * the demo deck is biased mono-faction toward BRONZE (the aggro/Onslaught plan):
- * cheap Bronze bodies enter with RUSH and, once 3+ Bronze are live, the Rush band
- * widens to cost<=3 — the deck SNOWBALLS, the most legible "this faction does a
- * THING" first impression. The matching curated commander is exported so the demo
- * path (useLocalCryptMatch) can pair the deck with the commander that actually
- * fires the identity (a generated `cmd_6xxx` commander has NO faction identity, so
- * a Bronze deck under it would still feel like nothing). Owned/explicit decks are
- * untouched — they keep their faction-agnostic curve build.
+ * CORE ruleset, a newcomer's first match should visibly express ONE identity.
+ *
+ * IRON (teardown §4/§5, director ruling 2026-06-10): the demo was BRONZE — the
+ * faction the real-engine playtest put at a 26% win rate (walls whose commander
+ * and identity both grant the same redundant RUSH). Handing newcomers the
+ * structurally weakest deck was a hazing. Iron's defensive gear identity
+ * (Tempered/Warmonger) naturally surfaces GUARD — the tutorial's key keyword —
+ * and sits mid-band (~46%). Revisit after the Bronze rescue pass (P4).
+ * The matching curated commander is exported so the demo path
+ * (useLocalCryptMatch) pairs the deck with the commander that actually fires
+ * the identity (a generated `cmd_6xxx` commander has NO faction identity).
+ * Owned/explicit decks are untouched — they keep their faction-agnostic build.
  */
-const DEMO_FACTION = "BRONZE_GUARDIANS";
-export const DEMO_COMMANDER_ID = "cmd_bronze_raider";
+const DEMO_FACTION = "IRON_DEFENDERS";
+export const DEMO_COMMANDER_ID = "cmd_iron_warlord";
 
 /** Stable cost-then-id ordering so a given wallet always yields the same deck. */
 function byCurve(a: any, b: any): number {
@@ -187,8 +193,8 @@ function composeDeck(pool: any[], preferFaction?: string): string[] | null {
   for (const c of artifacts.slice(0, Math.min(TARGET_ARTIFACTS, MAX_ARTIFACTS))) add(c);
   // 3) Backfill any slots the curve / targets couldn't fill (short buckets, a sparse
   //    owned pool), cheapest-first and units-preferred, until the deck reaches 30 or
-  //    the pool is exhausted.
-  for (const c of [...units, ...equipment, ...artifacts]) {
+  //    the pool is exhausted. Artifacts are excluded (cut from V1, see above).
+  for (const c of [...units, ...equipment]) {
     if (deck.length >= nonSpellBudget) break;
     add(c);
   }

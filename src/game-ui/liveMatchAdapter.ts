@@ -196,6 +196,18 @@ export function handToVm(
   };
 }
 
+/** A minted token (`token_revenant`, `unit_*`) has no catalog card — humanize
+ *  the id instead of leaking the raw identifier onto the board (teardown §7:
+ *  a summoned token literally displayed "token_revenant" as its name). */
+function tokenDisplayName(cardId: string | undefined): string | null {
+  if (!cardId) return null;
+  const m = /^(?:token|unit)_(.+)$/.exec(cardId);
+  if (!m) return null;
+  const words = m[1].split(/[_\s]+/).filter(Boolean);
+  if (words.length === 0) return "Summon";
+  return words.map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 export function unitToVm(playerId: "P1" | "P2", unit: any, selected: boolean): PlayCardVM {
   const card = getCardMeta(unit?.cardId);
   const commanderSource = unit?.modifiers?.commander ?? null;
@@ -205,7 +217,7 @@ export function unitToVm(playerId: "P1" | "P2", unit: any, selected: boolean): P
 
   return {
     id: unit?.instanceId ?? unit?.cardId,
-    name: card?.name ?? unit?.cardId ?? "Unit",
+    name: card?.name ?? tokenDisplayName(unit?.cardId) ?? unit?.cardId ?? "Unit",
     faction: normalizeFaction(card?.faction),
     kind: (card?.type ?? "unit") as any,
     imageUrl: resolvePlayableCardImage(card),

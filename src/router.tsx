@@ -32,7 +32,6 @@ const DailyPackPage = lazy(() => import("./pages/DailyPackPage"));
 const MatchResultsPage = lazy(() => import("./pages/MatchResultsPage"));
 const FriendsPage = lazy(() => import("./pages/FriendsPage"));
 const RewardsPage = lazy(() => import("./pages/RewardsPage"));
-const ReplayPage = lazy(() => import("./pages/ReplayPage"));
 
 const tutorialElement = (
   <Suspense fallback={<CryptRouteFallback />}>
@@ -57,15 +56,10 @@ const onboardingElement = (
 export const router = createBrowserRouter([
   { path: "/", element: <SplashLoginPage /> },
   { path: "/onboarding", element: onboardingElement },
-  // Ungated, chrome-less match replay viewer (renders its own full-page shell).
-  {
-    path: "/replay",
-    element: (
-      <Suspense fallback={<CryptRouteFallback />}>
-        <ReplayPage />
-      </Suspense>
-    ),
-  },
+  // /replay DELETED (teardown §11, director ruling): a replay viewer with no
+  // producer — nothing in the app ever minted a replay code. The replay codec
+  // itself stays in src/share (tested, shared module); recover the page from
+  // git history if PvP ever ships replays.
   { path: "/tutorial", element: tutorialElement },
   {
     element: <AppShell />,

@@ -307,17 +307,10 @@ export function planP2Plays(match: any, difficulty: AiDifficulty = "normal"): Ai
     if (!tryPlayBestUnit()) break;
   }
 
-  // Play one affordable artifact if we have spare energy (buffs our board).
-  const artifactPos = working.findIndex((w) => {
-    const m = meta(w.cardId);
-    return !!m && m.type === "artifact" && m.cost <= energy;
-  });
-  if (artifactPos >= 0) {
-    const m = meta(working[artifactPos].cardId)!;
-    energy -= m.cost;
-    actions.push({ kind: "playArtifact", cardId: working[artifactPos].cardId });
-    working.splice(artifactPos, 1);
-  }
+  // ARTIFACTS CUT FROM V1 (teardown §11 P1): the AI no longer plays artifacts.
+  // They do nothing for their cost and resetUnitToBase wipes the AI's OWN buffs
+  // on play (D3) — the bot was self-harming every game it drew one. Decks no
+  // longer contain artifacts either; this is the matching planner change.
 
   // Equip strongest affordable equipment onto our biggest existing unit.
   const myUnits = lanesOf(match.players?.P2);

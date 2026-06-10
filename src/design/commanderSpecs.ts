@@ -48,7 +48,11 @@ export const COMMANDER_SPECS: Record<string, CommanderSpec> = {
     id: "cmd_bronze_raider",
     name: "Heartwood of Verdant Oaths",
     faction: "BRONZE_GUARDIANS",
-    passive: "Raid — whenever you summon a unit, deal 1 damage to the enemy Hex.",
+    // Teardown §3/§5: this string is rendered on the ONBOARDING pick card — it
+    // MUST match the implemented passive (commanderPassives.ts cmd_bronze_raider,
+    // a RUSH grant). The old text described the removed no-burn-violating "deal 1
+    // damage" mechanic: a newcomer's first strategic choice was a lie.
+    passive: "Raid — units you summon that cost 3 or less gain Rush (they can attack the turn they arrive).",
     deckRules: {
       exactFaction: false,
       maxGodCards: 1,

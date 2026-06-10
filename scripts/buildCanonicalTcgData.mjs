@@ -93,6 +93,21 @@ async function main() {
   const snap = await readJson(SRC);
   const nfts = snap.nfts ?? [];
 
+  // ---- display-name overlay (src/data/cardNameOverlay.json) ----
+  // generatedTcgCards.json carries diversified in-game display names for 2,223
+  // cards (2026-06-08 pass). Those edits used to live ONLY inside the generated
+  // output, so running this script silently wiped them. The overlay is the
+  // tracked source of those names; it applies ONLY to generatedTcgCards.json
+  // (cardMaster/openseaAssets keep canonical chain names, matching their
+  // current shipped state). Missing/empty overlay -> pure chain names.
+  let nameOverlay = {};
+  try {
+    nameOverlay = (await readJson(path.join(root, "src/data/cardNameOverlay.json"))).names ?? {};
+  } catch {
+    console.warn("cardNameOverlay.json missing/unreadable - generating pure chain names");
+  }
+  let overlayHits = 0;
+
   const generated = [];
   const matchTuples = [];
   const equipmentTuples = [];
@@ -143,10 +158,13 @@ async function main() {
 
     const imageUrl = nft.display_image_url || nft.image_url || "";
 
+    const displayName = nameOverlay[tokenId] ?? nft.name;
+    if (displayName !== nft.name) overlayHits++;
+
     generated.push({
       id,
       tokenId,
-      name: nft.name,
+      name: displayName,
       description: nft.description ?? "",
       imageUrl,
       externalUrl: nft.opensea_url ?? "",
@@ -204,13 +222,23 @@ async function main() {
       chain: "ethereum",
     },
     cardCount: generated.length,
-    note: "Provenance for generatedTcgCards.json. Stats/faction/rarity/keyword/ability come straight from canonical re-revealed traits. Regenerate via: refetch opensea_crypttradingcards_full.json then `node scripts/buildCanonicalTcgData.mjs`.",
+    displayNameOverlayHits: overlayHits,
+    note: "Provenance for generatedTcgCards.json. Stats/faction/rarity/keyword/ability come straight from canonical re-revealed traits; display NAMES additionally pass through src/data/cardNameOverlay.json (the tracked diversified-name pass). Regenerate via: refetch opensea_crypttradingcards_full.json then `node scripts/buildCanonicalTcgData.mjs` - regeneration is idempotent including names.",
   };
   await fs.writeFile(
     path.join(root, "src/data/generatedTcgCards.meta.json"),
     JSON.stringify(provenance, null, 2) + "\n",
     "utf8"
   );
+
+  // ORDER IS LOAD-BEARING: the shipped runtime tuple files are sorted by numeric
+  // tokenId, and catalog order feeds seeded deck builds / "first match" scans —
+  // emitting snapshot order instead silently changes which cards those pick.
+  // Sort to the shipped (ascending tokenId) order so regeneration is byte-stable.
+  const byTokenId = (a, b) => Number(a[0].slice(4)) - Number(b[0].slice(4));
+  matchTuples.sort(byTokenId);
+  equipmentTuples.sort(byTokenId);
+  artifactTuples.sort(byTokenId);
 
   await writeJson(path.join(root, "src/data/runtimeMatchPlayableCards.json"), matchTuples);
   await writeJson(path.join(root, "src/data/runtimeEquipment.json"), equipmentTuples);
@@ -257,7 +285,7 @@ async function main() {
   await writeJson(masterPath, master);
 
   console.log("Counts:", counts, "total", nfts.length);
-  console.log("generatedTcgCards:", generated.length);
+  console.log("generatedTcgCards:", generated.length, `(display-name overlay applied: ${overlayHits})`);
   console.log("runtimeMatchPlayableCards:", matchTuples.length);
   console.log("runtimeEquipment:", equipmentTuples.length);
   console.log("runtimeArtifacts:", artifactTuples.length);

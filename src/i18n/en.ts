@@ -150,7 +150,7 @@ export const en = {
   "play.eyebrow": "Play",
   "play.title": "The field awaits",
   "play.lead":
-    "Pick a match below, then your deck and commander hit the table. Find Match pairs you with a live opponent; Play solo lets you practice.",
+    "Pick a match below, then your deck and commander hit the table.",
   "play.loadout.aria": "Active deck and commander",
   "play.loadout.yourDeck": "Your deck",
   "play.loadout.editDeck": "Edit deck →",

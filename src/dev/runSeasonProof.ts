@@ -34,7 +34,6 @@ function assert(cond: boolean, msg: string, detail?: unknown): void {
 
 // The full set of MatchRules flags the engine already ships (no season may exceed this).
 const ALLOWED_RULE_KEYS: ReadonlySet<keyof MatchRules> = new Set([
-  "responseStack",
   "deckoutLoss",
   "assembleToWin",
   "ascendancyToWin",

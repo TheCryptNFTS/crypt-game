@@ -8,6 +8,7 @@ import RemoteCryptMatchPage from "./RemoteCryptMatchPage";
 import { useLocalCryptMatch, LocalMatchOptions } from "../game-ui/useLocalCryptMatch";
 import { TutorialCoach } from "../components/tutorial/TutorialCoach";
 import { useMatchProgression } from "../meta/useMatchProgression";
+import { funnelOnce } from "../lib/funnel";
 import { MulliganScreen } from "../components/live-match/MulliganScreen";
 import { WinCeremony } from "../components/live-match/WinCeremony";
 import { VersusIntro } from "../components/live-match/VersusIntro";
@@ -73,6 +74,13 @@ export default function LiveCryptMatchPage({
     setReported(true);
     onTutorialComplete?.(local.winner === "P2" ? "P2" : "P1");
   }, [tutorial, reported, local.winner, onTutorialComplete]);
+
+  // FTUE funnel stage 4: the first REAL (non-tutorial) match reaching a verdict
+  // on this device. Win or loss both count — the stage measures "completed a
+  // real match", not "won one".
+  useEffect(() => {
+    if (!tutorial && local.winner) funnelOnce("first_match_result");
+  }, [tutorial, local.winner]);
 
   // In the tutorial we lock to coached solo — no PvP escape hatch.
   const modeToggle = tutorial ? null : (
@@ -146,6 +154,7 @@ export default function LiveCryptMatchPage({
             (local.match.players?.P1?.board?.back ?? []).length
           }
           mulliganActive={local.mulliganPhaseActive}
+          handSelected={!!local.selectedHandId}
           winner={local.winner}
         />
       ) : null}
@@ -202,6 +211,11 @@ export default function LiveCryptMatchPage({
         attackFace={local.attackFace}
         mulligan={local.mulligan}
         resetMatch={local.resetMatch}
+        // Solo's end beat is the dedicated WinCeremony below (and the tutorial's
+        // completion dialog). The in-board MatchCeremony stays PvP-only —
+        // teardown §3/§7: both overlays used to mount at once in solo, and a
+        // tutorial win stacked THREE end screens.
+        showCeremony={false}
       />
       {/* Premium WIN / LOSS ceremony. Only outside the tutorial (which drives its
           own end-state via TutorialCoach). Renders once `winner` is decided and

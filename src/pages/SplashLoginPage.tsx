@@ -4,6 +4,7 @@ import { setGuestSessionStub } from "../lib/appSession";
 import { useAppSessionStubSnapshot } from "../hooks/useAppSessionStub";
 import { isOnboarded } from "../lib/localProgress";
 import { ensureStarterDeckEquipped } from "../lib/starterDeck";
+import { funnelOnce } from "../lib/funnel";
 import commanderArt from "../data/commanderArt.json";
 
 const ART = commanderArt as Record<string, string>;
@@ -33,6 +34,11 @@ export default function SplashLoginPage() {
   // First entry (no tutorial flag, no first win) → guided onboarding on-ramp;
   // otherwise → home.
   const entryRoute = () => (isOnboarded() ? "/home" : "/onboarding");
+
+  // FTUE funnel stage 1 (once per device).
+  useEffect(() => {
+    funnelOnce("splash_view");
+  }, []);
 
   useEffect(() => {
     if (session === "guest") {

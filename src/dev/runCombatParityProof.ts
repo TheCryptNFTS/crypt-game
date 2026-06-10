@@ -156,6 +156,10 @@ function withBoard(seed: number, p1: any[], p2: any[]): MatchState {
   );
   assert(!fearedUnitSwing, "planner: no ATTACK_UNIT into a Fear unit by a sub-threshold attacker");
   // Cross-check the reducer agrees the unit swing would be illegal but face is fine.
+  // The harness seeds activePlayer="P1"; this cross-check acts as P2, so flip the
+  // turn first or the reducer (correctly) rejects "not-your-turn" before the FEAR
+  // gate is ever consulted. (This fixture was committed red — see teardown §8.)
+  s.activePlayer = "P2";
   const swing = applyAction(s, {
     type: "ATTACK_UNIT",
     player: "P2",
@@ -169,11 +173,14 @@ function withBoard(seed: number, p1: any[], p2: any[]): MatchState {
 }
 
 // 10. FEAR: an ABOVE-threshold attacker (cost 4 > threshold 2) is NOT feared and
-//     MUST still be planned into the Fear unit when it is the only target.
+//     MUST still be planned into the Fear unit when it is the only legal line
+//     (GUARD makes face illegal, so a value planner cannot just go face instead).
+//     NOTE: this case sat unreached behind case 9's process.exit for its whole
+//     life; the original fixture also allowed face, which a planner may prefer.
 {
   const s = withBoard(
     3010,
-    [unit("dread", { cardId: "tcg_373", attack: 0, health: 6, keywords: [] })],
+    [unit("dread", { cardId: "tcg_373", attack: 0, health: 6, keywords: ["GUARD"] })],
     // AI attacker cost 4 (tcg_14) -> above Fear threshold 2 -> NOT feared.
     [unit("big", { cardId: "tcg_14", attack: 5, health: 4 })],
   );
@@ -181,6 +188,18 @@ function withBoard(seed: number, p1: any[], p2: any[]): MatchState {
   assert(
     plan.some((a) => a.kind === "attackUnit" && a.defenderInstanceId === "dread"),
     "planner: above-threshold attacker still attacks the Fear unit (not over-excluded)",
+  );
+  // Reducer parity: the same swing must be ACCEPTED (no over-exclusion in the rules).
+  s.activePlayer = "P2";
+  const swing = applyAction(s, {
+    type: "ATTACK_UNIT",
+    player: "P2",
+    attackerInstanceId: "big",
+    defenderInstanceId: "dread",
+  } as any);
+  assert(
+    !swing.events.some((e) => (e as any).type === "REJECTED"),
+    "reducer cross-check: above-threshold ATTACK_UNIT into a Fear unit is accepted",
   );
 }
 

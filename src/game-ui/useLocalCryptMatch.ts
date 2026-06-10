@@ -62,6 +62,13 @@ export type LocalMatchOptions = {
   /** Override P1's starting Hex. When set, the default newcomer cushion below is
    *  NOT applied (the caller is taking explicit control of the player's HP). */
   playerNexusHealth?: number;
+  /** TUTORIAL (teardown §3): keep the dealt opening hand and skip the mulligan
+   *  screen entirely. A redraw decision is meaningless to someone who has never
+   *  seen a card — the old flow made the mulligan the FIRST interactive screen
+   *  of the entire game. Skipping the phase = identical to pressing KEEP HAND
+   *  immediately (the phase is simply never opened; the reducer's vanilla
+   *  no-mulligan path runs). */
+  autoKeepOpeningHand?: boolean;
 };
 
 // Newcomer cushion (LOCAL SOLO ONLY): the default /match is a first-time player's
@@ -152,13 +159,23 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
     match.players.P1.nexusHealth = NEWCOMER_PLAYER_NEXUS;
   }
 
+  // D1 (teardown): stamp each player's heal cap to their FINAL starting Hex.
+  // Without this the engine's heal clamp (STARTING_NEXUS_HEALTH = 20) actively
+  // DAMAGED the 25-Hex cushioned newcomer on every lifesteal/heal proc — the
+  // exact path every default solo match runs.
+  match.players.P1.maxNexusHealth = match.players.P1.nexusHealth;
+  match.players.P2.maxNexusHealth = match.players.P2.nexusHealth;
+
   // OPENING MULLIGAN (PART 1) — open the phase for the HUMAN (P1) only. Passing
   // a single side marks the OTHER side (P2, the AI) `done` automatically, so the
   // opponent silently keeps its opening hand and play can proceed the instant the
   // player confirms their own mulligan. While P1 is `pending` the reducer's global
   // gate reject-softs every non-MULLIGAN action, so the board is inert behind the
-  // mulligan screen until the player keeps or redraws.
-  beginMulliganPhase(match, ["P1"]);
+  // mulligan screen until the player keeps or redraws. The tutorial skips the
+  // phase entirely (autoKeepOpeningHand) — see LocalMatchOptions.
+  if (!options?.autoKeepOpeningHand) {
+    beginMulliganPhase(match, ["P1"]);
+  }
 
   return match;
 }
@@ -658,9 +675,13 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     mulliganAvailable,
     mulliganPhaseActive,
     mulliganHand,
-    energy: match.players[activePlayer].energy ?? 0,
-    maxEnergy: match.players[activePlayer].maxEnergy ?? BASE_MAX_ENERGY,
-    affordableCostFor: (cardId: string) => costOf(cardId) <= (match.players[activePlayer].energy ?? 0),
+    // Always MY (P1's) pool — never the active player's (teardown §7). The old
+    // shape switched to the OPPONENT's energy during the AI turn, so the topbar
+    // silently changed meaning every turn and the hand re-dimmed against the
+    // enemy's pool. This hook is the local solo hook; the human is always P1.
+    energy: match.players.P1.energy ?? 0,
+    maxEnergy: match.players.P1.maxEnergy ?? BASE_MAX_ENERGY,
+    affordableCostFor: (cardId: string) => costOf(cardId) <= (match.players.P1.energy ?? 0),
     setSelectedHandId,
     setSelectedBoardId,
     setInspectId,

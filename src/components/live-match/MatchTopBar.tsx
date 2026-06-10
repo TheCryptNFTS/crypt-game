@@ -142,7 +142,17 @@ export function MatchTopBar({
         </div>
 
         <div className="live-topbar__actions">
-          <button className="live-btn live-btn--ghost" onClick={onReset}>
+          <button
+            className="live-btn live-btn--ghost"
+            onClick={() => {
+              // Teardown §7: Reset sits one slip away from End Turn — the
+              // most-pressed button in the game — and used to vaporize the match
+              // instantly. PvP's Concede already confirms; solo Reset now matches.
+              if (window.confirm("Reset this match? The current duel will be lost.")) {
+                onReset();
+              }
+            }}
+          >
             Reset Match
           </button>
           <button className="live-btn live-btn--primary" onClick={onEndTurn}>

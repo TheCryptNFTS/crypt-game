@@ -345,64 +345,71 @@ export default function PlayHubPage() {
           <section className="crypt-play-modes" aria-label={t("play.modes.aria")}>
             <h2 className="crypt-play-section-label crypt-play-section-label--spaced">{t("play.modes.label")}</h2>
 
-            {/* FIND MATCH — server-authoritative matchmaking queue. */}
-            <div className="crypt-play-mode-featured">
+            {/* FEATURED = PLAY SOLO (teardown §3, director ruling): the old hub
+                featured Find Match, which ERRORED for 100% of guests (wallet
+                sign-in isn't live) — the first click after the tutorial was a
+                guaranteed dead end. The proven mode leads; PvP renders only for
+                signed-in players (below). */}
+            <Link to="/match" className="crypt-play-mode-featured" style={{ textDecoration: "none" }}>
               <div className="crypt-play-mode-featured-inner">
-                <span className="crypt-play-featured-kicker">{t("play.find.kicker")}</span>
-                <h3 className="crypt-play-featured-title">{t("play.find.title")}</h3>
-                <p className="crypt-play-featured-copy">
-                  {t("play.find.copy")}
-                </p>
-                {phase === "searching" ? (
-                  <div className="crypt-play-queue-live">
-                    <p className="crypt-play-queue-status" aria-live="polite">
-                      ⬡ {queueMsg}
-                    </p>
-                    <button type="button" className="crypt-play-featured-cta" onClick={cancelSearch}>
-                      {t("play.find.cancel")}
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <button type="button" className="crypt-play-featured-cta" onClick={findMatch}>
-                      {t("play.find.cta")}
-                    </button>
-                    {phase === "error" && queueMsg ? (
-                      <p className="crypt-play-soon" aria-live="polite">
-                        {queueMsg}
-                      </p>
-                    ) : null}
-                  </>
-                )}
+                <span className="crypt-play-featured-kicker">{t("play.solo.kicker")}</span>
+                <h3 className="crypt-play-featured-title">⬡ {t("play.solo.title")}</h3>
+                <p className="crypt-play-featured-copy">{t("play.solo.meta")}</p>
+                <span className="crypt-play-featured-cta" role="presentation">
+                  Enter the table
+                </span>
               </div>
-            </div>
-
-            {/* CHALLENGE A FRIEND — private code-based duel, enters the same
-                server-authoritative PvP match as Find Match. */}
-            <ChallengePanel onEnterMatch={enterMatch} initialJoinCode={challengeCode} />
-
-            <Link to="/match" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">{t("play.solo.kicker")}</span>
-              <span className="crypt-play-mode-quick-title">{t("play.solo.title")}</span>
-              <span className="crypt-play-mode-quick-meta">{t("play.solo.meta")}</span>
             </Link>
+
+            {isSignedIn() ? (
+              <>
+                {/* FIND MATCH — server-authoritative matchmaking queue. Signed-in only:
+                    a guest queue attempt can never succeed, so guests never see it. */}
+                <div className="crypt-play-mode-featured">
+                  <div className="crypt-play-mode-featured-inner">
+                    <span className="crypt-play-featured-kicker">{t("play.find.kicker")}</span>
+                    <h3 className="crypt-play-featured-title">{t("play.find.title")}</h3>
+                    <p className="crypt-play-featured-copy">
+                      {t("play.find.copy")}
+                    </p>
+                    {phase === "searching" ? (
+                      <div className="crypt-play-queue-live">
+                        <p className="crypt-play-queue-status" aria-live="polite">
+                          ⬡ {queueMsg}
+                        </p>
+                        <button type="button" className="crypt-play-featured-cta" onClick={cancelSearch}>
+                          {t("play.find.cancel")}
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <button type="button" className="crypt-play-featured-cta" onClick={findMatch}>
+                          {t("play.find.cta")}
+                        </button>
+                        {phase === "error" && queueMsg ? (
+                          <p className="crypt-play-soon" aria-live="polite">
+                            {queueMsg}
+                          </p>
+                        ) : null}
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* CHALLENGE A FRIEND — private code-based duel, enters the same
+                    server-authoritative PvP match as Find Match. */}
+                <ChallengePanel onEnterMatch={enterMatch} initialJoinCode={challengeCode} />
+              </>
+            ) : (
+              <p className="crypt-play-soon">
+                Live PvP unlocks with wallet sign-in — not available in this build.
+              </p>
+            )}
 
             <Link to="/ladder" className="crypt-play-mode-quick">
               <span className="crypt-play-mode-quick-kicker">{t("play.ranked.kicker")}</span>
               <span className="crypt-play-mode-quick-title">{t("play.ranked.title")}</span>
               <span className="crypt-play-mode-quick-meta">{t("play.ranked.meta")}</span>
-            </Link>
-
-            <Link to="/puzzles" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">{t("play.puzzles.kicker")}</span>
-              <span className="crypt-play-mode-quick-title">{t("play.puzzles.title")}</span>
-              <span className="crypt-play-mode-quick-meta">{t("play.puzzles.meta")}</span>
-            </Link>
-
-            <Link to="/leaderboard" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">{t("play.season.kicker")}</span>
-              <span className="crypt-play-mode-quick-title">{t("play.season.title")}</span>
-              <span className="crypt-play-mode-quick-meta">{t("play.season.meta")}</span>
             </Link>
 
             <Link to="/draft" className="crypt-play-mode-quick">
@@ -411,11 +418,9 @@ export default function PlayHubPage() {
               <span className="crypt-play-mode-quick-meta">{t("play.draft.meta")}</span>
             </Link>
 
-            <Link to="/spectate" className="crypt-play-mode-quick">
-              <span className="crypt-play-mode-quick-kicker">{t("play.spectate.kicker")}</span>
-              <span className="crypt-play-mode-quick-title">{t("play.spectate.title")}</span>
-              <span className="crypt-play-mode-quick-meta">{t("play.spectate.meta")}</span>
-            </Link>
+            {/* /puzzles (reveal-only demos), /spectate and /leaderboard (point at a
+                server that never deploys) are HIDDEN from the hub — teardown §2
+                director rulings. The routes still resolve by direct URL. */}
           </section>
         </div>
       </CryptPageFrame>

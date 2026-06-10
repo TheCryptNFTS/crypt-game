@@ -232,10 +232,17 @@ deadlocks.
 
 ## 9. Opt-in LIFO response stack (`rules.responseStack`)
 
+> **REMOVED 2026-06-10 (teardown §11 P1).** The response stack was deleted from the
+> engine entirely — code, state fields, actions, events, and the `rules.responseStack`
+> flag. The locked design decision is **no-stack / no-response** ("own the race");
+> §1 is now enforced by *absence*, not by a flag. This section is retained as a
+> historical record of the design only. If interaction is ever revisited, recover the
+> implementation from git history rather than re-deriving it.
+
 §1 declares the vanilla engine **no-stack / no-priority**: a slow action (a unit
-attack / face swing) resolves **immediately** inside its own action. §9 layers a
-**genuine reactive priority system** on top — but **entirely behind the
-`rules.responseStack` flag**. With the flag **absent / false** (the default and
+attack / face swing) resolves **immediately** inside its own action. §9 layered a
+**genuine reactive priority system** on top — entirely behind the
+`rules.responseStack` flag. With the flag **absent / false** (the default and
 every committed fixture) **none of this code runs**: attacks resolve inline exactly
 as before, the 21 reducer-equivalence scenarios stay **byte-identical**, and the
 golden JSON is never regenerated. The flag is the single switch between the two
@@ -321,9 +328,17 @@ starting total).
 
 ## 10. Opt-in alternate win conditions
 
+> **REMOVED 2026-06-10 (teardown §11 P1).** The ascendancy and assemble win axes were
+> deleted from the reducer (scoring blocks, `advanceAscendancy`, `state.ascendancy`,
+> the `detectWinner` branches). The game has ONE win axis: nexus depletion (plus the
+> live deck-out fatigue loss, which remains). The `assembleToWin` / `ascendancyToWin` /
+> `deckoutLoss` fields still exist on `MatchRules` as inert vocabulary (seasons.ts
+> references them) but nothing reads the first two at runtime. Historical record only;
+> recover from git history if ever revisited.
+
 The vanilla victory path (`detectWinner` + `finalizeWin` in `src/engine/reducer.ts`)
 is **nexus depletion** (a nexus at ≤ 0 loses) and **deck-out fatigue** (drawing from
-an empty deck loses). §10 adds two **opt-in** alternate win axes, each behind its own
+an empty deck loses). §10 added two **opt-in** alternate win axes, each behind its own
 `MatchRules` flag, both **no-burn-compatible** (neither touches the enemy face).
 Absent flags survive `structuredClone` as `undefined`, so a vanilla match is
 unaffected and the golden fixture is unmoved.

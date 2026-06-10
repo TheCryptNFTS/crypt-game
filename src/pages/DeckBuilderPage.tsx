@@ -67,12 +67,16 @@ export default function DeckBuilderPage() {
       deckSize: commander.deckRules.deckSize,
       maxCopies: 2,
       allowGodCards: commander.deckRules.maxGodCards > 0,
+      // Enforce the cap the UI already advertises (teardown §11 P1): without this
+      // a deck of 20 gods validated as legal.
+      maxGodCards: commander.deckRules.maxGodCards,
       format,
     });
   }, [commander, commanderId, mainDeck, format]);
 
+  // Artifacts are cut from V1 (teardown §11 P1) — never offered in the builder.
   const playablePool = useMemo(
-    () => playable.filter((e) => e.role === "unit" || e.role === "equipment" || e.role === "artifact"),
+    () => playable.filter((e) => e.role === "unit" || e.role === "equipment"),
     [playable]
   );
 

@@ -71,6 +71,13 @@ export type CryptMatchBoardProps = {
    */
   pvpMatchId?: string;
   /**
+   * Whether the in-board MatchCeremony end overlay renders on matchOver.
+   * Defaults TRUE (PvP's only end screen, unchanged). Solo passes FALSE —
+   * its end beat is the dedicated WinCeremony (teardown §3/§7: both overlays
+   * used to mount simultaneously, and a tutorial win stacked THREE end screens).
+   */
+  showCeremony?: boolean;
+  /**
    * SPECTATOR mode. When true the board is purely OBSERVATIONAL: ALL interaction
    * is suppressed (no select/deploy/attack/equip/mulligan/end-turn handler ever
    * fires), the ActionBar is hidden, and BOTH hands render as face-down counts
@@ -114,6 +121,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     resetMatch,
     statusBanner,
     pvpMatchId,
+    showCeremony = true,
     spectator = false,
   } = props;
 
@@ -817,7 +825,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         </div>
       ) : null}
 
-      {matchOver && !ceremonyDismissed ? (
+      {matchOver && showCeremony && !ceremonyDismissed ? (
         <MatchCeremony
           playerWon={playerWon}
           ratingDelta={ratingDelta}

@@ -213,7 +213,10 @@ export function buildScenarios(): Scenario[] {
     actions: [{ type: "EQUIP", player: "P1", handIndex: 0, targetInstanceId: "enemy_1013" }],
   });
 
-  // 14. Artifact play (if any artifact exists in the pool).
+  // 14. Artifacts are CUT FROM V1 (teardown §11 P1): PLAY_ARTIFACT now reject-softs
+  //     ("artifacts-disabled"), so the artifact stays in hand and END_TURN passes
+  //     normally. Pins the disabled contract — the card is a clean dead card, never
+  //     the buff-wiping play path (D3).
   scenarios.push({
     name: "play-artifact",
     build: () => {

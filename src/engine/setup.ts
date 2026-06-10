@@ -76,6 +76,7 @@ function createPlayer(playerId: PlayerId, deckKey: DeckKey, rng: Rng): PlayerSta
     id: playerId,
     health: 30,
     nexusHealth: STARTING_NEXUS_HEALTH,
+    maxNexusHealth: STARTING_NEXUS_HEALTH,
     energy: 1,
     maxEnergy: 1,
     commanderId: deckDef.commanderId,
@@ -331,7 +332,8 @@ export function playUnitFromHand(
   match: MatchState,
   playerId: PlayerId,
   handIndex: number,
-  lane: Lane
+  lane: Lane,
+  extraCostReduction = 0
 ): MatchState {
   const player = match.players[playerId];
   const cardId = player.hand[handIndex];
@@ -345,7 +347,12 @@ export function playUnitFromHand(
 
   const reduction =
     !player.turnFlags.firstUnitPlayed ? player.turnFlags.firstUnitCostReduction : 0;
-  const finalCost = Math.max(0, unitCard.cost - reduction);
+  // D2 (teardown): `extraCostReduction` carries the reducer's continuous
+  // AURA_COST_REDUCTION total, so legality, this guard, and the charge all use
+  // the SAME effective cost. (The old shape validated the discounted cost in
+  // the reducer but charged/THREW on the printed cost here — a legal
+  // discounted play crashed straight out of applyAction.)
+  const finalCost = Math.max(0, unitCard.cost - reduction - extraCostReduction);
 
   if (player.energy < finalCost) {
     throw new Error("Not enough energy");

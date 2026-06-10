@@ -33,9 +33,8 @@
  *     are recomputed idempotently at the single `applyAction` chokepoint.
  */
 
-import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, TriggerQueueEntry, ArmedSecret, ResponseStackEntry, ResponseEffectSpec } from "./state";
+import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, TriggerQueueEntry } from "./state";
 import { playUnitFromHand, playEquipmentFromHand } from "./setup";
-import { playArtifactCard } from "./effectSystem";
 import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBonuses";
 import {
   initShield,
@@ -68,7 +67,7 @@ import { resonanceOnUnitSummon } from "./traitResonance";
 import { allPlayableCards } from "./cards";
 import { spellCards } from "./spellCards";
 import { compileAbility, CompiledAbility, EffectTrigger, EffectOp } from "./abilityCompiler";
-import { resolveEffect, resolveSpecs, addCardToHand, moveCardDeckToHand, resolveResponseEffect } from "./effectResolver";
+import { resolveEffect, resolveSpecs, addCardToHand, moveCardDeckToHand } from "./effectResolver";
 import { makeRng, shuffle as seededShuffle } from "./rng";
 
 export type Action =
@@ -92,24 +91,7 @@ export type Action =
   // action accepted while `state.pendingChoice` is non-null; carries the chosen
   // `optionId` so a replay of (seed, actions) resolves the identical tail. See
   // RESOLUTION_MODEL.md §8.
-  | { type: "RESOLVE_CHOICE"; player: PlayerId; optionId: string }
-  // RESPONSE STACK (opt-in `rules.responseStack`). Push a FAST response onto the open
-  // window's stack (LIFO). Carries an explicit response descriptor (a COUNTER that
-  // fizzles the entry beneath it, or a self-contained fast EFFECT — pump/shield/unit-
-  // damage/nexus-heal). No abilityCompiler edit: the effect shape is supplied here, not
-  // parsed from card text. Legal ONLY while `state.pendingResponse` is open and it is
-  // the actor's priority. See RESOLUTION_MODEL.md §9.
-  | {
-      type: "CAST_RESPONSE";
-      player: PlayerId;
-      response:
-        | { kind: "COUNTER" }
-        | { kind: "EFFECT"; effect: ResponseEffectSpec; targetInstanceId?: string };
-    }
-  // RESPONSE STACK: decline to respond. Two CONSECUTIVE passes (both players) close the
-  // window and resolve the stack LIFO. Legal ONLY while the window is open and it is the
-  // actor's priority. See RESOLUTION_MODEL.md §9.
-  | { type: "PASS_RESPONSE"; player: PlayerId };
+  | { type: "RESOLVE_CHOICE"; player: PlayerId; optionId: string };
 
 export type GameEvent =
   | { type: "UNIT_PLAYED"; player: PlayerId; cardId: string; lane: Lane }
@@ -128,20 +110,6 @@ export type GameEvent =
   | { type: "CHOICE_OPENED"; player: PlayerId; kind: string; options: string[] }
   // A pending CHOICE was resolved with `optionId`; the resume tail has run.
   | { type: "CHOICE_RESOLVED"; player: PlayerId; optionId: string }
-  // RESPONSE STACK (opt-in): a response window OPENED (a slow action was deferred onto
-  // the stack). `priority` is whose turn it is to respond first.
-  | { type: "RESPONSE_OPENED"; player: PlayerId; entryId: string; priority: PlayerId }
-  // RESPONSE STACK: a FAST response was pushed onto the stack (LIFO).
-  | { type: "RESPONSE_CAST"; player: PlayerId; entryId: string; kind: string }
-  // RESPONSE STACK: a player passed priority in the open window.
-  | { type: "RESPONSE_PASSED"; player: PlayerId; passes: number }
-  // RESPONSE STACK: a COUNTER fizzled the entry directly beneath it (LIFO).
-  | { type: "RESPONSE_FIZZLED"; entryId: string }
-  // RESPONSE STACK: the window closed (both players passed) and the stack resolved LIFO.
-  | { type: "RESPONSE_RESOLVED" }
-  // One or more armed SECRETS sprang on the defending `player` against the enemy
-  // attacker (#2). Deterministic, no pause — see `fireArmedSecrets`.
-  | { type: "SECRET_FIRED"; player: PlayerId; secretIds: string[]; againstInstanceId: string }
   // OPENING MULLIGAN resolved for `player` (PART 1): `redrawn` is how many cards were
   // returned-and-redrawn. Emitted by the phase path (`resolveMulligan`).
   | { type: "MULLIGAN_RESOLVED"; player: PlayerId; redrawn: number }
@@ -379,8 +347,8 @@ function costReductionFor(state: MatchState, controller: PlayerId, op: EffectOp)
  *  hook's `detectWinner` — the dead `health`-based path is never consulted. */
 function detectWinner(state: MatchState, initiator?: PlayerId): PlayerId | null {
   if (state.winner === "P1" || state.winner === "P2") return state.winner;
-  const p1Dead = (state.players.P1.nexusHealth ?? 20) <= 0;
-  const p2Dead = (state.players.P2.nexusHealth ?? 20) <= 0;
+  const p1Dead = (state.players.P1.nexusHealth ?? STARTING_NEXUS_HEALTH) <= 0;
+  const p2Dead = (state.players.P2.nexusHealth ?? STARTING_NEXUS_HEALTH) <= 0;
   // Lethal (nexus depletion) is always checked first, so a finishing blow still
   // wins even when an opponent is one tick from a control victory.
   // TRUE SIMULTANEOUS DEATH: if BOTH hexes hit <=0 in the SAME action, a draw is not
@@ -391,86 +359,7 @@ function detectWinner(state: MatchState, initiator?: PlayerId): PlayerId | null 
   if (p1Dead && p2Dead) return initiator ?? "P1";
   if (p2Dead) return "P1";
   if (p1Dead) return "P2";
-  // ASCENDANCY control victory (#4): only consulted when the match enabled it.
-  // Indirect, no-burn — the meter is earned by sustained board dominance, not by
-  // damaging the face. P1 is checked first purely for a deterministic tie-break.
-  const threshold = state.rules?.ascendancyToWin;
-  if (threshold && state.ascendancy) {
-    if ((state.ascendancy.P1 ?? 0) >= threshold) return "P1";
-    if ((state.ascendancy.P2 ?? 0) >= threshold) return "P2";
-  }
-  // ASSEMBLE / LIBRARY victory (alt win-con, opt-in `rules.assembleToWin`). A no-burn,
-  // INDIRECT win earned by card advantage: holding >= N cards in hand. Checked AFTER
-  // lethal-nexus / deckout (which still take precedence) and after ascendancy, and only
-  // when the match enabled it — so a vanilla match is unaffected and the golden fixture
-  // is unmoved. P1 first for a deterministic tie-break (mirrors ascendancy).
-  const assemble = state.rules?.assembleToWin;
-  if (assemble) {
-    if ((state.players.P1.hand?.length ?? 0) >= assemble) return "P1";
-    if ((state.players.P2.hand?.length ?? 0) >= assemble) return "P2";
-  }
   return null;
-}
-
-/** Live (health>0) unit count across both lanes of a player's board. */
-function liveUnitCount(state: MatchState, player: PlayerId): number {
-  const board = state.players[player].board;
-  let n = 0;
-  for (const lane of ["front", "back"] as Lane[]) {
-    for (const u of board?.[lane] ?? []) {
-      if ((u?.health ?? 0) > 0) n += 1;
-    }
-  }
-  return n;
-}
-
-/** Fire any armed SECRETS the defender holds against a matching enemy action (#2).
- *  Deterministic and inline — NO pause, NO priority pass (honors the locked
- *  no-stack / no-response model). Secrets fire in arm order; each is ONE-SHOT
- *  (consumed on fire). A "DEAL_DAMAGE" secret hits the triggering ENEMY UNIT only
- *  (never the face — no-burn). A pure no-op when the defender has no armed secret,
- *  so vanilla combat is byte-identical. Mutates `enemyUnit` in place; the caller
- *  re-checks its health to decide whether the attack fizzled. Returns the ids that
- *  fired (for events), empty when nothing fired. */
-function fireArmedSecrets(
-  state: MatchState,
-  defender: PlayerId,
-  trigger: ArmedSecret["trigger"],
-  enemyUnit: any
-): string[] {
-  const armed = state.players[defender].secrets;
-  if (!armed?.length) return [];
-  const fired: string[] = [];
-  const remaining: ArmedSecret[] = [];
-  for (const secret of armed) {
-    if (secret.trigger !== trigger) {
-      remaining.push(secret);
-      continue;
-    }
-    // Resolve the (small, no-burn) reaction. DEAL_DAMAGE lands on the triggering
-    // enemy unit; armor is bypassed exactly like other DIRECT ability damage.
-    if (secret.op === "DEAL_DAMAGE" && enemyUnit) {
-      enemyUnit.health = (enemyUnit.health ?? 0) - (secret.amount ?? 0);
-    }
-    fired.push(secret.id);
-    // one-shot: NOT pushed onto `remaining`, so it is consumed.
-  }
-  state.players[defender].secrets = remaining;
-  return fired;
-}
-
-/** Advance the ASCENDANCY meter for the player whose turn just ended (#4). A
- *  clean no-op unless the match enabled `rules.ascendancyToWin`. Strict board
- *  dominance (more live units than the opponent) at turn end increments the
- *  ending player's counter; anything else resets it to 0 (dominance must be
- *  SUSTAINED). The opponent's counter is left untouched — it advances on THEIR
- *  own turn end. Never touches nexus health (no-burn). */
-function advanceAscendancy(state: MatchState, ending: PlayerId): void {
-  if (!state.rules?.ascendancyToWin) return;
-  if (!state.ascendancy) state.ascendancy = { P1: 0, P2: 0 };
-  const mine = liveUnitCount(state, ending);
-  const theirs = liveUnitCount(state, opponentOf(ending));
-  state.ascendancy[ending] = mine > theirs ? (state.ascendancy[ending] ?? 0) + 1 : 0;
 }
 
 function removeDead(board: { front: any[]; back: any[] }) {
@@ -545,7 +434,7 @@ function reapAndEnqueue(state: MatchState, owner: PlayerId, u: any): boolean {
   if (hasDeathrattle(u)) {
     const enemy = opponentOf(owner);
     state.players[enemy].nexusHealth =
-      (state.players[enemy].nexusHealth ?? 20) - DEATHRATTLE_NEXUS_DAMAGE;
+      (state.players[enemy].nexusHealth ?? STARTING_NEXUS_HEALTH) - DEATHRATTLE_NEXUS_DAMAGE;
   }
   // GRAVEYARD: a non-token corpse is recorded for its owner (most-recent last),
   // carrying enough to reconstruct a playable unit. Tokens vanish. Recorded here
@@ -850,12 +739,17 @@ function canTargetDefender(attacker: any, defender: any): boolean {
   return unitHasKeyword(attacker, "FLYING") || unitHasKeyword(attacker, "RANGED");
 }
 
-/** LIFESTEAL heal: top the controller's nexus back up by `amount`, capped at the
- *  starting nexus health so lifesteal stabilizes a race without overhealing. */
+/** LIFESTEAL / ability heal: top the controller's nexus back up by `amount`,
+ *  capped at the player's OWN starting face HP (`maxNexusHealth`, e.g. the live
+ *  solo 25-Hex newcomer cushion) — and NEVER reducing: a player already above
+ *  the cap keeps their current total. (Teardown D1: the old hard
+ *  STARTING_NEXUS_HEALTH clamp made heals actively DAMAGE a 25-start player.) */
 function healNexus(state: MatchState, playerId: PlayerId, amount: number) {
   if (amount <= 0) return;
-  const cur = state.players[playerId].nexusHealth ?? STARTING_NEXUS_HEALTH;
-  state.players[playerId].nexusHealth = Math.min(STARTING_NEXUS_HEALTH, cur + amount);
+  const p = state.players[playerId];
+  const cur = p.nexusHealth ?? STARTING_NEXUS_HEALTH;
+  const cap = Math.max(p.maxNexusHealth ?? STARTING_NEXUS_HEALTH, cur);
+  p.nexusHealth = Math.min(cap, cur + amount);
 }
 
 function findUnitByInstance(state: MatchState, playerId: PlayerId, instanceId: string) {
@@ -1074,159 +968,6 @@ function drawForPlayer(state: MatchState, playerId: PlayerId): boolean {
   return true;
 }
 
-/* ===========================================================================
- * RESPONSE STACK (opt-in `rules.responseStack`) — see RESOLUTION_MODEL.md §9.
- *
- * A real LIFO reactive-priority system, gated entirely behind the flag. With the
- * flag OFF nothing below ever runs: slow actions resolve immediately exactly as
- * before, so the 21 golden scenarios stay byte-identical. With it ON, a slow action
- * (a unit attack / face swing today) is DEFERRED onto `state.responseStack` and a
- * `state.pendingResponse` window opens. Players push FAST responses (CAST_RESPONSE)
- * onto the stack; when both pass consecutively the stack drains LIFO, so the
- * most-recent response resolves first and can fizzle / pump / shield the entry
- * beneath it before it resolves. Determinism: pure state mutation, no RNG / Date.now;
- * the response window is plain data, structuredClone-stable.
- * =========================================================================== */
-
-/** Deterministic, collision-free response-entry id (mirrors the unit-id convention:
- *  `resp_<seed>_<idCounter>`, advancing the same monotonic counter). */
-function nextResponseId(state: MatchState): string {
-  const counter = state.idCounter ?? 0;
-  state.idCounter = counter + 1;
-  return `resp_${state.seed}_${counter}`;
-}
-
-/** Open a response window for a freshly-deferred BASE entry. The opponent of the
- *  entry's controller receives priority FIRST (they are the one who wants to react to
- *  the slow action). Emits RESPONSE_OPENED. No win check yet — the action only resolves
- *  when the window closes. */
-function openResponseWindow(
-  next: MatchState,
-  base: ResponseStackEntry,
-  events: GameEvent[]
-): ApplyResult {
-  const stack: ResponseStackEntry[] = next.responseStack ?? (next.responseStack = []);
-  stack.push(base);
-  const priority = opponentOf(base.controller);
-  next.pendingResponse = { priority, passes: 0 };
-  events.push({ type: "RESPONSE_OPENED", player: base.controller, entryId: base.id, priority });
-  return { state: next, events };
-}
-
-/** CAST_RESPONSE: push a FAST response onto the open stack (LIFO). A COUNTER carries no
- *  effect (it fizzles the entry beneath it when it pops); an EFFECT carries an explicit
- *  self-contained descriptor. Casting RESETS the consecutive-pass count and hands
- *  priority to the OTHER player, so they may respond to the new top entry (enabling a
- *  counter-the-counter). Reject-soft on an illegal/empty response. */
-function castResponse(
-  next: MatchState,
-  action: Extract<Action, { type: "CAST_RESPONSE" }>,
-  events: GameEvent[]
-): ApplyResult {
-  const stack: ResponseStackEntry[] = next.responseStack ?? (next.responseStack = []);
-  // Defensive: a window is only open with at least the base entry on the stack.
-  if (stack.length === 0) return { state: next, events: [{ type: "REJECTED", reason: "no-response-window" }] };
-  let entry: ResponseStackEntry;
-  if (action.response.kind === "COUNTER") {
-    entry = { id: nextResponseId(next), controller: action.player, kind: "COUNTER" };
-  } else {
-    const eff: ResponseEffectSpec | undefined = action.response.effect;
-    if (!eff) return { state: next, events: [{ type: "REJECTED", reason: "response-effect-required" }] };
-    entry = {
-      id: nextResponseId(next),
-      controller: action.player,
-      kind: "EFFECT",
-      effect: eff,
-      targetInstanceId: action.response.targetInstanceId,
-    };
-  }
-  stack.push(entry);
-  // The opponent regains priority and the pass-count resets: both players must pass in
-  // a row (against the CURRENT top) before the stack drains.
-  next.pendingResponse = { priority: opponentOf(action.player), passes: 0 };
-  events.push({ type: "RESPONSE_CAST", player: action.player, entryId: entry.id, kind: entry.kind });
-  return { state: next, events };
-}
-
-/** PASS_RESPONSE: decline to respond. Two CONSECUTIVE passes (both players) close the
- *  window and drain the stack LIFO. A single pass hands priority to the opponent. */
-function passResponse(
-  next: MatchState,
-  action: Extract<Action, { type: "PASS_RESPONSE" }>,
-  events: GameEvent[]
-): ApplyResult {
-  const pr = next.pendingResponse!;
-  const passes = (pr.passes ?? 0) + 1;
-  events.push({ type: "RESPONSE_PASSED", player: action.player, passes });
-  if (passes >= 2) {
-    // Both players passed in a row: close the window and resolve the stack LIFO.
-    resolveResponseStack(next, events);
-    finalizeWin(next, events);
-    return { state: next, events };
-  }
-  next.pendingResponse = { priority: opponentOf(action.player), passes };
-  return { state: next, events };
-}
-
-/** Drain the response stack LIFO once the window closes. The TOP entry resolves first.
- *  A COUNTER fizzles the entry directly beneath it (marking `fizzled`), so a counter
- *  neutralizes what it answered — and a counter-the-counter (a COUNTER under another
- *  COUNTER) is itself fizzled before it can act, resolving correctly LIFO. EFFECT and
- *  ATTACK entries resolve through the shared resolver / combat helpers, reading the LIVE
- *  (already-pumped/shielded) board so earlier-resolving responses truly change the
- *  outcome. A fizzled entry is a clean no-op. Bounded by the stack length (finite). */
-function resolveResponseStack(next: MatchState, events: GameEvent[]) {
-  const stack: ResponseStackEntry[] = next.responseStack ?? [];
-  while (stack.length > 0) {
-    const entry = stack.pop() as ResponseStackEntry;
-    if (entry.fizzled) {
-      // Neutralized by a counter above it — resolves to nothing.
-      continue;
-    }
-    if (entry.kind === "COUNTER") {
-      // Fizzle the entry DIRECTLY BENEATH this counter (the one it was played in
-      // response to). With the counter already popped, that is the new stack top.
-      const beneath = stack[stack.length - 1];
-      if (beneath) {
-        beneath.fizzled = true;
-        events.push({ type: "RESPONSE_FIZZLED", entryId: beneath.id });
-      }
-      continue;
-    }
-    if (entry.kind === "EFFECT" && entry.effect) {
-      // Resolve a fast effect via the shared resolver. The target is re-located against
-      // the LIVE board (it may have changed since the response was cast). PUMP/SHIELD
-      // target the controller's OWN board; DAMAGE_UNIT targets an ENEMY unit; HEAL_NEXUS
-      // is self-only. A missing target is a clean no-op (handled in the resolver).
-      let target: any = undefined;
-      if (entry.targetInstanceId) {
-        const ownSide = entry.effect.op === "DAMAGE_UNIT" ? opponentOf(entry.controller) : entry.controller;
-        const ref = findUnitByInstance(next, ownSide, entry.targetInstanceId);
-        if (ref) target = ref.unit;
-      }
-      resolveResponseEffect(next, entry.controller, entry.effect, target);
-      // A fast effect can kill a unit (DAMAGE_UNIT) — reap it like any ability damage.
-      resolveDeaths(next);
-      continue;
-    }
-    if (entry.kind === "ATTACK") {
-      // The deferred slow swing finally lands, reading the LIVE units (which a response
-      // beneath-resolving-EARLIER may have pumped/shielded/killed). Re-validate
-      // defensively: the attacker may have died to a response, or the defender may be
-      // gone — in which case the swing simply does not occur (clean no-op).
-      if (entry.face) {
-        resolveAttackFaceCombat(next, entry.controller, entry.attackerInstanceId ?? "", events);
-      } else {
-        resolveAttackUnitCombat(next, entry.controller, entry.attackerInstanceId ?? "", entry.defenderInstanceId ?? "", events);
-      }
-      continue;
-    }
-  }
-  next.responseStack = [];
-  next.pendingResponse = null;
-  events.push({ type: "RESPONSE_RESOLVED" });
-}
-
 /**
  * Resolve a unit-vs-unit attack against the LIVE state (extracted from the ATTACK_UNIT
  * case so the response stack can run the SAME combat when a deferred entry pops). Units
@@ -1248,33 +989,6 @@ function resolveAttackUnitCombat(
   if (!attackerRef || !defenderRef) return;
   if ((attackerRef.unit.health ?? 0) <= 0) return;
 
-  // SECRETS (#2): the DEFENDER's armed reactive triggers spring as the swing resolves.
-  const secretsFired = fireArmedSecrets(next, opponentOf(attacker), "ON_ENEMY_ATTACK", attackerRef.unit);
-  if (secretsFired.length) {
-    events.push({
-      type: "SECRET_FIRED",
-      player: opponentOf(attacker),
-      secretIds: secretsFired,
-      againstInstanceId: attackerInstanceId,
-    });
-  }
-  if ((attackerRef.unit.health ?? 0) <= 0) {
-    // The secret destroyed the attacker before it could strike: the attack FIZZLES.
-    markAttacked(attackerRef.unit);
-    attackerRef.unit.stealthed = false;
-    resolveDeaths(next);
-    events.push({
-      type: "ATTACK",
-      player: attacker,
-      attackerInstanceId,
-      defenderInstanceId,
-      outgoing: 0,
-      mitigated: 0,
-      counter: 0,
-    });
-    return;
-  }
-
   const outgoing = resolveOutgoingDamage(attackerRef.unit);
   const attackerPierces = !!passiveSpec(attackerRef.unit.cardId, "PIERCE_ARMOR");
   const rawOnDefender = attackerPierces ? outgoing : resolveMitigatedDamage(attackerRef.unit, defenderRef.unit);
@@ -1291,7 +1005,7 @@ function resolveAttackUnitCombat(
     const overflow = Math.max(0, mitigated - Math.max(0, defHpBefore));
     if (overflow > 0) {
       const target = opponentOf(attacker);
-      next.players[target].nexusHealth = (next.players[target].nexusHealth ?? 20) - overflow;
+      next.players[target].nexusHealth = (next.players[target].nexusHealth ?? STARTING_NEXUS_HEALTH) - overflow;
     }
   }
   healNexus(next, attacker, lifestealHeal(attackerRef.unit, mitigated));
@@ -1327,7 +1041,7 @@ function resolveAttackUnitCombat(
       const overflow = Math.max(0, phantomDmg - Math.max(0, defHpPre));
       if (overflow > 0) {
         const tgt = opponentOf(attacker);
-        next.players[tgt].nexusHealth = (next.players[tgt].nexusHealth ?? 20) - overflow;
+        next.players[tgt].nexusHealth = (next.players[tgt].nexusHealth ?? STARTING_NEXUS_HEALTH) - overflow;
       }
     }
     healNexus(next, attacker, lifestealHeal(attackerRef.unit, phantomDmg));
@@ -1367,7 +1081,7 @@ function resolveAttackFaceCombat(
 
   const target = opponentOf(attacker);
   const damage = resolveOutgoingDamage(attackerRef.unit);
-  next.players[target].nexusHealth = (next.players[target].nexusHealth ?? 20) - damage;
+  next.players[target].nexusHealth = (next.players[target].nexusHealth ?? STARTING_NEXUS_HEALTH) - damage;
   healNexus(next, attacker, lifestealHeal(attackerRef.unit, damage));
   markAttacked(attackerRef.unit);
   attackerRef.unit.stealthed = false;
@@ -1383,12 +1097,30 @@ function resolveAttackFaceCombat(
 }
 
 export function applyAction(state: MatchState, action: Action): ApplyResult {
-  const result = applyActionCore(state, action);
-  // Continuous faction auras are recomputed once per action at this single
-  // chokepoint. A rejected action returns the ORIGINAL `state` reference
-  // unchanged, so the identity check skips the (pointless) recompute and leaves
-  // rejects a true no-op; every successful branch returns a fresh clone.
-  if (result.state !== state) recomputeAuras(result.state);
+  // REJECT-SOFT CONTAINMENT (teardown D2 class): an engine exception must never
+  // escape applyAction mid-match. applyActionCore mutates only its own
+  // structuredClone, so on a throw the INPUT state is still pristine — returning
+  // it is a clean rollback, surfaced like any soft reject. An engine bug should
+  // never be a session-ender.
+  let result: ApplyResult;
+  try {
+    result = applyActionCore(state, action);
+    // Continuous faction auras are recomputed once per action at this single
+    // chokepoint. A rejected action returns the ORIGINAL `state` reference
+    // unchanged, so the identity check skips the (pointless) recompute and leaves
+    // rejects a true no-op; every successful branch returns a fresh clone.
+    if (result.state !== state) recomputeAuras(result.state);
+  } catch (err) {
+    return {
+      state,
+      events: [
+        {
+          type: "REJECTED",
+          reason: `internal-error: ${err instanceof Error ? err.message : String(err)}`,
+        },
+      ],
+    };
+  }
   return result;
 }
 
@@ -1421,29 +1153,6 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
   }
   if (action.type === "RESOLVE_CHOICE") {
     return reject(state, "no-pending-choice");
-  }
-
-  // GLOBAL RESPONSE GATE (RESOLUTION_MODEL.md §9, opt-in `rules.responseStack`). While a
-  // response window is open the model is single-threaded on the WINDOW (not the active
-  // player): the ONLY legal actions are CAST_RESPONSE / PASS_RESPONSE, by whoever holds
-  // priority. Both players may act here (priority alternates), so this gate REPLACES the
-  // active-player check for those two actions. Every other action type reject-softs
-  // `response-pending`; a CAST_RESPONSE / PASS_RESPONSE from the wrong player reject-softs
-  // `not-your-priority`. A window is NEVER open in a vanilla match (flag off), so this is a
-  // clean no-op there and the golden fixture is unmoved.
-  if (next.pendingResponse) {
-    if (action.type !== "CAST_RESPONSE" && action.type !== "PASS_RESPONSE") {
-      return reject(state, "response-pending");
-    }
-    if (action.player !== next.pendingResponse.priority) {
-      return reject(state, "not-your-priority");
-    }
-    if (action.type === "CAST_RESPONSE") return castResponse(next, action, events);
-    return passResponse(next, action, events);
-  }
-  // A response action arriving with NO open window is a clean no-op.
-  if (action.type === "CAST_RESPONSE" || action.type === "PASS_RESPONSE") {
-    return reject(state, "no-response-window");
   }
 
   // GLOBAL MULLIGAN GATE (PART 1). Active ONLY when `state.mulligan` is present (an
@@ -1497,22 +1206,20 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       const unitReduction = costReductionFor(next, action.player, "AURA_COST_REDUCTION");
       const effUnitCost = Math.max(0, costOf(cardId) - unitReduction);
       if (effUnitCost > (player.energy ?? 0)) return reject(state, "not-enough-energy");
-      // Delegate the already-correct play (energy deduction incl. first-unit
-      // reduction, instance-id minting, commander modifiers) to the engine.
-      const played = playUnitFromHand(next, action.player, action.handIndex, action.lane) as MatchState;
-      // Refund the continuous cost-reduction aura. setup.ts charged
-      // `max(0, cardCost - firstUnitReduction)`; the desired spend is
-      // `max(0, cardCost - firstUnitReduction - unitReduction)`. We compute what
-      // setup actually charged (energyBefore - energyAfter) and the desired final
-      // spend, then credit the difference so both reductions stack correctly and
-      // the spend never goes negative.
-      if (unitReduction > 0) {
-        const ppl = played.players[action.player];
-        const charged = (player.energy ?? 0) - (ppl.energy ?? 0);
-        const desired = Math.max(0, charged - unitReduction);
-        const refund = charged - desired;
-        if (refund > 0) ppl.energy = (ppl.energy ?? 0) + refund;
-      }
+      // Delegate the play (energy deduction incl. first-unit reduction,
+      // instance-id minting, commander modifiers) to the engine, PASSING the
+      // aura reduction so legality and the charge use the SAME effective cost.
+      // (Teardown D2: the old shape validated the discounted cost here, then
+      // setup re-derived the printed cost and THREW "Not enough energy" on a
+      // legal discounted play — and the old post-hoc refund could not run
+      // because the throw escaped applyAction first.)
+      const played = playUnitFromHand(
+        next,
+        action.player,
+        action.handIndex,
+        action.lane,
+        unitReduction
+      ) as MatchState;
       // Summon-time keyword mechanics on the live path: arm WARD/DIVINE_SHIELD,
       // and let SCRY smooth the top of the deck. The just-played unit is the
       // last one pushed into its lane by playUnitFromHand.
@@ -1599,16 +1306,13 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
     }
 
     case "PLAY_ARTIFACT": {
-      if (action.handIndex < 0 || action.handIndex >= player.hand.length) {
-        return reject(state, "hand-index-out-of-bounds");
-      }
-      const cardId = player.hand[action.handIndex];
-      if (cardTypeOf(cardId) !== "artifact") return reject(state, "not-an-artifact");
-      if (costOf(cardId) > (player.energy ?? 0)) return reject(state, "not-enough-energy");
-      const played = playArtifactCard(next, action.player, action.handIndex) as MatchState;
-      played.lastCardPlayed = { cardId, owner: action.player };
-      events.push({ type: "ARTIFACT_PLAYED", player: action.player, cardId });
-      return { state: played, events };
+      // ARTIFACTS CUT FROM V1 (teardown §11 P1): artifacts are disabled. They do
+      // nothing for their cost and the play path's resetUnitToBase WIPES friendly
+      // equipment/growth/commander buffs (D3). Decks no longer draft them and the
+      // AI never plans them; this reject is the safety net so a legacy/hand-built
+      // artifact in hand can never trigger the self-harm. Re-enable only after the
+      // resolver is rebuilt (effectSystem.ts). A clean reject = dead card in hand.
+      return reject(state, "artifacts-disabled");
     }
 
     case "EQUIP": {
@@ -1672,23 +1376,6 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         return reject(state, "attacker-feared");
       }
 
-      // RESPONSE STACK (opt-in): once the attack is LEGAL, DEFER it onto the stack and
-      // open a response window instead of resolving immediately, so the opponent (and
-      // then the attacker) may play FAST responses that resolve LIFO before this swing
-      // lands. Flag OFF (default) falls straight through to the immediate-resolution
-      // path below — byte-identical to today. The base ATTACK entry resolves through the
-      // SAME `resolveAttackUnitCombat` helper when the stack drains, reading the LIVE
-      // (possibly pumped/shielded) units, so a response truly changes the outcome.
-      if (next.rules?.responseStack) {
-        return openResponseWindow(next, {
-          id: nextResponseId(next),
-          controller: action.player,
-          kind: "ATTACK",
-          attackerInstanceId: action.attackerInstanceId,
-          defenderInstanceId: action.defenderInstanceId,
-        }, events);
-      }
-
       resolveAttackUnitCombat(next, action.player, action.attackerInstanceId, action.defenderInstanceId, events);
       finalizeWin(next, events, action.player);
       return { state: next, events };
@@ -1713,18 +1400,6 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       // an attacker must clear the board first.
       if (boardHasOp(next, opponentOf(action.player), "COMMANDER_SHIELD")) {
         return reject(state, "commander-shielded");
-      }
-
-      // RESPONSE STACK (opt-in): defer a legal face swing onto the stack and open a
-      // window (see ATTACK_UNIT). Flag OFF = immediate, byte-identical to today.
-      if (next.rules?.responseStack) {
-        return openResponseWindow(next, {
-          id: nextResponseId(next),
-          controller: action.player,
-          kind: "ATTACK",
-          attackerInstanceId: action.attackerInstanceId,
-          face: true,
-        }, events);
       }
 
       resolveAttackFaceCombat(next, action.player, action.attackerInstanceId, events);
@@ -1775,29 +1450,17 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         }
       }
 
-      // ASCENDANCY (#4): score board control for the ending player now that their
-      // turn's board is settled. ENTIRELY gated on the opt-in ruleset so a vanilla
-      // match is byte-identical (no extra field, no extra finalizeWin / WIN event)
-      // and the reducer-equivalence golden JSON stays unmoved. Reaching the
-      // threshold ends the match by control victory before control even passes.
-      if (next.rules?.ascendancyToWin) {
-        advanceAscendancy(next, ending);
-        finalizeWin(next, events);
-        if (next.winner) {
-          return { state: next, events };
-        }
-      }
-
-      // ASSEMBLE / LIBRARY win (alt win-con, opt-in `rules.assembleToWin`). Scored at the
-      // END of the ending player's turn (their board/hand are settled). detectWinner now
-      // consults the hand size; finalizeWin stamps the winner if anyone is at/above the
-      // threshold. Lethal-nexus / deckout still precede inside detectWinner. ENTIRELY
-      // gated, so a vanilla match is byte-identical and the golden fixture is unmoved.
-      if (next.rules?.assembleToWin) {
-        finalizeWin(next, events);
-        if (next.winner) {
-          return { state: next, events };
-        }
+      // UNIFIED DEATH PIPELINE (teardown D4): END_TURN kills go through the SAME
+      // death resolution as combat and spells. ON_TURN_END damage (DECAY
+      // self-damage, end-of-turn burns) used to leave corpses for the
+      // recomputeAuras sweep to silently filter — no graveyard record, no
+      // DEATHRATTLE, no ON_DEATH, no death-watchers. resolveDeaths is a clean
+      // no-op when nothing died; a deathrattle face burst here can decide the
+      // match, so score it exactly like combat (the ending player initiated).
+      resolveDeaths(next);
+      finalizeWin(next, events, ending);
+      if (next.winner) {
+        return { state: next, events };
       }
 
       const nextPlayerId = opponentOf(ending);
@@ -1822,6 +1485,12 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
           unit.summoningSick = false;
           unit.windfuryStruck = false; // WINDFURY bonus attack refreshes each turn
           unit.attacksThisTurn = 0; // DOUBLE_ATTACK tally refreshes each turn
+          // STEALTH EXPIRY (teardown D6): stealth lapses at its controller's next
+          // turn start — exactly one full enemy turn of protection (it still
+          // breaks immediately when the unit attacks). Kills the STEALTH+GUARD
+          // "opponent can legally attack nothing forever" lock. Guarded so units
+          // that never had the flag keep their serialized shape (golden fixtures).
+          if (unit.stealthed) unit.stealthed = false;
           regrowAtTurnStart(unit);
           // TRACK A2 (2): the "per turn undamaged" grower (BUFF_IF_UNDAMAGED) reads
           // `tookDamageThisTurn` here — it grows the unit only if it went the round
@@ -1853,20 +1522,21 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
 
       events.push({ type: "TURN_END", player: ending });
 
+      // UNIFIED DEATH PIPELINE (teardown D4, cont.): ON_TURN_START triggers fired
+      // in the refresh loop above can also kill — route those corpses through the
+      // same pipeline before the draw. No-op when nothing died.
+      resolveDeaths(next);
+      finalizeWin(next, events, ending);
+      if (next.winner) {
+        return { state: next, events };
+      }
+
       const drew = drawForPlayer(next, nextPlayerId);
       if (!drew) {
         events.push({ type: "DECK_OUT", player: nextPlayerId });
         finalizeWin(next, events);
       } else {
         events.push({ type: "TURN_START", player: nextPlayerId, energy: np.energy, maxEnergy: np.maxEnergy });
-        // ASSEMBLE / LIBRARY win (alt win-con, opt-in `rules.assembleToWin`). The
-        // start-of-turn draw can carry the player whose turn is beginning across the
-        // hand-size threshold — a "draw into the library win". Re-score AFTER the draw
-        // so that crossing is stamped. Fully gated, so a vanilla match is byte-identical
-        // and the golden fixture is unmoved. Lethal-nexus / deckout still precede.
-        if (next.rules?.assembleToWin) {
-          finalizeWin(next, events);
-        }
       }
       return { state: next, events };
     }
