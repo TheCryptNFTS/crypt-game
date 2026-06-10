@@ -6,7 +6,7 @@ import { validateDeck } from "../deckRules";
 import { makeSeededMatch } from "../../dev/reducerHarness";
 
 /**
- * Engine-trust regression tests for the 2026-06-10 teardown bugs (D1/D2/D4/D6
+ * Engine-trust regression tests for the 2026-06-10 teardown bugs (D1/D2/D3/D4/D6
  * in docs/CRYPT_TCG_TEARDOWN_2026-06-10.md). Each of these reproduced against
  * the live reducer before the fix; they are pinned here as REAL vitest tests
  * (not proof scripts) so `npm test` guards them forever.
@@ -201,6 +201,53 @@ describe("god cap — the limit the UI advertises is actually enforced", () => {
     });
     expect(res.stats.godCount).toBe(1);
     expect(res.valid).toBe(true);
+  });
+});
+
+describe("D3 — artifacts can never wipe your own board (disabled in V1)", () => {
+  // Artifacts stay in the catalog as dormant relics; the reducer must reject
+  // the play BEFORE the legacy resolver path (refreshArtifactAuras ->
+  // resetUnitToBase) can flatten the controller's own buffed front lane.
+  const artifact = (allPlayableCards as any[]).find((c) => c.type === "artifact");
+
+  it("the catalog still carries the dormant artifact cards this repro needs", () => {
+    expect(artifact).toBeTruthy();
+  });
+
+  it("PLAY_ARTIFACT reject-softs and a buffed front lane keeps every buff (no resetUnitToBase wipe)", () => {
+    const s = makeSeededMatch(9501);
+    // A unit visibly above its base statline — equipment, PATIENT growth,
+    // resonance and commander buffs all look like this. Pre-fix, ANY artifact
+    // play reset it to base (2 attack, 0 armor) for 2-5 energy.
+    s.players.P1.board.front = [
+      unit("buffed", {
+        attack: 7,
+        baseAttack: 2,
+        health: 9,
+        maxHealth: 9,
+        baseHealth: 4,
+        armor: 3,
+        baseArmor: 0,
+        keywords: ["GUARD"],
+      }),
+    ];
+    s.players.P1.hand = [artifact.id];
+    s.players.P1.energy = 10;
+    let res!: ReturnType<typeof applyAction>;
+    expect(() => {
+      res = applyAction(s, { type: "PLAY_ARTIFACT", player: "P1", handIndex: 0 });
+    }).not.toThrow();
+    expect(res.events).toEqual([{ type: "REJECTED", reason: "artifacts-disabled" }]);
+    // Reject contract: the input state comes back untouched — nothing spent,
+    // nothing wiped, the dead card simply stays in hand.
+    expect(res.state).toBe(s);
+    const u = res.state.players.P1.board.front[0] as any;
+    expect(u.attack).toBe(7);
+    expect(u.health).toBe(9);
+    expect(u.armor).toBe(3);
+    expect(u.keywords).toContain("GUARD");
+    expect(res.state.players.P1.hand).toEqual([artifact.id]);
+    expect(res.state.players.P1.energy).toBe(10);
   });
 });
 
