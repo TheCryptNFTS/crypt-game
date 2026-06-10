@@ -1255,19 +1255,3 @@
   .enemy-turn-band__dots i { animation: none; }
 }
 
-/* Commissioned combat-FX video overlays (2026-06-10 asset-review drop).
-   The renders are on pure black, so screen-blend keys the black out — only
-   the spark/burst/dissolve light lands on the card art. Sits above the art,
-   below badges. Never intercepts input. */
-.crypt-fx-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  z-index: 5;
-}
-.mm-death-wrap { position: relative; }
-.mm-death-wrap .crypt-fx-video { z-index: 6; }

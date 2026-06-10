@@ -2,7 +2,6 @@ import React from "react";
 import { BoardCard } from "../crypt/BoardCard";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import type { DyingUnit, UnitMotion } from "../../hooks/useMatchMotion";
-import { FxVideo } from "../crypt/FxVideo";
 
 type Props = {
   title: string;
@@ -103,8 +102,7 @@ export function BoardLane({
           );
         })}
 
-        {/* Dying units linger one beat as a fading ghost (presentation only).
-            The commissioned death-dissolve FX plays over the ghost. */}
+        {/* Dying units linger one beat as a fading ghost (presentation only). */}
         {laneDying.map((d) => (
           <div
             className="live-lane__slot live-lane__slot--filled mm-death-wrap"
@@ -112,7 +110,6 @@ export function BoardLane({
             aria-hidden="true"
           >
             <BoardCard card={d.vm} />
-            <FxVideo src="/crypt-assets/fx-death.mp4" ttlMs={1500} />
           </div>
         ))}
 

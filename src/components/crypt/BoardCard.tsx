@@ -2,7 +2,6 @@ import React from "react";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
 import { SyncBadge } from "./MatchBadges";
-import { FxVideo } from "./FxVideo";
 
 type BoardCardProps = {
   card: PlayCardVM;
@@ -78,10 +77,6 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       {/* ART — clean square, no text over it. The NFT render is the card. */}
       <div className="crypt-card__art">
         <img src={card.imageUrl} alt={card.name} className="crypt-card__image" />
-        {/* Commissioned combat-FX overlays (black-keyed via blend mode) — the
-            spark/burst light plays OVER the art on the motion beat. */}
-        {motion === "damage" ? <FxVideo src="/crypt-assets/fx-impact.mp4" ttlMs={1100} /> : null}
-        {motion === "enter" ? <FxVideo src="/crypt-assets/fx-deploy.mp4" ttlMs={1300} /> : null}
         {card.syncLabel ? (
           <span className="crypt-card__sync-corner">
             <SyncBadge level={card.syncLevel} label={card.syncLabel} />

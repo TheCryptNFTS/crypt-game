@@ -56,28 +56,6 @@ export default function SplashLoginPage() {
   return (
     <div className="crypt-splash">
       <div className="crypt-splash-backdrop" aria-hidden />
-      {/* Commissioned title-loop key art (asset-review drop) — slow ambient
-          video behind the splash. Muted/loop/playsInline so it autoplays
-          everywhere; the vignette layers above keep wordmark + CTAs readable.
-          The static backdrop is the fallback (reduced-motion hides the video). */}
-      <video
-        className="crypt-splash-video"
-        src="/crypt-assets/title-hero-loop.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden
-        ref={(el) => {
-          // React doesn't render the muted ATTRIBUTE (long-standing bug), and
-          // without it browsers block autoplay. Set it for real, then kick play.
-          if (el && !el.hasAttribute("muted")) {
-            el.setAttribute("muted", "");
-            el.muted = true;
-            el.play().catch(() => {/* static backdrop remains the fallback */});
-          }
-        }}
-      />
       <div className="crypt-splash-atmosphere" aria-hidden />
 
       <div className="crypt-splash-main">
