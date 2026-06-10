@@ -1,7 +1,7 @@
 import React from "react";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
-import { FactionBadge, SyncBadge } from "./MatchBadges";
+import { SyncBadge } from "./MatchBadges";
 import "../../styles/polish-facedown.css";
 
 /** Printed card-back art (public/crypt-assets), served from the site root. */
@@ -36,41 +36,37 @@ export function HandCard({ card, onSelect }: HandCardProps) {
     );
   }
 
+  const { cost, attack, health, armor, speed } = card.liveStats;
+
   return (
     <button
       type="button"
       className={`crypt-card crypt-card--hand ${card.selected ? "is-selected" : ""}`}
       onClick={() => onSelect?.(card)}
       aria-pressed={card.selected ?? false}
-      aria-label={`Play ${card.name}, ${card.kind}, cost ${card.liveStats.cost ?? 0}, ${card.liveStats.attack} attack, ${card.liveStats.health} health`}
-      style={{
-        borderColor: theme.edge,
-        boxShadow: theme.shadow
-      }}
+      aria-label={`Play ${card.name}, ${card.kind}, cost ${cost ?? 0}, ${attack} attack, ${health} health, ${armor} armor, ${speed} speed`}
+      style={{ "--cf-edge": theme.edge, "--cf-glow": theme.glow } as React.CSSProperties}
     >
-      <div className="crypt-card__frame">
+      {/* ART — clean square. Cost orb is the only thing on it (top-left), the
+          universal TCG convention; everything else lives in the sill below. */}
+      <div className="crypt-card__art">
         <img src={card.imageUrl} alt={card.name} className="crypt-card__image" />
-        <div className="crypt-card__scrim" />
+        <span className="crypt-card__cost-orb">{cost ?? 0}</span>
+        {card.syncLabel ? (
+          <span className="crypt-card__sync-corner">
+            <SyncBadge level={card.syncLevel} label={card.syncLabel} />
+          </span>
+        ) : null}
       </div>
 
-      <div className="crypt-card__overlay crypt-card__overlay--top">
-        <div className="crypt-card__cost">{card.liveStats.cost ?? 0}</div>
-        <SyncBadge level={card.syncLevel} label={card.syncLabel} />
-      </div>
-
-      <div className="crypt-card__overlay crypt-card__overlay--bottom">
-        <div className="crypt-card__meta">
-          <FactionBadge faction={card.faction} />
-          <span className="crypt-card__kind">{card.kind}</span>
-        </div>
-
-        <div className="crypt-card__title">{card.name}</div>
-
-        <div className="crypt-stat-strip">
-          <span>ATK {card.liveStats.attack}</span>
-          <span>HP {card.liveStats.health}</span>
-          <span>ARM {card.liveStats.armor}</span>
-          <span>SPD {card.liveStats.speed}</span>
+      {/* SILL — name + stats below the art, never over it. */}
+      <div className="crypt-card__sill">
+        <div className="crypt-card__name" title={card.name}>{card.name}</div>
+        <div className="crypt-card__statline">
+          <span className="crypt-cs crypt-cs--atk" title="Attack">{attack}</span>
+          <span className="crypt-cs crypt-cs--hp" title="Health">{health}</span>
+          {armor > 0 && <span className="crypt-pip crypt-pip--arm" title="Armor">{armor} ARM</span>}
+          {speed > 0 && <span className="crypt-pip crypt-pip--spd" title="Speed">{speed} SPD</span>}
         </div>
       </div>
     </button>

@@ -186,33 +186,31 @@
     height: 100%;
     align-items: center;
   }
+  /* Card frame v2 (2026-06-10): board units are now art-square + a stat sill
+     BELOW it, so they are WIDTH-driven (a fixed-width card whose height is art +
+     sill), not height-driven. Cards align to the top of the lane and the empty
+     hex slots match the card width. */
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__cards {
-    height: 100%;
-    align-items: center;
+    height: auto;
+    align-items: flex-start;
     min-height: 0;
   }
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot {
-    height: 100%;
-    /* Floor so a short (laptop) viewport can't height:100%-collapse the board
-       unit to a 42px postage stamp with 40px art (verified 2026-06-10). The
-       max keeps the no-wrap/no-overlap behavior intact on tall screens. */
-    min-height: 84px;
-    max-height: 108px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    width: 100px;
   }
-  /* Deployed units are HEIGHT-driven here so they fit the (dynamic) lane row
-     rather than a fixed 78px width overflowing a shorter row. The square frame's
-     width follows its height, so the card stays 1:1 and never clips the lane. */
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
-    height: 100%;
-    width: auto;
-    max-width: 100%;
+    height: auto;
+    width: 100%;
+    max-width: 100px;
   }
-  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card__frame {
-    height: 100%;
-  }
-  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card__image {
-    height: 100%;
-    width: auto;
+  /* Empty hex cells keep the square footprint so an unoccupied lane still reads
+     as a deliberate grid at the new card width. */
+  .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--empty {
+    aspect-ratio: 1 / 1;
+    height: auto;
   }
   /* The dock is pinned (intrinsic height); it must not be squeezed away. */
   .crypt-shell > .live-match-shell:has(.crypt-table) .crypt-dock {
