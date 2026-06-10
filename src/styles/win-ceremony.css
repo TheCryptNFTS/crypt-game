@@ -21,11 +21,18 @@
   animation: wc-fade-in 260ms ease-out both;
 }
 
+/* Generated verdict backdrops (2026-06-10, OpenRouter) — a triumphant gold
+   throne for the win, a shattered cold sigil for the loss — behind a darkening
+   vignette so the panel + text stay readable. */
 .wc-shell--win {
-  background: radial-gradient(120% 90% at 50% 35%, rgba(233, 201, 132, 0.16), rgba(8, 6, 5, 0.95));
+  background:
+    radial-gradient(120% 95% at 50% 40%, rgba(233, 201, 132, 0.12), rgba(8, 6, 5, 0.66) 56%, rgba(6, 5, 4, 0.93)),
+    url("/crypt-assets/wc-victory.jpg") center / cover no-repeat;
 }
 .wc-shell--loss {
-  background: radial-gradient(120% 90% at 50% 35%, rgba(255, 77, 77, 0.14), rgba(8, 6, 5, 0.95));
+  background:
+    radial-gradient(120% 95% at 50% 40%, rgba(255, 77, 77, 0.08), rgba(6, 6, 8, 0.68) 56%, rgba(4, 4, 6, 0.94)),
+    url("/crypt-assets/wc-defeat.jpg") center / cover no-repeat;
 }
 
 /* One-shot screen flash on reveal — a brief wash of the verdict color. */
