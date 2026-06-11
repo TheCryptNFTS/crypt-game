@@ -2,6 +2,7 @@ import React from "react";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
 import { SyncBadge } from "./MatchBadges";
+import { rarityFrameClassFromTraits } from "../cards/CardFrame";
 
 type BoardCardProps = {
   card: PlayCardVM;
@@ -65,6 +66,8 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       className={[
         "crypt-card",
         "crypt-card--board",
+        // Punch #23 — rarity frame escalation (rare/epic/legendary/mythic).
+        rarityFrameClassFromTraits(card.traits),
         card.damaged ? "is-damaged" : "",
         card.exhausted ? "is-exhausted" : "",
         card.equipped ? "is-equipped" : "",

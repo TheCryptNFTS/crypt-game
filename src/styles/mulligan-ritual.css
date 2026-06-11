@@ -1,0 +1,154 @@
+/*
+ * mulligan-ritual.css — MULLIGAN as a full-screen dimmed ritual (2026-06-11,
+ * punch item #25; MTG Arena's mulligan presentation).
+ *
+ * Imported by MulliganScreen.tsx, which adds the `mulligan-ritual` class next
+ * to the existing `mulligan-screen` one. Every selector here is the two-class
+ * compound `.mulligan-screen.mulligan-ritual …` (specificity 0,2,0) so it wins
+ * over the base + mobile rules in live-crypt-match.css regardless of import
+ * order, without touching that file.
+ *
+ * Beats: the overlay veils the dormant board (fixed, dimmed, blur(8px)); the
+ * head fades in; the cards DEAL in one by one, 70ms apart (a small rise+fade,
+ * `--deal-i` set per slot in TSX); curve + actions follow; the KEEP HAND CTA
+ * wears the gold ramp. Marking a card for redraw plays a brief flare-dissolve.
+ * Every keyframe is gated behind prefers-reduced-motion at the bottom.
+ */
+
+.mulligan-screen.mulligan-ritual {
+  position: fixed;
+  inset: 0;
+  z-index: 59; /* above board fx (55) + enemy band (58); below coach/banner (60) */
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+  overflow-y: auto;
+  padding: clamp(16px, 4vh, 48px) clamp(12px, 4vw, 48px);
+  background: radial-gradient(120% 100% at 50% 30%, rgba(14, 12, 10, 0.78), rgba(8, 7, 6, 0.92));
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  animation: mull-veil-in 280ms ease-out backwards;
+}
+/* When the hand overflows the viewport, prefer scroll over clipping the top. */
+.mulligan-screen.mulligan-ritual {
+  align-content: safe center;
+}
+
+@keyframes mull-veil-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Centered ritual column. */
+.mulligan-screen.mulligan-ritual .mulligan-screen__head {
+  width: 100%;
+  max-width: 860px;
+  text-align: center;
+  animation: mull-rise-in 360ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+}
+.mulligan-screen.mulligan-ritual .mulligan-screen__prompt {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* THE DEAL — cards land one by one, 70ms apart, with a small rise+fade.
+   fill-mode BACKWARDS: hidden during the delay, released after, so the
+   hover-lift transition in live-crypt-match.css keeps working. */
+.mulligan-screen.mulligan-ritual .mulligan-screen__rail {
+  width: 100%;
+  max-width: 860px;
+  margin-top: 6px;
+}
+.mulligan-screen.mulligan-ritual .mulligan-slot {
+  animation: mull-deal 340ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+  animation-delay: calc(160ms + var(--deal-i, 0) * 70ms);
+}
+@keyframes mull-deal {
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes mull-rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Curve + actions follow the deal (7-card deal ends ~790ms). */
+.mulligan-screen.mulligan-ritual .mulligan-curve {
+  width: 100%;
+  max-width: 560px;
+  animation: mull-rise-in 360ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)) 760ms backwards;
+}
+.mulligan-screen.mulligan-ritual .mulligan-screen__actions {
+  width: 100%;
+  max-width: 860px;
+  justify-content: center;
+  animation: mull-rise-in 360ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)) 880ms backwards;
+}
+
+/* THE LOCK — the KEEP HAND / CONFIRM MULLIGAN CTA wears the gold ramp + bevel
+   (the one hero CTA on this screen, per the bar's one-ramp-per-screen rule). */
+.mulligan-screen.mulligan-ritual .mulligan-screen__actions .live-btn--primary {
+  background: var(--gold-ramp, linear-gradient(180deg, #fff4d2 0%, #f0d489 38%, #c8973f 76%, #9c7224 100%));
+  color: #15110b;
+  border-color: transparent;
+  box-shadow: var(--gold-bevel, inset 0 1px 1px rgba(255, 248, 220, 0.55), inset 0 -2px 3px rgba(70, 48, 8, 0.5)),
+    0 10px 28px -8px rgba(233, 201, 132, 0.45);
+  font-weight: 700;
+}
+.mulligan-screen.mulligan-ritual .mulligan-screen__actions .live-btn--primary:hover:not(:disabled) {
+  box-shadow: var(--gold-bevel, inset 0 1px 1px rgba(255, 248, 220, 0.55), inset 0 -2px 3px rgba(70, 48, 8, 0.5)),
+    0 14px 34px -8px rgba(233, 201, 132, 0.6);
+}
+
+/* REDRAW FLARE-DISSOLVE — marking a card flares bright for a beat, then
+   dissolves into the dimmed grayscale "leaving" state (the static filter from
+   live-crypt-match.css holds after the one-shot completes). */
+.mulligan-screen.mulligan-ritual .mulligan-slot--redraw .crypt-card--hand {
+  animation: mull-dissolve 320ms ease-out backwards;
+}
+@keyframes mull-dissolve {
+  0% { filter: brightness(1.7) grayscale(0); }
+  100% { filter: grayscale(0.6) brightness(0.7); }
+}
+.mulligan-screen.mulligan-ritual .mulligan-slot--redraw::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 13px;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px rgba(255, 106, 106, 0.7), 0 0 22px rgba(255, 106, 106, 0.4);
+  animation: mull-flare 360ms ease-out both;
+}
+@keyframes mull-flare {
+  0% { opacity: 1; transform: scale(0.98); }
+  100% { opacity: 0; transform: scale(1.06); }
+}
+
+/* MOBILE: the sticky bottom confirm bar (live-crypt-match.css ≤768px) stays —
+   reserve room for it + the dock so the curve never hides behind it, and pin
+   the ritual to the top so the head is never clipped on short phones. */
+@media (max-width: 768px) {
+  .mulligan-screen.mulligan-ritual {
+    align-content: start;
+    padding-bottom: calc(150px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mulligan-screen.mulligan-ritual,
+  .mulligan-screen.mulligan-ritual .mulligan-screen__head,
+  .mulligan-screen.mulligan-ritual .mulligan-slot,
+  .mulligan-screen.mulligan-ritual .mulligan-curve,
+  .mulligan-screen.mulligan-ritual .mulligan-screen__actions,
+  .mulligan-screen.mulligan-ritual .mulligan-slot--redraw .crypt-card--hand {
+    animation: none !important;
+  }
+  .mulligan-screen.mulligan-ritual .mulligan-slot--redraw::after { display: none; }
+  /* Keep the full-screen veil but skip the blur cost under reduced motion? No —
+     blur is static, not motion; it stays. Only keyframes are killed. */
+}

@@ -869,3 +869,70 @@ button {
   .crypt-card--tilt { transform: none; }
   .crypt-card__glare { display: none; }
 }
+
+/* ===================================================================
+   RARITY FRAME ESCALATION (punch #23, 2026-06-11) — Snap/Hearthstone
+   rarity ladder on the LIVE match cards (BoardCard + HandCard). The
+   class comes from rarityFrameClassFromTraits(card.traits). Common
+   keeps the frame above untouched. Static glow only — no animation,
+   nothing to reduced-motion-gate. Tier values mirror the binder ladder
+   in polish-cards.css (rare = full faction edge, epic = #9b4dff violet,
+   legendary/mythic = gold border + soft outer halo).
+   =================================================================== */
+.crypt-card.crypt-rframe--rare {
+  /* Brighter faction edge — the base frame mixes the edge at 70%. */
+  border-color: var(--cf-edge, #c8a75d);
+}
+.crypt-card.crypt-rframe--epic {
+  border-color: color-mix(in srgb, #9b4dff 70%, var(--cf-edge, #c8a75d));
+  box-shadow:
+    inset 0 1px 0 rgba(245, 242, 232, 0.10),
+    0 8px 18px -6px rgba(0, 0, 0, 0.7),
+    0 0 16px -4px rgba(155, 77, 255, 0.55);
+}
+.crypt-card.crypt-rframe--legendary {
+  border-color: #e9c984;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 242, 232, 0.14),
+    0 8px 18px -6px rgba(0, 0, 0, 0.7),
+    0 0 18px -3px rgba(233, 201, 132, 0.5),
+    0 0 36px -8px rgba(200, 167, 93, 0.4);
+}
+.crypt-card.crypt-rframe--mythic {
+  border-color: #f0d9a0;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 242, 232, 0.16),
+    0 8px 18px -6px rgba(0, 0, 0, 0.7),
+    0 0 22px -3px rgba(233, 201, 132, 0.6),
+    0 0 44px -8px rgba(200, 167, 93, 0.5);
+}
+
+/* Hover: the tier rules above tie-and-beat .crypt-card:hover /
+   .crypt-card--tilt:hover on box-shadow (same specificity, later in
+   source), which would kill the pickup glow on rarity cards — so the
+   hover state is pinned per tier at higher specificity: lift shadow +
+   the tier halo together. Transform is untouched (tilt/lift cascade
+   stays as shipped). */
+.crypt-card.crypt-rframe--epic:hover {
+  border-color: #9b4dff;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 242, 232, 0.16),
+    0 20px 38px -8px rgba(0, 0, 0, 0.8),
+    0 0 24px -4px rgba(155, 77, 255, 0.7);
+}
+.crypt-card.crypt-rframe--legendary:hover {
+  border-color: #e9c984;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 242, 232, 0.16),
+    0 20px 38px -8px rgba(0, 0, 0, 0.8),
+    0 0 24px -2px rgba(233, 201, 132, 0.6),
+    0 0 48px -8px rgba(200, 167, 93, 0.45);
+}
+.crypt-card.crypt-rframe--mythic:hover {
+  border-color: #f0d9a0;
+  box-shadow:
+    inset 0 1px 0 rgba(245, 242, 232, 0.18),
+    0 20px 38px -8px rgba(0, 0, 0, 0.8),
+    0 0 28px -2px rgba(233, 201, 132, 0.7),
+    0 0 56px -8px rgba(200, 167, 93, 0.55);
+}

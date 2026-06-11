@@ -11,6 +11,8 @@ import {
   hasCompletedAnyMatch,
 } from "../lib/localProgress";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
+import { activeQuests, loadRewards } from "../meta/rewards";
+import DifficultySelect from "../components/live-match/DifficultySelect";
 import { useRenderManifest } from "../hooks/useRenderManifest";
 import {
   claimServerQuest,
@@ -76,6 +78,19 @@ export default function HomePage() {
   }, []);
 
   const snap = useMemo(() => getProgressSnapshot(Date.now()), [tick]);
+
+  // ONE daily-quest chip next to PLAY (mobile-game home pattern): surface
+  // today's NEAREST-COMPLETE unclaimed daily from the local rewards ledger so
+  // the comeback reason is visible at entry. Re-read on the existing 1s tick —
+  // same cadence the rest of the ledger already uses. null = all dailies done.
+  const dailyChipQuest = useMemo(() => {
+    const dailies = activeQuests(loadRewards(Date.now()), "daily");
+    const open = dailies.filter((q) => !q.claimed);
+    if (open.length === 0) return null;
+    return open.reduce((best, q) =>
+      q.progress / q.goal > best.progress / best.goal ? q : best
+    );
+  }, [tick]);
 
   const onClaimDaily = useCallback(() => {
     setClaimMsg(null);
@@ -165,6 +180,49 @@ export default function HomePage() {
               <span className="crypt-home-m-play-label">{t("home.hero.playLabel")}</span>
               <span className="crypt-home-m-play-meta">{t("home.hero.playMeta")}</span>
             </Link>
+
+            {/* THE daily-quest chip — one quest, nearest to complete, right
+                under PLAY (the comeback reason at entry). Reads the same local
+                rewards ledger the win ceremony advances; ◈ = Sigil (in-game
+                only), never the ⬡ HEX glyph. */}
+            <Link to="/play" className="crypt-home-m-questchip" aria-label="Today's daily quest">
+              {dailyChipQuest ? (
+                <>
+                  <span className="crypt-home-m-questchip-kicker">Daily rite</span>
+                  <span className="crypt-home-m-questchip-title">{dailyChipQuest.title}</span>
+                  <span className="crypt-home-m-questchip-bar" aria-hidden="true">
+                    <span
+                      className="crypt-home-m-questchip-fill"
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          Math.round((dailyChipQuest.progress / dailyChipQuest.goal) * 100)
+                        )}%`,
+                      }}
+                    />
+                  </span>
+                  <span className="crypt-home-m-questchip-count">
+                    {dailyChipQuest.progress}/{dailyChipQuest.goal}
+                  </span>
+                  <span className="crypt-home-m-questchip-reward">
+                    +{dailyChipQuest.sigilReward} ◈
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="crypt-home-m-questchip-kicker">Daily rite</span>
+                  <span className="crypt-home-m-questchip-title">
+                    All dailies complete — resets 00:00 UTC
+                  </span>
+                </>
+              )}
+            </Link>
+
+            {/* Visible AI tiers (Initiate / Veteran / Sovereign) — the choice
+                the next match's opponent actually plays. No hidden ramp. */}
+            <div className="crypt-home-m-difficulty">
+              <DifficultySelect />
+            </div>
 
             <p className="crypt-home-m-more-nav">
               <Link to="/shop" className="crypt-home-m-more-link">

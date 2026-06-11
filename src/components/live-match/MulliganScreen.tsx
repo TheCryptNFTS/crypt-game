@@ -2,10 +2,17 @@ import React, { useMemo, useState } from "react";
 import { handToVm, getCommanderVmForPlayer } from "../../game-ui/liveMatchAdapter";
 import { PlayCardVM } from "../../ui/cryptTypes";
 import { HandCard } from "../crypt/HandCard";
+import "../../styles/mulligan-ritual.css";
 
 /**
  * OPENING MULLIGAN SCREEN (PART 1, UI). Rendered by the solo match page while the
  * explicit mulligan phase is open (`useLocalCryptMatch().mulliganPhaseActive`).
+ *
+ * RITUAL PRESENTATION (punch item #25, MTG Arena's mulligan): the screen is a
+ * full-screen dimmed overlay (fixed, blur(8px)) over the dormant board; the
+ * opening hand DEALS in one card at a time, 70ms apart (`--deal-i` per slot),
+ * and the KEEP HAND CTA wears the gold ramp. Purely CSS-driven
+ * (mulligan-ritual.css), reduced-motion-gated, zero logic change.
  *
  * The player taps cards in their opening hand to toggle them for REDRAW, then
  * confirms. Confirming dispatches the phase-aware `MULLIGAN { cards }` action via
@@ -73,7 +80,7 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
   const confirm = () => onResolve([...redraw].sort((a, b) => a - b));
 
   return (
-    <section className="mulligan-screen" role="dialog" aria-label="Opening mulligan">
+    <section className="mulligan-screen mulligan-ritual" role="dialog" aria-label="Opening mulligan">
       <div className="mulligan-screen__head">
         <span className="mulligan-screen__kicker">
           <span className="mulligan-screen__glyph">{"\u2B22"}</span> Opening Hand
@@ -96,6 +103,8 @@ export function MulliganScreen({ hand, match, onResolve }: Props) {
             <div
               key={`${card.id}-${index}`}
               className={`mulligan-slot${marked ? " mulligan-slot--redraw" : ""}`}
+              /* staggered 70ms deal-in order (mulligan-ritual.css) */
+              style={{ ["--deal-i" as string]: index }}
               role="button"
               tabIndex={0}
               aria-pressed={marked}

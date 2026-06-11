@@ -15,8 +15,11 @@ import "../../styles/win-ceremony.css";
  * read-only `match` snapshot (used purely to surface a brief stat line). It
  * never touches the engine/reducer — "Run It Back" simply invokes the existing
  * reset handler passed down from the page. A dramatic scale+glow entrance plus a
- * one-shot screen flash + shake play on reveal, all disabled under
- * prefers-reduced-motion. Brand: Clash Display, gold/red, warm-black.
+ * one-shot screen flash + shake play on reveal, then the children land as
+ * SEQUENCED reward beats (title 120ms → stats 300ms → rewards 600ms with a
+ * ~600ms Sigil count-up → quest bars 820ms sweep-filling from 0 → actions
+ * 1040ms; punch item #24). All motion disabled under prefers-reduced-motion.
+ * Brand: Clash Display, gold/red, warm-black.
  */
 
 type Seat = "P1" | "P2";
@@ -53,6 +56,47 @@ function prefersReducedMotion(): boolean {
   );
 }
 
+/**
+ * Sigil count-up (punch item #24, Hearthstone reward beat): rolls 0→target over
+ * ~600ms, starting in sync with the rewards' stagger beat (delayMs). Pure
+ * presentation — the ledger was already advanced by useMatchRewards upstream.
+ * Reduced-motion (or inactive) shows the final value immediately.
+ */
+function useCountUp(
+  target: number,
+  active: boolean,
+  reduced: boolean,
+  delayMs = 600,
+  durMs = 600,
+): number {
+  const [val, setVal] = React.useState(0);
+  React.useEffect(() => {
+    if (!active) return;
+    if (reduced) {
+      setVal(target);
+      return;
+    }
+    setVal(0);
+    let raf = 0;
+    let start: number | null = null;
+    const t0 = window.setTimeout(() => {
+      const tick = (now: number) => {
+        if (start === null) start = now;
+        const t = Math.min(1, (now - start) / durMs);
+        const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+        setVal(Math.round(target * eased));
+        if (t < 1) raf = window.requestAnimationFrame(tick);
+      };
+      raf = window.requestAnimationFrame(tick);
+    }, delayMs);
+    return () => {
+      window.clearTimeout(t0);
+      window.cancelAnimationFrame(raf);
+    };
+  }, [target, active, reduced, delayMs, durMs]);
+  return reduced || !active ? target : val;
+}
+
 export function WinCeremony({
   winner,
   mySeat = "P1",
@@ -67,6 +111,11 @@ export function WinCeremony({
   // Post-match payoff: base Sigil for the result + today's daily-quest progress.
   const sigilBase = playerWon ? SIGIL_REWARDS.win : SIGIL_REWARDS.loss;
   const dailies = rewards ? activeQuests(rewards, "daily") : [];
+
+  // Sigil amount rolls 0→base in sync with the rewards beat of the stagger
+  // (600ms in, ~600ms roll). Hook MUST run unconditionally (before the
+  // `if (!winner)` early return) to keep the hook count stable.
+  const sigilShown = useCountUp(sigilBase, !!winner && !!rewards, reduced);
 
   // Best-effort stat line from the read-only snapshot. Wrapped defensively so a
   // shape change can never break the ceremony.
@@ -220,12 +269,16 @@ export function WinCeremony({
         >
           {"\u2B22"}
         </span>
-        <h1 className={`wc-title ${playerWon ? "wc-title--win" : "wc-title--loss"}`}>
+        <h1
+          className={`wc-title wc-seq wc-seq--1 ${
+            playerWon ? "wc-title--win" : "wc-title--loss"
+          }`}
+        >
           {playerWon ? "SIGNAL RESTORED" : "SIGNAL LOST"}
         </h1>
 
         {turns !== null || myHealth !== null ? (
-          <div className="wc-stats">
+          <div className="wc-stats wc-seq wc-seq--2">
             {turns !== null ? (
               <div className="wc-stat">
                 <span className="wc-stat__value">{turns}</span>
@@ -242,7 +295,7 @@ export function WinCeremony({
         ) : null}
 
         {rewards ? (
-          <div className="wc-rewards" aria-label="Rewards earned">
+          <div className="wc-rewards wc-seq wc-seq--3" aria-label="Rewards earned">
             {firstWinBonus ? (
               <div className="wc-firstwin" role="status">
                 <span className="wc-firstwin__tag">★ First win of the day</span>
@@ -250,11 +303,11 @@ export function WinCeremony({
               </div>
             ) : null}
             <div className="wc-rewards__sigil">
-              <span className="wc-rewards__sigil-amt">+{sigilBase}</span>
+              <span className="wc-rewards__sigil-amt">+{sigilShown}</span>
               <span className="wc-rewards__sigil-lbl">◈ Sigil</span>
             </div>
             {dailies.length > 0 ? (
-              <ul className="wc-quests">
+              <ul className="wc-quests wc-seq wc-seq--4">
                 {dailies.map((q) => {
                   const pct = Math.min(100, Math.round((q.progress / q.goal) * 100));
                   return (
@@ -273,11 +326,11 @@ export function WinCeremony({
                 })}
               </ul>
             ) : null}
-            <span className="wc-rewards__foot">Daily quests reset at 00:00 UTC — come back to keep the streak.</span>
+            <span className="wc-rewards__foot wc-seq wc-seq--5">Daily quests reset at 00:00 UTC — come back to keep the streak.</span>
           </div>
         ) : null}
 
-        <div className="wc-share" role="group" aria-label="Share result">
+        <div className="wc-share wc-seq wc-seq--5" role="group" aria-label="Share result">
           <button className="wc-share-btn wc-share-btn--x" onClick={onShareX}>
             <span aria-hidden="true">{"\uD835\uDD4F"}</span> Share on X
           </button>
@@ -295,7 +348,7 @@ export function WinCeremony({
           </div>
         ) : null}
 
-        <div className="wc-actions">
+        <div className="wc-actions wc-seq wc-seq--5">
           <button ref={playAgainRef} className="wc-btn wc-btn--primary" onClick={onViewRewards}>
             View rewards →
           </button>

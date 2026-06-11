@@ -6137,3 +6137,154 @@ button:has(> .crypt-card-chrome):hover,
 @media (prefers-reduced-motion: reduce) {
   .crypt-splash-video { display: none; }
 }
+
+/* ============================================================
+   HOME — daily-quest chip + visible AI tiers (2026-06-11)
+   One quest (nearest-complete daily) chip directly under PLAY,
+   plus the Initiate/Veteran/Sovereign opponent tier row.
+   Gold on warm-black; Space Mono + tabular-nums on the data.
+   ============================================================ */
+
+.crypt-home-m-questchip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: -12px 0 10px; /* tucks the chip up against PLAY's 22px tail margin */
+  padding: 9px 12px;
+  text-decoration: none;
+  border: 1px solid rgba(233, 201, 132, 0.22);
+  border-left: 2px solid var(--color-crypt-ember);
+  border-radius: 2px;
+  background: rgba(233, 201, 132, 0.05);
+}
+
+.crypt-home-m-questchip:hover {
+  border-color: rgba(233, 201, 132, 0.4);
+  background: rgba(233, 201, 132, 0.09);
+}
+
+.crypt-home-m-questchip:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-crypt-obsidian),
+    0 0 0 4px rgba(233, 201, 132, 0.55);
+}
+
+.crypt-home-m-questchip-kicker {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-crypt-ember);
+  white-space: nowrap;
+}
+
+.crypt-home-m-questchip-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--color-crypt-text);
+}
+
+.crypt-home-m-questchip-bar {
+  flex: 0 0 64px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(245, 242, 232, 0.12);
+  overflow: hidden;
+}
+
+.crypt-home-m-questchip-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-crypt-ember), var(--color-crypt-accent));
+}
+
+.crypt-home-m-questchip-count {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  color: var(--color-crypt-accent);
+  white-space: nowrap;
+}
+
+.crypt-home-m-questchip-reward {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  color: var(--color-crypt-muted);
+  white-space: nowrap;
+}
+
+/* Opponent tier row (DifficultySelect) — visible choice, no hidden ramp. */
+.crypt-home-m-difficulty {
+  margin: 0 0 18px;
+}
+
+.live-difficulty-select {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.live-difficulty-select__label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+  margin-right: 2px;
+}
+
+.live-difficulty-select__btn {
+  appearance: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border);
+  background: transparent;
+  color: var(--color-crypt-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition:
+    color 0.16s var(--ease-out-expo),
+    border-color 0.16s var(--ease-out-expo),
+    background 0.16s var(--ease-out-expo);
+}
+
+.live-difficulty-select__btn:hover {
+  color: var(--color-crypt-text);
+  border-color: var(--color-crypt-border-strong);
+}
+
+.live-difficulty-select__btn--active {
+  color: var(--color-crypt-accent);
+  border-color: rgba(233, 201, 132, 0.5);
+  background: rgba(233, 201, 132, 0.08);
+}
+
+.live-difficulty-select__btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-crypt-obsidian),
+    0 0 0 4px rgba(233, 201, 132, 0.55);
+}
+
+.live-difficulty-select__mark {
+  color: var(--color-crypt-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-difficulty-select__btn {
+    transition: none;
+  }
+}

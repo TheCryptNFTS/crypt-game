@@ -210,3 +210,122 @@
   }
   .crypt-foil { opacity: 0.32; background-position: 50% 0%; }
 }
+
+/* ── Binder tile tilt + cursor shine (punch #22) ───────────────────────────────
+   Snap collection tactility on deck-builder / vault tiles. useCardTilt(10) on
+   the tile wrapper writes --rx/--ry (deg), --mx/--my (%) and --glare (0..1);
+   this block consumes them. NO transform transition — the hook's rAF lerp IS
+   the smoothing (a CSS transition on top double-lags it). ±10deg @ 800px
+   perspective per spec. */
+.crypt-binder-tile {
+  position: relative;
+  transform:
+    perspective(800px)
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translateY(calc(var(--glare, 0) * -6px))
+    scale(calc(1 + var(--glare, 0) * 0.02));
+  will-change: transform;
+}
+/* Lift the hovered tile over grid neighbours so the tilted edge never clips. */
+.crypt-binder-tile:hover {
+  z-index: 5;
+}
+/* Hover lift shadow on the frame itself — the tile reads picked-up, not flat. */
+.crypt-binder-tile:hover .crypt-card-premium {
+  box-shadow:
+    0 18px 36px -10px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Cursor shine hotspot — same recipe as the in-match .crypt-card__glare,
+   rendered by CardFrame when `shine` is set. Sits above foil (z 7). */
+.crypt-card-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: calc(var(--glare, 0) * 0.85);
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 248, 224, 0.38),
+    rgba(255, 248, 224, 0.07) 38%,
+    transparent 60%
+  );
+  mix-blend-mode: soft-light;
+  transition: opacity 140ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crypt-binder-tile { transform: none; }
+  .crypt-card-shine { display: none; }
+}
+
+/* ── Rarity frame escalation — binder/vault tiles (punch #23 ladder) ──────────
+   Scoped to .crypt-card-premium (CardFrame). Common keeps the current frame.
+   The ::after IS the frame border, so escalation overrides it per tier:
+   rare = full-strength faction edge, epic = violet edge glow (#9b4dff),
+   legendary/mythic = gold border + soft outer halo. Static glow — no motion,
+   nothing to gate. */
+.crypt-card-premium.crypt-rframe--rare::after {
+  border-color: var(--cf-faction);
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.45),
+    inset 0 0 26px -6px var(--cf-faction),
+    0 0 18px -4px var(--cf-faction);
+}
+.crypt-card-premium.crypt-rframe--epic::after {
+  border-color: color-mix(in srgb, #9b4dff 78%, var(--cf-faction));
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.45),
+    inset 0 0 24px -6px rgba(155, 77, 255, 0.55),
+    0 0 18px -4px rgba(155, 77, 255, 0.6);
+}
+.crypt-card-premium.crypt-rframe--legendary::after {
+  border-color: #e9c984;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    inset 0 0 24px -6px rgba(233, 201, 132, 0.5),
+    0 0 22px -2px rgba(233, 201, 132, 0.45),
+    0 0 44px -8px rgba(200, 167, 93, 0.35);
+}
+.crypt-card-premium.crypt-rframe--mythic::after {
+  border-color: #f0d9a0;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    inset 0 0 26px -6px rgba(233, 201, 132, 0.6),
+    0 0 26px -2px rgba(233, 201, 132, 0.55),
+    0 0 54px -8px rgba(200, 167, 93, 0.45);
+}
+
+/* Hover: the generic interactive-hover rule above out-specifies the tier rules
+   and would snap epic/gold glows back to faction tint mid-hover — pin each
+   tier's glow (slightly brightened) at higher specificity. */
+.crypt-card-interactive.crypt-card-premium.crypt-rframe--rare:hover::after {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    inset 0 0 30px -4px var(--cf-faction),
+    0 0 22px -4px var(--cf-faction);
+}
+.crypt-card-interactive.crypt-card-premium.crypt-rframe--epic:hover::after {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.4),
+    inset 0 0 28px -4px rgba(155, 77, 255, 0.65),
+    0 0 24px -4px rgba(155, 77, 255, 0.7);
+}
+.crypt-card-interactive.crypt-card-premium.crypt-rframe--legendary:hover::after {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35),
+    inset 0 0 28px -4px rgba(233, 201, 132, 0.6),
+    0 0 26px -2px rgba(233, 201, 132, 0.55),
+    0 0 50px -8px rgba(200, 167, 93, 0.4);
+}
+.crypt-card-interactive.crypt-card-premium.crypt-rframe--mythic:hover::after {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.35),
+    inset 0 0 30px -4px rgba(233, 201, 132, 0.7),
+    0 0 30px -2px rgba(233, 201, 132, 0.65),
+    0 0 60px -8px rgba(200, 167, 93, 0.5);
+}

@@ -426,7 +426,8 @@
   margin: 0 0 10px; padding: 10px 16px;
   border: 1px solid rgba(240, 212, 137, 0.5); border-radius: 12px;
   background: linear-gradient(180deg, rgba(233, 201, 132, 0.18), rgba(233, 201, 132, 0.05));
-  animation: wc-firstwin-in 460ms var(--ease-backout, cubic-bezier(0.34,1.56,0.64,1)) both;
+  /* delayed to the 600ms rewards beat of the ceremony stagger (item #24) */
+  animation: wc-firstwin-in 460ms var(--ease-backout, cubic-bezier(0.34,1.56,0.64,1)) 600ms backwards;
 }
 .wc-firstwin__tag {
   font-family: var(--font-display, "Clash Display"), sans-serif;
@@ -443,3 +444,59 @@
   to { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .wc-firstwin { animation: none; } }
+
+/* ── CEREMONY SEQUENCING (2026-06-11, punch item #24) ────────────────────────
+   Hearthstone-style sequenced reward beats: instead of everything popping at
+   once, the ceremony's children land one after another —
+     beat 1  120ms  verdict title
+     beat 2  300ms  stat line
+     beat 3  600ms  rewards box (first-win banner + Sigil; the Sigil amount
+                    counts up ~600ms in JS, synced to this beat)
+     beat 4  820ms  daily-quest list (bars sweep-fill from 0 below)
+     beat 5 1040ms  share row + actions + footnote
+   fill-mode is BACKWARDS on purpose: children are hidden during their delay
+   but release to natural styles after, so hover transforms keep working.
+   Everything killed under prefers-reduced-motion (bottom of file). */
+.wc-seq {
+  animation: wc-seq-in 460ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+}
+.wc-seq--1 { animation-delay: 120ms; }
+.wc-seq--2 { animation-delay: 300ms; }
+.wc-seq--3 { animation-delay: 600ms; }
+.wc-seq--4 { animation-delay: 820ms; }
+.wc-seq--5 { animation-delay: 1040ms; }
+@keyframes wc-seq-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* The metallic title keeps its drop-shadow filter; the seq keyframe only
+   touches opacity/transform so the two compose cleanly. The title rides beat 1
+   but still needs its full presence — give it a touch more travel. */
+.wc-title.wc-seq {
+  animation-name: wc-seq-title-in;
+  animation-duration: 520ms;
+}
+@keyframes wc-seq-title-in {
+  from { opacity: 0; transform: translateY(14px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Quest bars sweep-fill from 0 to their inline width on entry, synced just
+   after the quest-list beat. scaleX (GPU) instead of width — origin left. */
+.wc-quest__fill {
+  transform-origin: 0 50%;
+  animation: wc-quest-sweep 600ms var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) 880ms backwards;
+}
+@keyframes wc-quest-sweep {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wc-seq,
+  .wc-title.wc-seq,
+  .wc-quest__fill {
+    animation: none !important;
+  }
+}

@@ -1,6 +1,8 @@
+import type { Ref } from "react";
 import type { RenderManifestEntry } from "../../types/renderManifest";
 import { toUICardDisplay } from "../../presentation/uiCardModel";
 import { getKeywordDescription } from "../../engine/keywordDescriptions";
+import { useCardTilt } from "../../hooks/useCardTilt";
 import CardFrame from "./CardFrame";
 
 export type PlayableCardMode = "hand" | "board" | "collection" | "modal";
@@ -94,6 +96,14 @@ export default function PlayableCard({
   onClick,
   className = "",
 }: PlayableCardProps) {
+  // Punch #22 — binder/vault tile tilt + cursor shine (Snap collection
+  // tactility). Reuses the shipped hand-card hook at ±10deg; CSS provides the
+  // 800px perspective. Only interactive collection tiles tilt — modal/hand/
+  // board renders of PlayableCard stay static. Hook is called unconditionally
+  // (rules of hooks); it's inert unless its handlers are attached below.
+  const tilt = useCardTilt(10);
+  const binderTilt = mode === "collection" && !!onClick;
+
   if (!entry) {
     return (
       <UnknownShell compact={mode === "board"} onClick={onClick} className={className} />
@@ -241,6 +251,8 @@ export default function PlayableCard({
       commander={false}
       faction={ui.faction !== "—" ? ui.faction : undefined}
       rarity={ui.rarityLabel ?? undefined}
+      interactive={!!onClick}
+      shine={binderTilt}
       chromeStateClass={chromeExtra}
       art={art}
       footer={footer}
@@ -256,7 +268,19 @@ export default function PlayableCard({
   return (
     <div className={[widthClasses, "transition-transform duration-200", className].join(" ")}>
       {onClick ? (
-        <button type="button" onClick={onClick} className="block w-full text-left">
+        <button
+          type="button"
+          onClick={onClick}
+          ref={binderTilt ? (tilt.ref as Ref<HTMLButtonElement>) : undefined}
+          onPointerMove={binderTilt ? tilt.onPointerMove : undefined}
+          onPointerLeave={binderTilt ? tilt.onPointerLeave : undefined}
+          className={[
+            "block w-full text-left",
+            binderTilt ? "crypt-binder-tile" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
           {frame}
         </button>
       ) : (

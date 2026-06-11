@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CommanderVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
 
@@ -6,6 +6,12 @@ import { factionTheme } from "../../ui/cryptTheme";
  * VersusIntro — the match-OPEN beat. Your commander vs the enemy commander, full
  * collectible art slamming in from opposite sides across a gold ⬡ "VERSUS", then
  * it fades and hands off to the live board.
+ *
+ * Fighting-game versus presentation (punch item #20): a one-frame white flash +
+ * 180ms screen shake at the moment the center hex SLAMS in (scale 1.4→1 on the
+ * back-out easing), name plates staggering in 90ms apart, and tap-anywhere to
+ * skip straight to the board. All beats are CSS-driven (match-motion.css) and
+ * fully gated behind prefers-reduced-motion.
  *
  * PRESENTATION-ONLY and self-contained (same shape as MatchCeremony): it reflects
  * the two commander VMs and runs ONE setTimeout(onDone) — no rAF, no live-board
@@ -47,11 +53,28 @@ export function VersusIntro({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Tap-anywhere-to-skip (fighting-game convention). One-shot: the first press
+  // starts the leave fade immediately and hands off; the auto timers above are
+  // harmless after (setLeaving is idempotent and the parent unmounts us on done).
+  const skippedRef = useRef(false);
+  const skip = useCallback(() => {
+    if (skippedRef.current) return;
+    skippedRef.current = true;
+    setLeaving(true);
+    window.setTimeout(onDone, reduced ? 0 : 200);
+  }, [onDone, reduced]);
+
   const ownEdge = factionTheme[own.faction]?.edge ?? "#C8A75D";
   const enemyEdge = factionTheme[enemy.faction]?.edge ?? "#FF4D4D";
 
   return (
-    <div className={`vs-intro${leaving ? " vs-intro--leave" : ""}`} aria-hidden="true">
+    <div
+      className={`vs-intro${leaving ? " vs-intro--leave" : ""}`}
+      aria-hidden="true"
+      onPointerDown={skip}
+    >
+      {/* One-frame white impact flash, timed to the hex slam (CSS delay). */}
+      {!reduced ? <div className="vs-intro__flash" /> : null}
       <div className="vs-intro__side vs-intro__side--own" style={{ ["--vs-edge" as string]: ownEdge }}>
         <img className="vs-intro__art" src={own.imageUrl} alt="" />
         <div className="vs-intro__meta">
@@ -74,6 +97,8 @@ export function VersusIntro({
           <span className="vs-intro__faction">{enemy.faction.replace(/_/g, " ")}</span>
         </div>
       </div>
+
+      <span className="vs-intro__skip">Tap to skip</span>
     </div>
   );
 }

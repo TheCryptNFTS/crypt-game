@@ -20,10 +20,16 @@ import {
  * fires across tabs).
  */
 
+/**
+ * Book game ruling: 3 NAMED visible tiers — Initiate / Veteran / Sovereign —
+ * and NO hidden ramp (useLocalCryptMatch reads this choice directly via
+ * readAiDifficulty; the lifetime-match ramp is dead). Storage values stay
+ * easy/normal/hard so an existing saved choice keeps working.
+ */
 const TIERS: { value: AiDifficulty; label: string; hint: string }[] = [
-  { value: "easy", label: "Easy", hint: "Passive opponent — under-deploys and misplays" },
-  { value: "normal", label: "Normal", hint: "Balanced greedy opponent" },
-  { value: "hard", label: "Hard", hint: "Sharp opponent — trades well and takes lethal" },
+  { value: "easy", label: "Initiate", hint: "Gentle opponent — under-deploys, never hunts lethal" },
+  { value: "normal", label: "Veteran", hint: "The standard greedy opponent — trades well" },
+  { value: "hard", label: "Sovereign", hint: "Full-board commitment — takes lethal on sight" },
 ];
 
 // Same-tab sync: a custom event so sibling selectors update immediately.
@@ -74,6 +80,9 @@ export function DifficultySelect() {
       role="group"
       aria-label="Opponent difficulty"
     >
+      <span className="live-difficulty-select__label" aria-hidden="true">
+        Opponent
+      </span>
       {TIERS.map((tier) => {
         const active = tier.value === value;
         return (

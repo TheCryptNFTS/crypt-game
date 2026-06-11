@@ -7,7 +7,8 @@ import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "..
 import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck, DEMO_COMMANDER_ID } from "../nft/buildOwnedDeck";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
-import { planP2Turn, planP2Plays, planP2Combat, rampedAiDifficulty } from "./cryptMatchAI";
+import { applyMatchRewards } from "../lib/localProgress";
+import { planP2Turn, planP2Plays, planP2Combat, readAiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
 type Lane = "front" | "back";
@@ -478,6 +479,22 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   };
 
   const resetMatch = () => {
+    // RUN IT BACK KEEPS REWARDS (teardown "Earn/progress" + Book ruling): the
+    // device ⬡ HEX / pass XP / matchesTotal grant lived ONLY on /match-results,
+    // so rematching from the ceremony forfeited the match you just finished.
+    // Bank the DECIDED match before discarding it. Once-per-match by
+    // construction: a decided match can only be reset once (the fresh match has
+    // no winner), and the "View rewards" path navigates away — it never reaches
+    // this reset — so the two grant paths are mutually exclusive. Mid-match
+    // resets (no winner) bank nothing. Quest/sigil rewards already recorded at
+    // decide-time via useMatchRewards (new seed below re-arms it for the rematch).
+    if (winner) {
+      try {
+        applyMatchRewards({ winner, turn: match.turn ?? 0 });
+      } catch {
+        /* storage unavailable — never block the rematch */
+      }
+    }
     setMatch(makeInitialMatch(ownedCardIds, options));
     setSelectedHandId(null);
     setSelectedBoardId(null);
@@ -568,7 +585,11 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         plan.push({ action, isStep });
       };
       try {
-        const diff = rampedAiDifficulty();
+        // VISIBLE TIERS ONLY (Book game ruling): the AI plays exactly the tier
+        // the player picked in DifficultySelect (Initiate/Veteran/Sovereign →
+        // easy/normal/hard). The old hidden lifetime-match ramp silently made
+        // every "Run It Back" harder — it is gone; no explicit pick = Veteran.
+        const diff = readAiDifficulty();
         // Two-phase: all plays first, THEN combat off the post-play board so a
         // freshly-summoned RUSH unit can swing.
         for (const a of planP2Plays(scratch, diff)) {

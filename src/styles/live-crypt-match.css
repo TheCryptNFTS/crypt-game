@@ -56,6 +56,20 @@
   z-index: 1;
 }
 
+/* Punch #15 — ambient gold flank glow. The 1320 table leaves dark voids left/
+   right at wide viewports; a faint warm radial on each flank makes the bleed
+   read lit-on-purpose instead of unused. Paints over ::before, under content. */
+.live-match-shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(30% 55% at 0% 55%, rgba(233, 201, 132, 0.07), transparent 72%),
+    radial-gradient(30% 55% at 100% 55%, rgba(233, 201, 132, 0.07), transparent 72%);
+}
+
 /* Slim Solo/PvP toggle — a small inline pill set, top-right, not a fat centered
    band that pushes the whole board down. */
 .crypt-mode-toggle {
@@ -195,16 +209,21 @@
     align-items: flex-start;
     min-height: 0;
   }
+  /* Board-presence scale (punch board ≥120px @1440): cards ride the 1320 shell
+     instead of a fixed 100px token size. vh term keeps the single-screen fit on
+     short windows; vw term keeps 5 slots + gaps inside the board column on
+     narrow desktops; 124 cap stops sparse-giant cards at 1900px+. At a standard
+     1440×900 desktop this resolves to 124px. */
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot {
     height: auto;
     min-height: 0;
     max-height: none;
-    width: 100px;
+    width: clamp(96px, min(13.8vh, 8.7vw), 124px);
   }
   .live-match-shell:has(.crypt-table) .crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
     height: auto;
     width: 100%;
-    max-width: 100px;
+    max-width: clamp(96px, min(13.8vh, 8.7vw), 124px);
   }
   /* Empty hex cells keep the square footprint so an unoccupied lane still reads
      as a deliberate grid at the new card width. */
@@ -302,7 +321,8 @@
    ========================================================================== */
 .crypt-table {
   margin: 10px auto 0;
-  max-width: 1320px;
+  /* Punch #15 — 1320 shell (never full-bleed; min() keeps a gutter ≤1435px). */
+  max-width: min(1320px, 92vw);
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 232px;
@@ -641,41 +661,70 @@
   gap: 10px;
 }
 
+/* ====== PREMIUM BUTTON CRAFT (visual-audit "buttons look cheap" pass) ======
+   One system: every action-bar button is ≥40px tall, mono uppercase 12px
+   letterspaced, 150ms quint transitions, :active scale(.98), disabled 0.45
+   (dim, never invisible). Secondary = ghost-gold; ONE gold-ramp hero per
+   screen (End Turn in-match; mulligan/gameover confirms on theirs). */
 .live-btn {
   position: relative;
   overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 999px;
-  padding: 11px 18px;
-  font-family: var(--font-label, "Clash Grotesk", sans-serif);
-  font-weight: 500;
+  min-height: 40px;
+  padding: 10px 18px;
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-weight: 700;
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  border: 1px solid rgba(245,242,232,0.12);
+  border: 1px solid rgba(200, 167, 93, 0.4);
   cursor: pointer;
-  transition: 140ms ease;
+  transition:
+    transform 150ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)),
+    background-color 150ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color 150ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)),
+    box-shadow 150ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1)),
+    opacity 150ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
 .live-btn:hover:not(:disabled) {
   transform: translateY(-1px);
 }
+.live-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
 
 .live-btn:disabled {
-  opacity: 0.42;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-.live-btn--ghost {
-  background: rgba(245,242,232,0.05);
-  color: #F5F2E8;
+/* Ghost-gold secondaries: thin gold border, gold text, 12% gold fill on hover. */
+.live-btn--ghost,
+.live-btn--secondary {
+  background: transparent;
+  border-color: rgba(200, 167, 93, 0.4);
+  color: #E9C984;
+}
+.live-btn--ghost:hover:not(:disabled),
+.live-btn--secondary:hover:not(:disabled) {
+  background: rgba(200, 167, 93, 0.12);
+  border-color: rgba(200, 167, 93, 0.62);
 }
 
-/* Metallic primary with city glint sweep */
+/* HERO CTA (punch #16) — machined gold ramp + inset bevel, dark text, glint
+   sweep on hover. End Turn is the match's one gold button. */
 .live-btn--primary {
-  background: linear-gradient(180deg, #F5F2E8, #CFC6AA);
-  color: #0B0B0D;
-  border-color: rgba(245,242,232,0.16);
-  box-shadow: 0 1px 0 rgba(245,242,232,0.4) inset, 0 12px 30px -12px rgba(0,0,0,0.8);
+  background: var(--gold-ramp, linear-gradient(180deg, #fff4d2 0%, #f0d489 38%, #c8973f 76%, #9c7224 100%));
+  color: #251903;
+  border-color: rgba(255, 244, 210, 0.6);
+  box-shadow:
+    var(--gold-bevel, inset 0 1px 1px rgba(255, 248, 220, 0.55), inset 0 -2px 3px rgba(70, 48, 8, 0.5)),
+    0 12px 30px -12px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 0 rgba(255, 248, 220, 0.35);
 }
 
 .live-btn--primary::after {
@@ -684,18 +733,23 @@
   inset: 0;
   background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
   transform: translateX(-120%);
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 600ms var(--ease-out-quint, cubic-bezier(0.22, 1, 0.36, 1));
 }
 
 .live-btn--primary:hover:not(:disabled)::after {
   transform: translateX(120%);
 }
 
-.live-btn--secondary {
-  background: rgba(245,242,232,0.045);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #F5F2E8;
+@media (prefers-reduced-motion: reduce) {
+  .live-btn,
+  .live-btn:hover:not(:disabled),
+  .live-btn:active:not(:disabled) {
+    transition: none;
+    transform: none;
+  }
+  .live-btn--primary::after {
+    display: none;
+  }
 }
 
 .live-btn--danger {
@@ -1647,4 +1701,19 @@
   background: linear-gradient(180deg, rgba(10, 10, 15, 0.26), rgba(7, 7, 11, 0.44));
   border-color: rgba(245, 242, 232, 0.07);
   box-shadow: inset 0 1px 0 rgba(245, 242, 232, 0.05);
+}
+
+/* Board stat numerals (punch #5) — heavier, etched, thumbnail-readable: weight
+   800, 0.4px self-stroke + shadow ON THE NUMERAL (never dim the art), tabular
+   figures, 10→11px. The HP chip lands on brand red. */
+.crypt-table .crypt-card--board .crypt-cs {
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  -webkit-text-stroke: 0.4px currentColor;
+  paint-order: stroke fill;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.live-match-shell .crypt-cs--hp {
+  background: #b3322f;
 }

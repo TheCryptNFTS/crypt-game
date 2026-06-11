@@ -3,6 +3,7 @@ import { PlayCardVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
 import { SyncBadge } from "./MatchBadges";
 import { useCardTilt } from "../../hooks/useCardTilt";
+import { rarityFrameClassFromTraits } from "../cards/CardFrame";
 import "../../styles/polish-facedown.css";
 
 /** Printed card-back art (public/crypt-assets), served from the site root. */
@@ -26,6 +27,8 @@ type HandCardProps = {
 
 export function HandCard({ card, onSelect }: HandCardProps) {
   const theme = factionTheme[card.faction];
+  // Hook must run before the face-down early return (rules of hooks).
+  const tilt = useCardTilt(9);
 
   // Face-down placeholder: render the card-back art only. It is non-interactive
   // (spectator fog of war), so it is a plain div, not a selectable button.
@@ -38,7 +41,6 @@ export function HandCard({ card, onSelect }: HandCardProps) {
   }
 
   const { cost, attack, health, armor, speed } = card.liveStats;
-  const tilt = useCardTilt(9);
 
   return (
     <button
@@ -46,7 +48,7 @@ export function HandCard({ card, onSelect }: HandCardProps) {
       ref={tilt.ref as React.Ref<HTMLButtonElement>}
       onPointerMove={tilt.onPointerMove}
       onPointerLeave={tilt.onPointerLeave}
-      className={`crypt-card crypt-card--hand crypt-card--tilt ${card.selected ? "is-selected" : ""}`}
+      className={`crypt-card crypt-card--hand crypt-card--tilt ${rarityFrameClassFromTraits(card.traits)} ${card.selected ? "is-selected" : ""}`}
       onClick={() => onSelect?.(card)}
       aria-pressed={card.selected ?? false}
       aria-label={`Play ${card.name}, ${card.kind}, cost ${cost ?? 0}, ${attack} attack, ${health} health, ${armor} armor, ${speed} speed`}

@@ -36,11 +36,44 @@ function enhanceArt(art: ReactNode): ReactNode {
   return swapImg(art);
 }
 
+/**
+ * Punch #23 — rarity → frame-escalation class (Snap/Hearthstone rarity ladder).
+ * Common returns "" (the current frame IS the common frame). The classes are
+ * styled twice: polish-cards.css scopes them to .crypt-card-premium (binder /
+ * vault / modal tiles) and crypt-match.css scopes them to .crypt-card (live
+ * BoardCard/HandCard), so one mapping drives both surfaces.
+ */
+export function rarityFrameClass(rarity: string | null | undefined): string {
+  const r = (rarity ?? "").trim().toLowerCase();
+  if (
+    r === "mythic" ||
+    r === "god" ||
+    r.includes("one of") ||
+    r.includes("one_of") ||
+    r.includes("one-of")
+  ) {
+    return "crypt-rframe--mythic";
+  }
+  if (r === "legendary") return "crypt-rframe--legendary";
+  if (r === "epic") return "crypt-rframe--epic";
+  if (r === "rare") return "crypt-rframe--rare";
+  return "";
+}
+
+/** Match VMs (PlayCardVM) only carry rarity inside the raw trait map. */
+export function rarityFrameClassFromTraits(
+  traits: Record<string, string> | null | undefined,
+): string {
+  return rarityFrameClass(traits?.["Rarity"] ?? traits?.["rarity"]);
+}
+
 export type CardFrameProps = {
   commander?: boolean;
   faction?: string;
   rarity?: string;
   interactive?: boolean;
+  /** Renders the cursor-shine overlay consumed by useCardTilt's --mx/--my/--glare vars. */
+  shine?: boolean;
   /** Extra state classes on chrome root (combat, hand focus, etc.) */
   chromeStateClass?: string;
   className?: string;
@@ -53,6 +86,7 @@ export default function CardFrame({
   faction,
   rarity,
   interactive,
+  shine,
   chromeStateClass = "",
   className = "",
   art,
@@ -65,6 +99,7 @@ export default function CardFrame({
         "crypt-card-chrome crypt-card-premium relative flex flex-col overflow-hidden",
         commander ? "crypt-card-chrome-commander" : "",
         interactive ? "crypt-card-interactive cursor-pointer" : "",
+        rarityFrameClass(rarity),
         chromeStateClass,
         className,
       ]
@@ -79,6 +114,7 @@ export default function CardFrame({
         aria-hidden
       />
       {foil && <div className={foil} aria-hidden />}
+      {shine && <span className="crypt-card-shine" aria-hidden />}
       <div
         className={[
           "crypt-card-art relative aspect-square w-full shrink-0",

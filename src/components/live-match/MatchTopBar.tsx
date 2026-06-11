@@ -38,6 +38,35 @@ export function MatchTopBar({
   onAttackEnemyHex
 }: Props) {
   const youActive = activePlayer === "P1";
+
+  // Punch #19 — presentation-only turn/energy feel, derived from props so the
+  // engine stays untouched. When the turn BECOMES yours, a one-shot ready
+  // ripple cascades Active pill → Energy pill → End Turn (~120ms apart, see
+  // polish-hud.css). When energy DROPS (a cost was paid), the readout pops.
+  const [readyPulse, setReadyPulse] = React.useState(0);
+  const [spendPulse, setSpendPulse] = React.useState(0);
+  const prevActive = React.useRef(youActive);
+  const prevEnergy = React.useRef(energy);
+  React.useEffect(() => {
+    if (youActive && !prevActive.current) setReadyPulse((k) => k + 1);
+    prevActive.current = youActive;
+  }, [youActive]);
+  React.useEffect(() => {
+    if (energy < prevEnergy.current) setSpendPulse((k) => k + 1);
+    prevEnergy.current = energy;
+  }, [energy]);
+
+  // Keyed so every new turn restarts the one-shot animation; rendered only
+  // after the first hand-off so nothing flashes on mount.
+  const readyRipple = (seq?: 2 | 3) =>
+    readyPulse > 0 ? (
+      <span
+        key={`ready-${readyPulse}`}
+        className={`ph-ready${seq ? ` ph-ready--${seq}` : ""}`}
+        aria-hidden="true"
+      />
+    ) : null;
+
   return (
     <header className="live-topbar">
       <div className="live-topbar__cluster">
@@ -49,6 +78,7 @@ export function MatchTopBar({
         <div className={`live-topbar__pill live-topbar__pill--active ${youActive ? "mm-your-turn" : ""}`}>
           <span className="live-topbar__label">Active</span>
           <strong>{youActive ? "You" : "Opponent"}</strong>
+          {readyRipple()}
         </div>
 
         <div
@@ -110,8 +140,10 @@ export function MatchTopBar({
 
         <div className="live-topbar__pill live-topbar__pill--energy">
           <span className="live-topbar__label">Energy</span>
+          {readyRipple(2)}
           <div
-            className="ph-energy"
+            key={`spend-${spendPulse}`}
+            className={`ph-energy${spendPulse > 0 ? " ph-energy--spend" : ""}`}
             role="img"
             aria-label={`Energy ${energy} of ${maxEnergy}`}
           >
@@ -157,6 +189,7 @@ export function MatchTopBar({
           </button>
           <button className="live-btn live-btn--primary" onClick={onEndTurn}>
             End Turn
+            {readyRipple(3)}
           </button>
         </div>
       </div>
