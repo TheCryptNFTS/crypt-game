@@ -1,6 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { CommanderVM } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
+import "../../styles/ai-bosses.css";
+
+/**
+ * Optional NAMED-BOSS plate for solo matches (additive — PvP passes nothing and
+ * renders exactly as before). When present the opponent side shows the boss's
+ * portrait/name/title plus ONE pre-seeded intro line. Static content only.
+ */
+export type VersusBossPlate = {
+  name: string;
+  title: string;
+  imageUrl: string;
+  /** Already seed-picked by the caller (deterministic per match). */
+  introLine: string;
+};
 
 /*
  * VersusIntro — the match-OPEN beat. Your commander vs the enemy commander, full
@@ -31,10 +45,13 @@ function reducedMotion(): boolean {
 export function VersusIntro({
   own,
   enemy,
+  boss = null,
   onDone,
 }: {
   own: CommanderVM;
   enemy: CommanderVM;
+  /** Solo-only named opponent. Omitted/null → unchanged PvP presentation. */
+  boss?: VersusBossPlate | null;
   onDone: () => void;
 }) {
   const [leaving, setLeaving] = useState(false);
@@ -90,11 +107,16 @@ export function VersusIntro({
       </div>
 
       <div className="vs-intro__side vs-intro__side--enemy" style={{ ["--vs-edge" as string]: enemyEdge }}>
-        <img className="vs-intro__art" src={enemy.imageUrl} alt="" />
+        <img className="vs-intro__art" src={boss ? boss.imageUrl : enemy.imageUrl} alt="" />
         <div className="vs-intro__meta">
           <span className="vs-intro__role">Opponent</span>
-          <span className="vs-intro__name">{enemy.name}</span>
-          <span className="vs-intro__faction">{enemy.faction.replace(/_/g, " ")}</span>
+          <span className="vs-intro__name">{boss ? boss.name : enemy.name}</span>
+          <span className="vs-intro__faction">
+            {boss ? boss.title : enemy.faction.replace(/_/g, " ")}
+          </span>
+          {boss?.introLine ? (
+            <span className="vs-intro__bossline">{"“"}{boss.introLine}{"”"}</span>
+          ) : null}
         </div>
       </div>
 

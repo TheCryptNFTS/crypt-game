@@ -15,6 +15,8 @@ import { MulliganScreen } from "../components/live-match/MulliganScreen";
 import { WinCeremony } from "../components/live-match/WinCeremony";
 import { VersusIntro } from "../components/live-match/VersusIntro";
 import { getCommanderVmForPlayer } from "../game-ui/liveMatchAdapter";
+import { readAiDifficulty } from "../game-ui/cryptMatchAI";
+import { getBossForDifficulty, pickBossLine } from "../data/aiBosses";
 
 type Props = {
   /** Card ids (`tcg_<tokenId>`) the connected wallet owns. When present, they
@@ -74,6 +76,24 @@ export default function LiveCryptMatchPage({
   // is confirmed. Keyed to the match seed so "Reset Match" (new seed) re-arms it.
   const matchSeed = local.match?.seed ?? "solo";
   const [introSeenSeed, setIntroSeenSeed] = useState<string | number | null>(null);
+
+  // NAMED AI BOSS (solo, non-tutorial). The boss is pure presentation over the
+  // SAME stored difficulty the planner reads — resolved once per match (keyed by
+  // seed) so the plate stays stable even if the tier is changed mid-match. All
+  // lines are static and seed-picked (deterministic): zero runtime generation.
+  const boss = React.useMemo(
+    () => (tutorial ? null : getBossForDifficulty(readAiDifficulty())),
+    // matchSeed re-reads the stored choice at each new match.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [tutorial, matchSeed],
+  );
+  const bossOutroLine =
+    boss && (local.winner === "P1" || local.winner === "P2")
+      ? pickBossLine(
+          local.winner === "P1" ? boss.lossLines : boss.winLines,
+          matchSeed,
+        )
+      : null;
 
   // Tutorial only: report the verdict exactly once when the match decides.
   const [reported, setReported] = useState(false);
@@ -215,6 +235,16 @@ export default function LiveCryptMatchPage({
         <VersusIntro
           own={getCommanderVmForPlayer(local.match.players.P1)}
           enemy={getCommanderVmForPlayer(local.match.players.P2)}
+          boss={
+            boss
+              ? {
+                  name: boss.name,
+                  title: boss.title,
+                  imageUrl: boss.imageUrl,
+                  introLine: pickBossLine(boss.introLines, matchSeed),
+                }
+              : null
+          }
           onDone={() => setIntroSeenSeed(matchSeed)}
         />
       ) : null}
@@ -262,6 +292,8 @@ export default function LiveCryptMatchPage({
           match={local.match}
           rewards={rewards}
           firstWinBonus={firstWinBonus}
+          bossLine={bossOutroLine}
+          bossName={boss?.name ?? null}
           onPlayAgain={local.resetMatch}
         />
       ) : null}

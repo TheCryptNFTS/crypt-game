@@ -4,6 +4,7 @@ import { openTweet, shareOrCopy, absoluteUrl } from "../../lib/share";
 import { resultCardBlob, resultCardDataUrl } from "../../lib/shareCard";
 import { activeQuests, SIGIL_REWARDS, type RewardsState } from "../../meta/rewards";
 import "../../styles/win-ceremony.css";
+import "../../styles/ai-bosses.css";
 
 /*
  * WinCeremony — the premium full-screen WIN / LOSS ceremony for the solo Play
@@ -46,6 +47,14 @@ export type WinCeremonyProps = {
   /** Non-null only when THIS match earned the first-win-of-day bonus — the
    *  ceremony then celebrates it as a separate beat above the base Sigil. */
   firstWinBonus?: number | null;
+  /**
+   * Optional NAMED-BOSS outro (solo only, additive). One pre-seeded static line
+   * spoken by the AI boss — already win/loss-appropriate and deterministic per
+   * match (picked by the page). Omitted/null → nothing renders (PvP untouched).
+   */
+  bossLine?: string | null;
+  /** Boss attribution for the line, e.g. "WARDEN KAEL". */
+  bossName?: string | null;
 };
 
 function prefersReducedMotion(): boolean {
@@ -104,6 +113,8 @@ export function WinCeremony({
   match,
   rewards,
   firstWinBonus,
+  bossLine = null,
+  bossName = null,
 }: WinCeremonyProps) {
   const playerWon = winner === mySeat;
   const reduced = prefersReducedMotion();
@@ -276,6 +287,15 @@ export function WinCeremony({
         >
           {playerWon ? "SIGNAL RESTORED" : "SIGNAL LOST"}
         </h1>
+
+        {bossLine ? (
+          <p className="wc-bossline wc-seq wc-seq--2">
+            <span className="wc-bossline__quote">{"“"}{bossLine}{"”"}</span>
+            {bossName ? (
+              <span className="wc-bossline__name">{" — "}{bossName}</span>
+            ) : null}
+          </p>
+        ) : null}
 
         {turns !== null || myHealth !== null ? (
           <div className="wc-stats wc-seq wc-seq--2">

@@ -1,0 +1,208 @@
+/*
+ * ai-bosses.css — NAMED AI opponents (boss select cards + versus/ceremony
+ * banter lines). Brand: warm-black / ink / gold; Clash Display speaks, Satoshi
+ * reads, Space Mono prints data. Faction/doctrine color stays a data accent —
+ * chrome is gold only. All motion is reduced-motion-gated; the only animated
+ * surface here is a hover/select transition (no looping motion: a boss card is
+ * DORMANT until the player acts on it).
+ */
+
+/* ---------------------------------------------------------------- select --- */
+
+.boss-select {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.boss-select__label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+}
+
+.boss-select__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* One boss card: portrait (art fills frame) + name / chip / signature. */
+.boss-card {
+  appearance: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 170px;
+  min-width: 0;
+  max-width: 240px;
+  padding: 7px 10px 7px 7px;
+  text-align: left;
+  border-radius: 3px;
+  border: 1px solid var(--color-crypt-border);
+  background: rgba(245, 242, 232, 0.02);
+  color: var(--color-crypt-muted);
+  transition:
+    color 0.16s var(--ease-out-expo),
+    border-color 0.16s var(--ease-out-expo),
+    background 0.16s var(--ease-out-expo),
+    box-shadow 0.16s var(--ease-out-expo);
+}
+
+.boss-card:hover {
+  color: var(--color-crypt-text);
+  border-color: var(--color-crypt-border-strong);
+}
+
+/* Selected state: gold ring. */
+.boss-card--active {
+  color: var(--color-crypt-text);
+  border-color: rgba(233, 201, 132, 0.65);
+  background: rgba(233, 201, 132, 0.06);
+  box-shadow:
+    0 0 0 1px rgba(233, 201, 132, 0.55),
+    0 0 14px rgba(233, 201, 132, 0.12);
+}
+
+.boss-card:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--color-crypt-obsidian),
+    0 0 0 4px rgba(233, 201, 132, 0.55);
+}
+
+/* Portrait — small, art FILLS the frame (no black voids). */
+.boss-card__frame {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--color-crypt-border-strong);
+  background: #0b0b0d;
+}
+
+.boss-card__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.boss-card--active .boss-card__frame {
+  border-color: rgba(233, 201, 132, 0.55);
+}
+
+.boss-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+/* Tiny tier kicker keeps the Initiate/Veteran/Sovereign ladder legible. */
+.boss-card__tier {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-crypt-muted);
+}
+
+.boss-card__name {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  color: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.boss-card--active .boss-card__name {
+  color: var(--color-crypt-accent);
+}
+
+/* Declared playstyle chip — Space Mono prints data. */
+.boss-card__chip {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid var(--color-crypt-border-strong);
+  color: var(--color-crypt-muted);
+}
+
+.boss-card--active .boss-card__chip {
+  border-color: rgba(233, 201, 132, 0.5);
+  color: var(--color-crypt-accent);
+}
+
+/* Signature tendency — Satoshi reads. */
+.boss-card__sig {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--color-crypt-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* -------------------------------------------------- versus intro line ----- */
+
+/* One seeded boss intro line under the opponent plate. Static text — it rides
+   the existing vs-intro meta entrance, no motion of its own. */
+.vs-intro__bossline {
+  display: block;
+  margin-top: 6px;
+  max-width: 32ch;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.4;
+  color: rgba(233, 201, 132, 0.78);
+}
+
+/* ------------------------------------------------ win ceremony outro ------ */
+
+/* One seeded boss line under the verdict. Small italic Satoshi; rides the
+   existing wc-seq stagger (already reduced-motion-gated in win-ceremony.css). */
+.wc-bossline {
+  margin: 2px 0 0;
+  max-width: 44ch;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--color-crypt-muted);
+}
+
+.wc-bossline__name {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(233, 201, 132, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boss-card {
+    transition: none;
+  }
+}

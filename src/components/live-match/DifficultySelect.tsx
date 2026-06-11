@@ -4,16 +4,20 @@ import {
   readAiDifficulty,
   type AiDifficulty,
 } from "../../game-ui/cryptMatchAI";
+import { AI_BOSSES } from "../../data/aiBosses";
+import "../../styles/ai-bosses.css";
 
 /*
- * DifficultySelect — a small, self-contained Easy / Normal / Hard control for
- * the single-player opponent AI.
+ * DifficultySelect — the named-opponent picker for the single-player AI.
+ * Each tier is fronted by a NAMED boss (chess.com named-bot pattern): portrait
+ * (real commander render, art fills frame), name, declared style chip, and a
+ * one-line signature. Static content only — the boss is presentation over the
+ * EXACT same easy/normal/hard planner tiers.
  *
  * Fully standalone: it reads and writes the same localStorage key the AI
  * self-reads (`crypt_ai_difficulty`), so it can be dropped in anywhere with NO
  * props or external wiring — the planner picks up the change on its next turn.
- * Browser-safe via the shared `readAiDifficulty()` guard. No emoji — uses the
- * hex glyph (⬡) to mark the active tier, in keeping with the match UI.
+ * Browser-safe via the shared `readAiDifficulty()` guard. No emoji.
  *
  * Persisting here also broadcasts a `storage`-style refresh so any other mounted
  * instance stays in sync within the same tab (the native `storage` event only
@@ -21,15 +25,15 @@ import {
  */
 
 /**
- * Book game ruling: 3 NAMED visible tiers — Initiate / Veteran / Sovereign —
- * and NO hidden ramp (useLocalCryptMatch reads this choice directly via
- * readAiDifficulty; the lifetime-match ramp is dead). Storage values stay
- * easy/normal/hard so an existing saved choice keeps working.
+ * Book game ruling: 3 visible tiers and NO hidden ramp (useLocalCryptMatch
+ * reads this choice directly via readAiDifficulty; the lifetime-match ramp is
+ * dead). Storage values stay easy/normal/hard so an existing saved choice
+ * keeps working — the boss names are a skin over the same values.
  */
-const TIERS: { value: AiDifficulty; label: string; hint: string }[] = [
-  { value: "easy", label: "Initiate", hint: "Gentle opponent — under-deploys, never hunts lethal" },
-  { value: "normal", label: "Veteran", hint: "The standard greedy opponent — trades well" },
-  { value: "hard", label: "Sovereign", hint: "Full-board commitment — takes lethal on sight" },
+const TIERS: { value: AiDifficulty; tier: string; hint: string }[] = [
+  { value: "easy", tier: "Initiate", hint: "Gentle opponent — under-deploys, never hunts lethal" },
+  { value: "normal", tier: "Veteran", hint: "The standard greedy opponent — trades well" },
+  { value: "hard", tier: "Sovereign", hint: "Full-board commitment — takes lethal on sight" },
 ];
 
 // Same-tab sync: a custom event so sibling selectors update immediately.
@@ -75,36 +79,43 @@ export function DifficultySelect() {
   };
 
   return (
-    <div
-      className="live-difficulty-select"
-      role="group"
-      aria-label="Opponent difficulty"
-    >
-      <span className="live-difficulty-select__label" aria-hidden="true">
+    <div className="boss-select" role="group" aria-label="Opponent">
+      <span className="boss-select__label" aria-hidden="true">
         Opponent
       </span>
-      {TIERS.map((tier) => {
-        const active = tier.value === value;
-        return (
-          <button
-            key={tier.value}
-            type="button"
-            className={`live-difficulty-select__btn${
-              active ? " live-difficulty-select__btn--active" : ""
-            }`}
-            onClick={() => choose(tier.value)}
-            aria-pressed={active}
-            title={tier.hint}
-          >
-            {active ? (
-              <span className="live-difficulty-select__mark" aria-hidden="true">
-                {"\u2B22 "}
+      <div className="boss-select__row">
+        {TIERS.map(({ value: tierValue, tier, hint }) => {
+          const boss = AI_BOSSES[tierValue];
+          const active = tierValue === value;
+          return (
+            <button
+              key={tierValue}
+              type="button"
+              className={`boss-card${active ? " boss-card--active" : ""}`}
+              onClick={() => choose(tierValue)}
+              aria-pressed={active}
+              aria-label={`${boss.name} — ${tier}`}
+              title={`${hint}. ${boss.signature}.`}
+            >
+              <span className="boss-card__frame" aria-hidden="true">
+                <img
+                  className="boss-card__art"
+                  src={boss.imageUrl}
+                  alt=""
+                  loading="lazy"
+                  draggable={false}
+                />
               </span>
-            ) : null}
-            {tier.label}
-          </button>
-        );
-      })}
+              <span className="boss-card__meta">
+                <span className="boss-card__tier">{tier}</span>
+                <span className="boss-card__name">{boss.name}</span>
+                <span className="boss-card__chip">{boss.styleChip}</span>
+                <span className="boss-card__sig">{boss.signature}</span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }
