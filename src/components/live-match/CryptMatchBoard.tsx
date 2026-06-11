@@ -426,6 +426,24 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   const burstLane = (kind: FxKind, key: LaneKey) =>
     fxRef.current?.burstAt(kind, laneAnchorRefs.current[key]);
 
+  // ---- HIT-STOP (the cheapest highest-impact feel trick in games) ----------
+  // A brief whole-board freeze at the moment of impact: pause every board
+  // animation 70ms on damage, 90ms on a kill (scale with severity — director
+  // cap is 90ms; longer reads as a frame drop). Reduced-motion no-ops.
+  const [hitstop, setHitstop] = useState(false);
+  const hitstopTimer = useRef<number | null>(null);
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const triggerHitstop = (ms: number) => {
+    if (reducedMotion) return;
+    if (hitstopTimer.current) window.clearTimeout(hitstopTimer.current);
+    setHitstop(true);
+    hitstopTimer.current = window.setTimeout(() => setHitstop(false), ms);
+  };
+  useEffect(() => () => { if (hitstopTimer.current) window.clearTimeout(hitstopTimer.current); }, []);
+
 
   // Map a unit id (from the motion token sets) to its lane anchor.
   const laneKeyForUnit = (id: string): LaneKey | null => {
@@ -448,7 +466,10 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
       const laneKey = laneKeyForUnit(id);
       if (!laneKey) continue;
       if (kind === "enter") burstLane("deploy", laneKey);
-      else if (kind === "damage") burstLane("damage", laneKey);
+      else if (kind === "damage") {
+        burstLane("damage", laneKey);
+        triggerHitstop(70);
+      }
     }
     seenMotionRef.current = next;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -466,6 +487,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         d.lane === "front" ? "Front" : "Back"
       }`) as LaneKey;
       burstLane("death", key);
+      triggerHitstop(90); // a kill freezes a beat longer than a hit
     }
     seenDeathRef.current = live;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -488,6 +510,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     const ek = motion.enemyNexusHit?.key ?? null;
     if (ek != null && ek !== seenHexHitRef.current.enemy) {
       seenHexHitRef.current.enemy = ek;
+      triggerHitstop(80); // face hits land the hardest beat short of a kill
       window.setTimeout(() => {
         fxRef.current?.burstAt("death", document.querySelector(".live-topbar__pill--nexus-enemy"));
       }, 20);
@@ -495,6 +518,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     const ok = motion.ownNexusHit?.key ?? null;
     if (ok != null && ok !== seenHexHitRef.current.own) {
       seenHexHitRef.current.own = ok;
+      triggerHitstop(80);
       window.setTimeout(() => {
         fxRef.current?.burstAt("damage", document.querySelector(".live-topbar__pill--nexus-own"));
       }, 20);
@@ -578,7 +602,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
 
   return (
     <div
-      className={`live-match-shell ${motion.boardFlinch ? "mm-flinch" : ""}`}
+      className={`live-match-shell ${motion.boardFlinch ? "mm-flinch" : ""} ${hitstop ? "mm-hitstop" : ""}`}
       data-battlefield={battlefieldStage}
     >
       <MatchTopBar

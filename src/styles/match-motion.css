@@ -1255,3 +1255,25 @@
   .enemy-turn-band__dots i { animation: none; }
 }
 
+
+/* ---- HIT-STOP (2026-06-11, director flagship #3) -------------------------
+   While .mm-hitstop is on the shell (70ms hit / 90ms kill), every board
+   animation freezes mid-frame — the imperceptible pause that makes a strike
+   LAND (fighting-game hitlag). The shell itself takes a 1px micro-jolt so the
+   freeze reads as impact, not jank. Cleared by React after the beat. */
+.mm-hitstop .crypt-card--board,
+.mm-hitstop .mm-float-dmg,
+.mm-hitstop .mm-death-wrap,
+.mm-hitstop .live-lane__slot {
+  animation-play-state: paused !important;
+}
+.mm-hitstop {
+  animation: mm-hitstop-jolt 90ms steps(2, end) both;
+}
+@keyframes mm-hitstop-jolt {
+  0% { transform: translate(1.5px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-hitstop { animation: none; }
+}
