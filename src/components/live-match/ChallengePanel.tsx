@@ -46,7 +46,7 @@ type Mode = "create" | "join";
 function CITY_BASE(): string {
   return (
     (import.meta as unknown as { env?: Record<string, string | undefined> }).env
-      ?.VITE_CITY_API_BASE || "https://freeloncity.com"
+      ?.VITE_CITY_API_BASE || "https://www.freeloncity.com"
   );
 }
 

@@ -26,7 +26,7 @@
 
 const CITY_API_BASE: string =
   (import.meta as unknown as { env?: Record<string, string | undefined> }).env
-    ?.VITE_CITY_API_BASE || "https://freeloncity.com";
+    ?.VITE_CITY_API_BASE || "https://www.freeloncity.com";
 
 /** Domain the server signs/verifies against. MUST match server buildAuthMessage. */
 const AUTH_DOMAIN = "freeloncity.com";

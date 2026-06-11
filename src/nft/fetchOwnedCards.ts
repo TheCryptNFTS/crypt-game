@@ -14,7 +14,7 @@
 
 const CITY_API_BASE: string =
   (import.meta as unknown as { env?: Record<string, string | undefined> }).env
-    ?.VITE_CITY_API_BASE || "https://freeloncity.com";
+    ?.VITE_CITY_API_BASE || "https://www.freeloncity.com";
 
 /** Pinned response-contract version. Must match the city endpoint's
  *  CONTRACT_VERSION; a mismatch means the shape may have changed under us, so

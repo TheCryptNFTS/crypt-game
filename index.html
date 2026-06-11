@@ -19,17 +19,9 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // PWA service worker — offline shell only. Registered in production builds
-      // (PROD) so the dev server's HMR/module graph is never intercepted. Pure
-      // browser API; no bundler/node globals referenced.
-      if ("serviceWorker" in navigator && location.hostname !== "localhost" && location.hostname !== "127.0.0.1") {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("/sw.js").catch(function () {
-            /* registration failure is non-fatal — app runs without offline shell */
-          });
-        });
-      }
-    </script>
+    <!-- NO service-worker registration. public/sw.js is a kill-switch kept
+         deployed only to free legacy clients still holding the old offline-shell
+         SW; registering it creates an infinite install→unregister→reload loop
+         (incident 2026-06-11). Do not re-add registration. -->
   </body>
 </html>
