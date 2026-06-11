@@ -1,0 +1,32 @@
+/* Owned-cards status bar (2026-06-11) — the LOUD truth above the match: which
+   deck you're actually playing. No silent demo swaps. Warm-black + gold system. */
+.ocb {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  flex-wrap: wrap; text-align: center;
+  padding: 10px 18px; margin: 0 auto; max-width: min(1320px, 94vw);
+  font-family: var(--font-mono, "Space Mono", monospace);
+  font-size: 12.5px; letter-spacing: 0.02em; line-height: 1.4;
+  border-bottom: 1px solid rgba(233, 201, 132, 0.16);
+  background: linear-gradient(180deg, rgba(20, 17, 12, 0.6), rgba(11, 11, 13, 0.4));
+  color: rgba(245, 242, 232, 0.82);
+}
+.ocb strong { color: #f0d489; font-weight: 700; }
+.ocb--owned { color: #cdebd1; border-bottom-color: rgba(120, 210, 140, 0.28); background: linear-gradient(180deg, rgba(20, 36, 22, 0.5), rgba(11, 13, 11, 0.4)); }
+.ocb--short, .ocb--warn { color: #f0e0b8; border-bottom-color: rgba(233, 201, 132, 0.34); }
+.ocb--invite { color: rgba(245, 242, 232, 0.9); }
+.ocb__btn {
+  appearance: none; cursor: pointer; white-space: nowrap;
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;
+  padding: 8px 16px; border-radius: 999px; border: none;
+  color: #1c1407; background: linear-gradient(180deg, #f6e2ad, #e9c984);
+  box-shadow: 0 4px 14px rgba(233, 201, 132, 0.28);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.ocb__btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(233, 201, 132, 0.4); }
+.ocb__btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+.ocb__btn--ghost {
+  color: #f0d489; background: transparent;
+  border: 1px solid rgba(233, 201, 132, 0.5); box-shadow: none;
+}
+.ocb__btn--ghost:hover { background: rgba(233, 201, 132, 0.12); }

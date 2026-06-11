@@ -296,7 +296,9 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   // the action bar so the player isn't left wondering. Cleared on any success.
   const [actionMessage, setActionMessage] = useState<string | null>(null);
 
-  const deckSource = buildPlayerDeck(ownedCardIds).source;
+  const builtDeck = buildPlayerDeck(ownedCardIds);
+  const deckSource = builtDeck.source;
+  const ownedPlayable = builtDeck.ownedPlayable;
 
   // Track the owned ids the currently-loaded match was built from, so we can
   // detect a wallet connecting/changing mid-session and rebuild without looping.
@@ -661,6 +663,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
 
   return {
     deckSource,
+    ownedPlayable,
     match,
     winner,
     activePlayer,

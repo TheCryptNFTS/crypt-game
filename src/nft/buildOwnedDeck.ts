@@ -86,6 +86,11 @@ export type DeckSource = "owned" | "demo";
 export type BuiltDeck = {
   deck: string[];
   source: DeckSource;
+  /** How many distinct cards the wallet owns that are actually PLAYABLE (resolve
+   *  to a real card in the catalog). Lets the UI say the truth out loud — "you
+   *  own N playable cards, 30 needed" — instead of silently swapping in the demo
+   *  deck. 0 = no wallet / no playable cards owned. */
+  ownedPlayable: number;
 };
 
 const CARD_BY_ID = new Map<string, any>(
@@ -235,8 +240,12 @@ const DEMO_DECK = composeDeck(CORE_POOL, DEMO_FACTION) ?? [];
 
 export function buildPlayerDeck(ownedCardIds?: string[]): BuiltDeck {
   if (!ownedCardIds || ownedCardIds.length === 0) {
-    return { deck: DEMO_DECK, source: "demo" };
+    return { deck: DEMO_DECK, source: "demo", ownedPlayable: 0 };
   }
+
+  // Distinct owned ids that resolve to a real playable card — the honest count
+  // the UI shows. (Spells below are granted, not owned, so they're not counted.)
+  const ownedPlayable = [...new Set(ownedCardIds)].filter((id) => CARD_BY_ID.has(id)).length;
 
   const owned = [
     ...[...new Set(ownedCardIds)]
@@ -256,7 +265,7 @@ export function buildPlayerDeck(ownedCardIds?: string[]): BuiltDeck {
   // error boundary and WHITE-SCREENING the whole app. Guard it here: any deck
   // that isn't a legal 30 falls back to the demo deck so the match always boots.
   if (deck === null || deck.length !== DECK_SIZE) {
-    return { deck: DEMO_DECK, source: "demo" };
+    return { deck: DEMO_DECK, source: "demo", ownedPlayable };
   }
-  return { deck, source: "owned" };
+  return { deck, source: "owned", ownedPlayable };
 }

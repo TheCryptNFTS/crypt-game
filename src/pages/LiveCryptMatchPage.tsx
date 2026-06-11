@@ -10,6 +10,7 @@ import { TutorialCoach } from "../components/tutorial/TutorialCoach";
 import { useMatchProgression } from "../meta/useMatchProgression";
 import { useMatchRewards } from "../meta/useMatchRewards";
 import { funnelOnce } from "../lib/funnel";
+import { track } from "../lib/analytics";
 import { MulliganScreen } from "../components/live-match/MulliganScreen";
 import { WinCeremony } from "../components/live-match/WinCeremony";
 import { VersusIntro } from "../components/live-match/VersusIntro";
@@ -88,6 +89,33 @@ export default function LiveCryptMatchPage({
   useEffect(() => {
     if (!tutorial && local.winner) funnelOnce("first_match_result");
   }, [tutorial, local.winner]);
+
+  // MEASUREMENT (the wallet-keyed telemetry the gate reads). Emit once per match
+  // when it actually starts (a seed exists), and once when it decides. `source`
+  // distinguishes an owned-card match from a demo one — that distinction IS the
+  // owned-cards adoption number. Wallet (when connected) makes the gate's
+  // "distinct wallets" computable; the city /api/play-event sink dedupes it.
+  const [startEmittedSeed, setStartEmittedSeed] = useState<string | number | null>(null);
+  useEffect(() => {
+    if (tutorial || !local.match?.seed || startEmittedSeed === local.match.seed) return;
+    setStartEmittedSeed(local.match.seed);
+    const owned = local.deckSource === "owned";
+    const props = { source: local.deckSource, wallet: walletAddress ?? undefined };
+    track("play_started", props);
+    track("play_session", props); // daily-session counter (one per match start)
+    if (owned) track("play_started_own_cards", props);
+  }, [tutorial, local.match?.seed, local.deckSource, walletAddress, startEmittedSeed]);
+
+  const [doneEmittedSeed, setDoneEmittedSeed] = useState<string | number | null>(null);
+  useEffect(() => {
+    if (tutorial || !local.winner || doneEmittedSeed === matchSeed) return;
+    setDoneEmittedSeed(matchSeed);
+    track("match_completed", {
+      won: local.winner === "P1",
+      source: local.deckSource,
+      wallet: walletAddress ?? undefined,
+    });
+  }, [tutorial, local.winner, matchSeed, doneEmittedSeed, local.deckSource, walletAddress]);
 
   // In the tutorial we lock to coached solo — no PvP escape hatch.
   const modeToggle = tutorial ? null : (

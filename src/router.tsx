@@ -18,6 +18,9 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const PlayHubPage = lazy(() => import("./pages/PlayHubPage"));
 const PuzzlePage = lazy(() => import("./pages/PuzzlePage"));
 const LiveCryptMatchPage = lazy(() => import("./pages/LiveCryptMatchPage"));
+// /match wraps the page with the wallet→owned-cards chain; the page stays reused
+// bare by the tutorial. See MatchRoute.
+const MatchRoute = lazy(() => import("./pages/MatchRoute"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
 const DeckViewPage = lazy(() => import("./pages/DeckViewPage"));
 const CollectionPage = lazy(() => import("./pages/CollectionPage"));
@@ -70,7 +73,7 @@ export const router = createBrowserRouter([
       { path: "/puzzles", element: <PuzzlePage /> },
       // Ungated reference — glossary + how-to-play, reachable for any new pilot.
       { path: "/help", element: <HelpPage /> },
-      { path: "/match", element: <LiveCryptMatchPage /> },
+      { path: "/match", element: <MatchRoute /> },
       { path: "/spectate", element: <SpectatePage /> },
       { path: "/draft", element: <DraftPage /> },
       { path: "/profile", element: <ProfilePage /> },
