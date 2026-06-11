@@ -22,6 +22,7 @@ import {
   loadRewards,
   saveRewards,
   resetRewards,
+  FIRST_WIN_BONUS,
 } from "./rewards";
 
 type WinnerSeat = "P1" | "P2" | null;
@@ -53,12 +54,16 @@ export function useMatchRewards(
   const now = options.now ?? (() => Date.now());
 
   const [rewards, setRewards] = useState<RewardsState>(() => loadRewards(now()));
+  // Non-null only for the match that just earned the first-win-of-day bonus, so
+  // the ceremony can celebrate it. Cleared when a new match arms.
+  const [firstWinBonus, setFirstWinBonus] = useState<number | null>(null);
 
   // Record at most once per matchKey; re-arms when matchKey changes.
   const recordedKeyRef = useRef<string | number | null>(null);
 
   useEffect(() => {
     recordedKeyRef.current = null;
+    setFirstWinBonus(null);
   }, [matchKey]);
 
   useEffect(() => {
@@ -72,6 +77,10 @@ export function useMatchRewards(
     };
     setRewards((prev) => {
       const next = applyMatchToRewards(prev, result, now());
+      // The bonus fired this match iff a win moved firstWinDay forward.
+      if (result.won && next.firstWinDay !== (prev.firstWinDay ?? null)) {
+        setFirstWinBonus(FIRST_WIN_BONUS);
+      }
       saveRewards(next);
       return next;
     });
@@ -95,8 +104,9 @@ export function useMatchRewards(
   const reset = useCallback(() => {
     setRewards(resetRewards(now()));
     recordedKeyRef.current = null;
+    setFirstWinBonus(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { rewards, buyCosmetic, reset };
+  return { rewards, buyCosmetic, reset, firstWinBonus };
 }

@@ -46,6 +46,11 @@ export const SIGIL_REWARDS = {
   loss: 10,
 } as const;
 
+/** First win of each UTC day pays this ON TOP of the base win (the Hearthstone
+ *  "first win of the day" hook — the cheapest, most-proven reason to return
+ *  tomorrow). ~3× a normal win, so the streak is worth protecting. In-game-only. */
+export const FIRST_WIN_BONUS = 100;
+
 // ---------------------------------------------------------------------------
 // QUEST DEFINITIONS
 // ---------------------------------------------------------------------------
@@ -242,6 +247,11 @@ export type RewardsState = {
   dailyBucket: number;
   /** Week bucket (epoch weeks) the weekly quests were last seeded for. */
   weeklyBucket: number;
+  /** Day bucket the FIRST-WIN-OF-DAY bonus was last paid. null = never. The
+   *  classic "come back tomorrow" hook: your first win each UTC day pays extra
+   *  Sigil. Optional so older persisted state migrates cleanly (treated as
+   *  null → next win pays the bonus). */
+  firstWinDay?: number | null;
 };
 
 const MS_PER_DAY = 86_400_000;
@@ -285,6 +295,7 @@ export function createRewardsState(now = 0): RewardsState {
     cosmetics: [],
     dailyBucket: dayBucket(now),
     weeklyBucket: weekBucket(now),
+    firstWinDay: null,
   };
 }
 
@@ -337,6 +348,16 @@ export function applyMatchToRewards(
   let sigil = next.sigil + (result.won ? SIGIL_REWARDS.win : SIGIL_REWARDS.loss);
   let seasonXp = next.seasonXp;
 
+  // FIRST WIN OF THE DAY — pay the bonus once per UTC day on a win. dayBucket(now)
+  // is the same boundary the daily quests roll on, so the bonus and the daily
+  // reset stay in lockstep. Stamps firstWinDay so a second win today pays base only.
+  const todayBucket = dayBucket(now);
+  let firstWinDay = next.firstWinDay ?? null;
+  if (result.won && firstWinDay !== todayBucket) {
+    sigil += FIRST_WIN_BONUS;
+    firstWinDay = todayBucket;
+  }
+
   // Advance + settle quests.
   const quests: Record<string, QuestProgress> = { ...next.quests };
   for (const def of QUEST_CATALOG) {
@@ -352,7 +373,7 @@ export function applyMatchToRewards(
     quests[def.id] = { questId: def.id, progress, claimed: completed };
   }
 
-  next = { ...next, sigil, seasonXp, quests };
+  next = { ...next, sigil, seasonXp, quests, firstWinDay };
 
   // Unlock any newly crossed season tiers.
   return settleSeasonTiers(next);

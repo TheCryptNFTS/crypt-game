@@ -40,6 +40,9 @@ export type WinCeremonyProps = {
    * daily-quest progress — the "come back tomorrow" hook. In-game-only.
    */
   rewards?: RewardsState | null;
+  /** Non-null only when THIS match earned the first-win-of-day bonus — the
+   *  ceremony then celebrates it as a separate beat above the base Sigil. */
+  firstWinBonus?: number | null;
 };
 
 function prefersReducedMotion(): boolean {
@@ -56,6 +59,7 @@ export function WinCeremony({
   onPlayAgain,
   match,
   rewards,
+  firstWinBonus,
 }: WinCeremonyProps) {
   const playerWon = winner === mySeat;
   const reduced = prefersReducedMotion();
@@ -239,6 +243,12 @@ export function WinCeremony({
 
         {rewards ? (
           <div className="wc-rewards" aria-label="Rewards earned">
+            {firstWinBonus ? (
+              <div className="wc-firstwin" role="status">
+                <span className="wc-firstwin__tag">★ First win of the day</span>
+                <span className="wc-firstwin__amt">+{firstWinBonus} ◈</span>
+              </div>
+            ) : null}
             <div className="wc-rewards__sigil">
               <span className="wc-rewards__sigil-amt">+{sigilBase}</span>
               <span className="wc-rewards__sigil-lbl">◈ Sigil</span>

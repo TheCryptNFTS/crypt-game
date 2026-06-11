@@ -68,7 +68,7 @@ export default function LiveCryptMatchPage({
   // advances daily/weekly quests + Sigil + the season track once per decided
   // match, keyed to the same per-match seed. The retention loop that gives a
   // reason to return tomorrow. In-game-only — never sources hex or the wallet.
-  const { rewards } = useMatchRewards(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
+  const { rewards, firstWinBonus } = useMatchRewards(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
 
   // VERSUS match-open beat (solo only). Plays once per match, after the mulligan
   // is confirmed. Keyed to the match seed so "Reset Match" (new seed) re-arms it.
@@ -261,6 +261,7 @@ export default function LiveCryptMatchPage({
           mySeat="P1"
           match={local.match}
           rewards={rewards}
+          firstWinBonus={firstWinBonus}
           onPlayAgain={local.resetMatch}
         />
       ) : null}
