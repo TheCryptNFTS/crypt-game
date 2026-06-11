@@ -168,6 +168,10 @@ const PROFILES: Record<AiDifficulty, DifficultyProfile> = {
  * undefined, so we fall back to NORMAL — which keeps the planner byte-identical
  * to its historical greedy behavior and the regression suite deterministic.
  */
+/** localStorage flag set by localProgress.markFirstWin — read directly (same
+ *  pattern as MATCHES_TOTAL_KEY below) to avoid a module cycle. */
+const FIRST_WIN_KEY = "crypt.progress.firstWin";
+
 export function readAiDifficulty(fallback: AiDifficulty = "normal"): AiDifficulty {
   try {
     const raw =
@@ -175,6 +179,16 @@ export function readAiDifficulty(fallback: AiDifficulty = "normal"): AiDifficult
         ? localStorage.getItem(AI_DIFFICULTY_KEY)
         : null;
     if (raw === "easy" || raw === "normal" || raw === "hard") return raw;
+    // GENTLE DEFAULT (holder feedback 2026-06-11: a first-time, non-TCG player
+    // "got rekt 5 times in a row" — the old newcomer ramp died with the hidden
+    // ramp removal, leaving fresh players on NORMAL). Until the FIRST WIN is
+    // banked, the no-choice default is the Initiate boss (easy). VISIBLE, not
+    // hidden: Home's boss row derives its selection from this same read, so a
+    // newcomer sees Warden Kael selected. An explicit pick above always wins;
+    // after the first win the default returns to `fallback`.
+    if (typeof localStorage !== "undefined" && localStorage.getItem(FIRST_WIN_KEY) !== "1") {
+      return "easy";
+    }
   } catch {
     // localStorage can throw (private mode / disabled storage) — use the fallback.
   }
