@@ -112,7 +112,13 @@
    region flex-grows and the hand/actions dock is pinned at the bottom. The
    ≤768px mobile block below opts OUT of this (it scrolls intentionally).
    ============================================================================ */
-@media (min-width: 769px) {
+/* 2026-06-11 (holder "can't see the cards on desktop"): GATED to min-height
+   840px. Below that — laptops after browser chrome — the fixed-height column
+   couldn't hold HUD + two card lanes + the 221px hand, so the board collapsed
+   to ~24px and overflow:hidden clipped deployed cards to an invisible sliver.
+   Short desktops now fall through to the natural-scroll layout (same as mobile)
+   so cards render full-size and you scroll, never clip. */
+@media (min-width: 769px) and (min-height: 840px) {
   /* The route mounts inside the app chrome (header ~62px). For a definite height
      to cascade down to the match column, the app root must be a FIXED-height
      flex column (not min-h-full, which lets it grow to content). #root is already
@@ -1717,3 +1723,4 @@
 .live-match-shell .crypt-cs--hp {
   background: #b3322f;
 }
+
