@@ -133,13 +133,25 @@
   .crypt-app-root:has(.crypt-table) .crypt-app-main {
     min-height: 0;
     overflow: hidden;
+    /* Reserve the fixed app-nav dock (.crypt-mobile-dock: position:fixed;
+       bottom:0; ~64px — the primary nav on ALL breakpoints). Without this the
+       in-match ActionBar + bottom of the hand sit UNDER it (holder: "can't see
+       the cards on desktop"). Flex column so the owned-cards bar (mounted by
+       /match) takes its natural height and the match shell fills exactly what's
+       left — the shell no longer hard-claims 100dvh and overflow off the bottom. */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--crypt-nav-dock-h, 64px);
   }
 
-  /* The crypt-shell's own `min-height:100vh` (from crypt-match.css) overflows by
-     the header height when nested in <main>; fill the CONTAINER instead. */
+  /* The crypt-shell fills the remaining main height ABOVE the dock and AFTER the
+     owned-cards bar, as a flex column so its match shell can flex-fill it. */
   .crypt-shell:has(.crypt-table) {
-    min-height: 100%;
-    height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
   }
   .crypt-shell:has(.crypt-table) .crypt-shell__bg { inset: 0; }
 
@@ -148,8 +160,11 @@
   .crypt-shell > .live-match-shell:has(.crypt-table) {
     display: flex;
     flex-direction: column;
-    /* 100dvh minus the ~62px app chrome header. dvh keeps it honest on resize. */
-    height: calc(100dvh - 62px);
+    /* Flex-fill the crypt-shell (which fills main minus the dock + the owned-cards
+       bar). Replaces the old hard `height: calc(100dvh - 62px)` that subtracted
+       only the header — leaving the bottom ~64px (ActionBar/hand) under the fixed
+       nav dock, and the owned-cards bar shoving the whole column past the fold. */
+    flex: 1 1 auto;
     min-height: 0;
     padding: 8px 14px 10px;
     overflow: hidden;
@@ -157,6 +172,7 @@
   /* The stray mode-toggle-only shell holds an absolutely-positioned pill; give it
      zero flow height so it doesn't push the board down. */
   .crypt-shell > .live-match-shell:not(:has(.crypt-table)) {
+    flex: 0 0 auto;
     height: 0;
     padding: 0;
     overflow: visible;
@@ -1503,6 +1519,17 @@
  * behind the fixed bottom dock. This block tightens spacing, makes targets tap-
  * friendly, lets card rails scroll horizontally with momentum, and reserves room
  * for the dock. Desktop (>768px) is untouched. */
+/* Short desktop (wide ≥769 but BELOW the 840px single-screen gate): the lock is
+ * off so the match natural-scrolls, but the fixed app-nav dock still overlaps the
+ * bottom — reserve its height the same way mobile does so the hand/actions clear
+ * it. (Without this, the 769px-wide / <840px-tall band — common laptops after
+ * browser chrome — hides the bottom of the hand behind the dock.) */
+@media (min-width: 769px) and (max-height: 839px) {
+  .live-match-shell:has(.crypt-table) {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @media (max-width: 768px) {
   .live-match-shell {
     padding: 12px;
