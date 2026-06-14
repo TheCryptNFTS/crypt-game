@@ -42,6 +42,7 @@
     "dev:expanded-spells": "tsx src/dev/runExpandedSpellPoolProof.ts",
     "dev:deep-content": "tsx src/dev/runDeepContentProof.ts",
     "dev:combat-parity": "tsx src/dev/runCombatParityProof.ts",
+    "dev:ai-lane-capacity": "tsx src/dev/runAiLaneCapacityProof.ts",
     "dev:keywords": "tsx src/dev/runKeywordMechanicsProof.ts",
     "dev:combatkw": "tsx src/dev/runCombatKeywordProof.ts",
     "dev:statuskw": "tsx src/dev/runStatusKeywordProof.ts",

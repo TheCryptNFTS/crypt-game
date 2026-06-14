@@ -52,6 +52,7 @@ const commands = [
   "npm run dev:seeded-random",
   "npm run dev:expanded-spells",
   "npm run dev:deep-content",
+  "npm run dev:ai-lane-capacity",
 ];
 
 let failed = false;

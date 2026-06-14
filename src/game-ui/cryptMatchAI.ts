@@ -17,6 +17,7 @@
 
 import { allPlayableCards } from "../engine/cards";
 import { compileAbility } from "../engine/abilityCompiler";
+import { MAX_LANE_UNITS } from "../engine/state";
 
 // Plays reference a card by id (not hand index): the hook re-finds the card's
 // CURRENT index in P2's live hand at apply time, so plans stay correct even as
@@ -296,7 +297,27 @@ export function planP2Plays(match: any, difficulty: AiDifficulty = "normal"): Ai
   // same physical card twice.
   const working = hand.map((cardId) => ({ cardId }));
 
+  // LANE CAPACITY (mirror the reducer): a lane holds at most MAX_LANE_UNITS, and
+  // PLAY_UNIT rejects "lane-full" once it does. Track the SIMULATED fill of each
+  // lane as we plan so consecutive deploys this turn spill into the back lane
+  // instead of all targeting a now-full front (which the reducer would reject,
+  // leaving the AI unable to develop its board in a long match — it would sit
+  // with a bloated hand and an idle back lane). Seed from the live board.
+  const laneFill: { front: number; back: number } = {
+    front: (match.players?.P2?.board?.front ?? []).length,
+    back: (match.players?.P2?.board?.back ?? []).length,
+  };
+  // Front-first, back fallback; null when BOTH lanes are full (skip the play so we
+  // never plan a guaranteed-reject deploy).
+  const openLane = (): "front" | "back" | null => {
+    if (laneFill.front < MAX_LANE_UNITS) return "front";
+    if (laneFill.back < MAX_LANE_UNITS) return "back";
+    return null;
+  };
+
   const tryPlayBestUnit = (): boolean => {
+    const lane = openLane();
+    if (lane === null) return false; // board full — no legal deploy
     let bestPos = -1;
     let bestCost = -1;
     for (let i = 0; i < working.length; i += 1) {
@@ -310,7 +331,8 @@ export function planP2Plays(match: any, difficulty: AiDifficulty = "normal"): Ai
     }
     if (bestPos < 0) return false;
     energy -= bestCost;
-    actions.push({ kind: "playUnit", cardId: working[bestPos].cardId, lane: "front" });
+    actions.push({ kind: "playUnit", cardId: working[bestPos].cardId, lane });
+    laneFill[lane] += 1;
     working.splice(bestPos, 1);
     return true;
   };
