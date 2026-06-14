@@ -212,9 +212,12 @@ export function isOnboarded() {
 }
 
 export function hasClaimedDailyPackToday(now = Date.now()) {
+  // Agree with the rolling-24h cooldown that claimDailyPack + getProgressSnapshot
+  // use (this is exactly !dailyReady). The old toDateString() calendar-day check
+  // disagreed just after LOCAL midnight — the UI offered a pack the claim function
+  // then rejected as still-on-cooldown (a confusing dead tap).
   const last = readNum(K.lastDailyClaimMs, 0);
-  if (!last) return false;
-  return new Date(last).toDateString() === new Date(now).toDateString();
+  return last > 0 && now < last + DAILY_PACK_COOLDOWN_MS;
 }
 
 export function getProgressSnapshot(now = Date.now()) {
