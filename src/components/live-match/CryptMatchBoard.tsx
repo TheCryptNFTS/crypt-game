@@ -8,6 +8,7 @@ import { HandCard } from "../crypt/HandCard";
 import { MatchTopBar } from "./MatchTopBar";
 import { artifactToVm, getCommanderVmForPlayer, handToVm, unitToVm } from "../../game-ui/liveMatchAdapter";
 import { InspectState, PlayCardVM } from "../../ui/cryptTypes";
+import { classifySpellTargeting } from "../../engine/spellTargeting";
 import { useMatchMotion } from "../../hooks/useMatchMotion";
 import { useMatchSound } from "../../hooks/useMatchSound";
 import { playAttack, playClick } from "../../audio/cryptSfx";
@@ -272,6 +273,15 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   // Attack: an own unit is selected AND able to attack → enemy lanes are strike targets.
   const deployReady = !actionsLocked && selectedHandCard?.type === "unit";
   const attackReady = !actionsLocked && vmCanAttack(selectedOwnUnit);
+  // Cast: a targeted spell is selected → light the lanes that hold its valid
+  // targets (enemy units for damage/debuff/removal, your own units for heal/buff)
+  // so "that spell needs a target — select a unit" actually shows you WHERE to
+  // aim, instead of leaving the board dark. Clicking a lit unit already sets it as
+  // the cast target (enemy → targetBoardId, own → selectedBoardId).
+  const spellTargeting =
+    !actionsLocked && selectedHandCard?.type === "spell" ? classifySpellTargeting(selectedHandCard) : null;
+  const castReadyEnemy = !!spellTargeting?.wantsEnemy;
+  const castReadyAlly = !!spellTargeting?.wantsAlly;
 
   // DIRECT-CLICK COMBAT: once you've selected your own unit (the attacker),
   // clicking an enemy unit attacks IT, and clicking the enemy Hex attacks face —
@@ -641,8 +651,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                   title="Enemy Back"
                   sideLabel={"Back\u2009/\u2009Enemy"}
                   cards={enemyBack}
-                  highlight={attackReady ? "target" : null}
-                  hint="Attackable"
+                  highlight={attackReady || castReadyEnemy ? "target" : null}
+                  hint={castReadyEnemy ? "Cast on this" : "Attackable"}
                   unitMotion={motion.unitMotion}
                   floats={motion.unitFloats}
                   dying={dyingFor("enemy", "back")}
@@ -660,8 +670,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                   title="Enemy Front"
                   sideLabel={"Front\u2009/\u2009Enemy"}
                   cards={enemyFront}
-                  highlight={attackReady ? "target" : null}
-                  hint="Attackable"
+                  highlight={attackReady || castReadyEnemy ? "target" : null}
+                  hint={castReadyEnemy ? "Cast on this" : "Attackable"}
                   unitMotion={motion.unitMotion}
                   floats={motion.unitFloats}
                   dying={dyingFor("enemy", "front")}
@@ -692,8 +702,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                   title="Your Front"
                   sideLabel={"Front\u2009/\u2009Yours"}
                   cards={ownFront}
-                  highlight={deployReady ? "deploy" : null}
-                  hint="Play here"
+                  highlight={deployReady ? "deploy" : castReadyAlly ? "target" : null}
+                  hint={castReadyAlly ? "Cast on this" : "Play here"}
                   unitMotion={ownUnitMotion}
                   floats={motion.unitFloats}
                   dying={dyingFor("own", "front")}
@@ -711,8 +721,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                   title="Your Back"
                   sideLabel={"Back\u2009/\u2009Yours"}
                   cards={ownBack}
-                  highlight={deployReady ? "deploy" : null}
-                  hint="Play here"
+                  highlight={deployReady ? "deploy" : castReadyAlly ? "target" : null}
+                  hint={castReadyAlly ? "Cast on this" : "Play here"}
                   unitMotion={ownUnitMotion}
                   floats={motion.unitFloats}
                   dying={dyingFor("own", "back")}

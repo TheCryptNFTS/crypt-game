@@ -108,6 +108,20 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
   }, [derivedIndex]);
 
   const [dismissed, setDismissed] = useState(false);
+  // On short viewports (<840px — the natural-scroll match layout) the hand + own
+  // lanes a deploy/select step points at sit far below a top-anchored coach, so
+  // you can't see the instruction and its target together. Bottom-anchor the coach
+  // there (just above the fixed nav dock) so it rides next to the action area.
+  // Tall screens keep the top anchor — the whole board is already on screen.
+  const [shortViewport, setShortViewport] = useState(
+    typeof window !== "undefined" ? window.innerHeight < 840 : false,
+  );
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onResize = () => setShortViewport(window.innerHeight < 840);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   if (winner) {
     const won = winner === "P1";
@@ -153,12 +167,14 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
       role="note"
       aria-live="polite"
       style={{
-        // Anchored over the ENEMY zone (top), never the hand dock (teardown §3:
-        // the old bottom-anchored card covered exactly the cards step "play"
-        // told the player to tap).
+        // Tall screens: anchored over the ENEMY zone (top), never the hand dock
+        // (teardown §3: a bottom card covered the cards "play" told you to tap).
+        // Short screens (natural-scroll): bottom-anchor above the nav dock so the
+        // coach rides next to the hand/lanes the step points at — which are below
+        // the fold up top here.
         position: "fixed",
         left: "50%",
-        top: 178,
+        ...(shortViewport ? { bottom: 92 } : { top: 178 }),
         transform: "translateX(-50%)",
         zIndex: 60,
         maxWidth: 460,

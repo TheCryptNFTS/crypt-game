@@ -17,6 +17,7 @@
 
 import { allPlayableCards } from "../engine/cards";
 import { compileAbility } from "../engine/abilityCompiler";
+import { classifySpellTargeting } from "../engine/spellTargeting";
 import { MAX_LANE_UNITS } from "../engine/state";
 
 // Plays reference a card by id (not hand index): the hook re-finds the card's
@@ -41,18 +42,10 @@ type CardMeta = {
   spell?: { needsTarget: boolean; wantsEnemy: boolean };
 };
 
-// Mirror the reducer's PLAY_SPELL target classification (reducer.ts): damage /
-// debuff / destroy / bounce want an ENEMY unit; heal / self-buff want an ALLY;
-// everything else needs no target.
-const SPELL_ENEMY_OPS = ["DEAL_DAMAGE", "DEBUFF_ENEMY", "DESTROY_UNIT", "RETURN_TO_HAND"];
-const SPELL_ALLY_OPS = ["HEAL", "BUFF_SELF"];
-
-function classifySpell(card: any): { needsTarget: boolean; wantsEnemy: boolean } {
-  const specs = (compileAbility(card?.rawTraits?.Ability).specs ?? []) as any[];
-  const wantsEnemy = specs.some((s) => SPELL_ENEMY_OPS.includes(s.op));
-  const wantsAlly = specs.some((s) => SPELL_ALLY_OPS.includes(s.op));
-  return { needsTarget: wantsEnemy || wantsAlly, wantsEnemy };
-}
+// Spell targeting (damage/debuff/destroy/bounce → ENEMY; heal/self-buff → ALLY)
+// now lives in the shared engine/spellTargeting util so the planner and the
+// board's cast-target highlight share ONE source of truth.
+const classifySpell = classifySpellTargeting;
 
 // Raw card lookup (carries rawTraits.Ability) so the planner can compile a
 // unit's ability — needed to detect PATIENT's STATIC "cannot attack" marker.
