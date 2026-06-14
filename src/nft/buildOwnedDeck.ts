@@ -164,9 +164,23 @@ function byFactionThenCurve(faction: string) {
  * candidates are drafted first. Omitted (owned/explicit path) -> identical to before.
  */
 function composeDeck(pool: any[], preferFaction?: string): string[] | null {
+  // Drop soft-banned (disabled) cards at intake. An owned collection containing a
+  // disabled unit would otherwise build a 30-card "owned" deck that
+  // createMatchFromDecks REJECTS ("deck contains a disabled card"); that throw
+  // escapes useState in useLocalCryptMatch → WHITE-SCREENS the board for the
+  // holder. 35 unit cards are disabled in cardOverrides; filtering here mirrors
+  // the isCardDisabled guard every other deck path uses. (2026-06-14 red-team CRASH.)
+  pool = pool.filter((c) => c && c.disabled !== true);
   const order = preferFaction ? byFactionThenCurve(preferFaction) : byCurve;
   const units = pool.filter((c) => c.type === "unit").sort(order);
   if (units.length === 0) return null;
+  // Owned decks need a real unit core — an equipment/spell-heavy collection could
+  // otherwise build a "legal" 30 with as few as 1 unit (a near-empty board that
+  // reads as broken). Below the floor, return null so buildPlayerDeck falls back
+  // to the demo deck and the owned-cards bar shows the honest "X playable — 30
+  // needed" message. The demo path (preferFaction) is exempt: its curated core
+  // always clears the floor, so this never breaks the starter deck.
+  if (!preferFaction && units.length < 12) return null;
   const equipment = pool.filter((c) => c.type === "equipment").sort(order);
   const artifacts = pool.filter((c) => c.type === "artifact").sort(order);
   // SAFE spells eligible to draft: those present in the pool (so an owned deck only
