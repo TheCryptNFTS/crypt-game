@@ -901,6 +901,10 @@
 .live-hand {
   margin-top: 0;
   padding: 12px 16px 14px;
+  /* No engine hand-size cap exists, so a control/held hand can grow large; keep
+     the fan inside the viewport instead of overflowing the page horizontally
+     (same missing-bound class as the combat log). 2026-06-14 red-team. */
+  max-width: 100%;
 }
 
 /* Hand as a centered, overlapping fan — cards tuck behind each other and lift
@@ -910,6 +914,9 @@
   justify-content: center;
   align-items: flex-end;
   gap: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
   /* Top padding leaves headroom for the hover-lift (translateY(-16px) + scale)
      so a raised card never clips at the rail's top edge. Height now FOLLOWS the
      square-art cards (no 196px portrait floor that left dead space above them). */
@@ -1116,17 +1123,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .crypt-zone__lanes .live-lane--target .live-lane__slot--filled { animation: none; }
-}
-
-/* Combat log in the dock = a slim scrollable strip, not a fat sidebar. */
-.crypt-dock .live-side-panel {
-  background: transparent;
-  border: none;
-  padding: 0;
-}
-.crypt-dock .live-log {
-  max-height: 84px;
-  overflow-y: auto;
 }
 
 /* Cards the active player can't currently afford are dimmed (still selectable
@@ -1538,6 +1534,18 @@
   .live-match-shell:has(.crypt-table) {
     padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
   }
+  /* Natural-scroll layout: pin the HUD so the most-pressed control (END TURN) +
+     the HEX/energy readouts stay reachable while you scroll the board/hand,
+     instead of scrolling off the top. (2026-06-14 red-team.) `.crypt-shell` is
+     overflow:hidden by default, which would make IT the sticky scroll container
+     (so the bar scrolls off with the page); the clip isn't needed in this
+     natural-scroll band, so release it to the viewport. */
+  .crypt-shell:has(.crypt-table) { overflow: visible; }
+  .live-topbar { position: sticky; top: 0; z-index: 8; }
+  /* The "OPPONENT PHASE" band is absolute-to-the-(tall, scrolled)-shell, so it
+     scrolls out of view here — pin it to the viewport so you can always see whose
+     turn it is (part of why the match read as "fighting an invisible enemy"). */
+  .enemy-turn-band { position: fixed; }
 }
 
 @media (max-width: 768px) {
@@ -1546,6 +1554,12 @@
     /* clear the fixed bottom dock (56px + safe area) */
     padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
+  /* Pin the HUD (END TURN + readouts) and the "OPPONENT PHASE" band to the
+     viewport so they stay reachable/visible while scrolling. (2026-06-14.)
+     Release crypt-shell's overflow clip so sticky pins to the viewport. */
+  .crypt-shell:has(.crypt-table) { overflow: visible; }
+  .live-topbar { position: sticky; top: 0; z-index: 8; }
+  .enemy-turn-band { position: fixed; }
 
   .live-grid {
     grid-template-columns: 1fr;

@@ -210,8 +210,14 @@
 
 .ph-energy__pips {
   display: flex;
-  flex-wrap: wrap;
+  /* nowrap + bound: maxEnergy ramps +1/turn to ENERGY_CAP(10); with flex-wrap the
+     pips would spill onto a 2nd row late game and grow the topbar. One row only —
+     the "N / max" count readout carries the number, so a clipped pip loses nothing.
+     (2026-06-14 red-team, same uncapped-growth class as the combat log.) */
+  flex-wrap: nowrap;
   gap: 4px;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .ph-pip {

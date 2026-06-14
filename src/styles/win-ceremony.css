@@ -86,6 +86,14 @@
   gap: 14px;
   max-width: 460px;
   width: 100%;
+  /* On a SHORT viewport (<840px) the full panel (title + boss + stats + first-win
+     + sigil + 3 quest bars + share row + action row ≈ 840px) is taller than the
+     screen; centered, its top/bottom clipped — "Run It Back"/"Leave" fell off the
+     fold and every match dead-ended on a 1366×768 laptop. Cap to the viewport and
+     scroll the panel INTERNALLY so every button is reachable. (Scrolling the shell
+     can't work — its .wc-rays FX backdrop is 2700px tall.) 2026-06-14 red-team. */
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
   padding: 36px 30px 30px;
   text-align: center;
   border-radius: 20px;
