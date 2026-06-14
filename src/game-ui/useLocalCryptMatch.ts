@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createMatchFromDecks } from "../engine/createMatchFromDecks";
 import { allCommanders } from "../engine/commanders";
 import { allPlayableCards } from "../engine/cards";
-import { applyAction, Action, GameEvent } from "../engine/reducer";
+import { applyAction, autoPickOption, Action, GameEvent } from "../engine/reducer";
 import { BASE_MAX_ENERGY, ENERGY_CAP, OPENING_HAND_SIZE, CORE_RULESET } from "../engine/state";
 import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck, DEMO_COMMANDER_ID } from "../nft/buildOwnedDeck";
@@ -365,8 +365,33 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
       return false;
     }
     setActionMessage(null);
-    setMatch(nextState);
-    for (const ev of events) {
+
+    // Drain any mid-resolution CHOICE the action raised (a DISCOVER spell sets
+    // state.pendingChoice). The live UI has no choice-picker yet, so an unresolved
+    // pendingChoice would WEDGE the match — every later action rejects
+    // 'choice-pending' and only RESET escapes. Auto-resolve deterministically with
+    // the same autoPickOption + RESOLVE_CHOICE drain the engine harnesses use, to a
+    // fixed point. No DISCOVER card is auto-drafted today (buildOwnedDeck excludes
+    // them), so this is belt-and-suspenders against any future content/path that
+    // lands one. No-op for every shipped action (no pendingChoice → loop skipped).
+    let settled = nextState;
+    const allEvents = [...events];
+    let guard = 0;
+    while (settled.pendingChoice && guard < 64) {
+      guard += 1;
+      const optionId = autoPickOption(settled);
+      if (optionId == null) break;
+      const res = applyAction(settled, {
+        type: "RESOLVE_CHOICE",
+        player: settled.pendingChoice.controller,
+        optionId,
+      });
+      settled = res.state;
+      for (const ev of res.events) allEvents.push(ev);
+    }
+
+    setMatch(settled);
+    for (const ev of allEvents) {
       const line = eventToLogText(ev);
       if (line) appendLog(line);
     }

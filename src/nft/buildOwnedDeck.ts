@@ -53,6 +53,13 @@ export const MAX_SPELLS = 6;
  *  decks draft from this; restricted (removal/burn) spells are never auto-drafted. */
 const SAFE_SPELLS: any[] = liveSpells
   .filter((s) => (s as { tier?: string }).tier === "safe")
+  // Exclude DISCOVER spells: they raise a mid-resolution pendingChoice the live
+  // match has no on-screen picker for, so auto-drafting one risks a wedged match
+  // (every later action rejects 'choice-pending'; only RESET escapes). Match the
+  // engine's own DISCOVER verb (effectResolver's DISCOVER_RE keys on "discover").
+  // The live hook ALSO self-heals a stray pendingChoice; this keeps them out of
+  // drafted decks entirely. (2026-06-14 red-team latent dead-end.)
+  .filter((s) => !/\bdiscover\b/i.test(String((s as { rawTraits?: { Ability?: string } }).rawTraits?.Ability ?? "")))
   .slice()
   .sort((a, b) => (a.cost ?? 0) - (b.cost ?? 0) || String(a.id).localeCompare(String(b.id)));
 /** Equipment with no unit to equip is a dead hand; artifacts are powerful but
