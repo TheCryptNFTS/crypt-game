@@ -998,7 +998,13 @@ function resolveAttackUnitCombat(
   const defHpBefore = defenderRef.unit.health;
   applyCombatDamage(defenderRef.unit, mitigated);
   applyCombatDamage(attackerRef.unit, counter);
-  if (executesTarget(attackerRef.unit, defenderRef.unit)) {
+  // EXECUTE only fires off a swing that ACTUALLY LANDED damage. A defender whose
+  // WARD/DIVINE_SHIELD absorbed this hit (mitigated === 0) "survived the hit"
+  // untouched, so the finisher does not fire — honoring the shield's "first
+  // instance of damage absorbed" contract (the player's mental model that a
+  // shielded body is safe from the first strike). Already-wounded bodies are
+  // unaffected: a hit that lands >0 still executes exactly as before.
+  if (mitigated > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
     defenderRef.unit.health = 0;
   }
   if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {
@@ -1034,7 +1040,9 @@ function resolveAttackUnitCombat(
     const phantomDmg = absorbDamage(defenderRef.unit, phantomRaw);
     const defHpPre = defenderRef.unit.health;
     applyCombatDamage(defenderRef.unit, phantomDmg);
-    if (executesTarget(attackerRef.unit, defenderRef.unit)) {
+    // Same EXECUTE gate as the primary swing: a phantom strike whose damage was
+    // shield-absorbed (phantomDmg === 0) does not trigger the finisher.
+    if (phantomDmg > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
       defenderRef.unit.health = 0;
     }
     if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {

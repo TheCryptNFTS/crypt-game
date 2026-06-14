@@ -93,6 +93,32 @@ function arena(): MatchState {
   check("no EXECUTE: wounded survivor stays at 3 HP", tgt2?.health === 3, tgt2);
 }
 
+// --- EXECUTE vs DIVINE_SHIELD: a shield that ABSORBS the hit also blocks the
+//     finisher. The defender "survived the hit" untouched (mitigated === 0), so a
+//     1-attack EXECUTE attacker cannot snipe a shielded, already-wounded body. This
+//     pins the fix to the "EXECUTE bypasses shield" hole (the shield's "first
+//     instance of damage absorbed" contract must hold against the finisher too).
+{
+  const m = arena();
+  // EXECUTE attacker with TINY attack; defender shielded AND already at/below half.
+  m.players.P1.board.front = [unit({ instanceId: "exs", attack: 1, health: 5, maxHealth: 5, keywords: ["EXECUTE"] })];
+  m.players.P2.board.front = [
+    unit({ instanceId: "shd", attack: 0, health: 2, maxHealth: 6, keywords: ["DIVINE_SHIELD"], shielded: true }),
+  ];
+  const r = applyAction(m, { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "exs", defenderInstanceId: "shd" });
+  const shd = r.state.players.P2.board.front.find((u) => u.instanceId === "shd");
+  check("EXECUTE does NOT fire when DIVINE_SHIELD absorbed the hit (defender survives)", shd?.health === 2, shd);
+  check("DIVINE_SHIELD was consumed by the absorbed swing", shd?.shielded === false, shd);
+
+  // Follow-up: shield now down, a second EXECUTE swing DOES finish the half-HP body.
+  const m2 = r.state;
+  const exs = m2.players.P1.board.front.find((u) => u.instanceId === "exs")!;
+  exs.exhausted = false;
+  const r2 = applyAction(m2, { type: "ATTACK_UNIT", player: "P1", attackerInstanceId: "exs", defenderInstanceId: "shd" });
+  const shd2 = r2.state.players.P2.board.front.find((u) => u.instanceId === "shd");
+  check("EXECUTE fires once the shield is gone (defender finished)", shd2 === undefined, shd2);
+}
+
 // --- DEATHRATTLE: a unit dying in combat burns the enemy nexus for 2. --------
 {
   const m = arena();
