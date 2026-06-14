@@ -95,7 +95,13 @@ export function useMatchMotion(input: MatchMotionInput) {
 
   const clearTimers = useRef<number[]>([]);
   const schedule = (fn: () => void, ms: number) => {
-    const t = window.setTimeout(fn, ms);
+    // Self-prune when the timer fires so the ref only holds IN-FLIGHT timers (it
+    // was append-only → grew unbounded across a long match). Unmount cleanup still
+    // clears whatever is genuinely pending.
+    const t = window.setTimeout(() => {
+      clearTimers.current = clearTimers.current.filter((id) => id !== t);
+      fn();
+    }, ms);
     clearTimers.current.push(t);
   };
 

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { setGuestSessionStub } from "../lib/appSession";
 import { useAppSessionStubSnapshot } from "../hooks/useAppSessionStub";
 import { isOnboarded } from "../lib/localProgress";
-import { ensureStarterDeckEquipped } from "../lib/starterDeck";
 import { funnelOnce } from "../lib/funnel";
 import commanderArt from "../data/commanderArt.json";
 
@@ -42,13 +41,20 @@ export default function SplashLoginPage() {
 
   useEffect(() => {
     if (session === "guest") {
-      ensureStarterDeckEquipped();
-      navigate(entryRoute(), { replace: true });
+      // Lazy-load the starter-deck builder so its ~7.5MB card-master data DOESN'T
+      // ride the eager splash chunk (it blocked first paint on slow connections).
+      // Equip THEN navigate so the deck is ready before the player can enter a match.
+      void (async () => {
+        const { ensureStarterDeckEquipped } = await import("../lib/starterDeck");
+        ensureStarterDeckEquipped();
+        navigate(entryRoute(), { replace: true });
+      })();
     }
   }, [navigate, session]);
 
-  const onGuest = () => {
+  const onGuest = async () => {
     setGuestSessionStub();
+    const { ensureStarterDeckEquipped } = await import("../lib/starterDeck");
     ensureStarterDeckEquipped();
     navigate(entryRoute(), { replace: true });
   };

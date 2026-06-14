@@ -75,7 +75,16 @@ export const router = createBrowserRouter([
       { path: "/help", element: <HelpPage /> },
       { path: "/match", element: <MatchRoute /> },
       { path: "/spectate", element: <SpectatePage /> },
-      { path: "/draft", element: <DraftPage /> },
+      {
+        // Draft is an advanced mode — gate it like /deck so a brand-new pilot
+        // can't bypass the tutorial into it.
+        path: "/draft",
+        element: (
+          <OnboardingGate>
+            <DraftPage />
+          </OnboardingGate>
+        ),
+      },
       { path: "/profile", element: <ProfilePage /> },
       { path: "/friends", element: <FriendsPage /> },
       { path: "/leaderboard", element: <LeaderboardPage /> },

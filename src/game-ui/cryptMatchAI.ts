@@ -378,7 +378,10 @@ export function planP2Plays(match: any, difficulty: AiDifficulty = "normal"): Ai
   // legal target is skipped (e.g. a removal spell vs an empty enemy board), which
   // mirrors the reducer rejecting a missing target. Targets reference EXISTING
   // board units (real instanceIds), so the plan survives hand churn. ---
-  const enemyForSpell = lanesOf(match.players?.P1).filter((u) => (u.health ?? 0) > 0);
+  // Exclude stealthed enemy units — the reducer rejects them as spell targets
+  // (same as combat), so picking one would waste the AI's cast. Mirrors the
+  // combat-path stealth guard.
+  const enemyForSpell = lanesOf(match.players?.P1).filter((u) => (u.health ?? 0) > 0 && !u.stealthed);
   const allyForSpell = lanesOf(match.players?.P2).filter((u) => (u.health ?? 0) > 0);
   const strongest = (us: any[]) =>
     us.length ? [...us].sort((a, b) => (b.attack ?? 0) - (a.attack ?? 0))[0] : null;
