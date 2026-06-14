@@ -1251,6 +1251,16 @@
   display: grid;
   gap: 10px;
   margin-top: 12px;
+  /* 2026-06-14 (holder "PC doesn't look right / fighting an invisible enemy"):
+     the combat log had NO height bound in the base / natural-scroll (<840px)
+     layout — only the ≥840 single-screen block capped it (96px). Every turn
+     appended entries until the log was ~1700px tall, which stretched the rail
+     and dragged the board's grid row to ~2148px, so deployed units floated as
+     specks in a vast empty battlefield (and scrolled far out of view above the
+     hand). Cap it here so it scrolls INTERNALLY and never inflates the board. */
+  max-height: min(300px, 38vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .live-log__entry {
