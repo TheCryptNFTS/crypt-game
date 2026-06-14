@@ -192,13 +192,17 @@ export default function PlayHubPage() {
       return;
     }
 
-    // Poll for a pairing.
+    // Poll for a pairing. POST (not GET) — the queue endpoint only handles POST,
+    // and each POST both refreshes our waiter slot's TTL AND, once an opponent has
+    // paired with us, returns { status:"matched", mySeat:"P1", view } so the
+    // WAITING player discovers the match (the server stashes it at pairing time).
     const poll = async () => {
       if (!searchingRef.current) return;
       try {
         const res = await fetch(`${CITY_BASE()}/api/match/queue`, {
-          method: "GET",
+          method: "POST",
           headers,
+          body: JSON.stringify({ deck: myDeckBootstrap }),
         });
         const data = await res.json().catch(() => null);
         if (!searchingRef.current) return;

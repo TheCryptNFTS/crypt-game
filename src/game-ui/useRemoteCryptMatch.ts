@@ -48,7 +48,7 @@ export type MatchView = {
   opponent: ViewSide;
 };
 
-type ConnectionState = "connecting" | "live" | "reconnecting" | "ended";
+type ConnectionState = "connecting" | "live" | "reconnecting" | "ended" | "auth";
 
 const cardMetaById = new Map<string, any>((allPlayableCards as any[]).map((c) => [c.id, c]));
 
@@ -249,6 +249,12 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
         } else if (res.status === 403) {
           if (!mountedRef.current) return;
           appendLog("Not authorized for this action.");
+        } else if (res.status === 401) {
+          // Token expired mid-match — surface a real cause instead of silently
+          // no-op'ing every move. The board shows the "sign in again" banner.
+          if (!mountedRef.current) return;
+          setConnectionState("auth");
+          appendLog("Session expired — leave the match and sign in again.");
         }
       } catch {
         if (!mountedRef.current) return;
@@ -273,6 +279,16 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
         const res = await fetch(url, {
           headers: { accept: "application/json", ...getAuthHeader() },
         });
+        if (res.status === 401) {
+          // Token expired — this is NOT a transient network reconnect. Stop the
+          // infinite "reconnecting" spinner and tell the player to re-sign.
+          if (mountedRef.current) {
+            setReconnecting(false);
+            setConnectionState("auth");
+            appendLog("Session expired — leave the match and sign in again.");
+          }
+          return;
+        }
         if (!res.ok) {
           if (mountedRef.current) {
             setReconnecting(true);
@@ -388,7 +404,9 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
    * this; the poll loop will keep showing the ended state. Safe to call once.
    */
   const concede = useCallback(async () => {
-    if (winner) return;
+    // Don't fire while an action is in-flight (it would race the pending move's
+    // version) or after the match is decided.
+    if (winner || pending) return;
     appendLog("You concede the match.");
     try {
       const res = await fetch(`${CITY_BASE()}/api/match/${matchId}/concede`, {
@@ -413,7 +431,7 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     }
     // refetch is stable (useCallback); appendLog stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchId, winner, appendLog]);
+  }, [matchId, winner, pending, appendLog]);
 
   // resetMatch in PvP has NO local re-shuffle authority — it leaves the match
   // and returns to the lobby (the server owns match lifecycle). Leaving also

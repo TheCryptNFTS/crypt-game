@@ -40,6 +40,7 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         {concedeBtn}
       </p>
     );
+    if (remote.connectionState === "auth") return line("Session expired — leave the match and sign in again.");
     if (remote.reconnecting) return line("Reconnecting to the signal…");
     if (!remote.myTurn) return line("Opponent's turn — holding the line.");
     if (remote.pending) return line("Submitting move…");
