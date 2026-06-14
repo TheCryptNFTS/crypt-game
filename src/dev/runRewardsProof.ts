@@ -19,6 +19,7 @@ import {
   dayBucket,
   weekBucket,
   SIGIL_REWARDS,
+  FIRST_WIN_BONUS,
   SEASON_TRACK,
   questDefById,
   type RewardsState,
@@ -64,8 +65,12 @@ assert(
   assert(s.sigil === SIGIL_REWARDS.loss, "a loss pays base loss Sigil");
   const afterLoss = s.sigil;
   s = applyMatchToRewards(s, WIN, T0);
-  // Win pays base win Sigil; the win also advances quests but none complete in 1.
-  assert(s.sigil === afterLoss + SIGIL_REWARDS.win, "a win pays base win Sigil (no quest yet)");
+  // Win pays base win Sigil + the first-win-of-day bonus (this IS win #1 of day
+  // T0); the win also advances quests but none complete in 1.
+  assert(
+    s.sigil === afterLoss + SIGIL_REWARDS.win + FIRST_WIN_BONUS,
+    "a win pays base win Sigil + first-win-of-day bonus (no quest yet)",
+  );
 }
 
 // ---------------------------------------------------------------------------
