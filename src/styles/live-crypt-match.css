@@ -144,6 +144,27 @@
     padding-bottom: var(--crypt-nav-dock-h, 64px);
   }
 
+  /* TUTORIAL route (the forced first duel) wraps the match in .crypt-tutorial-wrap
+     — its own header + the shell — INSTEAD of going through .crypt-app-root /
+     .crypt-app-main, so it was never wired into this flex height-chain. The wrap
+     stayed a content-height block, .crypt-shell's flex:1 had no flex parent to
+     grow into, the table collapsed to flex-basis 0, and the WHOLE BATTLEFIELD
+     rendered as a 24px sliver — every brand-new player's first screen (holders:
+     "limited sight of the play area", "desktop didn't work"). Make the wrap a
+     full-height flex column so the shell — and the table/zones/lanes below it —
+     fill the viewport exactly like /match. The tutorial is OUTSIDE the app dock,
+     so no bottom reservation is needed. */
+  .crypt-tutorial-wrap:has(.crypt-table) {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .crypt-tutorial-wrap:has(.crypt-table) > header {
+    flex: 0 0 auto;
+  }
+
   /* The crypt-shell fills the remaining main height ABOVE the dock and AFTER the
      owned-cards bar, as a flex column so its match shell can flex-fill it. */
   .crypt-shell:has(.crypt-table) {
