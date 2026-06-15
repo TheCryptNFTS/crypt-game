@@ -101,9 +101,31 @@
     min-height: 40px;
   }
 
-  /* Top status pills wrap two-up rather than forcing a wide row. */
-  .live-topbar__pill {
-    flex: 1 1 calc(50% - 8px);
+  /* HUD COMPACTION (holder feedback: "could see the opponent but not much else").
+     The 6 status readouts stacked TWO-up into a ~368px tower that pushed the
+     battlefield ~520px down the page — you scrolled past a wall of chrome to
+     reach your own board. Go THREE-up in two tight rows and shrink the Hex/Energy
+     hex-gems so the HUD is ~150px and the board sits near the top.
+     NOTE: the `.live-topbar` prefix raises specificity to (0,2,0) so these BEAT
+     polish-hud.css's base `.ph-crystal*` rules (0,1,0), which import LATER in the
+     bundle (via MatchTopBar) and would otherwise win the cascade. Labels are
+     pinned to one line so the narrower 3-up pills don't wrap and grow back tall. */
+  .live-topbar__cluster { gap: 6px; }
+  .live-topbar .live-topbar__pill {
+    flex: 1 1 calc(33.333% - 4px);
     min-width: 0;
+    padding: 5px 6px;
   }
+  .live-topbar .live-topbar__label {
+    font-size: 8.5px;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .live-topbar .live-topbar__pill strong { font-size: 14px; }
+  .live-topbar .ph-crystal { min-height: 28px; margin-top: 1px; }
+  .live-topbar .ph-crystal__gem { width: 30px; height: 30px; }
+  .live-topbar .ph-crystal__value { font-size: 14px; }
 }

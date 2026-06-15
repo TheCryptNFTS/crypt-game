@@ -108,17 +108,19 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
   }, [derivedIndex]);
 
   const [dismissed, setDismissed] = useState(false);
-  // On short viewports (<840px — the natural-scroll match layout) the hand + own
-  // lanes a deploy/select step points at sit far below a top-anchored coach, so
-  // you can't see the instruction and its target together. Bottom-anchor the coach
-  // there (just above the fixed nav dock) so it rides next to the action area.
-  // Tall screens keep the top anchor — the whole board is already on screen.
-  const [shortViewport, setShortViewport] = useState(
-    typeof window !== "undefined" ? window.innerHeight < 840 : false,
-  );
+  // Bottom-anchor the coach whenever the match uses the NATURAL-SCROLL layout —
+  // i.e. a SHORT viewport (<840px) OR a NARROW one (≤768px mobile). There the hand
+  // + own lanes a step points at sit far below a top-anchored coach, AND (mobile)
+  // a top card lands right on top of the HUD readouts. A top anchor is only right
+  // when the whole board is on one screen (the wide-AND-tall flex layout).
+  // (2026-06-15: the old height-only test left a 390×844 phone top-anchored — 844
+  // ≥ 840 — so the coach covered the compact HUD.)
+  const isNaturalScroll = () =>
+    typeof window !== "undefined" && (window.innerHeight < 840 || window.innerWidth <= 768);
+  const [shortViewport, setShortViewport] = useState(isNaturalScroll);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const onResize = () => setShortViewport(window.innerHeight < 840);
+    const onResize = () => setShortViewport(isNaturalScroll());
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
