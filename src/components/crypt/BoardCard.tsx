@@ -75,6 +75,9 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       ].join(" ")}
       onClick={() => onInspect?.(card)}
       aria-label={`${card.name}, ${attack} attack, ${health} health, ${armor} armor, ${speed} speed${kwText}${stateText}`}
+      // Stable hook so positioned FX (spell/equip cast bloom) can land on this
+      // exact unit; the board queries `[data-unit-id="<instanceId>"]`.
+      data-unit-id={card.id}
       style={{ "--cf-edge": theme.edge, "--cf-glow": theme.glow } as React.CSSProperties}
     >
       {/* ART — clean square, no text over it. The NFT render is the card. */}

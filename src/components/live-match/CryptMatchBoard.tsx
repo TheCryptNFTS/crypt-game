@@ -11,7 +11,7 @@ import { InspectState, PlayCardVM } from "../../ui/cryptTypes";
 import { classifySpellTargeting } from "../../engine/spellTargeting";
 import { useMatchMotion } from "../../hooks/useMatchMotion";
 import { useMatchSound } from "../../hooks/useMatchSound";
-import { playAttack, playClick } from "../../audio/cryptSfx";
+import { playAttack, playClick, playSpell, playEquip } from "../../audio/cryptSfx";
 import { SoundToggle } from "./SoundToggle";
 import { MatchCeremony } from "./MatchCeremony";
 import { MatchFxCanvas, type MatchFxHandle, type FxKind } from "./MatchFxCanvas";
@@ -835,11 +835,33 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 // rejects (and the status line surfaces) an illegal/missing
                 // target, so the UI doesn't re-implement the targeting rules.
                 const target = selectedEnemyUnit?.id ?? selectedOwnUnit?.id ?? undefined;
+                // Cast feedback (feel): the airy spell shimmer + a gold bloom at
+                // the target unit (or the own zone for an untargeted spell), so a
+                // cast is no longer silent + invisible. Presentation-only.
+                if (!spectator) {
+                  playSpell();
+                  const el =
+                    (target ? document.querySelector(`[data-unit-id="${target}"]`) : null) ??
+                    document.querySelector(".crypt-zone--own");
+                  fxRef.current?.burstAt("deploy", el);
+                }
                 safePlaySelectedSpell(target);
                 setTargetBoardId(null);
               }}
               onEquip={() => {
-                if (selectedOwnUnit) safeEquipSelectedToUnit(selectedOwnUnit.id);
+                if (selectedOwnUnit) {
+                  // Equip feedback (feel): the metallic clink + a gold bloom on
+                  // the geared unit. Presentation-only.
+                  if (!spectator) {
+                    playEquip();
+                    fxRef.current?.burstAt(
+                      "deploy",
+                      document.querySelector(`[data-unit-id="${selectedOwnUnit.id}"]`) ??
+                        document.querySelector(".crypt-zone--own"),
+                    );
+                  }
+                  safeEquipSelectedToUnit(selectedOwnUnit.id);
+                }
               }}
               onAttackUnit={() => {
                 if (selectedEnemyUnit) resolveAttackUnit(selectedEnemyUnit.id);

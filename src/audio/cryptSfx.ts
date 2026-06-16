@@ -391,6 +391,39 @@ export function playDeploy(): void {
   );
 }
 
+/** A spell resolves: an arcane upward shimmer-swell with a soft bloom — distinct
+ *  from the weighty unit deploy. Reads as "energy released", not "body landed". */
+export function playSpell(): void {
+  play(
+    [
+      // Bright triangle swell rising — the cast.
+      { type: "triangle", freq: 330, toFreq: 740, gain: 0.1, dur: 0.26, attack: 0.01, decay: 0.07, sustain: 0.5, release: 0.16, reverb: 0.22 },
+      // Shimmer harmonic a fifth up, slight delay, heavy reverb — the bloom.
+      { type: "sine", freq: 990, toFreq: 1320, gain: 0.05, dur: 0.24, attack: 0.006, decay: 0.05, sustain: 0.4, release: 0.14, delay: 0.02, detune: 6, reverb: 0.3 },
+    ],
+    [
+      // Airy wash so it feels magical, not percussive.
+      { dur: 0.14, gain: 0.035, filter: "highpass", cutoff: 2600, q: 0.5, reverb: 0.24 },
+    ],
+  );
+}
+
+/** Gear is strapped to a unit: a short two-part metallic clink — the buckle, then
+ *  the lock. Crisp and mechanical, distinct from the spell's airy shimmer. */
+export function playEquip(): void {
+  play(
+    [
+      // Metallic clink (square + sawtooth, short, slight downward bite).
+      { type: "square", freq: 880, toFreq: 660, gain: 0.09, dur: 0.08, attack: 0.002, decay: 0.03, sustain: 0.25, release: 0.05, detune: 5 },
+      { type: "sawtooth", freq: 440, toFreq: 360, gain: 0.07, dur: 0.1, attack: 0.003, decay: 0.04, sustain: 0.3, release: 0.06, delay: 0.05, detune: -8 },
+    ],
+    [
+      // High tick = the buckle catching.
+      { dur: 0.04, gain: 0.05, filter: "highpass", cutoff: 4200, q: 0.7 },
+    ],
+  );
+}
+
 /** A card is drawn into hand: a crisp upward shimmer flick. */
 export function playDraw(): void {
   play(
