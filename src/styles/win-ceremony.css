@@ -176,6 +176,34 @@
   color: rgba(255, 255, 255, 0.45);
 }
 
+/* RANK PROGRESS LINE (2026-06-16): the "keep climbing" hook — your rank + the MMR
+   this match moved it. A gold pill for the tier, a green/red delta. */
+.wc-rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 2px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(200, 167, 93, 0.1);
+  border: 1px solid rgba(200, 167, 93, 0.32);
+}
+.wc-rank__label {
+  font-family: var(--font-display, "Clash Display"), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  color: #f0d489;
+}
+.wc-rank__delta {
+  font-family: var(--font-mono, "Space Mono"), monospace;
+  font-weight: 700;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.wc-rank__delta--up { color: #7fe0a2; }
+.wc-rank__delta--down { color: #ff8b8b; }
+
 .wc-actions {
   display: flex;
   flex-direction: column;

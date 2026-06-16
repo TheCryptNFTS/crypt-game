@@ -47,6 +47,11 @@ export type WinCeremonyProps = {
   /** Non-null only when THIS match earned the first-win-of-day bonus — the
    *  ceremony then celebrates it as a separate beat above the base Sigil. */
   firstWinBonus?: number | null;
+  /** Current rank label (e.g. "Gold II") from the local profile, shown with the
+   *  MMR delta as the "progress" hook — the reason to keep climbing. */
+  rankLabel?: string | null;
+  /** MMR change from THIS match (e.g. +12 / -9), null until decided. */
+  ratingDelta?: number | null;
   /**
    * Optional NAMED-BOSS outro (solo only, additive). One pre-seeded static line
    * spoken by the AI boss — already win/loss-appropriate and deterministic per
@@ -113,6 +118,8 @@ export function WinCeremony({
   match,
   rewards,
   firstWinBonus,
+  rankLabel = null,
+  ratingDelta = null,
   bossLine = null,
   bossName = null,
 }: WinCeremonyProps) {
@@ -311,6 +318,18 @@ export function WinCeremony({
                 <span className="wc-stat__label">Hex</span>
               </div>
             ) : null}
+          </div>
+        ) : null}
+
+        {rankLabel && ratingDelta !== null ? (
+          <div
+            className="wc-rank wc-seq wc-seq--2"
+            aria-label={`Rank ${rankLabel}, ${ratingDelta >= 0 ? "gained" : "lost"} ${Math.abs(ratingDelta)} rating`}
+          >
+            <span className="wc-rank__label">{rankLabel}</span>
+            <span className={`wc-rank__delta ${ratingDelta >= 0 ? "wc-rank__delta--up" : "wc-rank__delta--down"}`}>
+              {ratingDelta >= 0 ? `+${ratingDelta}` : `−${Math.abs(ratingDelta)}`} MMR
+            </span>
           </div>
         ) : null}
 

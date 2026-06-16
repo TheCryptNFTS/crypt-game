@@ -51,13 +51,18 @@ export function useMatchProgression(
   const mySeat = options.mySeat ?? "P1";
 
   const [profile, setProfile] = useState<PlayerProfile>(() => loadProfile(playerId));
+  // The MMR change from the match THIS key just recorded — surfaced so the
+  // end-of-match ceremony can show "Gold II · +12". Null until a match decides;
+  // cleared when a new match arms (matchKey change).
+  const [lastDelta, setLastDelta] = useState<number | null>(null);
 
   // Guard: record at most once per (matchKey). Re-arms when matchKey changes.
   const recordedKeyRef = useRef<string | number | null>(null);
 
   useEffect(() => {
-    // New match started — allow recording again.
+    // New match started — allow recording again, and clear the prior delta.
     recordedKeyRef.current = null;
+    setLastDelta(null);
   }, [matchKey]);
 
   useEffect(() => {
@@ -68,6 +73,7 @@ export function useMatchProgression(
     const won = winner === mySeat;
     setProfile((prev) => {
       const next = applyMatchToProfile(prev, { won, opponentRating });
+      setLastDelta(next.rating - prev.rating);
       saveProfile(next);
       return next;
     });
@@ -76,7 +82,8 @@ export function useMatchProgression(
   const reset = useCallback(() => {
     setProfile(resetProfile(playerId));
     recordedKeyRef.current = null;
+    setLastDelta(null);
   }, [playerId]);
 
-  return { profile, reset };
+  return { profile, reset, lastDelta };
 }

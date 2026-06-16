@@ -64,7 +64,11 @@ export default function LiveCryptMatchPage({
   // once per match. The per-match `seed` (set to Date.now() at match creation)
   // is a stable key that changes on every reset, re-arming the once-per-match
   // guard. In-game-only: this never sources hex or touches the wallet.
-  useMatchProgression(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
+  const { profile, lastDelta: ratingDelta } = useMatchProgression(
+    local.winner,
+    local.match?.seed ?? "solo",
+    { mySeat: "P1" },
+  );
 
   // META REWARDS (post-match, OUTSIDE the reducer). Sibling to progression:
   // advances daily/weekly quests + Sigil + the season track once per decided
@@ -294,6 +298,8 @@ export default function LiveCryptMatchPage({
           match={local.match}
           rewards={rewards}
           firstWinBonus={firstWinBonus}
+          rankLabel={profile.rank.label}
+          ratingDelta={ratingDelta}
           bossLine={bossOutroLine}
           bossName={boss?.name ?? null}
           onPlayAgain={local.resetMatch}
