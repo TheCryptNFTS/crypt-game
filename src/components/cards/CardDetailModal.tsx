@@ -153,13 +153,17 @@ export default function CardDetailModal({ entry, onClose }: CardDetailModalProps
 
         {ui.externalUrl && (
           <div className="border-t border-white/[0.04] px-6 py-4">
+            {/* The chain bridge: every card IS an on-chain NFT — link straight to
+                the holder's token so "your cards" is verifiable, not a claim.
+                Labeled OpenSea (the contract's marketplace) when that's the host,
+                else a neutral "View source". */}
             <a
               href={ui.externalUrl}
               target="_blank"
               rel="noreferrer"
               className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--color-crypt-ice)] underline decoration-[color:var(--color-crypt-ice-dim)] underline-offset-4"
             >
-              Source
+              {/opensea\.io/i.test(ui.externalUrl) ? "View on OpenSea ↗" : "View source ↗"}
             </a>
           </div>
         )}
