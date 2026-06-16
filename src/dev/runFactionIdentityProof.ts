@@ -298,24 +298,26 @@ const BRONZE_MID = "tcg_17"; // cost 3 (between base <=2 and archetype <=3)
   assert(at.players.P2.nexusHealth === 20, "BRONZE archetype does NOT burn enemy nexus");
 }
 
-// === GOLD archetype: at 4+ Gold live, Largesse deepens to +0/+2 ===============
-// (2026.06.06: shaved from +1/+3 to +0/+2 alongside the +0/+2 -> +0/+1 baseline shave.)
+// === GOLD archetype: Largesse is FLAT +0/+1, no board-count snowball ===========
+// (2026.06.16 balance pass: GOLD still topped the 300-match playtest at 63.5% after
+//  the 06.06 +0/+2->+0/+1 baseline shave, so the +0/+2 ARCHETYPE snowball was removed
+//  entirely — Largesse no longer deepens with board count. GOLD landed at 57.3%.)
 {
-  // BELOW threshold (3 Gold on board) -> base +0/+1.
+  // BELOW threshold (3 Gold on board) -> +0/+1.
   const below = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
   fillBoard(below, "P1", GOLD_BIG, 3);
   const b1 = makeUnit(GOLD_BIG);
   factionOnUnitSummon(below, "P1", b1, factionOf, costOf);
-  assert(b1.attack === 2 && b1.health === 4, "GOLD below threshold (3 units): base +0/+1 only");
+  assert(b1.attack === 2 && b1.health === 4, "GOLD below threshold (3 units): +0/+1");
 
-  // AT threshold (4 Gold on board) -> +0/+2.
+  // AT threshold (4 Gold on board) -> STILL +0/+1 (no deepening — snowball removed).
   const at = makeState(CMD_BY_FACTION.GOLDEN_SOVEREIGNS, true, true);
   fillBoard(at, "P1", GOLD_BIG, 4);
   const b2 = makeUnit(GOLD_BIG);
   factionOnUnitSummon(at, "P1", b2, factionOf, costOf);
   assert(
-    b2.attack === 2 && b2.health === 5 && b2.maxHealth === 5,
-    "GOLD at 4+ units: Largesse deepens to +0/+2"
+    b2.attack === 2 && b2.health === 4 && b2.maxHealth === 4,
+    "GOLD at 4+ units: Largesse stays flat +0/+1 (archetype snowball removed)"
   );
   // A cheap (<5) Gold unit is untouched regardless of threshold.
   const cheap = makeUnit(GOLD_CHEAP);

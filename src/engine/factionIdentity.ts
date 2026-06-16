@@ -240,6 +240,14 @@ export function factionOnUnitSummon(
       const rushCap = deep ? 3 : 2;
       if (costOf(unit.cardId) <= rushCap) {
         grantKeyword(unit, "RUSH");
+        // BRONZE BUFF (2026.06.16 balance pass): Bronze sat at the BOTTOM of the
+        // 300-match playtest (27% win-rate) — Onslaught granted RUSH to cheap
+        // bodies, but Rush with no extra punch is a weak aggro plan that trades
+        // down into sturdier factions. Pair the Rush with +1 Attack so the
+        // cheap skirmishers actually PRESSURE the turn they arrive (the swarm
+        // plan finally closes games). Pure combat pressure — NO-burn. At
+        // archetype (3+ Bronze) the wider band already snowballs the swing count.
+        buffAttack(unit, 1);
         // Runtime-granted RUSH must also clear summoning sickness — the flag was
         // already seeded `true` at setup.ts (printed-keyword check) before this
         // identity hook ran, so without this the unit has the RUSH keyword but
@@ -258,13 +266,14 @@ export function factionOnUnitSummon(
       // symmetric with the IRON identity BUFF: Largesse's premium payoff is trimmed
       // from +0/+2 to +0/+1 (baseline) and from +1/+3 to +0/+2 (archetype) — Gold's
       // top-end still enters sturdier, just less oppressively so. NO-BURN unchanged.
+      // GOLD NERF (2026.06.16 balance pass): GOLD still topped the 300-match
+      // playtest at 63.5% even after the 06.06 identity shave — its premium
+      // all-rare statlines + the Largesse durability snowball compounded. Remove
+      // the ARCHETYPE snowball entirely (was +0/+2 at 4+ Gold): Largesse is now a
+      // flat +0/+1 on the top-end regardless of board count, so Gold's late-game
+      // no longer runs away once it commits. NO-burn unchanged.
       if (costOf(unit.cardId) >= 5) {
-        const deep = archetypeActive(state, controller, faction, factionOf);
-        if (deep) {
-          buffHealth(unit, 2);
-        } else {
-          buffHealth(unit, 1);
-        }
+        buffHealth(unit, 1);
       }
       break;
     }
