@@ -427,6 +427,16 @@
   .app-sidebar {
     border-right: 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
+    /* Stacked at the very top on mobile — clear the notch in standalone PWA mode
+       (viewport-fit=cover, index.html). env() is 0 in-browser, so desktop/non-notch
+       is unchanged. */
+    padding-top: calc(24px + env(safe-area-inset-top, 0px));
+  }
+
+  .app-shell__main {
+    /* Clear landscape side-notches; vertical padding unchanged. */
+    padding-left: calc(18px + env(safe-area-inset-left, 0px));
+    padding-right: calc(18px + env(safe-area-inset-right, 0px));
   }
 
   .hero-panel,
