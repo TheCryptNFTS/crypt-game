@@ -1342,6 +1342,117 @@
       "sourceCardId": "tcg_2423"
     },
     {
+      "id": "tcg_unit_3779",
+      "name": "Crypt - Digital Trading Card #3779",
+      "type": "unit",
+      "faction": "IRON_DEFENDERS",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 9,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "3779",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Sealed Depths",
+        "Skin": "Skull In Skulls Rare",
+        "Eye": "Piercing",
+        "Headwear": "Ring Of Roses",
+        "Metaverse": "None",
+        "Creature": "Baby Dragon",
+        "Mouth": "Weed Leaf",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "Socks And Jesus Sandals",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      },
+      "ability": "Taunt. When this unit is damaged, reduce the next damage dealt to it by 3.",
+      "functionalKeywords": [
+        "GUARD",
+        "TAUNT"
+      ],
+      "isPrimary": true,
+      "sourceCardId": "tcg_3779"
+    },
+    {
+      "id": "tcg_unit_6038",
+      "name": "Crypt - Digital Trading Card #6038",
+      "type": "unit",
+      "faction": "IRON_DEFENDERS",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 8,
+        "health": 9,
+        "armor": 0,
+        "speed": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "6038",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "metaverse",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Sound Of Death Rare",
+        "Eye": "Hells Gateway",
+        "Headwear": "None",
+        "Metaverse": "Nailed It",
+        "Creature": "None",
+        "Mouth": "Beard Of Flames",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      },
+      "ability": "Execute. Deals double damage to units at 3 HP or less.",
+      "functionalKeywords": [
+        "EXECUTE"
+      ],
+      "isPrimary": true,
+      "sourceCardId": "tcg_6038"
+    },
+    {
+      "id": "tcg_unit_1210",
+      "name": "Crypt - Digital Trading Card #1210",
+      "type": "unit",
+      "faction": "IRON_DEFENDERS",
+      "rarity": "common",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "1210",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Circle Of Life Common",
+        "Eye": "Light Up My Life",
+        "Creature": "Dead Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "Grimoire",
+        "Armor": "Socks And Jesus Sandals",
+        "Weapons": "Smoked Out",
+        "Faction": "Iron Defenders"
+      },
+      "ability": "Taunt. When this unit is attacked, deal 2 damage to the attacker.",
+      "functionalKeywords": [
+        "GUARD",
+        "TAUNT"
+      ],
+      "isPrimary": true,
+      "sourceCardId": "tcg_1210"
+    },
+    {
       "id": "tcg_unit_1013",
       "name": "Crypt - Digital Trading Card #1013",
       "type": "unit",
@@ -2588,115 +2699,6 @@
       ],
       "isPrimary": true,
       "sourceCardId": "tcg_5958"
-    },
-    {
-      "id": "tcg_unit_870",
-      "name": "Crypt - Digital Trading Card #870",
-      "type": "unit",
-      "faction": "IRON_DEFENDERS",
-      "rarity": "common",
-      "cost": 3,
-      "stats": {
-        "attack": 4,
-        "health": 6,
-        "armor": 3,
-        "speed": 2
-      },
-      "keywords": [
-        "GUARD"
-      ],
-      "sourceTokenId": "870",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Smoke",
-        "Skin": "Lost Hope Common",
-        "Eye": "In Lucifer We Trust",
-        "Metaverse": "Red Indian",
-        "Mouth": "Skull Eats Skull",
-        "Artifacts": "None",
-        "Armor": "Dragon Bone Plate",
-        "Weapons": "Pipe Dream",
-        "Faction": "Iron Defenders"
-      },
-      "ability": "Charge. When this unit enters play, deal 1 damage to target enemy unit.",
-      "functionalKeywords": [
-        "RUSH",
-        "CHARGE"
-      ],
-      "isPrimary": true,
-      "sourceCardId": "tcg_870"
-    },
-    {
-      "id": "tcg_unit_1210",
-      "name": "Crypt - Digital Trading Card #1210",
-      "type": "unit",
-      "faction": "IRON_DEFENDERS",
-      "rarity": "common",
-      "cost": 3,
-      "stats": {
-        "attack": 7,
-        "health": 7,
-        "armor": 2,
-        "speed": 2
-      },
-      "keywords": [],
-      "sourceTokenId": "1210",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Smoke Yellow",
-        "Skin": "Circle Of Life Common",
-        "Eye": "Light Up My Life",
-        "Creature": "Dead Dragon",
-        "Mouth": "Sting",
-        "Artifacts": "Grimoire",
-        "Armor": "Socks And Jesus Sandals",
-        "Weapons": "Smoked Out",
-        "Faction": "Iron Defenders"
-      },
-      "ability": "Taunt. When this unit is attacked, deal 2 damage to the attacker.",
-      "functionalKeywords": [
-        "GUARD",
-        "TAUNT"
-      ],
-      "isPrimary": true,
-      "sourceCardId": "tcg_1210"
-    },
-    {
-      "id": "tcg_unit_2492",
-      "name": "Crypt - Digital Trading Card #2492",
-      "type": "unit",
-      "faction": "IRON_DEFENDERS",
-      "rarity": "unknown",
-      "cost": 3,
-      "stats": {
-        "attack": 7,
-        "health": 7,
-        "armor": 2,
-        "speed": 2
-      },
-      "keywords": [],
-      "sourceTokenId": "2492",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Skull Island",
-        "Skin": "Heavy Is The Head",
-        "Eye": "Unimaginable",
-        "Metaverse": "Bipolar",
-        "Mouth": "666 Grill",
-        "Artifacts": "None",
-        "Armor": "Bracers",
-        "Weapons": "Redemption",
-        "Faction": "Iron Defenders"
-      },
-      "ability": "Shield. When this unit takes damage, reduce it by 1.",
-      "functionalKeywords": [
-        "SHIELD"
-      ],
-      "isPrimary": true,
-      "sourceCardId": "tcg_2492"
     },
     {
       "id": "tcg_unit_1281",
@@ -8402,6 +8404,9 @@
     "tcg_4742",
     "tcg_1419",
     "tcg_2423",
+    "tcg_3779",
+    "tcg_6038",
+    "tcg_1210",
     "tcg_1013",
     "tcg_1152",
     "tcg_1356",
@@ -8435,9 +8440,6 @@
     "tcg_3324",
     "tcg_3668",
     "tcg_5958",
-    "tcg_870",
-    "tcg_1210",
-    "tcg_2492",
     "tcg_1281",
     "tcg_2499",
     "tcg_1947",
@@ -9941,6 +9943,117 @@
       "sourceCardId": "tcg_2423"
     },
     {
+      "id": "tcg_unit_3779",
+      "name": "Crypt - Digital Trading Card #3779",
+      "type": "unit",
+      "faction": "IRON_DEFENDERS",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 6,
+        "health": 9,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "3779",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Sealed Depths",
+        "Skin": "Skull In Skulls Rare",
+        "Eye": "Piercing",
+        "Headwear": "Ring Of Roses",
+        "Metaverse": "None",
+        "Creature": "Baby Dragon",
+        "Mouth": "Weed Leaf",
+        "Artifacts": "Bong Of Protection",
+        "Armor": "Socks And Jesus Sandals",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      },
+      "ability": "Taunt. When this unit is damaged, reduce the next damage dealt to it by 3.",
+      "functionalKeywords": [
+        "GUARD",
+        "TAUNT"
+      ],
+      "isPrimary": true,
+      "sourceCardId": "tcg_3779"
+    },
+    {
+      "id": "tcg_unit_6038",
+      "name": "Crypt - Digital Trading Card #6038",
+      "type": "unit",
+      "faction": "IRON_DEFENDERS",
+      "rarity": "rare",
+      "cost": 4,
+      "stats": {
+        "attack": 8,
+        "health": 9,
+        "armor": 0,
+        "speed": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "6038",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "metaverse",
+      "rawTraits": {
+        "Background": "Smoke",
+        "Skin": "Sound Of Death Rare",
+        "Eye": "Hells Gateway",
+        "Headwear": "None",
+        "Metaverse": "Nailed It",
+        "Creature": "None",
+        "Mouth": "Beard Of Flames",
+        "Artifacts": "None",
+        "Armor": "None",
+        "Weapons": "None",
+        "Faction": "Iron Defenders"
+      },
+      "ability": "Execute. Deals double damage to units at 3 HP or less.",
+      "functionalKeywords": [
+        "EXECUTE"
+      ],
+      "isPrimary": true,
+      "sourceCardId": "tcg_6038"
+    },
+    {
+      "id": "tcg_unit_1210",
+      "name": "Crypt - Digital Trading Card #1210",
+      "type": "unit",
+      "faction": "IRON_DEFENDERS",
+      "rarity": "common",
+      "cost": 3,
+      "stats": {
+        "attack": 7,
+        "health": 7,
+        "armor": 2,
+        "speed": 2
+      },
+      "keywords": [],
+      "sourceTokenId": "1210",
+      "sourceCardClass": "unit",
+      "sourceSubtype": "hybrid",
+      "rawTraits": {
+        "Background": "Smoke Yellow",
+        "Skin": "Circle Of Life Common",
+        "Eye": "Light Up My Life",
+        "Creature": "Dead Dragon",
+        "Mouth": "Sting",
+        "Artifacts": "Grimoire",
+        "Armor": "Socks And Jesus Sandals",
+        "Weapons": "Smoked Out",
+        "Faction": "Iron Defenders"
+      },
+      "ability": "Taunt. When this unit is attacked, deal 2 damage to the attacker.",
+      "functionalKeywords": [
+        "GUARD",
+        "TAUNT"
+      ],
+      "isPrimary": true,
+      "sourceCardId": "tcg_1210"
+    },
+    {
       "id": "tcg_unit_1013",
       "name": "Crypt - Digital Trading Card #1013",
       "type": "unit",
@@ -11187,115 +11300,6 @@
       ],
       "isPrimary": true,
       "sourceCardId": "tcg_5958"
-    },
-    {
-      "id": "tcg_unit_870",
-      "name": "Crypt - Digital Trading Card #870",
-      "type": "unit",
-      "faction": "IRON_DEFENDERS",
-      "rarity": "common",
-      "cost": 3,
-      "stats": {
-        "attack": 4,
-        "health": 6,
-        "armor": 3,
-        "speed": 2
-      },
-      "keywords": [
-        "GUARD"
-      ],
-      "sourceTokenId": "870",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Smoke",
-        "Skin": "Lost Hope Common",
-        "Eye": "In Lucifer We Trust",
-        "Metaverse": "Red Indian",
-        "Mouth": "Skull Eats Skull",
-        "Artifacts": "None",
-        "Armor": "Dragon Bone Plate",
-        "Weapons": "Pipe Dream",
-        "Faction": "Iron Defenders"
-      },
-      "ability": "Charge. When this unit enters play, deal 1 damage to target enemy unit.",
-      "functionalKeywords": [
-        "RUSH",
-        "CHARGE"
-      ],
-      "isPrimary": true,
-      "sourceCardId": "tcg_870"
-    },
-    {
-      "id": "tcg_unit_1210",
-      "name": "Crypt - Digital Trading Card #1210",
-      "type": "unit",
-      "faction": "IRON_DEFENDERS",
-      "rarity": "common",
-      "cost": 3,
-      "stats": {
-        "attack": 7,
-        "health": 7,
-        "armor": 2,
-        "speed": 2
-      },
-      "keywords": [],
-      "sourceTokenId": "1210",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Smoke Yellow",
-        "Skin": "Circle Of Life Common",
-        "Eye": "Light Up My Life",
-        "Creature": "Dead Dragon",
-        "Mouth": "Sting",
-        "Artifacts": "Grimoire",
-        "Armor": "Socks And Jesus Sandals",
-        "Weapons": "Smoked Out",
-        "Faction": "Iron Defenders"
-      },
-      "ability": "Taunt. When this unit is attacked, deal 2 damage to the attacker.",
-      "functionalKeywords": [
-        "GUARD",
-        "TAUNT"
-      ],
-      "isPrimary": true,
-      "sourceCardId": "tcg_1210"
-    },
-    {
-      "id": "tcg_unit_2492",
-      "name": "Crypt - Digital Trading Card #2492",
-      "type": "unit",
-      "faction": "IRON_DEFENDERS",
-      "rarity": "unknown",
-      "cost": 3,
-      "stats": {
-        "attack": 7,
-        "health": 7,
-        "armor": 2,
-        "speed": 2
-      },
-      "keywords": [],
-      "sourceTokenId": "2492",
-      "sourceCardClass": "unit",
-      "sourceSubtype": "hybrid",
-      "rawTraits": {
-        "Background": "Skull Island",
-        "Skin": "Heavy Is The Head",
-        "Eye": "Unimaginable",
-        "Metaverse": "Bipolar",
-        "Mouth": "666 Grill",
-        "Artifacts": "None",
-        "Armor": "Bracers",
-        "Weapons": "Redemption",
-        "Faction": "Iron Defenders"
-      },
-      "ability": "Shield. When this unit takes damage, reduce it by 1.",
-      "functionalKeywords": [
-        "SHIELD"
-      ],
-      "isPrimary": true,
-      "sourceCardId": "tcg_2492"
     },
     {
       "id": "tcg_unit_1281",

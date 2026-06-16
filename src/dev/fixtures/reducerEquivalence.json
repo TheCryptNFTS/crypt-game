@@ -21,10 +21,10 @@
             "tcg_1286",
             "spell_farsight",
             "tcg_615",
-            "tcg_952",
-            "tcg_1866",
-            "tcg_2492",
             "tcg_6250",
+            "tcg_1866",
+            "tcg_2587",
+            "tcg_6038",
             "tcg_3131",
             "tcg_1013",
             "spell_gold_decree",
@@ -39,11 +39,11 @@
             "tcg_2073",
             "tcg_1652",
             "tcg_1356",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1687"
           ],
           "hand": [
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1531",
             "tcg_1457",
             "tcg_1220",
@@ -176,22 +176,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -209,6 +193,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -416,7 +416,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -432,20 +432,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -554,9 +553,9 @@
           "deck": [
             "tcg_1356",
             "tcg_1687",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_3131",
-            "tcg_3668",
+            "tcg_4189",
             "spell_regrow",
             "tcg_1652",
             "spell_bronze_rage",
@@ -564,7 +563,7 @@
             "tcg_1152",
             "tcg_615",
             "tcg_3078",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_3324",
             "tcg_1866",
             "spell_farsight",
@@ -577,8 +576,8 @@
             "tcg_2073"
           ],
           "hand": [
-            "tcg_952",
-            "tcg_2587",
+            "tcg_6250",
+            "tcg_3668",
             "spell_iron_brace",
             "tcg_1531",
             "tcg_1013",
@@ -711,22 +710,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -744,6 +727,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -951,7 +950,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -967,7 +966,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -1114,10 +1113,10 @@
             "tcg_2073",
             "tcg_1286",
             "spell_bronze_rage",
-            "tcg_2492",
+            "tcg_2587",
             "spell_regrow",
             "tcg_1152",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1531",
             "tcg_1592",
             "tcg_3078",
@@ -1129,12 +1128,12 @@
             "tcg_6018",
             "tcg_1457",
             "tcg_1013",
-            "tcg_6250",
-            "tcg_2587",
+            "tcg_6038",
+            "tcg_3668",
             "tcg_1866",
             "spell_gold_decree",
             "tcg_3324",
-            "tcg_952"
+            "tcg_6250"
           ],
           "hand": [
             "spell_grave_dig",
@@ -1270,22 +1269,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -1303,6 +1286,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -1510,7 +1509,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -1526,20 +1525,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -1651,7 +1649,7 @@
             "tcg_1687",
             "tcg_189",
             "tcg_1286",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_3078",
             "tcg_615",
             "tcg_1220",
@@ -1659,10 +1657,10 @@
             "spell_gold_decree",
             "spell_regrow",
             "spell_bronze_rage",
-            "tcg_952",
-            "tcg_1457",
-            "tcg_2587",
             "tcg_6250",
+            "tcg_1457",
+            "tcg_3668",
+            "tcg_6038",
             "tcg_6018",
             "tcg_1013",
             "tcg_1866",
@@ -1677,7 +1675,7 @@
             "spell_iron_brace",
             "tcg_2073",
             "spell_grave_dig",
-            "tcg_3668"
+            "tcg_4189"
           ],
           "discard": [],
           "graveyard": [],
@@ -1805,22 +1803,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -1838,6 +1820,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -2045,7 +2043,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -2061,7 +2059,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -2208,15 +2206,15 @@
           "deck": [
             "tcg_615",
             "tcg_1687",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_3324",
             "tcg_1356",
             "tcg_1592",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1531",
             "spell_gold_decree",
             "tcg_1457",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_3078",
             "tcg_2073",
             "spell_iron_brace",
@@ -2224,11 +2222,11 @@
             "spell_bronze_rage",
             "tcg_189",
             "spell_regrow",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1210",
             "spell_grave_dig",
             "spell_farsight",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_3131"
           ],
           "hand": [
@@ -2413,22 +2411,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -2446,6 +2428,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -2653,7 +2651,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -2669,20 +2667,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -2789,10 +2786,10 @@
           "maxEnergy": 4,
           "commanderId": "cmd_6666",
           "deck": [
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1356",
             "tcg_1286",
-            "tcg_952",
+            "tcg_6250",
             "tcg_615",
             "tcg_1220",
             "tcg_1210",
@@ -2807,7 +2804,7 @@
             "tcg_1013",
             "tcg_3131",
             "tcg_189",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_2073",
             "spell_regrow",
             "tcg_1152",
@@ -2815,10 +2812,10 @@
           ],
           "hand": [
             "tcg_3324",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1457",
             "spell_gold_decree",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_3078",
             "spell_bronze_rage"
           ],
@@ -2948,22 +2945,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -2981,6 +2962,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -3188,7 +3185,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -3204,7 +3201,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -3358,13 +3355,13 @@
           "maxEnergy": 3,
           "commanderId": "cmd_6665",
           "deck": [
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1687",
             "tcg_1866",
             "tcg_1356",
             "tcg_3324",
             "tcg_1220",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1286",
             "tcg_1592",
             "tcg_6018",
@@ -3380,15 +3377,15 @@
             "tcg_1210",
             "tcg_2073",
             "tcg_1013",
-            "tcg_3668",
-            "tcg_2492"
+            "tcg_4189",
+            "tcg_2587"
           ],
           "hand": [
             "tcg_615",
             "tcg_189",
             "tcg_3131",
             "tcg_1457",
-            "tcg_952",
+            "tcg_6250",
             "spell_iron_brace"
           ],
           "discard": [],
@@ -3517,22 +3514,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -3550,6 +3531,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -3757,7 +3754,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -3773,20 +3770,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -3899,16 +3895,16 @@
             "tcg_1457",
             "tcg_1866",
             "tcg_6018",
-            "tcg_6250",
+            "tcg_6038",
             "spell_iron_brace",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_615",
             "tcg_3078",
             "spell_farsight",
             "tcg_1220",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_189",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1687",
             "tcg_1592",
             "tcg_2073",
@@ -3924,7 +3920,7 @@
             "spell_regrow",
             "spell_bronze_rage",
             "tcg_1210",
-            "tcg_952"
+            "tcg_6250"
           ],
           "discard": [],
           "graveyard": [],
@@ -4052,22 +4048,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -4085,6 +4065,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -4292,7 +4288,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -4308,7 +4304,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -4462,30 +4458,30 @@
             "tcg_3131",
             "spell_regrow",
             "tcg_1687",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1356",
             "tcg_1592",
             "spell_gold_decree",
             "spell_iron_brace",
-            "tcg_952",
+            "tcg_6250",
             "tcg_189",
             "tcg_1531",
             "tcg_3324",
             "tcg_3078",
             "tcg_1286",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1652",
             "tcg_1220",
             "spell_grave_dig",
             "tcg_1457",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_615"
           ],
           "hand": [
             "tcg_6018",
             "tcg_2073",
             "tcg_1013",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1866",
             "spell_bronze_rage"
           ],
@@ -4615,22 +4611,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -4648,6 +4628,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -4855,7 +4851,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -4871,20 +4867,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -4997,14 +4992,14 @@
             "tcg_1687",
             "tcg_3078",
             "spell_bronze_rage",
-            "tcg_2492",
-            "tcg_6250",
+            "tcg_2587",
+            "tcg_6038",
             "spell_regrow",
             "tcg_2073",
-            "tcg_952",
+            "tcg_6250",
             "spell_gold_decree",
             "tcg_189",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1592",
             "tcg_1356",
             "tcg_6018",
@@ -5014,7 +5009,7 @@
             "tcg_1220",
             "spell_farsight",
             "spell_iron_brace",
-            "tcg_2587"
+            "tcg_3668"
           ],
           "hand": [
             "tcg_1210",
@@ -5150,22 +5145,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -5183,6 +5162,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -5390,7 +5385,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -5406,7 +5401,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -5546,18 +5541,18 @@
             "tcg_1210",
             "tcg_3324",
             "spell_iron_brace",
-            "tcg_6250",
+            "tcg_6038",
             "spell_regrow",
             "tcg_1013",
             "tcg_3078",
             "tcg_1592",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1457",
             "tcg_615",
             "tcg_1286",
             "tcg_1531",
-            "tcg_3668",
-            "tcg_2492",
+            "tcg_4189",
+            "tcg_2587",
             "spell_farsight",
             "tcg_1866",
             "tcg_1687",
@@ -5565,7 +5560,7 @@
             "tcg_189",
             "spell_grave_dig",
             "spell_gold_decree",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_3131"
           ],
           "hand": [
@@ -5702,22 +5697,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -5735,6 +5714,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -5942,7 +5937,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -5958,20 +5953,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -6080,21 +6074,21 @@
           "deck": [
             "tcg_1210",
             "spell_farsight",
-            "tcg_2587",
+            "tcg_3668",
             "spell_gold_decree",
             "tcg_189",
             "tcg_1652",
             "tcg_1286",
             "tcg_615",
             "spell_bronze_rage",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_3131",
             "tcg_1013",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1220",
             "spell_regrow",
-            "tcg_952",
-            "tcg_2492",
+            "tcg_6250",
+            "tcg_2587",
             "tcg_1152",
             "tcg_3078",
             "tcg_1687",
@@ -6237,22 +6231,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -6270,6 +6248,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -6477,7 +6471,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -6493,7 +6487,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -6635,13 +6629,13 @@
             "spell_farsight",
             "tcg_3078",
             "tcg_1457",
-            "tcg_2587",
+            "tcg_3668",
             "spell_iron_brace",
             "tcg_615",
             "tcg_2073",
             "tcg_1866",
             "tcg_189",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1356",
             "spell_bronze_rage",
             "tcg_1531",
@@ -6652,7 +6646,7 @@
             "tcg_1687",
             "tcg_6018",
             "tcg_1286",
-            "tcg_3668",
+            "tcg_4189",
             "spell_gold_decree"
           ],
           "hand": [
@@ -6660,8 +6654,8 @@
             "spell_regrow",
             "tcg_1220",
             "spell_grave_dig",
-            "tcg_952",
-            "tcg_2492"
+            "tcg_6250",
+            "tcg_2587"
           ],
           "discard": [],
           "graveyard": [],
@@ -6808,22 +6802,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -6841,6 +6819,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -7048,7 +7042,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -7064,20 +7058,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -7186,14 +7179,14 @@
           "deck": [
             "tcg_1592",
             "spell_iron_brace",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1356",
             "tcg_615",
             "tcg_1210",
-            "tcg_2587",
-            "tcg_1866",
-            "tcg_2492",
             "tcg_3668",
+            "tcg_1866",
+            "tcg_2587",
+            "tcg_4189",
             "tcg_189",
             "tcg_3324",
             "spell_regrow",
@@ -7207,7 +7200,7 @@
             "tcg_1220",
             "tcg_1687",
             "spell_grave_dig",
-            "tcg_6250"
+            "tcg_6038"
           ],
           "hand": [
             "tcg_1013",
@@ -7343,22 +7336,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -7376,6 +7353,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -7583,7 +7576,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -7599,7 +7592,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -7749,7 +7742,7 @@
             "spell_bronze_rage",
             "tcg_1592",
             "spell_farsight",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_2073",
             "tcg_189",
             "tcg_1013",
@@ -7758,7 +7751,7 @@
             "tcg_1687",
             "tcg_1457",
             "tcg_615",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_3078",
             "tcg_1652",
             "tcg_1356",
@@ -7766,12 +7759,12 @@
             "tcg_6018",
             "spell_regrow",
             "tcg_1210",
-            "tcg_952",
+            "tcg_6250",
             "tcg_3324"
           ],
           "hand": [
-            "tcg_6250",
-            "tcg_2492",
+            "tcg_6038",
+            "tcg_2587",
             "tcg_1866",
             "tcg_1531",
             "tcg_1220",
@@ -7925,22 +7918,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -7958,6 +7935,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -8165,7 +8158,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -8181,20 +8174,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -8303,10 +8295,10 @@
           "deck": [
             "tcg_3078",
             "tcg_1866",
-            "tcg_6250",
+            "tcg_6038",
             "spell_bronze_rage",
             "tcg_1592",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_189",
             "tcg_1687",
             "tcg_1356",
@@ -8317,7 +8309,7 @@
             "tcg_3131",
             "spell_gold_decree",
             "tcg_1531",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_2073",
             "tcg_1652",
             "tcg_1152",
@@ -8328,8 +8320,8 @@
           ],
           "hand": [
             "tcg_1210",
-            "tcg_952",
-            "tcg_2587",
+            "tcg_6250",
+            "tcg_3668",
             "tcg_1286",
             "spell_farsight",
             "spell_grave_dig"
@@ -8467,22 +8459,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -8500,6 +8476,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -8707,7 +8699,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -8723,7 +8715,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -8876,25 +8868,25 @@
             "tcg_189",
             "tcg_3131",
             "tcg_1286",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1013",
             "tcg_1687",
             "spell_farsight",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1152",
             "tcg_1652",
             "tcg_1457",
-            "tcg_3668",
+            "tcg_4189",
             "spell_iron_brace",
             "spell_grave_dig",
             "tcg_6018",
             "tcg_1220",
-            "tcg_6250"
+            "tcg_6038"
           ],
           "hand": [
             "spell_gold_decree",
             "tcg_1531",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1356",
             "spell_bronze_rage",
             "tcg_1592"
@@ -9032,22 +9024,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -9065,6 +9041,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -9272,7 +9264,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -9288,20 +9280,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -9408,9 +9399,9 @@
           "maxEnergy": 3,
           "commanderId": "cmd_6666",
           "deck": [
-            "tcg_952",
+            "tcg_6250",
             "tcg_1356",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1286",
             "tcg_6018",
             "tcg_3324",
@@ -9431,13 +9422,13 @@
             "spell_iron_brace",
             "spell_bronze_rage",
             "tcg_1866",
-            "tcg_6250"
+            "tcg_6038"
           ],
           "hand": [
             "tcg_1531",
             "tcg_1152",
-            "tcg_2492",
             "tcg_2587",
+            "tcg_3668",
             "tcg_1013",
             "tcg_1210"
           ],
@@ -9574,22 +9565,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -9607,6 +9582,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -9814,7 +9805,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -9830,7 +9821,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -9974,25 +9965,25 @@
           "commanderId": "cmd_6665",
           "deck": [
             "tcg_1531",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1210",
             "tcg_1013",
             "tcg_2073",
             "tcg_1286",
             "tcg_1687",
             "tcg_1356",
-            "tcg_6250",
+            "tcg_6038",
             "spell_gold_decree",
             "tcg_3131",
             "spell_iron_brace",
             "spell_grave_dig",
-            "tcg_3668",
+            "tcg_4189",
             "spell_regrow",
             "tcg_6018",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1592",
             "tcg_1652",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1866",
             "spell_bronze_rage",
             "tcg_3324",
@@ -10146,22 +10137,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -10179,6 +10154,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -10386,7 +10377,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -10402,20 +10393,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -10525,7 +10515,7 @@
             "spell_iron_brace",
             "tcg_1687",
             "tcg_1652",
-            "tcg_952",
+            "tcg_6250",
             "tcg_3131",
             "tcg_1356",
             "spell_gold_decree",
@@ -10533,7 +10523,7 @@
             "tcg_6018",
             "tcg_1013",
             "tcg_3078",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1220",
             "tcg_1152",
             "spell_farsight",
@@ -10542,10 +10532,10 @@
             "tcg_2073",
             "spell_bronze_rage",
             "tcg_189",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1286",
             "tcg_1592",
-            "tcg_6250"
+            "tcg_6038"
           ],
           "hand": [
             "tcg_3324",
@@ -10553,7 +10543,7 @@
             "tcg_615",
             "tcg_1210",
             "tcg_1457",
-            "tcg_3668"
+            "tcg_4189"
           ],
           "discard": [],
           "graveyard": [],
@@ -10681,22 +10671,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -10714,6 +10688,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -10921,7 +10911,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -10937,7 +10927,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -11079,11 +11069,11 @@
             "spell_bronze_rage",
             "spell_gold_decree",
             "tcg_1220",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1457",
             "tcg_1013",
             "tcg_3324",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1356",
             "tcg_615",
             "tcg_1652",
@@ -11091,10 +11081,10 @@
             "tcg_2073",
             "tcg_189",
             "tcg_1152",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_3131",
-            "tcg_3668",
-            "tcg_952",
+            "tcg_4189",
+            "tcg_6250",
             "spell_farsight",
             "tcg_3078",
             "spell_regrow"
@@ -11233,22 +11223,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -11266,6 +11240,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -11473,7 +11463,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -11489,20 +11479,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -11610,9 +11599,9 @@
           "commanderId": "cmd_6666",
           "deck": [],
           "hand": [
-            "tcg_3668",
+            "tcg_4189",
             "spell_regrow",
-            "tcg_952",
+            "tcg_6250",
             "spell_gold_decree",
             "tcg_1687",
             "tcg_1013"
@@ -11743,22 +11732,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -11776,6 +11749,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -11983,7 +11972,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -11999,7 +11988,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -12149,11 +12138,11 @@
             "spell_farsight",
             "tcg_1531",
             "spell_bronze_rage",
-            "tcg_3668",
-            "tcg_6250",
+            "tcg_4189",
+            "tcg_6038",
             "tcg_2073",
             "spell_iron_brace",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1592",
             "tcg_1152",
             "spell_regrow",
@@ -12162,7 +12151,7 @@
             "tcg_1687",
             "spell_gold_decree",
             "tcg_1356",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1866",
             "tcg_189",
             "tcg_1220",
@@ -12175,7 +12164,7 @@
             "tcg_3131",
             "tcg_3078",
             "spell_grave_dig",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_615"
           ],
           "discard": [
@@ -12325,22 +12314,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -12358,6 +12331,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -12565,7 +12554,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -12581,20 +12570,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -12719,20 +12707,20 @@
             "tcg_3131",
             "tcg_3078",
             "tcg_6018",
-            "tcg_2587",
-            "tcg_952",
             "tcg_3668",
+            "tcg_6250",
+            "tcg_4189",
             "tcg_189",
             "tcg_3324",
             "tcg_1286"
           ],
           "hand": [
             "tcg_1866",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1687",
             "spell_bronze_rage",
             "tcg_1220",
-            "tcg_2492"
+            "tcg_2587"
           ],
           "discard": [],
           "graveyard": [],
@@ -12860,22 +12848,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -12893,6 +12865,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -13100,7 +13088,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -13116,7 +13104,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -13267,10 +13255,10 @@
           "maxEnergy": 3,
           "commanderId": "cmd_6665",
           "deck": [
-            "tcg_2587",
+            "tcg_3668",
             "tcg_3324",
             "spell_iron_brace",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_2073",
             "tcg_1220",
             "tcg_1286",
@@ -13287,9 +13275,9 @@
             "tcg_1866",
             "tcg_189",
             "tcg_1356",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_3078",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1152"
           ],
           "hand": [
@@ -13297,7 +13285,7 @@
             "tcg_1652",
             "tcg_6018",
             "tcg_1531",
-            "tcg_952",
+            "tcg_6250",
             "spell_regrow",
             "spell_grave_dig"
           ],
@@ -13427,22 +13415,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -13460,6 +13432,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -13667,7 +13655,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -13683,20 +13671,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -13808,16 +13795,16 @@
             "spell_grave_dig",
             "tcg_189",
             "tcg_3078",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1286",
             "tcg_1652",
             "tcg_1356",
             "spell_farsight",
             "spell_regrow",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1013",
             "tcg_1592",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_615",
             "tcg_1152",
             "spell_gold_decree",
@@ -13829,10 +13816,10 @@
             "tcg_1866"
           ],
           "hand": [
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1531",
             "spell_iron_brace",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1687",
             "tcg_1220"
           ],
@@ -13976,22 +13963,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -14009,6 +13980,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -14216,7 +14203,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -14232,7 +14219,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -14377,11 +14364,11 @@
             "tcg_189",
             "tcg_1592",
             "tcg_1866",
-            "tcg_3668",
+            "tcg_4189",
             "spell_grave_dig",
             "spell_gold_decree",
-            "tcg_952",
-            "tcg_2587",
+            "tcg_6250",
+            "tcg_3668",
             "tcg_1152",
             "tcg_1013",
             "tcg_1210",
@@ -14397,10 +14384,10 @@
           "hand": [
             "tcg_3399",
             "tcg_2073",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1356",
             "tcg_1220",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_6018"
           ],
           "discard": [],
@@ -14529,22 +14516,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -14562,6 +14533,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -14769,7 +14756,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -14785,20 +14772,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -14907,7 +14893,7 @@
           "deck": [
             "tcg_189",
             "spell_bronze_rage",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1687",
             "tcg_2073",
             "tcg_1220",
@@ -14916,9 +14902,9 @@
             "tcg_3078",
             "tcg_1592",
             "tcg_1210",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1013",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1652",
             "spell_grave_dig",
             "tcg_3131",
@@ -14930,12 +14916,12 @@
             "spell_gold_decree"
           ],
           "hand": [
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1152",
             "tcg_1356",
             "tcg_615",
             "tcg_1286",
-            "tcg_2587",
+            "tcg_3668",
             "spell_regrow"
           ],
           "discard": [],
@@ -15064,22 +15050,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -15097,6 +15067,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -15304,7 +15290,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -15320,7 +15306,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -15471,7 +15457,7 @@
             "tcg_189",
             "tcg_1013",
             "tcg_3078",
-            "tcg_6250",
+            "tcg_6038",
             "spell_bronze_rage",
             "spell_farsight",
             "tcg_1220",
@@ -15484,14 +15470,14 @@
             "tcg_1687",
             "tcg_1356",
             "tcg_1531",
-            "tcg_2492",
+            "tcg_2587",
             "spell_regrow",
             "tcg_2073",
-            "tcg_2587",
-            "tcg_952",
+            "tcg_3668",
+            "tcg_6250",
             "tcg_3131",
             "spell_grave_dig",
-            "tcg_3668"
+            "tcg_4189"
           ],
           "hand": [
             "tcg_1866",
@@ -15627,22 +15613,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -15660,6 +15630,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -15867,7 +15853,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -15883,20 +15869,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -16010,7 +15995,7 @@
             "tcg_1356",
             "spell_regrow",
             "tcg_1531",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1152",
             "tcg_3131",
             "spell_grave_dig",
@@ -16019,21 +16004,21 @@
             "tcg_615",
             "tcg_3078",
             "tcg_1220",
-            "tcg_3668",
+            "tcg_4189",
             "spell_farsight",
             "spell_iron_brace",
             "tcg_6018",
             "spell_gold_decree",
             "tcg_1687",
-            "tcg_2587",
-            "tcg_2492"
+            "tcg_3668",
+            "tcg_2587"
           ],
           "hand": [
             "tcg_189",
             "tcg_3324",
             "tcg_1457",
             "tcg_1652",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1013"
           ],
           "discard": [],
@@ -16162,22 +16147,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -16195,6 +16164,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -16402,7 +16387,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -16418,7 +16403,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -16556,7 +16541,7 @@
           "commanderId": "cmd_6665",
           "deck": [
             "tcg_189",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_2073",
             "tcg_1210",
             "tcg_1220",
@@ -16571,20 +16556,20 @@
             "tcg_6018",
             "tcg_1286",
             "tcg_1013",
-            "tcg_952",
+            "tcg_6250",
             "tcg_1531",
             "spell_bronze_rage",
             "spell_gold_decree",
             "spell_grave_dig",
-            "tcg_3668",
+            "tcg_4189",
             "spell_iron_brace",
             "spell_regrow"
           ],
           "hand": [
             "tcg_1592",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1866",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_3078",
             "tcg_1152"
           ],
@@ -16714,22 +16699,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -16747,6 +16716,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -16954,7 +16939,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -16970,20 +16955,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -17093,7 +17077,7 @@
             "tcg_3324",
             "tcg_615",
             "tcg_3078",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1220",
             "tcg_1687",
             "tcg_1866",
@@ -17104,12 +17088,12 @@
             "tcg_1286",
             "tcg_1457",
             "tcg_1013",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_2073",
-            "tcg_2492",
+            "tcg_2587",
             "spell_gold_decree",
+            "tcg_6038",
             "tcg_6250",
-            "tcg_952",
             "tcg_1531",
             "spell_regrow",
             "tcg_1210",
@@ -17249,22 +17233,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -17282,6 +17250,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -17489,7 +17473,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -17505,7 +17489,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -17652,24 +17636,24 @@
             "tcg_1210",
             "tcg_3078",
             "tcg_1652",
-            "tcg_952",
+            "tcg_6250",
             "tcg_3324",
             "tcg_615",
             "tcg_1152",
             "tcg_1220",
             "spell_iron_brace",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_3131",
             "spell_gold_decree",
             "tcg_6018",
             "spell_bronze_rage",
             "tcg_1592",
-            "tcg_2492",
-            "tcg_2587"
+            "tcg_2587",
+            "tcg_3668"
           ],
           "hand": [
             "spell_grave_dig",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1286",
             "tcg_189",
             "tcg_1866",
@@ -17838,22 +17822,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -17871,6 +17839,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -18078,7 +18062,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -18094,20 +18078,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -18215,11 +18198,11 @@
           "commanderId": "cmd_6666",
           "deck": [
             "tcg_1866",
-            "tcg_952",
-            "tcg_1652",
-            "tcg_2587",
-            "tcg_6018",
             "tcg_6250",
+            "tcg_1652",
+            "tcg_3668",
+            "tcg_6018",
+            "tcg_6038",
             "spell_iron_brace",
             "tcg_1286",
             "spell_farsight",
@@ -18232,7 +18215,7 @@
             "spell_bronze_rage",
             "tcg_1356",
             "tcg_2073",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_3078",
             "tcg_3131",
             "tcg_1220",
@@ -18241,7 +18224,7 @@
           ],
           "hand": [
             "tcg_3324",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1210",
             "spell_regrow",
             "tcg_615",
@@ -18373,22 +18356,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -18406,6 +18373,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -18613,7 +18596,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -18629,7 +18612,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -18781,18 +18764,18 @@
             "tcg_1356",
             "spell_gold_decree",
             "tcg_1652",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1220",
             "spell_farsight",
             "tcg_6018",
             "tcg_3324",
             "spell_iron_brace",
             "tcg_1531",
-            "tcg_2492",
-            "tcg_1866",
             "tcg_2587",
-            "tcg_189",
+            "tcg_1866",
             "tcg_3668",
+            "tcg_189",
+            "tcg_4189",
             "tcg_1013",
             "spell_grave_dig",
             "tcg_615",
@@ -18800,7 +18783,7 @@
             "tcg_1457",
             "tcg_3131",
             "spell_bronze_rage",
-            "tcg_952"
+            "tcg_6250"
           ],
           "hand": [
             "tcg_1592",
@@ -18959,22 +18942,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -18992,6 +18959,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -19199,7 +19182,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -19215,20 +19198,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -19339,7 +19321,7 @@
             "tcg_1592",
             "tcg_1210",
             "tcg_3324",
-            "tcg_6250",
+            "tcg_6038",
             "spell_grave_dig",
             "spell_bronze_rage",
             "spell_gold_decree",
@@ -19355,18 +19337,18 @@
             "tcg_1866",
             "tcg_1457",
             "tcg_615",
-            "tcg_952",
+            "tcg_6250",
             "tcg_2073",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_1531"
           ],
           "hand": [
             "tcg_3078",
             "tcg_1220",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1652",
             "tcg_3131",
-            "tcg_2492"
+            "tcg_2587"
           ],
           "discard": [],
           "graveyard": [],
@@ -19514,22 +19496,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -19547,6 +19513,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -19754,7 +19736,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -19770,7 +19752,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -19917,14 +19899,14 @@
             "tcg_6018",
             "tcg_1220",
             "tcg_615",
-            "tcg_6250",
+            "tcg_6038",
             "spell_bronze_rage",
+            "tcg_3668",
             "tcg_2587",
-            "tcg_2492",
             "tcg_2073",
             "spell_grave_dig",
-            "tcg_3668",
-            "tcg_952",
+            "tcg_4189",
+            "tcg_6250",
             "tcg_3324",
             "spell_farsight",
             "tcg_1866",
@@ -20176,22 +20158,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -20209,6 +20175,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -20416,7 +20398,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -20432,20 +20414,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -20552,16 +20533,16 @@
           "maxEnergy": 6,
           "commanderId": "cmd_6666",
           "deck": [
-            "tcg_6250",
+            "tcg_6038",
             "tcg_615",
             "tcg_1286",
             "tcg_3131",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_6018",
             "spell_grave_dig",
             "tcg_1152",
             "tcg_1652",
-            "tcg_2492",
+            "tcg_2587",
             "spell_bronze_rage",
             "spell_gold_decree",
             "tcg_1356",
@@ -20577,8 +20558,8 @@
           "hand": [
             "tcg_1687",
             "tcg_1866",
-            "tcg_952",
-            "tcg_2587",
+            "tcg_6250",
+            "tcg_3668",
             "tcg_2073",
             "spell_iron_brace"
           ],
@@ -20865,22 +20846,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -20898,6 +20863,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -21105,7 +21086,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -21121,7 +21102,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -21394,8 +21375,8 @@
             "tcg_2073",
             "spell_farsight",
             "tcg_3131",
-            "tcg_2492",
-            "tcg_6250",
+            "tcg_2587",
+            "tcg_6038",
             "tcg_189",
             "tcg_1220",
             "tcg_1866",
@@ -21404,9 +21385,9 @@
             "tcg_1457",
             "tcg_1531",
             "tcg_1592",
-            "tcg_952",
+            "tcg_6250",
             "spell_iron_brace",
-            "tcg_3668",
+            "tcg_4189",
             "tcg_3324",
             "spell_grave_dig",
             "tcg_1652"
@@ -21504,9 +21485,9 @@
               },
               {
                 "instanceId": "unit_2002_8",
-                "cardId": "tcg_2587",
+                "cardId": "tcg_3668",
                 "lane": "front",
-                "attack": 3,
+                "attack": 2,
                 "health": 2,
                 "maxHealth": 2,
                 "speed": 0,
@@ -21516,7 +21497,7 @@
                 ],
                 "exhausted": false,
                 "summoningSick": false,
-                "rarity": "COMMON",
+                "rarity": "RARE",
                 "crit": 0,
                 "utility": 1,
                 "commanderTags": [],
@@ -21773,22 +21754,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -21806,6 +21771,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -22013,7 +21994,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -22029,20 +22010,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -22155,20 +22135,20 @@
             "tcg_1286",
             "tcg_1592",
             "tcg_1457",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_615",
-            "tcg_2492",
+            "tcg_2587",
             "spell_grave_dig",
-            "tcg_952",
+            "tcg_6250",
             "spell_farsight",
             "tcg_3078",
             "tcg_1687",
             "tcg_1531",
             "tcg_1652",
             "spell_regrow",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1356",
-            "tcg_3668"
+            "tcg_4189"
           ],
           "hand": [
             "tcg_1866",
@@ -22380,22 +22360,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -22413,6 +22377,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -22620,7 +22600,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -22636,7 +22616,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },
@@ -22912,7 +22892,7 @@
       {
         "type": "UNIT_PLAYED",
         "player": "P1",
-        "cardId": "tcg_2587",
+        "cardId": "tcg_3668",
         "lane": "front"
       },
       {
@@ -23041,12 +23021,12 @@
           "commanderId": "cmd_6665",
           "deck": [
             "tcg_1866",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_3078",
             "tcg_1356",
             "tcg_189",
             "tcg_6018",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1531",
             "spell_bronze_rage",
             "tcg_2073",
@@ -23060,14 +23040,14 @@
             "tcg_1687",
             "spell_grave_dig",
             "tcg_1286",
-            "tcg_3668",
-            "tcg_952",
+            "tcg_4189",
+            "tcg_6250",
             "spell_iron_brace",
             "tcg_1592"
           ],
           "hand": [
             "spell_farsight",
-            "tcg_2492",
+            "tcg_2587",
             "tcg_1220",
             "tcg_3324",
             "tcg_3131"
@@ -23247,22 +23227,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -23280,6 +23244,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -23487,7 +23467,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -23503,20 +23483,19 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
-                "attack": 1,
                 "utility": 1
               },
               "reasons": [
-                "Keyword:Divine Shield"
+                "Shared category: Keyword"
               ],
               "extraTags": [],
               "extraPassives": [],
-              "exactTraitMatches": [
-                "Keyword:Divine Shield"
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
               ],
-              "categoryMatches": [],
               "nameMatch": false,
               "factionMatch": false
             },
@@ -23627,10 +23606,10 @@
             "tcg_3324",
             "tcg_1866",
             "tcg_615",
-            "tcg_2587",
+            "tcg_3668",
             "tcg_1210",
-            "tcg_952",
-            "tcg_2492",
+            "tcg_6250",
+            "tcg_2587",
             "tcg_1531",
             "spell_grave_dig",
             "tcg_1652",
@@ -23649,9 +23628,9 @@
             "tcg_1457"
           ],
           "hand": [
-            "tcg_3668",
+            "tcg_4189",
             "spell_regrow",
-            "tcg_6250",
+            "tcg_6038",
             "tcg_1687",
             "tcg_1013",
             "tcg_3078"
@@ -23782,22 +23761,6 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_2492": {
-              "bonus": {
-                "utility": 1
-              },
-              "reasons": [
-                "Shared category: Keyword"
-              ],
-              "extraTags": [],
-              "extraPassives": [],
-              "exactTraitMatches": [],
-              "categoryMatches": [
-                "Keyword"
-              ],
-              "nameMatch": false,
-              "factionMatch": false
-            },
             "tcg_2587": {
               "bonus": {
                 "utility": 1
@@ -23815,6 +23778,22 @@
               "factionMatch": false
             },
             "tcg_3668": {
+              "bonus": {
+                "utility": 1
+              },
+              "reasons": [
+                "Shared category: Keyword"
+              ],
+              "extraTags": [],
+              "extraPassives": [],
+              "exactTraitMatches": [],
+              "categoryMatches": [
+                "Keyword"
+              ],
+              "nameMatch": false,
+              "factionMatch": false
+            },
+            "tcg_4189": {
               "bonus": {
                 "utility": 1
               },
@@ -24022,7 +24001,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_6250": {
+            "tcg_6038": {
               "bonus": {
                 "utility": 1
               },
@@ -24038,7 +24017,7 @@
               "nameMatch": false,
               "factionMatch": false
             },
-            "tcg_952": {
+            "tcg_6250": {
               "bonus": {
                 "utility": 1
               },

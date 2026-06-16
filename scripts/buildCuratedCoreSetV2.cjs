@@ -232,6 +232,50 @@ const UNIT_DRAFT_CEILING = 14.3;
 // source JSON (out of scope). So GOLD stays EXEMPT — compression is pursued via the
 // IRON identity buff (lifting the floor faction) instead. GODS stay exempt as always.
 const CEILING_EXEMPT = new Set([GOD, "GOLDEN_SOVEREIGNS"]);
+
+// IRON IDENTITY BUFF (2026.06.16 floor-faction lift) ------------------------
+// IRON_DEFENDERS sat at the BOTTOM of the seat-bias-corrected matchup ladder
+// (~43.8% vs the field's 49-54%) — its Fortress/GUARD bodies score low on the
+// sim's draft metric (armor-heavy, attack-light), so the shared 13.5 band kept
+// its curated top-30 at the same power as everyone else while its profile lost
+// the head-to-head. A whole-band raise was tried first and REJECTED: it is
+// BIMODAL — at the shared target IRON sits at 0.438, and the smallest nudge that
+// admits its next power-cluster snaps the entire curated set up and IRON jumps to
+// ~0.75 (now oppressive). There is no target value in between (the bodies cluster
+// discretely), so a single band knob cannot land the 47-52% window.
+//
+// The working lever is PARTIAL ADMISSION: keep IRON's FILL units on the same fair
+// shared band as every other faction (so the bulk of its deck is not buffed), and
+// inject a small, COUNTABLE number of its strongest already-legal Fortress bodies
+// as "elite" picks above the band. The count (FACTION_ELITE_UNITS) is the tuning
+// knob — each elite body the sim drafts lifts IRON a controllable amount, so the
+// win rate moves continuously instead of snapping. Selection-only: no source card
+// is restatted, so the outlier sweep + alpha gate (which read the unbounded source
+// JSON) are unaffected, and the FILL cards stay banded so IRON isn't globally
+// stronger — it just gets a few signature Fortress finishers. IRON's ceiling is
+// lifted only so those elite bodies survive the pool filter; the band sort still
+// keeps them out of the FILL picks (they sort far from the 13.5 target). Other
+// factions are untouched; GOLD/GODS stay ceiling-exempt as before.
+const FACTION_BAND_TARGET = {}; // IRON's fill stays on the shared band (fair).
+const FACTION_DRAFT_CEILING = {}; // IRON's FILL keeps the normal ceiling; only the
+                                  // elite path (below) bypasses it, so the bulk of
+                                  // the deck stays capped like every other faction.
+// Tuned against the seat-bias-corrected matchup sim: 3 finishers capped at draft-
+// power 14.4 lands IRON at 0.499 (dead-centre of the 47-52% target) and TIGHTENS the
+// whole field to 0.469-0.524 (spread 0.055, was 0.102 with IRON the lone 0.438
+// laggard). More/stronger finishers overshoot; fewer leave IRON short — see the
+// sweep in the commit message. Env-overridable for re-tuning.
+const FACTION_ELITE_UNITS = { IRON_DEFENDERS: Number(process.env.IRON_ELITE ?? 3) };
+// Elite finishers are capped to a power window just above the shared band (not the
+// faction's absolute monster tail) so each one is a measured lift, not a blowout.
+const FACTION_ELITE_CEILING = { IRON_DEFENDERS: Number(process.env.IRON_ELITE_CEIL ?? 14.4) };
+function bandTargetFor(faction) {
+  return FACTION_BAND_TARGET[faction] ?? UNIT_BAND_TARGET;
+}
+function draftCeilingFor(faction) {
+  return FACTION_DRAFT_CEILING[faction] ?? UNIT_DRAFT_CEILING;
+}
+
 function simDraftPower(card) {
   const stats = statBlock(card);
   return (
@@ -248,13 +292,15 @@ function simDraftPower(card) {
 // the band never reshapes the premium god slots.
 function bandDistance(card) {
   if (card.type !== "unit" || card.faction === GOD) return 0;
-  return Math.abs(simDraftPower(card) - UNIT_BAND_TARGET);
+  return Math.abs(simDraftPower(card) - bandTargetFor(card.faction));
 }
 // Above the cross-faction ceiling? Units only, and never for the exempt factions
 // (GODS, GOLDEN_SOVEREIGNS — see the GOLD SHAVE note above for why GOLD stays exempt).
+// IRON uses a raised ceiling (see IRON IDENTITY BUFF above) so its stronger
+// Fortress tail survives selection.
 function isAboveDraftCeiling(card) {
   if (card.type !== "unit" || CEILING_EXEMPT.has(card.faction)) return false;
-  return simDraftPower(card) > UNIT_DRAFT_CEILING;
+  return simDraftPower(card) > draftCeilingFor(card.faction);
 }
 
 function baseScore(card) {
@@ -403,6 +449,46 @@ function takeFactionCards(pool, faction, count, preferredCosts) {
   return picked;
 }
 
+// Units selection with optional ELITE injection (see IRON IDENTITY BUFF). For a
+// faction in FACTION_ELITE_UNITS, the strongest N already-legal bodies (raw
+// draft-power, identity-tie-broken) are taken as above-band finishers, then the
+// remaining slots are band-filled normally — so the bulk of the deck stays on the
+// fair shared band and only N signature finishers ride above it. eliteN===0 (every
+// other faction) is exactly the old takeFactionCards path.
+function takeFactionUnits(pool, faction, count, preferredCosts) {
+  const eliteN = FACTION_ELITE_UNITS[faction] || 0;
+  if (eliteN <= 0) return takeFactionCards(pool, faction, count, preferredCosts);
+
+  // Elite pool bypasses ONLY the draft-power ceiling (the band cap) — it still
+  // honours every legality/quality filter — so stronger Fortress bodies become
+  // eligible as finishers while the fill stays capped. Capped to the elite-power
+  // window so the finishers are a measured lift, not the faction's monster tail.
+  const eliteCeil = FACTION_ELITE_CEILING[faction] ?? Infinity;
+  const elitePool = dedupeByName(
+    pool
+      .filter((c) => c.faction === faction)
+      .filter((c) => !isBrokenCheapUnit(c))
+      .filter((c) => !isDisabledCard(c))
+      .filter((c) => simDraftPower(c) <= eliteCeil)
+  );
+  const elite = elitePool
+    .sort(
+      (a, b) =>
+        simDraftPower(b) - simDraftPower(a) ||
+        identityBonus(b, faction) - identityBonus(a, faction) ||
+        String(a.id).localeCompare(String(b.id))
+    )
+    .slice(0, Math.min(eliteN, count));
+  const eliteIds = new Set(elite.map((c) => c.id));
+  const fill = takeFactionCards(
+    pool.filter((c) => !eliteIds.has(c.id)),
+    faction,
+    count - elite.length,
+    preferredCosts
+  );
+  return [...elite, ...fill];
+}
+
 // Less insane curve. Old one was poisoning the pool. Per-faction curves (above)
 // override this for units; this is the fallback when a faction has no identity.
 const unitCurve = [2,2,2,2,3,3,3,3,3,4,4,4,4,5];
@@ -415,7 +501,7 @@ const curatedArtifacts = [];
 
 for (const faction of FACTIONS) {
   const curve = (FACTION_IDENTITY[faction] && FACTION_IDENTITY[faction].curve) || unitCurve;
-  curatedUnits.push(...takeFactionCards(units, faction, UNITS_PER_FACTION, curve));
+  curatedUnits.push(...takeFactionUnits(units, faction, UNITS_PER_FACTION, curve));
   curatedEquipment.push(...takeFactionCards(equipment, faction, EQUIPMENT_PER_FACTION, equipmentCurve));
   curatedArtifacts.push(...takeFactionCards(artifacts, faction, ARTIFACTS_PER_FACTION, artifactCurve));
 }
