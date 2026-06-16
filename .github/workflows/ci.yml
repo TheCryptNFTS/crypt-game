@@ -23,22 +23,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck
-        run: npx tsc --noEmit
-
-      # The existing proof scripts that form the engine gate. Each exits non-zero
-      # on failure, so any regression fails the job.
-      - name: Determinism proof
-        run: npm run dev:determinism
-
-      - name: Legality proof
-        run: npm run dev:legality
-
-      - name: Regression suite
-        run: npm run dev:regression
-
-      - name: Behavioral coverage
-        run: npm run dev:behavioral-coverage
-
-      - name: Unit tests (vitest)
-        run: npx vitest run
+      # ONE canonical gate (package.json `verify` = tsc + the dev:* proof suite +
+      # combat-parity + vitest). Same command a developer runs locally, so the
+      # engine's 50+ proof scripts can never silently rot opt-in — CI and local
+      # share a single source of truth. Each proof exits non-zero on failure.
+      - name: Verify (typecheck + proofs + tests)
+        run: npm run verify

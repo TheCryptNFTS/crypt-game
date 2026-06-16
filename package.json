@@ -6,6 +6,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:proofs": "npm run dev:determinism && npm run dev:legality && npm run dev:regression && npm run dev:behavioral-coverage && npm run dev:combat-parity",
+    "verify": "npx tsc --noEmit && npm run test:proofs && npm run test",
     "dev": "vite",
     "sync:engine": "node scripts/sync-engine.mjs",
     "build": "vite build",
