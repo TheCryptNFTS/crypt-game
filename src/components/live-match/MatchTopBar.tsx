@@ -20,6 +20,10 @@ type Props = {
    *  becomes a click target so the player can attack face by clicking it. */
   enemyHexTargetable?: boolean;
   onAttackEnemyHex?: () => void;
+  /** THE SURGE (#4 — the "Snap" beat). `canSurge` gates the once-per-match all-in
+   *  button; `onSurge` fires it. Both absent for spectators / when the ruleset is off. */
+  canSurge?: boolean;
+  onSurge?: () => void;
 };
 
 export function MatchTopBar({
@@ -35,7 +39,9 @@ export function MatchTopBar({
   ownNexusHit,
   enemyNexusHit,
   enemyHexTargetable,
-  onAttackEnemyHex
+  onAttackEnemyHex,
+  canSurge,
+  onSurge
 }: Props) {
   const youActive = activePlayer === "P1";
 
@@ -187,6 +193,15 @@ export function MatchTopBar({
           >
             Reset Match
           </button>
+          {canSurge && onSurge ? (
+            <button
+              className="live-btn live-btn--surge"
+              onClick={onSurge}
+              title="SURGE — once per match: +2 energy now and ready your whole side for an all-in attack this turn."
+            >
+              ⟡ Surge
+            </button>
+          ) : null}
           <button className="live-btn live-btn--primary" onClick={onEndTurn}>
             End Turn
             {readyRipple(3)}

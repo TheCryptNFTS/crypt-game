@@ -195,6 +195,14 @@ export interface PlayerState {
   energy: number;
   maxEnergy: number;
   commanderId: string;
+  /**
+   * THE SURGE once-per-match guard (#4 — the "Snap" beat). Set true the first time
+   * this player issues a SURGE; subsequent SURGEs reject-soft (`surge-already-used`).
+   * ABSENT (undefined) by default, so a vanilla match and the reducer-equivalence
+   * golden JSON stay byte-identical (undefined survives structuredClone; the Surge
+   * hook is a clean no-op without the `rules.surge` flag, and no scenario surges).
+   */
+  surgeUsed?: boolean;
   deck: string[];
   hand: string[];
   discard: string[];
@@ -449,6 +457,19 @@ export interface MatchRules {
    * identical (undefined survives structuredClone; the hook is a clean no-op).
    */
   traitResonance?: boolean;
+  /**
+   * THE SURGE (#4 — the "Snap" / own-the-race beat). When true, each player may once
+   * per match issue a SURGE on their own turn: spike +2 energy immediately and ready
+   * their whole side (clear summoning sickness) for an all-in alpha-strike. It is the
+   * single high-stakes commitment moment the fast Marvel-Snap-style match was missing,
+   * and it does NOT reintroduce the vetoed response stack — a Surge is a one-sided
+   * declaration on your own turn, never an interrupt of the opponent's. Self-only and
+   * NO-BURN by construction (it touches only the surger's energy + own units; the enemy
+   * nexus is only ever reached through ordinary combat). ABSENT/false by default so a
+   * vanilla match plays exactly as before and the reducer-equivalence golden JSON stays
+   * byte-identical (undefined survives structuredClone; the hook no-ops without it).
+   */
+  surge?: boolean;
 }
 
 /**
@@ -475,4 +496,11 @@ export const CORE_RULESET: MatchRules = {
   // controller's OWN side — see factionIdentity.ts).
   factionArchetypes: true,
   traitResonance: true,
+  // THE SURGE ships ON in the core cut: one per-match all-in tempo button gives the
+  // fast match a real "press the advantage / go for the kill" decision without any
+  // new card to read or any opponent-turn interaction (no response stack). NO-BURN.
+  surge: true,
 };
+
+/** THE SURGE energy spike (#4). A flat burst, capped at ENERGY_CAP. */
+export const SURGE_ENERGY = 2;

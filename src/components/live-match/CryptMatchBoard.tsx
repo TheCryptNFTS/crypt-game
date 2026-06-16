@@ -55,6 +55,10 @@ export type CryptMatchBoardProps = {
   setSelectedBoardId: (id: string | null) => void;
   setInspectId: (id: string | null) => void;
   endTurn: () => void;
+  /** THE SURGE (#4). `canSurge` gates the once-per-match button; `surge` fires it.
+   *  Optional so the remote/spectator callers that don't pass them still type-check. */
+  canSurge?: boolean;
+  surge?: () => void;
   playSelectedUnit: (lane: "front" | "back") => void;
   playSelectedArtifact: () => void;
   playSelectedSpell: (targetInstanceId?: string) => void;
@@ -112,6 +116,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     setSelectedBoardId,
     setInspectId,
     endTurn,
+    canSurge,
+    surge,
     playSelectedUnit,
     playSelectedArtifact,
     playSelectedSpell,
@@ -150,6 +156,10 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
       };
   const safeSetInspectId = spectator ? NOOP : setInspectId;
   const safeEndTurn = spectator ? NOOP : endTurn;
+  // THE SURGE (#4): suppressed for spectators; absent when the caller (remote) wires
+  // no surge. canSurge already encodes turn/once-per-match/ruleset availability.
+  const safeCanSurge = !spectator && !!canSurge && !!surge;
+  const safeSurge = spectator || !surge ? NOOP : surge;
   const safeMulligan = spectator ? NOOP : mulligan;
   const safePlaySelectedUnit = spectator ? (NOOP as (lane: "front" | "back") => void) : playSelectedUnit;
   const safePlaySelectedArtifact = spectator ? NOOP : playSelectedArtifact;
@@ -629,6 +639,8 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         enemyNexusHit={motion.enemyNexusHit}
         enemyHexTargetable={attackReady}
         onAttackEnemyHex={resolveAttackFace}
+        canSurge={safeCanSurge}
+        onSurge={safeSurge}
       />
 
       {statusBanner}

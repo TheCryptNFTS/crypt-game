@@ -33,7 +33,7 @@
  *     are recomputed idempotently at the single `applyAction` chokepoint.
  */
 
-import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, TriggerQueueEntry } from "./state";
+import { MatchState, PlayerId, Lane, BASE_MAX_ENERGY, ENERGY_CAP, SURGE_ENERGY, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, TriggerQueueEntry } from "./state";
 import { playUnitFromHand, playEquipmentFromHand } from "./setup";
 import { resolveOutgoingDamage, resolveMitigatedDamage } from "./resolveCombatBonuses";
 import {
@@ -87,6 +87,11 @@ export type Action =
   | { type: "ATTACK_UNIT"; player: PlayerId; attackerInstanceId: string; defenderInstanceId: string }
   | { type: "ATTACK_FACE"; player: PlayerId; attackerInstanceId: string }
   | { type: "END_TURN"; player: PlayerId }
+  // THE SURGE (#4 — the "Snap" beat). Once per match, on your OWN turn: spike +2
+  // energy now and ready your whole side (clear summoning sickness) for an all-in
+  // alpha-strike. Gated by `rules.surge`; self-only, NO-BURN, and NOT a response
+  // stack (it never interrupts the opponent). Pure state edit, fully replay-stable.
+  | { type: "SURGE"; player: PlayerId }
   // Resolve a paused mid-resolution CHOICE (Discover / choose-one). The ONLY
   // action accepted while `state.pendingChoice` is non-null; carries the chosen
   // `optionId` so a replay of (seed, actions) resolves the identical tail. See
@@ -113,6 +118,9 @@ export type GameEvent =
   // OPENING MULLIGAN resolved for `player` (PART 1): `redrawn` is how many cards were
   // returned-and-redrawn. Emitted by the phase path (`resolveMulligan`).
   | { type: "MULLIGAN_RESOLVED"; player: PlayerId; redrawn: number }
+  // THE SURGE fired (#4): `player` spiked energy by `energyGained` (post-cap) and
+  // readied `readied` of their summoning-sick units for an all-in turn.
+  | { type: "SURGED"; player: PlayerId; energyGained: number; readied: number }
   | { type: "REJECTED"; reason: string };
 
 export interface ApplyResult {
@@ -1546,6 +1554,40 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
       } else {
         events.push({ type: "TURN_START", player: nextPlayerId, energy: np.energy, maxEnergy: np.maxEnergy });
       }
+      return { state: next, events };
+    }
+
+    case "SURGE": {
+      // THE SURGE (#4 — the "Snap" beat). Opt-in via the ruleset: a clean reject-soft
+      // when the flag is off, so no client can spike energy in a vanilla match (and the
+      // golden, which runs ruleset-less, never reaches this body). Turn-ownership,
+      // match-over and choice-pending are already enforced by the entry guards above.
+      if (!next.rules?.surge) return reject(state, "surge-disabled");
+      // Once per match per player.
+      if (player.surgeUsed) return reject(state, "surge-already-used");
+
+      // Spike energy NOW (capped at ENERGY_CAP) — the fuel to over-commit this turn.
+      const energyBefore = player.energy;
+      player.energy = Math.min(ENERGY_CAP, player.energy + SURGE_ENERGY);
+      const energyGained = player.energy - energyBefore;
+
+      // Ready the whole side for an all-in alpha-strike: clear summoning sickness so
+      // freshly-summoned units can swing THIS turn. Exhaustion is deliberately NOT
+      // cleared (no bonus second attacks) — the Surge buys commitment, not a double
+      // turn. Self-only: the enemy board and nexus are never touched (NO-BURN; the
+      // face is only ever reached through the ordinary ATTACK_FACE that follows).
+      let readied = 0;
+      for (const lane of ["front", "back"] as Lane[]) {
+        for (const unit of player.board?.[lane] ?? []) {
+          if (unit.summoningSick) {
+            unit.summoningSick = false;
+            readied += 1;
+          }
+        }
+      }
+
+      player.surgeUsed = true;
+      events.push({ type: "SURGED", player: action.player, energyGained, readied });
       return { state: next, events };
     }
 

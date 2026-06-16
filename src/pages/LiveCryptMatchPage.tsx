@@ -268,6 +268,8 @@ export default function LiveCryptMatchPage({
         setSelectedBoardId={local.setSelectedBoardId}
         setInspectId={local.setInspectId}
         endTurn={local.endTurn}
+        canSurge={local.canSurge}
+        surge={local.surge}
         playSelectedUnit={local.playSelectedUnit}
         playSelectedArtifact={local.playSelectedArtifact}
         playSelectedSpell={local.playSelectedSpell}

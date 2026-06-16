@@ -30,7 +30,11 @@ export type AiAction =
   | { kind: "playSpell"; cardId: string; targetInstanceId?: string }
   | { kind: "equip"; cardId: string; targetInstanceId: string }
   | { kind: "attackUnit"; attackerInstanceId: string; defenderInstanceId: string }
-  | { kind: "attackFace"; attackerInstanceId: string };
+  | { kind: "attackFace"; attackerInstanceId: string }
+  // THE SURGE (#4 — the "Snap" beat): ready the whole side + spike energy for an
+  // all-in alpha-strike. The AI emits this only to CONVERT a turn to lethal (see
+  // planP2Surge), so it always reads as a decisive "it went for the kill" moment.
+  | { kind: "surge" };
 
 type CardMeta = {
   id: string;
@@ -425,6 +429,53 @@ export function planP2Plays(match: any, difficulty: AiDifficulty = "normal"): Ai
  * freshly-summoned RUSH unit (now live, real instanceId, `summoningSick` false)
  * is planned as an attacker.
  */
+/**
+ * THE SURGE (#4) — the AI's "snap for the kill" decision. Returns a single
+ * `{ kind: "surge" }` iff readying its summoning-sick units would UNLOCK lethal it
+ * does not already have. It mirrors planP2Combat's hard-lethal gate exactly (no enemy
+ * GUARD wall, no commander shield, WINDFURY counts double), so the surge + the combat
+ * that follows agree on the kill. Conservative by construction: the AI never burns its
+ * one-per-match Surge on a non-converting turn, so it always reads as a decisive
+ * all-in. Only a `takeLethal` profile (Sovereign/hard) snaps — EASY/NORMAL keep their
+ * non-lethal-reading policy, matching the combat planner. Called between plays and
+ * combat so the readied units enter planP2Combat as live attackers.
+ */
+export function planP2Surge(match: any, difficulty: AiDifficulty = "normal"): AiAction[] {
+  if (!match || match.winner) return [];
+  if (!match.rules?.surge) return [];
+  if (match.players?.P2?.surgeUsed) return [];
+  const profile = PROFILES[difficulty] ?? PROFILES.normal;
+  if (!profile.takeLethal) return [];
+
+  const hasKw = (u: any, k: string) =>
+    (Array.isArray(u?.keywords) && u.keywords.includes(k)) ||
+    (Array.isArray(u?.auraKeywords) && u.auraKeywords.includes(k));
+
+  // Lethal is only open with no GUARD wall and no commander shield (mirror combat).
+  const enemyUnits = lanesOf(match.players?.P1);
+  if (enemyUnits.some((u) => hasKw(u, "GUARD"))) return [];
+  if (enemyUnits.some((u) => hasCommanderShield(u))) return [];
+  const enemyNexus = Number(match.players?.P1?.nexusHealth ?? 0);
+  if (enemyNexus <= 0) return [];
+
+  const faceOf = (u: any) => (u?.attack ?? 0) * (hasKw(u, "WINDFURY") ? 2 : 1);
+  const myUnits = lanesOf(match.players?.P2);
+  // Units that can already swing this turn (mirrors planP2Combat's `attackers`).
+  const canSwingNow = (u: any) =>
+    !u.exhausted && !cannotAttack(u) && (!u.summoningSick || hasKw(u, "RUSH"));
+  // Summoning-sick (non-RUSH) units the Surge would ready — PATIENT/cannot-attack
+  // units are excluded (readying sickness doesn't make them legal attackers).
+  const surgeReadies = (u: any) =>
+    !u.exhausted && !cannotAttack(u) && u.summoningSick && !hasKw(u, "RUSH");
+
+  const nowDmg = myUnits.filter(canSwingNow).reduce((s, u) => s + faceOf(u), 0);
+  const afterDmg = nowDmg + myUnits.filter(surgeReadies).reduce((s, u) => s + faceOf(u), 0);
+
+  // Snap ONLY if it converts: not already lethal, but lethal once readied.
+  if (nowDmg < enemyNexus && afterDmg >= enemyNexus) return [{ kind: "surge" }];
+  return [];
+}
+
 export function planP2Combat(match: any, difficulty: AiDifficulty = "normal"): AiAction[] {
   if (!match || match.winner) return [];
 

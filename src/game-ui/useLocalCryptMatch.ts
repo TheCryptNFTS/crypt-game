@@ -8,7 +8,7 @@ import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck, DEMO_COMMANDER_ID } from "../nft/buildOwnedDeck";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
 import { applyMatchRewards } from "../lib/localProgress";
-import { planP2Turn, planP2Plays, planP2Combat, readAiDifficulty } from "./cryptMatchAI";
+import { planP2Turn, planP2Plays, planP2Surge, planP2Combat, readAiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
 type Lane = "front" | "back";
@@ -407,6 +407,20 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     }
   };
 
+  // THE SURGE (#4 — the "Snap" beat). The human is always P1; available once per
+  // match, on your own turn, after any mulligan, while the ruleset enables it.
+  const canSurge =
+    !winner &&
+    activePlayer === "P1" &&
+    !mulliganPhaseActive &&
+    !!match.rules?.surge &&
+    !match.players.P1.surgeUsed;
+
+  const surge = () => {
+    if (!canSurge) return;
+    dispatch({ type: "SURGE", player: "P1" });
+  };
+
   const playSelectedUnit = (lane: Lane) => {
     if (winner) return;
     if (!selectedHandCard || selectedHandCard.type !== "unit" || selectedHandIndex < 0) return;
@@ -584,6 +598,8 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         return { type: "ATTACK_UNIT", player: "P2", attackerInstanceId: a.attackerInstanceId, defenderInstanceId: a.defenderInstanceId };
       } else if (a.kind === "attackFace") {
         return { type: "ATTACK_FACE", player: "P2", attackerInstanceId: a.attackerInstanceId };
+      } else if (a.kind === "surge") {
+        return { type: "SURGE", player: "P2" };
       }
       return null;
     };
@@ -620,6 +636,12 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         for (const a of planP2Plays(scratch, diff)) {
           if (scratch.winner) break;
           planAndPush(a);
+        }
+        // THE SURGE (#4): between plays and combat, snap to ready the just-played
+        // units IFF it converts the turn to lethal (planP2Surge is lethal-only). The
+        // readied units then enter planP2Combat below as live attackers for the kill.
+        if (!scratch.winner) {
+          for (const a of planP2Surge(scratch, diff)) planAndPush(a);
         }
         for (const a of planP2Combat(scratch, diff)) {
           if (scratch.winner) break;
@@ -735,6 +757,8 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     setSelectedBoardId,
     setInspectId,
     endTurn,
+    canSurge,
+    surge,
     playSelectedUnit,
     playSelectedArtifact,
     playSelectedSpell,
