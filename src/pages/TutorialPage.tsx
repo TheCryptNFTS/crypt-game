@@ -15,8 +15,11 @@ import { funnelOnce } from "../lib/funnel";
  * localProgress, which unlocks the advanced surfaces.
  */
 
-/** A low opponent Nexus so a first match resolves fast and a newcomer can win. */
-const TUTORIAL_OPPONENT_NEXUS = 8;
+/** A low opponent Nexus so a first match resolves fast and a newcomer can win.
+ *  2026-06-17 (Algorithm review): 8 → 6 to shave ~2 minutes off time-to-first-win —
+ *  the most direct lever on the "the app's too complex" complaint. The newcomer closes
+ *  in 2-3 swings and FEELS the core loop (deploy → attack → win) before fatigue. */
+const TUTORIAL_OPPONENT_NEXUS = 6;
 
 export default function TutorialPage() {
   const navigate = useNavigate();
