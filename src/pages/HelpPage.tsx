@@ -71,6 +71,10 @@ const FACTIONS: { name: string; tag: string; body: string }[] = [
   { name: "Gods", tag: "Mythic", body: "Rare, loud splash cards with unfair presence and hard restrictions. Capped on purpose." },
 ];
 
+/** How many of KEYWORD_ORDER are the "core" combat keywords a newcomer needs first
+ *  (RUSH, GUARD, TAUNT, FLYING, RANGED, CRUSH). The rest collapse behind a toggle. */
+const CORE_KEYWORD_COUNT = 6;
+
 /** Curated reading order so the most common combat keywords lead. */
 const KEYWORD_ORDER = [
   "RUSH", "GUARD", "TAUNT", "FLYING", "RANGED", "CRUSH",
@@ -91,21 +95,34 @@ const EXTRA_KEYWORDS: { label: string; description: string }[] = [
 
 export default function HelpPage() {
   const [query, setQuery] = useState("");
+  // 2026-06-17 (Algorithm review · "the app's too complex"): a newcomer sees only the
+  // CORE combat keywords first (the six that lead KEYWORD_ORDER — RUSH/GUARD/TAUNT/
+  // FLYING/RANGED/CRUSH); the rest collapse behind a toggle so /help isn't a 20-row
+  // wall. Searching always spans the full glossary.
+  const [showAllKeywords, setShowAllKeywords] = useState(false);
 
-  const keywords = useMemo(() => {
+  const { keywords, totalKeywords } = useMemo(() => {
     const ordered = KEYWORD_ORDER
       .map((k) => KEYWORD_DESCRIPTIONS[k])
       .filter((k): k is NonNullable<typeof k> => !!k && !k.decorative)
       .map((k) => ({ label: k.label, description: k.description }));
     const all = [...ordered, ...EXTRA_KEYWORDS];
     const q = query.trim().toLowerCase();
-    if (!q) return all;
-    return all.filter(
-      (k) =>
-        k.label.toLowerCase().includes(q) ||
-        k.description.toLowerCase().includes(q),
-    );
-  }, [query]);
+    if (q) {
+      return {
+        keywords: all.filter(
+          (k) =>
+            k.label.toLowerCase().includes(q) ||
+            k.description.toLowerCase().includes(q),
+        ),
+        totalKeywords: all.length,
+      };
+    }
+    return {
+      keywords: showAllKeywords ? all : all.slice(0, CORE_KEYWORD_COUNT),
+      totalKeywords: all.length,
+    };
+  }, [query, showAllKeywords]);
 
   return (
     <CryptPageFrame
@@ -184,6 +201,29 @@ export default function HelpPage() {
                 </div>
               ))}
             </dl>
+          )}
+          {!query.trim() && totalKeywords > CORE_KEYWORD_COUNT && (
+            <button
+              type="button"
+              onClick={() => setShowAllKeywords((v) => !v)}
+              style={{
+                marginTop: 12,
+                width: "100%",
+                padding: "10px 12px",
+                borderRadius: 8,
+                border: `1px solid ${BORDER_STRONG}`,
+                background: "rgba(8, 6, 10, 0.6)",
+                color: GOLD,
+                fontFamily: "var(--font-display)",
+                fontSize: 13,
+                letterSpacing: "0.04em",
+                cursor: "pointer",
+              }}
+            >
+              {showAllKeywords
+                ? "Show fewer"
+                : `Show all ${totalKeywords} keywords →`}
+            </button>
           )}
         </Section>
 
