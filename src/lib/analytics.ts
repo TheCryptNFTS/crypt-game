@@ -160,6 +160,16 @@ function pickDefaultSink(): AnalyticsSink {
   const url = env("VITE_ANALYTICS_URL");
   if (url && hasSendBeacon()) return new BeaconAnalyticsSink(url);
   if (isDev()) return new ConsoleAnalyticsSink();
+  // Prod with no beacon URL → every play event silently no-ops and the whole
+  // game / owned-cards funnel reads ZERO with no signal that it's broken. Warn
+  // loudly so a missing Vercel build env var is a visible misconfig, not a
+  // silently-dark gate number (upgrade audit #19, 2026-06-19).
+  if (typeof console !== "undefined") {
+    console.warn(
+      "[analytics] VITE_ANALYTICS_URL is not set — play events are NOT being recorded " +
+        "(NoopAnalyticsSink). Set it in the Vercel build env to capture the funnel.",
+    );
+  }
   return new NoopAnalyticsSink();
 }
 
