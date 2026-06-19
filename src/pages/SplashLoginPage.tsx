@@ -29,6 +29,22 @@ export default function SplashLoginPage() {
   const navigate = useNavigate();
   const session = useAppSessionStubSnapshot();
   const [soonKind, setSoonKind] = useState<"account" | "wallet" | null>(null);
+  // 2026-06-18 (holder feedback, NikoDaTroof: "am I able to connect my wallet to TCG?").
+  // Wallet play was already LIVE — /match auto-adopts a connected wallet and fields your
+  // owned Crypt cards — but the splash button said "coming soon," so holders thought they
+  // couldn't. Make "Link wallet" actually connect; the match then loads your collection.
+  const [walletState, setWalletState] = useState<"idle" | "connecting" | "connected" | "no-wallet">("idle");
+
+  const connectWallet = async () => {
+    setSoonKind(null);
+    const eth = (window as unknown as { ethereum?: { request: (a: { method: string }) => Promise<unknown> } }).ethereum;
+    if (!eth?.request) { setWalletState("no-wallet"); return; }
+    setWalletState("connecting");
+    try {
+      const accs = (await eth.request({ method: "eth_requestAccounts" })) as string[];
+      setWalletState(accs?.[0] ? "connected" : "idle");
+    } catch { setWalletState("idle"); }
+  };
 
   // First entry (no tutorial flag, no first win) → guided onboarding on-ramp;
   // otherwise → home.
@@ -116,8 +132,8 @@ export default function SplashLoginPage() {
               Create account
             </button>
             <span className="crypt-splash-divider" aria-hidden>·</span>
-            <button type="button" className="crypt-splash-cta-secondary" onClick={() => setSoonKind("wallet")}>
-              Link wallet
+            <button type="button" className="crypt-splash-cta-secondary" onClick={connectWallet} disabled={walletState === "connecting"}>
+              {walletState === "connecting" ? "Connecting…" : "Link wallet"}
             </button>
           </div>
 
@@ -126,9 +142,14 @@ export default function SplashLoginPage() {
               Accounts aren't live yet — Play now runs the full duel on device; progress stays local until cloud saves ship.
             </p>
           )}
-          {soonKind === "wallet" && (
+          {walletState === "connected" && (
             <p className="crypt-splash-soon">
-              Wallet link follows real accounts. Crypt OG Skulls and Digital Trading Cards stay collectible-first — policy and timing TBD.
+              ✓ Wallet connected — hit <strong>Play now</strong> and your owned Crypt cards are fielded automatically.
+            </p>
+          )}
+          {walletState === "no-wallet" && (
+            <p className="crypt-splash-soon">
+              No wallet in this browser — open the Crypt in your wallet app (or install one), then Link wallet to field your Crypt cards.
             </p>
           )}
         </div>
