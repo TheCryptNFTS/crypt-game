@@ -127,7 +127,7 @@ export function applyMatchRewards(input: MatchOutcomeInput): MatchRewardBreakdow
   try {
     localStorage.setItem(
       K.lastMatchSummary,
-      `${label} · ${input.turn} ${input.turn === 1 ? "turn" : "turns"} · +${cryptDelta} ⬡ HEX · +${passXpDelta} pass XP (device)`
+      `${label} · ${input.turn} ${input.turn === 1 ? "turn" : "turns"} · +${cryptDelta} ◈ Sigil · +${passXpDelta} pass XP`
     );
   } catch {
     /* ignore */
@@ -175,7 +175,7 @@ export function claimDailyPack(now = Date.now()): DailyClaimResult {
   try {
     localStorage.setItem(
       K.lastMatchSummary,
-      `Daily vault · +${cryptDelta} ⬡ HEX · +${passXpDelta} pass XP (device)`
+      `Daily vault · +${cryptDelta} ◈ Sigil · +${passXpDelta} pass XP`
     );
   } catch {
     /* ignore */

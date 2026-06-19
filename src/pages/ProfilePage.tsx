@@ -224,7 +224,7 @@ export default function ProfilePage() {
               </div>
               <p className="crypt-profile-secondary">
                 #{ranking.position} on the ladder · {ranking.wins}W–{ranking.losses}L
-                {ranking.currentStreak > 1 ? ` · ⬡ STREAK ${ranking.currentStreak}` : ""}
+                {ranking.currentStreak > 1 ? ` · ◈ STREAK ${ranking.currentStreak}` : ""}
               </p>
             </div>
           ) : (

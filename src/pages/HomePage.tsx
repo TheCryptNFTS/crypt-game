@@ -158,7 +158,7 @@ export default function HomePage() {
 
             <div className="crypt-home-m-ledger" role="group" aria-label="Field ledger">
               <div className="crypt-home-m-ledger-row">
-                <span className="crypt-home-m-ledger-label">⬡ HEX (device)</span>
+                <span className="crypt-home-m-ledger-label">◈ Sigil</span>
                 <span className="crypt-home-m-ledger-value crypt-home-m-ledger-value--gold">
                   {snap.cryptBalance.toLocaleString()}
                 </span>
@@ -378,9 +378,9 @@ export default function HomePage() {
               )}
               {streak && streak.claimable && (
                 <div className="crypt-rites-streak">
-                  <span className="crypt-rites-streak-label">⬡ STREAK {streak.streak}</span>
+                  <span className="crypt-rites-streak-label">◈ STREAK {streak.streak}</span>
                   <button type="button" className="crypt-rites-claim-btn" onClick={onClaimStreak}>
-                    Claim +{streak.amount} ⬡ HEX
+                    Claim +{streak.amount} ◈ Sigil
                   </button>
                 </div>
               )}

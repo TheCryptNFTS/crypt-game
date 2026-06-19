@@ -44,11 +44,11 @@ export default function MatchResultShareCard({
             <p className="crypt-share-card-outcome">{outcome}</p>
             <p className="crypt-share-card-commander">{name}</p>
             <p className="crypt-share-card-meta">
-              {turns} turns · +{cryptDelta} ⬡ HEX (device) · +{passXpDelta} pass XP
+              {turns} turns · +{cryptDelta} ◈ Sigil · +{passXpDelta} pass XP
             </p>
           </div>
         </div>
-        <p className="crypt-share-card-foot">Crypt Legends · device ledger · closed alpha</p>
+        <p className="crypt-share-card-foot">Crypt Legends · Sigil ledger · closed alpha</p>
       </div>
     </div>
   );

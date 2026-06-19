@@ -124,7 +124,7 @@ export default function MatchResultsPage() {
     return [
       `CRYPT · Crypt Legends · closed alpha`,
       `${headline} · ${cn}`,
-      `${data.turn} ${data.turn === 1 ? "turn" : "turns"} · +${data.cryptDelta} ⬡ HEX · +${data.passXpDelta} pass XP (device)`,
+      `${data.turn} ${data.turn === 1 ? "turn" : "turns"} · +${data.cryptDelta} ◈ Sigil · +${data.passXpDelta} pass XP`,
     ].join("\n");
   };
 
@@ -187,8 +187,7 @@ export default function MatchResultsPage() {
               <h1 className={`crypt-result-headline ${headVariant}`}>{data ? headline : "…"}</h1>
               {data && <p className="crypt-result-moment">{momentLine(data)}</p>}
               <p className="crypt-result-stub-note">
-                Ledger gains stay on device. Crypt Digital Trading Card ownership and season truth arrive when the live vault
-                opens.
+                Free closed alpha — progress stays on your device. No ownership or ledger commitments at this stage.
               </p>
             </div>
           </header>
@@ -198,7 +197,7 @@ export default function MatchResultsPage() {
               <section className="crypt-result-payoff" aria-label="Match rewards">
                 <div className="crypt-result-payoff-grid">
                   <div className="crypt-result-payoff-pillar">
-                    <span className="crypt-result-payoff-kicker">⬡ HEX earned (device)</span>
+                    <span className="crypt-result-payoff-kicker">◈ Sigil earned</span>
                     <span className="crypt-result-payoff-value crypt-result-payoff-value--gold">
                       +{data.cryptDelta}
                     </span>
@@ -214,7 +213,7 @@ export default function MatchResultsPage() {
                   </div>
                 </div>
                 <p className="crypt-result-payoff-foot">
-                  Running totals · {data.cryptBalanceAfter.toLocaleString()} ⬡ HEX (device) ·{" "}
+                  Running totals · {data.cryptBalanceAfter.toLocaleString()} ◈ Sigil ·{" "}
                   {data.passXpAfter.toLocaleString()} XP
                 </p>
               </section>

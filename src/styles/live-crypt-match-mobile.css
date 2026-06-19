@@ -92,13 +92,13 @@
   }
 
   .live-btn {
-    min-height: 40px;
+    min-height: 44px;
     padding: 9px 12px;
   }
 
-  /* Bottom dock buttons (if rendered) also honor the 40px touch target. */
+  /* Bottom dock buttons (if rendered) also honor the 44px touch target. */
   .crypt-mode-toggle__btn {
-    min-height: 40px;
+    min-height: 44px;
   }
 
   /* HUD COMPACTION (holder feedback: "could see the opponent but not much else").

@@ -152,7 +152,7 @@ export default function LeaderboardPage() {
             <span className="crypt-ladder-you-tier">{rankLabelForRating(mine.rating)}</span>
             <span className="crypt-ladder-you-meta">
               {mine.rating} MMR · {mine.wins}W–{mine.losses}L
-              {mine.bestStreak > 1 ? ` · ⬡ STREAK ${mine.bestStreak}` : ""}
+              {mine.bestStreak > 1 ? ` · ◈ STREAK ${mine.bestStreak}` : ""}
             </span>
           </div>
         </section>
@@ -209,7 +209,7 @@ export default function LeaderboardPage() {
                   <span className="crypt-ladder-reward-tier">{t.tier}</span>
                   <span className="crypt-ladder-reward-req">{t.minRating}{tr("leaderboard.rewards.mmrSuffix")}</span>
                   <span className="crypt-ladder-reward-prize">
-                    +{t.rewardCrypt} ⬡ HEX
+                    +{t.rewardCrypt} ◈ Sigil
                     {t.cosmeticId ? <span className="crypt-ladder-reward-cos">{tr("leaderboard.rewards.frame")}</span> : null}
                   </span>
                   {t.claimed ? (

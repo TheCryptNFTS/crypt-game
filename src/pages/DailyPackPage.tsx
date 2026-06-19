@@ -30,7 +30,7 @@ export default function DailyPackPage() {
   }
 
   const onSharePull = async () => {
-    const text = `CRYPT · Crypt Legends · daily vault · +${state.cryptDelta} ⬡ HEX · +${state.passXpDelta} pass XP (device)`;
+    const text = `CRYPT · Crypt Legends · daily vault · +${state.cryptDelta} ◈ Sigil · +${state.passXpDelta} pass XP`;
     try {
       await navigator.clipboard.writeText(text);
     } catch {
@@ -69,11 +69,11 @@ export default function DailyPackPage() {
       <section className="crypt-pack-summary" aria-label={tr("dailypack.summary.aria")}>
         <p className="crypt-pack-summary-title">{tr("dailypack.summary.title")}</p>
         <ul className="crypt-pack-summary-list">
-          <li>+{state.cryptDelta} ⬡ HEX (device)</li>
-          <li>+{state.passXpDelta} pass XP (device)</li>
+          <li>+{state.cryptDelta} ◈ Sigil</li>
+          <li>+{state.passXpDelta} pass XP</li>
         </ul>
         <p className="crypt-pack-summary-balance">
-          Balance now: <strong>{snap.cryptBalance}</strong> ⬡ HEX (device) · pass <strong>{snap.passXp}</strong> XP
+          Balance now: <strong>{snap.cryptBalance}</strong> ◈ Sigil · pass <strong>{snap.passXp}</strong> XP
         </p>
       </section>
 

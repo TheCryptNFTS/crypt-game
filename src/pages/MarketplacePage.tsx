@@ -110,7 +110,7 @@ export default function MarketplacePage() {
                   onClick={() => setActive(entry)}
                 />
                 <span className="font-mono text-[9px] tabular-nums text-[color:var(--color-crypt-muted)]">
-                  {listing ? `${listing.priceHex} ⬡ HEX (device)` : t("market.notListed")}
+                  {listing ? `${listing.priceHex} ◈ Sigil` : t("market.notListed")}
                 </span>
               </div>
             );
@@ -311,7 +311,7 @@ function CardActionModal({
           {listings.length ? (
             listings.map((l) => (
               <li key={l.id}>
-                {l.priceHex} ⬡ HEX · {shortAddr(l.seller)}
+                {l.priceHex} ◈ Sigil · {shortAddr(l.seller)}
               </li>
             ))
           ) : (
@@ -322,7 +322,7 @@ function CardActionModal({
           {offers.length ? (
             offers.map((o) => (
               <li key={o.id}>
-                {o.offerHex} ⬡ HEX · {shortAddr(o.buyer)}
+                {o.offerHex} ◈ Sigil · {shortAddr(o.buyer)}
               </li>
             ))
           ) : (
@@ -333,7 +333,7 @@ function CardActionModal({
           {rentals.length ? (
             rentals.map((r) => (
               <li key={r.id}>
-                {r.durationDays}d · fee {r.feeHex} ⬡ HEX · {r.revenueSharePct}% revenue share ·{" "}
+                {r.durationDays}d · fee {r.feeHex} ◈ Sigil · {r.revenueSharePct}% revenue share ·{" "}
                 {shortAddr(r.lender)}
               </li>
             ))
