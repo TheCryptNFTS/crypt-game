@@ -1,7 +1,7 @@
 {
   "name": "CRYPT · Crypt Legends",
   "short_name": "CRYPT",
-  "description": "Crypt Legends — a dark on-chain trading card game.",
+  "description": "Crypt Legends — a dark collectible card game.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
