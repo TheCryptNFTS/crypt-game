@@ -9,6 +9,14 @@
  * the server is unreachable. It never sources real hex — game-internal only.
  */
 
+// SINGLE SOURCE OF TRUTH for the per-match Sigil figure. The in-board
+// WinCeremony reads SIGIL_REWARDS directly (+30 win / +10 loss); the results
+// page + share card + recent-match line read it through here. Both surfaces
+// MUST show the same number for the same match — diverging constants (this
+// module used to pay 25/8) made one win read "+30 Sigil" in the ceremony and
+// "+25 Sigil" on the results screen, which reads as a bug to the player.
+import { SIGIL_REWARDS } from "../meta/rewards";
+
 const K = {
   balance: "crypt.progress.balance",
   passXp: "crypt.progress.passXp",
@@ -101,13 +109,17 @@ export function applyMatchRewards(input: MatchOutcomeInput): MatchRewardBreakdow
   const draw = input.winner === "DRAW";
   const won = !draw && input.winner === "P1";
 
-  let cryptDelta = 8;
+  // Sigil mirrors the canonical SIGIL_REWARDS the WinCeremony shows. A draw is a
+  // non-win, so it pays the loss base (matching the ceremony, which shows the
+  // loss base for any non-win). Pass XP is a distinct track (not Sigil) and is
+  // unaffected.
+  let cryptDelta: number = SIGIL_REWARDS.loss;
   let passXpDelta = 15;
   if (draw) {
-    cryptDelta = 12;
+    cryptDelta = SIGIL_REWARDS.loss;
     passXpDelta = 20;
   } else if (won) {
-    cryptDelta = 25;
+    cryptDelta = SIGIL_REWARDS.win;
     passXpDelta = 40;
   }
 
