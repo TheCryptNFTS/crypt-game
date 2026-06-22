@@ -79,7 +79,12 @@ export default function LiveCryptMatchPage({
   // VERSUS match-open beat (solo only). Plays once per match, after the mulligan
   // is confirmed. Keyed to the match seed so "Reset Match" (new seed) re-arms it.
   const matchSeed = local.match?.seed ?? "solo";
-  const [introSeenSeed, setIntroSeenSeed] = useState<string | number | null>(null);
+  // On a mid-game refresh the board is rehydrated from storage; pre-mark its seed
+  // as "intro already seen" so the once-per-match VS splash doesn't replay on
+  // resume. A freshly dealt match (restoredFromStorage=false) still shows it.
+  const [introSeenSeed, setIntroSeenSeed] = useState<string | number | null>(
+    () => (local.restoredFromStorage ? matchSeed : null),
+  );
 
   // NAMED AI BOSS (solo, non-tutorial). The boss is pure presentation over the
   // SAME stored difficulty the planner reads — resolved once per match (keyed by

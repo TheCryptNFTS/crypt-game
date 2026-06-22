@@ -181,6 +181,65 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
   return match;
 }
 
+// ---------------------------------------------------------------------------
+// LIVE-MATCH PERSISTENCE (vanilla solo /match only)
+// ---------------------------------------------------------------------------
+// A solo match lived ONLY in React state, so an accidental refresh / tab-restore
+// mid-duel silently discarded the game and dumped the player on a fresh board.
+// We mirror the engine `Match` to sessionStorage on every change and rehydrate it
+// on mount. The engine state is plain JSON (the determinism proofs JSON-compare
+// it), so JSON round-trip is faithful. SCOPE: enabled ONLY for the default solo
+// flow (no LocalMatchOptions). The tutorial and the test harnesses always pass
+// options and stay byte-identical — they are short, re-runnable, or headless and
+// must not pick up a stale solo board. sessionStorage (per-tab, cleared on tab
+// close) keeps this a "don't lose the game I'm mid-way through" feature, not a
+// permanent save slot.
+const MATCH_PERSIST_KEY = "crypt.local-match.v1";
+
+function persistenceEnabled(options?: LocalMatchOptions): boolean {
+  return !options && typeof window !== "undefined";
+}
+
+/** Restore a LIVE (un-decided) solo match for the same deck context, or null. */
+function loadPersistedMatch(ownedKey: string): any | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(MATCH_PERSIST_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || parsed.ownedKey !== ownedKey || !parsed.match) return null;
+    const m = parsed.match;
+    // Never resume a DECIDED match — the player would be stuck on a board behind
+    // the ceremony with no fresh game. A decided/empty match falls through to a
+    // brand-new one.
+    const p1Dead = (m.players?.P1?.nexusHealth ?? 20) <= 0;
+    const p2Dead = (m.players?.P2?.nexusHealth ?? 20) <= 0;
+    if (m.winner === "P1" || m.winner === "P2" || p1Dead || p2Dead) return null;
+    if (!m.players?.P1 || !m.players?.P2) return null;
+    return m;
+  } catch {
+    return null;
+  }
+}
+
+function savePersistedMatch(ownedKey: string, match: any): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.setItem(MATCH_PERSIST_KEY, JSON.stringify({ ownedKey, match }));
+  } catch {
+    /* quota / private-mode — losing persistence is non-fatal */
+  }
+}
+
+function clearPersistedMatch(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.sessionStorage.removeItem(MATCH_PERSIST_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 /** Returns "P1" | "P2" | null based on nexus health and any engine winner. */
 function detectWinner(match: any): PlayerId | null {
   if (match.winner === "P1" || match.winner === "P2") return match.winner;
@@ -281,7 +340,21 @@ function rejectReasonText(reason: string): string | null {
 }
 
 export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
-  const [match, setMatch] = useState<any>(() => makeInitialMatch(ownedCardIds, options));
+  // Persistence is on ONLY for the default solo flow (see persistenceEnabled).
+  const persist = persistenceEnabled(options);
+  // `restoredFromStorage` lets the page suppress the once-per-match VS intro when
+  // a mid-game board is rehydrated (replaying the splash after a refresh is odd).
+  const restoredRef = useRef(false);
+  const [match, setMatch] = useState<any>(() => {
+    if (persist) {
+      const restored = loadPersistedMatch((ownedCardIds ?? []).join(","));
+      if (restored) {
+        restoredRef.current = true;
+        return restored;
+      }
+    }
+    return makeInitialMatch(ownedCardIds, options);
+  });
   const [selectedHandId, setSelectedHandId] = useState<string | null>(null);
   const [selectedBoardId, setSelectedBoardId] = useState<string | null>(null);
   const [inspectId, setInspectId] = useState<string | null>(null);
@@ -318,6 +391,19 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   }, []);
 
   const winner: PlayerId | null = detectWinner(match);
+
+  // Mirror the live match to sessionStorage on every change so a refresh / tab
+  // restore resumes the duel instead of discarding it. A DECIDED match clears the
+  // slot (you don't resume a finished game — you'd be stuck behind the ceremony).
+  // Solo /match only; no-op when persistence is disabled (tutorial/tests/SSR).
+  useEffect(() => {
+    if (!persist) return;
+    if (winner) {
+      clearPersistedMatch();
+      return;
+    }
+    savePersistedMatch((ownedCardIds ?? []).join(","), match);
+  }, [persist, match, winner, ownedCardIds]);
 
   // OPENING MULLIGAN (PART 1): the explicit phase is OPEN while P1 is still
   // `pending`. The dedicated mulligan screen renders off this flag; the normal
@@ -534,6 +620,10 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         /* storage unavailable — never block the rematch */
       }
     }
+    // A fresh match supersedes any persisted board; the save effect will store
+    // the new one, but clear first so a throw mid-reset can't leave a stale slot.
+    if (persist) clearPersistedMatch();
+    restoredRef.current = false;
     setMatch(makeInitialMatch(ownedCardIds, options));
     setSelectedHandId(null);
     setSelectedBoardId(null);
@@ -550,6 +640,10 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     const nextKey = (ownedCardIds ?? []).join(",");
     if (nextKey === loadedOwnedKey.current) return;
     loadedOwnedKey.current = nextKey;
+    // The previous deck's persisted board no longer matches the new deck context;
+    // the save effect will store the rebuilt match under the new key.
+    if (persist) clearPersistedMatch();
+    restoredRef.current = false;
     setMatch(makeInitialMatch(ownedCardIds, options));
     setSelectedHandId(null);
     setSelectedBoardId(null);
@@ -734,6 +828,9 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
     ownedPlayable,
     match,
     winner,
+    /** True when THIS match was rehydrated from a mid-game refresh (not freshly
+     *  dealt). The page reads it to skip the once-per-match VS intro on resume. */
+    restoredFromStorage: restoredRef.current,
     activePlayer,
     inactivePlayer,
     selectedHandId,
