@@ -35,18 +35,18 @@ const TURN_FLOW: Basic[] = [
   },
   {
     term: "3 · Attack",
-    body: "Send your ready units at enemy units or straight at their Hex. Guard / Taunt units must be cleared first.",
+    body: "Send your ready units at enemy units or straight at their Nexus. Guard / Taunt units must be cleared first.",
   },
   {
     term: "4 · End turn",
-    body: "Pass to your opponent. Reduce the enemy Hex to 0 to win.",
+    body: "Pass to your opponent. Reduce the enemy Nexus to 0 to win.",
   },
 ];
 
 const BOARD: Basic[] = [
   {
-    term: "Hex",
-    body: "Your life total and the win condition. Both sides start at full Hex health; drop the enemy's to 0 and the match is yours.",
+    term: "Nexus",
+    body: "Your life total and the win condition. Both sides start at full Nexus health; drop the enemy's to 0 and the match is yours.",
   },
   {
     term: "Energy",
@@ -54,7 +54,7 @@ const BOARD: Basic[] = [
   },
   {
     term: "Front lane",
-    body: "The front row meets attackers first. Park your Guard bodies here to wall the enemy off your softer units and your Hex.",
+    body: "The front row meets attackers first. Park your Guard bodies here to wall the enemy off your softer units and your Nexus.",
   },
   {
     term: "Back lane",
@@ -65,7 +65,7 @@ const BOARD: Basic[] = [
 const FACTIONS: { name: string; tag: string; body: string }[] = [
   { name: "Stone Keepers", tag: "Wall", body: "Durable guardians and anchored midrange. Hard to remove, oppressive on board — leans Guard & Crush." },
   { name: "Iron Defenders", tag: "Tempo", body: "Weapon-heavy, immediate pressure. Sharp and tempo-positive — leans Rush & Crush." },
-  { name: "Bronze Guardians", tag: "Aggro", body: "Fast skirmishers that punish slow starts. Opens early and chips the Hex — leans Rush & Quickstep." },
+  { name: "Bronze Guardians", tag: "Aggro", body: "Fast skirmishers that punish slow starts. Opens early and chips the Nexus — leans Rush & Quickstep." },
   { name: "Silver Sentinels", tag: "Tricks", body: "Arcane tricksters with evasive tools and artifacts. Slippery and technical — leans Flying & spell value." },
   { name: "Golden Sovereigns", tag: "Top-end", body: "Elite finishers and premium bodies. Slower but powerful — leans Command, Mythic & Guard." },
   { name: "Gods", tag: "Mythic", body: "Rare, loud splash cards with unfair presence and hard restrictions. Capped on purpose." },

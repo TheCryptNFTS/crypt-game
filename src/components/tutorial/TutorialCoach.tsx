@@ -45,7 +45,7 @@ const STEPS: Step[] = [
   {
     id: "hex",
     title: "Win the race",
-    body: "Your Hex is the green crystal up top — the enemy's is the red one. Drop the enemy Hex to 0 and you win. Tap a card in your hand to begin.",
+    body: "Your Nexus is the gold crystal up top — the enemy's is the red one. Drop the enemy Nexus to 0 and you win. Tap a card in your hand to begin.",
   },
   {
     id: "play",
@@ -60,17 +60,17 @@ const STEPS: Step[] = [
   {
     id: "attack",
     title: "Attack",
-    body: "Tap your unit, then ATTACK HEX — or tap an enemy unit first to trade. Each unit strikes once per turn. Attack a unit and it strikes back; the Hex can't.",
+    body: "Tap your unit, then ATTACK NEXUS — or tap an enemy unit first to trade. Each unit strikes once per turn. Attack a unit and it strikes back; the Nexus can't.",
   },
   {
     id: "keywords",
     title: "GUARD and RUSH",
-    body: "A GUARD wall must be cleared before anything behind it — or the Hex — can be hit. RUSH units can attack the turn they land.",
+    body: "A GUARD wall must be cleared before anything behind it — or the Nexus — can be hit. RUSH units can attack the turn they land.",
   },
   {
     id: "close",
     title: "Close it out",
-    body: "Keep deploying and attacking. The enemy Hex is weakened — finish the duel.",
+    body: "Keep deploying and attacking. The enemy Nexus is weakened — finish the duel.",
   },
 ];
 
@@ -152,8 +152,8 @@ export function TutorialCoach({ turn, activePlayer, boardCount, mulliganActive, 
         </p>
         <p style={{ margin: "8px 0 0", fontSize: 15, lineHeight: 1.5 }}>
           {won
-            ? "Signal restored. You ran the full loop — Hex, lanes, deploy, attack. The Crypt is open."
-            : "You ran the full loop — Hex, lanes, deploy, attack. That's everything you need. Press on."}
+            ? "Signal restored. You ran the full loop — Nexus, lanes, deploy, attack. The Crypt is open."
+            : "You ran the full loop — Nexus, lanes, deploy, attack. That's everything you need. Press on."}
         </p>
       </div>
     );

@@ -387,7 +387,7 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
       if (!myTurn) return;
       void sendAction(
         { type: "ATTACK_FACE", player: mySeat, attackerInstanceId },
-        "You strike the enemy Hex.",
+        "You strike the enemy Nexus.",
       );
     },
     [myTurn, mySeat, sendAction],

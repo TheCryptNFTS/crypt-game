@@ -113,7 +113,7 @@ export default function SplashLoginPage() {
 
           <div className="crypt-splash-brand">
             <p className="crypt-splash-wordmark">CRYPT</p>
-            <h1 className="crypt-splash-hook">Command the dead. Duel for the Hex.</h1>
+            <h1 className="crypt-splash-hook">Command the dead. Duel for the Nexus.</h1>
             <p className="crypt-splash-tagline">Crypt Legends · a dark collectible card game</p>
           </div>
         </div>

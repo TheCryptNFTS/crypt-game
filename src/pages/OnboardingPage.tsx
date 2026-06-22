@@ -41,7 +41,7 @@ const STARTER_PICKS = [
     id: "cmd_bronze_raider",
     faction: "Bronze Guardians",
     tagline: "Fast aggression",
-    blurb: "Flood the board and chip the enemy Hex every turn. End games early.",
+    blurb: "Flood the board and chip the enemy Nexus every turn. End games early.",
     accent: "#c98b48",
     sigil: "/crypt-assets/sigil-bronze.png",
     art: ART["cmd_bronze_raider"],

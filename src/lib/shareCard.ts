@@ -122,7 +122,7 @@ export function renderResultCard(data: ResultCardData): HTMLCanvasElement {
     stats.push({ value: String(data.turns), label: "TURNS" });
   }
   if (typeof data.nexus === "number") {
-    stats.push({ value: String(Math.max(0, data.nexus)), label: "HEX" });
+    stats.push({ value: String(Math.max(0, data.nexus)), label: "NEXUS" });
   }
 
   if (stats.length) {
