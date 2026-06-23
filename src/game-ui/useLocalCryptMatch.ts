@@ -200,6 +200,17 @@ function persistenceEnabled(options?: LocalMatchOptions): boolean {
   return !options && typeof window !== "undefined";
 }
 
+/**
+ * Stable persistence key for a deck context. The owned-card set identifies WHICH
+ * match a persisted board belongs to, so a restore only fires for the same deck.
+ * The set is unordered — if the wallet returns the same cards in a different
+ * order across loads, an order-sensitive key would wrongly refuse the restore and
+ * silently deal a fresh match. Sort so the key is identity-of-set, not order.
+ */
+function ownedKeyFor(ownedCardIds?: string[]): string {
+  return [...(ownedCardIds ?? [])].sort().join(",");
+}
+
 /** Restore a LIVE (un-decided) solo match for the same deck context, or null. */
 function loadPersistedMatch(ownedKey: string): any | null {
   if (typeof window === "undefined") return null;
@@ -347,7 +358,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   const restoredRef = useRef(false);
   const [match, setMatch] = useState<any>(() => {
     if (persist) {
-      const restored = loadPersistedMatch((ownedCardIds ?? []).join(","));
+      const restored = loadPersistedMatch(ownedKeyFor(ownedCardIds));
       if (restored) {
         restoredRef.current = true;
         return restored;
@@ -376,7 +387,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
 
   // Track the owned ids the currently-loaded match was built from, so we can
   // detect a wallet connecting/changing mid-session and rebuild without looping.
-  const loadedOwnedKey = useRef<string>((ownedCardIds ?? []).join(","));
+  const loadedOwnedKey = useRef<string>(ownedKeyFor(ownedCardIds));
   // Guards the AI effect so P2's turn is only ever driven once.
   const aiRunningRef = useRef(false);
   // True while this hook's component is mounted. The AI setTimeout below resolves
@@ -402,7 +413,16 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
       clearPersistedMatch();
       return;
     }
-    savePersistedMatch((ownedCardIds ?? []).join(","), match);
+    // ONLY persist a clean, human-controlled frame. The AI commits one engine
+    // action per render (see the AI effect below), so while P2's turn is in flight
+    // `match` passes through partial, mid-turn states. Persisting one of those and
+    // then refreshing made the AI re-plan from a half-finished board and take a
+    // partial EXTRA turn (double-deploys, extra swings) — an unfair, unreproducible
+    // resume. Saving only on P1-active, non-AI frames guarantees a resume always
+    // lands on a clean turn boundary; a refresh mid-AI-turn restores the player's
+    // last clean board and the AI replays its turn deterministically.
+    if (match.activePlayer === "P2" || aiRunningRef.current) return;
+    savePersistedMatch(ownedKeyFor(ownedCardIds), match);
   }, [persist, match, winner, ownedCardIds]);
 
   // OPENING MULLIGAN (PART 1): the explicit phase is OPEN while P1 is still
@@ -637,7 +657,7 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   // on the Play tab. Rebuild only when the owned ids actually differ from what
   // the current match was built from (tracked in a ref) so this never loops.
   useEffect(() => {
-    const nextKey = (ownedCardIds ?? []).join(",");
+    const nextKey = ownedKeyFor(ownedCardIds);
     if (nextKey === loadedOwnedKey.current) return;
     loadedOwnedKey.current = nextKey;
     // The previous deck's persisted board no longer matches the new deck context;
