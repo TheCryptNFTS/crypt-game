@@ -17,6 +17,12 @@
 // "+25 Sigil" on the results screen, which reads as a bug to the player.
 import { SIGIL_REWARDS } from "../meta/rewards";
 
+// SINGLE SOURCE OF TRUTH for the Pass-XP figures (a track distinct from Sigil).
+// Both the per-match reward and the daily-pack claim read from here so the two
+// surfaces can never drift to different magic numbers the way the Sigil
+// constants once did. Win pays more than a draw, a draw more than a loss.
+const PASS_XP_REWARDS = { loss: 15, draw: 20, win: 40, dailyPack: 30 } as const;
+
 const K = {
   balance: "crypt.progress.balance",
   passXp: "crypt.progress.passXp",
@@ -114,13 +120,13 @@ export function applyMatchRewards(input: MatchOutcomeInput): MatchRewardBreakdow
   // loss base for any non-win). Pass XP is a distinct track (not Sigil) and is
   // unaffected.
   let cryptDelta: number = SIGIL_REWARDS.loss;
-  let passXpDelta = 15;
+  let passXpDelta: number = PASS_XP_REWARDS.loss;
   if (draw) {
     cryptDelta = SIGIL_REWARDS.loss;
-    passXpDelta = 20;
+    passXpDelta = PASS_XP_REWARDS.draw;
   } else if (won) {
     cryptDelta = SIGIL_REWARDS.win;
-    passXpDelta = 40;
+    passXpDelta = PASS_XP_REWARDS.win;
   }
 
   const balance = readNum(K.balance, 0) + cryptDelta;
@@ -170,7 +176,7 @@ export function claimDailyPack(now = Date.now()): DailyClaimResult {
   }
 
   const cryptDelta = 50;
-  const passXpDelta = 30;
+  const passXpDelta = PASS_XP_REWARDS.dailyPack;
   const balance = readNum(K.balance, 0) + cryptDelta;
   const passXp = readNum(K.passXp, 0) + passXpDelta;
   const claims = readNum(K.dailyPackClaims, 0) + 1;
