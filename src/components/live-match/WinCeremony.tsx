@@ -315,7 +315,7 @@ export function WinCeremony({
             {myHealth !== null ? (
               <div className="wc-stat">
                 <span className="wc-stat__value">{Math.max(0, myHealth)}</span>
-                <span className="wc-stat__label">Nexus</span>
+                <span className="wc-stat__label">Pyre</span>
               </div>
             ) : null}
           </div>

@@ -91,11 +91,11 @@ export function MatchTopBar({
           className={`live-topbar__pill live-topbar__pill--nexus live-topbar__pill--nexus-own ${ownNexusHit ? "mm-nexus-hit" : ""}`}
           key={`own-nexus-${ownNexusHit?.key ?? "idle"}`}
         >
-          <span className="live-topbar__label">{"Your Nexus \u2B22"}</span>
+          <span className="live-topbar__label">{"Your Pyre \u2B22"}</span>
           <div
             className={`ph-crystal ph-crystal--own${p1Health <= 0 ? " ph-crystal--dead ph-crystal--dead-own" : ""}`}
             role="img"
-            aria-label={`Your Nexus health ${p1Health}`}
+            aria-label={`Your Pyre health ${p1Health}`}
           >
             <div className="ph-crystal__gem" aria-hidden="true">
               <span className="ph-crystal__value">{p1Health}</span>
@@ -116,8 +116,8 @@ export function MatchTopBar({
           tabIndex={enemyHexTargetable ? 0 : -1}
           aria-label={
             enemyHexTargetable
-              ? `Strike the enemy Nexus (${p2Health} health)`
-              : `Enemy Nexus health ${p2Health}`
+              ? `Strike the enemy Pyre (${p2Health} health)`
+              : `Enemy Pyre health ${p2Health}`
           }
           onClick={() => {
             if (enemyHexTargetable) onAttackEnemyHex?.();
@@ -130,12 +130,12 @@ export function MatchTopBar({
           }}
         >
           <span className="live-topbar__label">
-            {"Enemy Nexus \u2B22"}{enemyHexTargetable ? " · strike" : ""}
+            {"Enemy Pyre \u2B22"}{enemyHexTargetable ? " · strike" : ""}
           </span>
           <div
             className={`ph-crystal ph-crystal--enemy${p2Health <= 0 ? " ph-crystal--dead ph-crystal--dead-enemy" : ""}`}
             role="img"
-            aria-label={`Enemy Nexus health ${p2Health}`}
+            aria-label={`Enemy Pyre health ${p2Health}`}
           >
             <div className="ph-crystal__gem" aria-hidden="true">
               <span className="ph-crystal__value">{p2Health}</span>

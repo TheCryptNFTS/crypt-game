@@ -289,7 +289,7 @@ function eventToLogText(ev: GameEvent): string | null {
     case "ATTACK":
       return `${DISPLAY_NAME[ev.player]} struck for ${ev.outgoing} raw / ${ev.mitigated} final. Counter: ${ev.counter}.`;
     case "NEXUS_DAMAGE":
-      return `${DISPLAY_NAME[ev.player]} struck ${POSSESSIVE[ev.targetPlayer]} Nexus for ${ev.damage}.`;
+      return `${DISPLAY_NAME[ev.player]} struck ${POSSESSIVE[ev.targetPlayer]} Pyre for ${ev.damage}.`;
     case "TURN_START":
       return `${POSSESSIVE[ev.player]} turn. Energy ${ev.energy}/${ev.maxEnergy}.`;
     case "DECK_OUT":
@@ -327,7 +327,7 @@ function rejectReasonText(reason: string): string | null {
     case "lane-full":
       return "That lane is full (max 7 units).";
     case "guard-blocks-face":
-      return "A Guard unit blocks the Nexus — clear it first.";
+      return "A Guard unit blocks the Pyre — clear it first.";
     case "commander-shielded":
       return "Their commander is shielded — clear the board first.";
     case "guard-must-be-cleared":

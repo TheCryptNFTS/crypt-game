@@ -51,8 +51,8 @@ export function ActionBar(props: Props) {
             ? "Spell selected. Pick a target unit if it needs one, then Cast."
             : combatReady
               ? props.canAttackUnit
-                ? "Unit ready. Press Attack Selected Enemy, or Attack Nexus."
-                : "Unit ready. Press Attack Nexus to strike the enemy."
+                ? "Unit ready. Press Attack Selected Enemy, or Attack Pyre."
+                : "Unit ready. Press Attack Pyre to strike the enemy."
               : "Select a card or unit to act.";
 
   // Amber-highlight whenever we're telling the player WHY something is blocked.
@@ -143,7 +143,7 @@ export function ActionBar(props: Props) {
               disabled={!props.canAttackFace}
               onClick={props.onAttackFace}
             >
-              Attack Nexus
+              Attack Pyre
             </button>
           </div>
         </div>

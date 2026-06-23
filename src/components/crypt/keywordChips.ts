@@ -17,10 +17,10 @@ export const KW_DISPLAY: Record<string, { label: string; full: string; pri: numb
   DIVINE_SHIELD: { label: "SHIELD", full: "Divine Shield — blocks the first hit", pri: 2 },
   WARD: { label: "WARD", full: "Ward — blocks the first hit", pri: 2 },
   SHIELD: { label: "SHIELD", full: "Shield — blocks the first hit", pri: 2 },
-  LIFESTEAL: { label: "LIFE", full: "Lifesteal — heals your Nexus when it deals damage", pri: 3 },
+  LIFESTEAL: { label: "LIFE", full: "Lifesteal — heals your Pyre when it deals damage", pri: 3 },
   DEATHRATTLE: { label: "RATTLE", full: "Deathrattle — triggers an effect when it dies", pri: 3 },
   EXECUTE: { label: "EXECUTE", full: "Execute — destroys any unit it damages", pri: 3 },
-  CRUSH: { label: "CRUSH", full: "Crush — excess damage carries to the Nexus", pri: 4 },
+  CRUSH: { label: "CRUSH", full: "Crush — excess damage carries to the Pyre", pri: 4 },
   REGROW: { label: "REGROW", full: "Regrow — heals back up each turn", pri: 4 },
   RUSH: { label: "RUSH", full: "Rush — can attack the turn it's played", pri: 4 },
 };
