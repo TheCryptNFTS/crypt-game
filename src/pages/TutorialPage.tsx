@@ -4,6 +4,24 @@ import LiveCryptMatchPage from "./LiveCryptMatchPage";
 import { buildStarterDeck, ensureStarterDeckEquipped } from "../lib/starterDeck";
 import { markTutorialComplete } from "../lib/localProgress";
 import { funnelOnce } from "../lib/funnel";
+import { ONBOARD_RETURN_KEY } from "../components/OnboardingGate";
+
+/**
+ * After the tutorial completes, drop the pilot back at the gated route they
+ * originally tried to reach (stashed by OnboardingGate), else the play hub.
+ */
+function consumeOnboardReturn(): string {
+  try {
+    const dest = sessionStorage.getItem(ONBOARD_RETURN_KEY);
+    if (dest) {
+      sessionStorage.removeItem(ONBOARD_RETURN_KEY);
+      return dest;
+    }
+  } catch {
+    /* private mode */
+  }
+  return "/play";
+}
 
 /**
  * Forced first-time tutorial. A brand-new pilot is routed here before anything
@@ -121,7 +139,7 @@ export default function TutorialPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               <button
                 type="button"
-                onClick={() => navigate("/play", { replace: true })}
+                onClick={() => navigate(consumeOnboardReturn(), { replace: true })}
                 style={{
                   appearance: "none",
                   cursor: "pointer",
