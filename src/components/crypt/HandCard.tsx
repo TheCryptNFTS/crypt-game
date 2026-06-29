@@ -24,9 +24,14 @@ function isFaceDown(card: PlayCardVM): boolean {
 type HandCardProps = {
   card: PlayCardVM;
   onSelect?: (card: PlayCardVM) => void;
+  /** Opens the full-card InspectDrawer (stats + passives + keywords). Wired to
+   *  a dedicated corner button so the whole-card tap stays "select to play" —
+   *  on touch the hand card is 132px and tooltips don't fire, so this is the
+   *  only way to READ a card's rules before committing it. */
+  onInspect?: (card: PlayCardVM) => void;
 };
 
-export function HandCard({ card, onSelect }: HandCardProps) {
+export function HandCard({ card, onSelect, onInspect }: HandCardProps) {
   const theme = factionTheme[card.faction];
   // Hook must run before the face-down early return (rules of hooks).
   const tilt = useCardTilt(9);
@@ -66,6 +71,33 @@ export function HandCard({ card, onSelect }: HandCardProps) {
         <img src={card.imageUrl} alt={card.name} className="crypt-card__image" />
         <span className="crypt-card__glare" aria-hidden="true" />
         <span className="crypt-card__cost-orb">{cost ?? 0}</span>
+        {onInspect ? (
+          // role="button" span (NOT a <button>) because the card root is itself
+          // a <button> and nesting buttons is invalid HTML. Inspect is a SEPARATE
+          // action from select — stop the event from bubbling to the card button
+          // (which would select/play the card).
+          <span
+            role="button"
+            tabIndex={0}
+            className="crypt-card__inspect"
+            onClick={(e) => {
+              e.stopPropagation();
+              onInspect(card);
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                onInspect(card);
+              }
+            }}
+            aria-label={`Inspect ${card.name} — full stats and abilities`}
+            title="Inspect card"
+          >
+            <span aria-hidden="true">⊕</span>
+          </span>
+        ) : null}
         {card.syncLabel ? (
           <span className="crypt-card__sync-corner">
             <SyncBadge level={card.syncLevel} label={card.syncLabel} />

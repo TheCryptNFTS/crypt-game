@@ -806,6 +806,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                     onSelect={(c) => {
                       safeSetSelectedHandId(c.id);
                     }}
+                    onInspect={(c) => safeSetInspectId(c.id)}
                   />
                 </div>
               );

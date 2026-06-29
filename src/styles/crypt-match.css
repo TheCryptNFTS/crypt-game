@@ -594,6 +594,13 @@ button {
   border-color: rgba(255, 255, 255, 0.08);
 }
 
+/* Selector raised to .live-match-shell .crypt-inspect (0,2,0) so it BEATS the
+   generic `.live-match-shell > * { position: relative }` lift rule in
+   live-crypt-match.css (0,1,0). At equal specificity that rule won on source
+   order and pinned this full-screen overlay to position:relative — collapsing
+   it to 0 height and pushing the panel hundreds of px below the fold (drawer
+   appeared off-screen on mobile). This restores the intended fixed overlay. */
+.live-match-shell .crypt-inspect,
 .crypt-inspect {
   position: fixed;
   inset: 0;

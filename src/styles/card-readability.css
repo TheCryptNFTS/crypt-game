@@ -117,3 +117,50 @@
 .crypt-card-tactical .crypt-card-art img {
   filter: contrast(1.04) saturate(1.03);
 }
+
+/* ── 5. Hand-card INSPECT affordance ─────────────────────────────────────
+   A hand card shows cost/atk/hp/keyword chips but never the rules text, and on
+   touch the title tooltips don't fire — so a player couldn't READ what a card
+   does before playing it. This corner button opens the full InspectDrawer
+   (stats + passives). It sits top-right, opposite the cost orb (top-left), and
+   stops its own click from selecting the card. */
+.crypt-card__inspect {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  color: #f0e6cf;
+  background: radial-gradient(circle at 32% 26%, rgba(15, 17, 24, 0.96) 0%, rgba(3, 5, 12, 0.96) 70%);
+  border: 1px solid rgba(233, 201, 132, 0.55);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.crypt-card__inspect:hover,
+.crypt-card__inspect:focus-visible {
+  background: radial-gradient(circle at 32% 26%, rgba(233, 201, 132, 0.34) 0%, rgba(3, 5, 12, 0.96) 64%);
+  box-shadow: 0 0 14px rgba(233, 201, 132, 0.4), 0 2px 6px rgba(0, 0, 0, 0.6);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* On touch screens the card is only ~132px wide — grow the tap target to a
+   comfortable size so inspecting never mis-fires a select. */
+@media (max-width: 480px) {
+  .crypt-card__inspect {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    top: 4px;
+    right: 4px;
+  }
+}
