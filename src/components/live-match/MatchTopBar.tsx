@@ -1,5 +1,6 @@
 import React from "react";
 import "../../styles/polish-hud.css";
+import { ConfirmDialog } from "../ConfirmDialog";
 
 type NexusHit = { key: number; damage: number } | null;
 
@@ -51,6 +52,7 @@ export function MatchTopBar({
   // polish-hud.css). When energy DROPS (a cost was paid), the readout pops.
   const [readyPulse, setReadyPulse] = React.useState(0);
   const [spendPulse, setSpendPulse] = React.useState(0);
+  const [confirmReset, setConfirmReset] = React.useState(false);
   const prevActive = React.useRef(youActive);
   const prevEnergy = React.useRef(energy);
   React.useEffect(() => {
@@ -74,6 +76,7 @@ export function MatchTopBar({
     ) : null;
 
   return (
+    <>
     <header className="live-topbar">
       <div className="live-topbar__cluster">
         <div className="live-topbar__pill">
@@ -186,9 +189,9 @@ export function MatchTopBar({
               // Teardown §7: Reset sits one slip away from End Turn — the
               // most-pressed button in the game — and used to vaporize the match
               // instantly. PvP's Concede already confirms; solo Reset now matches.
-              if (window.confirm("Reset this match? The current duel will be lost.")) {
-                onReset();
-              }
+              // 2026-06-29: native confirm() → in-app ConfirmDialog (non-blocking,
+              // on-brand, mobile-friendly).
+              setConfirmReset(true);
             }}
           >
             Reset Match
@@ -209,5 +212,19 @@ export function MatchTopBar({
         </div>
       </div>
     </header>
+    <ConfirmDialog
+      open={confirmReset}
+      title="Reset this match?"
+      body="The current duel will be lost and a fresh match dealt."
+      confirmLabel="Reset Match"
+      cancelLabel="Keep Playing"
+      tone="danger"
+      onConfirm={() => {
+        setConfirmReset(false);
+        onReset();
+      }}
+      onCancel={() => setConfirmReset(false)}
+    />
+    </>
   );
 }

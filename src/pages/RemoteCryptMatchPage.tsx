@@ -1,6 +1,7 @@
 import React from "react";
 import { CryptMatchBoard } from "../components/live-match/CryptMatchBoard";
 import { useRemoteCryptMatch, MatchView } from "../game-ui/useRemoteCryptMatch";
+import { ConfirmDialog } from "../components/ConfirmDialog";
 
 type PlayerId = "P1" | "P2";
 
@@ -19,6 +20,7 @@ type Props = {
  */
 export default function RemoteCryptMatchPage({ matchId, initialView, initialVersion, mySeat, onLeave }: Props) {
   const remote = useRemoteCryptMatch({ matchId, initialView, initialVersion, mySeat, onLeave });
+  const [confirmConcede, setConfirmConcede] = React.useState(false);
 
   const banner = (() => {
     if (remote.winner) return null;
@@ -27,9 +29,9 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         type="button"
         className="live-btn live-btn--ghost"
         style={{ marginLeft: 12 }}
-        onClick={() => {
-          if (window.confirm("Concede this match? Your opponent wins.")) void remote.concede();
-        }}
+        // 2026-06-29: native confirm() → in-app ConfirmDialog (non-blocking,
+        // on-brand, mobile-friendly).
+        onClick={() => setConfirmConcede(true)}
       >
         Concede
       </button>
@@ -80,6 +82,19 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         resetMatch={remote.resetMatch}
         statusBanner={banner}
         pvpMatchId={matchId}
+      />
+      <ConfirmDialog
+        open={confirmConcede}
+        title="Concede this match?"
+        body="Your opponent wins immediately. This cannot be undone."
+        confirmLabel="Concede"
+        cancelLabel="Keep Fighting"
+        tone="danger"
+        onConfirm={() => {
+          setConfirmConcede(false);
+          void remote.concede();
+        }}
+        onCancel={() => setConfirmConcede(false)}
       />
     </div>
   );
