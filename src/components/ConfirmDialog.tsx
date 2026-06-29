@@ -16,6 +16,11 @@ type Props = {
   confirmLabel: string;
   cancelLabel?: string;
   tone?: "default" | "danger";
+  /** While true the dialog is mid-submit: both buttons disable, the confirm
+   *  label swaps to `busyLabel`, and Escape/backdrop dismissal is ignored so the
+   *  player can't double-fire or cancel out from under an in-flight request. */
+  busy?: boolean;
+  busyLabel?: string;
   onConfirm: () => void;
   onCancel: () => void;
 };
@@ -27,6 +32,8 @@ export function ConfirmDialog({
   confirmLabel,
   cancelLabel = "Cancel",
   tone = "default",
+  busy = false,
+  busyLabel = "Working…",
   onConfirm,
   onCancel,
 }: Props) {
@@ -36,11 +43,11 @@ export function ConfirmDialog({
     if (!open) return;
     confirmRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCancel();
+      if (e.key === "Escape" && !busy) onCancel();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel]);
+  }, [open, onCancel, busy]);
 
   if (!open) return null;
 
@@ -51,7 +58,8 @@ export function ConfirmDialog({
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      onClick={onCancel}
+      aria-busy={busy}
+      onClick={busy ? undefined : onCancel}
       style={{
         position: "fixed",
         inset: 0,
@@ -87,9 +95,11 @@ export function ConfirmDialog({
             ref={confirmRef}
             type="button"
             onClick={onConfirm}
+            disabled={busy}
             style={{
               appearance: "none",
-              cursor: "pointer",
+              cursor: busy ? "wait" : "pointer",
+              opacity: busy ? 0.7 : 1,
               padding: "12px 16px",
               borderRadius: 12,
               border: "none",
@@ -102,14 +112,16 @@ export function ConfirmDialog({
               letterSpacing: "0.04em",
             }}
           >
-            {confirmLabel}
+            {busy ? busyLabel : confirmLabel}
           </button>
           <button
             type="button"
             onClick={onCancel}
+            disabled={busy}
             style={{
               appearance: "none",
-              cursor: "pointer",
+              cursor: busy ? "not-allowed" : "pointer",
+              opacity: busy ? 0.5 : 1,
               padding: "11px 16px",
               borderRadius: 12,
               border: "1px solid rgba(200,167,93,0.4)",

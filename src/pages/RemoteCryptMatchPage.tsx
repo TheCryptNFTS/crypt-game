@@ -31,7 +31,10 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
         style={{ marginLeft: 12 }}
         // 2026-06-29: native confirm() → in-app ConfirmDialog (non-blocking,
         // on-brand, mobile-friendly).
-        onClick={() => setConfirmConcede(true)}
+        onClick={() => {
+          remote.clearConcedeError();
+          setConfirmConcede(true);
+        }}
       >
         Concede
       </button>
@@ -86,15 +89,27 @@ export default function RemoteCryptMatchPage({ matchId, initialView, initialVers
       <ConfirmDialog
         open={confirmConcede}
         title="Concede this match?"
-        body="Your opponent wins immediately. This cannot be undone."
+        body={
+          remote.concedeError ??
+          "Your opponent wins immediately. This cannot be undone."
+        }
         confirmLabel="Concede"
         cancelLabel="Keep Fighting"
         tone="danger"
+        busy={remote.concedePending}
+        busyLabel="Conceding…"
+        // Keep the modal OPEN while the request is in flight (busy disables both
+        // buttons). Close only once it resolves to a terminal/auth outcome; on a
+        // failure leave it open so the surfaced error is visible and retryable.
         onConfirm={() => {
-          setConfirmConcede(false);
-          void remote.concede();
+          void remote.concede().then((kind) => {
+            if (kind !== "failed") setConfirmConcede(false);
+          });
         }}
-        onCancel={() => setConfirmConcede(false)}
+        onCancel={() => {
+          remote.clearConcedeError();
+          setConfirmConcede(false);
+        }}
       />
     </div>
   );

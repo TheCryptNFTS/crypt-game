@@ -63,6 +63,47 @@ function CITY_BASE(): string {
   );
 }
 
+/**
+ * Outcome of POSTing a concede to the server. Extracted from the `concede()`
+ * handler so the network contract is unit-testable WITHOUT a wallet or live
+ * opponent (the runtime path otherwise only exists in staging):
+ *   - 200  -> the match is decided (success, OR idempotent already-decided);
+ *            adopt the returned view/version.
+ *   - 401  -> session expired; the board must show the "sign in again" banner.
+ *   - else -> failed (403 not-seated / 404 not-found / 409 lock / network throw);
+ *            the player is STILL in a valid match and the caller must resync +
+ *            surface a real error (never a silent no-op).
+ */
+export type ConcedeOutcome =
+  | { kind: "decided"; version: number; view: MatchView }
+  | { kind: "auth" }
+  | { kind: "failed"; status: number | null };
+
+export async function postConcede(
+  baseUrl: string,
+  matchId: string,
+  authHeader: Record<string, string>,
+): Promise<ConcedeOutcome> {
+  try {
+    const res = await fetch(`${baseUrl}/api/match/${matchId}/concede`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+        ...authHeader,
+      },
+    });
+    if (res.status === 200) {
+      const data = (await res.json()) as { version: number; view: MatchView };
+      return { kind: "decided", version: data.version, view: data.view };
+    }
+    if (res.status === 401) return { kind: "auth" };
+    return { kind: "failed", status: res.status };
+  } catch {
+    return { kind: "failed", status: null };
+  }
+}
+
 /** A server `Card` may arrive as a bare cardId string or an object — normalize
  *  to the cardId string the local VM adapters (handToVm) expect. */
 function toCardId(card: unknown): string {
@@ -157,6 +198,14 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
   const [connectionState, setConnectionState] = useState<ConnectionState>("live");
   const [reconnecting, setReconnecting] = useState(false);
   const [pending, setPending] = useState(false);
+  // Concede has its OWN in-flight gate (board `pending` is set only by
+  // sendAction, so it never blocked a second concede tap). The ref is the
+  // synchronous double-submit guard — React state is async, so two fast taps
+  // could both pass a state-only check before a re-render. `concedeError`
+  // surfaces a real failure to the player instead of a silent refetch.
+  const [concedePending, setConcedePending] = useState(false);
+  const [concedeError, setConcedeError] = useState<string | null>(null);
+  const concedePendingRef = useRef(false);
 
   const [selectedHandId, setSelectedHandId] = useState<string | null>(null);
   const [selectedBoardId, setSelectedBoardId] = useState<string | null>(null);
@@ -398,40 +447,61 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     void sendAction({ type: "MULLIGAN", player: mySeat }, "You recalibrate your hand.");
   }, [myTurn, mySeat, sendAction]);
 
+  const clearConcedeError = useCallback(() => setConcedeError(null), []);
+
   /**
    * Concede the match (forfeit → opponent wins). Server-authoritative: we POST
-   * the concede and adopt the returned decided view. The match is terminal after
-   * this; the poll loop will keep showing the ended state. Safe to call once.
+   * the concede (see `postConcede`) and adopt the returned decided view. The
+   * match is terminal after a `decided` outcome; the poll loop keeps showing the
+   * ended state. Returns the outcome kind so the page can decide whether to close
+   * the confirm modal (close on decided/auth; keep open + retryable on failed).
+   *
+   * Hardening (2026-06-29): the prior version logged an OPTIMISTIC "You concede"
+   * before the request (a lie if it failed), had no concede-specific in-flight
+   * guard (board `pending` is only set by sendAction, so a double-tap double-
+   * POSTed), and on failure silently refetched with NO message. Now: a ref gates
+   * double-submit synchronously, the success log fires only on success, and a
+   * failure surfaces `concedeError` while still refetching so the player is never
+   * stranded in a broken match.
    */
-  const concede = useCallback(async () => {
-    // Don't fire while an action is in-flight (it would race the pending move's
-    // version) or after the match is decided.
-    if (winner || pending) return;
-    appendLog("You concede the match.");
-    try {
-      const res = await fetch(`${CITY_BASE()}/api/match/${matchId}/concede`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          accept: "application/json",
-          ...getAuthHeader(),
-        },
-      });
-      if (res.ok) {
-        const data = (await res.json()) as { version: number; view: MatchView };
-        if (!mountedRef.current) return;
-        setView(data.view);
-        setVersion(data.version);
-        setConnectionState("ended");
-      } else {
-        await refetch();
-      }
-    } catch {
-      if (mountedRef.current) await refetch();
+  const concede = useCallback(async (): Promise<ConcedeOutcome["kind"]> => {
+    // Don't fire after the match is decided, or while a concede is already
+    // in-flight. The ref is checked/set synchronously so two fast taps can't
+    // both get past this guard before React re-renders.
+    if (winner || concedePendingRef.current) return "failed";
+    concedePendingRef.current = true;
+    setConcedePending(true);
+    setConcedeError(null);
+
+    const outcome = await postConcede(CITY_BASE(), matchId, getAuthHeader());
+
+    if (!mountedRef.current) {
+      concedePendingRef.current = false;
+      return outcome.kind;
     }
+
+    if (outcome.kind === "decided") {
+      setView(outcome.view);
+      setVersion(outcome.version);
+      setConnectionState("ended");
+      appendLog("You conceded — your opponent wins.");
+    } else if (outcome.kind === "auth") {
+      setConnectionState("auth");
+      appendLog("Session expired — leave the match and sign in again.");
+    } else {
+      // Failed: the player is STILL in a valid match. Surface a real error
+      // (no silent failure) and resync to the authoritative view.
+      setConcedeError("Concede failed — you're still in the match. Try again.");
+      appendLog("Concede failed — you're still in the match.");
+      await refetch();
+    }
+
+    concedePendingRef.current = false;
+    if (mountedRef.current) setConcedePending(false);
+    return outcome.kind;
     // refetch is stable (useCallback); appendLog stable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchId, winner, pending, appendLog]);
+  }, [matchId, winner, appendLog]);
 
   // resetMatch in PvP has NO local re-shuffle authority — it leaves the match
   // and returns to the lobby (the server owns match lifecycle). Leaving also
@@ -511,6 +581,9 @@ export function useRemoteCryptMatch(opts: RemoteOptions) {
     mulligan,
     resetMatch,
     concede,
+    concedePending,
+    concedeError,
+    clearConcedeError,
     // Extra PvP-only fields (page can ignore; lobby/status may use them).
     mySeat,
     version,
