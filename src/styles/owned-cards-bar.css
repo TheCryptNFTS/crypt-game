@@ -30,3 +30,17 @@
   border: 1px solid rgba(233, 201, 132, 0.5); box-shadow: none;
 }
 .ocb__btn--ghost:hover { background: rgba(233, 201, 132, 0.12); }
+
+/* MOBILE (board-above-the-fold): this upsell bar is the FIRST thing on the match
+   screen — on a phone its 2-line copy + pill burned ~100px before the game even
+   began. Tighten it to a compact strip — still legible, still the loud "which
+   deck am I playing" truth — so the battlefield starts higher. */
+@media (max-width: 480px) {
+  .ocb {
+    gap: 8px;
+    padding: 7px 12px;
+    font-size: 11.5px;
+    line-height: 1.3;
+  }
+  .ocb__btn { padding: 7px 13px; font-size: 11px; }
+}

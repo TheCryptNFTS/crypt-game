@@ -128,4 +128,21 @@
   .live-topbar .ph-crystal { min-height: 28px; margin-top: 1px; }
   .live-topbar .ph-crystal__gem { width: 30px; height: 30px; }
   .live-topbar .ph-crystal__value { font-size: 14px; }
+
+  /* BOARD-ABOVE-THE-FOLD (mobile playability): the match opened with ~575px of
+     chrome stacked above the battlefield — you scrolled past a wall to reach
+     your own board. Two non-gameplay strips were the bulk of it; trim both.
+
+     (1) The owned-cards upsell bar is compacted in its home file
+     (owned-cards-bar.css) so its base rule wins the cascade.
+
+     (2) The HUD is position:sticky on mobile (it follows you down to the board),
+     so every pixel of its height is permanently lost play space. Drop the
+     decorative "Live Match" pill — whose-turn is already shown by the Active
+     pill ("You"/"Opponent") and the OPPONENT PHASE band — reclaiming a full
+     wrapped row, and tighten the topbar padding. The Reset / Surge / End Turn
+     buttons KEEP their 44px tap targets (untouched). */
+  .live-topbar { padding: 8px 10px; gap: 8px; }
+  .live-phase { display: none; }
+  .live-topbar__meta { justify-content: flex-end; gap: 8px; }
 }
