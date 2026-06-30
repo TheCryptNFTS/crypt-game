@@ -19,6 +19,8 @@ import { allPlayableCards } from "../engine/cards";
 import { compileAbility } from "../engine/abilityCompiler";
 import { classifySpellTargeting } from "../engine/spellTargeting";
 import { MAX_LANE_UNITS } from "../engine/state";
+import { evaluateBoard, simulate, wasRejected } from "./cryptAiEval";
+import type { Action } from "../engine/reducer";
 
 // Plays reference a card by id (not hand index): the hook re-finds the card's
 // CURRENT index in P2's live hand at apply time, so plans stay correct even as
@@ -149,15 +151,23 @@ type DifficultyProfile = {
   skipTrades: boolean;
   /** Take lethal face damage when the swing is exact-or-over? */
   takeLethal: boolean;
+  /**
+   * Use the 1-ply eval-driven combat planner (simulate each candidate swing
+   * through the reducer and pick the highest-valued resulting board). HARD only —
+   * EASY/NORMAL keep the historical greedy `favorable`-trade loop byte-for-byte so
+   * the regression + combat-parity proofs (which read NORMAL) stay deterministic.
+   */
+  useEval: boolean;
 };
 
 const PROFILES: Record<AiDifficulty, DifficultyProfile> = {
   // EASY: under-deploys (2 units), often ignores trades, never hunts lethal.
-  easy: { maxDeploys: 2, skipTrades: true, takeLethal: false },
+  easy: { maxDeploys: 2, skipTrades: true, takeLethal: false, useEval: false },
   // NORMAL: the original greedy policy — 4 deploys, takes trades, no lethal math.
-  normal: { maxDeploys: 4, skipTrades: false, takeLethal: false },
-  // HARD: full board (5), always trades, and prioritizes lethal when on the table.
-  hard: { maxDeploys: 5, skipTrades: false, takeLethal: true },
+  normal: { maxDeploys: 4, skipTrades: false, takeLethal: false, useEval: false },
+  // HARD: full board (5), always trades, hunts lethal, and EVALUATES each swing
+  // with a 1-ply lookahead so it picks favorable trades / correct face chip.
+  hard: { maxDeploys: 5, skipTrades: false, takeLethal: true, useEval: true },
 };
 
 /**
@@ -551,6 +561,81 @@ export function planP2Combat(match: any, difficulty: AiDifficulty = "normal"): A
       }
       return actions;
     }
+  }
+
+  // --- HARD: 1-ply EVAL-DRIVEN combat. ----------------------------------------
+  // No lethal this turn (handled above). For each ready attacker, enumerate its
+  // LEGAL candidate swings (every enemy unit + face), SIMULATE each through the
+  // real reducer against a running scratch state, and keep the one whose resulting
+  // board scores highest for P2 (evaluateBoard). This makes the AI:
+  //   • respect GUARD / COMMANDER_SHIELD / FLYING / STEALTH / FEAR for free — the
+  //     reducer rejects an illegal swing, so a rejected candidate is simply skipped
+  //     (no parallel rules to drift from the engine);
+  //   • take FAVORABLE trades (killing a body while surviving raises P2's side
+  //     value) and AVOID bad ones (suiciding a big body into a small one drops our
+  //     side value below just hitting face, so face wins the argmax);
+  //   • use EXECUTE / CRUSH / LIFESTEAL meaningfully because their effects appear
+  //     in the simulated resulting state the eval scores.
+  // WINDFURY's second swing is re-planned the same way on the post-first-swing
+  // scratch (the target may have died), so the bonus hit naturally falls to face.
+  // Determinism: attackers are processed in board order; ties resolve to the FIRST
+  // best candidate (face enumerated last, so a unit kill ties-break over equal face)
+  // — no Math.random. (Greedy NORMAL/EASY loop below is untouched, byte-identical.)
+  if (profile.useEval) {
+    // Simulation runs P2 actions through the reducer, which enforces turn
+    // ownership. Live play only ever drives the AI on P2's turn, but a pure caller
+    // (proofs/tests) may hand us a P1-active board; normalize a shallow scratch to
+    // P2-active so a candidate isn't reject-soft'd as `not-your-turn` before the
+    // real legality (GUARD/FEAR/etc.) is ever consulted. structuredClone keeps the
+    // input untouched; only the top-level activePlayer field is overridden.
+    let scratch: any = match.activePlayer === "P2" ? match : { ...match, activePlayer: "P2" };
+    const orderedAttackers = lanesOf(scratch.players?.P2).filter((u) =>
+      attackers.some((a) => a.instanceId === u.instanceId),
+    );
+    for (const attacker of orderedAttackers) {
+      const id = attacker?.instanceId;
+      if (!id) continue;
+      const swings = hasKw(attacker, "WINDFURY") ? 2 : 1;
+      for (let s = 0; s < swings; s += 1) {
+        // Re-read the live attacker from the scratch state — an earlier swing this
+        // turn (or a counter) may have killed or exhausted it.
+        const live = lanesOf(scratch.players?.P2).find((u) => u.instanceId === id);
+        if (!live || (live.health ?? 0) <= 0 || live.exhausted) break;
+
+        // Build the candidate action list: one ATTACK_UNIT per live enemy unit,
+        // plus ATTACK_FACE. Illegal candidates are filtered by the reducer below.
+        const candidates: { plan: AiAction; action: Action }[] = [];
+        for (const def of lanesOf(scratch.players?.P1)) {
+          if (!def?.instanceId || (def.health ?? 0) <= 0) continue;
+          candidates.push({
+            plan: { kind: "attackUnit", attackerInstanceId: id, defenderInstanceId: def.instanceId },
+            action: { type: "ATTACK_UNIT", player: "P2", attackerInstanceId: id, defenderInstanceId: def.instanceId },
+          });
+        }
+        candidates.push({
+          plan: { kind: "attackFace", attackerInstanceId: id },
+          action: { type: "ATTACK_FACE", player: "P2", attackerInstanceId: id },
+        });
+
+        let bestScore = -Infinity;
+        let bestPlan: AiAction | null = null;
+        let bestState: any = null;
+        for (const c of candidates) {
+          const after = simulate(scratch, c.action);
+          if (wasRejected(scratch, after)) continue; // reducer rejected — illegal swing
+          const score = evaluateBoard(after);
+          if (score > bestScore) {
+            bestScore = score;
+            bestPlan = c.plan;
+            bestState = after;
+          }
+        }
+        if (!bestPlan) break; // no legal swing for this unit (e.g. only-feared)
+        actions.push(bestPlan);
+        scratch = bestState;
+      }
+    }
+    return actions;
   }
 
   for (const attacker of attackers) {
