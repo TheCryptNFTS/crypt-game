@@ -194,10 +194,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .crypt-app-root {
   position: relative;
+  /* SINGLE SOURCE OF TRUTH for the fixed bottom dock height. The dock's content
+     row is `--crypt-dock-row-h` tall; `--crypt-nav-dock-h` adds the iOS safe-area
+     inset and is what every surface (app main, the in-match board/action bar)
+     reserves so nothing is ever hidden behind the dock. Previously the match CSS
+     referenced --crypt-nav-dock-h but it was never defined, so it silently fell
+     back to a guessed 64px while the real 9-tab dock was taller — the Attack Pyre
+     row sat under it. The dock is now a single comfortable 5-tab row. */
+  --crypt-dock-row-h: 60px;
+  --crypt-nav-dock-h: calc(var(--crypt-dock-row-h) + env(safe-area-inset-bottom, 0px));
 }
 
 .crypt-app-main {
-  padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: var(--crypt-nav-dock-h, 60px);
 }
 
 /* Fixed bottom tab bar — primary nav on all breakpoints */
@@ -207,6 +216,11 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0;
   left: 0;
   right: 0;
+  /* Lock the row to the height the rest of the app reserves (--crypt-dock-row-h),
+     so --crypt-nav-dock-h stays in sync with reality. box-sizing keeps the inner
+     padding inside that height. */
+  height: var(--crypt-nav-dock-h, 60px);
+  box-sizing: border-box;
   display: flex;
   align-items: stretch;
   justify-content: space-around;
@@ -227,8 +241,8 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 7px 2px 5px;
-  min-height: 52px;
+  padding: 6px 2px 4px;
+  min-height: 0;
   max-width: 96px;
   margin: 0 auto;
   border-radius: 8px;
@@ -336,6 +350,76 @@ h1, h2, h3, h4, h5, h6 {
   background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.14), rgba(38, 36, 40, 0.92));
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: none;
+}
+
+/* The "More" overflow trigger glyph: three stacked rules suggesting a menu. */
+.crypt-mobile-dock-glyph--more {
+  width: 16px;
+  height: 10px;
+  background: linear-gradient(
+    180deg,
+    rgba(212, 168, 75, 0.85) 0 2px,
+    transparent 2px 4px,
+    rgba(212, 168, 75, 0.85) 4px 6px,
+    transparent 6px 8px,
+    rgba(212, 168, 75, 0.85) 8px 10px
+  );
+  border-radius: 0;
+}
+
+/* The "More" tab is a <button>, not a NavLink — strip the native button chrome so
+   it matches the surrounding NavLinks exactly (the .crypt-mobile-dock-link class
+   already provides layout, color, and the active/focus states). */
+button.crypt-mobile-dock-link {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* ===== "More" overflow sheet ===== */
+.crypt-more-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 41; /* above the dock (40) */
+}
+
+.crypt-more-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 1, 1, 0.5);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.crypt-more-sheet__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  /* Sit directly on top of the dock. */
+  bottom: var(--crypt-nav-dock-h, 60px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, rgba(14, 11, 11, 0.96) 0%, rgba(6, 4, 4, 0.98) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-top: 1px solid rgba(212, 168, 75, 0.18);
+  box-shadow: 0 -16px 50px rgba(0, 0, 0, 0.6);
+  border-radius: 14px 14px 0 0;
+}
+
+.crypt-more-sheet__panel .crypt-mobile-dock-link {
+  max-width: none;
+  min-height: 60px;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 /* Shared route shell — matches Home / Results hierarchy */

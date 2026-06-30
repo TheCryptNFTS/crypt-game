@@ -14,6 +14,10 @@ type Props = {
   deckSource: "owned" | "demo";
   onEndTurn: () => void;
   onReset: () => void;
+  /** True when the local player can't act — match over OR it isn't their turn
+   *  (the AI is animating). Disables End Turn so a press can't dispatch END_TURN
+   *  on the opponent's behalf and corrupt the turn order. */
+  actionsLocked?: boolean;
   /** Presentation-only nexus-damage motion tokens from useMatchMotion. */
   ownNexusHit?: NexusHit;
   enemyNexusHit?: NexusHit;
@@ -37,6 +41,7 @@ export function MatchTopBar({
   deckSource,
   onEndTurn,
   onReset,
+  actionsLocked,
   ownNexusHit,
   enemyNexusHit,
   enemyHexTargetable,
@@ -222,7 +227,13 @@ export function MatchTopBar({
               ⟡ Surge
             </button>
           ) : null}
-          <button className="live-btn live-btn--primary" onClick={onEndTurn}>
+          <button
+            className="live-btn live-btn--primary"
+            onClick={onEndTurn}
+            disabled={actionsLocked}
+            aria-disabled={actionsLocked}
+            title={actionsLocked ? "Not your turn yet" : undefined}
+          >
             End Turn
             {readyRipple(3)}
           </button>

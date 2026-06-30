@@ -405,7 +405,11 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     activePlayer,
     mySeat,
     winner,
-    resetKey: match.seed ?? 0,
+    // Reset on a NEW match instance, not the engine seed: two rematches in the
+    // same millisecond share a Date.now() seed, so a seed-keyed reset would not
+    // fire and stale prevRefs would spray bogus motion tokens. instanceKey is a
+    // process-lifetime counter, guaranteed to differ per match (see hook).
+    resetKey: match.instanceKey ?? match.seed ?? 0,
   });
 
   // PRESENTATION-ONLY: procedural sound, diffing the same state as the motion
@@ -424,7 +428,9 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     activePlayer,
     mySeat,
     winner,
-    resetKey: match.seed ?? 0,
+    // Same monotonic reset id as the motion hook (see resetKey note above) so a
+    // same-millisecond rematch genuinely resets the sound diff baseline.
+    resetKey: match.instanceKey ?? match.seed ?? 0,
     faction: ownCommander?.faction ?? null,
     maxNexus: 20,
   });
@@ -432,13 +438,18 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   // Card-draw drama: derive the set of hand-card ids that are NEW since the last
   // render so they can animate in. Presentation-only — never mutates the hand.
   const prevHandRef = useRef<Set<string>>(new Set());
-  const seedRef = useRef(match.seed ?? 0);
+  // Keyed off the per-instance reset id, not the engine seed: a same-millisecond
+  // rematch reuses the Date.now() seed, so a seed-keyed baseline would not reset
+  // and the new opening hand would all spuriously "draw". instanceKey is unique
+  // per match (see useLocalCryptMatch).
+  const matchKey = match.instanceKey ?? match.seed ?? 0;
+  const seedRef = useRef(matchKey);
   const [drawnIds, setDrawnIds] = useState<Set<string>>(new Set());
   const drawClearTimer = useRef<number | null>(null);
   useEffect(() => {
     // A fresh match resets the baseline so the opening hand doesn't all "draw".
-    if (seedRef.current !== (match.seed ?? 0)) {
-      seedRef.current = match.seed ?? 0;
+    if (seedRef.current !== matchKey) {
+      seedRef.current = matchKey;
       prevHandRef.current = new Set(ownHandIds);
       setDrawnIds(new Set());
       return;
@@ -455,7 +466,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     if (drawClearTimer.current) window.clearTimeout(drawClearTimer.current);
     drawClearTimer.current = window.setTimeout(() => setDrawnIds(new Set()), 560);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ownHandIds.join("|"), match.seed]);
+  }, [ownHandIds.join("|"), matchKey]);
   useEffect(
     () => () => {
       if (drawClearTimer.current) window.clearTimeout(drawClearTimer.current);
@@ -472,17 +483,18 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
   // no-op (the ghost is removed on its timer regardless).
   const ownHandVmRef = useRef<Map<string, PlayCardVM>>(new Map());
   const [committingCards, setCommittingCards] = useState<PlayCardVM[]>([]);
-  const commitSeedRef = useRef(match.seed ?? 0);
+  const commitSeedRef = useRef(matchKey);
   const commitTimers = useRef<number[]>([]);
   useEffect(() => {
     const prevMap = ownHandVmRef.current;
     const nextMap = new Map<string, PlayCardVM>();
     for (const c of ownHand) nextMap.set(c.id, c);
     ownHandVmRef.current = nextMap;
-    // A fresh match (seed change) resets the baseline — the whole hand turning
-    // over on reset/redaction must NOT spray exit ghosts.
-    if (commitSeedRef.current !== (match.seed ?? 0)) {
-      commitSeedRef.current = match.seed ?? 0;
+    // A fresh match (instance change) resets the baseline — the whole hand turning
+    // over on reset/redaction must NOT spray exit ghosts. Keyed off the per-
+    // instance reset id so a same-millisecond rematch still resets (see matchKey).
+    if (commitSeedRef.current !== matchKey) {
+      commitSeedRef.current = matchKey;
       return;
     }
     // Spectator hands are face-down placeholders that churn on every server
@@ -503,7 +515,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     }, 180); // just past the 160ms keyframe so the ghost fully clears
     commitTimers.current.push(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ownHandIds.join("|"), match.seed]);
+  }, [ownHandIds.join("|"), matchKey]);
   useEffect(
     () => () => {
       commitTimers.current.forEach((t) => window.clearTimeout(t));
@@ -709,7 +721,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     setRatingDelta(null);
     setRankup(null);
     resolvedRef.current = false;
-  }, [match.seed]);
+  }, [matchKey]);
 
   // Victory/defeat particle bloom — one celebratory beat as the match resolves,
   // layered under the CSS ceremony panel. Reduced-motion makes it a no-op.
@@ -739,6 +751,7 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
         deckSource={deckSource}
         onEndTurn={safeEndTurn}
         onReset={resetMatch}
+        actionsLocked={actionsLocked || spectator}
         ownNexusHit={motion.ownNexusHit}
         enemyNexusHit={motion.enemyNexusHit}
         enemyHexTargetable={attackReady}

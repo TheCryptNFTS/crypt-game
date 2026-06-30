@@ -1017,6 +1017,17 @@ function resolveAttackUnitCombat(
   // otherwise overflow over-counts by the defender's flat MITIGATE_DAMAGE.
   const landed = applyCombatDamage(defenderRef.unit, mitigated);
   applyCombatDamage(attackerRef.unit, counter);
+  // BUG (#3) — EXECUTE + CRUSH must not leak overflow PASSIVE_FLOOR_HP would have
+  // stopped. applyCombatDamage already floor-clamped the defender (a floor-HP unit
+  // above 1 can't be dropped below 1 by one instance), so if the defender is still
+  // alive HERE, the damage alone did NOT kill it. A subsequent EXECUTE then sets
+  // health=0 as a NON-damage finisher. CRUSH overflow is `landed - defHpBefore`,
+  // but for a floored unit `landed` exceeds what the floor let through, so that
+  // formula leaks face damage the floor should have absorbed. Record whether the
+  // damage instance itself left the defender alive so the CRUSH math can suppress
+  // overflow on an EXECUTE kill of a floor-HP unit.
+  const defAliveAfterDamage = (defenderRef.unit.health ?? 0) > 0;
+  const defHasFloorHp = unitHasOp(defenderRef.unit.cardId, "PASSIVE_FLOOR_HP");
   // EXECUTE / lifesteal / ON_DAMAGE all key off damage that ACTUALLY LANDED.
   // `landed` is the post-shield, post-flat-mitigation value (returned by
   // applyCombatDamage); for every card except a flat-mitigation defender it
@@ -1024,11 +1035,18 @@ function resolveAttackUnitCombat(
   // defender whose WARD/DIVINE_SHIELD absorbed the hit (landed === 0) "survived
   // the hit" untouched, so the finisher does not fire — honoring the shield's
   // "first instance of damage absorbed" contract.
+  let killedByExecute = false;
   if (landed > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
     defenderRef.unit.health = 0;
+    killedByExecute = true;
   }
   if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {
-    const overflow = Math.max(0, landed - Math.max(0, defHpBefore));
+    let overflow = Math.max(0, landed - Math.max(0, defHpBefore));
+    // EXECUTE-overflow through a floor: when an EXECUTE finisher killed a floor-HP
+    // unit the damage alone left standing, the floor would have stopped any
+    // damage-overflow, so CRUSH leaks nothing (the kill came from the non-damage
+    // finisher, not from damage punching through).
+    if (killedByExecute && defHasFloorHp && defAliveAfterDamage) overflow = 0;
     if (overflow > 0) {
       const target = opponentOf(attacker);
       next.players[target].nexusHealth = (next.players[target].nexusHealth ?? STARTING_NEXUS_HEALTH) - overflow;
@@ -1060,16 +1078,25 @@ function resolveAttackUnitCombat(
     const phantomDmg = absorbDamage(defenderRef.unit, phantomRaw);
     const defHpPre = defenderRef.unit.health;
     const phantomLanded = applyCombatDamage(defenderRef.unit, phantomDmg);
+    // Same floor-HP capture as the primary swing (BUG #3): if the floor left the
+    // defender alive after the phantom damage and EXECUTE then finishes it, CRUSH
+    // must not leak overflow the floor would have absorbed.
+    const phantomDefAlive = (defenderRef.unit.health ?? 0) > 0;
+    const phantomDefHasFloorHp = unitHasOp(defenderRef.unit.cardId, "PASSIVE_FLOOR_HP");
     // Same EXECUTE gate as the primary swing, keyed off the post-mitigation
     // landed value: a phantom strike whose damage was shield-absorbed OR fully
     // flat-mitigated (phantomLanded === 0) does not trigger the finisher.
+    let phantomKilledByExecute = false;
     if (phantomLanded > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
       defenderRef.unit.health = 0;
+      phantomKilledByExecute = true;
     }
     if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {
       // Overflow from the points that actually landed (post flat mitigation),
       // not the pre-mitigation phantomDmg — same fix as the primary swing.
-      const overflow = Math.max(0, phantomLanded - Math.max(0, defHpPre));
+      let overflow = Math.max(0, phantomLanded - Math.max(0, defHpPre));
+      // EXECUTE-overflow through a floor: suppressed exactly as the primary swing.
+      if (phantomKilledByExecute && phantomDefHasFloorHp && phantomDefAlive) overflow = 0;
       if (overflow > 0) {
         const tgt = opponentOf(attacker);
         next.players[tgt].nexusHealth = (next.players[tgt].nexusHealth ?? STARTING_NEXUS_HEALTH) - overflow;

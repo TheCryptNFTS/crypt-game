@@ -59,26 +59,32 @@ export default function LiveCryptMatchPage({
   // the hook is cheap and only its UI is hidden while in PvP.
   const local = useLocalCryptMatch(ownedCardIds, localMatchOptions);
 
+  // Per-match identity for all the once-per-match guards below. Prefer the
+  // monotonic `instanceKey` over `seed`: `seed` is `Date.now()`, so two matches
+  // created in the same millisecond (fast "Run it back") share a seed and the
+  // guards never re-arm (stale rewards/telemetry/intro). `instanceKey` is unique
+  // per match instance, so a rematch always gets a fresh key.
+  const matchKey = local.match?.instanceKey ?? local.match?.seed ?? "solo";
+
   // META PROGRESSION (post-match, OUTSIDE the reducer). Observes the decided
   // `winner` and updates the local PlayerProfile (MMR/XP/level/stars) exactly
-  // once per match. The per-match `seed` (set to Date.now() at match creation)
-  // is a stable key that changes on every reset, re-arming the once-per-match
-  // guard. In-game-only: this never sources hex or touches the wallet.
+  // once per match, keyed to `matchKey` so each reset re-arms the guard.
+  // In-game-only: this never sources hex or touches the wallet.
   const { profile, lastDelta: ratingDelta } = useMatchProgression(
     local.winner,
-    local.match?.seed ?? "solo",
+    matchKey,
     { mySeat: "P1" },
   );
 
   // META REWARDS (post-match, OUTSIDE the reducer). Sibling to progression:
   // advances daily/weekly quests + Sigil + the season track once per decided
-  // match, keyed to the same per-match seed. The retention loop that gives a
+  // match, keyed to the same per-match key. The retention loop that gives a
   // reason to return tomorrow. In-game-only — never sources hex or the wallet.
-  const { rewards, firstWinBonus } = useMatchRewards(local.winner, local.match?.seed ?? "solo", { mySeat: "P1" });
+  const { rewards, firstWinBonus } = useMatchRewards(local.winner, matchKey, { mySeat: "P1" });
 
   // VERSUS match-open beat (solo only). Plays once per match, after the mulligan
-  // is confirmed. Keyed to the match seed so "Reset Match" (new seed) re-arms it.
-  const matchSeed = local.match?.seed ?? "solo";
+  // is confirmed. Keyed to the match key so "Reset Match" re-arms it.
+  const matchSeed = matchKey;
   // On a mid-game refresh the board is rehydrated from storage; pre-mark its seed
   // as "intro already seen" so the once-per-match VS splash doesn't replay on
   // resume. A freshly dealt match (restoredFromStorage=false) still shows it.
@@ -126,14 +132,14 @@ export default function LiveCryptMatchPage({
   // "distinct wallets" computable; the city /api/play-event sink dedupes it.
   const [startEmittedSeed, setStartEmittedSeed] = useState<string | number | null>(null);
   useEffect(() => {
-    if (tutorial || !local.match?.seed || startEmittedSeed === local.match.seed) return;
-    setStartEmittedSeed(local.match.seed);
+    if (tutorial || !local.match || startEmittedSeed === matchKey) return;
+    setStartEmittedSeed(matchKey);
     const owned = local.deckSource === "owned";
     const props = { source: local.deckSource, wallet: walletAddress ?? undefined };
     track("play_started", props);
     track("play_session", props); // daily-session counter (one per match start)
     if (owned) track("play_started_own_cards", props);
-  }, [tutorial, local.match?.seed, local.deckSource, walletAddress, startEmittedSeed]);
+  }, [tutorial, local.match, matchKey, local.deckSource, walletAddress, startEmittedSeed]);
 
   const [doneEmittedSeed, setDoneEmittedSeed] = useState<string | number | null>(null);
   useEffect(() => {

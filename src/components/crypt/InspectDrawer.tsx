@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { InspectState } from "../../ui/cryptTypes";
 import { factionTheme } from "../../ui/cryptTheme";
 import { FactionBadge, SyncBadge, RarityBadge } from "./MatchBadges";
@@ -9,6 +9,33 @@ type InspectDrawerProps = {
 };
 
 export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
+  const open = state.open;
+  const closeRef = useRef<HTMLButtonElement>(null);
+  // Remember the element that had focus when the drawer opened so we can restore
+  // it on close (the tap-to-inspect keyword chip that summoned the drawer).
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
+
+  // A11y: Escape closes the drawer; move focus into the panel on open and restore
+  // it on close. The drawer is the primary newcomer action behind the keyword
+  // chips, so keyboard/AT users must be able to dismiss it and not get stranded.
+  useEffect(() => {
+    if (!open) return;
+    restoreFocusRef.current = (document.activeElement as HTMLElement) ?? null;
+    closeRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      restoreFocusRef.current?.focus?.();
+    };
+  }, [open, onClose]);
+
   if (!state.open) return null;
 
   const { commander, card } = state;
@@ -42,12 +69,21 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
       <div className="crypt-inspect__backdrop" onClick={onClose} />
       <aside
         className="crypt-inspect__panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${card.name} — card detail`}
         style={{
           borderColor: theme.edge,
           boxShadow: theme.shadow
         }}
       >
-        <button type="button" className="crypt-inspect__close" onClick={onClose}>
+        <button
+          type="button"
+          ref={closeRef}
+          className="crypt-inspect__close"
+          onClick={onClose}
+          aria-label="Close card detail"
+        >
           ×
         </button>
 

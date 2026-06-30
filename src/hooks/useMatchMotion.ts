@@ -167,9 +167,44 @@ export function useMatchMotion(input: MatchMotionInput) {
     }
 
     const died: DyingUnit[] = [];
+    // Track which OWN (player-side) units took damage or died THIS tick. An enemy
+    // swing that the snapshots coalesce into a single commit (a trade-kill where
+    // the attacker exhausts AND the defender dies in one React commit) never shows
+    // the attacker un-exhausted across two consecutive diffs, so the not-exhausted
+    // →exhausted edge above misses it and the AI strikes invisibly. Defender harm
+    // is the more reliable witness of an enemy swing, so we use it as a fallback
+    // signal below.
+    let ownTookDamageOrDied = false;
+    for (const d of damaged) {
+      const u = snap.units.get(d.id);
+      if (u && u.side === "own") ownTookDamageOrDied = true;
+    }
     for (const [id, before] of prev.units) {
       if (!snap.units.has(id)) {
         died.push({ id, vm: before.vm, lane: before.lane, side: before.side });
+        if (before.side === "own") ownTookDamageOrDied = true;
+        // A unit that attacked and then died in the SAME commit is GONE from the
+        // new snapshot, so the snap-scan above can never flag it as an attacker.
+        // If a now-dead enemy unit was NOT exhausted last tick, it spent its swing
+        // this tick — surface it so its lunge still reads (death ghost + lunge).
+        if (before.side === "enemy" && !before.exhausted) {
+          enemyAttacked.push(id);
+        }
+      }
+    }
+
+    // Coalesced trade-kill fallback: the AI swung (own side took damage or lost a
+    // unit) but no enemy attacker surfaced via the exhausted-edge or died scans
+    // above (the attacker's not-exhausted→exhausted transition collapsed inside a
+    // single commit). Attribute the swing to a freshly-exhausted enemy unit so the
+    // lunge fires instead of reading as a phantom hit. Guarded so it never
+    // double-fires when an attacker was already detected.
+    if (enemyAttacked.length === 0 && ownTookDamageOrDied) {
+      for (const [id, cur] of snap.units) {
+        if (cur.side === "enemy" && cur.exhausted) {
+          enemyAttacked.push(id);
+          break;
+        }
       }
     }
 
@@ -196,13 +231,15 @@ export function useMatchMotion(input: MatchMotionInput) {
     }
 
     if (damaged.length) {
-      setUnitFloats((f) => [
-        ...f,
-        ...damaged.map((d) => ({ key: nextKey(), unitId: d.id, amount: d.amount })),
-      ]);
-      const keys = damaged.map((d) => d.id);
+      const fresh = damaged.map((d) => ({ key: nextKey(), unitId: d.id, amount: d.amount }));
+      setUnitFloats((f) => [...f, ...fresh]);
+      // Clear by each float's UNIQUE key, not by unitId — a second hit on the same
+      // unit within the window mints a new float, and clearing by unitId would wipe
+      // BOTH when the first hit's timer fires, cutting the newer number short. Keys
+      // are monotonic per-float, so each number lives its full duration.
+      const freshKeys = new Set(fresh.map((x) => x.key));
       schedule(() => {
-        setUnitFloats((f) => f.filter((x) => !keys.includes(x.unitId)));
+        setUnitFloats((f) => f.filter((x) => !freshKeys.has(x.key)));
       }, 950);
     }
 

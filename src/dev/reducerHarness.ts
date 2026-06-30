@@ -16,9 +16,18 @@ import { applyAction, autoPickOption, Action, GameEvent } from "../engine/reduce
 import { MatchState, BASE_MAX_ENERGY, STARTING_NEXUS_HEALTH } from "../engine/state";
 import { planP2Plays, planP2Combat, type AiAction } from "../game-ui/cryptMatchAI";
 
-/** Build a deterministic match seeded exactly like the live hook does. */
-export function makeSeededMatch(seed: number): MatchState {
-  const c1 = allCommanders[0];
+/**
+ * Build a deterministic match seeded exactly like the live hook does.
+ *
+ * `p1CommanderId` lets a caller pin P1's commander by id (e.g. the enrichment
+ * proof needs `cmd_stone_warden` so its Bulwark Guard +0/+2 passive applies).
+ * Omitted → the historical default of `allCommanders[0]`, so every other proof
+ * keeps its existing fixture.
+ */
+export function makeSeededMatch(seed: number, p1CommanderId?: string): MatchState {
+  const c1 =
+    (p1CommanderId && allCommanders.find((c: any) => c.id === p1CommanderId)) ||
+    allCommanders[0];
   const c2 = allCommanders.find((c: any) => c.id !== c1.id) ?? c1;
   const deck = buildPlayerDeck().deck;
 

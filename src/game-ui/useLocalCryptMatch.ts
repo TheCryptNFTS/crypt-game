@@ -89,6 +89,17 @@ export type LocalMatchOptions = {
 // untouched. Suppressed whenever a caller (tutorial, tests) sets its own HP.
 const NEWCOMER_PLAYER_NEXUS = 25;
 
+// MONOTONIC MATCH INSTANCE KEY. The engine `seed` is wall-clock `Date.now()`, so
+// two matches created in the SAME millisecond (a fast rematch / wallet-rebuild)
+// share a seed. The presentation layer keys its hard-reset off this value
+// (useMatchMotion resetKey, draw/commit seedRefs, reward guards) and only clears
+// transient state when the key CHANGES — so a duplicate seed leaves stale
+// prevRefs that spray bogus enter/death/damage tokens on the first post-reset
+// diff. A process-lifetime counter is guaranteed to differ from the previous
+// match instance regardless of clock resolution. `seed` stays the engine's
+// deterministic shuffle seed; `instanceKey` is purely the view-layer reset id.
+let matchInstanceCounter = 0;
+
 function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) {
   const p1Commander = resolveP1Commander();
   // The opponent plays the faction-coherent DEMO (Bronze) deck (buildPlayerDeck()),
@@ -164,6 +175,11 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
   match.activePlayer = match.activePlayer ?? "P1";
   match.turn = match.turn ?? 1;
   match.winner = match.winner ?? null;
+
+  // Guaranteed-unique-per-instance view-layer reset id (see matchInstanceCounter).
+  // A restored-from-storage match is re-stamped on rehydrate (it round-trips
+  // through JSON, dropping any prior key) so a resumed board also gets a fresh id.
+  match.instanceKey = (matchInstanceCounter += 1);
 
   // Real ramping energy: active player (P1) starts with base max, the opponent
   // is seeded at base max too and will refill/ramp at the start of their turn.
@@ -420,6 +436,11 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
       const restored = loadPersistedMatch(ownedKeyFor(ownedCardIds));
       if (restored) {
         restoredRef.current = true;
+        // Stamp a fresh view-layer reset id — a rehydrated board carries no
+        // instanceKey (it round-trips through JSON before this), and the mount's
+        // first diff must read as a clean reset, not a continuation of the prior
+        // match instance that last rendered in this process.
+        restored.instanceKey = (matchInstanceCounter += 1);
         return restored;
       }
     }
@@ -449,6 +470,13 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   const loadedOwnedKey = useRef<string>(ownedKeyFor(ownedCardIds));
   // Guards the AI effect so P2's turn is only ever driven once.
   const aiRunningRef = useRef(false);
+  // In-flight guard for END_TURN. React state is async: two synchronous clicks
+  // close over the SAME stale `match`, both pass the turn-ownership check, and
+  // both dispatch END_TURN — advancing the turn twice and skipping the player's
+  // turn. This ref flips the instant the first dispatch is accepted and is
+  // cleared once it's the local player's turn again, so a same-tick double-click
+  // drops the second dispatch. Mirrors the aiRunningRef pattern.
+  const endTurnInFlightRef = useRef(false);
   // True while this hook's component is mounted. The AI setTimeout below resolves
   // asynchronously; if the user navigates away mid-AI-turn we must not call
   // setMatch on an unmounted component (state-update warning + leak).
@@ -565,8 +593,19 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
 
   const endTurn = () => {
     if (winner) return;
+    // TURN-OWNERSHIP GUARD: only the human (P1) may end a turn, and only on their
+    // own turn. Without this, an End Turn press during the AI's turn dispatched
+    // END_TURN player:"P2" — which the reducer ACCEPTS (P2 is genuinely active) —
+    // ending the AI turn early while already-scheduled AI commits keep firing,
+    // producing out-of-order actions, a doubled turn advance, and a clobbered
+    // player turn. The local player is always P1 (this is the solo hook).
+    if (activePlayer !== "P1" || aiRunningRef.current) return;
+    // IN-FLIGHT GUARD: drop a second synchronous dispatch that closed over the
+    // same stale state (rapid double-click) so the turn can't advance twice.
+    if (endTurnInFlightRef.current) return;
     consumeMulligan();
-    if (dispatch({ type: "END_TURN", player: activePlayer })) {
+    if (dispatch({ type: "END_TURN", player: "P1" })) {
+      endTurnInFlightRef.current = true;
       setSelectedHandId(null);
       setSelectedBoardId(null);
     }
@@ -742,6 +781,9 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
   useEffect(() => {
     if (match.activePlayer !== "P2") {
       aiRunningRef.current = false;
+      // Control is back with the player — release the END_TURN in-flight guard so
+      // the next genuine End Turn (or a fresh turn) is accepted.
+      endTurnInFlightRef.current = false;
       return;
     }
     if (winner) return;

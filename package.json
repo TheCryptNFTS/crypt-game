@@ -6,7 +6,9 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:proofs": "npm run dev:determinism && npm run dev:legality && npm run dev:regression && npm run dev:behavioral-coverage && npm run dev:combat-parity",
+    "test:proofs": "npm run dev:determinism && npm run dev:legality && npm run dev:regression && npm run dev:behavioral-coverage && npm run dev:combat-parity && npm run dev:enrichment-proof:off && npm run dev:enrichment-proof:on",
+    "dev:enrichment-proof:off": "CRYPT_ENRICHMENT=0 tsx src/dev/runEnrichmentProof.ts",
+    "dev:enrichment-proof:on": "CRYPT_ENRICHMENT=1 tsx src/dev/runEnrichmentProof.ts",
     "verify": "npx tsc --noEmit && npm run test:proofs && npm run test",
     "dev": "vite",
     "sync:engine": "node scripts/sync-engine.mjs",

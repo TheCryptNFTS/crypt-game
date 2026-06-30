@@ -65,7 +65,9 @@ function unit(over: Partial<UnitInPlay> & { instanceId: string; cardId: string }
 }
 
 function arena(seed = 4242): MatchState {
-  const m = makeSeededMatch(seed);
+  // Pin P1 to cmd_stone_warden so its Bulwark Guard +0/+2 passive applies — the
+  // whole baseline math below (authored 3/6 + commander +2 = 3/8) depends on it.
+  const m = makeSeededMatch(seed, "cmd_stone_warden");
   m.activePlayer = "P1";
   m.winner = null;
   for (const p of ["P1", "P2"] as const) {
@@ -119,7 +121,7 @@ if (ENABLE_ENRICHMENT) {
     );
   }
 
-  // ---- (A2) ON_SUMMON BUFF_SELF resolves: GUARD body enters at 3/7 ------------
+  // ---- (A2) ON_SUMMON BUFF_SELF resolves: Bulwark GUARD body 3/8 -> 3/9 -------
   {
     const m = arena();
     m.players.P1.hand = [GUARD_ID];

@@ -21,7 +21,7 @@
 
 import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, ChoiceOption } from "./state";
 import { EffectSpec } from "./abilityCompiler";
-import { scryDeck, applyDamageInstance } from "./keywordEngine";
+import { scryDeck, applyDamageInstance, unitIsStealthed, unitHasKeyword } from "./keywordEngine";
 import { makeRng, shuffle } from "./rng";
 
 export interface EffectContext {
@@ -159,12 +159,28 @@ function isCryptLegend(unit: UnitInPlay): boolean {
  *
  *  Returns undefined when the enemy board is empty (or all corpses) — a clean
  *  no-op, identical on every replay. */
+/** STEALTH enforcement for ALL internal enemy-victim selection. STEALTH means
+ *  "can't be attacked OR targeted", so an un-revealed stealthed unit is NEVER a
+ *  legal auto-selected / splash victim — the same rule the combat gate
+ *  (`canTargetDefender` + the reducer's `unitIsStealthed` reject) enforces on the
+ *  player's direct target. Single-target selectors must skip stealthed units; the
+ *  splash/lane effects must exclude them from the hit set. Living-only is folded
+ *  in so callers get one predicate for "is this a real, hittable enemy". */
+function isAutoTargetable(unit: UnitInPlay | undefined | null): boolean {
+  if (!unit) return false;
+  if ((unit.health ?? 0) <= 0) return false;
+  if (unitIsStealthed(unit)) return false;
+  return true;
+}
+
 function selectDamageTarget(
   ctx: EffectContext,
   selector: NonNullable<EffectSpec["damageTarget"]>
 ): UnitInPlay | undefined {
   const enemy: PlayerId = ctx.controller === "P1" ? "P2" : "P1";
-  const foes = alliedUnits(ctx.state, enemy).filter((u) => (u.health ?? 0) > 0);
+  // STEALTH (#1): an un-revealed stealthed unit can't be auto-targeted, same as a
+  // direct attack/spell. isAutoTargetable also folds in the living-only filter.
+  const foes = alliedUnits(ctx.state, enemy).filter(isAutoTargetable);
   if (foes.length === 0) return undefined;
   if (selector === "STRONGEST_ENEMY") {
     let best = foes[0];
@@ -608,8 +624,17 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
         if (loc) {
           const laneArr = state.players[loc.owner].board[loc.lane];
           const amount = spec.amount ?? Math.floor((ctx.source.attack ?? 0) / 2);
+          // FLYING (#2): CLEAVE is an ON-ATTACK physical splash from ctx.source.
+          // A GROUND attacker (no FLYING/RANGED) can't reach a flyer — same
+          // evasion rule as the direct attack (canTargetDefender). A flyer/ranged
+          // attacker's cleave still hits flyers.
+          const attackerCanHitFlyers =
+            unitHasKeyword(ctx.source, "FLYING") || unitHasKeyword(ctx.source, "RANGED");
           for (const nb of [laneArr[loc.idx - 1], laneArr[loc.idx + 1]]) {
-            if (nb) damageUnit(ctx, nb, amount);
+            // STEALTH (#1): never splash an un-revealed stealthed neighbor.
+            if (!isAutoTargetable(nb)) continue;
+            if (!attackerCanHitFlyers && unitHasKeyword(nb, "FLYING")) continue;
+            damageUnit(ctx, nb, amount);
           }
         }
       }
@@ -634,10 +659,18 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
           const amount = spec.amount ?? 0;
           if (spec.allAdjacent) {
             for (const i of [loc.idx - 1, loc.idx, loc.idx + 1]) {
-              if (foeArr[i]) damageUnit(ctx, foeArr[i], amount);
+              // STEALTH (#1): never splash an un-revealed stealthed enemy.
+              if (isAutoTargetable(foeArr[i])) damageUnit(ctx, foeArr[i], amount);
             }
           } else {
-            const tgt = foeArr[loc.idx] ?? foeArr[0];
+            // STEALTH (#1): the single-target fallback must skip stealthed units;
+            // if every candidate is stealthed, it hits nothing (no legal target).
+            const primary = foeArr[loc.idx];
+            const tgt = isAutoTargetable(primary)
+              ? primary
+              : isAutoTargetable(foeArr[0])
+                ? foeArr[0]
+                : undefined;
             if (tgt) damageUnit(ctx, tgt, amount);
           }
         }
@@ -660,7 +693,8 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       else lane = back.length > front.length ? back : front; // "densest" (front wins ties)
       const amount = spec.amount ?? 0;
       for (const u of [...lane]) {
-        if (u) damageUnit(ctx, u, amount);
+        // STEALTH (#1): an un-revealed stealthed unit is excluded from the sweep.
+        if (isAutoTargetable(u)) damageUnit(ctx, u, amount);
       }
       break;
     }
@@ -699,7 +733,10 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       // Deterministic hard removal of ONE enemy board unit, chosen by selector.
       // No matching enemy / empty board -> clean no-op.
       const enemy: PlayerId = controller === "P1" ? "P2" : "P1";
-      const foes = alliedUnits(state, enemy);
+      // STEALTH (#1): a selected destroy can't hit an un-revealed stealthed unit.
+      // Filtering the candidate pool means a board of only stealthed units yields
+      // no legal victim (clean no-op), same as no target.
+      const foes = alliedUnits(state, enemy).filter(isAutoTargetable);
       if (foes.length === 0) break;
       const cost = (u: UnitInPlay) => (ctx.costOf ? ctx.costOf(u.cardId) : 0);
       let pool = foes;
