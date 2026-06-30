@@ -5,7 +5,7 @@ import { absoluteUrl, openTweet, shareOrCopy } from "../lib/share";
 import { CryptPageFrame } from "../components/layout/CryptPageFrame";
 import { t } from "../i18n";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
-import { validateDeck } from "../engine/deckRules";
+import { validateDeck, getCardFaction } from "../engine/deckRules";
 import { Format, isCardLegalInFormat } from "../engine/formats";
 import { getCommanderById } from "../engine/commanders";
 import { useRenderManifest } from "../hooks/useRenderManifest";
@@ -157,13 +157,43 @@ export default function DeckBuilderPage() {
   const addCard = useCallback(
     (id: string) => {
       if (!commander) return;
-      if (mainDeck.length >= commander.deckRules.deckSize) return;
+      const { deckSize, maxGodCards } = commander.deckRules;
       // FORMAT gate: in Core, only Core-legal cards can be enlisted (the archive
       // also dims+disables them below, so this is belt-and-suspenders).
       if (!isCardLegalInFormat(id, format)) return;
-      setMainDeck((d) => [...d, id]);
+      // ENFORCE deck rules AT ADD TIME so the add buttons can never assemble a
+      // deck that validateDeck would reject. Mirrors exactly the limits the
+      // validation memo passes: deckSize, maxCopies (2, same literal as line ~82),
+      // and the numeric GOD cap (commander.deckRules.maxGodCards). The functional
+      // setState reads the CURRENT deck (not a stale closure), so rapid clicks
+      // can't overshoot any cap.
+      setMainDeck((d) => {
+        // deckSize cap
+        if (d.length >= deckSize) return d;
+        // maxCopies cap (must match validateDeck's maxCopies: 2)
+        const copies = d.reduce((n, c) => (c === id ? n + 1 : n), 0);
+        if (copies >= 2) return d;
+        // GOD-card cap: block when this add would push GODS over maxGodCards.
+        let faction: string | null = null;
+        try {
+          faction = getCardFaction(id);
+        } catch {
+          faction = null;
+        }
+        if (faction === "GODS") {
+          const gods = d.reduce((n, c) => {
+            try {
+              return getCardFaction(c) === "GODS" ? n + 1 : n;
+            } catch {
+              return n;
+            }
+          }, 0);
+          if (gods >= maxGodCards) return d;
+        }
+        return [...d, id];
+      });
     },
-    [commander, mainDeck.length, format]
+    [commander, format]
   );
 
   const removeAt = useCallback((index: number) => {
@@ -195,6 +225,16 @@ export default function DeckBuilderPage() {
       setShareNote(t("deck.share.error"));
     }
   }, [commanderId, mainDeck]);
+
+  // UNOWNED-IN-DECK warning (FIX 2). When the holder is filtering to owned-only
+  // and the owned set is KNOWN (non-null), count main-deck cards they don't hold
+  // so we can warn — without auto-deleting or blocking play. Fail-safe: if the
+  // owned set is null/unknown (not connected or an indexer outage) this is 0, so
+  // we NEVER imply they own nothing.
+  const unownedInDeckCount = useMemo(() => {
+    if (!ownedOnly || !ownedIds) return 0;
+    return mainDeck.reduce((n, id) => (ownedIds.has(id) ? n : n + 1), 0);
+  }, [ownedOnly, ownedIds, mainDeck]);
 
   const commanderEntry = entryById.get(commanderId);
 
@@ -271,6 +311,16 @@ export default function DeckBuilderPage() {
                 {t("deck.clear")}
               </button>
             </div>
+
+            {unownedInDeckCount > 0 && (
+              <div className="ocb ocb--warn" role="status" style={{ marginTop: 8 }}>
+                <span>
+                  {unownedInDeckCount} {unownedInDeckCount === 1 ? "card" : "cards"} in
+                  this deck {unownedInDeckCount === 1 ? "isn't" : "aren't"} in your
+                  collection.
+                </span>
+              </div>
+            )}
 
             {mainDeck.length > 0 && (
               <div className="crypt-deck-shape">

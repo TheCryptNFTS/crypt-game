@@ -277,6 +277,21 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     return true;
   };
 
+  // FLYING reach (mirrors the engine's `canTargetDefender` in reducer.ts): a
+  // ground attacker can hit a FLYING defender ONLY if it is itself FLYING or
+  // RANGED. Without this the UI lit "Attackable" on a flyer and enabled the
+  // attack button, but the reducer rejected the swing — the exact silent
+  // dead-click trap. We mirror the rule (printed OR aura-granted keywords, same
+  // as unitHasKeyword) so the UI never invites an unwinnable click.
+  const vmHasKeyword = (u: any, kw: string): boolean =>
+    (Array.isArray(u?.keywords) && u.keywords.includes(kw)) ||
+    (Array.isArray(u?.auraKeywords) && u.auraKeywords.includes(kw));
+  const vmCanReach = (attacker: any, defender: any): boolean => {
+    if (!attacker || !defender) return false;
+    if (!vmHasKeyword(defender, "FLYING")) return true;
+    return vmHasKeyword(attacker, "FLYING") || vmHasKeyword(attacker, "RANGED");
+  };
+
   // Affordance highlights: light the board to show what the current selection
   // can do, so the deploy/attack loop is legible without trial-and-error.
   // Deploy: a unit card is in hand → own lanes are valid landing spots.
@@ -292,6 +307,20 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     !actionsLocked && selectedHandCard?.type === "spell" ? classifySpellTargeting(selectedHandCard) : null;
   const castReadyEnemy = !!spellTargeting?.wantsEnemy;
   const castReadyAlly = !!spellTargeting?.wantsAlly;
+
+  // FLYING dead-click guard: an attacker is selected, an enemy is targeted, the
+  // attacker CAN swing, but it can't REACH that defender (ground unit vs flyer).
+  // The reducer would reject this with "defender-is-flying"; surface the reason
+  // up-front (and disable the attack-unit button below) so the click is never a
+  // silent no-op. Same wording as rejectReasonText's case for consistency.
+  const reachBlocked =
+    !actionsLocked &&
+    vmCanAttack(selectedOwnUnit) &&
+    !!selectedEnemyUnit &&
+    !vmCanReach(selectedOwnUnit, selectedEnemyUnit);
+  const reachBlockMessage = reachBlocked
+    ? "That unit is Flying — only Flying or Ranged units can hit it."
+    : null;
 
   // DIRECT-CLICK COMBAT: once you've selected your own unit (the attacker),
   // clicking an enemy unit attacks IT, and clicking the enemy Hex attacks face —
@@ -820,12 +849,12 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
               selectedType={actionsLocked ? null : selectedHandCard?.type ?? null}
               canEquip={!actionsLocked && selectedHandCard?.type === "equipment" && !!selectedOwnUnit}
               canCast={!actionsLocked && selectedHandCard?.type === "spell"}
-              canAttackUnit={!actionsLocked && vmCanAttack(selectedOwnUnit) && !!selectedEnemyUnit}
+              canAttackUnit={!actionsLocked && vmCanAttack(selectedOwnUnit) && !!selectedEnemyUnit && !reachBlocked}
               canAttackFace={!actionsLocked && vmCanAttack(selectedOwnUnit) && !selectedEnemyUnit}
               affordable={!selectedHandCard || affordableCostFor(selectedHandCard.id)}
               energy={energy}
               selectedCost={selectedHandCard?.liveStats?.cost ?? selectedHandCard?.cost ?? null}
-              rejectMessage={actionsLocked ? null : actionMessage}
+              rejectMessage={actionsLocked ? null : (reachBlockMessage ?? actionMessage)}
               onPlayFront={() => safePlaySelectedUnit("front")}
               onPlayBack={() => safePlaySelectedUnit("back")}
               onPlayArtifact={safePlaySelectedArtifact}

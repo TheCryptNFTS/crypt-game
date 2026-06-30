@@ -296,6 +296,11 @@ function eventToLogText(ev: GameEvent): string | null {
       return `${DISPLAY_NAME[ev.player]} struck for ${ev.outgoing} raw / ${ev.mitigated} final. Counter: ${ev.counter}.`;
     case "NEXUS_DAMAGE":
       return `${DISPLAY_NAME[ev.player]} struck ${POSSESSIVE[ev.targetPlayer]} Pyre for ${ev.damage}.`;
+    case "SURGED": {
+      const energy = ev.energyGained > 0 ? `+${ev.energyGained} energy` : "energy already maxed";
+      const ready = ev.readied > 0 ? `, ${ev.readied} unit${ev.readied === 1 ? "" : "s"} readied` : "";
+      return `${DISPLAY_NAME[ev.player]} surged — ${energy}${ready}.`;
+    }
     case "TURN_START":
       return `${POSSESSIVE[ev.player]} turn. Energy ${ev.energy}/${ev.maxEnergy}.`;
     case "DECK_OUT":
@@ -351,6 +356,8 @@ function rejectReasonText(reason: string): string | null {
     case "spell-target-stealthed":
     case "defender-is-stealthed":
       return "That unit is stealthed — you can't target it yet.";
+    case "defender-is-flying":
+      return "That unit is Flying — only Flying or Ranged units can hit it.";
     default:
       return null;
   }

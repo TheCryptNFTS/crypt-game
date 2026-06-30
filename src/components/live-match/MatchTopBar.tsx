@@ -64,6 +64,15 @@ export function MatchTopBar({
     prevEnergy.current = energy;
   }, [energy]);
 
+  // SURGE OVER-MAX (presentation-only): the Surge spikes energy ABOVE the turn's
+  // ramped max (e.g. 7 with a max of 5), which made the readout show "7 / 5" — a
+  // value over its own denominator that reads as a broken stat. When energy
+  // exceeds maxEnergy, label the excess as a Surge bonus instead of an
+  // impossible-looking fraction. The engine value is untouched; this only
+  // changes how it is shown. `surgeBonus` also drives the extra pip row below.
+  const surgeBonus = Math.max(0, energy - maxEnergy);
+  const pipCount = Math.max(maxEnergy, energy);
+
   // Keyed so every new turn restarts the one-shot animation; rendered only
   // after the first hand-off so nothing flashes on mount.
   const readyRipple = (seq?: 2 | 3) =>
@@ -154,18 +163,25 @@ export function MatchTopBar({
             key={`spend-${spendPulse}`}
             className={`ph-energy${spendPulse > 0 ? " ph-energy--spend" : ""}`}
             role="img"
-            aria-label={`Energy ${energy} of ${maxEnergy}`}
+            aria-label={
+              surgeBonus > 0
+                ? `Energy ${energy} (${maxEnergy} base plus ${surgeBonus} Surge bonus)`
+                : `Energy ${energy} of ${maxEnergy}`
+            }
           >
             <div className="ph-energy__pips" aria-hidden="true">
-              {Array.from({ length: Math.max(0, maxEnergy) }).map((_, i) => (
+              {Array.from({ length: Math.max(0, pipCount) }).map((_, i) => (
                 <span
                   key={i}
-                  className={`ph-pip ${i < energy ? "ph-pip--filled" : ""}`}
+                  className={`ph-pip ${i < energy ? "ph-pip--filled" : ""}${
+                    i >= maxEnergy && i < energy ? " ph-pip--surge" : ""
+                  }`}
                 />
               ))}
             </div>
             <span className="ph-energy__count" aria-hidden="true">
               {energy}<small> / {maxEnergy}</small>
+              {surgeBonus > 0 ? <em className="ph-energy__surge"> +{surgeBonus} Surge</em> : null}
             </span>
           </div>
         </div>

@@ -145,4 +145,26 @@
   .live-topbar { padding: 8px 10px; gap: 8px; }
   .live-phase { display: none; }
   .live-topbar__meta { justify-content: flex-end; gap: 8px; }
+
+  /* BOARD-ABOVE-THE-FOLD, ROUND 2 (390x844 playtest: header/status still ate
+     ~half the screen). Extends b452040 — same CSS-only, <=480px, no JSX change.
+     The sticky HUD column gap + the shell/board top spacing were the remaining
+     bulk pushing the battlefield below the fold. Trim them so the enemy + your
+     ground zones clear the fold on a 390px phone. Tap targets (44px) untouched. */
+
+  /* The sticky topbar stacks the pill cluster ABOVE the actions row; tighten the
+     gap between them and drop the rounded frame inset so the HUD is shorter. */
+  .live-topbar { gap: 6px; border-radius: 12px; }
+  .live-topbar__cluster { gap: 5px; }
+  .live-topbar .live-topbar__pill { padding: 4px 6px; }
+
+  /* Start the board higher: less shell top padding and no extra table top margin
+     (the sticky HUD already provides the separation). */
+  .live-match-shell { padding-top: 6px; }
+  .crypt-table { margin-top: 6px; gap: 6px; }
+
+  /* The zone frames carry a tall top inset for the absolute label; on phone the
+     label is small, so reclaim that headroom on BOTH zones. */
+  .crypt-zone { padding: 14px 8px 8px; }
+  .crypt-zone__label { top: 4px; font-size: 8px; letter-spacing: 0.16em; }
 }
