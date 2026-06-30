@@ -54,6 +54,14 @@ export default function TutorialPage() {
     () => ({
       p1Deck: buildStarterDeck(),
       opponentNexusHealth: TUTORIAL_OPPONENT_NEXUS,
+      // Force the gentlest AI tier for the very first duel, independent of the
+      // global DifficultySelect setting (which a brand-new player has never
+      // knowingly touched). Previously the tutorial only lowered the opponent's
+      // Pyre but inherited the global difficulty, so a newcomer could be handed a
+      // tactical opponent mid-learning — the "losing a game I don't understand"
+      // bounce. Easy under-deploys, skips trades, and never hunts lethal, so the
+      // first match reliably teaches deploy → attack → win.
+      aiDifficulty: "easy" as const,
       // Teardown §3: the mulligan was the FIRST interactive screen a brand-new
       // player ever saw — a redraw decision before they'd seen a card. The
       // tutorial keeps the dealt hand and starts straight on the board.

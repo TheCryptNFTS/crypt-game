@@ -17,6 +17,26 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
   const equipmentSources = card.modifierSources?.equipment ?? [];
   const artifactSources = card.modifierSources?.artifact ?? [];
 
+  // STAT-MODIFICATION SIGNAL (predictability fix): faction identities + the 3+/4+
+  // archetype snowball + trait resonance + auras silently raise a unit's stats
+  // above its printed base (all ON in CORE_RULESET). The drawer is where a player
+  // goes to understand WHY a unit is what it is, so we show the live value and,
+  // when it differs from the printed base, the base in parens tinted buff/nerf.
+  const base = card.baseStats;
+  const live = card.liveStats;
+  const BUFF = "#6EE7A8";
+  const NERF = "#F2777A";
+  const statCell = (label: string, liveVal: number, baseVal: number) => {
+    const delta = liveVal - baseVal;
+    const color = delta > 0 ? BUFF : delta < 0 ? NERF : undefined;
+    return (
+      <div style={color ? { color } : undefined}>
+        {label} {liveVal}
+        {delta !== 0 ? <small> (base {baseVal})</small> : null}
+      </div>
+    );
+  };
+
   return (
     <div className="crypt-inspect">
       <div className="crypt-inspect__backdrop" onClick={onClose} />
@@ -49,12 +69,12 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
 
         <div className="crypt-inspect__section">
           <div className="crypt-inspect-grid">
-            <div>ATK {card.liveStats.attack}</div>
-            <div>HP {card.liveStats.health}</div>
-            <div>ARM {card.liveStats.armor}</div>
-            <div>SPD {card.liveStats.speed}</div>
-            <div>CRIT {card.liveStats.crit}</div>
-            <div>UTIL {card.liveStats.utility}</div>
+            {statCell("ATK", live.attack, base.attack)}
+            {statCell("HP", live.health, base.health)}
+            {statCell("ARM", live.armor, base.armor)}
+            {statCell("SPD", live.speed, base.speed)}
+            {statCell("CRIT", live.crit, base.crit)}
+            {statCell("UTIL", live.utility, base.utility)}
           </div>
         </div>
 

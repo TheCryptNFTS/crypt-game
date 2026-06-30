@@ -15,7 +15,7 @@ export const KW_DISPLAY: Record<string, { label: string; full: string; pri: numb
   STEALTH: { label: "STEALTH", full: "Stealth — can't be attacked or targeted", pri: 1 },
   FLYING: { label: "FLYING", full: "Flying — only Flying or Ranged units can hit it", pri: 1 },
   DIVINE_SHIELD: { label: "SHIELD", full: "Divine Shield — blocks the first hit", pri: 2 },
-  WARD: { label: "WARD", full: "Ward — blocks the first hit", pri: 2 },
+  WARD: { label: "SHIELD", full: "Ward — blocks the first hit", pri: 2 },
   SHIELD: { label: "SHIELD", full: "Shield — blocks the first hit", pri: 2 },
   LIFESTEAL: { label: "LIFE", full: "Lifesteal — heals your Pyre when it deals damage", pri: 3 },
   DEATHRATTLE: { label: "RATTLE", full: "Deathrattle — triggers an effect when it dies", pri: 3 },

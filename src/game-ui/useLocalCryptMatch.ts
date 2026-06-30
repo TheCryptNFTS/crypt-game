@@ -8,7 +8,7 @@ import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck, DEMO_COMMANDER_ID } from "../nft/buildOwnedDeck";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
 import { applyMatchRewards } from "../lib/localProgress";
-import { planP2Turn, planP2Plays, planP2Surge, planP2Combat, readAiDifficulty } from "./cryptMatchAI";
+import { planP2Turn, planP2Plays, planP2Surge, planP2Combat, readAiDifficulty, type AiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
 type Lane = "front" | "back";
@@ -60,6 +60,12 @@ export type LocalMatchOptions = {
   p1Deck?: string[];
   /** Tutorial easy-mode: start the opponent nexus low so a newcomer can win. */
   opponentNexusHealth?: number;
+  /** Pin the AI difficulty for this match, overriding the player's global
+   *  DifficultySelect setting. The tutorial forces "easy" so a first-timer's
+   *  opening duel is a guaranteed, gentle win regardless of a difficulty the
+   *  newcomer never knowingly chose. Default flow leaves this unset and reads
+   *  the global setting as before. */
+  aiDifficulty?: AiDifficulty;
   /** Override P1's starting Hex. When set, the default newcomer cushion below is
    *  NOT applied (the caller is taking explicit control of the player's HP). */
   playerNexusHealth?: number;
@@ -744,7 +750,9 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         // the player picked in DifficultySelect (Initiate/Veteran/Sovereign →
         // easy/normal/hard). The old hidden lifetime-match ramp silently made
         // every "Run It Back" harder — it is gone; no explicit pick = Veteran.
-        const diff = readAiDifficulty();
+        // A caller (the tutorial) may PIN the difficulty so a first duel stays
+        // easy regardless of the global setting the newcomer never chose.
+        const diff = options?.aiDifficulty ?? readAiDifficulty();
         // Two-phase: all plays first, THEN combat off the post-play board so a
         // freshly-summoned RUSH unit can swing.
         for (const a of planP2Plays(scratch, diff)) {

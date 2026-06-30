@@ -201,6 +201,7 @@ export function MatchTopBar({
               className="live-btn live-btn--surge"
               onClick={onSurge}
               title="SURGE — once per match: +2 energy now and ready your whole side for an all-in attack this turn."
+              aria-label="Surge — once per match: gain 2 energy now and ready your whole side for an all-in attack this turn."
             >
               ⟡ Surge
             </button>

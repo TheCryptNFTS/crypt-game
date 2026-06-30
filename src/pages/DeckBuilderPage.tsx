@@ -25,10 +25,22 @@ export default function DeckBuilderPage() {
   const { playable, entryById, loading, error, ready } = useRenderManifest();
   const [commanderId, setCommanderId] = useState(loadStoredCommanderId);
   const [mainDeck, setMainDeck] = useState<string[]>(loadStoredMainDeckCardIds);
-  // FORMAT (PART 2). Open is the historical DEFAULT (full pool legal); Core
-  // restricts legality to the curated Core set. Local-only UI state — it just
-  // drives `validateDeck`'s `format` param and the archive's Core-legal dimming.
-  const [format, setFormat] = useState<Format>("Open");
+  // FORMAT (PART 2). Core is the DEFAULT for the builder UI: a newcomer who taps
+  // "Edit Deck" should land in the curated ~200-card legible pool, not the full
+  // 4,129-card binder (the #1 "too complex" content cliff — the new-player
+  // onboarding path is already curated, but the builder dumped everything). Open
+  // (full pool legal) is one tap away via the toggle for collectors/advanced
+  // builders. Local-only UI state — it drives `validateDeck`'s `format` param,
+  // the archive filtering, and the Core-legal dimming.
+  //
+  // BUT respect a returning advanced player: if a previously-built deck contains
+  // any non-Core card, open in Open so their legal deck doesn't flash "invalid".
+  // A fresh or already-Core-legal deck starts in the simpler Core view.
+  const [format, setFormat] = useState<Format>(() => {
+    const stored = loadStoredMainDeckCardIds();
+    const allCoreLegal = stored.every((id) => isCardLegalInFormat(id, "Core"));
+    return allCoreLegal ? "Core" : "Open";
+  });
 
   useEffect(() => {
     try {
@@ -91,6 +103,11 @@ export default function DeckBuilderPage() {
   const filteredPool = useMemo(() => {
     const q = search.trim().toLowerCase();
     return playablePool.filter((e) => {
+      // FORMAT gate: in Core the binder shows ONLY the curated ~200-card legal
+      // pool. Previously Core merely dimmed the 4,129 illegal cards, so a player
+      // still scrolled the entire collection — the legibility win is to not
+      // render them at all. Open shows everything (historical behavior).
+      if (!isCardLegalInFormat(e.id, format)) return false;
       if (q && !(e.name ?? "").toLowerCase().includes(q)) return false;
       if (factionSel && !(e.faction ?? "").toUpperCase().includes(factionSel)) return false;
       if (costSel != null) {
@@ -99,12 +116,12 @@ export default function DeckBuilderPage() {
       }
       return true;
     });
-  }, [playablePool, search, factionSel, costSel]);
+  }, [playablePool, search, factionSel, costSel, format]);
 
   // Reset the page window whenever the filter narrows/changes.
   useEffect(() => {
     setShown(48);
-  }, [search, factionSel, costSel]);
+  }, [search, factionSel, costSel, format]);
 
   const FACTION_CHIPS: ReadonlyArray<[string, string]> = [
     ["STONE", "Stone"],

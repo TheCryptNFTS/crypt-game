@@ -26,6 +26,26 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
   const kwText = kw.length ? `, ${kw.map((k) => k.d.label.toLowerCase()).join(", ")}` : "";
   const { attack, health, armor, speed } = card.liveStats;
 
+  // STAT-MODIFICATION SIGNAL (predictability fix): the live game ships faction
+  // identities + the 3+/4+ archetype snowball + trait resonance + auras (all ON
+  // in CORE_RULESET), which silently raise a unit's stats above its printed base.
+  // A player who can't see that a 3/2 is now a 5/4 — or WHY — can't read the
+  // board. We compare liveStats to baseStats and tint a stat green when it's
+  // buffed above base / red when debuffed below, with a title that shows the
+  // base, matching the universal TCG convention. HEALTH is only tinted UP: a
+  // live health BELOW base is combat damage (already shown via `is-damaged`),
+  // not a debuff, so tinting it red would be a false signal. Armor/Speed only
+  // ever render when > 0 and are tinted up only, for the same reason.
+  const base = card.baseStats;
+  const BUFF = "#6EE7A8";
+  const NERF = "#F2777A";
+  const atkColor = attack > base.attack ? BUFF : attack < base.attack ? NERF : undefined;
+  const hpColor = health > base.health ? BUFF : undefined;
+  const armColor = armor > base.armor ? BUFF : undefined;
+  const spdColor = speed > base.speed ? BUFF : undefined;
+  const modTitle = (label: string, live: number, baseVal: number) =>
+    live === baseVal ? label : `${label} ${live} (base ${baseVal})`;
+
   return (
     <button
       type="button"
@@ -61,10 +81,38 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
       <div className="crypt-card__sill">
         <div className="crypt-card__name" title={card.name}>{card.name}</div>
         <div className="crypt-card__statline">
-          <span className="crypt-cs crypt-cs--atk" title="Attack">{attack}</span>
-          <span className="crypt-cs crypt-cs--hp" title="Health">{health}</span>
-          {armor > 0 && <span className="crypt-pip crypt-pip--arm" title="Armor">{armor} ARM</span>}
-          {speed > 0 && <span className="crypt-pip crypt-pip--spd" title="Speed">{speed} SPD</span>}
+          <span
+            className="crypt-cs crypt-cs--atk"
+            title={modTitle("Attack", attack, base.attack)}
+            style={atkColor ? { color: atkColor } : undefined}
+          >
+            {attack}
+          </span>
+          <span
+            className="crypt-cs crypt-cs--hp"
+            title={modTitle("Health", health, base.health)}
+            style={hpColor ? { color: hpColor } : undefined}
+          >
+            {health}
+          </span>
+          {armor > 0 && (
+            <span
+              className="crypt-pip crypt-pip--arm"
+              title={modTitle("Armor", armor, base.armor)}
+              style={armColor ? { color: armColor } : undefined}
+            >
+              {armor} ARM
+            </span>
+          )}
+          {speed > 0 && (
+            <span
+              className="crypt-pip crypt-pip--spd"
+              title={modTitle("Speed", speed, base.speed)}
+              style={spdColor ? { color: spdColor } : undefined}
+            >
+              {speed} SPD
+            </span>
+          )}
         </div>
         {kw.length > 0 && (
           <div className="crypt-card__kws">
