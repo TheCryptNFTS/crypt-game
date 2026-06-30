@@ -9,6 +9,7 @@ import { validateDeck } from "../engine/deckRules";
 import { Format, isCardLegalInFormat } from "../engine/formats";
 import { getCommanderById } from "../engine/commanders";
 import { useRenderManifest } from "../hooks/useRenderManifest";
+import { useOwnedCardIds } from "../nft/useOwnedCardIds";
 import CommanderCard from "../components/cards/CommanderCard";
 import PlayableCard from "../components/cards/PlayableCard";
 import { factionTheme } from "../ui/cryptTheme";
@@ -18,6 +19,9 @@ import {
   loadStoredCommanderId,
   loadStoredMainDeckCardIds,
 } from "../lib/deckBuilderStorage";
+import "../styles/owned-cards-bar.css";
+
+const OPENSEA_COLLECTION = "https://opensea.io/collection/crypttradingcards";
 
 const commanderIds = Object.keys(COMMANDER_SPECS).sort();
 
@@ -25,22 +29,20 @@ export default function DeckBuilderPage() {
   const { playable, entryById, loading, error, ready } = useRenderManifest();
   const [commanderId, setCommanderId] = useState(loadStoredCommanderId);
   const [mainDeck, setMainDeck] = useState<string[]>(loadStoredMainDeckCardIds);
-  // FORMAT (PART 2). Core is the DEFAULT for the builder UI: a newcomer who taps
-  // "Edit Deck" should land in the curated ~200-card legible pool, not the full
-  // 4,129-card binder (the #1 "too complex" content cliff — the new-player
-  // onboarding path is already curated, but the builder dumped everything). Open
-  // (full pool legal) is one tap away via the toggle for collectors/advanced
-  // builders. Local-only UI state — it drives `validateDeck`'s `format` param,
-  // the archive filtering, and the Core-legal dimming.
-  //
-  // BUT respect a returning advanced player: if a previously-built deck contains
-  // any non-Core card, open in Open so their legal deck doesn't flash "invalid".
-  // A fresh or already-Core-legal deck starts in the simpler Core view.
-  const [format, setFormat] = useState<Format>(() => {
-    const stored = loadStoredMainDeckCardIds();
-    const allCoreLegal = stored.every((id) => isCardLegalInFormat(id, "Core"));
-    return allCoreLegal ? "Core" : "Open";
-  });
+  // FORMAT. Open is the DEFAULT: this is a holder-first game — the binder must
+  // show a holder every card they own, and most owned NFT cards are NOT Core-legal
+  // (Core is a curated ~200-card subset). Defaulting to Core would hide cards a
+  // holder paid for behind a toggle. Core stays one tap away for anyone who wants
+  // the curated competitive pool. Local-only UI state — it drives `validateDeck`'s
+  // `format` param and the Core-legal dimming (Core dims illegal cards; it never
+  // removes them from view).
+  const [format, setFormat] = useState<Format>("Open");
+  // WALLET → OWNED filter, so a holder can build from just the cards they hold.
+  const { address: walletAddress, ownedIds, state: ownedState, connect: connectWallet } = useOwnedCardIds();
+  const [ownedOnly, setOwnedOnly] = useState(false);
+  useEffect(() => {
+    if (ownedState === "ready" && ownedIds) setOwnedOnly(true);
+  }, [ownedState, ownedIds]);
 
   useEffect(() => {
     try {
@@ -103,11 +105,12 @@ export default function DeckBuilderPage() {
   const filteredPool = useMemo(() => {
     const q = search.trim().toLowerCase();
     return playablePool.filter((e) => {
-      // FORMAT gate: in Core the binder shows ONLY the curated ~200-card legal
-      // pool. Previously Core merely dimmed the 4,129 illegal cards, so a player
-      // still scrolled the entire collection — the legibility win is to not
-      // render them at all. Open shows everything (historical behavior).
-      if (!isCardLegalInFormat(e.id, format)) return false;
+      // OWNED gate: when "Owned only" is on, show only the cards this wallet holds.
+      // A null set (not connected, or an indexer outage) leaves the full pool
+      // visible — never a false-empty binder that hides a holder's cards.
+      if (ownedOnly && ownedIds && !ownedIds.has(e.id)) return false;
+      // FORMAT is NOT a hard filter: Core DIMS illegal cards at render (below) so a
+      // holder always sees every card they own; it never deletes them from view.
       if (q && !(e.name ?? "").toLowerCase().includes(q)) return false;
       if (factionSel && !(e.faction ?? "").toUpperCase().includes(factionSel)) return false;
       if (costSel != null) {
@@ -116,12 +119,12 @@ export default function DeckBuilderPage() {
       }
       return true;
     });
-  }, [playablePool, search, factionSel, costSel, format]);
+  }, [playablePool, search, factionSel, costSel, ownedOnly, ownedIds]);
 
   // Reset the page window whenever the filter narrows/changes.
   useEffect(() => {
     setShown(48);
-  }, [search, factionSel, costSel, format]);
+  }, [search, factionSel, costSel, ownedOnly]);
 
   const FACTION_CHIPS: ReadonlyArray<[string, string]> = [
     ["STONE", "Stone"],
@@ -375,6 +378,50 @@ export default function DeckBuilderPage() {
           </div>
 
           <div>
+            {/* WALLET → build from YOUR cards. Connect to filter the binder down to
+                the cards this wallet holds. Reuses the read-only owned-cards chain. */}
+            {!walletAddress ? (
+              ownedState === "no-wallet" ? (
+                <div className="ocb ocb--warn" role="status">
+                  <span>No wallet in this browser — open the Crypt in your wallet app to build from your cards.</span>
+                </div>
+              ) : (
+                <div className="ocb ocb--invite" role="status">
+                  <span>Own Crypt cards? Build a deck from your collection.</span>
+                  <button className="ocb__btn" onClick={connectWallet} disabled={ownedState === "connecting"}>
+                    {ownedState === "connecting" ? "Connecting…" : "Use my cards →"}
+                  </button>
+                </div>
+              )
+            ) : ownedState === "loading" ? (
+              <div className="ocb ocb--load" role="status"><span>Reading your collection…</span></div>
+            ) : ownedState === "error" ? (
+              <div className="ocb ocb--warn" role="status">
+                <span>Couldn&apos;t reach the collection service — showing the full archive.</span>
+                <button className="ocb__btn ocb__btn--ghost" onClick={connectWallet}>Retry</button>
+              </div>
+            ) : (
+              <div className="ocb ocb--owned" role="status">
+                <span>
+                  ✓ Connected — you hold <strong>{ownedIds ? ownedIds.size : 0}</strong>{" "}
+                  Crypt {ownedIds && ownedIds.size === 1 ? "card" : "cards"}.
+                </span>
+                {ownedIds && ownedIds.size > 0 ? (
+                  <button
+                    className={`ocb__btn${ownedOnly ? "" : " ocb__btn--ghost"}`}
+                    aria-pressed={ownedOnly}
+                    onClick={() => setOwnedOnly((v) => !v)}
+                  >
+                    {ownedOnly ? "Building from your cards" : "Use my cards only"}
+                  </button>
+                ) : (
+                  <a className="ocb__btn ocb__btn--ghost" href={OPENSEA_COLLECTION} target="_blank" rel="noreferrer">
+                    Get cards →
+                  </a>
+                )}
+              </div>
+            )}
+
             <div className="crypt-binder-head">
               <h2 className="crypt-deck-section-title">{t("deck.archive.title")}</h2>
               <span className="crypt-binder-count">{filteredPool.length.toLocaleString()} cards</span>
