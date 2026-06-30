@@ -23,6 +23,7 @@
 import { allPlayableCards } from "../engine/cards";
 import { liveSpells } from "../engine/spellCards";
 import curatedCoreSetV2 from "../data/curatedCoreSetV2.json";
+import { constructedLegalPool, isConstructedLegal } from "./constructedLegal";
 
 export const DECK_SIZE = 30;
 
@@ -171,6 +172,12 @@ function composeDeck(pool: any[], preferFaction?: string): string[] | null {
   // holder. 35 unit cards are disabled in cardOverrides; filtering here mirrors
   // the isCardDisabled guard every other deck path uses. (2026-06-14 red-team CRASH.)
   pool = pool.filter((c) => c && c.disabled !== true);
+  // Constructed legality: OWNED / ranked decks may only draft constructed-legal
+  // cards (catalog minus the balance outliers — see constructedLegal.ts). The DEMO
+  // path (preferFaction set) is exempt: the curated core set is already a strict
+  // subset of the legal pool, and gating it could needlessly starve the starter
+  // deck. A pool restriction, not a re-cost — flips off with one constant.
+  if (!preferFaction) pool = constructedLegalPool(pool);
   const order = preferFaction ? byFactionThenCurve(preferFaction) : byCurve;
   const units = pool.filter((c) => c.type === "unit").sort(order);
   if (units.length === 0) return null;
@@ -264,9 +271,13 @@ export function buildPlayerDeck(ownedCardIds?: string[]): BuiltDeck {
     return { deck: DEMO_DECK, source: "demo", ownedPlayable: 0 };
   }
 
-  // Distinct owned ids that resolve to a real playable card — the honest count
-  // the UI shows. (Spells below are granted, not owned, so they're not counted.)
-  const ownedPlayable = [...new Set(ownedCardIds)].filter((id) => CARD_BY_ID.has(id)).length;
+  // Distinct owned ids that resolve to a real playable card AND are constructed-legal
+  // — the honest count the UI shows ("you own N deck-eligible cards, 30 needed").
+  // Outliers you own still count as collection, just not toward a ranked deck.
+  // (Spells below are granted, not owned, so they're not counted.)
+  const ownedPlayable = [...new Set(ownedCardIds)].filter(
+    (id) => CARD_BY_ID.has(id) && isConstructedLegal(CARD_BY_ID.get(id)),
+  ).length;
 
   const owned = [
     ...[...new Set(ownedCardIds)]
