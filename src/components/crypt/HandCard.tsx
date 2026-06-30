@@ -52,6 +52,16 @@ export function HandCard({ card, onSelect, onInspect }: HandCardProps) {
   // the board (keywordChips.ts), so hand and board read identically.
   const { shown: kw, overflow: kwOverflow } = visibleKeywords(card.keywords ?? []);
   const kwAria = kw.length ? `, ${kw.map((k) => k.d.label.toLowerCase()).join(", ")}` : "";
+  // ~40px tap target for the touch-to-inspect chips (UX audit FIX 1). Inline so it
+  // lives with the interactive logic and needs no new CSS class; the visible chip
+  // stays compact, the transparent padding extends the hittable area.
+  const kwTapStyle: React.CSSProperties = {
+    cursor: "pointer",
+    touchAction: "manipulation",
+    minHeight: 40,
+    display: "inline-flex",
+    alignItems: "center",
+  };
 
   return (
     <button
@@ -116,17 +126,55 @@ export function HandCard({ card, onSelect, onInspect }: HandCardProps) {
         </div>
         {kw.length > 0 && (
           <div className="crypt-card__kws">
-            {kw.map((k) => (
-              <span
-                key={k.raw}
-                className={`crypt-board-kw${k.d.guard ? " crypt-board-kw--guard" : ""}`}
-                title={k.d.full}
-              >
-                {k.d.label}
-              </span>
-            ))}
+            {kw.map((k) => {
+              // TOUCH AFFORDANCE (UX audit FIX 1): `title` never fires on touch, so
+              // on mobile a chip taught the newcomer nothing. Tapping a chip now
+              // opens the InspectDrawer (full keyword text + stats) when onInspect
+              // is wired. role="button" span (the card root is itself a <button>;
+              // nesting buttons is invalid HTML); stopPropagation so the chip tap
+              // doesn't also select/play the card. title kept for desktop hover.
+              const interactive = !!onInspect;
+              return (
+                <span
+                  key={k.raw}
+                  role={interactive ? "button" : undefined}
+                  tabIndex={interactive ? 0 : undefined}
+                  className={`crypt-board-kw${k.d.guard ? " crypt-board-kw--guard" : ""}`}
+                  style={interactive ? kwTapStyle : undefined}
+                  title={k.d.full}
+                  aria-label={interactive ? `${k.d.full} — tap to inspect` : undefined}
+                  onClick={interactive ? (e) => { e.stopPropagation(); onInspect(card); } : undefined}
+                  onPointerDown={interactive ? (e) => e.stopPropagation() : undefined}
+                  onKeyDown={interactive ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onInspect(card);
+                    }
+                  } : undefined}
+                >
+                  {k.d.label}
+                </span>
+              );
+            })}
             {kwOverflow > 0 && (
-              <span className="crypt-board-kw crypt-board-kw--more" title="More keywords — tap to inspect">
+              <span
+                role={onInspect ? "button" : undefined}
+                tabIndex={onInspect ? 0 : undefined}
+                className="crypt-board-kw crypt-board-kw--more"
+                style={onInspect ? kwTapStyle : undefined}
+                title="More keywords — tap to inspect"
+                aria-label={onInspect ? `${kwOverflow} more keywords — tap to inspect` : undefined}
+                onClick={onInspect ? (e) => { e.stopPropagation(); onInspect(card); } : undefined}
+                onPointerDown={onInspect ? (e) => e.stopPropagation() : undefined}
+                onKeyDown={onInspect ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onInspect(card);
+                  }
+                } : undefined}
+              >
                 +{kwOverflow}
               </span>
             )}

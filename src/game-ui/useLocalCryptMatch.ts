@@ -8,7 +8,7 @@ import { beginMulliganPhase, requireMulligan } from "../engine/setup";
 import { buildPlayerDeck, DEMO_COMMANDER_ID } from "../nft/buildOwnedDeck";
 import { loadStoredCommanderId, loadStoredMainDeckCardIds } from "../lib/deckBuilderStorage";
 import { applyMatchRewards } from "../lib/localProgress";
-import { planP2Turn, planP2Plays, planP2Surge, planP2Combat, readAiDifficulty, type AiDifficulty } from "./cryptMatchAI";
+import { planP2Turn, planP2Plays, planP2Surge, planP2Combat, rampedAiDifficulty, type AiDifficulty } from "./cryptMatchAI";
 
 type PlayerId = "P1" | "P2";
 type Lane = "front" | "back";
@@ -109,11 +109,17 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
   // builder. Only legal 30-card lists are honored: createMatchFromDecks THROWS on
   // an illegal deck and this runs inside useState — an unguarded throw
   // white-screens the whole app, so a non-30 list always falls through.
-  const storedDeck = loadStoredMainDeckCardIds();
+  // SANITIZE at the boundary: a stored deck is untrusted input (the deck builder
+  // writes it on every change; a later catalog patch can leave it holding
+  // unknown/disabled ids). sanitizeStoredDeck drops those and returns [] unless a
+  // legal 30 survives, so a stale stored deck falls through to buildPlayerDeck
+  // (always legal) instead of being handed to createMatchFromDecks, which THROWS
+  // on a bad id — a throw inside this useState initializer boot-loops the app.
+  const storedDeck = sanitizeStoredDeck(loadStoredMainDeckCardIds());
   const explicitP1 =
     options?.p1Deck && options.p1Deck.length === 30
       ? options.p1Deck
-      : storedDeck && storedDeck.length === 30
+      : storedDeck.length === 30
         ? storedDeck
         : null;
   const p1Deck = explicitP1 ?? buildPlayerDeck(ownedCardIds).deck;
@@ -123,16 +129,37 @@ function makeInitialMatch(ownedCardIds?: string[], options?: LocalMatchOptions) 
   // per match (server play would supply an authoritative seed instead). A real
   // seeded shuffle means draw order now varies run-to-run — the desired fix for
   // the old fixed-draw "solved game".
-  const match: any = createMatchFromDecks({
-    p1: { commanderId: p1Commander.id, deck: p1Deck },
-    p2: { commanderId: p2Commander.id, deck: p2Deck },
-    seed: Date.now(),
-    openingHandSize: OPENING_HAND_SIZE,
-    // Live play ships the CORE ruleset: FLAT faction identities (Bedrock/Insight/
-    // Onslaught/Tempered/Largesse) so deck/faction choice is mechanically
-    // meaningful, but no archetype-threshold depth or response stack to learn.
-    rules: CORE_RULESET
-  });
+  //
+  // DEFENSE-IN-DEPTH: createMatchFromDecks THROWS on any illegal deck (unknown /
+  // disabled / >2-copy / over-cap id). sanitizeStoredDeck closes the common
+  // unknown/disabled case, but a TAMPERED stored deck (e.g. 3+ copies of a card,
+  // or a god-cost violation) could still slip a legal-length-but-illegal list
+  // through as explicitP1. Because this runs inside a useState initializer, ANY
+  // such throw white-screens the app into an unbreakable boot-loop. Wrap the
+  // build: on a throw, rebuild P1 with buildPlayerDeck (always-legal) so no
+  // persisted-input value can ever brick the boot.
+  const seed = Date.now();
+  let match: any;
+  try {
+    match = createMatchFromDecks({
+      p1: { commanderId: p1Commander.id, deck: p1Deck },
+      p2: { commanderId: p2Commander.id, deck: p2Deck },
+      seed,
+      openingHandSize: OPENING_HAND_SIZE,
+      // Live play ships the CORE ruleset: FLAT faction identities (Bedrock/Insight/
+      // Onslaught/Tempered/Largesse) so deck/faction choice is mechanically
+      // meaningful, but no archetype-threshold depth or response stack to learn.
+      rules: CORE_RULESET
+    });
+  } catch {
+    match = createMatchFromDecks({
+      p1: { commanderId: p1Commander.id, deck: buildPlayerDeck(ownedCardIds).deck },
+      p2: { commanderId: p2Commander.id, deck: p2Deck },
+      seed,
+      openingHandSize: OPENING_HAND_SIZE,
+      rules: CORE_RULESET
+    });
+  }
 
   match.activePlayer = match.activePlayer ?? "P1";
   match.turn = match.turn ?? 1;
@@ -270,6 +297,25 @@ function detectWinner(match: any): PlayerId | null {
 const cardMetaById = new Map<string, any>(
   (allPlayableCards as any[]).map((c) => [c.id, c])
 );
+
+/**
+ * Sanitize a deck loaded from localStorage before it is trusted as an explicit
+ * P1 deck. The deck builder writes its working main-deck to localStorage on every
+ * change, so a stored deck can contain ids that a later catalog/balance patch
+ * has REMOVED, RENAMED, or DISABLED. createMatchFromDecks THROWS on any such id,
+ * and that throw fires inside the useState initializer below → the root error
+ * boundary's "Reload" re-reads the SAME bad localStorage → throws again → an
+ * unbreakable boot-loop. We drop unknown/disabled ids here; a deck that no longer
+ * totals a legal 30 returns [] so the caller falls through to the always-legal
+ * buildPlayerDeck path. (Mirrors composeDeck's `c.disabled !== true` intake gate.)
+ */
+function sanitizeStoredDeck(ids: string[]): string[] {
+  const clean = ids.filter((id) => {
+    const c = cardMetaById.get(id);
+    return c && c.disabled !== true;
+  });
+  return clean.length === 30 ? clean : [];
+}
 
 function costOf(cardId: string): number {
   return cardMetaById.get(cardId)?.cost ?? 0;
@@ -753,13 +799,14 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
         plan.push({ action, isStep });
       };
       try {
-        // VISIBLE TIERS ONLY (Book game ruling): the AI plays exactly the tier
-        // the player picked in DifficultySelect (Initiate/Veteran/Sovereign →
-        // easy/normal/hard). The old hidden lifetime-match ramp silently made
-        // every "Run It Back" harder — it is gone; no explicit pick = Veteran.
-        // A caller (the tutorial) may PIN the difficulty so a first duel stays
-        // easy regardless of the global setting the newcomer never chose.
-        const diff = options?.aiDifficulty ?? readAiDifficulty();
+        // The AI plays the tier the player picked in DifficultySelect
+        // (Initiate/Veteran/Sovereign → easy/normal/hard). With NO explicit pick,
+        // ramp by lifetime matches (rampedAiDifficulty): matches 0-1 EASY, 2-3
+        // NORMAL, 4+ HARD — so a newcomer eases in instead of hitting the binary
+        // easy→hard cliff readAiDifficulty produced (easy until first win, then
+        // straight to hard). An explicit user setting still overrides the ramp.
+        // A caller (the tutorial) may PIN the difficulty regardless of all this.
+        const diff = options?.aiDifficulty ?? rampedAiDifficulty();
         // Two-phase: all plays first, THEN combat off the post-play board so a
         // freshly-summoned RUSH unit can swing.
         for (const a of planP2Plays(scratch, diff)) {

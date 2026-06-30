@@ -94,6 +94,62 @@ export function absorbDamage(unit: AnyUnit, damage: number): number {
   return damage;
 }
 
+/** Options describing the per-unit defensive layers a damage instance must
+ *  honor. They are INJECTED (not read from a compiler here) so this helper has
+ *  zero dependency on the ability-compilation graph and can be the single source
+ *  of truth for BOTH combat (reducer) and spell/ability damage (effectResolver):
+ *
+ *   - mitigation: the unit's flat MITIGATE_DAMAGE reduction (Armored/Patient
+ *     "reduce damage by N"). Applied AFTER the shield, floored at 0.
+ *   - floorHp: the unit carries PASSIVE_FLOOR_HP ("cannot drop below 1"), so a
+ *     single instance can never take a unit that is currently above 1 below 1.
+ *
+ *  ARMOR is intentionally NOT a layer here: combat applies armor BEFORE calling
+ *  in (resolveMitigatedDamage, attacker-relative — it depends on the attacker's
+ *  crit/utility), and spell/ability damage is spell-like and bypasses armor by
+ *  design (most TCGs reduce only *attack* damage with armor). Keeping armor out
+ *  of this helper preserves both behaviors with one shared mitigation/floor/floor
+ *  rule and no double-counting. */
+export interface DamageInstanceOpts {
+  mitigation?: number;
+  floorHp?: boolean;
+}
+
+/** Apply ONE damage instance to a unit through the canonical defensive stack —
+ *  shield-absorb → flat mitigation → floor-HP → subtract — and RETURN the
+ *  post-mitigation damage (the points the hit "carried" after shield+mitigation,
+ *  BEFORE any floor-HP clamp). This is the single source of truth shared by
+ *  combat and spell/ability damage so the two paths can never drift (e.g. spell
+ *  burn must consume a one-shot shield exactly like combat).
+ *
+ *  Return semantics: the value reflects damage that got past the shield and flat
+ *  mitigation, which is what damage-window bookkeeping and CRUSH overflow want.
+ *  The floor-HP clamp can leave a unit at 1 HP without changing this number —
+ *  but a floored unit never dies, so CRUSH (which gates on health <= 0) is
+ *  unaffected, and overflow callers should always re-clamp by the defender's HP
+ *  before the hit (`max(0, landed - defHpBefore)`).
+ *
+ *  Side effects: clears `shielded` on absorb; mutates `unit.health`.
+ *  Non-positive input lands 0 and touches nothing. */
+export function applyDamageInstance(
+  unit: AnyUnit,
+  amount: number,
+  opts: DamageInstanceOpts = {}
+): number {
+  if (amount <= 0) return 0;
+  // 1) One-shot shield (WARD / DIVINE_SHIELD / SHIELD): absorbs the whole hit.
+  const postShield = absorbDamage(unit, amount);
+  if (postShield <= 0) return 0;
+  // 2) Flat MITIGATE_DAMAGE, floored at 0 (never heals / goes negative).
+  const landed = Math.max(0, postShield - Math.max(0, opts.mitigation ?? 0));
+  if (landed <= 0) return 0;
+  // 3) PASSIVE_FLOOR_HP: one instance can't drop a unit above 1 below 1. A unit
+  //    already at/below 1 is untouched by the floor (it isn't healed up to 1).
+  const after = (unit.health ?? 0) - landed;
+  unit.health = opts.floorHp && (unit.health ?? 0) > 1 && after < 1 ? 1 : after;
+  return landed;
+}
+
 /** EXECUTE: an attacker with the keyword finishes a defender that survived the
  *  hit but was left at or below half its max health (the "weak" threshold). */
 export function executesTarget(attacker: AnyUnit, defender: AnyUnit): boolean {

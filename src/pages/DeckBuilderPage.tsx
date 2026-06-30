@@ -44,6 +44,17 @@ export default function DeckBuilderPage() {
     if (ownedState === "ready" && ownedIds) setOwnedOnly(true);
   }, [ownedState, ownedIds]);
 
+  // UX audit FIX 2 — transient "why your add was blocked" message. A blocked add
+  // (deck full / 2 copies / god cap / not Core-legal) was a silent no-op; this
+  // surfaces the reason near the Main deck header and self-clears after a few
+  // seconds. Small local state, not a notification system.
+  const [addBlock, setAddBlock] = useState<string | null>(null);
+  useEffect(() => {
+    if (!addBlock) return;
+    const tid = window.setTimeout(() => setAddBlock(null), 3000);
+    return () => window.clearTimeout(tid);
+  }, [addBlock]);
+
   useEffect(() => {
     try {
       localStorage.setItem(LS_DECK_BUILDER_COMMANDER, commanderId);
@@ -160,19 +171,34 @@ export default function DeckBuilderPage() {
       const { deckSize, maxGodCards } = commander.deckRules;
       // FORMAT gate: in Core, only Core-legal cards can be enlisted (the archive
       // also dims+disables them below, so this is belt-and-suspenders).
-      if (!isCardLegalInFormat(id, format)) return;
+      if (!isCardLegalInFormat(id, format)) {
+        setAddBlock("That card isn't legal in the Core format");
+        return;
+      }
       // ENFORCE deck rules AT ADD TIME so the add buttons can never assemble a
       // deck that validateDeck would reject. Mirrors exactly the limits the
       // validation memo passes: deckSize, maxCopies (2, same literal as line ~82),
       // and the numeric GOD cap (commander.deckRules.maxGodCards). The functional
       // setState reads the CURRENT deck (not a stale closure), so rapid clicks
       // can't overshoot any cap.
+      //
+      // UX audit FIX 2: a blocked add used to return the deck UNCHANGED with NO
+      // feedback, so a capped card read as a silent no-op. We now surface WHY via
+      // setAddBlock. The reason is computed from the SAME current-deck snapshot the
+      // setState uses (no stale closure), and the state write still independently
+      // enforces the caps (the message is purely informative).
       setMainDeck((d) => {
         // deckSize cap
-        if (d.length >= deckSize) return d;
+        if (d.length >= deckSize) {
+          setAddBlock("Deck full — remove a card first");
+          return d;
+        }
         // maxCopies cap (must match validateDeck's maxCopies: 2)
         const copies = d.reduce((n, c) => (c === id ? n + 1 : n), 0);
-        if (copies >= 2) return d;
+        if (copies >= 2) {
+          setAddBlock("Max 2 copies");
+          return d;
+        }
         // GOD-card cap: block when this add would push GODS over maxGodCards.
         let faction: string | null = null;
         try {
@@ -188,8 +214,13 @@ export default function DeckBuilderPage() {
               return n;
             }
           }, 0);
-          if (gods >= maxGodCards) return d;
+          if (gods >= maxGodCards) {
+            setAddBlock(maxGodCards === 0 ? "No god cards allowed" : "God-card limit reached");
+            return d;
+          }
         }
+        // Allowed: clear any stale block message on a successful add.
+        setAddBlock(null);
         return [...d, id];
       });
     },
@@ -296,7 +327,10 @@ export default function DeckBuilderPage() {
             )}
             {commander && (
               <p className="crypt-deck-hint">
-                Target size {commander.deckRules.deckSize} · Max god cards {commander.deckRules.maxGodCards}
+                Target size {commander.deckRules.deckSize}
+                {commander.deckRules.maxGodCards === 0
+                  ? " · No god cards"
+                  : ` · Max god cards ${commander.deckRules.maxGodCards}`}
               </p>
             )}
           </div>
@@ -311,6 +345,12 @@ export default function DeckBuilderPage() {
                 {t("deck.clear")}
               </button>
             </div>
+
+            {addBlock && (
+              <div className="ocb ocb--warn" role="status" aria-live="polite" style={{ marginTop: 8 }}>
+                <span>{addBlock}</span>
+              </div>
+            )}
 
             {unownedInDeckCount > 0 && (
               <div className="ocb ocb--warn" role="status" style={{ marginTop: 8 }}>

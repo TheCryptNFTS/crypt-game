@@ -51,6 +51,41 @@ export class RootErrorBoundary extends React.Component<Props, State> {
     }
   };
 
+  /**
+   * Escape hatch for a persisted-state boot crash: clear the deck-builder and
+   * live-match storage keys, then reload. A stored deck of unknown/disabled ids
+   * is now sanitized at the boot boundary (useLocalCryptMatch), but this gives a
+   * player a one-click way out of ANY future boot crash that a stale saved deck
+   * or board could cause, instead of reload re-reading the same bad state. Keys
+   * are inlined (not imported) so this boundary never pulls in app code that
+   * could itself throw during a crash. Keep in sync with deckBuilderStorage.ts
+   * (LS_DECK_BUILDER_*) and useLocalCryptMatch.ts (MATCH_PERSIST_KEY).
+   */
+  private handleResetReload = (): void => {
+    try {
+      if (typeof window !== "undefined") {
+        for (const key of [
+          "crypt-deck-builder-commander",
+          "crypt-deck-builder-main-deck",
+        ]) {
+          try {
+            window.localStorage.removeItem(key);
+          } catch {
+            /* private mode / disabled storage — ignore */
+          }
+        }
+        try {
+          window.sessionStorage.removeItem("crypt.local-match.v1");
+        } catch {
+          /* ignore */
+        }
+        window.location.reload();
+      }
+    } catch {
+      /* ignore — button is best-effort */
+    }
+  };
+
   render(): ReactNode {
     if (!this.state.error) return this.props.children;
 
@@ -89,25 +124,43 @@ export class RootErrorBoundary extends React.Component<Props, State> {
           The interface hit an unexpected fault and stopped rendering. Reloading
           re-establishes the connection. If it keeps happening, try again shortly.
         </p>
-        <button
-          type="button"
-          onClick={this.handleReload}
-          style={{
-            marginTop: 6,
-            padding: "10px 22px",
-            fontFamily: "inherit",
-            fontSize: 13,
-            letterSpacing: 1,
-            color: "#0a0810",
-            background: "linear-gradient(180deg, #d4b24c 0%, #b8902e 100%)",
-            border: "1px solid #e6c75e",
-            borderRadius: 8,
-            cursor: "pointer",
-            boxShadow: "0 6px 20px rgba(184,144,46,0.35)",
-          }}
-        >
-          Reload
-        </button>
+        <div style={{ display: "flex", gap: 12, marginTop: 6, flexWrap: "wrap", justifyContent: "center" }}>
+          <button
+            type="button"
+            onClick={this.handleReload}
+            style={{
+              padding: "10px 22px",
+              fontFamily: "inherit",
+              fontSize: 13,
+              letterSpacing: 1,
+              color: "#0a0810",
+              background: "linear-gradient(180deg, #d4b24c 0%, #b8902e 100%)",
+              border: "1px solid #e6c75e",
+              borderRadius: 8,
+              cursor: "pointer",
+              boxShadow: "0 6px 20px rgba(184,144,46,0.35)",
+            }}
+          >
+            Reload
+          </button>
+          <button
+            type="button"
+            onClick={this.handleResetReload}
+            style={{
+              padding: "10px 22px",
+              fontFamily: "inherit",
+              fontSize: 13,
+              letterSpacing: 1,
+              color: "#f5f2ee",
+              background: "transparent",
+              border: "1px solid rgba(167,139,250,0.5)",
+              borderRadius: 8,
+              cursor: "pointer",
+            }}
+          >
+            Reset &amp; reload
+          </button>
+        </div>
       </div>
     );
   }

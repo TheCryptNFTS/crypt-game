@@ -36,8 +36,11 @@ export type NexusHit = {
 };
 
 type BoardSnapshot = {
-  /** instanceId -> { health, side, lane, vm } */
-  units: Map<string, { health: number; side: "own" | "enemy"; lane: "front" | "back"; vm: any }>;
+  /** instanceId -> { health, exhausted, side, lane, vm } */
+  units: Map<
+    string,
+    { health: number; exhausted: boolean; side: "own" | "enemy"; lane: "front" | "back"; vm: any }
+  >;
 };
 
 export type MatchMotionInput = {
@@ -59,11 +62,14 @@ function healthOf(vm: any): number {
 }
 
 function buildSnapshot(input: MatchMotionInput): BoardSnapshot {
-  const units = new Map<string, { health: number; side: "own" | "enemy"; lane: "front" | "back"; vm: any }>();
+  const units = new Map<
+    string,
+    { health: number; exhausted: boolean; side: "own" | "enemy"; lane: "front" | "back"; vm: any }
+  >();
   const add = (arr: any[], side: "own" | "enemy", lane: "front" | "back") => {
     for (const vm of arr) {
       if (!vm?.id) continue;
-      units.set(vm.id, { health: healthOf(vm), side, lane, vm });
+      units.set(vm.id, { health: healthOf(vm), exhausted: !!vm?.exhausted, side, lane, vm });
     }
   };
   add(input.ownFront, "own", "front");
@@ -138,6 +144,15 @@ export function useMatchMotion(input: MatchMotionInput) {
 
     const entered: string[] = [];
     const damaged: { id: string; amount: number }[] = [];
+    // ENEMY ATTACK lunge: the AI never visibly swings because the mm-attack token
+    // is only ever merged onto OWN units (the player's resolveAttack* path). An
+    // enemy unit that became exhausted THIS tick is a reasonable "it just
+    // attacked" signal (attacking exhausts; turn-start un-exhausts, which is a
+    // false→? edge we ignore because we only flag the not-exhausted→exhausted
+    // transition). We emit an `attack` token for it so the directional
+    // crypt-side--enemy keyframe (mm-attack-lunge-down) drives it DOWN toward the
+    // player. Presentation-only — derived purely from the rendered exhausted flag.
+    const enemyAttacked: string[] = [];
 
     for (const [id, cur] of snap.units) {
       const before = prev.units.get(id);
@@ -145,6 +160,9 @@ export function useMatchMotion(input: MatchMotionInput) {
         entered.push(id);
       } else if (cur.health < before.health) {
         damaged.push({ id, amount: before.health - cur.health });
+      }
+      if (before && cur.side === "enemy" && cur.exhausted && !before.exhausted) {
+        enemyAttacked.push(id);
       }
     }
 
@@ -155,15 +173,19 @@ export function useMatchMotion(input: MatchMotionInput) {
       }
     }
 
-    if (entered.length || damaged.length) {
+    if (entered.length || damaged.length || enemyAttacked.length) {
       setUnitMotion((m) => {
         const next = { ...m };
         for (const id of entered) next[id] = "enter";
         for (const d of damaged) next[d.id] = "damage";
+        // Attack last so an enemy unit that attacked AND took counter-damage
+        // still shows its forward lunge (its own swing reads better than the
+        // recoil; the player's defender separately gets its own `damage` token).
+        for (const id of enemyAttacked) next[id] = "attack";
         return next;
       });
       // Clear the transient classes after their animations finish.
-      const touched = [...entered, ...damaged.map((d) => d.id)];
+      const touched = [...entered, ...damaged.map((d) => d.id), ...enemyAttacked];
       schedule(() => {
         setUnitMotion((m) => {
           const next = { ...m };

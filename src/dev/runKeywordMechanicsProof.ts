@@ -9,7 +9,9 @@
  */
 
 import { applyAction } from "../engine/reducer";
-import { scryDeck } from "../engine/keywordEngine";
+import { scryDeck, applyDamageInstance } from "../engine/keywordEngine";
+import { compileAbility } from "../engine/abilityCompiler";
+import { resolveEffect } from "../engine/effectResolver";
 import { makeSeededMatch } from "./reducerHarness";
 import { MatchState, UnitInPlay } from "../engine/state";
 
@@ -151,6 +153,93 @@ function arena(): MatchState {
   check("SCRY reorders top N by ascending cost", JSON.stringify(smoothed) === JSON.stringify(["b", "c", "a", "d"]), smoothed);
   const stable = scryDeck(["x", "y"], (id) => ({ x: 2, y: 2 }[id] ?? 0));
   check("SCRY tie-break is deterministic (stable by id)", JSON.stringify(stable) === JSON.stringify(["x", "y"]), stable);
+}
+
+// --- BUG 1: SPELL / ABILITY DAMAGE CONSUMES A ONE-SHOT SHIELD ----------------
+//     A real catalog-style burn ("deal N damage to target enemy unit") fired at a
+//     shielded unit must be ABSORBED (health unchanged) and break the shield, so a
+//     SECOND cast then lands. Pins the fix: damageUnit now routes through the same
+//     applyDamageInstance layer combat uses, instead of raw `health -= amount`.
+{
+  const compiled = compileAbility("Charge. When this unit enters play, deal 1 damage to target enemy unit.");
+  const spec = compiled.specs.find((s) => s.op === "DEAL_DAMAGE");
+  check("catalog burn compiled to DEAL_DAMAGE", !!spec, compiled.specs.map((s) => s.op));
+
+  const m = arena();
+  const shielded = unit({
+    instanceId: "shd",
+    cardId: "tcg_burn_target",
+    health: 1,
+    maxHealth: 1,
+    keywords: ["DIVINE_SHIELD"],
+    shielded: true,
+  });
+  m.players.P2.board.front = [shielded];
+
+  // First cast: shield eats the burn — health unchanged, shield consumed.
+  resolveEffect(spec!, { state: m, controller: "P1", target: shielded });
+  check("spell damage is absorbed by the shield (health unchanged)", shielded.health === 1, shielded.health);
+  check("spell damage CONSUMES the one-shot shield", shielded.shielded === false, shielded);
+
+  // Second cast: shield gone — the 1-HP unit now dies (health drops to 0).
+  resolveEffect(spec!, { state: m, controller: "P1", target: shielded });
+  check("second spell cast lands and kills the now-unshielded unit", shielded.health <= 0, shielded.health);
+}
+
+// --- BUG 2: "health cannot drop below 1" COMPILES TO PASSIVE_FLOOR_HP ---------
+//     The plainer phrasing (tcg_6) previously matched only MITIGATE_DAMAGE, so the
+//     printed floor never armed. Verify both the compile and the runtime survival.
+{
+  const compiled = compileAbility("Guard. This unit's health cannot drop below 1.");
+  const hasFloor = compiled.specs.some((s) => s.op === "PASSIVE_FLOOR_HP");
+  check('"health cannot drop below 1" compiles with PASSIVE_FLOOR_HP', hasFloor, compiled.specs.map((s) => s.op));
+
+  // Runtime: a unit ABOVE 1 carrying the floor survives a big single hit, clamped
+  // to exactly 1. NOTE the precise (intended) semantics shared with combat
+  // (applyCombatDamage): the floor protects a unit whose health is currently > 1
+  // from being driven below 1 by ONE instance — it does NOT make an already-1-HP
+  // unit immortal (a unit at/below 1 is untouched by the floor, never healed up).
+  const floored = unit({ instanceId: "floor", health: 8, maxHealth: 8 });
+  applyDamageInstance(floored, 99, { floorHp: true });
+  check("PASSIVE_FLOOR_HP survives a big single hit (clamped to exactly 1)", floored.health === 1, floored.health);
+  // Control: WITHOUT the floor, the same hit kills it.
+  const mortal = unit({ instanceId: "mortal", health: 8, maxHealth: 8 });
+  applyDamageInstance(mortal, 99, {});
+  check("no PASSIVE_FLOOR_HP: same big hit is lethal", mortal.health <= 0, mortal.health);
+  // Documented edge: a unit ALREADY at 1 HP is NOT protected (matches combat).
+  const atOne = unit({ instanceId: "atone", health: 1, maxHealth: 8 });
+  applyDamageInstance(atOne, 99, { floorHp: true });
+  check("PASSIVE_FLOOR_HP does NOT shield a unit already at 1 HP", atOne.health < 1, atOne.health);
+}
+
+// --- BUG 3: CRUSH OVERFLOW IS COMPUTED ON LANDED (POST-FLAT-MITIGATION) DAMAGE -
+//     applyDamageInstance returns the post-mitigation points that actually landed.
+//     CRUSH overflow = max(0, landed - defHpBefore). A 5-attack swing into a 2-HP
+//     defender with 2 flat MITIGATE_DAMAGE lands 3, leaving overflow = 3 - 2 = 1
+//     (NOT the old pre-mitigation 5 - 2 = 3). This is the exact over-count the bug
+//     produced; we assert the corrected math at the single-source-of-truth layer.
+{
+  const defHpBefore = 2;
+  const defender = unit({ instanceId: "crushed", health: defHpBefore, maxHealth: 2 });
+  const landed = applyDamageInstance(defender, 5, { mitigation: 2 });
+  check("flat mitigation reduces landed damage (5 - 2 = 3)", landed === 3, landed);
+  check("flat-mitigation defender is dead after the swing", defender.health <= 0, defender.health);
+  const overflow = Math.max(0, landed - Math.max(0, defHpBefore));
+  check("CRUSH overflow uses LANDED minus HP (3 - 2 = 1)", overflow === 1, overflow);
+
+  // Control (no mitigation): same swing lands 5, overflow = 5 - 2 = 3 (unchanged).
+  const plain = unit({ instanceId: "plain", health: 2, maxHealth: 2 });
+  const plainLanded = applyDamageInstance(plain, 5, {});
+  const plainOverflow = Math.max(0, plainLanded - 2);
+  check("no mitigation: overflow is the full pre-mitigation value (3)", plainOverflow === 3, plainOverflow);
+
+  // CRUSH vs SHIELD: shield absorbs the whole instance, nothing lands, no overflow.
+  const warded = unit({ instanceId: "ward", health: 2, maxHealth: 2, shielded: true });
+  const wardLanded = applyDamageInstance(warded, 5, {});
+  check("CRUSH vs shield: nothing lands, zero overflow", Math.max(0, wardLanded - 2) === 0 && warded.health === 2, {
+    wardLanded,
+    health: warded.health,
+  });
 }
 
 console.log(`\n=== KEYWORD MECHANICS PROOF ===`);

@@ -37,9 +37,44 @@ function runLengthEncode(cards: string[]): Array<[string, number]> {
   return out;
 }
 
+/** Hard ceiling on a decoded deck length. A real deck is 30 cards; this small
+ *  bound stops a crafted code (e.g. a pair like ["x", 100000000]) from
+ *  allocating a huge array and freezing the tab. Anything larger is rejected. */
+const MAX_DECODED_CARDS = 100;
+/** A single run-length count must be a finite int in this range — a deck holds
+ *  up to 2 copies of a card, but allow generous headroom for legacy/wide codes
+ *  while still bounding per-pair allocation. */
+const MAX_RUN_COUNT = 60;
+
+/**
+ * Inverse of runLengthEncode. Defensive against untrusted input (a shared deck
+ * link is fully attacker-controlled): every pair must be [string id, finite int
+ * in 1..MAX_RUN_COUNT], and the total expanded length is capped at
+ * MAX_DECODED_CARDS. A malformed/oversized payload THROWS so decodeDeck's caller
+ * routes it to the clean "unreadable deck code" path instead of hanging the tab
+ * on a giant allocation (DeckViewPage's try/catch can't rescue a freeze).
+ */
 function runLengthDecode(pairs: Array<[string, number]>): string[] {
   const out: string[] = [];
-  for (const [id, count] of pairs) {
+  for (const pair of pairs) {
+    if (!Array.isArray(pair) || pair.length !== 2) {
+      throw new Error("decodeDeck: malformed run-length pair");
+    }
+    const [id, count] = pair;
+    if (typeof id !== "string") {
+      throw new Error("decodeDeck: run-length id must be a string");
+    }
+    if (
+      typeof count !== "number" ||
+      !Number.isInteger(count) ||
+      count < 1 ||
+      count > MAX_RUN_COUNT
+    ) {
+      throw new Error("decodeDeck: run-length count out of range");
+    }
+    if (out.length + count > MAX_DECODED_CARDS) {
+      throw new Error("decodeDeck: decoded deck exceeds maximum size");
+    }
     for (let i = 0; i < count; i += 1) out.push(id);
   }
   return out;

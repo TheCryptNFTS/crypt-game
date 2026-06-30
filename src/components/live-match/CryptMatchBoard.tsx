@@ -322,6 +322,26 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     ? "That unit is Flying — only Flying or Ranged units can hit it."
     : null;
 
+  // GUARD dead-click guard (mirrors reducer.ts playerHasGuard + the ATTACK_UNIT
+  // check at ~line 1378): a non-GUARD enemy defender cannot be attacked while the
+  // enemy controls ANY unit with GUARD. Without this the UI lit "Attackable" on a
+  // non-guard unit, fired the lunge + whoosh + a damage burst, and the reducer
+  // THEN rejected the swing ("guard-must-be-cleared") — a contact burst on a
+  // no-op. We mirror the rule exactly (printed OR aura-granted GUARD, same as
+  // unitHasKeyword) so the button is disabled and the reason shows up-front.
+  const enemyHasGuard =
+    enemyFront.some((u: any) => vmHasKeyword(u, "GUARD")) ||
+    enemyBack.some((u: any) => vmHasKeyword(u, "GUARD"));
+  const guardBlocked =
+    !actionsLocked &&
+    vmCanAttack(selectedOwnUnit) &&
+    !!selectedEnemyUnit &&
+    enemyHasGuard &&
+    !vmHasKeyword(selectedEnemyUnit, "GUARD");
+  const guardBlockMessage = guardBlocked
+    ? "You must attack the Guard unit first."
+    : null;
+
   // DIRECT-CLICK COMBAT: once you've selected your own unit (the attacker),
   // clicking an enemy unit attacks IT, and clicking the enemy Hex attacks face —
   // no separate button press across the dock. This is the core feel fix: combat
@@ -333,11 +353,11 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     if (spectator || actionsLocked || !selectedOwnUnit) return false;
     triggerLunge(selectedOwnUnit.id);
     playAttack(); // swing whoosh — was only firing on face hits before
-    // Contact burst at the struck defender, timed to the lunge apex (~150ms in).
-    const defKey = laneKeyForUnit(defenderId);
-    if (defKey) {
-      window.setTimeout(() => fxRef.current?.burstAt("damage", laneAnchorRefs.current[defKey]), 150);
-    }
+    // NOTE: the contact/damage particle burst is intentionally NOT scheduled
+    // optimistically here. It fires from the REAL motion diff (actual HP loss)
+    // in the motion.unitMotion effect below, so a swing the reducer rejects
+    // (GUARD in the way, etc.) shows the lunge + whoosh ("tried and bounced")
+    // but never a fake damage burst on a no-op.
     safeAttackUnit(selectedOwnUnit.id, defenderId);
     setTargetBoardId(null);
     safeSetSelectedBoardId(null);
@@ -443,12 +463,67 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
     []
   );
 
+  // Card-play DEPARTURE weight (game-feel): a played hand card used to just
+  // vanish from the rail while the board did all the landing juice. We keep a
+  // short-lived ghost of the departed card mounted (~160ms) so it visibly
+  // LAUNCHES toward the board (mm-hand-commit) and overlaps the unit's enter pop
+  // into one continuous motion. Presentation-only — the real hand is already
+  // gone; this renders a frozen VM snapshot. Reduced-motion makes the keyframe a
+  // no-op (the ghost is removed on its timer regardless).
+  const ownHandVmRef = useRef<Map<string, PlayCardVM>>(new Map());
+  const [committingCards, setCommittingCards] = useState<PlayCardVM[]>([]);
+  const commitSeedRef = useRef(match.seed ?? 0);
+  const commitTimers = useRef<number[]>([]);
+  useEffect(() => {
+    const prevMap = ownHandVmRef.current;
+    const nextMap = new Map<string, PlayCardVM>();
+    for (const c of ownHand) nextMap.set(c.id, c);
+    ownHandVmRef.current = nextMap;
+    // A fresh match (seed change) resets the baseline — the whole hand turning
+    // over on reset/redaction must NOT spray exit ghosts.
+    if (commitSeedRef.current !== (match.seed ?? 0)) {
+      commitSeedRef.current = match.seed ?? 0;
+      return;
+    }
+    // Spectator hands are face-down placeholders that churn on every server
+    // view; never animate those as "plays".
+    if (spectator) return;
+    // Departed = was in the hand last render, gone now, and NOT a card we just
+    // drew (draws never leave; this guards a same-tick draw/play race).
+    const departed: PlayCardVM[] = [];
+    for (const [id, vm] of prevMap) {
+      if (!nextMap.has(id) && !drawnIds.has(id)) departed.push(vm);
+    }
+    if (departed.length === 0) return;
+    setCommittingCards((cur) => [...cur, ...departed]);
+    const goneIds = new Set(departed.map((d) => d.id));
+    const t = window.setTimeout(() => {
+      commitTimers.current = commitTimers.current.filter((x) => x !== t);
+      setCommittingCards((cur) => cur.filter((c) => !goneIds.has(c.id)));
+    }, 180); // just past the 160ms keyframe so the ghost fully clears
+    commitTimers.current.push(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ownHandIds.join("|"), match.seed]);
+  useEffect(
+    () => () => {
+      commitTimers.current.forEach((t) => window.clearTimeout(t));
+      commitTimers.current = [];
+    },
+    []
+  );
+
   // Own units get the lunge token merged on top of the diff-derived motion, so a
   // committed attack visibly strikes forward (the .mm-attack keyframes exist but
   // can't be inferred from a health diff alone).
   const ownUnitMotion = lungeId
     ? { ...motion.unitMotion, [lungeId]: "attack" as const }
     : motion.unitMotion;
+
+  // Enemy lanes read the same diff-derived motion. The enemy ATTACK lunge token
+  // is emitted by useMatchMotion (an enemy unit that became exhausted this tick),
+  // so it already lives in motion.unitMotion — no client-side lungeId merge like
+  // the player path. Kept as a named alias for symmetry with ownUnitMotion.
+  const enemyUnitMotion = motion.unitMotion;
 
   const dyingFor = (side: "own" | "enemy", lane: "front" | "back") =>
     motion.dying.filter((d) => d.side === side && d.lane === lane);
@@ -691,10 +766,11 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 <BoardLane
                   title="Enemy Back"
                   sideLabel={"Back\u2009/\u2009Enemy"}
+                  isEnemy
                   cards={enemyBack}
                   highlight={attackReady || castReadyEnemy ? "target" : null}
                   hint={castReadyEnemy ? "Cast on this" : "Attackable"}
-                  unitMotion={motion.unitMotion}
+                  unitMotion={enemyUnitMotion}
                   floats={motion.unitFloats}
                   dying={dyingFor("enemy", "back")}
                   onSelect={(card) => {
@@ -710,10 +786,11 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 <BoardLane
                   title="Enemy Front"
                   sideLabel={"Front\u2009/\u2009Enemy"}
+                  isEnemy
                   cards={enemyFront}
                   highlight={attackReady || castReadyEnemy ? "target" : null}
                   hint={castReadyEnemy ? "Cast on this" : "Attackable"}
-                  unitMotion={motion.unitMotion}
+                  unitMotion={enemyUnitMotion}
                   floats={motion.unitFloats}
                   dying={dyingFor("enemy", "front")}
                   onSelect={(card) => {
@@ -840,6 +917,17 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
                 </div>
               );
             })}
+            {/* Departure ghosts: a played card launches toward the board for one
+                short beat before it's gone. Inert (aria-hidden, no handlers). */}
+            {committingCards.map((card: PlayCardVM) => (
+              <div
+                className="live-hand__item mm-hand-commit"
+                key={`commit-${card.id}`}
+                aria-hidden="true"
+              >
+                <HandCard card={card} />
+              </div>
+            ))}
           </div>
         </section>
 
@@ -849,12 +937,12 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
               selectedType={actionsLocked ? null : selectedHandCard?.type ?? null}
               canEquip={!actionsLocked && selectedHandCard?.type === "equipment" && !!selectedOwnUnit}
               canCast={!actionsLocked && selectedHandCard?.type === "spell"}
-              canAttackUnit={!actionsLocked && vmCanAttack(selectedOwnUnit) && !!selectedEnemyUnit && !reachBlocked}
-              canAttackFace={!actionsLocked && vmCanAttack(selectedOwnUnit) && !selectedEnemyUnit}
+              canAttackUnit={!actionsLocked && vmCanAttack(selectedOwnUnit) && !!selectedEnemyUnit && !reachBlocked && !guardBlocked}
+              canAttackFace={!actionsLocked && vmCanAttack(selectedOwnUnit) && !selectedEnemyUnit && !enemyHasGuard}
               affordable={!selectedHandCard || affordableCostFor(selectedHandCard.id)}
               energy={energy}
               selectedCost={selectedHandCard?.liveStats?.cost ?? selectedHandCard?.cost ?? null}
-              rejectMessage={actionsLocked ? null : (reachBlockMessage ?? actionMessage)}
+              rejectMessage={actionsLocked ? null : (reachBlockMessage ?? guardBlockMessage ?? actionMessage)}
               onPlayFront={() => safePlaySelectedUnit("front")}
               onPlayBack={() => safePlaySelectedUnit("back")}
               onPlayArtifact={safePlaySelectedArtifact}

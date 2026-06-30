@@ -63,6 +63,17 @@ export async function fetchOwnedCardTokenIds(
       console.warn("[TCG] owned-cards lookup unknown (city/OpenSea outage) — using demo deck");
       return null;
     }
+    // Trust hygiene: the response echoes the address it resolved. If that doesn't
+    // match the wallet we asked about (a MITM, a cache key mixup, or a stale proxy
+    // response), treat it as unknown rather than fielding ANOTHER wallet's cards.
+    // Fail-safe to null = the demo deck, consistent with every other check here.
+    if (
+      typeof data.address === "string" &&
+      data.address.toLowerCase() !== address.toLowerCase()
+    ) {
+      console.warn("[TCG] owned-cards response address mismatch — treating as unknown");
+      return null;
+    }
     if (!Array.isArray(data.tokenIds)) return null;
     // Case (B): a page failed mid-scan. The list may be short, but it's almost
     // certainly still ≥200 ids — plenty for the 30-card deck cap — so we use it

@@ -21,7 +21,7 @@
 
 import { MatchState, PlayerId, Lane, UnitInPlay, STARTING_NEXUS_HEALTH, MAX_LANE_UNITS, ChoiceOption } from "./state";
 import { EffectSpec } from "./abilityCompiler";
-import { scryDeck } from "./keywordEngine";
+import { scryDeck, applyDamageInstance } from "./keywordEngine";
 import { makeRng, shuffle } from "./rng";
 
 export interface EffectContext {
@@ -54,6 +54,15 @@ export interface EffectContext {
    *  exists to read stats from). Absent -> a conservative 0/1 record, so the op
    *  still moves the card to the grave deterministically rather than dropping it. */
   graveStatsOf?: (cardId: string) => { attack: number; maxHealth: number; keywords: string[] } | null | undefined;
+  /** A target unit's flat MITIGATE_DAMAGE total (Armored/Patient "reduce damage
+   *  by N"), injected by the reducer from the compiled ability. Lets spell /
+   *  ability DEAL_DAMAGE honor the SAME flat mitigation combat does. Absent ->
+   *  0 (no reduction), so callers that don't wire it keep raw spell damage. */
+  mitigationOf?: (cardId: string) => number;
+  /** True if a target unit carries PASSIVE_FLOOR_HP ("cannot drop below 1"),
+   *  injected by the reducer. Lets spell / ability damage respect the printed
+   *  floor combat already enforces. Absent -> false (no floor). */
+  hasFloorHp?: (cardId: string) => boolean;
 }
 
 /** Maps the faction NOUN as it appears in ability text ("Stone Keeper you
@@ -89,11 +98,27 @@ function factionScaleCount(ctx: EffectContext, scaleText: string): number {
   return count;
 }
 
-/** Direct (armor-ignoring) damage to a unit. Ability damage is spell-like and
- *  bypasses armor — combat damage (which respects armor) stays in the reducer. */
-function damageUnit(unit: UnitInPlay, amount: number) {
+/** Spell / ability damage to a unit. Routes through the SAME damage-instance
+ *  layer combat uses (applyDamageInstance: shield-absorb → flat mitigation →
+ *  floor-HP), so burn now correctly CONSUMES a one-shot WARD/DIVINE_SHIELD/SHIELD
+ *  and respects flat MITIGATE_DAMAGE + PASSIVE_FLOOR_HP — one source of truth,
+ *  matching the reducer and the AI planner's shield assumptions.
+ *
+ *  ARMOR is deliberately NOT applied: ability damage is spell-like and bypasses
+ *  armor (the prior behavior, and the convention in most TCGs — armor reduces
+ *  only *attack* damage). Combat keeps applying armor in resolveMitigatedDamage
+ *  before it reaches the shared layer, so the two paths stay consistent on
+ *  shields/mitigation/floor while differing on armor by design.
+ *
+ *  Mitigation / floor are looked up via the injected ctx lookups; when a caller
+ *  does not wire them (proofs, etc.) they default to "no reduction / no floor",
+ *  so the shield behavior still always applies. */
+function damageUnit(ctx: EffectContext, unit: UnitInPlay, amount: number) {
   if (amount <= 0) return;
-  unit.health -= amount;
+  applyDamageInstance(unit, amount, {
+    mitigation: ctx.mitigationOf ? ctx.mitigationOf((unit as any).cardId) : 0,
+    floorHp: ctx.hasFloorHp ? ctx.hasFloorHp((unit as any).cardId) : false,
+  });
 }
 
 function healUnit(unit: UnitInPlay, amount: number) {
@@ -410,10 +435,17 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       // DEATHKNELL/DEPLOY burst, which fires with no hand-picked victim), the
       // resolver auto-selects ONE enemy board unit deterministically. An explicit
       // ctx.target always wins, so targeted spell-style DEAL_DAMAGE is unchanged.
-      const tgt = spec.self
-        ? ctx.source
-        : ctx.target ?? (spec.damageTarget ? selectDamageTarget(ctx, spec.damageTarget) : undefined);
-      if (tgt) damageUnit(tgt, spec.amount ?? 0);
+      if (spec.self) {
+        // SELF-damage (end-of-turn decay): UNCHANGED raw subtraction. Decay is a
+        // self-inflicted upkeep cost, not an attack/burn, so it deliberately does
+        // NOT consume the unit's own one-shot shield or apply its mitigation/floor
+        // (preserves prior behavior — see audit BUG 1 "do not change self-damage").
+        const amt = spec.amount ?? 0;
+        if (ctx.source && amt > 0) ctx.source.health -= amt;
+      } else {
+        const tgt = ctx.target ?? (spec.damageTarget ? selectDamageTarget(ctx, spec.damageTarget) : undefined);
+        if (tgt) damageUnit(ctx, tgt, spec.amount ?? 0);
+      }
       break;
     }
     case "HEAL": {
@@ -577,7 +609,7 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
           const laneArr = state.players[loc.owner].board[loc.lane];
           const amount = spec.amount ?? Math.floor((ctx.source.attack ?? 0) / 2);
           for (const nb of [laneArr[loc.idx - 1], laneArr[loc.idx + 1]]) {
-            if (nb) damageUnit(nb, amount);
+            if (nb) damageUnit(ctx, nb, amount);
           }
         }
       }
@@ -602,11 +634,11 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
           const amount = spec.amount ?? 0;
           if (spec.allAdjacent) {
             for (const i of [loc.idx - 1, loc.idx, loc.idx + 1]) {
-              if (foeArr[i]) damageUnit(foeArr[i], amount);
+              if (foeArr[i]) damageUnit(ctx, foeArr[i], amount);
             }
           } else {
             const tgt = foeArr[loc.idx] ?? foeArr[0];
-            if (tgt) damageUnit(tgt, amount);
+            if (tgt) damageUnit(ctx, tgt, amount);
           }
         }
       }
@@ -628,7 +660,7 @@ export function resolveEffect(spec: EffectSpec, ctx: EffectContext): void {
       else lane = back.length > front.length ? back : front; // "densest" (front wins ties)
       const amount = spec.amount ?? 0;
       for (const u of [...lane]) {
-        if (u) damageUnit(u, amount);
+        if (u) damageUnit(ctx, u, amount);
       }
       break;
     }

@@ -45,6 +45,7 @@ import {
   unitIsStealthed,
   lifestealHeal,
   absorbDamage,
+  applyDamageInstance,
   executesTarget,
   regrowAtTurnStart,
   hasDeathrattle,
@@ -227,6 +228,10 @@ function fireTrigger(
       // REVEAL_AND_CULL (Darius) destroys revealed DECK cards: supply the stat-line
       // lookup so each destroyed card gets a faithful graveyard record.
       graveStatsOf,
+      // Spell/ability DEAL_DAMAGE honors the SAME flat mitigation + floor-HP combat
+      // does (shield-absorb is built into applyDamageInstance regardless).
+      mitigationOf: mitigationFor,
+      hasFloorHp: (id: string) => unitHasOp(id, "PASSIVE_FLOOR_HP"),
     });
   }
 }
@@ -294,26 +299,29 @@ function mitigationFor(cardId: string): number {
  *  Damage-window trackers (A2 (2)/(3)) are also stamped here on the ACTUAL points
  *  landed: `tookDamageThisTurn` flags the undamaged-window grower, and
  *  `lastDamageTaken` / `damageTakenThisTurn` feed the per-point grower. */
-function applyCombatDamage(unit: any, amount: number): void {
-  if (amount <= 0) return;
-  // Flat mitigation, applied last and floored at 0 (never heals / goes negative).
-  const mitigated = Math.max(0, amount - mitigationFor(unit.cardId));
-  if (mitigated <= 0) {
-    // Fully absorbed: no damage landed. Zero the per-hit record so a downstream
-    // ON_DAMAGE per-point grower reads 0 (no spurious buff off a stale value).
+function applyCombatDamage(unit: any, amount: number): number {
+  if (amount <= 0) return 0;
+  // SINGLE SOURCE OF TRUTH: delegate the flat-mitigation → floor-HP → subtract
+  // stack to applyDamageInstance (shared with spell/ability damage). The shield
+  // has already been consumed upstream (absorbDamage in resolveAttackUnitCombat),
+  // so the helper's shield step is a no-op here (no double absorb). We pass this
+  // unit's compiled mitigation + PASSIVE_FLOOR_HP flag as the injected layers.
+  const landed = applyDamageInstance(unit, amount, {
+    mitigation: mitigationFor(unit.cardId),
+    floorHp: unitHasOp(unit.cardId, "PASSIVE_FLOOR_HP"),
+  });
+  if (landed <= 0) {
+    // Fully absorbed by flat mitigation: no damage landed. Zero the per-hit
+    // record so a downstream ON_DAMAGE per-point grower reads 0 (no spurious
+    // buff off a stale value).
     unit.lastDamageTaken = 0;
-    return;
+    return 0;
   }
   // Damage-window bookkeeping on the points actually landed.
   unit.tookDamageThisTurn = true;
-  unit.lastDamageTaken = mitigated;
-  unit.damageTakenThisTurn = (unit.damageTakenThisTurn ?? 0) + mitigated;
-  const after = unit.health - mitigated;
-  if (unitHasOp(unit.cardId, "PASSIVE_FLOOR_HP") && unit.health > 1 && after < 1) {
-    unit.health = 1;
-  } else {
-    unit.health = after;
-  }
+  unit.lastDamageTaken = landed;
+  unit.damageTakenThisTurn = (unit.damageTakenThisTurn ?? 0) + landed;
+  return landed;
 }
 
 /** Post-swing bookkeeping shared by ATTACK_UNIT / ATTACK_FACE. Increments the
@@ -1004,32 +1012,36 @@ function resolveAttackUnitCombat(
   const counter = absorbDamage(attackerRef.unit, resolveMitigatedDamage(defenderRef.unit, attackerRef.unit));
 
   const defHpBefore = defenderRef.unit.health;
-  applyCombatDamage(defenderRef.unit, mitigated);
+  // `landed` is the post-mitigation damage that actually hit the defender. CRUSH
+  // overflow must be computed from THIS (not the pre-flat-mitigation `mitigated`),
+  // otherwise overflow over-counts by the defender's flat MITIGATE_DAMAGE.
+  const landed = applyCombatDamage(defenderRef.unit, mitigated);
   applyCombatDamage(attackerRef.unit, counter);
-  // EXECUTE only fires off a swing that ACTUALLY LANDED damage. A defender whose
-  // WARD/DIVINE_SHIELD absorbed this hit (mitigated === 0) "survived the hit"
-  // untouched, so the finisher does not fire — honoring the shield's "first
-  // instance of damage absorbed" contract (the player's mental model that a
-  // shielded body is safe from the first strike). Already-wounded bodies are
-  // unaffected: a hit that lands >0 still executes exactly as before.
-  if (mitigated > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
+  // EXECUTE / lifesteal / ON_DAMAGE all key off damage that ACTUALLY LANDED.
+  // `landed` is the post-shield, post-flat-mitigation value (returned by
+  // applyCombatDamage); for every card except a flat-mitigation defender it
+  // equals `mitigated`, so this is byte-identical to the old behavior there. A
+  // defender whose WARD/DIVINE_SHIELD absorbed the hit (landed === 0) "survived
+  // the hit" untouched, so the finisher does not fire — honoring the shield's
+  // "first instance of damage absorbed" contract.
+  if (landed > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
     defenderRef.unit.health = 0;
   }
   if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {
-    const overflow = Math.max(0, mitigated - Math.max(0, defHpBefore));
+    const overflow = Math.max(0, landed - Math.max(0, defHpBefore));
     if (overflow > 0) {
       const target = opponentOf(attacker);
       next.players[target].nexusHealth = (next.players[target].nexusHealth ?? STARTING_NEXUS_HEALTH) - overflow;
     }
   }
-  healNexus(next, attacker, lifestealHeal(attackerRef.unit, mitigated));
+  healNexus(next, attacker, lifestealHeal(attackerRef.unit, landed));
   healNexus(next, opponentOf(attacker), lifestealHeal(defenderRef.unit, counter));
 
   markAttacked(attackerRef.unit);
   attackerRef.unit.stealthed = false;
 
   fireTrigger(next, attacker, attackerRef.unit, "ON_ATTACK", defenderRef.unit);
-  if (mitigated > 0) {
+  if (landed > 0) {
     fireTrigger(next, opponentOf(attacker), defenderRef.unit, "ON_DAMAGE", attackerRef.unit);
   }
   if (counter > 0) {
@@ -1047,21 +1059,24 @@ function resolveAttackUnitCombat(
       : resolveMitigatedDamage(attackerRef.unit, defenderRef.unit);
     const phantomDmg = absorbDamage(defenderRef.unit, phantomRaw);
     const defHpPre = defenderRef.unit.health;
-    applyCombatDamage(defenderRef.unit, phantomDmg);
-    // Same EXECUTE gate as the primary swing: a phantom strike whose damage was
-    // shield-absorbed (phantomDmg === 0) does not trigger the finisher.
-    if (phantomDmg > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
+    const phantomLanded = applyCombatDamage(defenderRef.unit, phantomDmg);
+    // Same EXECUTE gate as the primary swing, keyed off the post-mitigation
+    // landed value: a phantom strike whose damage was shield-absorbed OR fully
+    // flat-mitigated (phantomLanded === 0) does not trigger the finisher.
+    if (phantomLanded > 0 && executesTarget(attackerRef.unit, defenderRef.unit)) {
       defenderRef.unit.health = 0;
     }
     if (unitHasKeyword(attackerRef.unit, "CRUSH") && defenderRef.unit.health <= 0) {
-      const overflow = Math.max(0, phantomDmg - Math.max(0, defHpPre));
+      // Overflow from the points that actually landed (post flat mitigation),
+      // not the pre-mitigation phantomDmg — same fix as the primary swing.
+      const overflow = Math.max(0, phantomLanded - Math.max(0, defHpPre));
       if (overflow > 0) {
         const tgt = opponentOf(attacker);
         next.players[tgt].nexusHealth = (next.players[tgt].nexusHealth ?? STARTING_NEXUS_HEALTH) - overflow;
       }
     }
-    healNexus(next, attacker, lifestealHeal(attackerRef.unit, phantomDmg));
-    if (phantomDmg > 0 && defenderRef.unit.health > 0) {
+    healNexus(next, attacker, lifestealHeal(attackerRef.unit, phantomLanded));
+    if (phantomLanded > 0 && defenderRef.unit.health > 0) {
       fireTrigger(next, opponentOf(attacker), defenderRef.unit, "ON_DAMAGE", attackerRef.unit);
     }
   }
@@ -1670,6 +1685,9 @@ function applyActionCore(state: MatchState, action: Action): ApplyResult {
         factionOf: (id: string) => cardMetaById.get(id)?.faction ?? null,
         costOf,
         cardTypeOf,
+        // Spell DEAL_DAMAGE honors flat mitigation + floor-HP (and always the shield).
+        mitigationOf: mitigationFor,
+        hasFloorHp: (id: string) => unitHasOp(id, "PASSIVE_FLOOR_HP"),
       });
       player.hand = [...player.hand.slice(0, action.handIndex), ...player.hand.slice(action.handIndex + 1)];
       player.discard = [...(player.discard ?? []), cardId];

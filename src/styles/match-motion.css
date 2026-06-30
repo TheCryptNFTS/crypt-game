@@ -179,10 +179,15 @@
 }
 
 /* ---- Floating damage number (over a lane / nexus pill) ------------------- */
+/* --mm-fx is a small per-float horizontal offset (set inline in BoardLane,
+ * seeded from the float key) so two hits landing on the same unit in one tick
+ * FAN OUT instead of stacking pixel-perfect. Starts above the card's top edge
+ * so the number reads as launching OFF the card, not as a stat overlay. */
 .mm-float-dmg {
   position: absolute;
   left: 50%;
-  top: 18%;
+  top: -8px;
+  --mm-fx: 0px;
   z-index: 30;
   pointer-events: none;
   font-weight: 800;
@@ -200,10 +205,10 @@
 }
 
 @keyframes mm-float-dmg {
-  0% { opacity: 0; transform: translate(-50%, 6px) scale(0.7); }
-  18% { opacity: 1; transform: translate(-50%, -6px) scale(1.12); }
-  60% { opacity: 1; transform: translate(-50%, -22px) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -40px) scale(0.95); }
+  0% { opacity: 0; transform: translate(calc(-50% + var(--mm-fx, 0px)), 6px) scale(0.7); }
+  18% { opacity: 1; transform: translate(calc(-50% + var(--mm-fx, 0px)), -6px) scale(1.12); }
+  60% { opacity: 1; transform: translate(calc(-50% + var(--mm-fx, 0px)), -22px) scale(1); }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--mm-fx, 0px)), -40px) scale(0.95); }
 }
 
 .live-topbar__pill {
@@ -702,6 +707,30 @@
   100% { opacity: 0; transform: scale(1.06); }
 }
 
+/* ---- Card-play departure (game-feel) ------------------------------------ */
+/* A played hand card used to just vanish from the rail. This launches the
+ * departing card toward the board (up + shrinking + fading) for one short beat
+ * that overlaps the unit's mm-unit-enter pop (460ms) into a single continuous
+ * motion. The ghost is a frozen VM snapshot mounted ~180ms by CryptMatchBoard;
+ * pointer-events off so it never intercepts a click during its exit. */
+.live-hand__item.mm-hand-commit {
+  pointer-events: none;
+  animation: mm-hand-commit 160ms cubic-bezier(0.55, 0, 0.85, 0.35) both;
+  transform-origin: bottom center;
+  z-index: 4;
+}
+
+@keyframes mm-hand-commit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.7);
+  }
+}
+
 /* ---- Extra impact juice (item #12) -------------------------------------- */
 /* Make the existing damage/death beats land with a touch more weight — a
  * brief white impact flash on the struck card. CSS-only, particle-free, and
@@ -961,6 +990,7 @@
   .mc-rankup-tier,
   .mc-rankup-glyph,
   .live-hand__item.mm-hand-draw,
+  .live-hand__item.mm-hand-commit,
   .mc-rays,
   .mc-rays::before,
   .mc-title--win {

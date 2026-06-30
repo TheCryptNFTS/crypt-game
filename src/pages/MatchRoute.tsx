@@ -42,16 +42,23 @@ export default function MatchRoute() {
   }, []);
 
   // Silently adopt an already-connected wallet (no prompt) so returning holders
-  // land straight into their own cards.
+  // land straight into their own cards. Guard against the async eth_accounts
+  // probe resolving after this route unmounts (post-unmount setState warning/
+  // leak) — mirrors the board's `alive` fetch-cleanup pattern.
   useEffect(() => {
+    let cancelled = false;
     const e = eth();
     if (!e?.request) return;
     e.request({ method: "eth_accounts" })
       .then((accs) => {
+        if (cancelled) return;
         const a = (accs as string[])?.[0]?.toLowerCase();
         if (a) { setAddress(a); void loadOwned(a); }
       })
       .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, [loadOwned]);
 
   const connect = useCallback(async () => {

@@ -76,6 +76,16 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
             {statCell("CRIT", live.crit, base.crit)}
             {statCell("UTIL", live.utility, base.utility)}
           </div>
+          {/* UX audit FIX 4: CRIT/UTIL never appear on card faces and ARM/SPD are
+              not self-evident — define them in one line so the stat grid isn't bare
+              jargon for a newcomer. */}
+          <p
+            className="crypt-inspect__body"
+            style={{ marginTop: 8, fontSize: 12, lineHeight: 1.5, opacity: 0.85 }}
+          >
+            ATK damage · HP health · ARM blocks damage · SPD attack order ·
+            CRIT extra-damage chance · UTIL ability power
+          </p>
         </div>
 
         <div className="crypt-inspect__section">
@@ -83,23 +93,6 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
           <p className="crypt-inspect__body">
             {commander.headline}
           </p>
-
-          {commanderSource ? (
-            <div className="crypt-source-block">
-              <div className="crypt-source-block__label">Commander Source</div>
-              <ul>
-                {commanderSource.audit.reasons.map((reason) => (
-                  <li key={reason}>{reason}</li>
-                ))}
-                {commanderSource.audit.exactTraitMatches.map((match) => (
-                  <li key={match}>Exact Match: {match}</li>
-                ))}
-                {commanderSource.audit.categoryMatches.map((match) => (
-                  <li key={match}>Category Sync: {match}</li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
         </div>
 
         <div className="crypt-inspect__section">
@@ -134,9 +127,31 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
           </div>
         </div>
 
-        {equipmentSources.length ? (
-          <div className="crypt-inspect__section">
-            <h3>Equipment Sources</h3>
+        {/* UX audit FIX 4: the dense source-audit blocks (why a stat got synced)
+            are systems-speak that buried the first read. They now live behind a
+            "Why these stats?" disclosure so the panel opens to art + stats +
+            passives; the audit trail is one tap away for anyone who wants it. */}
+        {(commanderSource || equipmentSources.length > 0 || artifactSources.length > 0) ? (
+          <details className="crypt-inspect__section">
+            <summary style={{ cursor: "pointer", fontWeight: 600 }}>Why these stats?</summary>
+
+            {commanderSource ? (
+              <div className="crypt-source-block">
+                <div className="crypt-source-block__label">Commander Source</div>
+                <ul>
+                  {commanderSource.audit.reasons.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                  {commanderSource.audit.exactTraitMatches.map((match) => (
+                    <li key={match}>Exact Match: {match}</li>
+                  ))}
+                  {commanderSource.audit.categoryMatches.map((match) => (
+                    <li key={match}>Category Sync: {match}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+
             {equipmentSources.map((source, index) => (
               <div className="crypt-source-block" key={`equip-${index}`}>
                 <div className="crypt-source-block__label">Equipment Sync {index + 1}</div>
@@ -147,12 +162,7 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
                 </ul>
               </div>
             ))}
-          </div>
-        ) : null}
 
-        {artifactSources.length ? (
-          <div className="crypt-inspect__section">
-            <h3>Artifact Sources</h3>
             {artifactSources.map((source, index) => (
               <div className="crypt-source-block" key={`artifact-${index}`}>
                 <div className="crypt-source-block__label">Artifact Sync {index + 1}</div>
@@ -163,7 +173,7 @@ export function InspectDrawer({ state, onClose }: InspectDrawerProps) {
                 </ul>
               </div>
             ))}
-          </div>
+          </details>
         ) : null}
       </aside>
     </div>

@@ -34,6 +34,16 @@ type Props = {
    * stay inert there.
    */
   onDeployToEmpty?: () => void;
+  /**
+   * Marks this as an ENEMY lane so the lane wrapper carries `crypt-side--enemy`.
+   * The attack-lunge keyframe is directional (match-motion.css): the override
+   * `.crypt-side--enemy .crypt-card--board.mm-attack` swaps the upward player
+   * lunge for the downward enemy lunge (mm-attack-lunge-down) so an enemy unit
+   * that swings drives DOWN toward the player instead of off the top of the
+   * board. Presentation-only — the class previously existed in CSS but was never
+   * applied to any board element.
+   */
+  isEnemy?: boolean;
 };
 
 /** Minimum visible slots per lane (the board's design grid). Occupied slots
@@ -54,6 +64,7 @@ export function BoardLane({
   floats,
   dying,
   onDeployToEmpty,
+  isEnemy,
 }: Props) {
   const laneDying = dying ?? [];
   const canDeploy = !!onDeployToEmpty;
@@ -69,7 +80,9 @@ export function BoardLane({
 
   return (
     <section
-      className={`live-lane${highlight ? ` live-lane--${highlight}` : ""}`}
+      className={`live-lane${highlight ? ` live-lane--${highlight}` : ""}${
+        isEnemy ? " crypt-side--enemy" : ""
+      }`}
       role="region"
       aria-label={laneLabel}
     >
@@ -94,7 +107,14 @@ export function BoardLane({
                 motion={unitMotion?.[card.id]}
               />
               {cardFloats.map((f) => (
-                <span className="mm-float-dmg" key={f.key}>
+                // Per-float horizontal fan-out so stacked hits on one unit don't
+                // overlap pixel-perfect. Seeded from the float key (deterministic),
+                // mapped to roughly ±12px. Consumed by the mm-float-dmg keyframe.
+                <span
+                  className="mm-float-dmg"
+                  key={f.key}
+                  style={{ ["--mm-fx" as any]: `${((f.key % 5) - 2) * 6}px` }}
+                >
                   {f.amount}
                 </span>
               ))}

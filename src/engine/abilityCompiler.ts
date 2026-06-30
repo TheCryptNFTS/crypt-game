@@ -1302,8 +1302,15 @@ function parseNamedMechanics(text: string): EffectSpec[] {
     });
   }
 
-  // 8. PASSIVE_FLOOR_HP — "Cannot be reduced below 1 HP by any single source."
-  if (/cannot\s+be\s+reduced\s+below\s+1\s+hp\b/i.test(text)) {
+  // 8. PASSIVE_FLOOR_HP — the printed "cannot drop below 1" floor. Two phrasings
+  //    in the corpus: the canonical "cannot be reduced below 1 HP ..." and the
+  //    plainer "health cannot drop/fall/go below 1" (e.g. tcg_6). Both must arm
+  //    the floor enforced in applyCombatDamage; previously only the first matched,
+  //    so the second compiled to MITIGATE_DAMAGE alone and the floor never armed.
+  if (
+    /cannot\s+be\s+reduced\s+below\s+1\s+hp\b/i.test(text) ||
+    /health\s+cannot\s+(?:drop|fall|go)\s+below\s+1\b/i.test(text)
+  ) {
     out.push({ trigger: "PASSIVE", op: "PASSIVE_FLOOR_HP", raw: text });
   }
 

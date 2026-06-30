@@ -501,12 +501,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 1.15rem;
   max-width: 46ch;
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1.55;
-  color: rgba(122, 115, 112, 0.78);
+  color: rgba(140, 130, 120, 0.85);
 }
 
 .crypt-collection-lore .crypt-lore-whisper {
@@ -4463,7 +4463,7 @@ button:has(> .crypt-card-chrome):hover,
 .crypt-deck-factions-chip {
   display: inline-flex; align-items: center; gap: 5px;
   font-family: var(--font-brand); font-size: 9.5px; letter-spacing: 0.04em;
-  text-transform: uppercase; color: rgba(231, 238, 248, 0.7);
+  text-transform: uppercase; color: rgba(245, 242, 232, 0.7);
 }
 .crypt-deck-factions-dot {
   width: 7px; height: 7px; border-radius: 999px; flex: 0 0 auto;
@@ -4537,12 +4537,12 @@ button:has(> .crypt-card-chrome):hover,
 
 .crypt-deck-validation-ok {
   font-size: 13px;
-  color: rgba(52, 211, 153, 0.88);
+  color: rgba(110, 231, 168, 0.9); /* #6EE7A8 */
 }
 
 .crypt-deck-validation-bad {
   font-size: 13px;
-  color: rgba(251, 113, 133, 0.9);
+  color: rgba(242, 119, 122, 0.92); /* #F2777A */
 }
 
 .crypt-deck-section-title {
@@ -4564,7 +4564,7 @@ button:has(> .crypt-card-chrome):hover,
   margin: 8px 0 0;
   padding-left: 1.1rem;
   font-size: 13px;
-  color: rgba(251, 113, 133, 0.92);
+  color: rgba(242, 119, 122, 0.92); /* #F2777A */
 }
 
 .crypt-deck-warnings {

@@ -5,6 +5,12 @@ import { buildStarterDeck, ensureStarterDeckEquipped } from "../lib/starterDeck"
 import { markTutorialComplete } from "../lib/localProgress";
 import { funnelOnce } from "../lib/funnel";
 import { ONBOARD_RETURN_KEY } from "../components/OnboardingGate";
+import {
+  loadStoredCommanderId,
+  loadStoredMainDeckCardIds,
+} from "../lib/deckBuilderStorage";
+import { validateDeck } from "../engine/deckRules";
+import { getCommanderById } from "../engine/commanders";
 
 /**
  * After the tutorial completes, drop the pilot back at the gated route they
@@ -39,6 +45,36 @@ function consumeOnboardReturn(): string {
  *  in 2-3 swings and FEELS the core loop (deploy → attack → win) before fatigue. */
 const TUTORIAL_OPPONENT_NEXUS = 6;
 
+/**
+ * UX audit FIX 3: the tutorial used to HARDCODE buildStarterDeck() (the Stone
+ * "Endurance Wall"), silently ignoring the Stone/Bronze/Silver identity the
+ * newcomer picked in OnboardingPage — which equips a curated deck into the SAME
+ * LS_DECK_BUILDER_* storage. We now play the EQUIPPED deck so the choice is real,
+ * and fall back to buildStarterDeck() if nothing is equipped OR the stored deck
+ * is not a legal 30 (private mode, a hand-edited deck, etc.) so the first duel
+ * can never crash on a malformed deck.
+ */
+function resolveTutorialDeck(): string[] {
+  try {
+    const commanderId = loadStoredCommanderId();
+    const stored = loadStoredMainDeckCardIds();
+    if (stored.length === 0) return buildStarterDeck();
+    const commander = getCommanderById(commanderId);
+    const result = validateDeck(stored, commanderId, {
+      deckSize: commander.deckRules.deckSize,
+      maxCopies: 2,
+      allowGodCards: commander.deckRules.maxGodCards > 0,
+      maxGodCards: commander.deckRules.maxGodCards,
+      // Open format (the default the deck builder + onboarding write under) — never
+      // reject the equipped deck on a curated-Core-only rule the player never chose.
+    });
+    if (result.valid) return stored;
+  } catch {
+    /* fall through to the always-legal starter deck */
+  }
+  return buildStarterDeck();
+}
+
 export default function TutorialPage() {
   const navigate = useNavigate();
   const [done, setDone] = useState(false);
@@ -52,7 +88,7 @@ export default function TutorialPage() {
 
   const localMatchOptions = useMemo(
     () => ({
-      p1Deck: buildStarterDeck(),
+      p1Deck: resolveTutorialDeck(),
       opponentNexusHealth: TUTORIAL_OPPONENT_NEXUS,
       // Force the gentlest AI tier for the very first duel, independent of the
       // global DifficultySelect setting (which a brand-new player has never

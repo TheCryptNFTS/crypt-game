@@ -24,6 +24,15 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
 
   const { shown: kw, overflow: kwOverflow } = visibleKeywords(card.keywords ?? []);
   const kwText = kw.length ? `, ${kw.map((k) => k.d.label.toLowerCase()).join(", ")}` : "";
+  // ~40px tap target for the touch-to-inspect chips (UX audit FIX 1). Inline so it
+  // lives with the interactive logic and needs no new CSS class.
+  const kwTapStyle: React.CSSProperties = {
+    cursor: "pointer",
+    touchAction: "manipulation",
+    minHeight: 40,
+    display: "inline-flex",
+    alignItems: "center",
+  };
   const { attack, health, armor, speed } = card.liveStats;
 
   // STAT-MODIFICATION SIGNAL (predictability fix): the live game ships faction
@@ -116,17 +125,52 @@ export function BoardCard({ card, onInspect, motion }: BoardCardProps) {
         </div>
         {kw.length > 0 && (
           <div className="crypt-card__kws">
-            {kw.map((k) => (
-              <span
-                key={k.raw}
-                className={`crypt-board-kw${k.d.guard ? " crypt-board-kw--guard" : ""}`}
-                title={k.d.full}
-              >
-                {k.d.label}
-              </span>
-            ))}
+            {kw.map((k) => {
+              // TOUCH AFFORDANCE (UX audit FIX 1): `title` never fires on touch.
+              // The card root already opens Inspect on tap, but a bare <span> chip
+              // gave no a11y target and no obvious "I can tap this for the rule".
+              // Make each chip a real button that opens Inspect; stopPropagation so
+              // it's a single, deliberate action (no double-fire with the root).
+              const interactive = !!onInspect;
+              return (
+                <span
+                  key={k.raw}
+                  role={interactive ? "button" : undefined}
+                  tabIndex={interactive ? 0 : undefined}
+                  className={`crypt-board-kw${k.d.guard ? " crypt-board-kw--guard" : ""}`}
+                  style={interactive ? kwTapStyle : undefined}
+                  title={k.d.full}
+                  aria-label={interactive ? `${k.d.full} — tap to inspect` : undefined}
+                  onClick={interactive ? (e) => { e.stopPropagation(); onInspect(card); } : undefined}
+                  onKeyDown={interactive ? (e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onInspect(card);
+                    }
+                  } : undefined}
+                >
+                  {k.d.label}
+                </span>
+              );
+            })}
             {kwOverflow > 0 && (
-              <span className="crypt-board-kw crypt-board-kw--more" title="More keywords — tap to inspect">
+              <span
+                role={onInspect ? "button" : undefined}
+                tabIndex={onInspect ? 0 : undefined}
+                className="crypt-board-kw crypt-board-kw--more"
+                style={onInspect ? kwTapStyle : undefined}
+                title="More keywords — tap to inspect"
+                aria-label={onInspect ? `${kwOverflow} more keywords — tap to inspect` : undefined}
+                onClick={onInspect ? (e) => { e.stopPropagation(); onInspect(card); } : undefined}
+                onKeyDown={onInspect ? (e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onInspect(card);
+                  }
+                } : undefined}
+              >
                 +{kwOverflow}
               </span>
             )}

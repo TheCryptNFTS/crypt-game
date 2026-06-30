@@ -50,12 +50,17 @@ export function useOwnedCardIds() {
     setState("ready");
   }, []);
 
-  // Silently adopt an already-connected wallet (no prompt).
+  // Silently adopt an already-connected wallet (no prompt). The eth_accounts
+  // probe + loadOwned resolve asynchronously; if this component unmounts first,
+  // skip the state updates to avoid a post-unmount setState (leak/warning).
+  // Mirrors the `alive` cleanup pattern the board's owned-card fetch uses.
   useEffect(() => {
+    let cancelled = false;
     const e = eth();
     if (!e?.request) return;
     e.request({ method: "eth_accounts" })
       .then((accs) => {
+        if (cancelled) return;
         const a = (accs as string[])?.[0]?.toLowerCase();
         if (a) {
           setAddress(a);
@@ -63,6 +68,9 @@ export function useOwnedCardIds() {
         }
       })
       .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
   }, [loadOwned]);
 
   const connect = useCallback(async () => {

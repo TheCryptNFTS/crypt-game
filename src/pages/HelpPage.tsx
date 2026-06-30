@@ -7,7 +7,7 @@ import { t } from "../i18n";
 /**
  * HELP · in-app glossary + how-to-play reference. Newcomer complexity is the
  * owner's #1 complaint, so this is the one calm place a confused player can land:
- * the turn loop, the board (lanes + nexus), energy, the factions, and a live
+ * the turn loop, the board (lanes + Pyre), energy, the factions, and a live
  * keyword glossary pulled straight from the engine's single source of truth
  * (keywordDescriptions.ts) so it can never drift from real card text.
  *
@@ -27,7 +27,7 @@ type Basic = { term: string; body: string };
 const TURN_FLOW: Basic[] = [
   {
     term: "1 · Draw & gain energy",
-    body: "Each turn you draw a card and your energy pool refreshs and grows. Early turns are small; the game opens up as energy climbs.",
+    body: "Each turn you draw a card and your energy pool refreshes and grows. Early turns are small; the game opens up as energy climbs.",
   },
   {
     term: "2 · Deploy units",
