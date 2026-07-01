@@ -55,8 +55,12 @@ export default function AppShell() {
             to="/home"
             className="crypt-brand-lockup flex items-center gap-3 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-crypt-ice)]"
           >
+            {/* Brand mark = the local gold CRYPT sigil (public/icon.svg), not the
+                remote cyan collection PFP. The off-brand cyan skull was poisoning
+                the first impression on every shell route; the shipped PWA icon is
+                the disciplined black/gold mark and carries no network dependency. */}
             <img
-              src="https://i2c.seadn.io/ethereum/192f08c7d2ea47f5b65fe12db4c4f64d/9a37a8aaa8bf49f2b9ed9c4fd24770/e19a37a8aaa8bf49f2b9ed9c4fd24770.png"
+              src="/icon.svg"
               alt="Crypt"
               width={30}
               height={30}
