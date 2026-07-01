@@ -1,170 +1,310 @@
 /*
- * MOBILE SAFETY LAYER for the rebuilt live match board (BUG 5).
+ * MOBILE MATCH SHELL — the playable duel as a ONE-VIEWPORT card battler.
  *
- * The desktop board was rebuilt with a single 768px breakpoint, which at that
- * width actually WIDENS the board/hand cards (168/184px) for a momentum
- * horizontal scroll. That works on a 414px+ phone but gets cramped on a 375px
- * device (iPhone SE), where the side rail (150px) plus a near-full-width card
- * can crowd or overflow the layout.
+ * The desktop match is a document that STACKS: HUD → board zones → a side rail
+ * (commanders / decks / combat log) → hand → actions. On a phone that stack was
+ * ~1900px tall in an 812px viewport, so the player scrolled through 2–3 screens
+ * of chrome to reach their own board, hand, and buttons — the "desktop dashboard
+ * crammed into a phone" problem.
  *
- * This file is a small, ADDITIVE override that only kicks in at <=480px. It does
- * NOT redesign anything — it just keeps both armies + the hand visible, prevents
- * horizontal overflow of the page itself, shrinks the board cards / hand fan /
- * side rail so nothing runs off-screen, and guarantees the action buttons stay
- * tappable (>=40px). Loaded AFTER live-crypt-match.css so these win the cascade.
+ * This layer (portrait phones, <=600px) turns the match into a fixed game shell
+ * that fills exactly one screen and never scrolls during play:
+ *
+ *   ┌ app header (static) ─────────────┐
+ *   │ compact HUD  (turn · pyres · nrg)│
+ *   │ ENEMY GROUND   (fills)           │
+ *   │ ── seam ──                       │
+ *   │ YOUR GROUND    (fills)           │
+ *   │ hand tray (horizontal, sticky)   │
+ *   │ contextual action row            │
+ *   └ fixed bottom dock (nav) ─────────┘
+ *
+ * The right rail (commanders / decks / combat log) is pulled OFF the play surface
+ * — pyre HP + energy already live in the HUD, and the combat feed is non-essential
+ * during a turn. Nothing is deleted; it's simply not on the one-screen board.
+ *
+ * Loaded AFTER live-crypt-match.css so these win the cascade. Uses :has() to scope
+ * the fixed-shell rules to the MATCH route only (the app root/main are shared).
  */
 
-@media (max-width: 480px) {
-  /* Never let the shell push the document wider than the viewport. The card
-   * rails do their own internal horizontal scroll; the page must not. */
-  .live-match-shell {
-    max-width: 100vw;
-    overflow-x: hidden;
-    padding: 10px;
-    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+@media (max-width: 600px) {
+  /* ============================================================= *
+   * 1. BOUND THE APP TO ONE SCREEN (match route only)             *
+   *    The root is normally min-h-full and grows with content, so *
+   *    a tall match scrolls the window. On the match route pin it *
+   *    to the visual viewport so `main` becomes a fixed flex band *
+   *    between the static header and the fixed bottom dock.        *
+   * ============================================================= */
+  .crypt-app-root:has(.crypt-table) {
+    height: 100dvh;
+    overflow: hidden;
+  }
+  .crypt-app-root:has(.crypt-table) .crypt-app-main {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* main already reserves the fixed dock via padding-bottom (index.css). */
   }
 
-  /* Board + rail stack vertically; rail drops below the board. */
-  .crypt-table {
-    grid-template-columns: 1fr;
+  /* The owned-cards messaging bar: a thin non-growing strip, not a 66px banner
+     that steals a fifth of the play space. */
+  .crypt-app-root:has(.crypt-table) .ocb {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    font-size: 11px;
+    line-height: 1.3;
     gap: 8px;
   }
-  .crypt-rail {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .crypt-rail__group {
-    flex: 1 1 calc(50% - 4px);
-    min-width: 0;
+  .crypt-app-root:has(.crypt-table) .ocb > span {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  /* Tighten the zone frames so the 5-slot grid keeps both armies on screen. */
-  .crypt-zone {
-    padding: 18px 8px 10px;
-  }
-  .crypt-zone__lanes .live-lane {
-    grid-template-columns: 40px 1fr;
-    gap: 6px;
-  }
-  .crypt-zone__lanes .live-lane__cards {
-    gap: 5px;
-  }
-  .live-lane__side { font-size: 7px; letter-spacing: 0.08em; }
-
-  /* Hand fan still scrolls horizontally on small screens. */
-  .live-hand__rail {
-    gap: 8px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x proximity;
+  /* ============================================================= *
+   * 2. THE MATCH COLUMN fills the remaining main height            *
+   * ============================================================= */
+  .crypt-shell {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Hand: drop the overlapping fan (negative margins) for a simple scrollable
-   * row so cards never stack off the edge, and narrow each card. */
-  .live-hand__rail {
-    flex-wrap: nowrap;
-  }
-
-  .live-hand__item {
-    min-width: 132px;
-    width: 132px;
-    margin-left: 0;
-    scroll-snap-align: start;
-  }
-
-  .live-hand__item:hover {
-    margin-right: 0;
-  }
-
-  .live-hand__item .crypt-card--hand {
-    /* height follows the square 1:1 art + text strip — no portrait min-height. */
+  /* The SOLO/PvP toggle rides in its own thin .live-match-shell (no board table).
+     Collapse it to a short inline row so it costs a line, not 50px. */
+  .crypt-shell > .live-match-shell:not(:has(.crypt-table)) {
+    flex-shrink: 0;
+    padding: 4px 8px;
     min-height: 0;
   }
-
-  /* Action controls remain comfortably tappable and wrap instead of overflowing. */
-  .live-actionbar__buttons,
-  .live-topbar__actions,
-  .live-quick-buttons,
-  .crypt-dock__actions {
-    flex-wrap: wrap;
-    gap: 8px;
+  .crypt-mode-toggle {
+    margin: 0;
+    gap: 6px;
   }
-
-  .live-btn {
-    min-height: 44px;
-    padding: 9px 12px;
-  }
-
-  /* Bottom dock buttons (if rendered) also honor the 44px touch target. */
   .crypt-mode-toggle__btn {
-    min-height: 44px;
+    min-height: 34px;
+    padding: 5px 14px;
+    font-size: 12px;
   }
 
-  /* HUD COMPACTION (holder feedback: "could see the opponent but not much else").
-     The 6 status readouts stacked TWO-up into a ~368px tower that pushed the
-     battlefield ~520px down the page — you scrolled past a wall of chrome to
-     reach your own board. Go THREE-up in two tight rows and shrink the Hex/Energy
-     hex-gems so the HUD is ~150px and the board sits near the top.
-     NOTE: the `.live-topbar` prefix raises specificity to (0,2,0) so these BEAT
-     polish-hud.css's base `.ph-crystal*` rules (0,1,0), which import LATER in the
-     bundle (via MatchTopBar) and would otherwise win the cascade. Labels are
-     pinned to one line so the narrower 3-up pills don't wrap and grow back tall. */
-  .live-topbar__cluster { gap: 6px; }
+  /* The GAME shell (the .live-match-shell that holds the board table) is the
+     flex column that fills the rest of the screen. */
+  .live-match-shell:has(.crypt-table) {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding: 6px 8px 4px;
+  }
+
+  /* ============================================================= *
+   * 3. COMPACT HUD — one tight band, never wraps to a tower        *
+   * ============================================================= */
+  .live-match-shell:has(.crypt-table) .live-topbar {
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 6px 8px;
+    border-radius: 12px;
+  }
+  /* Six status pills → a single non-wrapping row of compact gems. */
+  .live-topbar .live-topbar__cluster {
+    gap: 5px;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
   .live-topbar .live-topbar__pill {
-    flex: 1 1 calc(33.333% - 4px);
+    flex: 1 1 0;
     min-width: 0;
-    padding: 5px 6px;
+    padding: 4px 5px;
+    gap: 1px;
+  }
+  /* Deck-source pill is redundant with the owned-cards strip — drop it on phone
+     so the essential pills (turn · active · pyres · energy) get the width. */
+  .live-topbar .live-topbar__cluster > .live-topbar__pill:last-child {
+    display: none;
   }
   .live-topbar .live-topbar__label {
-    font-size: 8.5px;
+    font-size: 8px;
     letter-spacing: 0.01em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
   }
-  .live-topbar .live-topbar__pill strong { font-size: 14px; }
-  .live-topbar .ph-crystal { min-height: 28px; margin-top: 1px; }
-  .live-topbar .ph-crystal__gem { width: 30px; height: 30px; }
-  .live-topbar .ph-crystal__value { font-size: 14px; }
+  .live-topbar .live-topbar__pill strong { font-size: 13px; }
+  .live-topbar .ph-crystal { min-height: 24px; margin-top: 0; }
+  .live-topbar .ph-crystal__gem { width: 26px; height: 26px; }
+  .live-topbar .ph-crystal__value { font-size: 13px; }
+  .live-topbar .ph-energy__count { font-size: 11px; }
+  .live-topbar .ph-pip { width: 6px; height: 6px; }
 
-  /* BOARD-ABOVE-THE-FOLD (mobile playability): the match opened with ~575px of
-     chrome stacked above the battlefield — you scrolled past a wall to reach
-     your own board. Two non-gameplay strips were the bulk of it; trim both.
+  /* Meta row: drop the decorative "Live Match" pill (whose-turn is in the Active
+     pill + the OPPONENT PHASE band); keep Reset / Surge / End Turn as a full-width
+     button row with real 44px tap targets. */
+  .live-topbar .live-phase { display: none; }
+  .live-topbar .live-topbar__meta {
+    justify-content: stretch;
+    gap: 8px;
+  }
+  .live-topbar .live-topbar__actions {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+  .live-topbar .live-topbar__actions .live-btn {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  /* End Turn is the primary — let it grow; Reset is quiet + compact. */
+  .live-topbar .live-btn--primary { flex: 1 1 auto; }
+  .live-topbar .live-btn--ghost { flex: 0 0 auto; }
 
-     (1) The owned-cards upsell bar is compacted in its home file
-     (owned-cards-bar.css) so its base rule wins the cascade.
+  /* ============================================================= *
+   * 4. THE BOARD fills the middle; the rail leaves the surface     *
+   * ============================================================= */
+  .live-match-shell:has(.crypt-table) .crypt-table {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    gap: 4px;
+    overflow: hidden;
+  }
+  .crypt-board {
+    flex: 1;
+    min-height: 0;
+    justify-content: center;
+    gap: 2px;
+  }
+  /* Commanders / decks / combat log are OFF the one-screen play surface. Pyre HP
+     + energy are already in the HUD; the feed isn't needed mid-turn. */
+  .crypt-rail { display: none; }
 
-     (2) The HUD is position:sticky on mobile (it follows you down to the board),
-     so every pixel of its height is permanently lost play space. Drop the
-     decorative "Live Match" pill — whose-turn is already shown by the Active
-     pill ("You"/"Opponent") and the OPPONENT PHASE band — reclaiming a full
-     wrapped row, and tighten the topbar padding. The Reset / Surge / End Turn
-     buttons KEEP their 44px tap targets (untouched). */
-  .live-topbar { padding: 8px 10px; gap: 8px; }
-  .live-phase { display: none; }
-  .live-topbar__meta { justify-content: flex-end; gap: 8px; }
+  /* Each ground zone splits the board height evenly and centers its lanes. */
+  .crypt-zone {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 8px 6px;
+    border-radius: 14px;
+  }
+  .crypt-zone__label { top: 3px; font-size: 8px; letter-spacing: 0.16em; }
+  .crypt-zone__lanes {
+    flex: 1;
+    min-height: 0;
+    justify-content: center;
+    gap: 4px;
+  }
+  .crypt-seam { height: 14px; margin: -2px 6px; }
+  .crypt-seam__medallion { width: 20px; height: 20px; font-size: 11px; }
 
-  /* BOARD-ABOVE-THE-FOLD, ROUND 2 (390x844 playtest: header/status still ate
-     ~half the screen). Extends b452040 — same CSS-only, <=480px, no JSX change.
-     The sticky HUD column gap + the shell/board top spacing were the remaining
-     bulk pushing the battlefield below the fold. Trim them so the enemy + your
-     ground zones clear the fold on a 390px phone. Tap targets (44px) untouched. */
+  /* Lane: keep the side caption tiny; the row of slots shrinks to fit. */
+  .crypt-zone__lanes .live-lane {
+    grid-template-columns: 34px 1fr;
+    gap: 6px;
+  }
+  .live-lane__side { font-size: 7px; letter-spacing: 0.06em; }
+  .crypt-zone__lanes .live-lane__cards { gap: 5px; }
 
-  /* The sticky topbar stacks the pill cluster ABOVE the actions row; tighten the
-     gap between them and drop the rounded frame inset so the HUD is shorter. */
-  .live-topbar { gap: 6px; border-radius: 12px; }
-  .live-topbar__cluster { gap: 5px; }
-  .live-topbar .live-topbar__pill { padding: 4px 6px; }
+  /* Slots shrink so two lanes per zone (four rows total) fit the middle band.
+     Card width follows the slot so nothing overflows the row. */
+  .crypt-zone__lanes .live-lane__slot {
+    height: clamp(52px, 15.5vw, 72px);
+    width: clamp(52px, 15.5vw, 72px);
+  }
+  .crypt-zone__lanes .live-lane__slot--filled .crypt-card--board {
+    width: clamp(52px, 15.5vw, 72px);
+  }
 
-  /* Start the board higher: less shell top padding and no extra table top margin
-     (the sticky HUD already provides the separation). */
-  .live-match-shell { padding-top: 6px; }
-  .crypt-table { margin-top: 6px; gap: 6px; }
+  /* ============================================================= *
+   * 5. THE DOCK — hand tray + contextual actions, pinned bottom    *
+   * ============================================================= */
+  .crypt-dock {
+    flex-shrink: 0;
+    margin: 0;
+    gap: 4px;
+  }
 
-  /* The zone frames carry a tall top inset for the absolute label; on phone the
-     label is small, so reclaim that headroom on BOTH zones. */
-  .crypt-zone { padding: 14px 8px 8px; }
-  .crypt-zone__label { top: 4px; font-size: 8px; letter-spacing: 0.16em; }
+  /* Hand: a compact horizontal tray (no overlapping fan / hover-lift on touch)
+     that scrolls sideways and snaps. */
+  .live-hand {
+    padding: 6px 8px 8px;
+    border-radius: 14px;
+  }
+  .live-hand__header { margin-bottom: 5px; }
+  .live-hand__header .kicker { font-size: 9px; }
+  .live-hand__rail {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 2px 0 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+  }
+  .live-hand__item {
+    width: 92px;
+    min-width: 92px;
+    margin-left: 0;
+    scroll-snap-align: start;
+  }
+  .live-hand__item:first-child { margin-left: 0; }
+  /* Touch has no hover — kill the lift/scale so a tapped card doesn't jump and
+     clip against the tray edge. */
+  .live-hand__item:hover {
+    transform: none;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .live-hand__item .crypt-card--hand { min-height: 0; }
+
+  /* Actions: CONTEXTUAL. The desktop bar shows all five play buttons at once
+     (disabled-styled) — a debug command list. On phone, hide the disabled ones
+     so only the moves the SELECTED card can actually make are shown. */
+  .crypt-dock__actions { gap: 6px; }
+  .live-actionbar {
+    padding: 6px 10px 8px;
+    border-radius: 14px;
+  }
+  .live-actionbar__header { margin-bottom: 6px; }
+  /* Drop the "Actions" heading; keep the status line (it tells you what to do). */
+  .live-actionbar__header h3 { display: none; }
+  .live-actionbar__header p { font-size: 12px; line-height: 1.35; }
+  /* The "Play" group label is noise once only the relevant buttons show. */
+  .live-actionbar__group-label { display: none; }
+  .live-actionbar__buttons,
+  .live-actionbar__buttons--fallback {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .live-actionbar__buttons .live-btn:disabled { display: none; }
+  .live-actionbar .live-btn {
+    min-height: 44px;
+    padding: 10px 14px;
+    flex: 1 1 auto;
+  }
+  /* Keep the combat fallback group visible (its buttons are enabled when a unit
+     is ready) but let its own label through so the "or use these" hint reads. */
+  .live-actionbar__group--fallback .live-actionbar__group-label {
+    display: block;
+    font-size: 10px;
+  }
 }
