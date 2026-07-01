@@ -1,5 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { summarizeSnapResult, shareText, challengeUrl } from "../snapResult";
+import {
+  summarizeSnapResult,
+  shareText,
+  challengeUrl,
+  dailySeed,
+  dailyUrl,
+  dailyShareText,
+  todayStr,
+  isDailyDate,
+} from "../snapResult";
 import type { SnapCard, SnapLane, SnapState } from "../types";
 
 function card(name: string, power: number): SnapCard {
@@ -127,5 +136,57 @@ describe("shareText / challengeUrl", () => {
 
   it("challengeUrl encodes the seed", () => {
     expect(challengeUrl(42, "https://x.io")).toBe("https://x.io/snap?seed=42");
+  });
+});
+
+describe("Daily Crypt Trial", () => {
+  it("dailySeed is deterministic and date-specific", () => {
+    // Same date → same seed, always.
+    expect(dailySeed("2026-07-01")).toBe(dailySeed("2026-07-01"));
+    // Different dates → different seeds (no collision on adjacent days).
+    expect(dailySeed("2026-07-01")).not.toBe(dailySeed("2026-07-02"));
+    // Always a valid unsigned 32-bit integer in the engine's seed domain.
+    const s = dailySeed("2026-07-01");
+    expect(Number.isInteger(s)).toBe(true);
+    expect(s).toBeGreaterThanOrEqual(0);
+    expect(s).toBeLessThanOrEqual(0xffffffff);
+  });
+
+  it("todayStr is a zero-padded local YYYY-MM-DD", () => {
+    expect(todayStr(new Date(2026, 6, 1))).toBe("2026-07-01"); // month 6 = July
+    expect(todayStr(new Date(2026, 0, 9))).toBe("2026-01-09");
+    expect(isDailyDate(todayStr())).toBe(true);
+  });
+
+  it("isDailyDate accepts YYYY-MM-DD and rejects junk", () => {
+    expect(isDailyDate("2026-07-01")).toBe(true);
+    expect(isDailyDate("today")).toBe(false);
+    expect(isDailyDate("2026-7-1")).toBe(false);
+    expect(isDailyDate("")).toBe(false);
+  });
+
+  it("dailyUrl points at the shared ?daily link", () => {
+    expect(dailyUrl("2026-07-01", "https://x.io")).toBe("https://x.io/snap?daily=2026-07-01");
+  });
+
+  it("dailyShareText leads with the comparable score and stays brand-clean", () => {
+    const s = settled({
+      winner: "P1",
+      seed: 999,
+      lanes: [
+        lane(0, [card("A", 10)], [card("x", 2)]),
+        lane(1, [card("B", 3)], [card("y", 4)]),
+        lane(2, [card("C", 6)], [card("z", 1)]),
+      ],
+    });
+    const r = summarizeSnapResult(s)!;
+    const text = dailyShareText(r, "2026-07-01", "https://crypt.example");
+    expect(text).toContain("I scored 19 in today's Crypt Trial.");
+    expect(text).toContain("Result: WIN");
+    expect(text).toContain("Title: Bone Warden");
+    expect(text).toContain("Beat me: https://crypt.example/snap?daily=2026-07-01");
+    // Same brand discipline as shareText: no emoji, no price/token words.
+    expect(text).not.toMatch(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/u);
+    expect(text.toLowerCase()).not.toMatch(/hex|nft|token|price|floor|\$/);
   });
 });

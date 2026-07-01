@@ -122,6 +122,60 @@ export function challengeUrl(seed: number, origin?: string): string {
   return `${base}/snap?seed=${seed}`;
 }
 
+/* ─── DAILY CRYPT TRIAL ────────────────────────────────────────────────────
+ * One shared, deterministic seed per calendar day. Everyone who opens the
+ * daily gets the exact same match — same decks, same opponent, same draw —
+ * so scores/titles are directly comparable with NO server, NO database, NO
+ * leaderboard. The date string itself is the source of truth; the seed is a
+ * pure hash of it, so /snap?daily=2026-07-01 is stable forever.
+ */
+
+/** Local calendar date as YYYY-MM-DD (the daily's identity). */
+export function todayStr(d: Date = new Date()): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/** True for a well-formed YYYY-MM-DD token (loose — calendar validity not checked). */
+export function isDailyDate(raw: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(raw);
+}
+
+/**
+ * Deterministic 32-bit seed from a date string (FNV-1a). Same date → same seed
+ * on every device, forever. Unsigned so it matches the engine's seed domain.
+ */
+export function dailySeed(date: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < date.length; i++) {
+    h ^= date.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+/** The shared daily link — anyone who opens it plays the same trial as you. */
+export function dailyUrl(date: string, origin?: string): string {
+  const base = origin ?? (typeof window !== "undefined" ? window.location.origin : "");
+  return `${base}/snap?daily=${date}`;
+}
+
+/**
+ * Daily recap copy — leads with the comparable number so a friend can beat it.
+ * Same brand discipline as shareText: no emoji, no hype, no token/price words.
+ */
+export function dailyShareText(result: SnapResult, date: string, origin?: string): string {
+  const lines = [
+    `I scored ${result.power} in today's Crypt Trial.`,
+    `Result: ${result.verdict}`,
+    `Title: ${result.title}`,
+    `Beat me: ${dailyUrl(date, origin)}`,
+  ];
+  return lines.join("\n");
+}
+
 /**
  * Plain-text recap for pasting into a DM / post. No emoji, no hype, no token or
  * price language — just the proof and the challenge.

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSnapMatch } from "./useSnapMatch";
 import { lanePower, laneWinner } from "./scoreLane";
-import { summarizeSnapResult, shareText, challengeUrl } from "./snapResult";
+import { summarizeSnapResult, shareText, challengeUrl, dailyShareText, dailyUrl } from "./snapResult";
 import { MAX_TURNS, LANE_CAPACITY, type LaneIndex, type SnapCard } from "./types";
 import "../styles/snap-match.css";
 
@@ -77,9 +77,12 @@ export const CRYPT_THEMES = [
 
 export function SnapBoard({
   seed,
+  daily,
   onReplayTutorial,
 }: {
   seed?: number;
+  /** When set (YYYY-MM-DD), this is the shared Daily Crypt Trial for that date. */
+  daily?: string | null;
   /** Optional: re-enter the scripted tutorial from free play. */
   onReplayTutorial?: () => void;
 }) {
@@ -277,7 +280,7 @@ export function SnapBoard({
       </footer>
 
       {/* RESULT — a shareable Crypt Trial certificate. */}
-      {state.winner ? <SnapResultCard state={state} onAgain={m.reset} /> : null}
+      {state.winner ? <SnapResultCard state={state} daily={daily} onAgain={m.reset} /> : null}
     </div>
   );
 }
@@ -289,9 +292,12 @@ export function SnapBoard({
  */
 function SnapResultCard({
   state,
+  daily,
   onAgain,
 }: {
   state: ReturnType<typeof useSnapMatch>["state"];
+  /** When set, this match is the shared Daily Crypt Trial for that date. */
+  daily?: string | null;
   onAgain: () => void;
 }) {
   const result = summarizeSnapResult(state);
@@ -305,8 +311,15 @@ function SnapResultCard({
 
   if (!result) return null;
 
+  const isDaily = !!daily;
+
   const copy = async (kind: "result" | "seed") => {
-    const text = kind === "result" ? shareText(result) : challengeUrl(result.seed);
+    let text: string;
+    if (kind === "result") {
+      text = isDaily ? dailyShareText(result, daily!) : shareText(result);
+    } else {
+      text = isDaily ? dailyUrl(daily!) : challengeUrl(result.seed);
+    }
     try {
       await navigator.clipboard.writeText(text);
       setCopied(kind);
@@ -320,7 +333,7 @@ function SnapResultCard({
   return (
     <div className="snap-result" role="dialog" aria-label="Match result">
       <div className={"snap-result__card is-" + verdictClass}>
-        <span className="snap-result__trial">Crypt Trial</span>
+        <span className="snap-result__trial">{isDaily ? "Daily Crypt Trial" : "Crypt Trial"}</span>
         <h2 className={"snap-result__verdict is-" + verdictClass}>{result.verdict}</h2>
         <span className="snap-result__title-rank">{result.title}</span>
 
@@ -366,7 +379,7 @@ function SnapResultCard({
               {copied === "result" ? "Copied" : "Copy Result"}
             </button>
             <button type="button" className="snap-result__copy" onClick={() => copy("seed")}>
-              {copied === "seed" ? "Copied" : "Challenge This Seed"}
+              {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
             </button>
           </div>
           <button type="button" className="snap-endturn snap-result__again" onClick={onAgain}>
