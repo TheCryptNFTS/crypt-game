@@ -36,19 +36,28 @@ export function useSnapMatch(options: UseSnapMatchOptions = {}) {
     if (state.winner || state.active !== "P2") return;
     const actions = planP2Turn(state);
     stepRef.current = 0;
-    const timer = setInterval(() => {
-      const idx = stepRef.current;
-      if (idx >= actions.length) {
-        clearInterval(timer);
-        return;
-      }
-      stepRef.current = idx + 1;
-      const action = actions[idx];
-      setState((prev) =>
-        prev.active === "P2" && !prev.winner ? snapReducer(prev, action) : prev,
-      );
-    }, 520);
-    return () => clearInterval(timer);
+    let timer: ReturnType<typeof setInterval> | undefined;
+    // A short readable hold before the first placement so the "Opponent's turn"
+    // beat registers (End Turn → beat → card appears → score changes) even when
+    // the AI has only one play. Snappy, not cinematic — then step at 520ms.
+    const hold = setTimeout(() => {
+      timer = setInterval(() => {
+        const idx = stepRef.current;
+        if (idx >= actions.length) {
+          clearInterval(timer);
+          return;
+        }
+        stepRef.current = idx + 1;
+        const action = actions[idx];
+        setState((prev) =>
+          prev.active === "P2" && !prev.winner ? snapReducer(prev, action) : prev,
+        );
+      }, 520);
+    }, 220);
+    return () => {
+      clearTimeout(hold);
+      if (timer) clearInterval(timer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.active, state.turn, state.winner, matchKey]);
 

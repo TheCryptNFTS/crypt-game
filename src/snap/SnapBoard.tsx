@@ -48,6 +48,20 @@ export function CardFace({
   );
 }
 
+/** Lane state from the player's point of view — drives the clear win/lose chip. */
+function laneState(p1p: number, p2p: number): "winning" | "losing" | "tied" | null {
+  if (p1p === 0 && p2p === 0) return null; // empty Crypt — say nothing yet
+  if (p1p > p2p) return "winning";
+  if (p1p < p2p) return "losing";
+  return "tied";
+}
+
+const STATE_LABEL: Record<"winning" | "losing" | "tied", string> = {
+  winning: "WINNING",
+  losing: "LOSING",
+  tied: "TIED",
+};
+
 export function SnapBoard({
   seed,
   onReplayTutorial,
@@ -61,6 +75,11 @@ export function SnapBoard({
   const hand = state.players.P1.hand;
 
   const laneSelectable = m.myTurn && !!m.selectedHandId;
+  const revealing = !m.myTurn && !state.winner;
+
+  // Live crypt count so the player always knows how close the match is.
+  const cryptsWon = state.lanes.filter((l) => laneWinner(l) === "P1").length;
+  const cryptsLost = state.lanes.filter((l) => laneWinner(l) === "P2").length;
 
   return (
     <div className="snap-shell">
@@ -73,14 +92,10 @@ export function SnapBoard({
           <span className="snap-energy-pip" aria-hidden="true" />
           Energy <strong>{m.energy}</strong>
         </div>
-        <div className="snap-hud__hint" role="status" aria-live="polite">
-          {state.winner
-            ? "Match over"
-            : !m.myTurn
-              ? "Opponent is playing…"
-              : m.selectedHandId
-                ? "Tap a Crypt to place your card"
-                : "Tap a card, then tap a Crypt"}
+        <div className="snap-hud__crypts" aria-label={`You ${cryptsWon}, opponent ${cryptsLost} Crypts`}>
+          <strong className="is-mine">{cryptsWon}</strong>
+          <span className="snap-hud__crypts-sep">Crypts</span>
+          <strong className="is-foe">{cryptsLost}</strong>
         </div>
         {onReplayTutorial ? (
           <button type="button" className="snap-hud__tutorial" onClick={onReplayTutorial}>
@@ -89,12 +104,25 @@ export function SnapBoard({
         ) : null}
       </header>
 
+      <div className="snap-hint" role="status" aria-live="polite">
+        {state.winner
+          ? "Match over"
+          : revealing
+            ? "Opponent is revealing…"
+            : m.selectedHandId
+              ? "Tap a Crypt to place your card"
+              : m.playableIds.size === 0
+                ? "No energy to play — tap End Turn"
+                : "Tap a card, then tap a Crypt"}
+      </div>
+
       {/* THREE CRYPTS */}
       <div className="snap-lanes">
         {state.lanes.map((lane) => {
           const p1p = lanePower(lane, "P1");
           const p2p = lanePower(lane, "P2");
           const lead = laneWinner(lane);
+          const st = laneState(p1p, p2p);
           return (
             <div
               key={lane.index}
@@ -115,9 +143,12 @@ export function SnapBoard({
               </div>
 
               <div className="snap-lane__meta">
-                <span className={"snap-lane__score" + (lead === "P2" ? " is-win" : "")}>{p2p}</span>
+                <span key={`p2-${p2p}`} className={"snap-lane__score" + (lead === "P2" ? " is-win" : "")}>{p2p}</span>
                 <span className="snap-lane__title">Crypt {lane.index + 1}</span>
-                <span className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}>{p1p}</span>
+                <span key={`p1-${p1p}`} className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}>{p1p}</span>
+              </div>
+              <div className="snap-lane__state-row">
+                {st ? <span className={"snap-lane__state is-" + st}>{STATE_LABEL[st]}</span> : null}
               </div>
 
               {/* my side */}
@@ -130,6 +161,13 @@ export function SnapBoard({
           );
         })}
       </div>
+
+      {revealing ? (
+        <div className="snap-reveal-flash" role="presentation">
+          <span className="snap-reveal-flash__dot" aria-hidden="true" />
+          Opponent&rsquo;s turn
+        </div>
+      ) : null}
 
       {/* HAND */}
       <footer className="snap-hand-dock">
@@ -168,10 +206,15 @@ export function SnapBoard({
       {/* RESULT */}
       {state.winner ? (
         <div className="snap-result" role="dialog" aria-label="Match result">
-          <div className="snap-result__card">
-            <h2 className="snap-result__verdict">
+          <div className={"snap-result__card is-" + state.winner}>
+            <h2 className={"snap-result__verdict is-" + state.winner}>
               {state.winner === "P1" ? "Victory" : state.winner === "P2" ? "Defeat" : "Stalemate"}
             </h2>
+            <p className="snap-result__summary">
+              {state.winner === "DRAW"
+                ? `${cryptsWon}–${cryptsLost} Crypts — dead even`
+                : `You took ${cryptsWon} of 3 Crypts`}
+            </p>
             <p className="snap-result__lanes">
               {state.outcomes?.map((o) => (
                 <span key={o.index} className={"snap-result__lane is-" + (o.winner ?? "draw")}>
@@ -179,7 +222,7 @@ export function SnapBoard({
                 </span>
               ))}
             </p>
-            <button type="button" className="snap-endturn" onClick={m.reset}>
+            <button type="button" className="snap-endturn snap-result__again" onClick={m.reset}>
               Play Again
             </button>
           </div>

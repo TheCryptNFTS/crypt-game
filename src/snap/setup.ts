@@ -6,7 +6,7 @@
  */
 
 import { makeRng } from "../engine/rng";
-import { SNAP_POOL, type SnapCardTemplate } from "./cards";
+import { SNAP_POOL, powerForCost, type SnapCardTemplate } from "./cards";
 import {
   DECK_SIZE,
   LANE_COUNT,
@@ -70,6 +70,17 @@ function makePlayer(
     keyword: null,
   }));
   const hand = cards.slice(0, OPENING_HAND);
+  // No dead first turn: energy on turn 1 is 1, but the curated pool's cheapest
+  // card is cost 2, so a freshly-dealt hand can be unplayable on turn 1. Turn a
+  // real hand card into a genuine 1-drop (keeps its name + art, takes vanilla
+  // 1-cost stats) so there is always something to place turn 1. Deterministic:
+  // depends only on the seeded shuffle, and re-costs the cheapest card so we
+  // never nerf a would-be bomb.
+  if (!hand.some((c) => c.cost <= 1)) {
+    let lo = 0;
+    for (let i = 1; i < hand.length; i++) if (hand[i].cost < hand[lo].cost) lo = i;
+    hand[lo] = { ...hand[lo], cost: 1, power: powerForCost(1) };
+  }
   const deck = cards.slice(OPENING_HAND);
   return {
     player: { seat, deck, hand, energy: 1 },

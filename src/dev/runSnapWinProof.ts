@@ -90,6 +90,14 @@ const seeds = [1, 2, 3, 7, 42, 99, 128, 256, 1000, 31337];
 let decisive = 0;
 
 for (const seed of seeds) {
+  // No dead first turn: a fresh match must always let P1 act on turn 1 (energy
+  // 1) — the opening hand carries a guaranteed 1-drop.
+  {
+    const fresh = createSnapMatch({ seed });
+    assert(fresh.players.P1.hand.some((c) => c.cost <= 1), `seed ${seed}: P1 opening hand has a cost-1 card`);
+    assert(playableHand(fresh, "P1").length > 0, `seed ${seed}: P1 has a playable card on turn 1`);
+  }
+
   const final = playMatch(seed);
 
   assert(final.winner !== null, `seed ${seed}: match reaches a decision`);
