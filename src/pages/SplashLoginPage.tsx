@@ -75,6 +75,14 @@ export default function SplashLoginPage() {
     navigate(entryRoute(), { replace: true });
   };
 
+  // Viral front door: the Daily Crypt Trial is the ONE dominant CTA. Everyone
+  // who opens `?daily` plays the exact same deterministic match today, so scores
+  // are directly comparable and a shared "beat me" link lands cold. /snap is
+  // ungated (AppShell has no session gate) so these route session-less — no
+  // starter-deck equip needed; the trial supplies its own seeded decks.
+  const onDaily = () => navigate("/snap?daily");
+  const onSeed = () => navigate("/snap");
+
   return (
     <div className="crypt-splash">
       <div className="crypt-splash-backdrop" aria-hidden />
@@ -119,8 +127,23 @@ export default function SplashLoginPage() {
         </div>
 
         <div className="crypt-splash-actions">
-          <button type="button" className="crypt-splash-cta-guest" onClick={onGuest}>
-            Play now — enter the Crypt
+          {/* THE viral loop, front and center: one shared match a day, one link. */}
+          <div className="crypt-splash-daily">
+            <p className="crypt-splash-daily-kicker">Today's Crypt Trial</p>
+            <p className="crypt-splash-daily-explainer">
+              Everyone faces the same match today — same deck, same draw, same opponent.
+              Score it, then dare a friend to beat your seed.
+            </p>
+            <button type="button" className="crypt-splash-cta-guest" onClick={onDaily}>
+              Play Today's Crypt Trial
+            </button>
+            <button type="button" className="crypt-splash-cta-seed" onClick={onSeed}>
+              Challenge a Seed
+            </button>
+          </div>
+
+          <button type="button" className="crypt-splash-cta-full" onClick={onGuest}>
+            Or enter the full Crypt — deckbuilder &amp; campaign
           </button>
 
           <div className="crypt-splash-row-secondary">
