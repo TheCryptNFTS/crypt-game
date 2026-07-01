@@ -671,3 +671,73 @@
   cursor: pointer;
 }
 .snap-result__replay:hover { color: #f5c451; border-color: #6f5a1e; }
+
+/* Shareable Crypt Trial certificate — kept in the gold/bone family. */
+.snap-result__card { max-width: min(92vw, 340px); gap: 10px; }
+.snap-result__trial {
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: #9c8850;
+}
+.snap-result__verdict { margin: 0; line-height: 1; }
+.snap-result__title-rank {
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  color: #e8dcbb;
+  text-transform: uppercase;
+}
+.snap-result__score {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2px;
+}
+.snap-result__score strong { font-size: 30px; font-weight: 800; line-height: 1; }
+.snap-result__score .is-mine { color: #f5c451; }
+.snap-result__score .is-foe { color: #cbb98f; }
+.snap-result__score-sep { font-size: 20px; color: #6f5a1e; }
+.snap-result__score-cap {
+  flex-basis: 100%;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9c8850;
+}
+.snap-result__stats {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: 2px 0 0;
+  padding: 10px 0;
+  width: 100%;
+  border-top: 1px solid #2a220f;
+  border-bottom: 1px solid #2a220f;
+}
+.snap-result__stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.snap-result__stat dt {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a7742;
+}
+.snap-result__stat dd { margin: 0; font-size: 13px; color: #f0e2bb; }
+.snap-result__share { display: flex; gap: 8px; }
+.snap-result__copy {
+  flex: 1;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1408;
+  background: linear-gradient(180deg, #f2cf6f, #c79a35);
+  border: 1px solid #7a5f1e;
+  border-radius: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: filter 120ms ease;
+}
+.snap-result__copy:hover { filter: brightness(1.06); }
+.snap-result__copy:active { filter: brightness(0.96); }

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSnapMatch } from "./useSnapMatch";
 import { lanePower, laneWinner } from "./scoreLane";
+import { summarizeSnapResult, shareText, challengeUrl } from "./snapResult";
 import { MAX_TURNS, LANE_CAPACITY, type LaneIndex, type SnapCard } from "./types";
 import "../styles/snap-match.css";
 
@@ -275,31 +276,104 @@ export function SnapBoard({
         </button>
       </footer>
 
-      {/* RESULT */}
-      {state.winner ? (
-        <div className="snap-result" role="dialog" aria-label="Match result">
-          <div className={"snap-result__card is-" + state.winner}>
-            <h2 className={"snap-result__verdict is-" + state.winner}>
-              {state.winner === "P1" ? "Victory" : state.winner === "P2" ? "Defeat" : "Stalemate"}
-            </h2>
-            <p className="snap-result__summary">
-              {state.winner === "DRAW"
-                ? `${cryptsWon}–${cryptsLost} Crypts — dead even`
-                : `You took ${cryptsWon} of 3 Crypts`}
-            </p>
-            <p className="snap-result__lanes">
-              {state.outcomes?.map((o) => (
-                <span key={o.index} className={"snap-result__lane is-" + (o.winner ?? "draw")}>
-                  Crypt {o.index + 1}: {o.p1Power}–{o.p2Power}
-                </span>
-              ))}
-            </p>
-            <button type="button" className="snap-endturn snap-result__again" onClick={m.reset}>
-              Play Again
+      {/* RESULT — a shareable Crypt Trial certificate. */}
+      {state.winner ? <SnapResultCard state={state} onAgain={m.reset} /> : null}
+    </div>
+  );
+}
+
+/**
+ * The end-of-match card: a screenshot-worthy recap (verdict, title, standout
+ * Crypt, MVP, score) plus the two share actions — copy the result, or copy a
+ * deterministic "beat my seed" challenge link. Read-only over the settled state.
+ */
+function SnapResultCard({
+  state,
+  onAgain,
+}: {
+  state: ReturnType<typeof useSnapMatch>["state"];
+  onAgain: () => void;
+}) {
+  const result = summarizeSnapResult(state);
+  const [copied, setCopied] = React.useState<null | "result" | "seed">(null);
+
+  React.useEffect(() => {
+    if (!copied) return;
+    const t = setTimeout(() => setCopied(null), 1600);
+    return () => clearTimeout(t);
+  }, [copied]);
+
+  if (!result) return null;
+
+  const copy = async (kind: "result" | "seed") => {
+    const text = kind === "result" ? shareText(result) : challengeUrl(result.seed);
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(kind);
+    } catch {
+      /* clipboard blocked (insecure context / denied) — no-op, buttons stay usable */
+    }
+  };
+
+  const verdictClass = result.winner ?? "DRAW";
+
+  return (
+    <div className="snap-result" role="dialog" aria-label="Match result">
+      <div className={"snap-result__card is-" + verdictClass}>
+        <span className="snap-result__trial">Crypt Trial</span>
+        <h2 className={"snap-result__verdict is-" + verdictClass}>{result.verdict}</h2>
+        <span className="snap-result__title-rank">{result.title}</span>
+
+        <div className="snap-result__score" aria-label={`Score ${result.power} to ${result.foePower}`}>
+          <strong className="is-mine">{result.power}</strong>
+          <span className="snap-result__score-sep">–</span>
+          <strong className="is-foe">{result.foePower}</strong>
+          <span className="snap-result__score-cap">total power · {result.cryptsWon}–{result.cryptsLost} Crypts</span>
+        </div>
+
+        <dl className="snap-result__stats">
+          {result.bestCrypt ? (
+            <div className="snap-result__stat">
+              <dt>Best Crypt</dt>
+              <dd>{result.bestCrypt}</dd>
+            </div>
+          ) : null}
+          {result.closestCrypt ? (
+            <div className="snap-result__stat">
+              <dt>Closest</dt>
+              <dd>{result.closestCrypt}</dd>
+            </div>
+          ) : null}
+          {result.mvp ? (
+            <div className="snap-result__stat">
+              <dt>MVP</dt>
+              <dd>{result.mvp}</dd>
+            </div>
+          ) : null}
+        </dl>
+
+        <div className="snap-result__lanes">
+          {state.outcomes?.map((o) => (
+            <span key={o.index} className={"snap-result__lane is-" + (o.winner ?? "draw")}>
+              Crypt {o.index + 1}: {o.p1Power}–{o.p2Power}
+            </span>
+          ))}
+        </div>
+
+        <div className="snap-result__actions">
+          <div className="snap-result__share">
+            <button type="button" className="snap-result__copy" onClick={() => copy("result")}>
+              {copied === "result" ? "Copied" : "Copy Result"}
+            </button>
+            <button type="button" className="snap-result__copy" onClick={() => copy("seed")}>
+              {copied === "seed" ? "Copied" : "Challenge This Seed"}
             </button>
           </div>
+          <button type="button" className="snap-endturn snap-result__again" onClick={onAgain}>
+            Play Again
+          </button>
         </div>
-      ) : null}
+      </div>
     </div>
   );
 }

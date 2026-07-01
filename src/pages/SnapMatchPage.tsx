@@ -1,4 +1,5 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { SnapBoard } from "../snap/SnapBoard";
 import { SnapOnboardingBoard } from "../snap/SnapOnboardingBoard";
 
@@ -23,9 +24,22 @@ function tutorialDone(): boolean {
   }
 }
 
+/** Parse a positive integer seed from the URL, or null if absent/invalid. */
+function parseSeed(raw: string | null): number | null {
+  if (!raw) return null;
+  const n = Number(raw);
+  return Number.isFinite(n) && Number.isInteger(n) && n >= 0 ? n : null;
+}
+
 export default function SnapMatchPage() {
+  const [params] = useSearchParams();
+  // A "beat my seed" challenge link (/snap?seed=…) drops the visitor straight
+  // into the exact same deterministic match — same decks, same opponent, same
+  // draw order — skipping the scripted tutorial so the challenge lands cold.
+  const challengeSeed = parseSeed(params.get("seed"));
+
   const [mode, setMode] = React.useState<"onboarding" | "free">(() =>
-    tutorialDone() ? "free" : "onboarding",
+    challengeSeed != null || tutorialDone() ? "free" : "onboarding",
   );
 
   const completeTutorial = React.useCallback(() => {
@@ -42,6 +56,7 @@ export default function SnapMatchPage() {
   }
   return (
     <SnapBoard
+      seed={challengeSeed ?? undefined}
       onReplayTutorial={() => {
         try {
           localStorage.removeItem(DONE_KEY);
