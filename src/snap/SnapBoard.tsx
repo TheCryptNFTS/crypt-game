@@ -332,16 +332,40 @@ function SnapResultCard({
 
   return (
     <div className="snap-result" role="dialog" aria-label="Match result">
-      <div className={"snap-result__card is-" + verdictClass}>
+      <div className={"snap-result__card snap-result__card--cert is-" + verdictClass}>
+        {/* Faint heraldic seal watermark behind the content — same rotated-square
+            language as the lane sigils, so the certificate belongs to the board. */}
+        <span className="snap-result__seal" aria-hidden />
+
         <span className="snap-result__trial">{isDaily ? "Daily Crypt Trial" : "Crypt Trial"}</span>
+        {/* Proof-of-match line: the daily's date, or the seed for a challenge —
+            a screenshot names exactly WHICH trial this certificate settles. */}
+        <span className="snap-result__proof">{isDaily ? daily : `Seed ${result.seed}`}</span>
         <h2 className={"snap-result__verdict is-" + verdictClass}>{result.verdict}</h2>
         <span className="snap-result__title-rank">{result.title}</span>
 
-        <div className="snap-result__score" aria-label={`Score ${result.power} to ${result.foePower}`}>
-          <strong className="is-mine">{result.power}</strong>
-          <span className="snap-result__score-sep">–</span>
-          <strong className="is-foe">{result.foePower}</strong>
-          <span className="snap-result__score-cap">total power · {result.cryptsWon}–{result.cryptsLost} Crypts</span>
+        {/* Score plate: labeled YOU/FOE columns so a stranger reading a shared
+            screenshot knows whose number is whose without asking. */}
+        <div className="snap-result__plate" aria-label={`Score: you ${result.power}, foe ${result.foePower}`}>
+          <span className="snap-result__plate-side is-mine">
+            <span className="snap-result__plate-label">You</span>
+            <strong>{result.power}</strong>
+          </span>
+          <span className="snap-result__plate-vs" aria-hidden>vs</span>
+          <span className="snap-result__plate-side is-foe">
+            <span className="snap-result__plate-label">Foe</span>
+            <strong>{result.foePower}</strong>
+          </span>
+          <span className="snap-result__score-cap">Total power · Crypts {result.cryptsWon}–{result.cryptsLost}</span>
+        </div>
+
+        <div className="snap-result__crypts">
+          {state.outcomes?.map((o) => (
+            <span key={o.index} className={"snap-result__crypt is-" + (o.winner ?? "draw")}>
+              <span className="snap-result__crypt-name">{CRYPT_THEMES[o.index]?.name ?? `Crypt ${o.index + 1}`}</span>
+              <span className="snap-result__crypt-score">{o.p1Power}–{o.p2Power}</span>
+            </span>
+          ))}
         </div>
 
         <dl className="snap-result__stats">
@@ -365,27 +389,17 @@ function SnapResultCard({
           ) : null}
         </dl>
 
-        <div className="snap-result__lanes">
-          {state.outcomes?.map((o) => (
-            <span key={o.index} className={"snap-result__lane is-" + (o.winner ?? "draw")}>
-              Crypt {o.index + 1}: {o.p1Power}–{o.p2Power}
-            </span>
-          ))}
-        </div>
-
         {/* The viral creed on the proof itself — a screenshot carries the hook. */}
         <span className="snap-result__creed">Same deck. Same draw. Same opponent.</span>
 
         <div className="snap-result__actions">
-          <div className="snap-result__share">
-            <button type="button" className="snap-result__copy" onClick={() => copy("result")}>
-              {copied === "result" ? "Copied" : "Copy Result"}
-            </button>
-            <button type="button" className="snap-result__copy" onClick={() => copy("seed")}>
-              {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
-            </button>
-          </div>
-          <button type="button" className="snap-endturn snap-result__again" onClick={onAgain}>
+          <button type="button" className="snap-result__cta" onClick={() => copy("result")}>
+            {copied === "result" ? "Copied" : "Copy Result"}
+          </button>
+          <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
+            {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
+          </button>
+          <button type="button" className="snap-result__again-link" onClick={onAgain}>
             Play Again
           </button>
         </div>

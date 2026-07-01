@@ -674,13 +674,26 @@
 .snap-result__lanes { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: 13px; color: #cbb98f; }
 .snap-result__lane.is-P1 { color: #f5c451; }
 .snap-result__lane.is-P2 { color: #d98080; }
+/* The creed — the certificate's signature line, flanked by engraved rules. */
 .snap-result__creed {
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 9px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  text-align: center;
+  white-space: nowrap;
   color: #9c8850;
 }
+.snap-result__creed::before,
+.snap-result__creed::after {
+  content: "";
+  flex: 1 1 12px;
+  height: 1px;
+}
+.snap-result__creed::before { background: linear-gradient(90deg, transparent, #4a3c1c); }
+.snap-result__creed::after { background: linear-gradient(90deg, #4a3c1c, transparent); }
 .snap-result__teach {
   margin: 0;
   max-width: 260px;
@@ -702,72 +715,291 @@
 }
 .snap-result__replay:hover { color: #f5c451; border-color: #6f5a1e; }
 
-/* Shareable Crypt Trial certificate — kept in the gold/bone family. */
+/* ————— CRYPT TRIAL CERTIFICATE —————
+   The result screen is part of the viral loop: it has to read as a premium
+   artefact worth screenshotting — status, proof, and challenge in one glance —
+   not a stats modal. Everything is scoped under --cert so the tutorial's
+   simpler result card (SnapOnboardingBoard) keeps the legacy base look. */
 .snap-result__card { max-width: min(92vw, 340px); gap: 10px; }
-.snap-result__trial {
-  font-size: 11px;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: #9c8850;
-}
-.snap-result__verdict { margin: 0; line-height: 1; }
-.snap-result__title-rank {
-  font-size: 15px;
-  letter-spacing: 0.08em;
-  color: #e8dcbb;
-  text-transform: uppercase;
-}
-.snap-result__score {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 2px;
-}
-.snap-result__score strong { font-size: 30px; font-weight: 800; line-height: 1; }
-.snap-result__score .is-mine { color: #f5c451; }
-.snap-result__score .is-foe { color: #cbb98f; }
-.snap-result__score-sep { font-size: 20px; color: #6f5a1e; }
-.snap-result__score-cap {
-  flex-basis: 100%;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #9c8850;
-}
-.snap-result__stats {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin: 2px 0 0;
-  padding: 10px 0;
+
+.snap-result__card--cert {
+  position: relative;
+  overflow: hidden;
   width: 100%;
-  border-top: 1px solid #2a220f;
-  border-bottom: 1px solid #2a220f;
+  max-width: min(92vw, 360px);
+  gap: 11px;
+  padding: 26px 22px 16px;
+  border-radius: 14px;
+  background:
+    radial-gradient(130% 55% at 50% 0%, rgba(245, 196, 81, 0.08), transparent 58%),
+    linear-gradient(180deg, #16110a, #0a0906);
 }
-.snap-result__stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.snap-result__stat dt {
+/* Inner engraved frame + corner ticks — the slot-ghost corner language scaled up,
+   so the card reads as a struck plate rather than a rounded web dialog. */
+.snap-result__card--cert::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(233, 201, 132, 0.14);
+  border-radius: 9px;
+  pointer-events: none;
+  --tick: rgba(233, 201, 132, 0.5);
+  background:
+    linear-gradient(var(--tick), var(--tick)) 0 0 / 12px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 0 / 1px 12px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 0 / 12px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 0 / 1px 12px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 100% / 12px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 100% / 1px 12px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 100% / 12px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 100% / 1px 12px no-repeat;
+}
+.snap-result__card--cert > * { position: relative; z-index: 1; }
+.snap-result__seal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: 2px solid rgba(233, 201, 132, 0.055);
+  border-radius: 26px;
+  box-shadow: inset 0 0 46px rgba(233, 201, 132, 0.045);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.snap-result__trial {
   font-size: 10px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  text-transform: uppercase;
+  color: #9c8850;
+}
+.snap-result__proof {
+  margin-top: -5px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  font-variant-numeric: tabular-nums;
+  color: #e9c984;
+}
+
+/* The verdict is the main event — engraved metal, not a web heading. Serif ties
+   it to the OG card; gradient text reads as struck gold / cooled ember / bone. */
+.snap-result__verdict { margin: 0; line-height: 1; }
+.snap-result__card--cert .snap-result__verdict {
+  margin-top: 2px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 12vw, 46px);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-indent: 0.07em;
+  background: linear-gradient(180deg, #f8e7b0 0%, #e9c984 40%, #b9974e 74%, #8a6a2a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 12px rgba(224, 165, 42, 0.3));
+}
+.snap-result__card--cert .snap-result__verdict.is-P2 {
+  background: linear-gradient(180deg, #e8a184 0%, #cf6b4a 45%, #93382a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 2px 12px rgba(180, 70, 45, 0.28));
+}
+.snap-result__card--cert .snap-result__verdict.is-DRAW {
+  background: linear-gradient(180deg, #e3d6b4 0%, #cbb98f 50%, #8d7b54 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: none;
+}
+.snap-result__title-rank {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  color: #cbb98f;
+  text-transform: uppercase;
+}
+
+/* Score plate — a sunken struck plate with labeled YOU/FOE columns, so a
+   stranger reading a shared screenshot knows whose number is whose. */
+.snap-result__plate {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+  margin-top: 2px;
+  padding: 12px 12px 9px;
+  border-radius: 10px;
+  background:
+    radial-gradient(80% 90% at 50% 0%, rgba(245, 196, 81, 0.05), transparent 70%),
+    rgba(0, 0, 0, 0.34);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.72),
+    inset 0 0 18px rgba(0, 0, 0, 0.55),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+}
+.snap-result__plate-side { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.snap-result__plate-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
   text-transform: uppercase;
   color: #8a7742;
 }
-.snap-result__stat dd { margin: 0; font-size: 13px; color: #f0e2bb; }
-.snap-result__share { display: flex; gap: 8px; }
-.snap-result__copy {
+.snap-result__plate-side strong {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.snap-result__plate-side.is-mine strong { color: #f5c451; text-shadow: 0 0 18px rgba(224, 165, 42, 0.25); }
+.snap-result__plate-side.is-foe strong { color: #b7a67d; }
+.snap-result__plate-vs {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #6f5a1e;
+}
+.snap-result__score-cap {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(233, 201, 132, 0.1);
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9c8850;
+}
+
+/* Three Crypts — mini battle plates mirroring the board, not a debug list. */
+.snap-result__crypts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  width: 100%;
+}
+.snap-result__crypt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 4px 7px;
+  border: 1px solid #2a220f;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.28);
+}
+.snap-result__crypt-name {
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #8a7742;
+}
+.snap-result__crypt-score {
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #cbb98f;
+}
+.snap-result__crypt.is-P1 {
+  border-color: #6f5a1e;
+  background: linear-gradient(180deg, rgba(245, 196, 81, 0.07), rgba(0, 0, 0, 0.28));
+}
+.snap-result__crypt.is-P1 .snap-result__crypt-score { color: #f5c451; }
+.snap-result__crypt.is-P2 { border-color: #52251d; }
+.snap-result__crypt.is-P2 .snap-result__crypt-score { color: #c97c62; }
+
+/* Honors — one engraved row with hairline separators. */
+.snap-result__stats {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 9px 0 8px;
+  width: 100%;
+  border-top: 1px solid #241d0d;
+  border-bottom: 1px solid #241d0d;
+}
+.snap-result__stat {
   flex: 1;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 0 8px;
+  min-width: 0;
+}
+.snap-result__stat + .snap-result__stat { border-left: 1px solid #241d0d; }
+.snap-result__stat dt {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8a7742;
+}
+.snap-result__stat dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.25;
+  text-align: center;
+  color: #e8dcbb;
+}
+
+/* Actions — the artefact's moves: copy the proof, issue the challenge, go again. */
+.snap-result__card--cert .snap-result__actions { width: 100%; gap: 8px; margin-top: 1px; }
+.snap-result__cta {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
   color: #1a1408;
   background: linear-gradient(180deg, #f2cf6f, #c79a35);
-  border: 1px solid #7a5f1e;
-  border-radius: 10px;
-  padding: 9px 12px;
-  cursor: pointer;
-  transition: filter 120ms ease;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset, 0 6px 20px rgba(0, 0, 0, 0.5);
+  transition: filter 120ms ease, transform 120ms ease;
 }
-.snap-result__copy:hover { filter: brightness(1.06); }
-.snap-result__copy:active { filter: brightness(0.96); }
+.snap-result__cta:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.snap-result__cta:active { filter: brightness(0.96); transform: translateY(0); }
+.snap-result__cta--ghost {
+  color: #e9c984;
+  background: rgba(14, 12, 8, 0.5);
+  box-shadow: 0 0 0 1px #6f5a1e inset;
+}
+.snap-result__cta--ghost:hover {
+  filter: none;
+  transform: none;
+  background: rgba(24, 20, 12, 0.6);
+  box-shadow: 0 0 0 1px #9c8850 inset;
+}
+.snap-result__again-link {
+  align-self: center;
+  margin-top: 1px;
+  padding: 6px 10px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9c8850;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+.snap-result__again-link:hover { color: #f5c451; }
+
+/* Desktop — the certificate scales up on the wide stage instead of floating tiny. */
+@media (min-width: 900px) {
+  .snap-result__card--cert { max-width: 440px; padding: 34px 32px 20px; gap: 13px; }
+  .snap-result__card--cert .snap-result__verdict { font-size: 56px; }
+  .snap-result__plate-side strong { font-size: 48px; }
+  .snap-result__crypt-name { font-size: 9px; }
+  .snap-result__crypt-score { font-size: 17px; }
+}
