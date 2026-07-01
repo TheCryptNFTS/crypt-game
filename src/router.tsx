@@ -18,6 +18,9 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const PlayHubPage = lazy(() => import("./pages/PlayHubPage"));
 const PuzzlePage = lazy(() => import("./pages/PuzzlePage"));
 const LiveCryptMatchPage = lazy(() => import("./pages/LiveCryptMatchPage"));
+// SNAP prototype (Cut 1) — lives behind its own route so the current TCG at
+// /match stays the live default while the simplified lane battler is built out.
+const SnapMatchPage = lazy(() => import("./pages/SnapMatchPage"));
 // /match wraps the page with the wallet→owned-cards chain; the page stays reused
 // bare by the tutorial. See MatchRoute.
 const MatchRoute = lazy(() => import("./pages/MatchRoute"));
@@ -74,6 +77,8 @@ export const router = createBrowserRouter([
       // Ungated reference — glossary + how-to-play, reachable for any new pilot.
       { path: "/help", element: <HelpPage /> },
       { path: "/match", element: <MatchRoute /> },
+      // Snap prototype — ungated like /play so it's directly reachable for testing.
+      { path: "/snap", element: <SnapMatchPage /> },
       { path: "/spectate", element: <SpectatePage /> },
       {
         // Draft is an advanced mode — gate it like /deck so a brand-new pilot

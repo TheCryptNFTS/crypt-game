@@ -51,6 +51,19 @@ export const SIGIL_REWARDS = {
  *  tomorrow). ~3× a normal win, so the streak is worth protecting. In-game-only. */
 export const FIRST_WIN_BONUS = 100;
 
+/** Sigil paid by the once-per-24h daily pack claim (lib/localProgress). Canon
+ *  so the claim path and any surface that previews it never drift. In-game-only. */
+export const DAILY_PACK_SIGIL = 50;
+
+/**
+ * PASS XP — a progression track DISTINCT from Sigil (spendable) and from season
+ * XP (quest-driven). Pass XP accrues per match + on the daily pack and drives the
+ * citizen/pass level. Canonical figures so every surface reads one set of numbers
+ * (they used to be defined ad-hoc in lib/localProgress). Win > draw > loss.
+ * In-game-only — never hex, never on-chain.
+ */
+export const PASS_XP_REWARDS = { loss: 15, draw: 20, win: 40, dailyPack: 30 } as const;
+
 // ---------------------------------------------------------------------------
 // QUEST DEFINITIONS
 // ---------------------------------------------------------------------------
@@ -189,6 +202,25 @@ export function seasonTierForXp(seasonXp: number): number {
     else break;
   }
   return unlocked;
+}
+
+// ---------------------------------------------------------------------------
+// CARD / COMMANDER MASTERY CURVE
+// ---------------------------------------------------------------------------
+
+/** Highest mastery level a card or commander can reach. */
+export const MASTERY_MAX_LEVEL = 100;
+
+/**
+ * XP required to advance a card/commander from `level` to the next mastery level.
+ * A purely COSMETIC display curve (mastery tiers / sealed-evolution labels) — it
+ * grants no currency and sources nothing real. Migrated here from the former
+ * economy/progression module so every progression/reward number lives in one
+ * canonical place. Returns 0 at the cap. Pure.
+ */
+export function masteryXpToNextLevel(level: number): number {
+  if (level >= MASTERY_MAX_LEVEL) return 0;
+  return Math.floor(5000 + level * 350 + Math.pow(level, 1.35) * 120);
 }
 
 // ---------------------------------------------------------------------------

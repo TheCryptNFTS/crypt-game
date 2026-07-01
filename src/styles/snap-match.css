@@ -1,0 +1,225 @@
+/* SNAP-STYLE LANE BATTLER — Cut 1 board. One mobile viewport, no scroll.
+   Palette stays on-brand: deep vault black + gold, no cyan/off-gold. */
+
+/* Fill the AppShell outlet, not the whole viewport. `.crypt-app-main` is a
+   flex-1 child of `.crypt-app-root` (header above, fixed dock reserved via its
+   own padding-bottom = --crypt-nav-dock-h), so making main a flex column and
+   letting the shell flex-fill gives one no-scroll board that never sits under
+   the header or the dock. (The old `height: 100dvh` ignored both → offset +
+   overflow.) */
+.crypt-app-main:has(.snap-shell) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.snap-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #f3e9d2;
+  background: radial-gradient(120% 80% at 50% 0%, #1a1408 0%, #0b0a06 55%, #060504 100%);
+  font-family: inherit;
+}
+
+/* HUD */
+.snap-hud {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 4px 2px;
+  font-size: 13px;
+}
+.snap-hud strong { color: #f5c451; font-variant-numeric: tabular-nums; }
+.snap-hud__energy { display: inline-flex; align-items: center; gap: 5px; }
+.snap-energy-pip {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffe08a, #d99a20);
+  box-shadow: 0 0 8px #e0a52a88;
+}
+.snap-hud__hint { margin-left: auto; color: #cbb98f; font-size: 12px; }
+
+/* LANES */
+.snap-lanes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.snap-lane {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #3a2f16;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #17120a 0%, #0d0b07 100%);
+  padding: 6px 4px;
+  min-height: 0;
+  transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+.snap-lane.is-p1-lead { border-color: #6f5a1e; box-shadow: inset 0 -30px 40px -30px #f5c45166; }
+.snap-lane.is-p2-lead { border-color: #5a2a2a; box-shadow: inset 0 30px 40px -30px #d1555566; }
+.snap-lane.is-droppable {
+  cursor: pointer;
+  border-color: #f5c451;
+  box-shadow: 0 0 0 1px #f5c45166, 0 0 18px #e0a52a44;
+}
+.snap-lane.is-droppable:hover { transform: translateY(-2px); }
+
+.snap-lane__side {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-content: flex-start;
+  justify-content: center;
+  min-height: 44px;
+}
+.snap-lane__side--enemy { align-items: flex-start; }
+.snap-lane__side--mine { align-items: flex-end; }
+
+.snap-lane__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px;
+  border-top: 1px solid #2a2313;
+  border-bottom: 1px solid #2a2313;
+  margin: 3px 0;
+}
+.snap-lane__title { font-size: 10px; color: #9c8a5f; letter-spacing: 0.04em; text-transform: uppercase; }
+.snap-lane__score {
+  font-size: 15px; font-weight: 700; color: #cbb98f;
+  font-variant-numeric: tabular-nums; min-width: 20px; text-align: center;
+}
+.snap-lane__score.is-win { color: #f5c451; text-shadow: 0 0 10px #e0a52a66; }
+
+/* CARDS */
+.snap-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 58px;
+  padding: 0;
+  border: 1px solid #4a3c1c;
+  border-radius: 7px;
+  background: #0d0b07;
+  color: #f3e9d2;
+  overflow: hidden;
+  cursor: default;
+  font: inherit;
+}
+.snap-card--small { width: 34px; border-radius: 5px; }
+.snap-card.is-static { cursor: default; }
+.snap-card:not(.is-static) { cursor: pointer; }
+.snap-card.is-playable { border-color: #f5c451; box-shadow: 0 0 10px #e0a52a55; }
+.snap-card.is-selected {
+  border-color: #ffe08a;
+  box-shadow: 0 0 0 2px #f5c451, 0 0 16px #e0a52a88;
+  transform: translateY(-4px);
+}
+.snap-card:disabled { opacity: 0.85; }
+
+.snap-card__art { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.snap-card__art--blank { background: linear-gradient(135deg, #241c0e, #12100a); }
+.snap-card__cost,
+.snap-card__power {
+  position: absolute;
+  top: 2px;
+  width: 16px; height: 16px;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+  border-radius: 50%;
+  font-variant-numeric: tabular-nums;
+}
+.snap-card__cost { left: 2px; background: #1c3a6b; color: #cfe4ff; }
+.snap-card__power { right: 2px; background: #6b1c1c; color: #ffd9d9; }
+.snap-card--small .snap-card__cost,
+.snap-card--small .snap-card__power { width: 13px; height: 13px; font-size: 9px; top: 1px; }
+.snap-card--small .snap-card__cost { left: 1px; }
+.snap-card--small .snap-card__power { right: 1px; }
+.snap-card__name {
+  width: 100%;
+  padding: 2px 3px;
+  font-size: 8px;
+  line-height: 1.1;
+  color: #cbb98f;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* HAND DOCK */
+.snap-hand-dock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+}
+.snap-hand {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  flex: 1 1 auto;
+  padding: 4px 2px;
+  scrollbar-width: thin;
+}
+.snap-hand__empty { color: #7d6f4d; font-size: 12px; padding: 8px; }
+.snap-endturn {
+  flex: 0 0 auto;
+  padding: 12px 16px;
+  min-height: 44px;
+  border: 1px solid #6f5a1e;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f5c451, #d99a20);
+  color: #241a06;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.snap-endturn:disabled {
+  background: #2a2313;
+  color: #7d6f4d;
+  border-color: #3a2f16;
+  cursor: default;
+}
+
+/* RESULT */
+.snap-result {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(6, 5, 4, 0.82);
+  backdrop-filter: blur(3px);
+}
+.snap-result__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 28px 32px;
+  border: 1px solid #6f5a1e;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #17120a, #0b0a06);
+  box-shadow: 0 20px 60px #000a;
+}
+.snap-result__verdict {
+  margin: 0;
+  font-size: 30px;
+  color: #f5c451;
+  text-shadow: 0 0 22px #e0a52a55;
+}
+.snap-result__lanes { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: 13px; color: #cbb98f; }
+.snap-result__lane.is-P1 { color: #f5c451; }
+.snap-result__lane.is-P2 { color: #d98080; }

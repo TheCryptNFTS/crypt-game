@@ -15,13 +15,11 @@
 // MUST show the same number for the same match — diverging constants (this
 // module used to pay 25/8) made one win read "+30 Sigil" in the ceremony and
 // "+25 Sigil" on the results screen, which reads as a bug to the player.
-import { SIGIL_REWARDS } from "../meta/rewards";
-
-// SINGLE SOURCE OF TRUTH for the Pass-XP figures (a track distinct from Sigil).
-// Both the per-match reward and the daily-pack claim read from here so the two
-// surfaces can never drift to different magic numbers the way the Sigil
-// constants once did. Win pays more than a draw, a draw more than a loss.
-const PASS_XP_REWARDS = { loss: 15, draw: 20, win: 40, dailyPack: 30 } as const;
+// CANON: all reward magic numbers live in meta/rewards.ts. Sigil per outcome,
+// the daily-pack Sigil grant, and the (distinct) Pass-XP figures are all sourced
+// from there so no two surfaces can drift to different constants. NOTHING here
+// sources real hex — game-internal soft currency + XP only.
+import { SIGIL_REWARDS, PASS_XP_REWARDS, DAILY_PACK_SIGIL } from "../meta/rewards";
 
 const K = {
   balance: "crypt.progress.balance",
@@ -175,7 +173,7 @@ export function claimDailyPack(now = Date.now()): DailyClaimResult {
     return { ok: false, reason: "cooldown", nextClaimAt: next };
   }
 
-  const cryptDelta = 50;
+  const cryptDelta = DAILY_PACK_SIGIL;
   const passXpDelta = PASS_XP_REWARDS.dailyPack;
   const balance = readNum(K.balance, 0) + cryptDelta;
   const passXp = readNum(K.passXp, 0) + passXpDelta;

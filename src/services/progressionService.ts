@@ -1,5 +1,5 @@
 import { CardProgress, CommanderProgress } from "../domain/types";
-import { xpToNextLevel } from "../economy/progression";
+import { masteryXpToNextLevel as xpToNextLevel } from "../meta/rewards";
 
 function levelFromXp(totalXp: number) {
   let level = 1;
