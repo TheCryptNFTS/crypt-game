@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="52%">
+      <stop offset="0%" stop-color="#1a160e"/>
+      <stop offset="100%" stop-color="#0B0B0D"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F5DFA0"/>
+      <stop offset="55%" stop-color="#E9C984"/>
+      <stop offset="100%" stop-color="#B9974E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="#0B0B0D"/>
+  <rect y="285" width="1200" height="630" fill="url(#glow)"/>
+
+  <rect x="44" y="329" width="1112" height="542" fill="none" stroke="#8C7B57" stroke-width="2"/>
+  <rect x="56" y="341" width="1088" height="518" fill="none" stroke="#E9C984" stroke-width="4"/>
+
+  <g transform="translate(600 442)">
+    <polygon points="0,-96 83,-48 83,48 0,96 -83,48 -83,-48" fill="none" stroke="url(#gold)" stroke-width="9"/>
+    <polygon points="0,-54 47,-27 47,27 0,54 -47,27 -47,-27" fill="none" stroke="#E9C984" stroke-width="5"/>
+    <polygon points="0,-26 22,-13 22,13 0,26 -22,13 -22,-13" fill="url(#gold)"/>
+  </g>
+
+  <text x="600" y="618" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="112" letter-spacing="16" fill="url(#gold)" font-weight="bold">CRYPT TRIAL</text>
+  <text x="600" y="694" text-anchor="middle" font-family="Georgia, serif" font-size="44" letter-spacing="10" fill="#E9C984">Beat my seed</text>
+
+  <line x1="390" y1="746" x2="810" y2="746" stroke="#5c4f38" stroke-width="2"/>
+
+  <text x="600" y="810" text-anchor="middle" font-family="Georgia, serif" font-size="38" letter-spacing="2" fill="#C9B891">Same deck. Same draw. Same opponent.</text>
+  <text x="600" y="850" text-anchor="middle" font-family="Georgia, serif" font-size="0" fill="#000"> </text>
+  <text x="600" y="850" text-anchor="middle" font-family="Georgia, serif" font-size="26" letter-spacing="7" fill="#8C7B57">CRYPT LEGENDS · DARK TCG</text>
+</svg>
