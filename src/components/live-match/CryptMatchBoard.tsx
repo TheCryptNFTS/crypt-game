@@ -900,6 +900,16 @@ export function CryptMatchBoard(props: CryptMatchBoardProps) {
       {/* DOCK — hand + actions + log, pinned below the field (hand first so it
           sits right under your lanes). */}
       <div className="crypt-dock">
+        {/* MOBILE COMBAT TICKER — the full combat log rail is hidden on phones,
+            so the last thing that happened (what the AI just did to you) would
+            otherwise vanish with the ~480ms FX. This thin strip keeps the most
+            recent entry on screen. CSS shows it only <=600px. */}
+        {combatLog[0] ? (
+          <div className="crypt-dock__ticker" role="status" aria-live="polite">
+            <span className="crypt-dock__ticker-dot" aria-hidden="true" />
+            <span className="crypt-dock__ticker-text">{combatLog[0].text}</span>
+          </div>
+        ) : null}
         <section className="live-hand">
           <div className="live-hand__header">
             <span className="kicker">Your Hand</span>

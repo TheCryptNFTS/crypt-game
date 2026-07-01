@@ -879,9 +879,29 @@ export function useLocalCryptMatch(ownedCardIds?: string[], options?: LocalMatch
       const commitOne = (action: Action) => {
         const { state: nextState, events } = applyAction(live, action);
         live = nextState;
+        const allEvents = [...events];
+        // Drain any mid-resolution CHOICE the AI's action raised, exactly as the
+        // human dispatch path does (see above). Without this, an unresolved
+        // pendingChoice would make P2's END_TURN reject 'choice-pending' and the
+        // turn would never hand back to P1 — a hard softlock only RESET escapes.
+        // No AI-draftable card raises a choice today, so this is belt-and-braces
+        // against future content/paths; no-op for every shipped action.
+        let guard = 0;
+        while (live.pendingChoice && guard < 64) {
+          guard += 1;
+          const optionId = autoPickOption(live);
+          if (optionId == null) break;
+          const res = applyAction(live, {
+            type: "RESOLVE_CHOICE",
+            player: live.pendingChoice.controller,
+            optionId,
+          });
+          live = res.state;
+          for (const ev of res.events) allEvents.push(ev);
+        }
         if (!mountedRef.current) return;
         setMatch(live);
-        for (const ev of events) {
+        for (const ev of allEvents) {
           const line = eventToLogText(ev);
           if (line) appendLog(line);
         }

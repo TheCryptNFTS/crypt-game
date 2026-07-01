@@ -158,7 +158,11 @@
     flex: 1;
     justify-content: flex-end;
     gap: 8px;
-    flex-wrap: nowrap;
+    /* WRAP, not nowrap: when Surge is available the row holds three buttons
+       (Reset · Surge · End Turn). nowrap squeezed all three into one narrow row
+       and starved End Turn — the most-pressed button. Wrapping lets End Turn
+       drop to its own full-width line rather than shrink. */
+    flex-wrap: wrap;
   }
   .live-topbar .live-topbar__actions .live-btn {
     min-height: 44px;
@@ -166,9 +170,11 @@
     font-size: 12px;
     white-space: nowrap;
   }
-  /* End Turn is the primary — let it grow; Reset is quiet + compact. */
-  .live-topbar .live-btn--primary { flex: 1 1 auto; }
+  /* End Turn is the primary — give it a wide basis so it either fills the row or
+     wraps to its own full-width line; Reset + Surge stay quiet + compact. */
+  .live-topbar .live-btn--primary { flex: 1 1 55%; min-width: 55%; }
   .live-topbar .live-btn--ghost { flex: 0 0 auto; }
+  .live-topbar .live-btn--surge { flex: 0 0 auto; }
 
   /* ============================================================= *
    * 4. THE BOARD fills the middle; the rail leaves the surface     *
@@ -242,6 +248,36 @@
     gap: 4px;
   }
 
+  /* COMBAT TICKER — revealed on phone (hidden on desktop, where the full log
+     rail is on-screen). A thin single-line strip that keeps the most recent
+     combat entry — crucially, what the AI just did — visible after its FX fade. */
+  .crypt-dock__ticker {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: rgba(20, 14, 8, 0.72);
+    border: 1px solid rgba(214, 176, 92, 0.22);
+  }
+  .crypt-dock__ticker-dot {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--crypt-gold, #d6b05c);
+    box-shadow: 0 0 6px rgba(214, 176, 92, 0.7);
+  }
+  .crypt-dock__ticker-text {
+    font-size: 11px;
+    line-height: 1.3;
+    color: rgba(240, 228, 205, 0.92);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   /* Hand: a compact horizontal tray (no overlapping fan / hover-lift on touch)
      that scrolls sideways and snaps. */
   .live-hand {
@@ -287,7 +323,22 @@
   .live-actionbar__header { margin-bottom: 6px; }
   /* Drop the "Actions" heading; keep the status line (it tells you what to do). */
   .live-actionbar__header h3 { display: none; }
-  .live-actionbar__header p { font-size: 12px; line-height: 1.35; }
+  /* The status line is the PRIMER when nothing is selected (all play buttons are
+     hidden then) — so it must read as an intentional prompt, not collapsed dead
+     space. Center it and give the bar a min-height so the empty state has body. */
+  .live-actionbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 58px;
+  }
+  .live-actionbar__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .live-actionbar__header p { font-size: 12px; line-height: 1.35; margin: 0; }
   /* The "Play" group label is noise once only the relevant buttons show. */
   .live-actionbar__group-label { display: none; }
   .live-actionbar__buttons,

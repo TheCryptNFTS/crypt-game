@@ -553,6 +553,11 @@
   align-items: center;
   gap: 10px;
 }
+/* Mobile-only combat ticker: hidden on desktop, where the full combat log rail
+   is on-screen. The mobile shell (<=600px) reveals it. */
+.crypt-dock__ticker {
+  display: none;
+}
 
 .live-topbar {
   display: flex;

@@ -51,9 +51,9 @@ export function ActionBar(props: Props) {
             ? "Spell selected. Pick a target unit if it needs one, then Cast."
             : combatReady
               ? props.canAttackUnit
-                ? "Unit ready. Press Attack Selected Enemy, or Attack Pyre."
-                : "Unit ready. Press Attack Pyre to strike the enemy."
-              : "Select a card or unit to act.";
+                ? "Unit ready. Press Attack Selected Enemy, or Attack the enemy Pyre (their life)."
+                : "Unit ready. Press Attack Pyre to strike the enemy's life crystal."
+              : "Your move — tap a glowing card below to play it, or tap one of your units to attack.";
 
   // Amber-highlight whenever we're telling the player WHY something is blocked.
   const showWarn = !!props.rejectMessage || blockedByEnergy;
