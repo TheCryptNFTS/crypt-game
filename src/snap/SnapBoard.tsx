@@ -373,6 +373,9 @@ function SnapResultCard({
           ))}
         </div>
 
+        {/* The viral creed on the proof itself — a screenshot carries the hook. */}
+        <span className="snap-result__creed">Same deck. Same draw. Same opponent.</span>
+
         <div className="snap-result__actions">
           <div className="snap-result__share">
             <button type="button" className="snap-result__copy" onClick={() => copy("result")}>

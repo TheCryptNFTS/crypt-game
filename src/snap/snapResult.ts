@@ -162,32 +162,30 @@ export function dailyUrl(date: string, origin?: string): string {
   return `${base}/snap?daily=${date}`;
 }
 
+/** The repeated viral creed — the same line on the landing, the OG card, and every
+ *  share. It states the whole hook in three words: the match is identical for both. */
+const CREED = "Same deck. Same draw. Same opponent.";
+
 /**
- * Daily recap copy — leads with the comparable number so a friend can beat it.
- * Same brand discipline as shareText: no emoji, no hype, no token/price words.
+ * Daily recap copy — three lines: verdict + comparable score, the creed, one link.
+ * No emoji, no hype, no token/price words. Reads clean pasted cold into X/Discord.
  */
 export function dailyShareText(result: SnapResult, date: string, origin?: string): string {
-  const lines = [
-    `I scored ${result.power} in today's Crypt Trial.`,
-    `Result: ${result.verdict}`,
-    `Title: ${result.title}`,
+  return [
+    `Today's Crypt Trial: ${result.verdict}, ${result.power}.`,
+    CREED,
     `Beat me: ${dailyUrl(date, origin)}`,
-  ];
-  return lines.join("\n");
+  ].join("\n");
 }
 
 /**
- * Plain-text recap for pasting into a DM / post. No emoji, no hype, no token or
- * price language — just the proof and the challenge.
+ * Seed-challenge recap — three lines: verdict + score, the creed, one link. No
+ * emoji, no hype, no token/price words — just the proof and a single challenge.
  */
 export function shareText(result: SnapResult, origin?: string): string {
-  const lines = [
-    "I faced the Crypt Trial.",
-    `Result: ${result.verdict}`,
-    `Score: ${result.power}-${result.foePower}`,
-  ];
-  if (result.bestCrypt) lines.push(`Best Crypt: ${result.bestCrypt}`);
-  lines.push(`Title: ${result.title}`);
-  lines.push(`Beat my seed: ${challengeUrl(result.seed, origin)}`);
-  return lines.join("\n");
+  return [
+    `Crypt Trial: ${result.verdict}, ${result.power}-${result.foePower}.`,
+    CREED,
+    `Beat my seed: ${challengeUrl(result.seed, origin)}`,
+  ].join("\n");
 }

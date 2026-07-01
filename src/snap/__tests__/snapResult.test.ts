@@ -125,9 +125,8 @@ describe("shareText / challengeUrl", () => {
     });
     const r = summarizeSnapResult(s)!;
     const text = shareText(r, "https://crypt.example");
-    expect(text).toContain("I faced the Crypt Trial.");
-    expect(text).toContain("Result: WIN");
-    expect(text).toContain("Score: 19-7");
+    expect(text).toContain("Crypt Trial: WIN, 19-7.");
+    expect(text).toContain("Same deck. Same draw. Same opponent.");
     expect(text).toContain("Beat my seed: https://crypt.example/snap?seed=777");
     // Brand discipline: no emoji, no price/token words.
     expect(text).not.toMatch(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/u);
@@ -181,9 +180,8 @@ describe("Daily Crypt Trial", () => {
     });
     const r = summarizeSnapResult(s)!;
     const text = dailyShareText(r, "2026-07-01", "https://crypt.example");
-    expect(text).toContain("I scored 19 in today's Crypt Trial.");
-    expect(text).toContain("Result: WIN");
-    expect(text).toContain("Title: Bone Warden");
+    expect(text).toContain("Today's Crypt Trial: WIN, 19.");
+    expect(text).toContain("Same deck. Same draw. Same opponent.");
     expect(text).toContain("Beat me: https://crypt.example/snap?daily=2026-07-01");
     // Same brand discipline as shareText: no emoji, no price/token words.
     expect(text).not.toMatch(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/u);

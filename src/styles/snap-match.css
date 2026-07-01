@@ -651,6 +651,13 @@
 .snap-result__lanes { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: 13px; color: #cbb98f; }
 .snap-result__lane.is-P1 { color: #f5c451; }
 .snap-result__lane.is-P2 { color: #d98080; }
+.snap-result__creed {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #9c8850;
+}
 .snap-result__teach {
   margin: 0;
   max-width: 260px;

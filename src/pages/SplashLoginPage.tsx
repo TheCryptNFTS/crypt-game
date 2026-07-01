@@ -131,8 +131,7 @@ export default function SplashLoginPage() {
           <div className="crypt-splash-daily">
             <p className="crypt-splash-daily-kicker">Today's Crypt Trial</p>
             <p className="crypt-splash-daily-explainer">
-              Everyone faces the same match today — same deck, same draw, same opponent.
-              Score it, then dare a friend to beat your seed.
+              Everyone plays the same match today. Same deck. Same draw. Same opponent.
             </p>
             <button type="button" className="crypt-splash-cta-guest" onClick={onDaily}>
               Play Today's Crypt Trial
