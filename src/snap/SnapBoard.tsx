@@ -66,6 +66,14 @@ const STATE_LABEL: Record<"winning" | "losing" | "tied", string> = {
   tied: "TIED",
 };
 
+/** Each Crypt gets its own name + on-brand gold tint so the three chambers never
+ * read as identical empty boxes. Kept strictly in the gold family. */
+const CRYPT_THEMES = [
+  { key: "ash", name: "Ash Court" },
+  { key: "iron", name: "Ironworks" },
+  { key: "grave", name: "Grave Terrace" },
+] as const;
+
 export function SnapBoard({
   seed,
   onReplayTutorial,
@@ -162,11 +170,15 @@ export function SnapBoard({
           const st = laneState(p1p, p2p);
           const myFull = lane.P1.length >= LANE_CAPACITY;
           const droppable = laneSelectable && !myFull;
+          const theme = CRYPT_THEMES[lane.index] ?? CRYPT_THEMES[0];
+          const enemyGhosts = Math.max(0, LANE_CAPACITY - lane.P2.length);
+          const myGhosts = Math.max(0, LANE_CAPACITY - lane.P1.length);
           return (
             <div
               key={lane.index}
               className={[
                 "snap-lane",
+                "snap-lane--" + theme.key,
                 droppable ? "is-droppable" : "",
                 laneSelectable && myFull ? "is-full" : "",
                 lead === "P1" ? "is-p1-lead" : lead === "P2" ? "is-p2-lead" : "",
@@ -175,36 +187,43 @@ export function SnapBoard({
               role={droppable ? "button" : undefined}
               aria-label={`Crypt ${lane.index + 1}. You ${p1p}, opponent ${p2p}. ${lane.P1.length} of ${LANE_CAPACITY} slots used.`}
             >
-              {/* opponent side */}
+              {/* opponent army — hugs the top of the chamber */}
               <div className="snap-lane__side snap-lane__side--enemy">
                 {lane.P2.map((c) => (
                   <CardFace key={c.instanceId} card={c} small />
                 ))}
+                {Array.from({ length: enemyGhosts }, (_, i) => (
+                  <span key={"eg" + i} className="snap-slot-ghost" aria-hidden="true" />
+                ))}
               </div>
 
-              <div className="snap-lane__meta">
-                <span key={`p2-${p2p}`} className={"snap-lane__score" + (lead === "P2" ? " is-win" : "")}>{p2p}</span>
-                <span className="snap-lane__title">Crypt {lane.index + 1}</span>
-                <span key={`p1-${p1p}`} className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}>{p1p}</span>
-              </div>
-              <div className="snap-lane__state-row">
-                {laneSelectable && myFull ? (
-                  <span className="snap-lane__state is-full-tag">FULL</span>
-                ) : st ? (
-                  <span className={"snap-lane__state is-" + st}>{STATE_LABEL[st]}</span>
-                ) : null}
+              {/* clash line — the contested centre: Crypt name over the two scores */}
+              <div className="snap-lane__center">
+                <div className="snap-lane__meta">
+                  <span className="snap-lane__title">{theme.name}</span>
+                  <span className="snap-lane__scores">
+                    <span key={`p2-${p2p}`} className={"snap-lane__score" + (lead === "P2" ? " is-win" : "")}>{p2p}</span>
+                    <span className="snap-lane__vs" aria-hidden="true">vs</span>
+                    <span key={`p1-${p1p}`} className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}>{p1p}</span>
+                  </span>
+                </div>
+                <div className="snap-lane__state-row">
+                  {laneSelectable && myFull ? (
+                    <span className="snap-lane__state is-full-tag">FULL</span>
+                  ) : st ? (
+                    <span className={"snap-lane__state is-" + st}>{STATE_LABEL[st]}</span>
+                  ) : null}
+                </div>
               </div>
 
-              {/* my side */}
+              {/* your army — hugs the base of the chamber */}
               <div className="snap-lane__side snap-lane__side--mine">
                 {lane.P1.map((c) => (
                   <CardFace key={c.instanceId} card={c} small />
                 ))}
-                {droppable ? (
-                  <span className="snap-lane__slots" aria-hidden="true">
-                    {lane.P1.length}/{LANE_CAPACITY}
-                  </span>
-                ) : null}
+                {Array.from({ length: myGhosts }, (_, i) => (
+                  <span key={"mg" + i} className="snap-slot-ghost" aria-hidden="true" />
+                ))}
               </div>
             </div>
           );
