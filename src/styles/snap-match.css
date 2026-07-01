@@ -29,6 +29,29 @@
   font-family: inherit;
 }
 
+/* DESKTOP — the mobile board is capped at 640px and centred, which on a wide
+   screen marooned the play column in a narrow strip with huge black side
+   gutters (the "dead-band"). Two fixes: (1) let the vault atmosphere fill the
+   whole outlet so the surround reads as a lit stage, not dead void; (2) widen
+   the board so the three Crypts breathe and eat the gutters. Cards are
+   fixed-width (72px, wrapping), so a wider lane just gives them room — it never
+   stretches or distorts a card. The board is framed with a soft gold hairline
+   so it sits ON the stage rather than floating in black. */
+@media (min-width: 900px) {
+  .crypt-app-main:has(.snap-shell) {
+    background: radial-gradient(80% 70% at 50% 0%, #140f07 0%, #0a0805 52%, #050403 100%);
+  }
+  .snap-shell {
+    max-width: 880px;
+    border-radius: 18px;
+    background:
+      radial-gradient(120% 80% at 50% 0%, #1a1408 0%, #0b0a06 55%, #060504 100%),
+      linear-gradient(180deg, rgba(245, 196, 81, 0.06), transparent 40%);
+    outline: 1px solid rgba(245, 196, 81, 0.09);
+    outline-offset: -1px;
+  }
+}
+
 /* HUD */
 .snap-hud {
   display: flex;
