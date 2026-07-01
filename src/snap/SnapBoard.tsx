@@ -1,7 +1,7 @@
 import React from "react";
 import { useSnapMatch } from "./useSnapMatch";
 import { lanePower, laneWinner } from "./scoreLane";
-import { MAX_TURNS, type LaneIndex, type SnapCard } from "./types";
+import { MAX_TURNS, LANE_CAPACITY, type LaneIndex, type SnapCard } from "./types";
 import "../styles/snap-match.css";
 
 /** A single card face. Compact: art, name, cost pip, power. */
@@ -9,6 +9,7 @@ export function CardFace({
   card,
   selected,
   playable,
+  dim,
   spotlight,
   onClick,
   small,
@@ -16,6 +17,8 @@ export function CardFace({
   card: SnapCard;
   selected?: boolean;
   playable?: boolean;
+  /** Unaffordable this turn — greyed out and not tappable. */
+  dim?: boolean;
   /** Coach spotlight — a pulsing ring drawing the eye to the card to play. */
   spotlight?: boolean;
   onClick?: () => void;
@@ -29,6 +32,7 @@ export function CardFace({
         small ? "snap-card--small" : "",
         selected ? "is-selected" : "",
         playable ? "is-playable" : "",
+        dim ? "is-unaffordable" : "",
         spotlight ? "is-spotlight" : "",
         onClick ? "" : "is-static",
       ].join(" ")}
@@ -76,26 +80,47 @@ export function SnapBoard({
 
   const laneSelectable = m.myTurn && !!m.selectedHandId;
   const revealing = !m.myTurn && !state.winner;
+  const isFinal = state.turn >= MAX_TURNS && !state.winner;
 
   // Live crypt count so the player always knows how close the match is.
   const cryptsWon = state.lanes.filter((l) => laneWinner(l) === "P1").length;
   const cryptsLost = state.lanes.filter((l) => laneWinner(l) === "P2").length;
 
   return (
-    <div className="snap-shell">
+    <div
+      className={
+        "snap-shell" +
+        (revealing ? " is-reveal" : m.myTurn ? " is-myturn" : "") +
+        (isFinal ? " is-final" : "")
+      }
+    >
       {/* HUD */}
       <header className="snap-hud">
         <div className="snap-hud__turn">
-          Turn <strong>{state.turn}</strong> / {MAX_TURNS}
+          {isFinal ? (
+            <span className="snap-hud__final">FINAL TURN</span>
+          ) : (
+            <>Turn <strong>{state.turn}</strong> / {MAX_TURNS}</>
+          )}
         </div>
-        <div className="snap-hud__energy">
-          <span className="snap-energy-pip" aria-hidden="true" />
-          Energy <strong>{m.energy}</strong>
+        <div className="snap-hud__energy" aria-label={`Energy ${m.energy}`}>
+          Energy
+          <span className="snap-energy-meter" aria-hidden="true">
+            {Array.from({ length: state.turn }, (_, i) => (
+              <span
+                key={i}
+                className={"snap-energy-pip" + (i < m.energy ? " is-full" : " is-spent")}
+              />
+            ))}
+          </span>
         </div>
-        <div className="snap-hud__crypts" aria-label={`You ${cryptsWon}, opponent ${cryptsLost} Crypts`}>
-          <strong className="is-mine">{cryptsWon}</strong>
-          <span className="snap-hud__crypts-sep">Crypts</span>
-          <strong className="is-foe">{cryptsLost}</strong>
+        <div className="snap-hud__crypts" aria-label={`You ${cryptsWon}, opponent ${cryptsLost} Crypts. Win 2 of 3.`}>
+          <span className="snap-hud__crypts-nums">
+            <strong className="is-mine">{cryptsWon}</strong>
+            <span className="snap-hud__crypts-sep">/</span>
+            <strong className="is-foe">{cryptsLost}</strong>
+          </span>
+          <span className="snap-hud__goal-cap">Win 2 of 3 Crypts</span>
         </div>
         {onReplayTutorial ? (
           <button type="button" className="snap-hud__tutorial" onClick={onReplayTutorial}>
@@ -104,16 +129,28 @@ export function SnapBoard({
         ) : null}
       </header>
 
-      <div className="snap-hint" role="status" aria-live="polite">
-        {state.winner
-          ? "Match over"
-          : revealing
-            ? "Opponent is revealing…"
-            : m.selectedHandId
-              ? "Tap a Crypt to place your card"
-              : m.playableIds.size === 0
-                ? "No energy to play — tap End Turn"
-                : "Tap a card, then tap a Crypt"}
+      <div
+        className={
+          "snap-hint" + (revealing ? " is-reveal" : m.myTurn ? " is-myturn" : "")
+        }
+        role="status"
+        aria-live="polite"
+      >
+        <span className="snap-hint__dot" aria-hidden="true" />
+        <strong className="snap-hint__who">
+          {state.winner ? "Match over" : revealing ? "Opponent's turn" : "Your turn"}
+        </strong>
+        {state.winner ? null : (
+          <span className="snap-hint__act">
+            {revealing
+              ? "revealing…"
+              : m.selectedHandId
+                ? "tap a Crypt to place"
+                : m.playableIds.size === 0
+                  ? "no energy — tap End Turn"
+                  : "tap a card, then a Crypt"}
+          </span>
+        )}
       </div>
 
       {/* THREE CRYPTS */}
@@ -123,17 +160,20 @@ export function SnapBoard({
           const p2p = lanePower(lane, "P2");
           const lead = laneWinner(lane);
           const st = laneState(p1p, p2p);
+          const myFull = lane.P1.length >= LANE_CAPACITY;
+          const droppable = laneSelectable && !myFull;
           return (
             <div
               key={lane.index}
               className={[
                 "snap-lane",
-                laneSelectable ? "is-droppable" : "",
+                droppable ? "is-droppable" : "",
+                laneSelectable && myFull ? "is-full" : "",
                 lead === "P1" ? "is-p1-lead" : lead === "P2" ? "is-p2-lead" : "",
               ].join(" ")}
-              onClick={laneSelectable ? () => m.placeInLane(lane.index as LaneIndex) : undefined}
-              role={laneSelectable ? "button" : undefined}
-              aria-label={`Crypt ${lane.index + 1}. You ${p1p}, opponent ${p2p}.`}
+              onClick={droppable ? () => m.placeInLane(lane.index as LaneIndex) : undefined}
+              role={droppable ? "button" : undefined}
+              aria-label={`Crypt ${lane.index + 1}. You ${p1p}, opponent ${p2p}. ${lane.P1.length} of ${LANE_CAPACITY} slots used.`}
             >
               {/* opponent side */}
               <div className="snap-lane__side snap-lane__side--enemy">
@@ -148,7 +188,11 @@ export function SnapBoard({
                 <span key={`p1-${p1p}`} className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}>{p1p}</span>
               </div>
               <div className="snap-lane__state-row">
-                {st ? <span className={"snap-lane__state is-" + st}>{STATE_LABEL[st]}</span> : null}
+                {laneSelectable && myFull ? (
+                  <span className="snap-lane__state is-full-tag">FULL</span>
+                ) : st ? (
+                  <span className={"snap-lane__state is-" + st}>{STATE_LABEL[st]}</span>
+                ) : null}
               </div>
 
               {/* my side */}
@@ -156,6 +200,11 @@ export function SnapBoard({
                 {lane.P1.map((c) => (
                   <CardFace key={c.instanceId} card={c} small />
                 ))}
+                {droppable ? (
+                  <span className="snap-lane__slots" aria-hidden="true">
+                    {lane.P1.length}/{LANE_CAPACITY}
+                  </span>
+                ) : null}
               </div>
             </div>
           );
@@ -174,14 +223,16 @@ export function SnapBoard({
         <div className="snap-hand">
           {hand.map((c) => {
             const playable = m.playableIds.has(c.instanceId);
+            const canPick = m.myTurn && playable;
             return (
               <CardFace
                 key={c.instanceId}
                 card={c}
                 selected={m.selectedHandId === c.instanceId}
-                playable={playable && m.myTurn}
+                playable={canPick}
+                dim={m.myTurn && !playable}
                 onClick={
-                  m.myTurn
+                  canPick
                     ? () =>
                         m.setSelectedHandId(
                           m.selectedHandId === c.instanceId ? null : c.instanceId,

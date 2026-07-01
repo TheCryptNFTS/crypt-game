@@ -39,11 +39,30 @@
   font-size: 13px;
 }
 .snap-hud strong { color: #f5c451; font-variant-numeric: tabular-nums; }
-.snap-hud__energy { display: inline-flex; align-items: center; gap: 5px; }
+.snap-hud__energy { display: inline-flex; align-items: center; gap: 6px; }
 .snap-energy-pip {
   width: 10px; height: 10px; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #ffe08a, #d99a20);
   box-shadow: 0 0 8px #e0a52a88;
+}
+/* Energy as a pip meter — filled pips are energy left, hollow pips are spent,
+   so a newcomer can SEE the cost come out of the bank each placement. */
+.snap-energy-meter { display: inline-flex; align-items: center; gap: 3px; }
+.snap-energy-meter .snap-energy-pip { width: 9px; height: 9px; }
+.snap-energy-meter .snap-energy-pip.is-spent {
+  background: #241c0e;
+  box-shadow: inset 0 0 0 1px #4a3c1c;
+}
+/* Final-turn marker — distinct but not noisy: a small pulsing red tag. */
+.snap-hud__final {
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #ffd9d9;
+  border: 1px solid #7a2a2a;
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: rgba(120, 30, 30, 0.35);
+  animation: snapFinalPulse 1.1s ease-in-out infinite;
 }
 .snap-hud__hint { margin-left: auto; color: #cbb98f; font-size: 12px; }
 .snap-hud__goal {
@@ -68,28 +87,65 @@
   cursor: pointer;
 }
 .snap-hud__tutorial:hover { color: #f5c451; border-color: #6f5a1e; }
-/* Live Crypt count — always shows how close the match is. */
+/* Live Crypt count + the win condition, stacked so the goal is always on
+   screen without crowding the HUD row. */
 .snap-hud__crypts {
   margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.1;
 }
-.snap-hud__crypts strong { font-size: 17px; font-variant-numeric: tabular-nums; }
+.snap-hud__crypts-nums { display: inline-flex; align-items: baseline; gap: 5px; }
+.snap-hud__crypts strong { font-size: 18px; font-variant-numeric: tabular-nums; }
 .snap-hud__crypts strong.is-mine { color: #f5c451; }
 .snap-hud__crypts strong.is-foe { color: #d98080; }
-.snap-hud__crypts-sep {
-  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #9c8a5f;
+.snap-hud__crypts-sep { font-size: 13px; color: #7d6f4d; }
+.snap-hud__goal-cap {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9c8a5f;
 }
 
-/* One-line action hint under the HUD. */
+/* Turn banner under the HUD — a colored dot + WHOSE turn + the next action, so
+   a first-timer never has to guess if it's their move. */
 .snap-hint {
-  min-height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 20px;
   font-size: 12px;
   color: #cbb98f;
-  text-align: center;
   letter-spacing: 0.02em;
+}
+.snap-hint__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #7d6f4d;
+  flex: 0 0 auto;
+}
+.snap-hint__who { color: #e8dcbb; font-size: 12px; }
+.snap-hint__act { color: #9c8a5f; }
+.snap-hint.is-myturn .snap-hint__dot {
+  background: radial-gradient(circle at 35% 30%, #ffe08a, #d99a20);
+  box-shadow: 0 0 8px #e0a52a88;
+}
+.snap-hint.is-myturn .snap-hint__who { color: #f5c451; }
+.snap-hint.is-reveal .snap-hint__dot {
+  background: radial-gradient(circle at 35% 30%, #ff9a9a, #b33);
+  box-shadow: 0 0 8px #d15555aa;
+}
+.snap-hint.is-reveal .snap-hint__who { color: #f28a8a; }
+
+/* Whose-turn accent on the whole board — a quiet top edge, gold on your turn,
+   red while the opponent reveals. */
+.snap-shell.is-myturn { box-shadow: inset 0 3px 0 -1px #f5c45155; }
+.snap-shell.is-reveal { box-shadow: inset 0 3px 0 -1px #d1555566; }
+.snap-shell.is-final {
+  background:
+    radial-gradient(120% 55% at 50% 100%, rgba(120, 30, 30, 0.18) 0%, transparent 62%),
+    radial-gradient(120% 80% at 50% 0%, #1a1408 0%, #0b0a06 55%, #060504 100%);
 }
 
 /* COACH — one instruction at a time, the spine of the first-match tutorial. */
@@ -216,6 +272,22 @@
 .snap-lane__state.is-winning { color: #d7f5a4; border-color: #4a6f1e; background: rgba(122, 180, 60, 0.12); }
 .snap-lane__state.is-losing { color: #f5b4b4; border-color: #7a2a2a; background: rgba(180, 60, 60, 0.12); }
 .snap-lane__state.is-tied { color: #cbb98f; border-color: #3a2f16; background: rgba(203, 185, 143, 0.08); }
+.snap-lane__state.is-full-tag { color: #d98080; border-color: #7a2a2a; background: rgba(180, 60, 60, 0.14); }
+
+/* Lane capacity: a Crypt holds 4 of your cards. Show the count only while
+   placing (so it's guidance, not clutter), and mute + lock a full lane. */
+.snap-lane.is-full { opacity: 0.6; }
+.snap-lane__slots {
+  align-self: center;
+  margin-top: 2px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: #9c8a5f;
+  padding: 1px 6px;
+  border-radius: 6px;
+  border: 1px dashed #4a3c1c;
+  font-variant-numeric: tabular-nums;
+}
 
 /* Card placement — each freshly-placed card drops in from its owner's edge. */
 .snap-lane__side--enemy .snap-card { animation: snapDropEnemy 260ms cubic-bezier(0.2, 0.9, 0.3, 1.3); }
@@ -256,12 +328,35 @@
 .snap-card.is-static { cursor: default; }
 .snap-card:not(.is-static) { cursor: pointer; }
 .snap-card.is-playable { border-color: #f5c451; box-shadow: 0 0 10px #e0a52a55; }
+/* Selected card — unmistakable: bright ring, a clear lift, and a "PICKED" tab. */
 .snap-card.is-selected {
   border-color: #ffe08a;
-  box-shadow: 0 0 0 2px #f5c451, 0 0 16px #e0a52a88;
-  transform: translateY(-4px);
+  box-shadow: 0 0 0 3px #ffe08a, 0 0 22px #e0a52aaa;
+  transform: translateY(-8px) scale(1.04);
+  z-index: 2;
+}
+.snap-card.is-selected::after {
+  content: "PICKED";
+  position: absolute;
+  top: 3px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #241a06;
+  background: #ffe08a;
+  padding: 1px 6px;
+  border-radius: 999px;
+  pointer-events: none;
 }
 .snap-card:disabled { opacity: 0.85; }
+/* Unaffordable this turn — clearly greyed and non-interactive so a newcomer
+   only ever taps a card they can actually play. */
+.snap-card.is-unaffordable {
+  opacity: 0.38;
+  filter: grayscale(0.65);
+  cursor: not-allowed;
+}
 /* Coach spotlight — a pulsing gold ring pulling the eye to the card to play. */
 .snap-card.is-spotlight {
   animation: snapSpotlight 1.15s ease-in-out infinite;
