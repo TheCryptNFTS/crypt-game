@@ -1,9 +1,9 @@
 import React from "react";
-import { CardFace } from "./SnapBoard";
+import { CardFace, CRYPT_THEMES, laneState, STATE_LABEL } from "./SnapBoard";
 import { useSnapOnboarding } from "./useSnapOnboarding";
 import { lanePower, laneWinner } from "./scoreLane";
 import { expectedInstanceId, PLAYER_LANES } from "./onboarding";
-import { MAX_TURNS, type LaneIndex } from "./types";
+import { MAX_TURNS, LANE_CAPACITY, type LaneIndex } from "./types";
 import "../styles/snap-match.css";
 
 type Phase = "place" | "end" | "opponent" | "win";
@@ -91,46 +91,60 @@ export function SnapOnboardingBoard({ onComplete }: { onComplete?: () => void })
           const p1p = lanePower(lane, "P1");
           const p2p = lanePower(lane, "P2");
           const lead = laneWinner(lane);
+          const st = laneState(p1p, p2p);
           const isTarget = laneSelectable && lane.index === expectedLane;
+          // Same finished lane chrome as free play — themed tint, altar slot
+          // recesses top and bottom — so the coached first match never reads as
+          // three empty voids. The visible label stays "Crypt N" to match the
+          // coach copy ("tap Crypt 1"); only the tint/sigil vary per chamber.
+          const theme = CRYPT_THEMES[lane.index] ?? CRYPT_THEMES[0];
+          const enemyGhosts = Math.max(0, LANE_CAPACITY - lane.P2.length);
+          const myGhosts = Math.max(0, LANE_CAPACITY - lane.P1.length);
           return (
             <div
               key={lane.index}
               className={[
                 "snap-lane",
+                "snap-lane--" + theme.key,
                 isTarget ? "is-droppable is-target" : "",
                 lead === "P1" ? "is-p1-lead" : lead === "P2" ? "is-p2-lead" : "",
               ].join(" ")}
               onClick={isTarget ? () => m.placeInLane(lane.index as LaneIndex) : undefined}
               role={isTarget ? "button" : undefined}
-              aria-label={`Crypt ${lane.index + 1}. You ${p1p}, opponent ${p2p}.`}
+              aria-label={`Crypt ${lane.index + 1}. You ${p1p}, opponent ${p2p}. ${lane.P1.length} of ${LANE_CAPACITY} slots used.`}
             >
-              {/* opponent side */}
+              {/* opponent army — hugs the top of the chamber */}
               <div className="snap-lane__side snap-lane__side--enemy">
                 {lane.P2.map((c) => (
                   <CardFace key={c.instanceId} card={c} small />
                 ))}
+                {Array.from({ length: enemyGhosts }, (_, i) => (
+                  <span key={"eg" + i} className="snap-slot-ghost" aria-hidden="true" />
+                ))}
               </div>
 
-              <div className="snap-lane__meta">
-                <span
-                  key={`p2-${p2p}`}
-                  className={"snap-lane__score" + (lead === "P2" ? " is-win" : "")}
-                >
-                  {p2p}
-                </span>
-                <span className="snap-lane__title">Crypt {lane.index + 1}</span>
-                <span
-                  key={`p1-${p1p}`}
-                  className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}
-                >
-                  {p1p}
-                </span>
+              {/* clash line — Crypt name plate over the two scores, matching free play */}
+              <div className="snap-lane__center">
+                <div className="snap-lane__meta">
+                  <span className="snap-lane__title">Crypt {lane.index + 1}</span>
+                  <span className="snap-lane__scores">
+                    <span key={`p2-${p2p}`} className={"snap-lane__score" + (lead === "P2" ? " is-win" : "")}>{p2p}</span>
+                    <span className="snap-lane__vs" aria-hidden="true">vs</span>
+                    <span key={`p1-${p1p}`} className={"snap-lane__score" + (lead === "P1" ? " is-win" : "")}>{p1p}</span>
+                  </span>
+                </div>
+                <div className="snap-lane__state-row">
+                  {st ? <span className={"snap-lane__state is-" + st}>{STATE_LABEL[st]}</span> : null}
+                </div>
               </div>
 
-              {/* my side */}
+              {/* your army — hugs the base of the chamber */}
               <div className="snap-lane__side snap-lane__side--mine">
                 {lane.P1.map((c) => (
                   <CardFace key={c.instanceId} card={c} small />
+                ))}
+                {Array.from({ length: myGhosts }, (_, i) => (
+                  <span key={"mg" + i} className="snap-slot-ghost" aria-hidden="true" />
                 ))}
               </div>
             </div>

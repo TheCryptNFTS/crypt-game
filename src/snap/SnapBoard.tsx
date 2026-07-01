@@ -53,14 +53,14 @@ export function CardFace({
 }
 
 /** Lane state from the player's point of view — drives the clear win/lose chip. */
-function laneState(p1p: number, p2p: number): "winning" | "losing" | "tied" | null {
+export function laneState(p1p: number, p2p: number): "winning" | "losing" | "tied" | null {
   if (p1p === 0 && p2p === 0) return null; // empty Crypt — say nothing yet
   if (p1p > p2p) return "winning";
   if (p1p < p2p) return "losing";
   return "tied";
 }
 
-const STATE_LABEL: Record<"winning" | "losing" | "tied", string> = {
+export const STATE_LABEL: Record<"winning" | "losing" | "tied", string> = {
   winning: "WINNING",
   losing: "LOSING",
   tied: "TIED",
@@ -68,7 +68,7 @@ const STATE_LABEL: Record<"winning" | "losing" | "tied", string> = {
 
 /** Each Crypt gets its own name + on-brand gold tint so the three chambers never
  * read as identical empty boxes. Kept strictly in the gold family. */
-const CRYPT_THEMES = [
+export const CRYPT_THEMES = [
   { key: "ash", name: "Ash Court" },
   { key: "iron", name: "Ironworks" },
   { key: "grave", name: "Grave Terrace" },
