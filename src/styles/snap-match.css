@@ -40,6 +40,7 @@
 }
 .snap-hud strong { color: #f5c451; font-variant-numeric: tabular-nums; }
 .snap-hud__energy { display: inline-flex; align-items: center; gap: 6px; }
+.snap-hud__energy-num { color: #ffe08a; font-weight: 800; font-variant-numeric: tabular-nums; }
 .snap-energy-pip {
   width: 10px; height: 10px; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #ffe08a, #d99a20);
@@ -225,9 +226,10 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(130% 42% at 50% 0%, var(--lane-fog) 0%, transparent 58%),
-    radial-gradient(130% 42% at 50% 100%, var(--lane-fog) 0%, transparent 58%),
-    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 7px);
+    radial-gradient(135% 46% at 50% 0%, var(--lane-fog) 0%, transparent 60%),
+    radial-gradient(135% 46% at 50% 100%, var(--lane-fog) 0%, transparent 60%),
+    radial-gradient(78% 34% at 50% 50%, color-mix(in srgb, var(--lane-tint) 7%, transparent) 0%, transparent 72%),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0 2px, transparent 2px 7px);
 }
 /* Heraldic sigil pressed into the floor — a faint rotated rune, one per Crypt. */
 .snap-lane::after {
@@ -238,9 +240,9 @@
   transform: translate(-50%, -50%) rotate(45deg);
   border: 1.5px solid var(--lane-tint);
   border-radius: 9px;
-  opacity: 0.08;
+  opacity: 0.1;
   pointer-events: none;
-  box-shadow: inset 0 0 16px var(--lane-tint);
+  box-shadow: inset 0 0 16px var(--lane-tint), 0 0 22px -6px var(--lane-tint);
 }
 .snap-lane > * { position: relative; z-index: 1; }
 
@@ -269,25 +271,52 @@
 .snap-lane__side--enemy { align-items: flex-start; }
 .snap-lane__side--mine { align-items: flex-end; }
 
-/* Empty card sockets — a lane is never a blank void; they light up in the Crypt
-   you can drop into. */
+/* Empty card sockets — engraved altar recesses pressed into the crypt floor, not
+   placeholder boxes: a sunken slot with faint gold corner ticks. Low visual
+   weight until the Crypt you can drop into lights them. */
 .snap-slot-ghost {
+  position: relative;
   width: 46px;
   aspect-ratio: 1 / 1;
-  border: 1px dashed #38300f;
-  border-radius: 7px;
+  border-radius: 8px;
   background:
-    radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.025), transparent 70%),
-    rgba(0, 0, 0, 0.26);
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.55);
+    radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--lane-tint) 7%, transparent), transparent 68%),
+    rgba(0, 0, 0, 0.34);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.72),
+    inset 0 0 12px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+}
+/* Four faint gold corner ticks — an altar slot awaiting a card, not a dashed box. */
+.snap-slot-ghost::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  --tick: color-mix(in srgb, var(--lane-tint) 22%, transparent);
+  background:
+    linear-gradient(var(--tick), var(--tick)) 0 0 / 6px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 0 / 1px 6px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 0 / 6px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 0 / 1px 6px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 100% / 6px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 100% / 1px 6px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 100% / 6px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 100% / 1px 6px no-repeat;
 }
 .snap-lane.is-droppable .snap-slot-ghost {
-  border-color: color-mix(in srgb, var(--lane-tint) 55%, transparent);
-  background: rgba(245, 196, 81, 0.05);
+  background:
+    radial-gradient(circle at 50% 32%, color-mix(in srgb, var(--lane-tint) 16%, transparent), transparent 70%),
+    rgba(245, 196, 81, 0.05);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.55),
+    inset 0 0 14px color-mix(in srgb, var(--lane-tint) 22%, transparent);
+}
+.snap-lane.is-droppable .snap-slot-ghost::before {
+  --tick: color-mix(in srgb, var(--lane-tint) 68%, transparent);
   animation: snapGhostBreathe 1.4s ease-in-out infinite;
 }
 @keyframes snapGhostBreathe {
-  0%, 100% { opacity: 0.55; }
+  0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
 
@@ -463,7 +492,14 @@
   font-variant-numeric: tabular-nums;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
-.snap-card__cost { left: 3px; background: #1c3a6b; color: #cfe4ff; }
+/* Cost = energy, so it wears the same gold as the energy pips (was an off-brand
+   blue). Power stays crypt-red — the two never read the same. */
+.snap-card__cost {
+  left: 3px;
+  background: linear-gradient(180deg, #3a2f16, #241a06);
+  color: #ffe08a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 0 0 1px #6f5a1e;
+}
 .snap-card__power { right: 3px; background: #6b1c1c; color: #ffd9d9; }
 .snap-card--small .snap-card__cost,
 .snap-card--small .snap-card__power { width: 15px; height: 15px; font-size: 10px; top: 2px; }
@@ -567,10 +603,15 @@
 .snap-result {
   position: absolute;
   inset: 0;
+  z-index: 20; /* above the lanes' clash plates (which sit at z-index:1) */
   display: grid;
   place-items: center;
-  background: rgba(6, 5, 4, 0.82);
-  backdrop-filter: blur(3px);
+  /* Vignette scrim: a darker ring around the edges + heavy centre dim so the
+     clash plates behind the modal fall away and the verdict reads cleanly. */
+  background:
+    radial-gradient(72% 52% at 50% 50%, rgba(6, 5, 4, 0.78) 0%, rgba(3, 2, 1, 0.95) 100%),
+    rgba(5, 4, 3, 0.88);
+  backdrop-filter: blur(7px);
 }
 .snap-result__card {
   display: flex;

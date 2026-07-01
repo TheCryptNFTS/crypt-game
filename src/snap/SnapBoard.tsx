@@ -112,7 +112,7 @@ export function SnapBoard({
           )}
         </div>
         <div className="snap-hud__energy" aria-label={`Energy ${m.energy}`}>
-          Energy
+          Energy <strong className="snap-hud__energy-num">{m.energy}</strong>
           <span className="snap-energy-meter" aria-hidden="true">
             {Array.from({ length: state.turn }, (_, i) => (
               <span
@@ -155,7 +155,9 @@ export function SnapBoard({
               : m.selectedHandId
                 ? "tap a Crypt to place"
                 : m.playableIds.size === 0
-                  ? "no energy — tap End Turn"
+                  ? m.energy > 0
+                    ? "nothing you can afford — End Turn"
+                    : "no energy — tap End Turn"
                   : "tap a card, then a Crypt"}
           </span>
         )}

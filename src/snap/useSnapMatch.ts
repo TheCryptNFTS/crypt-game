@@ -87,7 +87,10 @@ export function useSnapMatch(options: UseSnapMatchOptions = {}) {
   const reset = useCallback(() => {
     stepRef.current = 0;
     setSelectedHandId(null);
-    setState(createSnapMatch({ seed: options.seed ? options.seed + matchKey + 1 : undefined }));
+    // `!= null` (not truthiness) so a deterministic seed of 0 isn't silently
+    // dropped into a Date.now() match. matchKey is read pre-increment, so each
+    // Play Again advances the seed (+1, +2, …) → a fresh board every time.
+    setState(createSnapMatch({ seed: options.seed != null ? options.seed + matchKey + 1 : undefined }));
     setMatchKey((k) => k + 1);
   }, [options.seed, matchKey]);
 
