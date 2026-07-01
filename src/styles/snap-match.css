@@ -46,6 +46,73 @@
   box-shadow: 0 0 8px #e0a52a88;
 }
 .snap-hud__hint { margin-left: auto; color: #cbb98f; font-size: 12px; }
+.snap-hud__goal {
+  margin-left: auto;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #f5c451;
+  border: 1px solid #6f5a1e;
+  border-radius: 999px;
+  padding: 3px 9px;
+  background: rgba(245, 196, 81, 0.08);
+}
+.snap-hud__tutorial {
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 11px;
+  color: #cbb98f;
+  background: none;
+  border: 1px solid #3a2f16;
+  border-radius: 999px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.snap-hud__tutorial:hover { color: #f5c451; border-color: #6f5a1e; }
+
+/* COACH — one instruction at a time, the spine of the first-match tutorial. */
+.snap-coach {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  border: 1px solid #6f5a1e;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(245, 196, 81, 0.1), rgba(20, 16, 8, 0.6));
+  box-shadow: 0 0 18px -6px #e0a52a55;
+}
+.snap-coach.is-end { border-color: #4a6f1e; box-shadow: 0 0 18px -6px #9ad14a44; }
+.snap-coach.is-opponent { border-color: #5a2a2a; box-shadow: none; opacity: 0.85; }
+.snap-coach__step {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f5c451;
+}
+.snap-coach__title { font-size: 14px; color: #f7edd4; }
+.snap-coach__body { font-size: 12px; line-height: 1.25; color: #cbb98f; }
+
+/* FINAL TURN — the dramatic beat. */
+.snap-final-banner {
+  align-self: center;
+  padding: 4px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #ffd9d9;
+  border: 1px solid #7a2a2a;
+  border-radius: 999px;
+  background: rgba(120, 30, 30, 0.35);
+  animation: snapFinalPulse 1.1s ease-in-out infinite;
+}
+@keyframes snapFinalPulse {
+  0%, 100% { box-shadow: 0 0 0 0 #d1555500; transform: scale(1); }
+  50% { box-shadow: 0 0 18px 2px #d1555566; transform: scale(1.04); }
+}
+.snap-shell--coached.is-final {
+  background:
+    radial-gradient(120% 60% at 50% 100%, rgba(120, 30, 30, 0.22) 0%, transparent 60%),
+    radial-gradient(120% 80% at 50% 0%, #1a1408 0%, #0b0a06 55%, #060504 100%);
+}
 
 /* LANES */
 .snap-lanes {
@@ -101,6 +168,18 @@
   font-variant-numeric: tabular-nums; min-width: 20px; text-align: center;
 }
 .snap-lane__score.is-win { color: #f5c451; text-shadow: 0 0 10px #e0a52a66; }
+/* Instant feedback: the score number pops each time it changes (keyed remount). */
+.snap-lane__score { animation: snapScorePop 280ms ease-out; }
+@keyframes snapScorePop {
+  0% { transform: scale(1.55); color: #ffe08a; }
+  100% { transform: scale(1); }
+}
+/* The coach's one legal drop target gets a stronger, steady call-out. */
+.snap-lane.is-target { animation: snapTargetPulse 1.15s ease-in-out infinite; }
+@keyframes snapTargetPulse {
+  0%, 100% { box-shadow: 0 0 0 1px #f5c45166, 0 0 12px #e0a52a33; }
+  50% { box-shadow: 0 0 0 2px #f5c451, 0 0 22px #e0a52a77; }
+}
 
 /* CARDS */
 .snap-card {
@@ -128,6 +207,14 @@
   transform: translateY(-4px);
 }
 .snap-card:disabled { opacity: 0.85; }
+/* Coach spotlight — a pulsing gold ring pulling the eye to the card to play. */
+.snap-card.is-spotlight {
+  animation: snapSpotlight 1.15s ease-in-out infinite;
+}
+@keyframes snapSpotlight {
+  0%, 100% { box-shadow: 0 0 0 1px #f5c451, 0 0 8px #e0a52a55; transform: translateY(0); }
+  50% { box-shadow: 0 0 0 2px #ffe08a, 0 0 20px #e0a52aaa; transform: translateY(-4px); }
+}
 
 .snap-card__art { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
 .snap-card__art--blank { background: linear-gradient(135deg, #241c0e, #12100a); }
@@ -193,6 +280,12 @@
   border-color: #3a2f16;
   cursor: default;
 }
+/* Cue the End-Turn button when the coach is waiting on it. */
+.snap-endturn.is-cue { animation: snapEndCue 1.1s ease-in-out infinite; }
+@keyframes snapEndCue {
+  0%, 100% { box-shadow: 0 0 0 0 #f5c45100; }
+  50% { box-shadow: 0 0 16px 2px #f5c45188; }
+}
 
 /* RESULT */
 .snap-result {
@@ -223,3 +316,23 @@
 .snap-result__lanes { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: 13px; color: #cbb98f; }
 .snap-result__lane.is-P1 { color: #f5c451; }
 .snap-result__lane.is-P2 { color: #d98080; }
+.snap-result__teach {
+  margin: 0;
+  max-width: 260px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.35;
+  color: #cbb98f;
+}
+.snap-result__actions { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.snap-result__replay {
+  font: inherit;
+  font-size: 13px;
+  color: #cbb98f;
+  background: none;
+  border: 1px solid #3a2f16;
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+.snap-result__replay:hover { color: #f5c451; border-color: #6f5a1e; }

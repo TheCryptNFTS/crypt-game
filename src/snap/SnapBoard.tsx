@@ -5,16 +5,19 @@ import { MAX_TURNS, type LaneIndex, type SnapCard } from "./types";
 import "../styles/snap-match.css";
 
 /** A single card face. Compact: art, name, cost pip, power. */
-function CardFace({
+export function CardFace({
   card,
   selected,
   playable,
+  spotlight,
   onClick,
   small,
 }: {
   card: SnapCard;
   selected?: boolean;
   playable?: boolean;
+  /** Coach spotlight — a pulsing ring drawing the eye to the card to play. */
+  spotlight?: boolean;
   onClick?: () => void;
   small?: boolean;
 }) {
@@ -26,6 +29,7 @@ function CardFace({
         small ? "snap-card--small" : "",
         selected ? "is-selected" : "",
         playable ? "is-playable" : "",
+        spotlight ? "is-spotlight" : "",
         onClick ? "" : "is-static",
       ].join(" ")}
       onClick={onClick}
@@ -44,7 +48,14 @@ function CardFace({
   );
 }
 
-export function SnapBoard({ seed }: { seed?: number }) {
+export function SnapBoard({
+  seed,
+  onReplayTutorial,
+}: {
+  seed?: number;
+  /** Optional: re-enter the scripted tutorial from free play. */
+  onReplayTutorial?: () => void;
+}) {
   const m = useSnapMatch({ seed });
   const { state } = m;
   const hand = state.players.P1.hand;
@@ -71,6 +82,11 @@ export function SnapBoard({ seed }: { seed?: number }) {
                 ? "Tap a Crypt to place your card"
                 : "Tap a card, then tap a Crypt"}
         </div>
+        {onReplayTutorial ? (
+          <button type="button" className="snap-hud__tutorial" onClick={onReplayTutorial}>
+            Tutorial
+          </button>
+        ) : null}
       </header>
 
       {/* THREE CRYPTS */}

@@ -92,6 +92,7 @@
     "dev:puzzle": "tsx src/dev/runPuzzleProof.ts",
     "dev:seasons": "tsx src/dev/runSeasonProof.ts",
     "dev:snap": "tsx src/dev/runSnapWinProof.ts",
+    "dev:snap-onboarding": "tsx src/dev/runSnapOnboardingProof.ts",
     "check:alpha": "npx tsc --noEmit && npm run build:coreset:v2 && npm run dev:coreset:v2 && npm run report:coreset:v2 && node scripts/checkCuratedAlphaBalance.cjs && npm run dev:regression && npm run dev:combat-parity",
     "health": "npx tsc --noEmit && npm run dev:backend-sanity && npm run dev:legality && npm run dev:assets && npm run dev:e2e && npm run dev:regression && npm run dev:combat-parity && npm run check:alpha",
     "dev:backend-sanity": "tsx src/dev/runBackendSanityCheck.ts",
