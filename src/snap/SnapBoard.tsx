@@ -392,6 +392,14 @@ function SnapResultCard({
         {/* The viral creed on the proof itself — a screenshot carries the hook. */}
         <span className="snap-result__creed">Same deck. Same draw. Same opponent.</span>
 
+        {/* 2026-07-02 war-room: the certificate is the designed screenshot
+            artifact, but it carried no brand and no destination — a stranger
+            seeing one on X had no idea what game it was or where to play.
+            The mark + URL make every screenshot a signed invitation. */}
+        <span className="snap-result__brand" aria-hidden>
+          CRYPT LEGENDS · PLAY.FREELONCITY.COM
+        </span>
+
         <div className="snap-result__actions">
           <button type="button" className="snap-result__cta" onClick={() => copy("result")}>
             {copied === "result" ? "Copied" : "Copy Result"}

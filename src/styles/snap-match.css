@@ -694,6 +694,18 @@
 }
 .snap-result__creed::before { background: linear-gradient(90deg, transparent, #4a3c1c); }
 .snap-result__creed::after { background: linear-gradient(90deg, #4a3c1c, transparent); }
+
+/* 2026-07-02 war-room: brand + destination on the shareable certificate —
+   quiet, under the creed, screenshot-legible without shouting. */
+.snap-result__brand {
+  display: block;
+  margin-top: 6px;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #7a6a3e;
+}
 .snap-result__teach {
   margin: 0;
   max-width: 260px;
