@@ -95,6 +95,12 @@ export default function MarketplacePage() {
         <p className="mb-6 font-mono text-[9px] uppercase tracking-[0.25em] text-[color:var(--color-crypt-muted)]">
           {filtered.length} cards · showing {shown.length}
         </p>
+        {/* 2026-07-03 sprint: the grid renders deterministic MOCK listings —
+            fabricated sellers/prices displayed as a live order book read as fake
+            market activity. Say what it is. */}
+        <p className="-mt-4 mb-6 font-mono text-[9px] uppercase tracking-[0.25em] text-[color:var(--color-crypt-gold,#c8a75d)]">
+          Simulated preview · not live listings · no checkout
+        </p>
 
         <div className="columns-2 gap-4 sm:columns-3 md:columns-4 lg:columns-5 xl:columns-6">
           {shown.map((entry) => {

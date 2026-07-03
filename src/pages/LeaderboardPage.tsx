@@ -182,7 +182,8 @@ export default function LeaderboardPage() {
                     {e.wins}W–{e.losses}L
                   </span>
                   <span className="crypt-ladder-streak">
-                    {e.bestStreak > 1 ? `⬡ ${e.bestStreak}` : "—"}
+                    {/* 2026-07-03: was ⬡ (the HEX currency mark) on a STREAK stat — the same stat renders ◈ in the header; unified on the Sigil mark */}
+                    {e.bestStreak > 1 ? `◈ ${e.bestStreak}` : "—"}
                   </span>
                 </li>
               );

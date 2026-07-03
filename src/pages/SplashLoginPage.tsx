@@ -142,7 +142,7 @@ export default function SplashLoginPage() {
           </div>
 
           <button type="button" className="crypt-splash-cta-full" onClick={onGuest}>
-            Or enter the full Crypt — deckbuilder &amp; campaign
+            Or enter the full Crypt — deckbuilder &amp; ranked duels
           </button>
 
           <div className="crypt-splash-row-secondary">
@@ -161,12 +161,12 @@ export default function SplashLoginPage() {
 
           {soonKind === "account" && (
             <p className="crypt-splash-soon">
-              Accounts aren't live yet — Play now runs the full duel on device; progress stays local until cloud saves ship.
+              Accounts aren't live yet — the Crypt runs fully on device; progress stays local until cloud saves ship.
             </p>
           )}
           {walletState === "connected" && (
             <p className="crypt-splash-soon">
-              ✓ Wallet connected — hit <strong>Play now</strong> and your owned Crypt cards are fielded automatically.
+              ✓ Wallet connected — enter the Crypt and your owned Crypt cards are fielded automatically.
             </p>
           )}
           {walletState === "no-wallet" && (

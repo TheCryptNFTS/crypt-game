@@ -312,13 +312,9 @@ export default function RankLadderPage() {
         >
           {t("ladder.foot.playHub")}
         </Link>
-        {t("ladder.foot.stack")}
-        <Link
-          to="/leaderboard"
-          className="text-[color:var(--color-crypt-ice)] underline-offset-2 hover:underline"
-        >
-          {t("ladder.foot.seasonLadder")}
-        </Link>
+        {/* 2026-07-03 sprint: the "season ladder" link funneled players to a
+            permanently-empty /leaderboard that asks for a sign-in control the
+            page doesn't have. Dead-end removed until the board has real data. */}
         .
       </p>
     </CryptPageFrame>
