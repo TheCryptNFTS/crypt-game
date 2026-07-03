@@ -181,6 +181,16 @@ export default function HomePage() {
               <span className="crypt-home-m-play-meta">{t("home.hero.playMeta")}</span>
             </Link>
 
+            {/* 2026-07-03 polish (P0): Daily Crypt Trial entry for RETURNING
+                players — its only door was the splash, which auto-forwards
+                onboarded sessions. One chip, the same comparable daily. */}
+            <Link to="/snap?daily" className="crypt-home-m-questchip" aria-label="Play today's Crypt Trial">
+              <span className="crypt-home-m-questchip-kicker">Daily Trial</span>
+              <span className="crypt-home-m-questchip-title">
+                Today's Crypt Trial — same deck, same draw, one score to beat
+              </span>
+            </Link>
+
             {/* THE daily-quest chip — one quest, nearest to complete, right
                 under PLAY (the comeback reason at entry). Reads the same local
                 rewards ledger the win ceremony advances; ◈ = Sigil (in-game

@@ -30,7 +30,7 @@ if (!el) {
 }
 
 if (import.meta.env.DEV) {
-  document.title = "CRYPT · Crypt Legends · dev";
+  document.title = "CRYPT · dev";
 }
 
 ReactDOM.createRoot(el).render(

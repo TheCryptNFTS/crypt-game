@@ -12,7 +12,7 @@
 
 export const en = {
   // --- Home hub hero (the extracted demo surface) ---------------------------
-  "home.hero.kicker": "CRYPT · Crypt Legends · closed alpha",
+  "home.hero.kicker": "CRYPT · a dark collectible card game",
   "home.hero.headline": "Command",
   "home.hero.headlineSub": " the archive",
   "home.hero.deck":
@@ -34,7 +34,7 @@ export const en = {
   "a11y.palette.toggle": "Colorblind-safe palette",
 
   // --- Profile / dossier surface --------------------------------------------
-  "profile.eyebrow": "Dossier · Crypt Legends",
+  "profile.eyebrow": "Dossier · CRYPT",
   "profile.title.guest": "Guest legend",
   "profile.title.default": "Dossier",
   "profile.lead.rankPrefix": "Legend rank ",
@@ -129,7 +129,7 @@ export const en = {
   "shop.lead":
     "No checkout or inventory. ◈ Sigil matches your field ledger on device—not yet spendable, not on-chain in this build.",
   "shop.region.aria": "Reliquary preview",
-  "shop.whisper": "Crypt Legends stays skill-first—vanity for mats, backs, passes, never pay-to-win by intent.",
+  "shop.whisper": "CRYPT stays skill-first—vanity for mats, backs, passes, never pay-to-win by intent.",
   "shop.banner.tag": "Preview",
   "shop.banner.copy":
     " — counter sealed. Boards, backs, season goods for Crypt Digital Trading Cards arrive with commerce—nothing purchasable today.",
@@ -229,7 +229,7 @@ export const en = {
   "ladder.foot.seasonLadder": "season ladder",
 
   // --- Rewards / quests surface ---------------------------------------------
-  "rewards.eyebrow": "Rewards · Crypt Legends",
+  "rewards.eyebrow": "Rewards · CRYPT",
   "rewards.title": "Quests & Season",
   "rewards.lead.sigilSuffix": " Sigil · season tier ",
   "rewards.lead.note": "device-only ◈ Sigil — not yet spendable, not on-chain in this build",

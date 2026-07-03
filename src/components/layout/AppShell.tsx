@@ -49,7 +49,7 @@ export default function AppShell() {
       <a href="#main-content" className="a11y-skip-link">
         Skip to main content
       </a>
-      <header className="crypt-app-chrome shrink-0" aria-label="CRYPT · Crypt Legends">
+      <header className="crypt-app-chrome shrink-0" aria-label="CRYPT">
         <div className="relative flex items-center justify-center px-4 py-3 md:px-8 md:py-3.5">
           <NavLink
             to="/home"
@@ -71,7 +71,7 @@ export default function AppShell() {
             />
             <span className="flex min-w-0 flex-col items-center md:items-start">
               <span className="crypt-wordmark crypt-wordmark--header">CRYPT</span>
-              <span className="crypt-brand-tagline">Crypt Legends · dark TCG</span>
+              <span className="crypt-brand-tagline">A dark collectible card game</span>
             </span>
           </NavLink>
         </div>
@@ -123,7 +123,7 @@ export default function AppShell() {
         </div>
       ) : null}
 
-      <nav className="crypt-mobile-dock" aria-label="Crypt Legends · command hub">
+      <nav className="crypt-mobile-dock" aria-label="CRYPT · command hub">
         <NavLink
           to="/home"
           end

@@ -30,7 +30,7 @@ export default function DailyPackPage() {
   }
 
   const onSharePull = async () => {
-    const text = `CRYPT · Crypt Legends · daily vault · +${state.cryptDelta} ◈ Sigil · +${state.passXpDelta} pass XP`;
+    const text = `CRYPT · daily vault · +${state.cryptDelta} ◈ Sigil · +${state.passXpDelta} pass XP`;
     try {
       await navigator.clipboard.writeText(text);
     } catch {

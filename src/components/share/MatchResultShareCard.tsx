@@ -28,7 +28,7 @@ export default function MatchResultShareCard({
         <div className="crypt-share-card-brand">
           <span className="crypt-share-card-mark" aria-hidden />
           <span className="crypt-share-card-word">CRYPT</span>
-          <span className="crypt-share-card-alpha">Crypt Legends · closed alpha</span>
+          <span className="crypt-share-card-alpha">CRYPT · early build</span>
         </div>
         <div className="crypt-share-card-body">
           <div className="crypt-share-card-art">
@@ -48,7 +48,7 @@ export default function MatchResultShareCard({
             </p>
           </div>
         </div>
-        <p className="crypt-share-card-foot">Crypt Legends · Sigil ledger · closed alpha</p>
+        <p className="crypt-share-card-foot">CRYPT · Sigil ledger · early build</p>
       </div>
     </div>
   );

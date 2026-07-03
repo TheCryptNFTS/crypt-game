@@ -444,6 +444,15 @@ export default function PlayHubPage() {
               </p>
             )}
 
+            {/* 2026-07-03 polish (P0): the Daily Crypt Trial — the game's one
+                comparable, shareable daily — was only reachable from the splash,
+                which returning players are auto-redirected past. */}
+            <Link to="/snap?daily" className="crypt-play-mode-quick">
+              <span className="crypt-play-mode-quick-kicker">Daily Trial</span>
+              <span className="crypt-play-mode-quick-title">Today's Crypt Trial</span>
+              <span className="crypt-play-mode-quick-meta">Same deck. Same draw. Beat your rivals' scores.</span>
+            </Link>
+
             <Link to="/ladder" className="crypt-play-mode-quick">
               <span className="crypt-play-mode-quick-kicker">{t("play.ranked.kicker")}</span>
               <span className="crypt-play-mode-quick-title">{t("play.ranked.title")}</span>

@@ -122,7 +122,7 @@ export default function MatchResultsPage() {
     if (!data) return "";
     const cn = commanderEntry?.name ?? "Commander";
     return [
-      `CRYPT · Crypt Legends · closed alpha`,
+      `CRYPT · a dark collectible card game`,
       `${headline} · ${cn}`,
       `${data.turn} ${data.turn === 1 ? "turn" : "turns"} · +${data.cryptDelta} ◈ Sigil · +${data.passXpDelta} pass XP`,
     ].join("\n");
@@ -133,7 +133,7 @@ export default function MatchResultsPage() {
     if (!text) return;
     try {
       if (navigator.share) {
-        await navigator.share({ text, title: "Crypt Legends verdict" });
+        await navigator.share({ text, title: "CRYPT verdict" });
         setShareHint("Shared via device.");
         return;
       }

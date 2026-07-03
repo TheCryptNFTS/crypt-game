@@ -28,7 +28,6 @@ const HERO_FAN = [
 export default function SplashLoginPage() {
   const navigate = useNavigate();
   const session = useAppSessionStubSnapshot();
-  const [soonKind, setSoonKind] = useState<"account" | "wallet" | null>(null);
   // 2026-06-18 (holder feedback, NikoDaTroof: "am I able to connect my wallet to TCG?").
   // Wallet play was already LIVE — /match auto-adopts a connected wallet and fields your
   // owned Crypt cards — but the splash button said "coming soon," so holders thought they
@@ -36,7 +35,6 @@ export default function SplashLoginPage() {
   const [walletState, setWalletState] = useState<"idle" | "connecting" | "connected" | "no-wallet">("idle");
 
   const connectWallet = async () => {
-    setSoonKind(null);
     const eth = (window as unknown as { ethereum?: { request: (a: { method: string }) => Promise<unknown> } }).ethereum;
     if (!eth?.request) { setWalletState("no-wallet"); return; }
     setWalletState("connecting");
@@ -122,7 +120,7 @@ export default function SplashLoginPage() {
           <div className="crypt-splash-brand">
             <p className="crypt-splash-wordmark">CRYPT</p>
             <h1 className="crypt-splash-hook">Command the dead. Duel for the Pyre.</h1>
-            <p className="crypt-splash-tagline">Crypt Legends · a dark collectible card game</p>
+            <p className="crypt-splash-tagline">A dark collectible card game</p>
           </div>
         </div>
 
@@ -137,7 +135,7 @@ export default function SplashLoginPage() {
               Play Today's Crypt Trial
             </button>
             <button type="button" className="crypt-splash-cta-seed" onClick={onSeed}>
-              Challenge a Seed
+              Quick Match
             </button>
           </div>
 
@@ -145,25 +143,17 @@ export default function SplashLoginPage() {
             Or enter the full Crypt — deckbuilder &amp; ranked duels
           </button>
 
+          {/* 2026-07-03 polish: the dead "Sign in" / "Create account" buttons were
+              DELETED — both only revealed an apology ("Accounts aren't live yet"),
+              putting two non-functional controls in the game's first frame. The
+              working wallet link stays; reintroduce auth buttons when auth ships. */}
           <div className="crypt-splash-row-secondary">
-            <button type="button" className="crypt-splash-cta-secondary" onClick={() => setSoonKind("account")}>
-              Sign in
-            </button>
-            <span className="crypt-splash-divider" aria-hidden>·</span>
-            <button type="button" className="crypt-splash-cta-secondary" onClick={() => setSoonKind("account")}>
-              Create account
-            </button>
+            <span className="crypt-splash-foot-note">Progress saves on this device.</span>
             <span className="crypt-splash-divider" aria-hidden>·</span>
             <button type="button" className="crypt-splash-cta-secondary" onClick={connectWallet} disabled={walletState === "connecting"}>
               {walletState === "connecting" ? "Connecting…" : "Link wallet"}
             </button>
           </div>
-
-          {soonKind === "account" && (
-            <p className="crypt-splash-soon">
-              Accounts aren't live yet — the Crypt runs fully on device; progress stays local until cloud saves ship.
-            </p>
-          )}
           {walletState === "connected" && (
             <p className="crypt-splash-soon">
               ✓ Wallet connected — enter the Crypt and your owned Crypt cards are fielded automatically.
@@ -179,9 +169,9 @@ export default function SplashLoginPage() {
 
       <footer className="crypt-splash-footer">
         <span className="crypt-splash-foot-note">
-          Closed alpha · Crypt Legends. Guest saves on device. Reliquary is preview-only—no checkout.
+          Early build · progress saves on this device.
         </span>
-        <span className="crypt-splash-foot-source">Crypt Legends · @thecryptnfts on Medium</span>
+        <span className="crypt-splash-foot-source">CRYPT · @thecryptnfts on Medium</span>
       </footer>
     </div>
   );
