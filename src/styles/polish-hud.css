@@ -4,12 +4,7 @@
    modes (2026-07-03 polish — the old neon violet was off-canon and made the same
    resource read as two different things in Snap vs live match). */
 
-:root {
-  --ph-gold: #E9C984;
-  --ph-purple: #d99a20; /* energy resource accent — same gold ramp as Snap energy */
-  --ph-red: #FF4D4D;
-  --ph-black: #0B0B0D;
-}
+/* (dead --ph-* token block removed 2026-07-03 — zero consumers; colors live inline) */
 
 /* ============ HEX = HEALTH CRYSTAL ============ */
 /* Reshape the Hex pills into sculpted crystal-shield motifs. */

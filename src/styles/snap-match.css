@@ -61,12 +61,12 @@
   padding: 4px 2px;
   font-size: 13px;
 }
-.snap-hud strong { color: #f5c451; font-variant-numeric: tabular-nums; }
+.snap-hud strong { color: var(--color-snap-gold); font-variant-numeric: tabular-nums; }
 .snap-hud__energy { display: inline-flex; align-items: center; gap: 6px; }
-.snap-hud__energy-num { color: #ffe08a; font-weight: 800; font-variant-numeric: tabular-nums; }
+.snap-hud__energy-num { color: var(--color-snap-gold-hi); font-weight: 800; font-variant-numeric: tabular-nums; }
 .snap-energy-pip {
   width: 10px; height: 10px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffe08a, #d99a20);
+  background: radial-gradient(circle at 35% 30%, var(--color-snap-gold-hi), var(--color-snap-gold-deep));
   box-shadow: 0 0 8px #e0a52a88;
 }
 /* Energy as a pip meter — filled pips are energy left, hollow pips are spent,
@@ -88,12 +88,12 @@
   background: rgba(120, 30, 30, 0.35);
   animation: snapFinalPulse 1.1s ease-in-out infinite;
 }
-.snap-hud__hint { margin-left: auto; color: #cbb98f; font-size: 12px; }
+.snap-hud__hint { margin-left: auto; color: var(--color-snap-bone); font-size: 12px; }
 .snap-hud__goal {
   margin-left: auto;
   font-size: 10px;
   letter-spacing: 0.1em;
-  color: #f5c451;
+  color: var(--color-snap-gold);
   border: 1px solid #6f5a1e;
   border-radius: 999px;
   padding: 3px 9px;
@@ -103,14 +103,14 @@
   flex: 0 0 auto;
   font: inherit;
   font-size: 11px;
-  color: #cbb98f;
+  color: var(--color-snap-bone);
   background: none;
   border: 1px solid #3a2f16;
   border-radius: 999px;
   padding: 3px 10px;
   cursor: pointer;
 }
-.snap-hud__tutorial:hover { color: #f5c451; border-color: #6f5a1e; }
+.snap-hud__tutorial:hover { color: var(--color-snap-gold); border-color: #6f5a1e; }
 /* Live Crypt count + the win condition, stacked so the goal is always on
    screen without crowding the HUD row. */
 .snap-hud__crypts {
@@ -122,9 +122,9 @@
 }
 .snap-hud__crypts-nums { display: inline-flex; align-items: baseline; gap: 5px; }
 .snap-hud__crypts strong { font-size: 18px; font-variant-numeric: tabular-nums; }
-.snap-hud__crypts strong.is-mine { color: #f5c451; }
+.snap-hud__crypts strong.is-mine { color: var(--color-snap-gold); }
 .snap-hud__crypts strong.is-foe { color: #d98080; }
-.snap-hud__crypts-sep { font-size: 13px; color: #7d6f4d; }
+.snap-hud__crypts-sep { font-size: 13px; color: var(--color-snap-olive); }
 .snap-hud__goal-cap {
   font-size: 9px;
   letter-spacing: 0.06em;
@@ -141,21 +141,21 @@
   gap: 7px;
   min-height: 20px;
   font-size: 12px;
-  color: #cbb98f;
+  color: var(--color-snap-bone);
   letter-spacing: 0.02em;
 }
 .snap-hint__dot {
   width: 8px; height: 8px; border-radius: 50%;
-  background: #7d6f4d;
+  background: var(--color-snap-olive);
   flex: 0 0 auto;
 }
-.snap-hint__who { color: #e8dcbb; font-size: 12px; }
+.snap-hint__who { color: var(--color-snap-bone-hi); font-size: 12px; }
 .snap-hint__act { color: #9c8a5f; }
 .snap-hint.is-myturn .snap-hint__dot {
-  background: radial-gradient(circle at 35% 30%, #ffe08a, #d99a20);
+  background: radial-gradient(circle at 35% 30%, var(--color-snap-gold-hi), var(--color-snap-gold-deep));
   box-shadow: 0 0 8px #e0a52a88;
 }
-.snap-hint.is-myturn .snap-hint__who { color: #f5c451; }
+.snap-hint.is-myturn .snap-hint__who { color: var(--color-snap-gold); }
 .snap-hint.is-reveal .snap-hint__dot {
   background: radial-gradient(circle at 35% 30%, #ff9a9a, #b33);
   box-shadow: 0 0 8px #d15555aa;
@@ -189,10 +189,10 @@
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #f5c451;
+  color: var(--color-snap-gold);
 }
 .snap-coach__title { font-size: 14px; color: #f7edd4; }
-.snap-coach__body { font-size: 12px; line-height: 1.25; color: #cbb98f; }
+.snap-coach__body { font-size: 12px; line-height: 1.25; color: var(--color-snap-bone); }
 
 /* FINAL TURN — the dramatic beat. */
 .snap-final-banner {
@@ -232,7 +232,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 6px;
-  --lane-tint: #f5c451;
+  --lane-tint: var(--color-snap-gold);
   --lane-fog: rgba(245, 196, 81, 0.14);
   border: 1px solid #4a3c1c;
   border-radius: 13px;
@@ -279,7 +279,7 @@
 .snap-lane.is-p2-lead { border-color: #5a2a2a; box-shadow: inset 0 34px 44px -30px #d1555577; }
 .snap-lane.is-droppable {
   cursor: pointer;
-  border-color: #f5c451;
+  border-color: var(--color-snap-gold);
   box-shadow: 0 0 0 1px #f5c45166, 0 0 20px #e0a52a55;
 }
 .snap-lane.is-droppable:hover { transform: translateY(-2px); }
@@ -388,18 +388,18 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: #7d6f4d;
+  color: var(--color-snap-olive);
 }
 .snap-lane__score {
-  font-size: 22px; font-weight: 800; color: #e8dcbb;
+  font-size: 22px; font-weight: 800; color: var(--color-snap-bone-hi);
   font-variant-numeric: tabular-nums; min-width: 20px; text-align: center;
   line-height: 1;
 }
-.snap-lane__score.is-win { color: #f5c451; text-shadow: 0 0 10px #e0a52a66; }
+.snap-lane__score.is-win { color: var(--color-snap-gold); text-shadow: 0 0 10px #e0a52a66; }
 /* Instant feedback: the score number pops each time it changes (keyed remount). */
 .snap-lane__score { animation: snapScorePop 280ms ease-out; }
 @keyframes snapScorePop {
-  0% { transform: scale(1.55); color: #ffe08a; }
+  0% { transform: scale(1.55); color: var(--color-snap-gold-hi); }
   100% { transform: scale(1); }
 }
 /* Plain-language lane verdict chip — WINNING / LOSING / TIED at a glance. */
@@ -418,7 +418,7 @@
 }
 .snap-lane__state.is-winning { color: #d7f5a4; border-color: #4a6f1e; background: rgba(122, 180, 60, 0.12); }
 .snap-lane__state.is-losing { color: #f5b4b4; border-color: #7a2a2a; background: rgba(180, 60, 60, 0.12); }
-.snap-lane__state.is-tied { color: #cbb98f; border-color: #3a2f16; background: rgba(203, 185, 143, 0.08); }
+.snap-lane__state.is-tied { color: var(--color-snap-bone); border-color: #3a2f16; background: rgba(203, 185, 143, 0.08); }
 .snap-lane__state.is-full-tag { color: #d98080; border-color: #7a2a2a; background: rgba(180, 60, 60, 0.14); }
 
 /* A full Crypt (4 of your cards) mutes + locks. */
@@ -440,7 +440,7 @@
 .snap-lane.is-target { animation: snapTargetPulse 1.15s ease-in-out infinite; }
 @keyframes snapTargetPulse {
   0%, 100% { box-shadow: 0 0 0 1px #f5c45166, 0 0 12px #e0a52a33; }
-  50% { box-shadow: 0 0 0 2px #f5c451, 0 0 22px #e0a52a77; }
+  50% { box-shadow: 0 0 0 2px var(--color-snap-gold), 0 0 22px #e0a52a77; }
 }
 
 /* CARDS */
@@ -463,11 +463,11 @@
 .snap-card--small { width: 46px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); }
 .snap-card.is-static { cursor: default; }
 .snap-card:not(.is-static) { cursor: pointer; }
-.snap-card.is-playable { border-color: #f5c451; box-shadow: 0 0 10px #e0a52a55; }
+.snap-card.is-playable { border-color: var(--color-snap-gold); box-shadow: 0 0 10px #e0a52a55; }
 /* Selected card — unmistakable: bright ring, a clear lift, and a "PICKED" tab. */
 .snap-card.is-selected {
-  border-color: #ffe08a;
-  box-shadow: 0 0 0 3px #ffe08a, 0 0 22px #e0a52aaa;
+  border-color: var(--color-snap-gold-hi);
+  box-shadow: 0 0 0 3px var(--color-snap-gold-hi), 0 0 22px #e0a52aaa;
   transform: translateY(-8px) scale(1.04);
   z-index: 2;
 }
@@ -480,7 +480,7 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   color: #241a06;
-  background: #ffe08a;
+  background: var(--color-snap-gold-hi);
   padding: 1px 6px;
   border-radius: 999px;
   pointer-events: none;
@@ -498,8 +498,8 @@
   animation: snapSpotlight 1.15s ease-in-out infinite;
 }
 @keyframes snapSpotlight {
-  0%, 100% { box-shadow: 0 0 0 1px #f5c451, 0 0 8px #e0a52a55; transform: translateY(0); }
-  50% { box-shadow: 0 0 0 2px #ffe08a, 0 0 20px #e0a52aaa; transform: translateY(-4px); }
+  0%, 100% { box-shadow: 0 0 0 1px var(--color-snap-gold), 0 0 8px #e0a52a55; transform: translateY(0); }
+  50% { box-shadow: 0 0 0 2px var(--color-snap-gold-hi), 0 0 20px #e0a52aaa; transform: translateY(-4px); }
 }
 
 .snap-card__art { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
@@ -520,7 +520,7 @@
 .snap-card__cost {
   left: 3px;
   background: linear-gradient(180deg, #3a2f16, #241a06);
-  color: #ffe08a;
+  color: var(--color-snap-gold-hi);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 0 0 1px #6f5a1e;
 }
 .snap-card__power { right: 3px; background: #6b1c1c; color: #ffd9d9; }
@@ -568,7 +568,7 @@
   padding: 5px 3px;
   scrollbar-width: thin;
 }
-.snap-hand__empty { color: #7d6f4d; font-size: 12px; padding: 8px; }
+.snap-hand__empty { color: var(--color-snap-olive); font-size: 12px; padding: 8px; }
 .snap-endturn {
   flex: 0 0 auto;
   align-self: stretch;
@@ -576,7 +576,7 @@
   min-height: 52px;
   border: 1px solid #7a611c;
   border-radius: 12px;
-  background: linear-gradient(180deg, #ffd873, #d99a20);
+  background: linear-gradient(180deg, #ffd873, var(--color-snap-gold-deep));
   color: #241a06;
   font-weight: 800;
   font-size: 13px;
@@ -591,7 +591,7 @@
 }
 .snap-endturn:disabled {
   background: #2a2313;
-  color: #7d6f4d;
+  color: var(--color-snap-olive);
   border-color: #3a2f16;
   box-shadow: none;
   cursor: default;
@@ -672,20 +672,20 @@
 .snap-result__verdict {
   margin: 0;
   font-size: 34px;
-  color: #f5c451;
+  color: var(--color-snap-gold);
   text-shadow: 0 0 22px #e0a52a55;
 }
 .snap-result__verdict.is-P2 { color: #f28a8a; text-shadow: 0 0 22px #d1555566; }
-.snap-result__verdict.is-DRAW { color: #cbb98f; text-shadow: none; }
+.snap-result__verdict.is-DRAW { color: var(--color-snap-bone); text-shadow: none; }
 .snap-result__summary {
   margin: 0;
   font-size: 14px;
-  color: #e8dcbb;
+  color: var(--color-snap-bone-hi);
   text-align: center;
 }
 .snap-result__again { margin-top: 4px; }
-.snap-result__lanes { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: 13px; color: #cbb98f; }
-.snap-result__lane.is-P1 { color: #f5c451; }
+.snap-result__lanes { display: flex; flex-direction: column; gap: 4px; margin: 0; font-size: 13px; color: var(--color-snap-bone); }
+.snap-result__lane.is-P1 { color: var(--color-snap-gold); }
 .snap-result__lane.is-P2 { color: #d98080; }
 /* The creed — the certificate's signature line, flanked by engraved rules. */
 .snap-result__creed {
@@ -697,7 +697,7 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: #9c8850;
+  color: var(--color-snap-brass);
 }
 .snap-result__creed::before,
 .snap-result__creed::after {
@@ -726,7 +726,7 @@
   font-size: 9px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #9c8850;
+  color: var(--color-snap-brass);
 }
 
 /* 2026-07-02 war-room: brand + destination on the shareable certificate —
@@ -746,20 +746,20 @@
   text-align: center;
   font-size: 13px;
   line-height: 1.35;
-  color: #cbb98f;
+  color: var(--color-snap-bone);
 }
 .snap-result__actions { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
 .snap-result__replay {
   font: inherit;
   font-size: 13px;
-  color: #cbb98f;
+  color: var(--color-snap-bone);
   background: none;
   border: 1px solid #3a2f16;
   border-radius: 10px;
   padding: 8px 14px;
   cursor: pointer;
 }
-.snap-result__replay:hover { color: #f5c451; border-color: #6f5a1e; }
+.snap-result__replay:hover { color: var(--color-snap-gold); border-color: #6f5a1e; }
 
 /* ————— CRYPT TRIAL CERTIFICATE —————
    The result screen is part of the viral loop: it has to read as a premium
@@ -820,7 +820,7 @@
   letter-spacing: 0.4em;
   text-indent: 0.4em;
   text-transform: uppercase;
-  color: #9c8850;
+  color: var(--color-snap-brass);
 }
 .snap-result__proof {
   margin-top: -5px;
@@ -829,7 +829,7 @@
   letter-spacing: 0.3em;
   text-indent: 0.3em;
   font-variant-numeric: tabular-nums;
-  color: #e9c984;
+  color: var(--color-crypt-accent);
 }
 
 /* The verdict is the main event — engraved metal, not a web heading. Serif ties
@@ -842,7 +842,7 @@
   font-weight: 700;
   letter-spacing: 0.07em;
   text-indent: 0.07em;
-  background: linear-gradient(180deg, #f8e7b0 0%, #e9c984 40%, #b9974e 74%, #8a6a2a 100%);
+  background: linear-gradient(180deg, #f8e7b0 0%, var(--color-crypt-accent) 40%, #b9974e 74%, #8a6a2a 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -856,7 +856,7 @@
   filter: drop-shadow(0 2px 12px rgba(180, 70, 45, 0.28));
 }
 .snap-result__card--cert .snap-result__verdict.is-DRAW {
-  background: linear-gradient(180deg, #e3d6b4 0%, #cbb98f 50%, #8d7b54 100%);
+  background: linear-gradient(180deg, #e3d6b4 0%, var(--color-snap-bone) 50%, #8d7b54 100%);
   -webkit-background-clip: text;
   background-clip: text;
   filter: none;
@@ -865,7 +865,7 @@
   font-size: 12px;
   letter-spacing: 0.22em;
   text-indent: 0.22em;
-  color: #cbb98f;
+  color: var(--color-snap-bone);
   text-transform: uppercase;
 }
 
@@ -902,7 +902,7 @@
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
-.snap-result__plate-side.is-mine strong { color: #f5c451; text-shadow: 0 0 18px rgba(224, 165, 42, 0.25); }
+.snap-result__plate-side.is-mine strong { color: var(--color-snap-gold); text-shadow: 0 0 18px rgba(224, 165, 42, 0.25); }
 .snap-result__plate-side.is-foe strong { color: #b7a67d; }
 .snap-result__plate-vs {
   font-size: 11px;
@@ -919,7 +919,7 @@
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #9c8850;
+  color: var(--color-snap-brass);
 }
 
 /* Three Crypts — mini battle plates mirroring the board, not a debug list. */
@@ -950,13 +950,13 @@
   font-size: 15px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  color: #cbb98f;
+  color: var(--color-snap-bone);
 }
 .snap-result__crypt.is-P1 {
   border-color: #6f5a1e;
   background: linear-gradient(180deg, rgba(245, 196, 81, 0.07), rgba(0, 0, 0, 0.28));
 }
-.snap-result__crypt.is-P1 .snap-result__crypt-score { color: #f5c451; }
+.snap-result__crypt.is-P1 .snap-result__crypt-score { color: var(--color-snap-gold); }
 .snap-result__crypt.is-P2 { border-color: #52251d; }
 .snap-result__crypt.is-P2 .snap-result__crypt-score { color: #c97c62; }
 
@@ -991,7 +991,7 @@
   font-size: 12px;
   line-height: 1.25;
   text-align: center;
-  color: #e8dcbb;
+  color: var(--color-snap-bone-hi);
 }
 
 /* Actions — the artefact's moves: copy the proof, issue the challenge, go again. */
@@ -1016,7 +1016,7 @@
 .snap-result__cta:hover { filter: brightness(1.06); transform: translateY(-1px); }
 .snap-result__cta:active { filter: brightness(0.96); transform: translateY(0); }
 .snap-result__cta--ghost {
-  color: #e9c984;
+  color: var(--color-crypt-accent);
   background: rgba(14, 12, 8, 0.5);
   box-shadow: 0 0 0 1px #6f5a1e inset;
 }
@@ -1024,7 +1024,7 @@
   filter: none;
   transform: none;
   background: rgba(24, 20, 12, 0.6);
-  box-shadow: 0 0 0 1px #9c8850 inset;
+  box-shadow: 0 0 0 1px var(--color-snap-brass) inset;
 }
 .snap-result__again-link {
   align-self: center;
@@ -1033,13 +1033,14 @@
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #9c8850;
+  color: var(--color-snap-brass);
   background: none;
   border: none;
   cursor: pointer;
   transition: color 120ms ease;
+  min-height: 44px; /* 2026-07-03: tap floor — the quiet third action was ~24px on phones */
 }
-.snap-result__again-link:hover { color: #f5c451; }
+.snap-result__again-link:hover { color: var(--color-snap-gold); }
 
 /* Desktop — the certificate scales up on the wide stage instead of floating tiny. */
 @media (min-width: 900px) {
@@ -1062,11 +1063,11 @@
   text-align: center;
 }
 .snap-result__tomorrow-link {
-  color: #e9c984;
+  color: var(--color-crypt-accent);
   text-decoration: none;
   border-bottom: 1px solid rgba(233, 201, 132, 0.4);
 }
-.snap-result__tomorrow-link:hover { border-bottom-color: #e9c984; }
+.snap-result__tomorrow-link:hover { border-bottom-color: var(--color-crypt-accent); }
 
 /* LOOP SPINE 2026-07-03: device-local streak/best strip on the certificate. */
 .snap-result__ledger {
@@ -1075,6 +1076,6 @@
   font-family: var(--font-label, "Clash Grotesk"), ui-sans-serif, sans-serif;
   font-size: 11px;
   letter-spacing: 0.22em;
-  color: #e9c984;
+  color: var(--color-crypt-accent);
   text-align: center;
 }
