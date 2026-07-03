@@ -101,7 +101,7 @@ export class RootErrorBoundary extends React.Component<Props, State> {
           gap: 18,
           padding: 32,
           textAlign: "center",
-          background: "radial-gradient(120% 120% at 50% 0%, #14101c 0%, #0a0810 60%, #060409 100%)",
+          background: "radial-gradient(120% 120% at 50% 0%, #141417 0%, #0B0B0D 60%, #060507 100%)",
           color: "#f5f2ee",
           fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
         }}
@@ -111,8 +111,8 @@ export class RootErrorBoundary extends React.Component<Props, State> {
           style={{
             fontSize: 44,
             letterSpacing: 6,
-            color: "#a78bfa",
-            textShadow: "0 0 18px rgba(167,139,250,0.55)",
+            color: "#E9C984",
+            textShadow: "0 0 18px  rgba(233,201,132,0.55)",
           }}
         >
           ⬡
@@ -133,7 +133,7 @@ export class RootErrorBoundary extends React.Component<Props, State> {
               fontFamily: "inherit",
               fontSize: 13,
               letterSpacing: 1,
-              color: "#0a0810",
+              color: "#0B0B0D",
               background: "linear-gradient(180deg, #d4b24c 0%, #b8902e 100%)",
               border: "1px solid #e6c75e",
               borderRadius: 8,
@@ -153,7 +153,7 @@ export class RootErrorBoundary extends React.Component<Props, State> {
               letterSpacing: 1,
               color: "#f5f2ee",
               background: "transparent",
-              border: "1px solid rgba(167,139,250,0.5)",
+              border: "1px solid  rgba(233,201,132,0.5)",
               borderRadius: 8,
               cursor: "pointer",
             }}

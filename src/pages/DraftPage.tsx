@@ -31,15 +31,15 @@ import {
  * Guest / offline degrades gracefully: storage is best-effort (private mode just
  * makes the run non-persistent) and no network is required.
  *
- * Theme: purple #8D5CFF, gold #E9C984. No emojis — ⬡ glyph + typographic marks.
+ * Theme: purple #C8A75D, gold #E9C984. No emojis — ⬡ glyph + typographic marks.
  */
 
-const PURPLE = "#8D5CFF";
+const PURPLE = "#C8A75D";
 const GOLD = "#E9C984";
-const INK = "#0d0b16";
-const PANEL = "#161325";
-const LINE = "#2a2440";
-const MUTE = "#9a93b8";
+const INK = "#0B0B0D";
+const PANEL = "#141417";
+const LINE = "#1A1A1F";
+const MUTE = "rgba(245,242,232,0.66)";
 
 const TYPE_LABEL: Record<SealedPoolCard["type"], string> = {
   unit: "Unit",
@@ -92,7 +92,7 @@ function CardChip({
         borderRadius: 8,
         border: `1px solid ${picked ? GOLD : LINE}`,
         background: picked ? "rgba(233,201,132,0.08)" : PANEL,
-        color: "#e9e6f5",
+        color: "#F5F2E8",
         cursor: "pointer",
         fontSize: 12,
         lineHeight: 1.2,
@@ -286,7 +286,7 @@ export default function DraftPage() {
               borderRadius: 7,
               border: `1px solid ${LINE}`,
               background: INK,
-              color: "#e9e6f5",
+              color: "#F5F2E8",
               fontSize: 12,
             }}
           />
@@ -443,7 +443,7 @@ function ctaStyle(primary: boolean, disabled = false): React.CSSProperties {
     borderRadius: 8,
     border: `1px solid ${primary ? GOLD : LINE}`,
     background: primary ? (disabled ? "#3a3322" : `linear-gradient(180deg, #C8A75D, ${GOLD})`) : PANEL,
-    color: primary ? (disabled ? MUTE : "#060507") : "#e9e6f5",
+    color: primary ? (disabled ? MUTE : "#060507") : "#F5F2E8",
     fontWeight: primary ? 700 : 500,
     fontSize: primary ? 14 : 12,
     cursor: disabled ? "not-allowed" : "pointer",

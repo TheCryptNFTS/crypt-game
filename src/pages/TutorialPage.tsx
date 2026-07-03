@@ -129,7 +129,7 @@ export default function TutorialPage() {
           style={{
             display: "block",
             marginTop: 4,
-            color: "#9aa3b2",
+            color: "rgba(245,242,232,0.66)",
             fontSize: 11,
             letterSpacing: "0.04em",
             textDecoration: "underline",

@@ -172,7 +172,7 @@ export default function OnboardingPage() {
         <section className="crypt-npe-ready" aria-label={t("onboarding.ready.aria")}>
           <div
             className="crypt-npe-ready-card"
-            style={{ ["--pick-accent" as string]: chosenPick?.accent ?? "#8D5CFF" }}
+            style={{ ["--pick-accent" as string]: chosenPick?.accent ?? "#E9C984" }}
           >
             {chosenPick?.art ? (
               <span className="crypt-npe-ready-art" aria-hidden>

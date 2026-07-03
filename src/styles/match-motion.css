@@ -456,7 +456,7 @@
 }
 
 .mc-panel--loss {
-  border-color: rgba(120, 130, 150, 0.28);
+  border-color: rgba(245,242,232, 0.28);
 }
 
 /* Gold sheen sweep on a victory panel. */
@@ -476,7 +476,7 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #93a0b5;
+  color: var(--color-crypt-muted);
 }
 
 .mc-kicker--gold {
@@ -498,7 +498,7 @@
 }
 
 .mc-title--loss {
-  color: #aab4c4;
+  color: rgba(245,242,232,0.72);
 }
 
 /* Animated rating delta chip (+25 / −20). */
@@ -518,7 +518,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #93a0b5;
+  color: var(--color-crypt-muted);
 }
 
 .mc-delta__value {
@@ -582,7 +582,7 @@
 .mc-rankup-sub {
   margin: 0;
   font-size: 14px;
-  color: #c8b9e8;
+  color: var(--color-crypt-muted);
 }
 
 @keyframes mm-rankup-panel {
@@ -797,9 +797,9 @@
 }
 
 .live-sound-toggle--muted {
-  color: #93a0b5;
-  background: rgba(120, 130, 150, 0.1);
-  border-color: rgba(120, 130, 150, 0.3);
+  color: var(--color-crypt-muted);
+  background: rgba(245,242,232, 0.1);
+  border-color: rgba(245,242,232, 0.3);
 }
 
 .live-sound-toggle--muted .live-sound-toggle__glyph {
@@ -839,9 +839,9 @@
 /* Ambient-bed toggle: off = ghosted, on = gold-tinted to read "soundtrack". */
 .live-sound-toggle--ambience {
   padding: 4px 8px;
-  color: #93a0b5;
-  background: rgba(120, 130, 150, 0.1);
-  border-color: rgba(120, 130, 150, 0.3);
+  color: var(--color-crypt-muted);
+  background: rgba(245,242,232, 0.1);
+  border-color: rgba(245,242,232, 0.3);
 }
 
 .live-sound-toggle--ambience .live-sound-toggle__glyph {
@@ -1021,7 +1021,7 @@
 /* -------------------------------------------------------------------------- */
 /* EMOTE BAR (PvP only) — sits unobtrusively in the hand header; bubbles are a
  * fixed overlay anchored to the screen edges so they never block the play area.
- * Prefix: .emotebar*. Theme gold #E9C984 / purple #6a4bd6. */
+ * Prefix: .emotebar*. Theme gold #E9C984 / purple #1A1A1F. */
 .emotebar {
   display: inline-flex;
   align-items: center;
@@ -1033,7 +1033,7 @@
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
-  color: #d9d3ef;
+  color: #F5F2E8;
   background: rgba(233, 201, 132, 0.12);
   border: 1px solid rgba(233, 201, 132, 0.35);
   border-radius: 7px;
@@ -1070,7 +1070,7 @@
   font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
-  color: #1a1530;
+  color: #0B0B0D;
   background: #E9C984;
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 12px;
@@ -1087,8 +1087,8 @@
 
 .emotebar-bubble--theirs {
   left: 24px;
-  color: #ece8ff;
-  background: #6a4bd6;
+  color: #F5F2E8;
+  background: #1A1A1F;
   border-color: rgba(233, 201, 132, 0.6);
 }
 
@@ -1162,7 +1162,7 @@
 }
 .vs-intro__faction {
   font-family: var(--font-mono, "Space Mono"), monospace;
-  font-size: 11px; letter-spacing: 0.14em; text-transform: capitalize; color: #9aa3b2;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: capitalize; color: var(--color-crypt-muted);
 }
 
 .vs-intro__clash {
