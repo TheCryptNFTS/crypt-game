@@ -134,11 +134,16 @@ export function challengeUrl(seed: number, origin?: string, beat?: number): stri
  * pure hash of it, so /snap?daily=2026-07-01 is stable forever.
  */
 
-/** Local calendar date as YYYY-MM-DD (the daily's identity). */
+/** UTC calendar date as YYYY-MM-DD (the daily's identity).
+ *  LOOP SPINE 2026-07-03: this used LOCAL date parts, so "everyone plays the
+ *  same match today" was false across timezones — two players comparing
+ *  scores could be on different seeds. UTC is the one global day boundary,
+ *  and it makes the "new trial at midnight UTC" copy on the certificate and
+ *  /play literally true. Date-keying only; seed hash and match logic untouched. */
 export function todayStr(d: Date = new Date()): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(d.getUTCDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
 

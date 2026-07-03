@@ -153,10 +153,22 @@ describe("Daily Crypt Trial", () => {
     expect(s).toBeLessThanOrEqual(0xffffffff);
   });
 
-  it("todayStr is a zero-padded local YYYY-MM-DD", () => {
-    expect(todayStr(new Date(2026, 6, 1))).toBe("2026-07-01"); // month 6 = July
-    expect(todayStr(new Date(2026, 0, 9))).toBe("2026-01-09");
+  it("todayStr is a zero-padded UTC YYYY-MM-DD (the global daily boundary)", () => {
+    // LOOP SPINE 2026-07-03: the daily's identity is the UTC date, so every
+    // timezone shares one seed and "new trial at midnight UTC" is true.
+    expect(todayStr(new Date(Date.UTC(2026, 6, 1)))).toBe("2026-07-01"); // month 6 = July
+    expect(todayStr(new Date(Date.UTC(2026, 0, 9)))).toBe("2026-01-09");
     expect(isDailyDate(todayStr())).toBe(true);
+  });
+
+  it("todayStr flips at the UTC midnight boundary regardless of local zone", () => {
+    // 23:59:59.999Z and 00:00:00.000Z straddle the boundary by 1ms — the
+    // daily identity must differ, and must NOT depend on the runner's TZ.
+    expect(todayStr(new Date("2026-07-01T23:59:59.999Z"))).toBe("2026-07-01");
+    expect(todayStr(new Date("2026-07-02T00:00:00.000Z"))).toBe("2026-07-02");
+    // A time that is "yesterday" in UTC-negative zones and "tomorrow" in
+    // UTC-positive zones still keys to its UTC date.
+    expect(todayStr(new Date("2026-03-15T04:30:00.000Z"))).toBe("2026-03-15");
   });
 
   it("isDailyDate accepts YYYY-MM-DD and rejects junk", () => {
