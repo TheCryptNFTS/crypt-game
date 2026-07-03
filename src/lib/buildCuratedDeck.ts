@@ -1,4 +1,8 @@
-import cardMaster from "../data/cardMaster.json";
+// 2026-07-03 polish: the full cardMaster.json (7.2MB) rode this chunk onto the
+// new-player critical path (~720KB gzip parsed right after the splash tap).
+// The deck builder reads exactly the six fields in its own Card type, so it now
+// consumes the build-extracted projection (~1.2MB raw). Card values unchanged.
+import cardMasterSlim from "../data/cardMasterDeckSlim.json";
 import curatedCoreSetV2 from "../data/curatedCoreSetV2.json";
 import { COMMANDER_SPECS } from "../design/commanderSpecs";
 import { isCardDisabled } from "../engine/cards";
@@ -30,6 +34,8 @@ type Card = {
     keywords?: string[];
   };
 };
+
+const cardMasterCards = (cardMasterSlim as unknown as { cards: Card[] }).cards;
 
 const MAX_COPIES = 2;
 
@@ -205,7 +211,7 @@ export function buildCuratedDeck(commanderId: string): string[] {
   const spellSlots = Math.max(0, Math.min(MAX_SPELLS_PER_DECK, deckSize - minNonSpell));
   const nonSpellTarget = deckSize - spellSlots;
 
-  const allCards = (cardMaster as Card[]).filter((card) => {
+  const allCards = cardMasterCards.filter((card) => {
     if (card.collection !== "AVATAR_TCG") return false;
     // ARTIFACTS CUT FROM V1 (teardown §11 P1): artifacts are excluded from all
     // deck building — they do nothing for their cost AND wipe friendly buffs on
@@ -251,7 +257,7 @@ export function buildCuratedDeck(commanderId: string): string[] {
   }
 
   if (deck.length < nonSpellTarget) {
-    const fallback = (cardMaster as Card[]).filter((card) => {
+    const fallback = cardMasterCards.filter((card) => {
       if (card.collection !== "AVATAR_TCG") return false;
       // ARTIFACTS CUT FROM V1 (teardown §11 P1): artifacts are excluded from all
     // deck building — they do nothing for their cost AND wipe friendly buffs on
@@ -292,7 +298,7 @@ export function buildCuratedDeck(commanderId: string): string[] {
   // biased toward the deck's dominant faction for identity. Spells are
   // engine-legal (allPlayableCards / PLAY_SPELL) and "safe" tier only.
   const factionOf = new Map<string, string>();
-  for (const c of cardMaster as Card[]) {
+  for (const c of cardMasterCards) {
     if (!c.id || !c.faction) continue;
     const f = normalizeFaction(c.faction);
     if (f) factionOf.set(c.id, f);

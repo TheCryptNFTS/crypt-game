@@ -14,6 +14,9 @@ import commanderArt from "../data/commanderArt.json";
 // match screen). We now resolve cards from generatedTcgCards (3MB, already
 // loaded) and commanders from the tiny commanderArt.json (1.9KB, build-extracted
 // from the render manifest) — keeping that 28MB off the critical path.
+// (2026-07-03 audit note: generatedTcgCards ALSO rides the engine chunk via
+// loadAllEquipment/allPlayableCards, so reusing it here is genuinely free —
+// a slim projection would ADD weight, not save it. Verified in the build.)
 const cardArtById = new Map<string, string>();
 for (const c of generatedTcgCards as Array<{ id?: string; imageUrl?: string | null }>) {
   if (c.id && c.imageUrl) cardArtById.set(c.id, c.imageUrl);
