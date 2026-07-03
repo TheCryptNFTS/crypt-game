@@ -42,7 +42,7 @@ function factionSigil(faction: string): string {
   if (f.includes("SILVER")) return "/crypt-assets/sigil-silver.png";
   if (f.includes("GOLD")) return "/crypt-assets/sigil-gold.png";
   if (f.includes("GOD")) return "/crypt-assets/sigil-gods.png";
-  return "/crypt-assets/card-back.png";
+  return "/crypt-assets/card-back.jpg";
 }
 
 const CHROME_MAP: Record<PlayableChromeState, string> = {

@@ -10,7 +10,10 @@
  */
 
 import curated from "../data/curatedCoreSetV2.json";
-import opensea from "../data/openseaAssets.json";
+// 2026-07-03 sprint: the full openseaAssets.json (22.6MB) was statically
+// bundled into the /snap chunk (21.3MB of JS) though only 3 fields are read.
+// The slim projection carries identical tokenId/imageUrl/name values at ~0.9MB.
+import opensea from "../data/openseaAssetsSlim.json";
 import { MAX_POWER } from "./types";
 
 /** A vanilla card template (no instance identity yet). */

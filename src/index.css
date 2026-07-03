@@ -82,7 +82,7 @@ body {
     radial-gradient(ellipse 100% 80% at 50% -30%, rgba(233, 201, 132, 0.10) 0%, transparent 55%),
     radial-gradient(ellipse 70% 50% at 100% 40%, rgba(200, 110, 60, 0.06) 0%, transparent 48%),
     linear-gradient(180deg, rgba(11, 11, 13, 0.88), rgba(11, 11, 13, 0.93)),
-    url("/crypt-assets/app-bg.png");
+    url("/crypt-assets/app-bg.jpg");
   background-size: auto, auto, auto, cover;
   background-position: center, center, center, center;
   background-repeat: no-repeat;
@@ -2643,7 +2643,8 @@ button:has(> .crypt-card-chrome):hover,
 }
 
 .crypt-home-m-spotlight-link:hover {
-  color: #8ae8ff;
+  /* 2026-07-03: was #8ae8ff — gold at rest flipped off-brand cyan on hover */
+  color: #f2ddab;
 }
 
 .crypt-home-m-spotlight-link:focus-visible {

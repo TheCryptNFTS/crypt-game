@@ -8,7 +8,7 @@ import { visibleKeywords } from "./keywordChips";
 import "../../styles/polish-facedown.css";
 
 /** Printed card-back art (public/crypt-assets), served from the site root. */
-export const CARD_BACK_SRC = "/crypt-assets/card-back.png";
+export const CARD_BACK_SRC = "/crypt-assets/card-back.jpg";
 
 /**
  * A hand card is a spectator face-down placeholder when its id carries the
