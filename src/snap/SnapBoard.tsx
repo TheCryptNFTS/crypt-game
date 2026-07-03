@@ -78,11 +78,15 @@ export const CRYPT_THEMES = [
 export function SnapBoard({
   seed,
   daily,
+  scoreToBeat,
   onReplayTutorial,
 }: {
   seed?: number;
   /** When set (YYYY-MM-DD), this is the shared Daily Crypt Trial for that date. */
   daily?: string | null;
+  /** 2026-07-03: the challenger's final power from a shared ?beat= link —
+   *  presentation-only target chip; never touches match logic. */
+  scoreToBeat?: number;
   /** Optional: re-enter the scripted tutorial from free play. */
   onReplayTutorial?: () => void;
 }) {
@@ -134,6 +138,14 @@ export function SnapBoard({
           </span>
           <span className="snap-hud__goal-cap">Win 2 of 3 Crypts</span>
         </div>
+        {scoreToBeat != null && m.matchKey === 0 ? (
+          /* matchKey === 0: the target only applies to the ORIGINAL shared
+             board — Play Again rerolls the seed, so the challenge is over. */
+          <div className="snap-hud__beat" aria-label={`Score to beat: ${scoreToBeat} total power`}>
+            <span className="snap-hud__beat-cap">Beat</span>
+            <strong>{scoreToBeat}</strong>
+          </div>
+        ) : null}
         {onReplayTutorial ? (
           <button type="button" className="snap-hud__tutorial" onClick={onReplayTutorial}>
             Tutorial
@@ -280,7 +292,18 @@ export function SnapBoard({
       </footer>
 
       {/* RESULT — a shareable Crypt Trial certificate. */}
-      {state.winner ? <SnapResultCard state={state} daily={daily} onAgain={m.reset} /> : null}
+      {/* 2026-07-03 sprint: Play Again advances the seed — the replayed board is
+          NOT the shared daily/challenge anymore. Passing daily/scoreToBeat only
+          for the original board (matchKey 0) stops the certificate and share
+          copy from claiming a Daily Trial score for a different board. */}
+      {state.winner ? (
+        <SnapResultCard
+          state={state}
+          daily={m.matchKey === 0 ? daily : null}
+          scoreToBeat={m.matchKey === 0 ? scoreToBeat : undefined}
+          onAgain={m.reset}
+        />
+      ) : null}
     </div>
   );
 }
@@ -293,15 +316,18 @@ export function SnapBoard({
 function SnapResultCard({
   state,
   daily,
+  scoreToBeat,
   onAgain,
 }: {
   state: ReturnType<typeof useSnapMatch>["state"];
   /** When set, this match is the shared Daily Crypt Trial for that date. */
   daily?: string | null;
+  /** The challenger's target from a shared ?beat= link — settles the duel on the certificate. */
+  scoreToBeat?: number;
   onAgain: () => void;
 }) {
   const result = summarizeSnapResult(state);
-  const [copied, setCopied] = React.useState<null | "result" | "seed">(null);
+  const [copied, setCopied] = React.useState<null | "result" | "seed" | "fail">(null);
 
   React.useEffect(() => {
     if (!copied) return;
@@ -318,13 +344,29 @@ function SnapResultCard({
     if (kind === "result") {
       text = isDaily ? dailyShareText(result, daily!) : shareText(result);
     } else {
-      text = isDaily ? dailyUrl(daily!) : challengeUrl(result.seed);
+      // the bare challenge link also carries the sharer's power as the target
+      text = isDaily ? dailyUrl(daily!, undefined, result.power) : challengeUrl(result.seed, undefined, result.power);
     }
     try {
       await navigator.clipboard.writeText(text);
       setCopied(kind);
     } catch {
-      /* clipboard blocked (insecure context / denied) — no-op, buttons stay usable */
+      // 2026-07-03 sprint: this used to fail SILENTLY — on iOS Safari denial or
+      // an insecure context the button did nothing visible. Legacy textarea
+      // fallback first; if that also fails, say so instead of pretending.
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        setCopied(ok ? kind : "fail");
+      } catch {
+        setCopied("fail");
+      }
     }
   };
 
@@ -356,7 +398,12 @@ function SnapResultCard({
             <span className="snap-result__plate-label">Foe</span>
             <strong>{result.foePower}</strong>
           </span>
-          <span className="snap-result__score-cap">Total power · Crypts {result.cryptsWon}–{result.cryptsLost}</span>
+          <span className="snap-result__score-cap">
+            Total power · Crypts {result.cryptsWon}–{result.cryptsLost}
+            {scoreToBeat != null ? (
+              <> · Target {scoreToBeat} — {result.power > scoreToBeat ? "beaten" : result.power === scoreToBeat ? "tied" : "missed"}</>
+            ) : null}
+          </span>
         </div>
 
         <div className="snap-result__crypts">
@@ -402,7 +449,7 @@ function SnapResultCard({
 
         <div className="snap-result__actions">
           <button type="button" className="snap-result__cta" onClick={() => copy("result")}>
-            {copied === "result" ? "Copied" : "Copy Result"}
+            {copied === "result" ? "Copied" : copied === "fail" ? "Copy blocked" : "Copy Result"}
           </button>
           <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
             {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}

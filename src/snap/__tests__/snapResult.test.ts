@@ -127,7 +127,9 @@ describe("shareText / challengeUrl", () => {
     const text = shareText(r, "https://crypt.example");
     expect(text).toContain("Crypt Trial: WIN, 19-7.");
     expect(text).toContain("Same deck. Same draw. Same opponent.");
-    expect(text).toContain("Beat my seed: https://crypt.example/snap?seed=777");
+    // 2026-07-03: the link now names the target and carries it as ?beat= so the
+    // recipient lands with a score to beat instead of a cold board.
+    expect(text).toContain("Beat my 19: https://crypt.example/snap?seed=777&beat=19");
     // Brand discipline: no emoji, no price/token words.
     expect(text).not.toMatch(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/u);
     expect(text.toLowerCase()).not.toMatch(/hex|nft|token|price|floor|\$/);
@@ -182,7 +184,7 @@ describe("Daily Crypt Trial", () => {
     const text = dailyShareText(r, "2026-07-01", "https://crypt.example");
     expect(text).toContain("Today's Crypt Trial: WIN, 19.");
     expect(text).toContain("Same deck. Same draw. Same opponent.");
-    expect(text).toContain("Beat me: https://crypt.example/snap?daily=2026-07-01");
+    expect(text).toContain("Beat my 19: https://crypt.example/snap?daily=2026-07-01&beat=19");
     // Same brand discipline as shareText: no emoji, no price/token words.
     expect(text).not.toMatch(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}]/u);
     expect(text.toLowerCase()).not.toMatch(/hex|nft|token|price|floor|\$/);

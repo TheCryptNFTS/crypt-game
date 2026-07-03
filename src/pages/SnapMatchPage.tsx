@@ -56,6 +56,10 @@ export default function SnapMatchPage() {
   // into the exact same deterministic match — same decks, same opponent, same
   // draw order — skipping the scripted tutorial so the challenge lands cold.
   const challengeSeed = parseSeed(params.get("seed"));
+  // 2026-07-03 sprint: `?beat=` carries the challenger's final power so the
+  // recipient lands with a TARGET, not a cold board. Presentation-only — the
+  // reducer never sees it. Only honored alongside a seed/daily link.
+  const scoreToBeat = parseSeed(params.get("beat"));
 
   // The daily's seed is a pure hash of its date → stable across every device.
   const boardSeed = dailyDate != null ? dailySeed(dailyDate) : challengeSeed;
@@ -80,6 +84,7 @@ export default function SnapMatchPage() {
     <SnapBoard
       seed={boardSeed ?? undefined}
       daily={dailyDate}
+      scoreToBeat={boardSeed != null && scoreToBeat != null && scoreToBeat > 0 ? scoreToBeat : undefined}
       onReplayTutorial={() => {
         try {
           localStorage.removeItem(DONE_KEY);

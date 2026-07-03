@@ -116,10 +116,14 @@ export function summarizeSnapResult(state: SnapState): SnapResult | null {
   };
 }
 
-/** The deterministic challenge link — same decks, same opponent, same draw. */
-export function challengeUrl(seed: number, origin?: string): string {
+/** The deterministic challenge link — same decks, same opponent, same draw.
+ *  2026-07-03 sprint: `beat` carries the challenger's final power so the
+ *  recipient lands with a target instead of a cold board. Presentation-only —
+ *  the param never touches the reducer or the deterministic seed. */
+export function challengeUrl(seed: number, origin?: string, beat?: number): string {
   const base = origin ?? (typeof window !== "undefined" ? window.location.origin : "");
-  return `${base}/snap?seed=${seed}`;
+  const beatQ = Number.isFinite(beat) && (beat as number) > 0 ? `&beat=${Math.floor(beat as number)}` : "";
+  return `${base}/snap?seed=${seed}${beatQ}`;
 }
 
 /* ─── DAILY CRYPT TRIAL ────────────────────────────────────────────────────
@@ -156,10 +160,12 @@ export function dailySeed(date: string): number {
   return h >>> 0;
 }
 
-/** The shared daily link — anyone who opens it plays the same trial as you. */
-export function dailyUrl(date: string, origin?: string): string {
+/** The shared daily link — anyone who opens it plays the same trial as you.
+ *  `beat` carries the sharer's score as the target (see challengeUrl). */
+export function dailyUrl(date: string, origin?: string, beat?: number): string {
   const base = origin ?? (typeof window !== "undefined" ? window.location.origin : "");
-  return `${base}/snap?daily=${date}`;
+  const beatQ = Number.isFinite(beat) && (beat as number) > 0 ? `&beat=${Math.floor(beat as number)}` : "";
+  return `${base}/snap?daily=${date}${beatQ}`;
 }
 
 /** The repeated viral creed — the same line on the landing, the OG card, and every
@@ -174,7 +180,7 @@ export function dailyShareText(result: SnapResult, date: string, origin?: string
   return [
     `Today's Crypt Trial: ${result.verdict}, ${result.power}.`,
     CREED,
-    `Beat me: ${dailyUrl(date, origin)}`,
+    `Beat my ${result.power}: ${dailyUrl(date, origin, result.power)}`,
   ].join("\n");
 }
 
@@ -186,6 +192,6 @@ export function shareText(result: SnapResult, origin?: string): string {
   return [
     `Crypt Trial: ${result.verdict}, ${result.power}-${result.foePower}.`,
     CREED,
-    `Beat my seed: ${challengeUrl(result.seed, origin)}`,
+    `Beat my ${result.power}: ${challengeUrl(result.seed, origin, result.power)}`,
   ].join("\n");
 }
