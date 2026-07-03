@@ -637,6 +637,11 @@
   z-index: 20; /* above the lanes' clash plates (which sit at z-index:1) */
   display: grid;
   place-items: center;
+  /* 2026-07-03 polish: on 667px-class phones the cert rendered UNDER the fixed
+     bottom dock with no scroll room — Play Again was untappable. The overlay
+     scrolls and always clears the dock. */
+  overflow-y: auto;
+  padding-bottom: calc(var(--crypt-nav-dock-h, 64px) + 12px);
   /* Vignette scrim: a darker ring around the edges + heavy centre dim so the
      clash plates behind the modal fall away and the verdict reads cleanly. */
   background:
@@ -832,7 +837,7 @@
 .snap-result__verdict { margin: 0; line-height: 1; }
 .snap-result__card--cert .snap-result__verdict {
   margin-top: 2px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-brand, "Clash Display"), ui-sans-serif, sans-serif;
   font-size: clamp(34px, 12vw, 46px);
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -1044,3 +1049,21 @@
   .snap-result__crypt-name { font-size: 9px; }
   .snap-result__crypt-score { font-size: 17px; }
 }
+
+/* 2026-07-03 polish: the return-hook line under the certificate actions. */
+.snap-result__tomorrow {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-label, "Clash Grotesk"), ui-sans-serif, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9c8a5f;
+  text-align: center;
+}
+.snap-result__tomorrow-link {
+  color: #e9c984;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(233, 201, 132, 0.4);
+}
+.snap-result__tomorrow-link:hover { border-bottom-color: #e9c984; }

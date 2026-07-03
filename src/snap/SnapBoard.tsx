@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useSnapMatch } from "./useSnapMatch";
 import { lanePower, laneWinner } from "./scoreLane";
 import { summarizeSnapResult, shareText, challengeUrl, dailyShareText, dailyUrl } from "./snapResult";
@@ -342,7 +343,7 @@ function SnapResultCard({
   const copy = async (kind: "result" | "seed") => {
     let text: string;
     if (kind === "result") {
-      text = isDaily ? dailyShareText(result, daily!) : shareText(result);
+      text = isDaily ? dailyShareText(result, daily!, undefined, scoreToBeat) : shareText(result, undefined, scoreToBeat);
     } else {
       // the bare challenge link also carries the sharer's power as the target
       text = isDaily ? dailyUrl(daily!, undefined, result.power) : challengeUrl(result.seed, undefined, result.power);
@@ -444,19 +445,45 @@ function SnapResultCard({
             seeing one on X had no idea what game it was or where to play.
             The mark + URL make every screenshot a signed invitation. */}
         <span className="snap-result__brand" aria-hidden>
-          CRYPT LEGENDS · PLAY.FREELONCITY.COM
+          CRYPT · PLAY.FREELONCITY.COM
         </span>
 
+        {/* 2026-07-03 polish: CTA order follows the emotion — nobody's first
+            move after a DEFEAT is broadcasting it, so Play Again takes the gold
+            there; a win leads with the share. The last line names tomorrow
+            (the daily resets at midnight UTC) so the card ends on a reason to
+            come back, not a dead end. */}
         <div className="snap-result__actions">
-          <button type="button" className="snap-result__cta" onClick={() => copy("result")}>
-            {copied === "result" ? "Copied" : copied === "fail" ? "Copy blocked" : "Copy Result"}
-          </button>
-          <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
-            {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
-          </button>
-          <button type="button" className="snap-result__again-link" onClick={onAgain}>
-            Play Again
-          </button>
+          {result.verdict === "DEFEAT" ? (
+            <>
+              <button type="button" className="snap-result__cta" onClick={onAgain}>
+                Play Again
+              </button>
+              <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
+                {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
+              </button>
+              <button type="button" className="snap-result__again-link" onClick={() => copy("result")}>
+                {copied === "result" ? "Copied" : copied === "fail" ? "Copy blocked" : "Copy Result"}
+              </button>
+            </>
+          ) : (
+            <>
+              <button type="button" className="snap-result__cta" onClick={() => copy("result")}>
+                {copied === "result" ? "Copied" : copied === "fail" ? "Copy blocked" : "Copy Result"}
+              </button>
+              <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
+                {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
+              </button>
+              <button type="button" className="snap-result__again-link" onClick={onAgain}>
+                Play Again
+              </button>
+            </>
+          )}
+          <span className="snap-result__tomorrow">
+            {isDaily ? "New trial at midnight UTC." : (
+              <Link to="/snap?daily" className="snap-result__tomorrow-link">Play today's Daily Trial →</Link>
+            )}
+          </span>
         </div>
       </div>
     </div>
