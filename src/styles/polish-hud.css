@@ -1,10 +1,12 @@
 /* polish-hud.css — additive AAA-TCG HUD polish for MatchTopBar.
    Owns ONLY .ph-* classes layered on top of .live-topbar pills.
-   Brand: gold #E9C984, purple #8D5CFF, red #FF4D4D, warm-black #0B0B0D. */
+   Brand: gold #E9C984, red #FF4D4D, warm-black #0B0B0D. Energy is GOLD in both
+   modes (2026-07-03 polish — the old neon violet was off-canon and made the same
+   resource read as two different things in Snap vs live match). */
 
 :root {
   --ph-gold: #E9C984;
-  --ph-purple: #8D5CFF; /* semantic: energy resource accent only */
+  --ph-purple: #d99a20; /* energy resource accent — same gold ramp as Snap energy */
   --ph-red: #FF4D4D;
   --ph-black: #0B0B0D;
 }
@@ -176,8 +178,8 @@
 /* Loss = cold fracture. */
 .ph-crystal--dead-own .ph-crystal__gem {
   box-shadow:
-    inset 0 0 0 1px rgba(141,92,255,0.6),
-    0 0 22px -3px rgba(141,92,255,0.55);
+    inset 0 0 0 1px rgba(180,178,190,0.55),
+    0 0 22px -3px rgba(140,138,155,0.5);
   filter: saturate(0.35) brightness(0.62);
 }
 @keyframes ph-crystal-shatter {
@@ -225,19 +227,19 @@
   height: 11px;
   border-radius: 3px;
   transform: rotate(45deg);
-  background: linear-gradient(180deg, rgba(141,92,255,0.10), rgba(0,0,0,0.25));
-  box-shadow: inset 0 0 0 1px rgba(141,92,255,0.32);
+  background: linear-gradient(180deg, rgba(233,201,132,0.10), rgba(0,0,0,0.25));
+  box-shadow: inset 0 0 0 1px rgba(233,201,132,0.32);
   transition: box-shadow 160ms ease, background 160ms ease;
 }
 
 .ph-pip--filled {
   background:
     radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,0.55), transparent 60%),
-    linear-gradient(180deg, #a884ff, #8D5CFF);
+    linear-gradient(180deg, #ffe08a, #d99a20);
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,0.35),
-    0 0 8px rgba(141,92,255,0.6),
-    0 0 14px -2px rgba(141,92,255,0.5);
+    0 0 8px rgba(233,201,132,0.6),
+    0 0 14px -2px rgba(217,154,32,0.5);
 }
 
 .ph-energy__count {
@@ -247,8 +249,8 @@
   line-height: 1;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
-  color: #b79bff;
-  text-shadow: 0 0 14px rgba(141,92,255,0.4);
+  color: #ffe08a;
+  text-shadow: 0 0 14px rgba(233,201,132,0.4);
 }
 .ph-energy__count small {
   font-size: 12px;

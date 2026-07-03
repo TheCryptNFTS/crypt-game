@@ -5,7 +5,7 @@
  * fully disabled under prefers-reduced-motion. Animations are triggered by
  * view-layer state diffs (see src/hooks/useMatchMotion.ts); nothing here touches
  * game logic, the reducer, or determinism. Palette stays within cryptTheme tones
- * (gold #E9C984 / #f0d24f, purple #8D5CFF, danger #ff6a6a). No emojis — the hex
+ * (gold #E9C984 / #f0d24f, danger #ff6a6a). No emojis — the hex
  * glyph (⬡) is used where a mark is needed.
  */
 

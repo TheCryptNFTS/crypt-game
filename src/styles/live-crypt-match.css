@@ -656,16 +656,18 @@
   color: #ff8a8a;
   text-shadow: 0 0 16px rgba(255,77,77,0.3);
 }
-/* Energy = void-purple (semantic resource color — distinct from gold health) */
+/* Energy = gold, matching Snap (2026-07-03 polish: the old void-purple made one
+   resource read as two different things across the app's two modes). The pill
+   stays distinct from health via its icon + label, not an off-canon hue. */
 .live-topbar__pill--energy {
-  border-color: rgba(141,92,255,0.28);
+  border-color: rgba(233,201,132,0.30);
 }
 .live-topbar__pill--energy::before {
-  background: linear-gradient(90deg, transparent, rgba(141,92,255,0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(233,201,132,0.55), transparent);
 }
 .live-topbar__pill--energy strong {
-  color: #b79bff;
-  text-shadow: 0 0 16px rgba(141,92,255,0.3);
+  color: #ffe08a;
+  text-shadow: 0 0 16px rgba(233,201,132,0.3);
 }
 
 .live-topbar__label {
