@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useSnapMatch } from "./useSnapMatch";
 import { lanePower, laneWinner } from "./scoreLane";
 import { summarizeSnapResult, shareText, challengeUrl, dailyShareText, dailyUrl } from "./snapResult";
+import { recordDaily, type DailyLedger } from "./dailyLedger";
 import { MAX_TURNS, LANE_CAPACITY, type LaneIndex, type SnapCard } from "./types";
 import "../styles/snap-match.css";
 
@@ -328,7 +329,11 @@ function SnapResultCard({
   onAgain: () => void;
 }) {
   const result = summarizeSnapResult(state);
-  const [copied, setCopied] = React.useState<null | "result" | "seed" | "fail">(null);
+  const [copied, setCopied] = React.useState<null | "result" | "seed" | "fail" | "shared">(null);
+  // LOOP SPINE: the device-local daily record (streak / personal best).
+  // `prevLedger` is the state BEFORE this result was recorded — accumulation
+  // renders only when it already existed, so a first-ever play fakes nothing.
+  const [ledger, setLedger] = React.useState<{ prev: DailyLedger | null; now: DailyLedger } | null>(null);
 
   React.useEffect(() => {
     if (!copied) return;
@@ -336,9 +341,21 @@ function SnapResultCard({
     return () => clearTimeout(t);
   }, [copied]);
 
+  const power = result?.power;
+  React.useEffect(() => {
+    if (!daily || power == null) return;
+    setLedger(recordDaily(daily, power));
+  }, [daily, power]);
+
   if (!result) return null;
 
   const isDaily = !!daily;
+  // Native share where it exists on touch devices; desktop keeps clipboard.
+  const canNativeShare =
+    typeof navigator !== "undefined" &&
+    typeof navigator.share === "function" &&
+    typeof window !== "undefined" &&
+    !!window.matchMedia?.("(pointer: coarse)").matches;
 
   const copy = async (kind: "result" | "seed") => {
     let text: string;
@@ -347,6 +364,16 @@ function SnapResultCard({
     } else {
       // the bare challenge link also carries the sharer's power as the target
       text = isDaily ? dailyUrl(daily!, undefined, result.power) : challengeUrl(result.seed, undefined, result.power);
+    }
+    if (canNativeShare) {
+      try {
+        await navigator.share({ text });
+        setCopied("shared");
+        return;
+      } catch (err) {
+        // user cancelled the sheet → do nothing; real failure → clipboard path
+        if ((err as DOMException)?.name === "AbortError") return;
+      }
     }
     try {
       await navigator.clipboard.writeText(text);
@@ -448,6 +475,18 @@ function SnapResultCard({
           CRYPT · PLAY.FREELONCITY.COM
         </span>
 
+        {/* LOOP SPINE: device-local accumulation — renders ONLY when there is
+            genuine history BEYOND this very match: a prior-day record, or a
+            same-day best higher than this run. (The extra same-day check also
+            defuses React StrictMode's double-fired record effect, which made
+            a first-ever play read "BEST 0".) Never faked. */}
+        {isDaily && ledger?.prev &&
+        (ledger.prev.lastDate !== daily || ledger.prev.best > result.power) ? (
+          <span className="snap-result__ledger">
+            {ledger.now.streak >= 2 ? `DAILY STREAK ${ledger.now.streak} · ` : ""}BEST {ledger.now.best}
+          </span>
+        ) : null}
+
         {/* 2026-07-03 polish: CTA order follows the emotion — nobody's first
             move after a DEFEAT is broadcasting it, so Play Again takes the gold
             there; a win leads with the share. The last line names tomorrow
@@ -460,19 +499,19 @@ function SnapResultCard({
                 Play Again
               </button>
               <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
-                {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
+                {copied === "seed" ? "Copied" : copied === "shared" ? "Shared" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
               </button>
               <button type="button" className="snap-result__again-link" onClick={() => copy("result")}>
-                {copied === "result" ? "Copied" : copied === "fail" ? "Copy blocked" : "Copy Result"}
+                {copied === "result" ? "Copied" : copied === "shared" ? "Shared" : copied === "fail" ? "Copy blocked" : canNativeShare ? "Share Result" : "Copy Result"}
               </button>
             </>
           ) : (
             <>
               <button type="button" className="snap-result__cta" onClick={() => copy("result")}>
-                {copied === "result" ? "Copied" : copied === "fail" ? "Copy blocked" : "Copy Result"}
+                {copied === "result" ? "Copied" : copied === "shared" ? "Shared" : copied === "fail" ? "Copy blocked" : canNativeShare ? "Share Result" : "Copy Result"}
               </button>
               <button type="button" className="snap-result__cta snap-result__cta--ghost" onClick={() => copy("seed")}>
-                {copied === "seed" ? "Copied" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
+                {copied === "seed" ? "Copied" : copied === "shared" ? "Shared" : isDaily ? "Beat My Daily" : "Challenge This Seed"}
               </button>
               <button type="button" className="snap-result__again-link" onClick={onAgain}>
                 Play Again

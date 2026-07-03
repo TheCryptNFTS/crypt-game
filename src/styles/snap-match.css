@@ -1067,3 +1067,14 @@
   border-bottom: 1px solid rgba(233, 201, 132, 0.4);
 }
 .snap-result__tomorrow-link:hover { border-bottom-color: #e9c984; }
+
+/* LOOP SPINE 2026-07-03: device-local streak/best strip on the certificate. */
+.snap-result__ledger {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-label, "Clash Grotesk"), ui-sans-serif, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #e9c984;
+  text-align: center;
+}
